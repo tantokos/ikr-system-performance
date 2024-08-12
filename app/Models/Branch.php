@@ -12,8 +12,8 @@ class Branch extends Model
     protected $fillable = ['nama_branch','kode_branch','alamat'];
 
 
-    public function Employee() {
+    // public function Employee() {
 
-        return $this->belongsTo(Employee::class, 'id', 'branch_id');
-    }
+    //     return $this->belongsTo(Employee::class, 'id', 'branch_id');
+    // }
 }
