@@ -5,6 +5,9 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
+    'hour' => env('SCHEDULE_HOUR', ''),
+    'min' => env('SCHEDULE_MIN', ''),
+    'is_demo' => env('IS_DEMO', false),
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -70,8 +73,7 @@ return [
     |
     */
 
-    // 'timezone' => 'UTC',
-    'timezone' => 'Asia/Jakarta',
+    'timezone' => 'UTC',
 
     /*
     |--------------------------------------------------------------------------
@@ -169,10 +171,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Yajra\DataTables\DataTablesServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Spatie\Permission\PermissionServiceProvider::class,
-        
+        Yajra\DataTables\DataTablesServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -188,7 +188,6 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
-        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
 
