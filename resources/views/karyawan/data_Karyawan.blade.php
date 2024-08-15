@@ -53,7 +53,12 @@
                         <div class="card-body px-2 py-2">
 
                             <div class="table-responsive p-0">
+<<<<<<< HEAD
                                 <table class="table table-striped table-bordered align-items-center mb-0" id="tabelDataKaryawan" style="font-size: 12px">
+=======
+                                <table class="table table-striped table-bordered align-items-center mb-0"
+                                    id="tabelDataKaryawan" style="font-size: 12px">
+>>>>>>> ad8ffde (CRU karyawan & callsignlead)
                                     <thead class="bg-gray-100">
                                         <tr id="headAbsenMonthly">
                                             <th class="text-xs font-weight-semibold">#</th>
@@ -65,6 +70,10 @@
                                             <th class="text-center text-xs font-weight-semibold">Posisi</th>
                                             <th class="text-center text-xs font-weight-semibold">Email</th>
                                             <th class="text-center text-xs font-weight-semibold">No Telpon</th>
+<<<<<<< HEAD
+=======
+                                            <th class="text-center text-xs font-weight-semibold">Alamat</th>
+>>>>>>> ad8ffde (CRU karyawan & callsignlead)
                                             <th class="text-center text-xs font-weight-semibold">Tempat Lahir</th>
                                             <th class="text-center text-xs font-weight-semibold">Tanggal Lahir</th>
                                             <th class="text-center text-xs font-weight-semibold">Jenis Kelamin</th>
@@ -229,7 +238,11 @@
 
                                                         @foreach ($area as $listArea)
                                                             <option value="{{ $listArea->id }}">
+<<<<<<< HEAD
                                                                     {{ $listArea->nama_branch }}</option>
+=======
+                                                                {{ $listArea->nama_branch }}</option>
+>>>>>>> ad8ffde (CRU karyawan & callsignlead)
                                                         @endforeach
 
                                                     </select>
@@ -275,7 +288,11 @@
                                                     </select>
                                                 </div>
 
+<<<<<<< HEAD
                                                 
+=======
+
+>>>>>>> ad8ffde (CRU karyawan & callsignlead)
 
                                             </div>
 
@@ -389,12 +406,21 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script
+<<<<<<< HEAD
 src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-html5-3.1.0/fc-5.0.1/r-3.0.2/datatables.min.js">
 </script>
 
 <script >
     //message with sweetalert
     @if(session('success'))
+=======
+    src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-html5-3.1.0/fc-5.0.1/r-3.0.2/datatables.min.js">
+</script>
+
+<script>
+    //message with sweetalert
+    @if (session('success'))
+>>>>>>> ad8ffde (CRU karyawan & callsignlead)
         Swal.fire({
             icon: "success",
             title: "Berhasil",
@@ -402,7 +428,11 @@ src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-ht
             showConfirmButton: true,
             // timer: 2000
         });
+<<<<<<< HEAD
     @elseif(session('error'))
+=======
+    @elseif (session('error'))
+>>>>>>> ad8ffde (CRU karyawan & callsignlead)
         Swal.fire({
             icon: "error",
             title: "Gagal!",
@@ -411,7 +441,10 @@ src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-ht
             // timer: 2000
         });
     @endif
+<<<<<<< HEAD
 
+=======
+>>>>>>> ad8ffde (CRU karyawan & callsignlead)
 </script>
 
 <script>
@@ -461,7 +494,11 @@ src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-ht
                         data: 'DT_RowIndex',
                         name: 'DT_Row_Index',
                         "className": "text-center",
+<<<<<<< HEAD
                         // orderable: false, 
+=======
+                        // orderable: false,
+>>>>>>> ad8ffde (CRU karyawan & callsignlead)
                         searchable: false,
                         "width": '20'
                     },
@@ -475,7 +512,11 @@ src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-ht
                     {
                         data: 'nama_branch'
                     },
+<<<<<<< HEAD
                     
+=======
+
+>>>>>>> ad8ffde (CRU karyawan & callsignlead)
                     {
                         data: 'divisi'
                     },
@@ -492,6 +533,12 @@ src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-ht
                         data: 'no_telp'
                     },
                     {
+<<<<<<< HEAD
+=======
+                        data: 'alamat'
+                    },
+                    {
+>>>>>>> ad8ffde (CRU karyawan & callsignlead)
                         data: 'tempat_lahir'
                     },
                     {
@@ -538,6 +585,9 @@ src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-ht
         }
     })
 </script>
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> ad8ffde (CRU karyawan & callsignlead)
