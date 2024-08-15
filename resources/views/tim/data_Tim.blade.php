@@ -27,7 +27,8 @@
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div>
-                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data Lead Callsign</span></h6>
+                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data Lead
+                                            Callsign</span></h6>
                                     {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
                                 </div>
 
@@ -53,7 +54,8 @@
                         <div class="card-body px-2 py-2">
 
                             <div class="table-responsive p-0">
-                                <table class="table table-striped table-bordered align-items-center mb-0" id="tabelLead" style="font-size: 12px">
+                                <table class="table table-striped table-bordered align-items-center mb-0" id="tabelLead"
+                                    style="font-size: 12px">
                                     <thead class="bg-gray-100">
                                         <tr id="headLead">
                                             <th class="text-xs font-weight-semibold">#</th>
@@ -102,7 +104,8 @@
                                                 {{-- <label class="form-control-label">Nik Karyawan</label> --}}
                                                 <span class="text-xs">Lead Callsign</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="leadCallsign" name="leadCallsign" style="border-color:#9ca0a7;">
+                                                    id="leadCallsign" name="leadCallsign" style="border-color:#9ca0a7;"
+                                                    required>
                                             </div>
 
                                             <div class="form-group mb-1">
@@ -113,7 +116,7 @@
                                                     @foreach ($area as $listArea)
                                                         <option value="{{ $listArea->id }}">
                                                             {{ $listArea->nama_branch }}</option>
-                                                     @endforeach
+                                                    @endforeach
 
                                                 </select>
                                             </div>
@@ -121,7 +124,7 @@
                                             <div class="form-group mb-1">
                                                 <span class="text-xs">Nama Leader</span>
                                                 <select class="form-control form-control-sm" id="namaLeader"
-                                                    name="namaLeader" style="border-color:#9ca0a7;">
+                                                    name="namaLeader" style="border-color:#9ca0a7;" required>
                                                     {{-- <option value="">Pilih Leader</option> --}}
                                                     {{-- @foreach ($namaLeader as $leader)
                                                         <option value="{{ $leader->nik_karyawan }}">
@@ -135,7 +138,8 @@
                                                 {{-- <label class="form-control-label">Nik Karyawan</label> --}}
                                                 <span class="text-xs">Posisi</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="posisi" name="posisi" style="border-color:#9ca0a7;">
+                                                    id="posisi" name="posisi" style="border-color:#9ca0a7;"
+                                                    required>
                                             </div>
 
                                         </div>
@@ -145,22 +149,117 @@
                             <hr>
                             <div class="row text-center mb-1">
                                 <div class="col">
-                                    <button type="submit" class="btn btn-sm btn-dark align-items-center simpanKaryawan"
+                                    <button type="submit"
+                                        class="btn btn-sm btn-dark align-items-center simpanKaryawan"
                                         id="simpanKaryawan">Simpan Data</button>
-                                    <button type="button" value="close" class="btn btn-sm btn-dark align-items-center"
+                                    <button type="button" value="close"
+                                        class="btn btn-sm btn-dark align-items-center"
                                         data-bs-dismiss="modal">Batalkan</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                     {{-- <div class="modal-footer"> --}}
-                        {{-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> --}}
-                        {{-- <button type="button" class="btn btn-dark">Save changes</button> --}}
+                    {{-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> --}}
+                    {{-- <button type="button" class="btn btn-dark">Save changes</button> --}}
                     {{-- </div> --}}
                 </div>
             </div>
         </div>
         {{-- End Modal Tambah Data --}}
+
+        {{-- Modal Edit Data --}}
+        <div class="modal fade" id="detailEditLead" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false"
+            data-bs-backdrop="static">>
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Data Lead Callsign</h5>
+                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            @csrf
+                            @method('PUT')
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+
+                                            <div class="form-group mb-1">
+                                                {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                                <input type="hidden" id="leadCallsignId" name="leadCallsignId">
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                                <span class="text-xs">Lead Callsign</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="leadCallsignEdit" name="leadCallsignEdit"
+                                                    style="border-color:#9ca0a7;">
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Area</span>
+                                                <select class="form-control form-control-sm" id="areaEdit"
+                                                    name="areaEdit" style="border-color:#9ca0a7;">
+                                                    {{-- <option value="">Pilih Area</option>
+                                                    @foreach ($area as $listArea)
+                                                        <option value="{{ $listArea->id }}">
+                                                            {{ $listArea->nama_branch }}</option>
+                                                    @endforeach --}}
+
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Nama Leader</span>
+                                                <select class="form-control form-control-sm" id="namaLeaderEdit"
+                                                    name="namaLeaderEdit" style="border-color:#9ca0a7;">
+                                                    {{-- <option value="">Pilih Leader</option> --}}
+                                                    {{-- @foreach ($namaLeader as $leader)
+                                                        <option value="{{ $leader->nik_karyawan }}">
+                                                            {{ $leader->nama_karyawan }}</option>
+                                                     @endforeach --}}
+
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                                <span class="text-xs">Posisi</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="posisiEdit" name="posisiEdit" style="border-color:#9ca0a7;">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row text-center mb-1">
+                                <div class="col">
+                                    <button type="button" class="btn btn-sm btn-dark align-items-center updateLead"
+                                        id="updateLead">Update Data</button>
+                                    <button type="button" value="close"
+                                        class="btn btn-sm btn-dark align-items-center"
+                                        data-bs-dismiss="modal">Batalkan</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    {{-- <div class="modal-footer"> --}}
+                    {{-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> --}}
+                    {{-- <button type="button" class="btn btn-dark">Save changes</button> --}}
+                    {{-- </div> --}}
+                </div>
+            </div>
+        </div>
+        {{-- End Modal Edit Data --}}
 
     </main>
 
@@ -172,12 +271,12 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script
-src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-html5-3.1.0/fc-5.0.1/r-3.0.2/datatables.min.js">
+    src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-html5-3.1.0/fc-5.0.1/r-3.0.2/datatables.min.js">
 </script>
 
-<script >
+<script>
     //message with sweetalert
-    @if(session('success'))
+    @if (session('success'))
         Swal.fire({
             icon: "success",
             title: "Berhasil",
@@ -185,7 +284,7 @@ src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-ht
             showConfirmButton: true,
             // timer: 2000
         });
-    @elseif(session('error'))
+    @elseif (session('error'))
         Swal.fire({
             icon: "error",
             title: "Gagal!",
@@ -194,7 +293,6 @@ src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-ht
             // timer: 2000
         });
     @endif
-
 </script>
 
 <script>
@@ -244,7 +342,7 @@ src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-ht
                         data: 'DT_RowIndex',
                         name: 'DT_Row_Index',
                         "className": "text-center",
-                        // orderable: false, 
+                        // orderable: false,
                         searchable: false,
                         "width": '20'
                     },
@@ -268,43 +366,195 @@ src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-ht
                 ]
             })
         }
-    })
 
-</script>
+        $(document).on('change', '#area', function(e) {
+            // e.preventDefault();
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let branch = $('#area').val();
 
-<script>
-    $(document).on('change', '#area', function(e) {
-        // e.preventDefault();
-        var _token = $('meta[name=csrf-token]').attr('content');
-        let branch = $('#area').val();
+            $.ajax({
+                url: "{{ route('getLeader') }}",
+                type: "get",
+                data: {
+                    filArea: branch,
+                    _token: _token
+                },
+                success: function(respon) {
 
-        console.log(branch);
 
-        $.ajax({
-            url: "{{ route('getLeader') }}",
-            type: "get",
-            data: {
-                filArea: branch,
-                _token : _token
-            },
-            success: function(respon) {
-                
-                $('#namaLeader').find('option').remove();
-                $('#namaLeader').append(
-                    `<option value="">Pilih Leader</option>`);
 
-                $.each(respon.leadName, function(key, nama) {
+                    $('#namaLeader').find('option').remove();
                     $('#namaLeader').append(
-                        `<option value="${nama.nik_karyawan}">${nama.nama_karyawan}</option>`
-                    )
-                })
-            }
+                        `<option value="">Pilih Leader</option>`);
+
+                    $.each(respon.leadName, function(key, nama) {
+                        $('#namaLeader').append(
+                            `<option value="${nama.nik_karyawan}">${nama.nama_karyawan}</option>`
+                        )
+                    })
+                }
+            })
         })
+
+        $(document).on('change', '#areaEdit', function(e) {
+            // e.preventDefault();
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let branch = $('#areaEdit').val();
+
+            $.ajax({
+                url: "{{ route('getLeader') }}",
+                type: "get",
+                data: {
+                    filArea: branch,
+                    _token: _token
+                },
+                success: function(respon) {
+
+                    $('#namaLeaderEdit').find('option').remove();
+                    $('#namaLeaderEdit').append(
+                        `<option value="">Pilih Leader</option>`);
+
+                    $.each(respon.leadName, function(key, nama) {
+                        $('#namaLeaderEdit').append(
+                            `<option value="${nama.nik_karyawan}">${nama.nama_karyawan}</option>`
+                        )
+                    })
+                }
+            })
+        })
+
+
+        $(document).on('change', '#namaLeader', function(e) {
+            // e.preventDefault();
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let branch = $('#area').val();
+            let nikLeader = $(this).val();
+
+            $.ajax({
+                url: "{{ route('getPosisi') }}",
+                type: "get",
+                data: {
+                    filArea: branch,
+                    filNikLead: nikLeader,
+                    _token: _token
+                },
+                success: function(respon) {
+                    $('#posisi').val(respon.posisi);
+                }
+            })
+        })
+
+        $(document).on('change', '#namaLeaderEdit', function(e) {
+            // e.preventDefault();
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let branch = $('#area').val();
+            let nikLeader = $(this).val();
+
+            $.ajax({
+                url: "{{ route('getPosisi') }}",
+                type: "get",
+                data: {
+                    filArea: branch,
+                    filNikLead: nikLeader,
+                    _token: _token
+                },
+                success: function(respon) {
+                    $('#posisiEdit').val(respon.posisi);
+                }
+            })
+        })
+
+        $(document).on('click', '#detail-lead', function(e) {
+            // e.preventDefault();
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let lead = $(this).data('id').split('|');
+            let c_id = lead[0];
+            let b_id = lead[1];
+            let l_nk = lead[2];
+
+            $.ajax({
+                url: "{{ route('getDetailLead') }}",
+                type: "get",
+                data: {
+                    filCallsignId: c_id,
+                    filBranchId: b_id,
+                    filLead: l_nk,
+                    _token: _token
+                },
+                success: function(respon) {
+
+                    $('#leadCallsignId').val(respon.callsignLead.id);
+                    $('#leadCallsignEdit').val(respon.callsignLead.lead_callsign);
+                    // $('#leadCallsignEdit').val(respon.callsign.lead_callsign);
+
+                    $('#areaEdit').find('option').remove();
+                    $('#areaEdit').append(
+                        `<option value="">Pilih Area</option>`);
+
+                    $.each(respon.area, function(key, dt) {
+                        $('#areaEdit').append(
+                            `<option value="${dt.id}" ${dt.id == respon.callsignLead.branch_id ? 'selected' : ''}>${dt.nama_branch}</option>`
+                        )
+                    })
+
+                    $('#namaLeaderEdit').find('option').remove();
+                    $('#namaLeaderEdit').append(
+                        `<option value="">Pilih Leader</option>`);
+
+                    $.each(respon.leaderName, function(key, nama) {
+                        $('#namaLeaderEdit').append(
+                            `<option value="${nama.nik_karyawan}" ${nama.nik_karyawan == respon.callsignLead.leader_id ? 'selected' : ''}>${nama.nama_karyawan}</option>`
+                        )
+                    })
+                    $('#posisiEdit').val(respon.callsignLead.posisi);
+                    $('#detailEditLead').modal('show');
+
+                }
+            })
+        })
+
+        $('#updateLead').click(function(e) {
+            // e.preventDefault();
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let callLeadId = $('#leadCallsignId').val();
+            let leadCallsign = $('#leadCallsignEdit').val();
+            let areaId = $('#areaEdit').val();
+            let leaderId = $('#namaLeaderEdit').val();
+
+            $.ajax({
+                url: `/updateLead/${callLeadId}`,
+                type: 'PUT',
+                data: {
+                    idCallsignLead: callLeadId,
+                    idArea: areaId,
+                    leadCallsign: leadCallsign,
+                    idLeader: leaderId,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(hasil) {
+
+                    $('#detailEditLead').modal('hide');
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil",
+                        text: "{{ session('success') }}",
+                        showConfirmButton: true,
+                        // timer: 2000
+                    });
+
+                    data_lead();
+
+                },
+                error: function(error) {
+                    console.log(error);
+                    if (error.responseJSON.message) {
+                        alert(error.responseJSON.message)
+                    }
+
+                }
+            })
+        })
+
+
     })
-
 </script>
-
-
-
-
-

@@ -18,7 +18,7 @@ class karyawanController extends Controller
      */
     public function index()
     {
-        $area = DB::table('branches')->whereNotIn('nama_branch', ['Apartemen','Underground'])->get();
+        $area = DB::table('branches')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
 
         return view('karyawan.data_Karyawan', ['area' => $area]);
     }
@@ -26,18 +26,18 @@ class karyawanController extends Controller
     public function getDataKaryawan(Request $request)
     {
         $akses = Auth::user()->name;
-        
-        
+
+
         if ($request->ajax()) {
             $datas = DB::table('employees as d')
-                    ->leftJoin('branches as b', 'd.branch_id','=','b.id')
-                    ->select('d.*', 'b.nama_branch')
-                    ->orderBy('nama_karyawan')->get();
+                ->leftJoin('branches as b', 'd.branch_id', '=', 'b.id')
+                ->select('d.*', 'b.nama_branch')
+                ->orderBy('nama_karyawan')->get();
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="/detailKaryawan/'. $row->id.'" class="btn btn-sm btn-primary edit-barang mb-1" >Show Detail</a>';
-                            //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
+                    $btn = '<a href="/detailKaryawan/' . $row->id . '" class="btn btn-sm btn-primary edit-barang mb-1" >Show Detail</a>';
+                    //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])   //merender content column dalam bentuk html
@@ -45,14 +45,13 @@ class karyawanController extends Controller
                 ->toJson(); //merubah response dalam bentuk Json
             // ->make(true);
         }
-
     }
 
 
     public function simpanKaryawan(Request $request)
     {
 
-        $akses= Auth::user()->name;
+        $akses = Auth::user()->name;
 
         $request->validate([
             'nik_karyawan' => ['required', 'unique:Employees,nik_karyawan'],
@@ -83,7 +82,7 @@ class karyawanController extends Controller
             'tgl_gabung' => $request->tglGabung,
             'status_pegawai' => $request->statusPegawai,
             'status_active' => $request->statusKaryawan,
-            'tgl_nonactive' => $request->tglKeluar, 
+            'tgl_nonactive' => $request->tglKeluar,
             'branch_id' => $request->area,
             'divisi' => $request->divisi,
             'departement' => $request->departemen,
@@ -108,13 +107,12 @@ class karyawanController extends Controller
 
         $karyawan = Employee::find($id);
         $area = Branch::all();
-        return view('karyawan.detail_Karyawan',['karyawan' => $karyawan, 'area' => $area]);
-        
+        return view('karyawan.detail_Karyawan', ['karyawan' => $karyawan, 'area' => $area]);
     }
 
-    public function updateKaryawan(Request $request, $id) 
+    public function updateKaryawan(Request $request, $id)
     {
-        $akses= Auth::user()->name;
+        $akses = Auth::user()->name;
 
         // dd($request);
         $request->validate([
@@ -134,7 +132,7 @@ class karyawanController extends Controller
 
             // $request->file('foto_karyawan')->move(public_path('storage/image-kry'), $file);
 
-            Storage::delete('public/storage/image-kry'.$karyawan->foto_karyawan);
+            Storage::delete('public/storage/image-kry' . $karyawan->foto_karyawan);
 
             $karyawan->update([
                 'nik_karyawan' => $request->nik,
@@ -148,7 +146,7 @@ class karyawanController extends Controller
                 'tgl_gabung' => $request->tglGabung,
                 'status_pegawai' => $request->statusPegawai,
                 'status_active' => $request->statusKaryawan,
-                'tgl_nonactive' => $request->tglKeluar, 
+                'tgl_nonactive' => $request->tglKeluar,
                 'branch_id' => $request->area,
                 'divisi' => $request->divisi,
                 'departement' => $request->departemen,
@@ -162,7 +160,6 @@ class karyawanController extends Controller
                 'foto_karyawan' => $file,
                 'update_by' => $akses
             ]);
-
         } else {
             $file = 'foto-blank.jpg';
 
@@ -178,7 +175,7 @@ class karyawanController extends Controller
                 'tgl_gabung' => $request->tglGabung,
                 'status_pegawai' => $request->statusPegawai,
                 'status_active' => $request->statusKaryawan,
-                'tgl_nonactive' => $request->tglKeluar, 
+                'tgl_nonactive' => $request->tglKeluar,
                 'branch_id' => $request->area,
                 'divisi' => $request->divisi,
                 'departement' => $request->departemen,
@@ -192,11 +189,9 @@ class karyawanController extends Controller
                 'foto_karyawan' => $file,
                 'update_by' => $akses
             ]);
-
         }
 
         return redirect()->route('dataKaryawan')->with(['success' => 'Data sudah tersimpan.']);
-
     }
 
     /**
