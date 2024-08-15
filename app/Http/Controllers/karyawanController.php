@@ -18,11 +18,7 @@ class karyawanController extends Controller
      */
     public function index()
     {
-<<<<<<< HEAD
-        $area = DB::table('branches')->whereNotIn('nama_branch', ['Apartemen','Underground'])->get();
-=======
         $area = DB::table('branches')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
 
         return view('karyawan.data_Karyawan', ['area' => $area]);
     }
@@ -30,20 +26,6 @@ class karyawanController extends Controller
     public function getDataKaryawan(Request $request)
     {
         $akses = Auth::user()->name;
-<<<<<<< HEAD
-        
-        
-        if ($request->ajax()) {
-            $datas = DB::table('employees as d')
-                    ->leftJoin('branches as b', 'd.branch_id','=','b.id')
-                    ->select('d.*', 'b.nama_branch')
-                    ->orderBy('nama_karyawan')->get();
-            return DataTables::of($datas)
-                ->addIndexColumn() //memberikan penomoran
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="/detailKaryawan/'. $row->id.'" class="btn btn-sm btn-primary edit-barang mb-1" >Show Detail</a>';
-                            //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
-=======
 
 
         if ($request->ajax()) {
@@ -56,7 +38,6 @@ class karyawanController extends Controller
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="/detailKaryawan/' . $row->id . '" class="btn btn-sm btn-primary edit-barang mb-1" >Show Detail</a>';
                     //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
                     return $btn;
                 })
                 ->rawColumns(['action'])   //merender content column dalam bentuk html
@@ -64,21 +45,13 @@ class karyawanController extends Controller
                 ->toJson(); //merubah response dalam bentuk Json
             // ->make(true);
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
     }
 
 
     public function simpanKaryawan(Request $request)
     {
 
-<<<<<<< HEAD
-        $akses= Auth::user()->name;
-=======
         $akses = Auth::user()->name;
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
 
         $request->validate([
             'nik_karyawan' => ['required', 'unique:Employees,nik_karyawan'],
@@ -109,11 +82,7 @@ class karyawanController extends Controller
             'tgl_gabung' => $request->tglGabung,
             'status_pegawai' => $request->statusPegawai,
             'status_active' => $request->statusKaryawan,
-<<<<<<< HEAD
-            'tgl_nonactive' => $request->tglKeluar, 
-=======
             'tgl_nonactive' => $request->tglKeluar,
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
             'branch_id' => $request->area,
             'divisi' => $request->divisi,
             'departement' => $request->departemen,
@@ -138,22 +107,12 @@ class karyawanController extends Controller
 
         $karyawan = Employee::find($id);
         $area = Branch::all();
-<<<<<<< HEAD
-        return view('karyawan.detail_Karyawan',['karyawan' => $karyawan, 'area' => $area]);
-        
-    }
-
-    public function updateKaryawan(Request $request, $id) 
-    {
-        $akses= Auth::user()->name;
-=======
         return view('karyawan.detail_Karyawan', ['karyawan' => $karyawan, 'area' => $area]);
     }
 
     public function updateKaryawan(Request $request, $id)
     {
         $akses = Auth::user()->name;
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
 
         // dd($request);
         $request->validate([
@@ -173,11 +132,7 @@ class karyawanController extends Controller
 
             // $request->file('foto_karyawan')->move(public_path('storage/image-kry'), $file);
 
-<<<<<<< HEAD
-            Storage::delete('public/storage/image-kry'.$karyawan->foto_karyawan);
-=======
             Storage::delete('public/storage/image-kry' . $karyawan->foto_karyawan);
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
 
             $karyawan->update([
                 'nik_karyawan' => $request->nik,
@@ -191,11 +146,7 @@ class karyawanController extends Controller
                 'tgl_gabung' => $request->tglGabung,
                 'status_pegawai' => $request->statusPegawai,
                 'status_active' => $request->statusKaryawan,
-<<<<<<< HEAD
-                'tgl_nonactive' => $request->tglKeluar, 
-=======
                 'tgl_nonactive' => $request->tglKeluar,
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
                 'branch_id' => $request->area,
                 'divisi' => $request->divisi,
                 'departement' => $request->departemen,
@@ -209,10 +160,6 @@ class karyawanController extends Controller
                 'foto_karyawan' => $file,
                 'update_by' => $akses
             ]);
-<<<<<<< HEAD
-
-=======
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
         } else {
             $file = 'foto-blank.jpg';
 
@@ -228,11 +175,7 @@ class karyawanController extends Controller
                 'tgl_gabung' => $request->tglGabung,
                 'status_pegawai' => $request->statusPegawai,
                 'status_active' => $request->statusKaryawan,
-<<<<<<< HEAD
-                'tgl_nonactive' => $request->tglKeluar, 
-=======
                 'tgl_nonactive' => $request->tglKeluar,
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
                 'branch_id' => $request->area,
                 'divisi' => $request->divisi,
                 'departement' => $request->departemen,
@@ -246,17 +189,9 @@ class karyawanController extends Controller
                 'foto_karyawan' => $file,
                 'update_by' => $akses
             ]);
-<<<<<<< HEAD
-
         }
 
         return redirect()->route('dataKaryawan')->with(['success' => 'Data sudah tersimpan.']);
-
-=======
-        }
-
-        return redirect()->route('dataKaryawan')->with(['success' => 'Data sudah tersimpan.']);
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
     }
 
     /**

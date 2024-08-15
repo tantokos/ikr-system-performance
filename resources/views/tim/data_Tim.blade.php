@@ -27,12 +27,8 @@
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div>
-<<<<<<< HEAD
-                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data Lead Callsign</span></h6>
-=======
                                     <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data Lead
                                             Callsign</span></h6>
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
                                     {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
                                 </div>
 
@@ -58,12 +54,8 @@
                         <div class="card-body px-2 py-2">
 
                             <div class="table-responsive p-0">
-<<<<<<< HEAD
-                                <table class="table table-striped table-bordered align-items-center mb-0" id="tabelLead" style="font-size: 12px">
-=======
                                 <table class="table table-striped table-bordered align-items-center mb-0" id="tabelLead"
                                     style="font-size: 12px">
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
                                     <thead class="bg-gray-100">
                                         <tr id="headLead">
                                             <th class="text-xs font-weight-semibold">#</th>
@@ -112,12 +104,8 @@
                                                 {{-- <label class="form-control-label">Nik Karyawan</label> --}}
                                                 <span class="text-xs">Lead Callsign</span>
                                                 <input class="form-control form-control-sm" type="text"
-<<<<<<< HEAD
-                                                    id="leadCallsign" name="leadCallsign" style="border-color:#9ca0a7;">
-=======
                                                     id="leadCallsign" name="leadCallsign" style="border-color:#9ca0a7;"
                                                     required>
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
                                             </div>
 
                                             <div class="form-group mb-1">
@@ -128,11 +116,7 @@
                                                     @foreach ($area as $listArea)
                                                         <option value="{{ $listArea->id }}">
                                                             {{ $listArea->nama_branch }}</option>
-<<<<<<< HEAD
-                                                     @endforeach
-=======
                                                     @endforeach
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
 
                                                 </select>
                                             </div>
@@ -140,11 +124,7 @@
                                             <div class="form-group mb-1">
                                                 <span class="text-xs">Nama Leader</span>
                                                 <select class="form-control form-control-sm" id="namaLeader"
-<<<<<<< HEAD
-                                                    name="namaLeader" style="border-color:#9ca0a7;">
-=======
                                                     name="namaLeader" style="border-color:#9ca0a7;" required>
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
                                                     {{-- <option value="">Pilih Leader</option> --}}
                                                     {{-- @foreach ($namaLeader as $leader)
                                                         <option value="{{ $leader->nik_karyawan }}">
@@ -158,12 +138,8 @@
                                                 {{-- <label class="form-control-label">Nik Karyawan</label> --}}
                                                 <span class="text-xs">Posisi</span>
                                                 <input class="form-control form-control-sm" type="text"
-<<<<<<< HEAD
-                                                    id="posisi" name="posisi" style="border-color:#9ca0a7;">
-=======
                                                     id="posisi" name="posisi" style="border-color:#9ca0a7;"
                                                     required>
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
                                             </div>
 
                                         </div>
@@ -173,38 +149,25 @@
                             <hr>
                             <div class="row text-center mb-1">
                                 <div class="col">
-<<<<<<< HEAD
-                                    <button type="submit" class="btn btn-sm btn-dark align-items-center simpanKaryawan"
-                                        id="simpanKaryawan">Simpan Data</button>
-                                    <button type="button" value="close" class="btn btn-sm btn-dark align-items-center"
-=======
                                     <button type="submit"
                                         class="btn btn-sm btn-dark align-items-center simpanKaryawan"
                                         id="simpanKaryawan">Simpan Data</button>
                                     <button type="button" value="close"
                                         class="btn btn-sm btn-dark align-items-center"
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
                                         data-bs-dismiss="modal">Batalkan</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                     {{-- <div class="modal-footer"> --}}
-<<<<<<< HEAD
-                        {{-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> --}}
-                        {{-- <button type="button" class="btn btn-dark">Save changes</button> --}}
-=======
                     {{-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> --}}
                     {{-- <button type="button" class="btn btn-dark">Save changes</button> --}}
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
                     {{-- </div> --}}
                 </div>
             </div>
         </div>
         {{-- End Modal Tambah Data --}}
 
-<<<<<<< HEAD
-=======
         {{-- Modal Edit Data --}}
         <div class="modal fade" id="detailEditLead" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false"
@@ -298,7 +261,6 @@
         </div>
         {{-- End Modal Edit Data --}}
 
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
     </main>
 
 </x-app-layout>
@@ -309,21 +271,12 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script
-<<<<<<< HEAD
-src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-html5-3.1.0/fc-5.0.1/r-3.0.2/datatables.min.js">
-</script>
-
-<script >
-    //message with sweetalert
-    @if(session('success'))
-=======
     src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-html5-3.1.0/fc-5.0.1/r-3.0.2/datatables.min.js">
 </script>
 
 <script>
     //message with sweetalert
     @if (session('success'))
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
         Swal.fire({
             icon: "success",
             title: "Berhasil",
@@ -331,11 +284,7 @@ src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-ht
             showConfirmButton: true,
             // timer: 2000
         });
-<<<<<<< HEAD
-    @elseif(session('error'))
-=======
     @elseif (session('error'))
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
         Swal.fire({
             icon: "error",
             title: "Gagal!",
@@ -344,10 +293,6 @@ src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-ht
             // timer: 2000
         });
     @endif
-<<<<<<< HEAD
-
-=======
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
 </script>
 
 <script>
@@ -397,11 +342,7 @@ src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-ht
                         data: 'DT_RowIndex',
                         name: 'DT_Row_Index',
                         "className": "text-center",
-<<<<<<< HEAD
-                        // orderable: false, 
-=======
                         // orderable: false,
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
                         searchable: false,
                         "width": '20'
                     },
@@ -425,48 +366,6 @@ src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-ht
                 ]
             })
         }
-<<<<<<< HEAD
-    })
-
-</script>
-
-<script>
-    $(document).on('change', '#area', function(e) {
-        // e.preventDefault();
-        var _token = $('meta[name=csrf-token]').attr('content');
-        let branch = $('#area').val();
-
-        console.log(branch);
-
-        $.ajax({
-            url: "{{ route('getLeader') }}",
-            type: "get",
-            data: {
-                filArea: branch,
-                _token : _token
-            },
-            success: function(respon) {
-                
-                $('#namaLeader').find('option').remove();
-                $('#namaLeader').append(
-                    `<option value="">Pilih Leader</option>`);
-
-                $.each(respon.leadName, function(key, nama) {
-                    $('#namaLeader').append(
-                        `<option value="${nama.nik_karyawan}">${nama.nama_karyawan}</option>`
-                    )
-                })
-            }
-        })
-    })
-
-</script>
-
-
-
-
-
-=======
 
         $(document).on('change', '#area', function(e) {
             // e.preventDefault();
@@ -659,4 +558,3 @@ src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-ht
 
     })
 </script>
->>>>>>> ad8ffde (CRU karyawan & callsignlead)

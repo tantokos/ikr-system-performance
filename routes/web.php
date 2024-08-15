@@ -24,22 +24,6 @@ use App\Http\Controllers\TimController;
 */
 
 // Leader Perform //
-<<<<<<< HEAD
-Route::get('/leaderPerformance', [Leader_PerformController::class, 'index'] )->name('leader-performance')->middleware('auth');
-Route::get('/getNamaLeader', [Leader_PerformController::class, 'getNamaLeader'] )->name('getNamaLeader')->middleware('auth');
-
-Route::get('/getAbsensiMonthly', [Leader_PerformController::class, 'getAbsensiMonthly'] )->name('getAbsensiMonthly')->middleware('auth');
-Route::get('/getAbsensi', [Leader_PerformController::class, 'getAbsensi'] )->name('getAbsensi')->middleware('auth');
-Route::get('/getAbsensiTim', [Leader_PerformController::class, 'getAbsensiTim'] )->name('getAbsensiTim')->middleware('auth');
-
-Route::get('/getTotalWO', [Leader_PerformController::class, 'getTotalWO'] )->name('getTotalWO')->middleware('auth');
-Route::get('/getRemarkWO', [Leader_PerformController::class, 'getRemarkWO'] )->name('getRemarkWO')->middleware('auth');
-Route::get('/getPreconWO', [Leader_PerformController::class, 'getPreconWO'] )->name('getPreconWO')->middleware('auth');
-Route::get('/getStatusPrecon', [Leader_PerformController::class, 'getStatusPrecon'] )->name('getStatusPrecon')->middleware('auth');
-Route::get('/getProgresWO', [Leader_PerformController::class, 'getProgresWO'] )->name('getProgresWO')->middleware('auth');
-Route::get('/getCheckin09', [Leader_PerformController::class, 'getCheckin09'] )->name('getCheckin09')->middleware('auth');
-Route::get('/getCheckinAll', [Leader_PerformController::class, 'getCheckinAll'] )->name('getCheckinAll')->middleware('auth');
-=======
 Route::get('/leaderPerformance', [Leader_PerformController::class, 'index'])->name('leader-performance')->middleware('auth');
 Route::get('/getNamaLeader', [Leader_PerformController::class, 'getNamaLeader'])->name('getNamaLeader')->middleware('auth');
 
@@ -54,7 +38,6 @@ Route::get('/getStatusPrecon', [Leader_PerformController::class, 'getStatusPreco
 Route::get('/getProgresWO', [Leader_PerformController::class, 'getProgresWO'])->name('getProgresWO')->middleware('auth');
 Route::get('/getCheckin09', [Leader_PerformController::class, 'getCheckin09'])->name('getCheckin09')->middleware('auth');
 Route::get('/getCheckinAll', [Leader_PerformController::class, 'getCheckinAll'])->name('getCheckinAll')->middleware('auth');
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
 
 // End Leader Perform //
 
@@ -72,12 +55,9 @@ Route::get('/dataTim', [TimController::class, 'index'])->name('dataTim')->middle
 Route::get('/getDataLead', [TimController::class, 'getDataLead'])->name('getDataLead')->middleware('auth');
 Route::get('/getLeader', [TimController::class, 'getLeader'])->name('getLeader')->middleware('auth');
 Route::post('/simpanLead', [TimController::class, 'simpanLead'])->name('simpanLead')->middleware('auth');
-<<<<<<< HEAD
-=======
 Route::get('/getDetailLead', [TimController::class, 'getDetailLead'])->name('getDetailLead')->middleware('auth');
 Route::get('/getPosisi', [TimController::class, 'getPosisi'])->name('getPosisi')->middleware('auth');
 Route::put('/updateLead/{id}', [TimController::class, 'updateLead'])->name('updateLead')->middleware('auth');
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
 
 //end Tim & Callsign //
 
@@ -86,13 +66,8 @@ Route::put('/updateLead/{id}', [TimController::class, 'updateLead'])->name('upda
 Route::get('/importPerformance', [Import_AbsensiController::class, 'index'])->name('import-performance')->middleware('auth');
 Route::post('/importDataAbsensi', [Import_AbsensiController::class, 'importDataAbsensi'])->name('import-dataAbsensi')->middleware('auth');
 Route::get('/getDataAbsensi', [Import_AbsensiController::class, 'getDataAbsensi'])->name('getdataAbsensi')->middleware('auth');
-<<<<<<< HEAD
-Route::post('/saveImportAbsensi',[Import_AbsensiController::class, 'saveImportAbsensi'])->name('saveImportAbsensi')->middleware('auth');
-Route::get('/getFilterPreview',[Import_AbsensiController::class, 'getFilterPreview'])->name('getFilterPreview')->middleware('auth');
-=======
 Route::post('/saveImportAbsensi', [Import_AbsensiController::class, 'saveImportAbsensi'])->name('saveImportAbsensi')->middleware('auth');
 Route::get('/getFilterPreview', [Import_AbsensiController::class, 'getFilterPreview'])->name('getFilterPreview')->middleware('auth');
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
 
 // End Import Absensi //
 

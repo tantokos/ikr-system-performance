@@ -24,12 +24,8 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card border shadow-xs mb-4">
-<<<<<<< HEAD
-                        <form id='editForm' action="{{ route('updateKaryawan', $karyawan)}}" method="POST" enctype="multipart/form-data" >
-=======
                         <form id='editForm' action="{{ route('updateKaryawan', $karyawan) }}" method="POST"
                             enctype="multipart/form-data">
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
                             @csrf
                             @method('PUT')
                             <div class="card-header border-bottom pb-0">
@@ -96,12 +92,7 @@
 
                                                 <div class="form-group mb-1">
                                                     <span class="text-xs">Alamat Lengkap</span>
-<<<<<<< HEAD
-                                                    <textarea class="form-control form-control-sm" id="alamat" name="alamat"
-                                                        value="{{ is_null($karyawan->alamat) ? '-' : $karyawan->alamat }}" style="border-color:#9ca0a7;"></textarea>
-=======
                                                     <textarea class="form-control form-control-sm" id="alamat" name="alamat" style="border-color:#9ca0a7;">{{ is_null($karyawan->alamat) ? '-' : $karyawan->alamat }}</textarea>
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
                                                 </div>
 
                                                 <div class="row form-group mb-1">

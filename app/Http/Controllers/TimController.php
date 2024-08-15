@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
-=======
 use App\Models\CallsignLead;
 use App\Models\Employee;
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,13 +16,8 @@ class TimController extends Controller
      */
     public function index()
     {
-<<<<<<< HEAD
-        $area = DB::table('branches')->whereNotIn('nama_branch', ['Apartemen','Underground'])->get();
-        $leaderName = DB::table('employees')->where('posisi','like','Leader%')->get();
-=======
         $area = DB::table('branches')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
         $leaderName = DB::table('employees')->where('posisi', 'like', 'Leader%')->get();
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
 
         return view('tim.data_Tim', ['area' => $area, 'namaLeader' => $leaderName]);
     }
@@ -36,28 +28,16 @@ class TimController extends Controller
 
         if ($request->ajax()) {
             $datas = DB::table('callsign_leads as c')
-<<<<<<< HEAD
-                    ->leftJoin('employees as e', 'c.leader_id','=','e.nik_karyawan')
-                    ->leftJoin('branches as b', 'e.branch_id', '=', 'b.id')
-                    ->select('c.*', 'e.nama_karyawan', 'e.posisi', 'e.branch_id', 'b.nama_branch')
-                    ->orderBy('e.branch_id')->get();
-=======
                 ->leftJoin('employees as e', 'c.leader_id', '=', 'e.nik_karyawan')
                 ->leftJoin('branches as b', 'e.branch_id', '=', 'b.id')
                 ->select('c.*', 'e.nik_karyawan', 'e.nama_karyawan', 'e.posisi', 'e.branch_id', 'b.nama_branch')
                 ->orderBy('e.branch_id')->get();
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
 
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
                 ->addColumn('action', function ($row) {
-<<<<<<< HEAD
-                    $btn = '<a href="/detailKaryawan/'. $row->id.'" class="btn btn-sm btn-primary edit-barang mb-1" >Show Detail</a>';
-                            //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
-=======
                     $btn = '<a href="javascript:void(0)" id="detail-lead" data-id="' . $row->id . "|" . $row->branch_id . "|" . $row->nik_karyawan . '" class="btn btn-sm btn-primary detil-lead mb-1" >Show Detail</a>';
                     //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
                     return $btn;
                 })
                 ->rawColumns(['action'])   //merender content column dalam bentuk html
@@ -69,13 +49,6 @@ class TimController extends Controller
 
     public function getLeader(Request $request)
     {
-<<<<<<< HEAD
-        
-        $leaderName = DB::table('employees')->where('posisi','like','Leader%')->where('branch_id','=', $request->filArea)->get();
-
-        return response()->json(['leadName' => $leaderName]);
-        
-=======
         $leaderName = DB::table('employees')->where('posisi', 'like', 'Leader%')->where('branch_id', '=', $request->filArea)->get();
 
         return response()->json(['leadName' => $leaderName]);
@@ -86,16 +59,10 @@ class TimController extends Controller
         $posisi = Employee::where('nik_karyawan', '=', $request->filNikLead)->select('posisi')->first();
 
         return response()->json($posisi);
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
     }
 
     public function simpanLead(Request $request)
     {
-<<<<<<< HEAD
-        // dd($request->all());
-
-        return response()->json(['success' => 'Data tidak tersimpan.']);
-=======
         $akses = Auth::user()->name;
 
         $request->validate([
@@ -140,7 +107,6 @@ class TimController extends Controller
 
 
         return response()->json(['success' => true, 'message' => 'Data tersimpan.']);
->>>>>>> ad8ffde (CRU karyawan & callsignlead)
     }
 
     /**
