@@ -9,7 +9,7 @@
                         <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
                         </div>
                         <div class="card-body text-start p-4 w-100">
-                            <h3 class="text-white mb-2">Data Tim IKR</h3>
+                            <h3 class="text-white mb-2">Data Tool IKR</h3>
                             <p class="mb-4 font-weight-semibold">
                                 PT. Mitra Sinergi Telematika.
                             </p>
@@ -27,8 +27,8 @@
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div>
-                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data Lead
-                                            Callsign</span></h6>
+                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data Tool</span>
+                                    </h6>
                                     {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
                                 </div>
 
@@ -44,7 +44,7 @@
                                                 </path>
                                             </svg>
                                         </span>
-                                        <span class="btn-inner--text">Tambah Lead Callsign</span>
+                                        <span class="btn-inner--text">Tambah Tool Baru</span>
                                     </button>
                                 </div>
 

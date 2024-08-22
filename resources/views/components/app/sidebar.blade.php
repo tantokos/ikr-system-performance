@@ -39,7 +39,8 @@
             </li> --}}
 
             <li class="nav-item">
-                <a class="nav-link  {{ is_current_route('leader-performance') || is_current_route('technician-performance') ? 'active' : '' }}">
+                <a
+                    class="nav-link  {{ is_current_route('leader-performance') || is_current_route('technician-performance') ? 'active' : '' }}">
                     <div
                         class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
                         <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1"
@@ -83,7 +84,8 @@
 
 
             <li class="nav-item">
-                <a class="nav-link  {{ is_current_route('dataKaryawan') || is_current_route('dataTim') ? 'active' : '' }}">
+                <a
+                    class="nav-link  {{ is_current_route('dataKaryawan') || is_current_route('dataTim') || is_current_route('dataTool') ? 'active' : '' }}">
                     <div
                         class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
                         <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1"
@@ -125,10 +127,18 @@
                     <span class="nav-link-text ms-1">Data Tim</span>
                 </a>
             </li>
-            
+
+            <li class="nav-item border-start my-0 pt-2">
+                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('dataTool') ? 'active' : '' }}"
+                    href="#">
+                    <span class="nav-link-text ms-1">Data Tools</span>
+                </a>
+            </li>
+
 
             <li class="nav-item">
-                <a class="nav-link  {{ is_current_route('import-performance') ? 'active' : '' }}" href="{{ route('import-performance') }}">
+                <a class="nav-link  {{ is_current_route('import-performance') ? 'active' : '' }}"
+                    href="{{ route('import-performance') }}">
                     <div
                         class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
                         <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1"
@@ -158,7 +168,7 @@
             </li>
 
 
-            
+
 
             {{-- <li class="nav-item">
                 <a class="nav-link  {{ is_current_route('tables') ? 'active' : '' }}" href="{{ route('tables') }}">

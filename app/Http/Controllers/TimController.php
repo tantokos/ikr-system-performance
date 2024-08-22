@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CallsignLead;
+use App\Models\CallsignTim;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,8 +19,9 @@ class TimController extends Controller
     {
         $area = DB::table('branches')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
         $leaderName = DB::table('employees')->where('posisi', 'like', 'Leader%')->get();
+        $dtLeadCallsign = DB::table('callsign_leads')->get();
 
-        return view('tim.data_Tim', ['area' => $area, 'namaLeader' => $leaderName]);
+        return view('tim.data_Tim', ['area' => $area, 'namaLeader' => $leaderName, 'dtLeadCallsign' => $dtLeadCallsign]);
     }
 
     public function getDataLead(Request $request)
@@ -27,16 +29,46 @@ class TimController extends Controller
         $akses = Auth::user()->name;
 
         if ($request->ajax()) {
-            $datas = DB::table('callsign_leads as c')
-                ->leftJoin('employees as e', 'c.leader_id', '=', 'e.nik_karyawan')
-                ->leftJoin('branches as b', 'e.branch_id', '=', 'b.id')
-                ->select('c.*', 'e.nik_karyawan', 'e.nama_karyawan', 'e.posisi', 'e.branch_id', 'b.nama_branch')
-                ->orderBy('e.branch_id')->get();
+            // $datas = DB::table('callsign_leads as c')
+            //     ->leftJoin('employees as e', 'c.leader_id', '=', 'e.nik_karyawan')
+            //     ->leftJoin('branches as b', 'e.branch_id', '=', 'b.id')
+            //     ->select('c.*', 'e.nik_karyawan', 'e.nama_karyawan', 'e.posisi', 'e.branch_id', 'b.nama_branch')
+            //     ->orderBy('e.branch_id')->get();
+            $datas = DB::table('v_detail_callsign_tot')->get();
 
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" id="detail-lead" data-id="' . $row->id . "|" . $row->branch_id . "|" . $row->nik_karyawan . '" class="btn btn-sm btn-primary detil-lead mb-1" >Show Detail</a>';
+                    $btn = '
+                    <a href="javascript:void(0)" id="showDetail-lead" data-id="' . $row->lead_call_id . "|" . $row->branch_id . "|" . $row->leader_id . '" class="btn btn-sm btn-primary showDetail-lead mb-0" >Detail</a>
+                    <a href="javascript:void(0)" id="detail-lead" data-id="' . $row->lead_call_id . "|" . $row->branch_id . "|" . $row->leader_id . '" class="btn btn-sm btn-primary detil-lead mb-0" >Edit</a>';
+                    //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
+                    return $btn;
+                })
+                ->addColumn('jml_teknisi', function ($t) {
+                    $tek = $t->jml_teknisi1 + $t->jml_teknisi2 + $t->jml_teknisi3 + $t->jml_teknisi4;
+
+                    return $tek;
+                })
+                ->rawColumns(['action', 'jml_teknisi'])   //merender content column dalam bentuk html
+                ->escapeColumns()  //mencegah XSS Attack
+                ->toJson(); //merubah response dalam bentuk Json
+            // ->make(true);
+        }
+    }
+
+    public function getDataTim(Request $request)
+    {
+        $akses = Auth::user()->name;
+
+        if ($request->ajax()) {
+            $tims = DB::table('v_detail_callsign_tim')
+                ->orderBy('branch_id')->orderBy('lead_callsign')->orderBy('callsign_tim')->get();
+
+            return DataTables::of($tims)
+                ->addIndexColumn() //memberikan penomoran
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0)" id="detail-tim" data-id="' . $row->callsign_tim_id . "|" . $row->lead_call_id . "|" . $row->leader_id . "|" . $row->branch_id . '" class="btn btn-sm btn-primary detil-lead mb-0" >Edit</a>';
                     //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
                     return $btn;
                 })
@@ -79,6 +111,39 @@ class TimController extends Controller
         return redirect()->route('dataTim')->with(['success' => 'Data tersimpan.']);
     }
 
+    public function showDetailLead(Request $request)
+    {
+        $showLead = DB::table('v_detail_callsign_tim')->where('lead_call_id', '=', $request->filCallsignId)
+            ->select('lead_call_id', 'lead_callsign', 'nama_leader', 'nama_branch', 'posisi')->distinct()->first();
+
+        $show = DB::table('v_detail_callsign_tim')->where('lead_call_id', '=', $request->filCallsignId)
+            ->orderBy('lead_callsign')->orderBy('callsign_tim')->get();
+
+        return response()->json(['showLead' => $showLead, 'showTim' => $show]);
+    }
+
+    public function getDataShowTim(Request $request)
+    {
+        $akses = Auth::user()->name;
+
+        if ($request->ajax()) {
+            $tims = DB::table('v_detail_callsign_tim')->where('lead_call_id', '=', $request->leadCall)
+                ->orderBy('branch_id')->orderBy('lead_callsign')->orderBy('callsign_tim')->get();
+
+            return DataTables::of($tims)
+                ->addIndexColumn() //memberikan penomoran
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0)" id="detail-tim" data-id="' . $row->callsign_tim_id . "|" . $row->lead_call_id . "|" . $row->leader_id . "|" . $row->branch_id . '" class="btn btn-sm btn-primary detil-lead mb-0" >Edit</a>';
+                    //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])   //merender content column dalam bentuk html
+                ->escapeColumns()  //mencegah XSS Attack
+                ->toJson(); //merubah response dalam bentuk Json
+            // ->make(true);
+        }
+    }
+
     public function getDetailLead(Request $request)
     {
         $area = DB::table('branches')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
@@ -92,6 +157,7 @@ class TimController extends Controller
         // $area = Branch::all();
         return response()->json(['callsignLead' => $callsignLead, 'leaderName' => $leaderName, 'area' => $area]);
     }
+
 
     public function updateLead(Request $request, CallsignLead $Callsignn, $id)
     {
@@ -109,6 +175,104 @@ class TimController extends Controller
         return response()->json(['success' => true, 'message' => 'Data tersimpan.']);
     }
 
+    public function getDataLeadCallsign(Request $request)
+    {
+        // dd($request->all());
+        $datas = DB::table('callsign_leads as c')
+            ->leftJoin('employees as e', 'c.leader_id', '=', 'e.nik_karyawan')
+            ->leftJoin('branches as b', 'e.branch_id', '=', 'b.id')
+            ->select('c.*', 'e.nik_karyawan', 'e.nama_karyawan', 'e.posisi', 'e.branch_id', 'b.nama_branch')
+            ->where('c.id', '=', $request->filLeadId)
+            ->orderBy('e.branch_id')->first();
+
+
+        $branch_id = $datas->branch_id;
+        $tim1 = collect(CallsignTim::pluck('nik_tim1 as nik_tim')->whereNotNull()->all());
+        $tim2 = collect(CallsignTim::pluck('nik_tim2 as nik_tim')->whereNotNull()->all());
+        $tim3 = collect(CallsignTim::pluck('nik_tim3 as nik_tim')->whereNotNull()->all());
+        $tim4 = collect(CallsignTim::pluck('nik_tim4 as nik_tim')->whereNotNull()->all());
+
+        $tim = $tim1->merge($tim2)->merge($tim3)->merge($tim4);
+
+        $dtTim = Employee::where('branch_id', $branch_id)->whereNotIn('nik_karyawan', $tim)
+            ->whereIn('posisi', ['Installer', 'Maintenance'])
+            ->get();
+
+        return response()->json(['callLead' => $datas, 'tim1' => $dtTim]);
+    }
+
+    public function getTeknisi(Request $request)
+    {
+        // dd($request->all());
+
+        $branch_id = $request->area;
+
+        $tim1 = collect(CallsignTim::pluck('nik_tim1 as nik_tim')->whereNotNull()->all());
+        $tim2 = collect(CallsignTim::pluck('nik_tim2 as nik_tim')->whereNotNull()->all());
+        $tim3 = collect(CallsignTim::pluck('nik_tim3 as nik_tim')->whereNotNull()->all());
+        $tim4 = collect(CallsignTim::pluck('nik_tim4 as nik_tim')->whereNotNull()->all());
+
+        $tim = $tim1->merge($tim2)->merge($tim3)->merge($tim4);
+
+        // $branchid = Employee::find($leaderid);
+
+
+        $tim = Employee::where('branch_id', $branch_id)->whereNotIn('nik_karyawan', $tim)
+            ->whereIn('posisi', ['Installer', 'Maintenance'])
+            ->orderBy('nama_karyawan')
+            ->get();
+
+        return response()->json($tim);
+    }
+
+    public function simpanTim(Request $request)
+    {
+        $akses = Auth::user()->name;
+
+        $request->validate([
+            'callsignTim' => ['required', 'unique:Callsign_Tims,callsign_tim'],
+        ]);
+
+        CallsignTim::create([
+            'callsign_tim' => $request->callsignTim,
+            'nik_tim1' => $request->teknisi1,
+            'nik_tim2' => $request->teknisi2,
+            'nik_tim3' => $request->teknisi3,
+            'nik_tim4' => $request->teknisi4,
+            'lead_callsign' => $request->LeadCallsignTim,
+
+        ]);
+
+        return redirect()->route('dataTim')->with(['success' => 'Data Tim tersimpan.']);
+    }
+
+    public function getDetailTim(Request $request)
+    {
+        $callsignTim = DB::table('v_detail_callsign_tim')->where('callsign_tim_id', '=', $request->callTimEdit)
+            ->first();
+
+        return response()->json($callsignTim);
+    }
+
+    public function updateTim(Request $request, CallsignTim $Callsigntim, $id)
+    {
+        $callTimId = $request->idCallTim;
+        $tim1 = $request->tim1;
+        $tim2 = $request->tim2;
+        $tim3 = $request->tim3;
+        $tim4 = $request->tim4;
+
+        $callsignTim = CallsignTim::find($id);
+
+        $callsignTim->update([
+            'nik_tim1' => $tim1,
+            'nik_tim2' => $tim2,
+            'nik_tim3' => $tim3,
+            'nik_tim4' => $tim4,
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Data berhasil di update.']);
+    }
     /**
      * Show the form for creating a new resource.
      */
