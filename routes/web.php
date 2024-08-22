@@ -55,11 +55,26 @@ Route::get('/dataTim', [TimController::class, 'index'])->name('dataTim')->middle
 Route::get('/getDataLead', [TimController::class, 'getDataLead'])->name('getDataLead')->middleware('auth');
 Route::get('/getLeader', [TimController::class, 'getLeader'])->name('getLeader')->middleware('auth');
 Route::post('/simpanLead', [TimController::class, 'simpanLead'])->name('simpanLead')->middleware('auth');
+Route::get('/showDetailLead', [TimController::class, 'showDetailLead'])->name('showDetailLead')->middleware('auth');
 Route::get('/getDetailLead', [TimController::class, 'getDetailLead'])->name('getDetailLead')->middleware('auth');
 Route::get('/getPosisi', [TimController::class, 'getPosisi'])->name('getPosisi')->middleware('auth');
 Route::put('/updateLead/{id}', [TimController::class, 'updateLead'])->name('updateLead')->middleware('auth');
 
+//Sub bagian Callsign Tim
+Route::get('/getDataLeadCallsign', [TimController::class, 'getDataLeadCallsign'])->name('getDataLeadCallsign')->middleware('auth');
+Route::get('/getDataShowTim', [TimController::class, 'getDataShowTim'])->name('getDataShowTim')->middleware('auth');
+Route::get('/getDataTim', [TimController::class, 'getDataTim'])->name('getDataTim')->middleware('auth');
+Route::get('/getTeknisi', [TimController::class, 'getTeknisi'])->name('getTeknisi')->middleware('auth');
+Route::post('/simpanTim', [TimController::class, 'simpanTim'])->name('simpanTim')->middleware('auth');
+Route::get('/getDetailTim', [TimController::class, 'getDetailTim'])->name('getDetailTim')->middleware('auth');
+
+Route::get('/updateTim/{id}', [TimController::class, 'updateTim'])->name('updateTim')->middleware('auth');
 //end Tim & Callsign //
+
+
+//Start Tools//
+Route::get('/dataTool', [TimController::class, 'index'])->name('dataTool')->middleware('auth');
+//End Tools//
 
 
 // Import Absensi //
