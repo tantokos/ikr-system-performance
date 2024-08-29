@@ -7,10 +7,12 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\DistribusiToolController;
 use App\Http\Controllers\Import_AbsensiController;
 use App\Http\Controllers\karyawanController;
 use App\Http\Controllers\Leader_PerformController;
 use App\Http\Controllers\TimController;
+use App\Http\Controllers\ToolController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,7 +75,23 @@ Route::get('/updateTim/{id}', [TimController::class, 'updateTim'])->name('update
 
 
 //Start Tools//
-Route::get('/dataTool', [TimController::class, 'index'])->name('dataTool')->middleware('auth');
+Route::get('/dataTool', [ToolController::class, 'index'])->name('dataTool')->middleware('auth');
+Route::get('/getDataTool', [ToolController::class, 'getDataTool'])->name('getDataTool')->middleware('auth');
+Route::get('/showDetailTool', [ToolController::class, 'showDetailTool'])->name('showDetailTool')->middleware('auth');
+Route::get('/getDataShowTool', [ToolController::class, 'getDataShowTool'])->name('getDataShowTool')->middleware('auth');
+
+Route::get('/getRiwayatTool', [ToolController::class, 'getRiwayatTool'])->name('getRiwayatTool')->middleware('auth');
+
+Route::post('/simpanTool', [ToolController::class, 'simpanTool'])->name('simpanTool')->middleware('auth');
+
+Route::get('/distribusiTool', [DistribusiToolController::class, 'index'])->name('distribusiTool')->middleware('auth');
+Route::get('/getDataDistribusi', [DistribusiToolController::class, 'getDataDistribusi'])->name('getDataDistribusi')->middleware('auth');
+Route::get('/getDetailDistribusi', [DistribusiToolController::class, 'getDetailDistribusi'])->name('getDetailDistribusi')->middleware('auth');
+Route::get('/getLeadCallsign', [DistribusiToolController::class, 'getLeadCallsign'])->name('getLeadCallsign')->middleware('auth');
+Route::get('/getTim', [DistribusiToolController::class, 'getTim'])->name('getTim')->middleware('auth');
+Route::get('/getSelectTool', [DistribusiToolController::class, 'getSelectTool'])->name('getSelectTool')->middleware('auth');
+
+Route::post('/simpanDistribusi', [DistribusiToolController::class, 'simpanDistribusi'])->name('simpanDistribusi')->middleware('auth');
 //End Tools//
 
 
