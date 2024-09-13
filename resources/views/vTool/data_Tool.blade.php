@@ -484,54 +484,57 @@
 
                                 <div class="form-group mb-1">
                                     <span class="text-xs">Merk</span>
-                                    <input class="form-control form-control-sm" type="text" id="merkShow"
-                                        name="merkShow" style="border-color:#9ca0a7;" readonly>
+                                    <input class="form-control form-control-sm" type="text" id="merkShowDis"
+                                        name="merkShowDis" style="border-color:#9ca0a7;" readonly>
                                 </div>
 
                                 <div class="form-group mb-1">
                                     <span class="text-xs">Satuan</span>
-                                    <input type="text" class="form-control form-control-sm" id="satuanShow"
-                                        name="satuanShow" style="border-color:#9ca0a7;" readonly>
+                                    <input type="text" class="form-control form-control-sm" id="satuanShowDis"
+                                        name="satuanShowDis" style="border-color:#9ca0a7;" readonly>
                                 </div>
 
                                 <div class="form-group mb-1">
                                     {{-- <label class="form-control-label">Nik Karyawan</label> --}}
                                     <span class="text-xs">Spesifikasi</span>
-                                    <textarea class="form-control form-control-sm" id="spesifikasiShow" name="spesifikasiShow"
+                                    <textarea class="form-control form-control-sm" id="spesifikasiShowDis" name="spesifikasiShowDis"
                                         style="border-color:#9ca0a7;" readonly></textarea>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group mb-1">
-                                    <span class="text-xs">Tanggal Distribusi Tool</span>
+                                    <span id="txDisPenerimaan" class="text-xs">Tanggal Penerimaan
+                                        Tool</span>
                                     <input class="form-control form-control-sm" type="date"
-                                        value="{{ date('Y-m-d') }}" id="tglDistribusiShow" name="tglDistribusiShow"
-                                        style="border-color:#9ca0a7;" readonly>
+                                        value="{{ date('Y-m-d') }}" id="tglPenerimaanShowDis"
+                                        name="tglPenerimaanShowDis" style="border-color:#9ca0a7;" readonly>
                                 </div>
 
                                 <div class="form-group mb-1">
-                                    <span class="text-xs">Tanggal Penerimaan Tool</span>
+                                    <span id="txTglDistribusi" class="text-xs">Tanggal Distribusi Tool</span>
                                     <input class="form-control form-control-sm" type="date"
-                                        value="{{ date('Y-m-d') }}" id="tglPenerimaanShow" name="tglPenerimaanShow"
-                                        style="border-color:#9ca0a7;" readonly>
+                                        value="{{ date('Y-m-d') }}" id="tglDistribusiShowDis"
+                                        name="tglDistribusiShowDis" style="border-color:#9ca0a7;" readonly>
                                 </div>
+
+
 
                                 <div class="form-group mb-1">
                                     <span class="text-xs">Kondisi</span>
-                                    <input type="text" class="form-control form-control-sm" id="kondisiShow"
-                                        name="kondisiShow" style="border-color:#9ca0a7;" readonly>
+                                    <input type="text" class="form-control form-control-sm" id="kondisiShowDis"
+                                        name="kondisiShowDis" style="border-color:#9ca0a7;" readonly>
                                 </div>
 
                                 <div class="form-group mb-1">
                                     <span class="text-xs">Kode Aset</span>
-                                    <input class="form-control form-control-sm" type="text" id="kodeAsetShow"
-                                        name="kodeAsetShow" style="border-color:#9ca0a7;" readonly>
+                                    <input class="form-control form-control-sm" type="text" id="kodeAsetShowDis"
+                                        name="kodeAsetShowDis" style="border-color:#9ca0a7;" readonly>
                                 </div>
 
                                 <div class="form-group mb-1">
                                     <span class="text-xs">Kode GA</span>
-                                    <input class="form-control form-control-sm" type="text" id="kodeGAShow"
-                                        name="kodeGAShow" style="border-color:#9ca0a7;" readonly>
+                                    <input class="form-control form-control-sm" type="text" id="kodeGAShowDis"
+                                        name="kodeGAShowDis" style="border-color:#9ca0a7;" readonly>
                                 </div>
 
                             </div>
@@ -822,7 +825,7 @@
                         // "width": '90'
                     },
                     {
-                        data: 'tgl_distribusi',
+                        data: 'tgl',
                         // width: '90'
                     },
                     {
@@ -967,17 +970,29 @@
         $(document).on('click', '#dis-detail', function(e) {
             // e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
-            let dis_id = $(this).data('id');
+            let dt_Dis = $(this).data('id').split('|');
+            let dis_id = dt_Dis[0];
+            let kategori = dt_Dis[1];
+
+            //tambah detail pengembalian disini//
+
+            if (kategori == "Data Distribusi") {
+                url = "{{ route('getDetailDistribusi') }}"
+            }
+            if (kategori == "Data Pengembalian") {
+                url = "{{ route('getDetailKembali') }}"
+            }
 
             $.ajax({
-                url: "{{ route('getDetailDistribusi') }}",
+                url: url,
                 type: "get",
                 data: {
                     filDisId: dis_id,
+                    filKategori: kategori,
                     _token: _token
                 },
                 success: function(dtDis) {
-                    console.log(dtDis);
+
                     $('#LeadCallsignTimShow').val(dtDis.lead_callsign)
                     $('#leadCallsignShow').val(dtDis.lead_callsign)
                     $('#leaderidShow').val(dtDis.leader_id)
@@ -998,21 +1013,45 @@
 
                     $('#namaToolShowDis').val(dtDis.nama_barang);
 
-                    $('#merkShow').val(dtDis.merk_barang);
-                    $('#satuanShow').val(dtDis.satuan);
-                    $('#spesifikasiShow').val(dtDis.spesifikasi);
+                    $('#merkShowDis').val(dtDis.merk_barang);
+                    $('#satuanShowDis').val(dtDis.satuan);
+                    $('#spesifikasiShowDis').val(dtDis.spesifikasi);
 
-                    $('#tglDistribusiShow').val(dtDis.tgl_distribusi);
-                    $('#tglPenerimaanShow').val(dtDis.tgl_distribusi);
 
-                    $('#kondisiShow').val(dtDis.kondisi);
-                    $('#kodeAsetShow').val(dtDis.kode_aset);
-                    $('#kodeGAShow').val(dtDis.kode_ga);
+
+                    $('#kondisiShowDis').val(dtDis.kondisi);
+                    $('#kodeAsetShowDis').val(dtDis.kode_aset);
+                    $('#kodeGAShowDis').val(dtDis.kode_ga);
 
                     $('#keteranganShow').val(dtDis.keterangan);
 
-                    $('#showgambarDistribusiShow').attr('src',
-                        `/storage/image-distribusi/${dtDis.foto_distribusi}`)
+                    if (kategori == "Data Distribusi") {
+
+                        $('#tglPenerimaanShowDis').val(dtDis.tgl_pengadaan);
+                        $('#tglDistribusiShowDis').val(dtDis.tgl_distribusi);
+
+                        document.getElementById('txDisPenerimaan').innerHTML =
+                            "Tanggal Penerimaan Tool";
+                        document.getElementById('txTglDistribusi').innerHTML =
+                            "Tanggal Distribusi Tool";
+
+                        $('#showgambarDistribusiShow').attr('src',
+                            `/storage/image-distribusi/${dtDis.foto_distribusi}`)
+                    }
+                    if (kategori == "Data Pengembalian") {
+
+                        $('#tglPenerimaanShowDis').val(dtDis.tgl_distribusi);
+                        $('#tglDistribusiShowDis').val(dtDis.tgl_kembali);
+
+                        document.getElementById('txDisPenerimaan').innerHTML =
+                            "Tanggal Distribusi Tool";
+                        document.getElementById('txTglDistribusi').innerHTML =
+                            "Tanggal Pengembalian Tool";
+
+                        $('#showgambarDistribusiShow').attr('src',
+                            `/storage/image-pengembalian/${dtDis.foto_kembali}`)
+                    }
+
 
                     $('#showRiwayatDistribusi').modal('show');
 

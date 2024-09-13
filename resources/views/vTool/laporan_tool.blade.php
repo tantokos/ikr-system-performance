@@ -9,7 +9,7 @@
                         <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
                         </div>
                         <div class="card-body text-start p-4 w-100">
-                            <h3 class="text-white mb-2">Distribusi Tool IKR</h3>
+                            <h3 class="text-white mb-2">Laporan Tool IKR</h3>
                             <p class="mb-4 font-weight-semibold">
                                 PT. Mitra Sinergi Telematika.
                             </p>
@@ -27,8 +27,8 @@
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div>
-                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data Distribusi
-                                            Tool</span>
+                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">
+                                            Data Laporan Tool</span>
                                     </h6>
                                     {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
                                 </div>
@@ -45,7 +45,7 @@
                                                 </path>
                                             </svg>
                                         </span>
-                                        <span class="btn-inner--text">Tambah Distribusi Tool</span>
+                                        <span class="btn-inner--text">Tambah Laporan Tool</span>
                                     </button>
                                 </div>
 
@@ -55,8 +55,8 @@
                         <div class="card-body px-2 py-2">
 
                             <div class="table-responsive p-0">
-                                <table class="table table-striped table-bordered align-items-center mb-0"
-                                    id="tabelDistribusi" style="font-size: 12px">
+                                <table class="table table-striped table-bordered align-items-center mb-0" id="tabelCek"
+                                    style="font-size: 12px">
                                     <thead class="bg-gray-100">
                                         <tr id="headTool">
                                             <th class="text-xs font-weight-semibold">#</th>
@@ -65,6 +65,7 @@
                                             <th class="text-center text-xs font-weight-semibold">Merk</th>
                                             <th class="text-center text-xs font-weight-semibold">Kode Aset</th>
                                             <th class="text-center text-xs font-weight-semibold">Kode GA</th>
+                                            <th class="text-center text-xs font-weight-semibold">Kondisi</th>
                                             <th class="text-center text-xs font-weight-semibold">Lead Callsign</th>
                                             <th class="text-center text-xs font-weight-semibold">Leader</th>
                                             <th class="text-center text-xs font-weight-semibold">Callsign Tim</th>
@@ -98,13 +99,13 @@
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Tambah Distribusi Tool</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Tambah Pengecekan Tool</h5>
                         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('simpanDistribusi') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('simpanPengecekan') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col">
@@ -114,9 +115,12 @@
                                         <select class="form-control form-control-sm" id="LeadCallsignTim"
                                             name="LeadCallsignTim" style="border-color:#9ca0a7;" required>
                                             <option value="">Pilih Lead Callsign</option>
-                                            @foreach ($leadCallsign as $lead)
-                                                <option value="{{ $lead->lead_call_id }}">{{ $lead->lead_callsign }}
-                                            @endforeach
+                                            @if (isset($leadCallsign))
+                                                @foreach ($leadCallsign as $lead)
+                                                    <option value="{{ $lead->leadcall_id }}">{{ $lead->lead_callsign }}
+                                                @endforeach
+                                            @endif
+
                                         </select>
                                         <input type="hidden" id="leadCallsign" name="leadCallsign" readonly>
                                     </div>
@@ -200,6 +204,7 @@
                                                 <option value="">Pilih Tool</option>
                                             </select>
                                         </div>
+                                        <input type="hidden" id="disId" name="disId" readonly required>
                                     </div>
 
                                     <div class="form-group mb-1">
@@ -240,16 +245,21 @@
                                     </div>
 
                                     <div class="form-group mb-1">
-                                        <span class="text-xs">Tanggal Penerimaan Tool</span>
+                                        <span class="text-xs">Tanggal Pengecekan Tool</span>
                                         <input class="form-control form-control-sm" type="date"
-                                            value="{{ date('Y-m-d') }}" id="tglPenerimaan" name="tglPenerimaan"
+                                            value="{{ date('Y-m-d') }}" id="tglPengecekan" name="tglPengecekan"
                                             style="border-color:#9ca0a7;" readonly>
                                     </div>
 
+
+
                                     <div class="form-group mb-1">
                                         <span class="text-xs">Kondisi</span>
-                                        <input type="text" class="form-control form-control-sm" id="kondisi"
-                                            name="kondisi" style="border-color:#9ca0a7;" readonly>
+                                        <select type="text" class="form-control form-control-sm" id="kondisi"
+                                            name="kondisi" style="border-color:#9ca0a7;">
+                                            <option value="Baik">Baik</option>
+                                            <option value="Rusak">Rusak</option>
+                                        </select>
                                     </div>
 
                                     <div class="form-group mb-1">
@@ -290,16 +300,28 @@
                                 {{-- </div> --}}
 
                                 <div class="col">
-                                    <span class="text-xs">Foto Distribusi Tool</span>
-                                    <div class="form-group mb-1 text-center">
-                                        <img src="{{ asset('assets/img/default-150x150.png') }}"
-                                            id="showgambarDistribusi" alt="Card Image"
-                                            style="width:200px;height: 200px;" />
+                                    <div class="row">
+
+                                        <div class="col form-group mb-1 text-center">
+                                            <span class="text-xs">Foto Terakhir Pengecekan</span>
+                                            <img src="{{ asset('assets/img/default-150x150.png') }}"
+                                                id="showgambarDistribusi" alt="Card Image"
+                                                style="width:160px;height: 160px;" />
+                                        </div>
+
+                                        <div class="col form-group mb-1 text-center">
+                                            <span class="text-xs">Foto Pengecekan Tool</span>
+                                            <img src="{{ asset('assets/img/default-150x150.png') }}"
+                                                id="showgambarCek" alt="Card Image"
+                                                style="width:160px;height: 160px;" />
+                                        </div>
+
+
                                     </div>
 
                                     <div class="form-group mb-1">
-                                        <input class="form-control form-control-sm" id="fotoToolDistribusi"
-                                            name="fotoToolDistribusi" type="file" style="border-color:#9ca0a7;">
+                                        <input class="form-control form-control-sm" id="fotoKembaliTool"
+                                            name="fotoCekTool" type="file" style="border-color:#9ca0a7;">
                                     </div>
 
                                     <div class="form-group mb-1">
@@ -332,13 +354,12 @@
         {{-- End Modal Tambah Data Tool --}}
 
         {{-- Modal Show Detail Data Tool --}}
-        <div class="modal fade" id="showDistribusi" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false"
-            data-bs-backdrop="static">>
+        <div class="modal fade" id="showCek" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">>
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Detail Distribusi Tool</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Pengembalian Tool</h5>
                         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
                             aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -466,7 +487,7 @@
                                 </div>
 
                                 <div class="form-group mb-1">
-                                    <span class="text-xs">Tanggal Penerimaan Tool</span>
+                                    <span class="text-xs">Tanggal Pengembalian Tool</span>
                                     <input class="form-control form-control-sm" type="date"
                                         value="{{ date('Y-m-d') }}" id="tglPenerimaanShow" name="tglPenerimaanShow"
                                         style="border-color:#9ca0a7;" readonly>
@@ -515,23 +536,34 @@
                             {{-- </div> --}}
 
                             <div class="col">
-                                <span class="text-xs">Foto Distribusi Tool</span>
-                                <div class="form-group mb-1 text-center">
+                                {{-- <div class="row"> --}}
+
+                                {{-- <div class="col form-group mb-1 text-center">
+                                        <span class="text-xs">Foto Distribusi Tool</span>
+                                        <img src="{{ asset('assets/img/default-150x150.png') }}"
+                                            id="showgambarDistribusiShow" alt="Card Image"
+                                            style="width:160px;height: 160px;" />
+                                    </div> --}}
+                                <span class="text-xs text-center">Foto Pengecekan Tool</span>
+                                <div class="col form-group mb-1 text-center">
+                                    {{-- <span class="text-xs">Foto Pengembalian Tool</span> --}}
                                     <img src="{{ asset('assets/img/default-150x150.png') }}"
-                                        id="showgambarDistribusiShow" alt="Card Image"
-                                        style="width:200px;height: 200px;" />
+                                        id="showgambarPengecekanShow" alt="Card Image"
+                                        style="width:160px;height: 160px;" />
                                 </div>
 
-                                {{-- <div class="form-group mb-1"> --}}
-                                {{-- <input class="form-control form-control-sm" id="fotoToolDistribusi" --}}
-                                {{-- name="fotoToolDistribusi" type="file" style="border-color:#9ca0a7;"> --}}
+
                                 {{-- </div> --}}
 
                                 <div class="form-group mb-1">
-                                    {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                    <input class="form-control form-control-sm" id="fotoKembaliTool"
+                                        name="fotoKembaliToolShow" type="file" style="border-color:#9ca0a7;">
+                                </div>
+
+                                <div class="form-group mb-1">
                                     <span class="text-xs">Keterangan</span>
                                     <textarea class="form-control form-control-sm" id="keteranganShow" name="keteranganShow"
-                                        style="border-color:#9ca0a7;" readonly></textarea>
+                                        style="border-color:#9ca0a7;"></textarea>
                                 </div>
                             </div>
                             {{-- </div>2 --}}
@@ -604,13 +636,13 @@
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
-                $('#showgambarDistribusi').attr('src', e.target.result);
+                $('#showgambarKembali').attr('src', e.target.result);
             }
             reader.readAsDataURL(input.files[0]);
         }
     }
 
-    $("#fotoToolDistribusi").change(function() {
+    $("#fotoKembaliTool").change(function() {
         readURL(this);
     });
 </script>
@@ -619,13 +651,15 @@
     $(document).ready(function() {
 
         var _token = $('meta[name=csrf-token]').attr('content');
+        var dtDis;
+        var dtTim;
         var firstDate;
         var lastDate;
         akses = $('#akses').val();
-        data_distribusi()
+        data_pengecekan()
 
-        function data_distribusi() {
-            $('#tabelDistribusi').DataTable({
+        function data_pengecekan() {
+            $('#tabelCek').DataTable({
                 // dom: 'Bftip',
                 layout: {
                     topStart: {
@@ -650,7 +684,7 @@
                 processing: true,
                 serverSide: false,
                 ajax: {
-                    url: "{{ route('getDataDistribusi') }}",
+                    url: "{{ route('getDataPengecekan') }}",
                     type: "get",
                     dataType: "json",
                     data: {
@@ -666,7 +700,7 @@
                         "width": '10'
                     },
                     {
-                        data: 'tgl_distribusi',
+                        data: 'tgl_pengecekan',
                         // width: '90'
                     },
                     {
@@ -680,6 +714,9 @@
                     },
                     {
                         data: 'kode_ga'
+                    },
+                    {
+                        data: 'kondisi'
                     },
                     {
                         data: 'lead_callsign'
@@ -710,13 +747,137 @@
             })
         }
 
-        $(document).on('click', '#detail-distribusi', function(e) {
+        let area;
+        let leader;
+
+        $(document).on('change', '#LeadCallsignTim', function(e) {
+
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let leadCallsignId = $('#LeadCallsignTim').val();
+
+            $.ajax({
+                url: "{{ route('getRawDistribusi') }}",
+                type: "get",
+                data: {
+                    filLeadId: leadCallsignId,
+                    _token: _token
+                },
+                success: function(dtLead) {
+                    dtDis = dtLead.dataDis;
+                    dtTim = dtLead.listTim;
+
+                    area = dtLead.callLead.branch_id;
+                    leader = dtLead.callLead.nik_karyawan
+
+                    $('#leadCallsign').val(dtLead.callLead.lead_callsign)
+                    $('#leaderid').val(dtLead.callLead.leader_id)
+                    $('#leaderTim').val(dtLead.callLead.leader)
+                    $('#areaTim').val(dtLead.callLead.area)
+                    $('#posisiTim').val(dtLead.callLead.posisi)
+
+                    $('#callsignTimid').find('option').remove();
+                    $('#callsignTimid').append(
+                        `<option value="">Pilih Callsign Tim</option>`);
+
+                    $.each(dtLead.listTim, function(key, tim) {
+                        $('#callsignTimid').append(
+                            `<option value="${tim.callsign_tim_id}">${tim.callsign_tim}</option>`
+                        )
+                    })
+
+                    get_select_tool("lead");
+                }
+            })
+        })
+
+
+        $(document).on('change', '#callsignTimid', function(t) {
+            t.preventDefault();
+            let tm = dtTim.find(k => k.callsign_tim_id === $(this).val())
+
+            $('#callsignTim').val(tm.callsign_tim)
+            $('#teknisi1Nk').val(tm.nik_tim1);
+            $('#teknisi1').val(tm.teknisi1);
+            $('#teknisi2Nk').val(tm.nik_tim2);
+            $('#teknisi2').val(tm.teknisi2);
+            $('#teknisi3Nk').val(tm.nik_tim3);
+            $('#teknisi3').val(tm.teknisi3);
+            $('#teknisi4Nk').val(tm.nik_tim4);
+            $('#teknisi4').val(tm.teknisi4);
+
+            get_select_tool("tim");
+        })
+
+        function get_select_tool(leadTim) {
+
+            if (leadTim == "lead") {
+                listTool = dtDis.filter(k => k.leadcall_id == $('#LeadCallsignTim').val() &&
+                    k.callsign_tim_id == null)
+            }
+            if (leadTim == "tim") {
+                listTool = dtDis.filter(k => k.callsign_tim_id == $('#callsignTimid').val())
+            }
+            console.log('listToolLead : ', listTool);
+            console.log('listToolTim : ', listTool);
+
+            $('#pilihTool').find('option').remove();
+            $('#pilihTool').append(
+                `<option value="">Pilih Nama Tool</option>`);
+
+            $.each(listTool, function(ky, tl) {
+                val = tl.barang_id + "|" + tl.nama_barang + "|" + tl.merk_barang + "|" + tl
+                    .satuan + "|" + tl.spesifikasi + "|" + tl.tgl_distribusi + "|" +
+                    tl.kondisi +
+                    "|" + tl.kode_aset + "|" + tl.kode_ga + "|" + tl.foto_distribusi + "|" + tl.id;
+
+                tex = tl.nama_barang + "|" + tl.merk_barang + "|" + tl.satuan +
+                    "|" + tl.kode_aset + "|" + tl.kode_ga;
+
+                $('#pilihTool').append(
+                    `<option value="${val}">${tex}</option>`
+                )
+
+                $('#namaTool').val('');
+                $('#merk').val('');
+                $('#satuan').val('');
+                $('#spesifikasi').val('');
+                $('#tglPenerimaan').val('')
+                $('#kondisi').val('');
+                $('#kodeAset').val('');
+                $('#kodeGA').val('');
+                $('#keterangan').val('');
+
+                $('#showgambar').attr('src',
+                    `/storage/image-tool/foto-blank.jpg`)
+            })
+        }
+
+
+        $(document).on('change', '#pilihTool', function(t) {
+            t.preventDefault();
+            let pilih = $(this).val().split('|');
+            $('#namaToolid').val(pilih[0]);
+            $('#namaTool').val(pilih[1]);
+            $('#merk').val(pilih[2]);
+            $('#satuan').val(pilih[3]);
+            $('#spesifikasi').val(pilih[4]);
+            $('#tglDistribusi').val(pilih[5])
+            $('#kondisi').val(pilih[6]);
+            $('#kodeAset').val(pilih[7]);
+            $('#kodeGA').val(pilih[8]);
+            $('#showgambartool').val(pilih[9]);
+            $('#showgambarDistribusi').attr('src',
+                `/storage/image-distribusi/${pilih[9]}`)
+            $('#disId').val(pilih[10])
+        })
+
+        $(document).on('click', '#detail-cek', function(e) {
             // e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
             let dis_id = $(this).data('id');
 
             $.ajax({
-                url: "{{ route('getDetailDistribusi') }}",
+                url: "{{ route('getDetailCek') }}",
                 type: "get",
                 data: {
                     filDisId: dis_id,
@@ -749,7 +910,7 @@
                     $('#spesifikasiShow').val(dtDis.spesifikasi);
 
                     $('#tglDistribusiShow').val(dtDis.tgl_distribusi);
-                    $('#tglPenerimaanShow').val(dtDis.tgl_pengadaan);
+                    $('#tglPenerimaanShow').val(dtDis.tgl_pengecekan);
 
                     $('#kondisiShow').val(dtDis.kondisi);
                     $('#kodeAsetShow').val(dtDis.kode_aset);
@@ -757,256 +918,15 @@
 
                     $('#keteranganShow').val(dtDis.keterangan);
 
-                    $('#showgambarDistribusiShow').attr('src',
-                        `/storage/image-distribusi/${dtDis.foto_distribusi}`)
+                    $('#showgambarPengecekanShow').attr('src',
+                        `/storage/image-laporan/${dtDis.foto_pengecekan}`)
 
-                    $('#showDistribusi').modal('show');
+                    $('#showCek').modal('show');
 
 
                 }
             })
         })
-
-
-        function showDetail_tool(tool) {
-            $('#showTim').DataTable({
-                // dom: 'Bftip',
-                layout: {
-                    topStart: {
-                        buttons: ['excel']
-                    },
-                },
-                paging: true,
-                orderClasses: false,
-                // fixedColumns: true,
-
-                // fixedColumns: {
-                //     leftColumns: 3,
-                //     // rightColumns: 1
-                // },
-                deferRender: true,
-                scrollCollapse: true,
-                scrollX: true,
-                pageLength: 10,
-                lengthChange: false,
-                bFilter: true,
-                destroy: true,
-                processing: true,
-                serverSide: false,
-                ajax: {
-                    url: "{{ route('getDataShowTool') }}",
-                    type: "get",
-                    dataType: "json",
-                    data: {
-                        tool: tool,
-                        // akses: akses,
-                        _token: _token
-                    }
-                },
-                columns: [{
-                        data: 'DT_RowIndex',
-                        name: 'DT_Row_Index',
-                        "className": "text-center",
-                        // orderable: false,
-                        searchable: false,
-                        "width": '20'
-                    },
-                    {
-                        data: 'callsign_tim'
-                    },
-                    {
-                        data: 'teknisi1'
-                    },
-                    {
-                        data: 'teknisi2'
-                    },
-                    {
-                        data: 'teknisi3'
-                    },
-                    {
-                        data: 'teknisi4'
-                    },
-                    // {
-                    //     data: 'action',
-                    //     "className": "text-center",
-                    // },
-                ]
-            })
-        }
-
-        $('#updateLead').click(function(e) {
-            // e.preventDefault();
-            var _token = $('meta[name=csrf-token]').attr('content');
-            let callLeadId = $('#leadCallsignId').val();
-            let leadCallsign = $('#leadCallsignEdit').val();
-            let areaId = $('#areaEdit').val();
-            let leaderId = $('#namaLeaderEdit').val();
-
-            $.ajax({
-                url: `/updateLead/${callLeadId}`,
-                type: 'PUT',
-                data: {
-                    idCallsignLead: callLeadId,
-                    idArea: areaId,
-                    leadCallsign: leadCallsign,
-                    idLeader: leaderId,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(hasil) {
-
-                    $('#detailEditLead').modal('hide');
-                    Swal.fire({
-                        icon: "success",
-                        title: "Berhasil",
-                        text: "{{ session('success') }}",
-                        showConfirmButton: true,
-                        // timer: 2000
-                    });
-
-                    data_lead();
-
-                },
-                error: function(error) {
-                    if (error.responseJSON.message) {
-                        alert(error.responseJSON.message)
-                    }
-
-                }
-            })
-        })
-
-        // {{-- Start Part Callsign Tim  --}}
-        let area;
-        let leader;
-
-        $(document).on('change', '#LeadCallsignTim', function(e) {
-            // e.preventDefault();
-            var _token = $('meta[name=csrf-token]').attr('content');
-            let leadCallsignId = $('#LeadCallsignTim').val();
-
-            $.ajax({
-                url: "{{ route('getLeadCallsign') }}",
-                type: "get",
-                data: {
-                    filLeadId: leadCallsignId,
-                    _token: _token
-                },
-                success: function(dtLead) {
-                    area = dtLead.callLead.branch_id;
-                    leader = dtLead.callLead.nik_karyawan
-                    $('#leadCallsign').val(dtLead.callLead.lead_callsign)
-                    $('#leaderid').val(dtLead.callLead.leader_id)
-                    $('#leaderTim').val(dtLead.callLead.nama_karyawan)
-                    $('#areaTim').val(dtLead.callLead.nama_branch)
-                    $('#posisiTim').val(dtLead.callLead.posisi)
-
-                    $('#callsignTimid').find('option').remove();
-                    $('#callsignTimid').append(
-                        `<option value="">Pilih Callsign Tim</option>`);
-
-                    $.each(dtLead.callTim, function(key, tim) {
-                        $('#callsignTimid').append(
-                            `<option value="${tim.callsign_tim_id}">${tim.callsign_tim}</option>`
-                        )
-                    })
-
-                    get_select_tool();
-                }
-            })
-        })
-
-
-        $(document).on('change', '#callsignTimid', function(t) {
-            t.preventDefault();
-            var _token = $('meta[name=csrf-token]').attr('content');
-            let leadCallsignId = $('#LeadCallsignTim').val();
-
-            $.ajax({
-                url: "{{ route('getTim') }}",
-                type: "get",
-                data: {
-                    leadCall: leadCallsignId,
-                    callTim: $(this).val(),
-                    _token: _token
-                },
-                success: function(dtTek) {
-                    $('#callsignTim').val(dtTek.callsign_tim)
-                    $('#teknisi1Nk').val(dtTek.nik_tim1);
-                    $('#teknisi1').val(dtTek.teknisi1);
-                    $('#teknisi2Nk').val(dtTek.nik_tim2);
-                    $('#teknisi2').val(dtTek.teknisi2);
-                    $('#teknisi3Nk').val(dtTek.nik_tim3);
-                    $('#teknisi3').val(dtTek.teknisi3);
-                    $('#teknisi4Nk').val(dtTek.nik_tim4);
-                    $('#teknisi4').val(dtTek.teknisi4);
-
-                }
-            })
-        })
-
-        function get_select_tool() {
-            var _token = $('meta[name=csrf-token]').attr('content');
-
-            $.ajax({
-                url: "{{ route('getSelectTool') }}",
-                type: "get",
-                data: {
-                    _token: _token
-                },
-                success: function(respon) {
-
-                    $('#pilihTool').find('option').remove();
-                    $('#pilihTool').append(
-                        `<option value="">Pilih Nama Tool</option>`);
-
-                    $.each(respon, function(ky, tl) {
-                        val = tl.id + "|" + tl.nama_barang + "|" + tl.merk_barang + "|" + tl
-                            .satuan + "|" + tl.spesifikasi + "|" + tl.tgl_pengadaan + "|" +
-                            tl.kondisi +
-                            "|" + tl.kode_aset + "|" + tl.kode_ga + "|" + tl.foto_barang;
-                        tex = tl.nama_barang + "|" + tl.merk_barang + "|" + tl.satuan +
-                            "|" + tl.kode_aset + "|" + tl.kode_ga;
-                        $('#pilihTool').append(
-                            `<option value="${val}">${tex}</option>`
-                        )
-
-                        $('#namaTool').val('');
-                        $('#merk').val('');
-                        $('#satuan').val('');
-                        $('#spesifikasi').val('');
-                        $('#tglPenerimaan').val('')
-                        $('#kondisi').val('');
-                        $('#kodeAset').val('');
-                        $('#kodeGA').val('');
-                        $('#keterangan').val('');
-
-                        $('#showgambar').attr('src',
-                            `/storage/image-tool/foto-blank.jpg`)
-                    })
-
-                }
-            })
-        }
-
-        $(document).on('change', '#pilihTool', function(t) {
-            t.preventDefault();
-            let pilih = $(this).val().split('|');
-            $('#namaToolid').val(pilih[0]);
-            $('#namaTool').val(pilih[1]);
-            $('#merk').val(pilih[2]);
-            $('#satuan').val(pilih[3]);
-            $('#spesifikasi').val(pilih[4]);
-            $('#tglPenerimaan').val(pilih[5])
-            $('#kondisi').val(pilih[6]);
-            $('#kodeAset').val(pilih[7]);
-            $('#kodeGA').val(pilih[8]);
-            $('#showgambartool').val(pilih[9]);
-            $('#showgambar').attr('src',
-                `/storage/image-tool/${pilih[9]}`)
-
-        })
-
-
 
     })
 </script>

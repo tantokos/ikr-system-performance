@@ -2,45 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CallsignLead;
 use App\Models\DataDistribusiTool;
+use App\Models\DataPengembalianTool;
 use App\Models\ToolIkr;
-use Faker\Core\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File as FacadesFile;
-use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
-class DistribusiToolController extends Controller
+class KembaliToolController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $Leadcallsign = DB::table('v_detail_callsign_tim')->select('lead_call_id', 'lead_callsign', 'nama_branch')
-            ->orderBy('lead_callsign')->orderBy('branch_id')
-            ->groupBy('lead_call_id', 'lead_callsign', 'nama_branch')->get();
-        // $tool = ToolIkr::where('status_distribusi', '=', 'Not Distributed')->get();
 
-        return view('vTool.distribusi_tool', ['leadCallsign' => $Leadcallsign]);
+        $LeadDistribusi = DB::table('data_distribusi_tools')
+            ->where('status_kembali', '=', 'Belum dikembalikan')
+            ->select('leadcall_id', 'lead_callsign', 'leader_id', 'leader', 'posisi', 'area')
+            ->groupBy('leadcall_id', 'lead_callsign', 'leader_id', 'leader', 'posisi', 'area')
+            ->orderBy('lead_callsign')->get();
+
+
+        return view('vTool.kembali_tool', ['leadCallsign' => $LeadDistribusi]);
     }
 
-    public function getDataDistribusi(Request $request)
+    public function getDataKembali(Request $request)
     {
         $akses = Auth::user()->name;
 
         if ($request->ajax()) {
 
-            $datas = DB::table('data_distribusi_tools')->orderBy('tgl_distribusi', 'DESC')->get();
+            $datas = DB::table('data_pengembalian_tools')->orderBy('tgl_kembali', 'DESC')->get();
 
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
                 ->addColumn('action', function ($row) {
                     $btn = '
-                    <a href="javascript:void(0)" id="detail-distribusi" data-id="' . $row->id . '" class="btn btn-sm btn-primary detail-distribusi mb-0" >Detail</a>';
+                    <a href="javascript:void(0)" id="detail-kembali" data-id="' . $row->id . '" class="btn btn-sm btn-primary detail-kembali mb-0" >Detail</a>';
                     // <a href="javascript:void(0)" id="detail-lead" data-id="' . $row->lead_call_id . "|" . $row->branch_id . "|" . $row->leader_id . '" class="btn btn-sm btn-primary detil-lead mb-0" >Edit</a>';
                     //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
                     return $btn;
@@ -52,72 +52,51 @@ class DistribusiToolController extends Controller
         }
     }
 
-    public function getDetailDistribusi(Request $request)
+    public function getDetailKembali(Request $request)
     {
         // dd($request->all());
-        $datas = DB::table('data_distribusi_tools as d')
-            ->leftJoin('tool_ikrs as t', 'd.barang_id', '=', 't.id')
-            ->select('d.*', 't.tgl_pengadaan')
-            ->where('d.id', $request->filDisId)->first();
+        $datas = DB::table('data_pengembalian_tools')
+            ->where('id', $request->filDisId)->first();
 
         return response()->json($datas);
     }
 
-    public function getLeadCallsign(Request $request)
+    public function getRawDistribusi(Request $request)
     {
-        // dd($request->all());
-        $datas = DB::table('callsign_leads as c')
-            ->leftJoin('employees as e', 'c.leader_id', '=', 'e.nik_karyawan')
-            ->leftJoin('branches as b', 'e.branch_id', '=', 'b.id')
-            ->select('c.*', 'e.nik_karyawan', 'e.nama_karyawan', 'e.posisi', 'e.branch_id', 'b.nama_branch')
-            ->where('c.id', '=', $request->filLeadId)
-            ->orderBy('e.branch_id')->first();
 
-        $callTim = DB::table('v_detail_callsign_tim')->where('lead_call_id', $request->filLeadId)
-            ->select('callsign_tim_id', 'callsign_tim')->distinct()->get();
+        $dataDis = DB::table('data_distribusi_tools')
+            ->where('leadcall_id', $request->filLeadId)
+            ->where('status_kembali', '=', 'Belum dikembalikan')
+            ->get();
 
-        return response()->json(['callLead' => $datas, 'callTim' => $callTim]);
+        $dataLead = DB::table('data_distribusi_tools')
+            ->where('leadcall_id', $request->filLeadId)
+            ->where('status_kembali', '=', 'Belum dikembalikan')->first();
+
+        $listTim = DB::table('data_distribusi_tools')->where('leadcall_id', $request->filLeadId)
+            ->select('callsign_tim_id', 'callsign_tim', 'nik_tim1', 'teknisi1', 'nik_tim2', 'teknisi2', 'nik_tim3', 'teknisi3')->distinct()->get();
+
+        return response()->json(['dataDis' => $dataDis, 'callLead' => $dataLead, 'listTim' => $listTim]);
     }
 
-    public function getTim(Request $request)
-    {
-        $branch_id = $request->area;
-        $leadCall = $request->leadCall;
-        $callTim = $request->callTim;
-
-        $teknisi = DB::table('v_detail_callsign_tim')
-            ->where('lead_call_id', $leadCall)
-            ->where('callsign_tim_id', $callTim)
-            ->first();
-
-        return response()->json($teknisi);
-    }
-
-    public function getSelectTool(Request $request)
-    {
-        $tool = ToolIkr::where('status_distribusi', 'Not Distributed')->where('kondisi', 'Baik')
-            ->select('id', 'nama_barang', 'merk_barang', 'satuan', 'spesifikasi', 'tgl_pengadaan', 'kondisi', 'kode_aset', 'kode_ga', 'foto_barang')
-            ->orderBy('nama_barang')->get();
-
-        return response()->json($tool);
-    }
-
-    public function simpanDistribusi(Request $request)
+    public function simpanPengembalian(Request $request)
     {
         $login = Auth::user()->name;
         $loginid = Auth::user()->id;
 
         $brg_id = $request->namaToolid;
 
-        if ($request->hasFile('fotoToolDistribusi')) {
-            $fileFoto = $request->file('fotoToolDistribusi');
+        if ($request->hasFile('fotoKembaliTool')) {
+            $fileFoto = $request->file('fotoKembaliTool');
             $file = $fileFoto->hashName();
-            $request->file('fotoToolDistribusi')->move(public_path('storage/image-distribusi'), $file);
+            $request->file('fotoKembaliTool')->move(public_path('storage/image-pengembalian'), $file);
         } else {
             $file = 'foto-blank.jpg';
         }
 
-        $simpanDistribusi = DataDistribusiTool::create([
+        $simpanPengembalian = DataPengembalianTool::create([
+            'id_dis' => $request['disId'],
+            'tgl_kembali' => $request['tglPengembalian'],
             'tgl_distribusi' => $request['tglDistribusi'],
             'barang_id' => $request['namaToolid'],
             'nama_barang' => $request['namaTool'],
@@ -143,24 +122,29 @@ class DistribusiToolController extends Controller
             'teknisi3' => $request['teknisi3'],
             'nik_tim4' => $request['teknisi4Nk'],
             'teknisi4' => $request['teknisi4'],
-            'status_distribusi' => "Distribusi ke IKR",
+            'status_pengembalian' => "Pengembalian ke Div Dokumen",
             'keterangan' => $request['keterangan'],
-            'foto_distribusi' => $file,
+            'foto_kembali' => $file,
             'login_id' => $loginid,
             'login' => $login,
         ]);
 
-        if ($simpanDistribusi) {
+        if ($simpanPengembalian) {
 
+            $dataDis = DataDistribusiTool::find($request->disId);
+            $dataDis->update([
+                'status_kembali' => "Sudah dikembalikan"
+
+            ]);
 
             $toolDis = ToolIkr::find($brg_id);
-
             $toolDis->update([
-                'status_distribusi' => "Distributed"
+                'status_distribusi' => "Distribusi ke IKR",
+                'kondisi' => $request['kondisi']
             ]);
         }
 
-        return redirect()->route('distribusiTool')->with(['success' => 'Data tersimpan.']);
+        return redirect()->route('dataKembaliTool')->with(['success' => 'Data tersimpan.']);
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\analisa_woController;
+use App\Http\Controllers\AssignTimController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
@@ -9,7 +11,11 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\DistribusiToolController;
 use App\Http\Controllers\Import_AbsensiController;
+use App\Http\Controllers\Import_DataWoController;
 use App\Http\Controllers\karyawanController;
+use App\Http\Controllers\KembaliTool;
+use App\Http\Controllers\KembaliToolController;
+use App\Http\Controllers\LaporanToolController;
 use App\Http\Controllers\Leader_PerformController;
 use App\Http\Controllers\TimController;
 use App\Http\Controllers\ToolController;
@@ -73,15 +79,36 @@ Route::get('/getDetailTim', [TimController::class, 'getDetailTim'])->name('getDe
 Route::get('/updateTim/{id}', [TimController::class, 'updateTim'])->name('updateTim')->middleware('auth');
 //end Tim & Callsign //
 
+//Assign Tim//
+Route::get('/analisaWo', [analisa_woController::class, 'index'])->name('analisaWo')->middleware('auth');
+
+
+Route::get('/assignTim', [AssignTimController::class, 'index'])->name('assignTim')->middleware('auth');
+Route::get('/getTabelAssignTim', [AssignTimController::class, 'getTabelAssignTim'])->name('getTabelAssignTim')->middleware('auth');
+Route::get('/getDetailAssign', [AssignTimController::class, 'getDetailAssign'])->name('getDetailAssign')->middleware('auth');
+Route::get('/getLeadCallsignAssign', [AssignTimController::class, 'getLeadCallsignAssign'])->name('getLeadCallsignAssign')->middleware('auth');
+Route::get('/getTeknisi', [AssignTimController::class, 'getTeknisi'])->name('getTeknisi')->middleware('auth');
+
+Route::post('/simpanSignTim', [AssignTimController::class, 'simpanSignTim'])->name('simpanSignTim')->middleware('auth');
+Route::post('/updateSignTim', [AssignTimController::class, 'updateSignTim'])->name('updateSignTim')->middleware('auth');
+
+Route::get('/importDataWo', [Import_DataWoController::class, 'index'])->name('importDataWo')->middleware('auth');
+Route::post('/importProsesDataWo', [Import_DataWoController::class, 'importProsesDataWo'])->name('importProsesDataWo')->middleware('auth');
+Route::get('/getdataImportWo', [Import_DataWoController::class, 'getdataImportWo'])->name('getdataImportWo')->middleware('auth');
+Route::get('/getDetailImport', [Import_DataWoController::class, 'getDetailImport'])->name('getDetailImport')->middleware('auth');
+
+Route::get('/updateImportWo', [Import_DataWoController::class, 'updateImportWo'])->name('updateImportWo')->middleware('auth');
+Route::post('/simpanImportWo', [Import_DataWoController::class, 'simpanImportWo'])->name('simpanImportWo')->middleware('auth');
+
+//End Assign Tim//
+
 
 //Start Tools//
 Route::get('/dataTool', [ToolController::class, 'index'])->name('dataTool')->middleware('auth');
 Route::get('/getDataTool', [ToolController::class, 'getDataTool'])->name('getDataTool')->middleware('auth');
 Route::get('/showDetailTool', [ToolController::class, 'showDetailTool'])->name('showDetailTool')->middleware('auth');
 Route::get('/getDataShowTool', [ToolController::class, 'getDataShowTool'])->name('getDataShowTool')->middleware('auth');
-
 Route::get('/getRiwayatTool', [ToolController::class, 'getRiwayatTool'])->name('getRiwayatTool')->middleware('auth');
-
 Route::post('/simpanTool', [ToolController::class, 'simpanTool'])->name('simpanTool')->middleware('auth');
 
 Route::get('/distribusiTool', [DistribusiToolController::class, 'index'])->name('distribusiTool')->middleware('auth');
@@ -90,8 +117,23 @@ Route::get('/getDetailDistribusi', [DistribusiToolController::class, 'getDetailD
 Route::get('/getLeadCallsign', [DistribusiToolController::class, 'getLeadCallsign'])->name('getLeadCallsign')->middleware('auth');
 Route::get('/getTim', [DistribusiToolController::class, 'getTim'])->name('getTim')->middleware('auth');
 Route::get('/getSelectTool', [DistribusiToolController::class, 'getSelectTool'])->name('getSelectTool')->middleware('auth');
-
 Route::post('/simpanDistribusi', [DistribusiToolController::class, 'simpanDistribusi'])->name('simpanDistribusi')->middleware('auth');
+
+Route::get('/dataKembaliTool', [KembaliToolController::class, 'index'])->name('dataKembaliTool')->middleware('auth');
+Route::get('/getDataKembali', [KembaliToolController::class, 'getDataKembali'])->name('getDataKembali')->middleware('auth');
+Route::get('/getDetailKembali', [KembaliToolController::class, 'getDetailKembali'])->name('getDetailKembali')->middleware('auth');
+
+Route::get('/getRawDistribusi', [KembaliToolController::class, 'getRawDistribusi'])->name('getRawDistribusi')->middleware('auth');
+
+Route::post('/simpanPengembalian', [KembaliToolController::class, 'simpanPengembalian'])->name('simpanPengembalian')->middleware('auth');
+
+
+Route::get('/laporanTool', [LaporanToolController::class, 'index'])->name('laporanTool')->middleware('auth');
+Route::get('/getDataPengecekan', [LaporanToolController::class, 'getDataPengecekan'])->name('getDataPengecekan')->middleware('auth');
+Route::get('/getDetailCek', [LaporanToolController::class, 'getDetailCek'])->name('getDetailCek')->middleware('auth');
+
+Route::post('/simpanPengecekan', [LaporanToolController::class, 'simpanPengecekan'])->name('simpanPengecekan')->middleware('auth');
+
 //End Tools//
 
 

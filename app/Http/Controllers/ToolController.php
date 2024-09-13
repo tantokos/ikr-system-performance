@@ -112,13 +112,14 @@ class ToolController extends Controller
 
         if ($request->ajax()) {
 
-            $dtRw = DataDistribusiTool::where('barang_id', $idTool)->get();
+            // $dtRw = DataDistribusiTool::where('barang_id', $idTool)->get();
+            $dtRw = DB::table('v_history_tools')->where('barang_id', $idTool)->get();
 
             return DataTables::of($dtRw)
                 ->addIndexColumn() //memberikan penomoran
                 ->addColumn('action', function ($row) {
                     $btn = '
-                    <a href="javascript:void(0)" id="dis-detail" data-id="' . $row->id . '" class="btn btn-sm btn-primary detail-tool mb-0" >Detail</a>';
+                    <a href="javascript:void(0)" id="dis-detail" data-id="' . $row->id . '|' . $row->kategori .  '" class="btn btn-sm btn-primary detail-tool mb-0" >Detail</a>';
                     // <a href="javascript:void(0)" id="detail-lead" data-id="' . $row->lead_call_id . "|" . $row->branch_id . "|" . $row->leader_id . '" class="btn btn-sm btn-primary detil-lead mb-0" >Edit</a>';
                     //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
                     return $btn;
