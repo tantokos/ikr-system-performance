@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\CallsignLead;
 use App\Models\DataDistribusiTool;
+use App\Models\Employee;
 use App\Models\ToolIkr;
+use Carbon\Carbon;
 use Faker\Core\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\File as FacadesFile;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
+
 class DistribusiToolController extends Controller
 {
     /**
@@ -20,6 +23,8 @@ class DistribusiToolController extends Controller
      */
     public function index()
     {
+
+
         $Leadcallsign = DB::table('v_detail_callsign_tim')->select('lead_call_id', 'lead_callsign', 'nama_branch')
             ->orderBy('lead_callsign')->orderBy('branch_id')
             ->groupBy('lead_call_id', 'lead_callsign', 'nama_branch')->get();
@@ -54,13 +59,45 @@ class DistribusiToolController extends Controller
 
     public function getDetailDistribusi(Request $request)
     {
-        // dd($request->all());
+        $email_login = Auth::user()->email;
+        $akses = Auth::user()->akses;
+        $data_login = Employee::where('email', $email_login)->first();
+
+        if ($data_login->posisi == "Supervisor" || $akses == "SA") {
+            $approve = $request->filDisId . "|" . $data_login->nik_karyawan . "|" . $data_login->nama_karyawan;
+        } else {
+            $approve = "-";
+        }
+
+        // dd($approve);
         $datas = DB::table('data_distribusi_tools as d')
             ->leftJoin('tool_ikrs as t', 'd.barang_id', '=', 't.id')
-            ->select('d.*', 't.tgl_pengadaan')
+            ->select('d.*', 't.tgl_pengadaan', DB::raw('"' . $approve . '" as approve '))
             ->where('d.id', $request->filDisId)->first();
 
         return response()->json($datas);
+    }
+
+    public function approveDistribusi(Request $request)
+    {
+        $approval = explode('|', $request->approve);
+        $disId = $approval[0];
+        $nik = $approval[1];
+        $nama = $approval[2];
+        $dt = Carbon::now();
+
+        // dd($dt);
+
+        $dtDis = DataDistribusiTool::find($disId);
+
+        $dtDis->update([
+            'approve_nik' => $nik,
+            'approve_spv' => $nama,
+            'approve_date' => $dt
+        ]);
+
+        // $disTool = DataDistribusiTool::find($>)
+        return response()->json(['success' => true]);
     }
 
     public function getLeadCallsign(Request $request)

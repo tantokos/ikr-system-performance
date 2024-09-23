@@ -71,7 +71,7 @@
                                     <label class="col-sm-3 col-form-label form-control-sm">Branch</label>
                                     <div class="col form-group">
                                         <select class="form-control form-control-sm" type="text" id="branchImport"
-                                            name="branchImport" style="border-color:#9ca0a7;" required>
+                                            name="branchImport" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Branch</option>
                                             @if (isset($branches))
                                                 @foreach ($branches as $b)

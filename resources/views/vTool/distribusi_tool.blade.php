@@ -72,6 +72,7 @@
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 2</th>
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 3</th>
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 4</th>
+                                            <th class="text-center text-xs font-weight-semibold">Persetujuan SPV</th>
                                             <th class="text-center text-xs font-weight-semibold">#</th>
 
                                         </tr>
@@ -542,18 +543,28 @@
                                         class="btn btn-sm btn-dark align-items-center"
                                         data-bs-dismiss="modal">Kembali</button>
                                 </div>
+
+                                <div class="col-4">
+                                    <div class="input-group mb-3">
+                                        <button class="btn btn-sm btn-dark mb-0" type="button"
+                                            id="persetujuanSpv">Persetujuan
+                                            SPV</button>
+                                        <input type="text" class="form-control form-control-sm" id="approveSpv"
+                                            name="approveSpv" readonly>
+                                    </div>
+
+                                </div>
                             </div>
+                            {{-- </form> --}}
                         </div>
-                        {{-- </form> --}}
-                    </div>
-                    <div class="modal-footer">
-                        {{-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> --}}
-                        {{-- <button type="button" class="btn btn-dark">Save changes</button> --}}
+                        <div class="modal-footer">
+                            {{-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> --}}
+                            {{-- <button type="button" class="btn btn-dark">Save changes</button> --}}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        {{-- End Modal Show Detail Tool --}}
+            {{-- End Modal Show Detail Tool --}}
 
     </main>
 
@@ -621,6 +632,7 @@
         var _token = $('meta[name=csrf-token]').attr('content');
         var firstDate;
         var lastDate;
+        var approval;
         akses = $('#akses').val();
         data_distribusi()
 
@@ -703,6 +715,9 @@
                         data: 'teknisi4'
                     },
                     {
+                        data: 'approve_spv'
+                    },
+                    {
                         data: 'action',
                         "className": "text-center",
                     },
@@ -714,6 +729,7 @@
             // e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
             let dis_id = $(this).data('id');
+            let approve;
 
             $.ajax({
                 url: "{{ route('getDetailDistribusi') }}",
@@ -723,6 +739,10 @@
                     _token: _token
                 },
                 success: function(dtDis) {
+                    if (dtDis.approval != "-") {
+                        approval = dtDis.approve;
+                    }
+
                     $('#LeadCallsignTimShow').val(dtDis.lead_callsign)
                     $('#leadCallsignShow').val(dtDis.lead_callsign)
                     $('#leaderidShow').val(dtDis.leader_id)
@@ -760,11 +780,67 @@
                     $('#showgambarDistribusiShow').attr('src',
                         `/storage/image-distribusi/${dtDis.foto_distribusi}`)
 
+                    if (dtDis.approve_spv === null) {
+                        // console.log("isi null")
+                        approve = "-"
+                        $(persetujuanSpv).prop('disabled', false);
+                    } else {
+                        approve = dtDis.approve_spv
+                        $(persetujuanSpv).prop('disabled', true);
+                    }
+
+                    $('#approveSpv').val(approve);
+
                     $('#showDistribusi').modal('show');
 
 
                 }
             })
+        })
+
+        $(document).on('click', '#persetujuanSpv', function() {
+            $('#showDistribusi').modal('hide');
+
+            dApproval = approval.split('|');
+            approvalNik = dApproval[1];
+            approvalNama = dApproval[2];
+
+            Swal.fire({
+                title: "Persetujuan dari SPV",
+                html: `NIK : ${approvalNik} </br>,
+                    Nama : ${approvalNama}`,
+                // showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: "Setujui",
+                cancelButtonText: "Batal",
+                // denyButtonText: `Don't save`
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: "{{ route('approveDistribusi') }}",
+                        type: "get",
+                        data: {
+                            approve: approval,
+                            _token: _token
+                        },
+                        success: function(res) {
+                            console.log('res : ', res)
+                            Swal.fire("Persetujuan!", "", "success");
+                            const absoluteURL = new URL('/distribusiTool', window
+                                .location.href)
+                            window.location.href = absoluteURL.href;
+                        }
+
+                    })
+                } else if (result.isDismissed) {
+                    // Swal.fire("Changes are not saved", "", "info");
+                    $('#showDistribusi').modal('show');
+                }
+            });
+
+
         })
 
 

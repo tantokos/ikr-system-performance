@@ -180,13 +180,10 @@
                                         </button>
                                     </a>
                                 </div>
-
-
                             </div>
                         </div>
 
                         <div class="card-body px-2 py-2">
-
                             <div class="table-responsive p-0">
                                 <table class="table table-striped table-bordered align-items-center mb-0"
                                     id="tabelAssignTim" style="font-size: 12px">
@@ -261,11 +258,7 @@
                                             <input class="form-control form-control-sm" type="text" id="ticketNo"
                                                 name="ticketNo" style="border-color:#9ca0a7;">
                                         </div>
-
-
                                     </div>
-
-
 
                                     <div class="form-group mb-1">
                                         <div class="row">
@@ -400,10 +393,6 @@
                                 </div>
 
                                 <div class="col">
-
-
-
-
                                     <div class="col form-group mb-1">
                                         <span class="text-xs">Branch</span>
                                         <select class="form-control form-control-sm" type="text" id="branch"
@@ -445,16 +434,11 @@
 
                                                 </select>
                                             </div>
-
-
-
                                         </div>
                                     </div>
 
                                     <div class="form-group mb-1">
                                         <div class="row">
-
-
                                             <div class="col form-group mb-1">
                                                 <span class="text-xs">Lead Callsign</span>
                                                 <select class="form-control form-control-sm" id="LeadCallsign"
@@ -1017,6 +1001,13 @@
         akses = $('#akses').val();
         data_assignTim()
 
+        function toTitleCase(str) {
+            return str.replace(
+                /\w\S*/g,
+                text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+            );
+        }
+
         function data_assignTim() {
             $('#tabelAssignTim').DataTable({
                 // dom: 'Bftip',
@@ -1117,8 +1108,6 @@
                 ]
             })
         }
-
-
 
 
         function showDetail_tool(tool) {
@@ -1289,9 +1278,6 @@
             })
         })
 
-
-
-
         $(document).on('change', '#LeadCallsignShow', function(e) {
             // e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
@@ -1329,6 +1315,7 @@
                 }
             })
         })
+
 
         $(document).on('change', '#callsignTimidShow', function(t) {
             // t.preventDefault();
@@ -1390,6 +1377,8 @@
             })
         })
 
+
+
         $(document).on('click', '#detail-assign', function(e) {
             // e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
@@ -1407,28 +1396,26 @@
                     $('#detId').val(dtDis.data.id)
                     $('#noWoShow').val(dtDis.data.wo_no)
                     $('#ticketNoShow').val(dtDis.data.ticket_no)
-                    $('#woTypeShow').val(dtDis.data.wo_type)
+                    $('#woTypeShow').val(toTitleCase(dtDis.data.wo_type))
                     $('#jenisWoShow').val(dtDis.data.jenis_wo)
                     $('#WoDateShow').val(dtDis.data.wo_date)
                     $('#custIdShow').val(dtDis.data.cust_id)
-                    $('#custNameShow').val(dtDis.data.name)
+                    $('#custNameShow').val(toTitleCase(dtDis.data.name))
                     $('#custPhoneShow').val(dtDis.data.cust_phone)
 
                     $('#custMobileShow').val(dtDis.data.cust_mobile);
-                    $('#custAddressShow').val(dtDis.data.address);
-                    $('#areaShow').val(dtDis.data.area);
+                    $('#custAddressShow').val(toTitleCase(dtDis.data.address));
+                    $('#areaShow').val(toTitleCase(dtDis.data.area));
                     $('#ikrDateApkShow').val(dtDis.data.ikr_date);
                     $('#timeApkShow').val(dtDis.data.time);
                     $('#fatCodeShow').val(dtDis.data.fat_code);
                     $('#portFatShow').val(dtDis.data.fat_port);
-                    $('#remarksShow').val(dtDis.data.remarks);
+                    $('#remarksShow').val(toTitleCase(dtDis.data.remarks));
 
                     $('#branchShow').val(dtDis.data.branch_id + '|' + dtDis.data.branch);
                     $('#tglProgressShow').val(dtDis.data.tgl_ikr);
 
                     $('#sesiShow').val(dtDis.data.batch_wo);
-
-
 
                     leadCallsignDet = dtDis.data.leadcall_id + '|' + dtDis.data.leadcall
                     // document.getElementById("LeadCallsignShow").value = leadCallsignDet;

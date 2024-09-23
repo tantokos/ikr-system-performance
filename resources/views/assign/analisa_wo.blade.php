@@ -31,7 +31,7 @@
 
                                     <div class="form-group mb-1">
                                         <span class="text-xs">Tanggal Progress</span>
-                                        <input class="form-control form-control-sm" type="date"
+                                        <input class="form-control form-control-sm" type="text"
                                             value="{{ date('Y-m-d') }}" id="filtglProgress" name="filtglProgress"
                                             style="border-color:#9ca0a7;">
                                     </div>
@@ -72,6 +72,8 @@
                 </div>
             </div>
 
+
+
             <div class="row">
                 <div class="col-12">
                     <div class="card border shadow-xs mb-4">
@@ -91,39 +93,39 @@
 
                             <div class="table-responsive p-0">
                                 <table class="table table-striped table-bordered align-items-center mb-0"
-                                    id="tabelAssignTim" style="font-size: 12px">
+                                    id="tabelFtthIB" style="font-size: 12px;">
                                     <thead class="bg-gray-100">
-                                        <tr id="headTool">
+                                        <tr id="headFtthIB">
                                             <th class="text-xs">FTTH New Installation</th>
-                                            <th class="text-center text-xs font-weight-semibold">01</th>
-                                            <th class="text-center text-xs font-weight-semibold">02</th>
-                                            <th class="text-center text-xs font-weight-semibold">03</th>
-                                            <th class="text-center text-xs font-weight-semibold">04</th>
-                                            <th class="text-center text-xs font-weight-semibold">05</th>
+                                            {{-- <th class="text-center text-xs font-weight-semibold">01</th> --}}
+                                            {{-- <th class="text-center text-xs font-weight-semibold">02</th> --}}
+                                            {{-- <th class="text-center text-xs font-weight-semibold">03</th> --}}
+                                            {{-- <th class="text-center text-xs font-weight-semibold">04</th> --}}
+                                            {{-- <th class="text-center text-xs font-weight-semibold">05</th> --}}
                                             {{-- <th class="text-center text-xs font-weight-semibold">Cust Address</th> --}}
-                                            <th class="text-center text-xs font-weight-semibold">06</th>
-                                            <th class="text-center text-xs font-weight-semibold">07</th>
-                                            <th class="text-center text-xs font-weight-semibold">#</th>
+                                            {{-- <th class="text-center text-xs font-weight-semibold">06</th> --}}
+                                            {{-- <th class="text-center text-xs font-weight-semibold">07</th> --}}
+                                            {{-- <th class="text-center text-xs font-weight-semibold">#</th> --}}
 
                                         </tr>
                                     </thead>
-                                    <tbody id="bodyTool">
-                                        <tr>
+                                    <tbody id="bodyFtthIB">
+                                        <tr id="totWO">
                                             <th class="text-xs ">Total WO</th>
                                         </tr>
-                                        <tr>
+                                        <tr id="totTim">
                                             <th class="text-xs ">Total Tim</th>
                                         </tr>
-                                        <tr>
+                                        <tr id="WoTimHari">
                                             <th class="text-xs ">Kapasitas WO/Tim/hari</th>
                                         </tr>
-                                        <tr>
+                                        <tr id="WoMaxHari">
                                             <th class="text-xs ">Kapasitas WO Max/hari</th>
                                         </tr>
-                                        <tr>
+                                        <tr id="timUsage">
                                             <th class="text-xs ">Tim Usage</th>
                                         </tr>
-                                        <tr>
+                                        <tr id="timIdle">
                                             <th class="text-xs ">Tim Idle</th>
 
                                         </tr>
@@ -966,6 +968,134 @@
     @endif
 </script>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<script type="text/javascript">
+    let firstDate;
+    let lastDate;
+    let dataFtthIB = "";
+
+
+
+    $(function() {
+        $('input[name="filtglProgress"]').daterangepicker({
+            opens: 'left'
+        }, function(start, end, label) {
+            firstDate = start.format('YYYY-MM-DD')
+            lastDate = end.format('YYYY-MM-DD')
+            // console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+
+            // console.log("firstDate: " + firstDate)
+            // console.log("lastDate: " + lastDate);
+
+            starting = moment(start.format('YYYY-MM-DD'))
+            ending = moment(end.format('YYYY-MM-DD'))
+            let dif = ending.diff(starting, 'days');
+            // console.log(dif);
+
+            if ($.fn.DataTable.isDataTable('#tabelFtthIB')) {
+                $('#tabelFtthIB').DataTable().destroy();
+            }
+
+            $('#tabelFtthIB tbody').empty();
+
+            $('#headFtthIB').find("th").remove();
+            $('#bodyFtthIB').find("tr").remove();
+
+            $('#headFtthIB').append(`
+                <th class="text-xs">FTTH New Installation</th>
+                `);
+
+            $('#bodyFtthIB').append(`
+                <tr id="totWO" class="text-xs">
+                    <th class="text-xs ">Total WO</th>
+                </tr>
+                <tr id="totTim">
+                    <th class="text-xs ">Total Tim</th>
+                </tr>
+                <tr id="WoTimHari">
+                    <th class="text-xs ">Kapasitas WO/Tim/hari</th>
+                </tr>
+                <tr id="WoMaxHari">
+                    <th class="text-xs ">Kapasitas WO Max/hari</th>
+                </tr>
+                <tr id="timUsage">
+                    <th class="text-xs ">Tim Usage</th>
+                </tr>
+                <tr id="timIdle">
+                    <th class="text-xs ">Tim Idle</th>
+                </tr>
+            `);
+
+            for (x = start.format('D'); x <= end.format('D'); x++) {
+                console.log("start is " + start.format('DD'));
+                console.log("x is " + x);
+
+                $('#headFtthIB').append(`
+                <th class="text-center text-xs font-weight-semibold">${x}</th>
+                `);
+
+                $('#totWO').append(`
+                <th class="text-center text-xs">20</th>
+                `);
+
+                $('#totTim').append(`
+                <th class="text-center text-xs">20</th>
+                `);
+
+                $('#WoTimHari').append(`
+                <th class="text-center text-xs">20</th>
+                `);
+
+                $('#WoMaxHari').append(`
+                <th class="text-center text-xs">20</th>
+                `);
+
+                $('#timUsage').append(`
+                <th class="text-center text-xs">20</th>
+                `);
+
+                $('#timIdle').append(`
+                <th class="text-center text-xs">20</th>
+                `);
+            }
+
+            dataFtthIB = $('#tabelFtthIB').DataTable({
+                ordering: false,
+                paging: false,
+                orderClasses: false,
+                fixedColumns: true,
+
+                fixedColumns: {
+                    start: 1,
+                    // rightColumns: 1
+                },
+                deferRender: true,
+                scrollCollapse: true,
+                scrollX: true,
+                scrollY: 300,
+                pageLength: 10,
+                lengthChange: true,
+                bFilter: true,
+                destroy: true,
+                processing: true,
+                // serverSide: false,
+                columnDefs: [{
+                    "width": "50px",
+                    "targets": 0
+                }]
+            })
+
+
+
+        });
+    });
+</script>
+
+
+
 <script>
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -985,7 +1115,6 @@
 
 <script>
     $(document).ready(function() {
-
 
         var _token = $('meta[name=csrf-token]').attr('content');
         var firstDate;

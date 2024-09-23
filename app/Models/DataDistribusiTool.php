@@ -40,6 +40,9 @@ class DataDistribusiTool extends Model
         'foto_data_tool',
         'foto_distribusi',
         'login_id',
-        'login'
+        'login',
+        'approve_nik',
+        'approve_spv',
+        'approve_date'
     ];
 }
