@@ -10,6 +10,8 @@ use Illuminate\http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 
 class karyawanController extends Controller
 {
@@ -50,16 +52,22 @@ class karyawanController extends Controller
 
     public function simpanKaryawan(Request $request)
     {
+        // dd($request->all());
 
         $akses = Auth::user()->name;
 
-        $request->validate([
-            'nik_karyawan' => ['required', 'unique:Employees,nik_karyawan'],
-            'nama_karyawan' => ['required', 'unique:Employees,nama_karyawan'],
-            'branch_id' => 'required',
-            'divisi' => 'required',
-            'departement' => 'required',
-            'posisi' => 'required',
+        // $request->validate([
+        //     'nik_karyawan' => ['required', 'unique:Employees,nik_karyawan'],
+        //     'nama_karyawan' => ['required', 'unique:Employees,nama_karyawan'],
+        //     'branch_id' => 'required',
+        //     'divisi' => 'required',
+        //     'departement' => 'required',
+        //     'posisi' => 'required',
+        // ]);
+
+        $cekValidasi = $request->validate([
+            'nik' => ['required', 'unique:Employees,nik_karyawan'],
+            'namaKaryawan' => ['required', 'unique:Employees,nama_karyawan'],
         ]);
 
         if ($request->hasFile('foto_karyawan')) {
@@ -69,8 +77,7 @@ class karyawanController extends Controller
             $file = 'foto-blank.jpg';
         }
 
-
-        Employee::create([
+        $simpanKry = Employee::create([
             'nik_karyawan' => $request->nik,
             'nama_karyawan' => $request->namaKaryawan,
             'alamat' => $request->alamat,
@@ -78,7 +85,7 @@ class karyawanController extends Controller
             'tgl_lahir' => $request->tglLahir,
             'jenis_kelamin' => $request->jenisKelamin,
             'agama' => $request->agama,
-            'no_telp' => $request->noTelp,
+            'no_telp' => $request->noTelpKry,
             'tgl_gabung' => $request->tglGabung,
             'status_pegawai' => $request->statusPegawai,
             'status_active' => $request->statusKaryawan,
@@ -87,62 +94,90 @@ class karyawanController extends Controller
             'divisi' => $request->divisi,
             'departement' => $request->departemen,
             'posisi' => $request->posisi,
-            'email' => $request->email,
+            'email' => $request->emailPerusahaan,
             'no_ktp' => $request->noKTP,
             'no_npwp' => $request->noNPWP,
             'no_rek' => $request->noRek,
             'no_bpjs' => $request->noBpjs,
             'no_jamsostek' => $request->noJamsostek,
             'foto_karyawan' => $file,
+            'kewarganegaraan' => $request->kewarganegaraan,
+            'status_pernikahan' => $request->statusPernikahan,
+            'jml_tanggungan' => $request->jmlTanggungan,
+            'email_pribadi' => $request->emailPribadi,
+            'alamat_domisili' => $request->alamatDomisili,
+            'pendidikan_terakhir' => $request->pendidikanTerakhir,
+            'golongan_darah' => $request->golonganDarah,
+            'no_koperasi' => $request->noKoperasi,
+            'nama_kel' => $request->namaKel,
+            'status_kel' => $request->statusKel,
+            'alamat_kel' => $request->alamatKel,
+            'pekerjaan_kel' => $request->pekerjaanKel,
+            'no_telp_kel' => $request->noTelpKel,
+            'anak1' => $request->anak1,
+            'anak2' => $request->anak2,
+            'anak3' => $request->anak3,
+            'anak4' => $request->anak4,
+            'nama_kontak1' => $request->namaKontak1,
+            'status_kontak1' => $request->statusKontak1,
+            'alamat_kontak1' => $request->alamatKontak1,
+            'no_telp_kontak1' => $request->noTelpKontak1,
+            'nama_kontak2' => $request->namaKontak2,
+            'status_kontak2' => $request->statusKontak2,
+            'alamat_kontak2' => $request->alamatKontak2,
+            'no_telp_kontak2' => $request->noTelpKontak2,
             'input_by' => $akses
         ]);
 
+        if ($simpanKry) {
+            return redirect()->route('dataKaryawan')->with(['success' => 'Data sudah tersimpan.']);
+        } else {
+            return response()->with(['error' => 'Data Tidak tersimpan.']);
+        }
+
+
         // $request->session()->flash('status', 'Task was successful!');
-        return redirect()->route('dataKaryawan')->with(['success' => 'Data sudah tersimpan.']);
+        // return redirect()->route('dataKaryawan')->with(['success' => 'Data sudah tersimpan.']);
     }
 
 
     public function detailKaryawan($id)
     {
 
-        $karyawan = Employee::find($id);
+        $karyawan = DB::table('employees as e')
+            ->leftJoin('branches as b', 'b.id', '=', 'e.branch_id')
+            ->where('e.id', $id)
+            ->select('e.*', 'b.nama_branch')
+            ->first();
+
         $area = Branch::all();
-        return view('karyawan.detail_Karyawan', ['karyawan' => $karyawan, 'area' => $area]);
+
+        $join = Carbon::parse(substr($karyawan->nik_karyawan, 0, 4) . "-" . substr($karyawan->nik_karyawan, 4, 2))->diff(Carbon::now());
+        return view('karyawan.detail_Karyawan', ['karyawan' => $karyawan, 'area' => $area, 'join' => $join]);
     }
 
-    public function updateKaryawan(Request $request, $id)
+    public function updateKaryawan(Request $request)
     {
         $akses = Auth::user()->name;
+        $karyawan = Employee::findOrFail($request->nikId);
+        // $karyawan = DB::table('employees')->where('id', $request->nikId)->where('nik_karyawan', $request->nik)->first();
 
-        // dd($request);
-        $request->validate([
-            'nik' => 'required',
-            'namaKaryawan' => 'required',
-            'area' => 'required',
-            'divisi' => 'required',
-            'departemen' => 'required',
-            'posisi' => 'required',
-        ]);
-
-        $karyawan = Employee::findOrFail($id);
 
         if ($request->hasFile('foto_karyawan')) {
-            $file = $request->file('foto_karyawan');
-            $file->storeAs('public/storage/image-kry', $file->hashName());
+            $fileFoto = $request->file('foto_karyawan');
+            $file = $fileFoto->hashName();
+            $request->file('foto_karyawan')->move(public_path('storage/image-kry'), $file);
 
-            // $request->file('foto_karyawan')->move(public_path('storage/image-kry'), $file);
-
-            Storage::delete('public/storage/image-kry' . $karyawan->foto_karyawan);
+            File::delete(public_path('storage/image-kry/' . $karyawan->foto_karyawan));
 
             $karyawan->update([
-                'nik_karyawan' => $request->nik,
                 'nama_karyawan' => $request->namaKaryawan,
                 'alamat' => $request->alamat,
                 'tempat_lahir' => $request->tmptLahir,
                 'tgl_lahir' => $request->tglLahir,
                 'jenis_kelamin' => $request->jenisKelamin,
                 'agama' => $request->agama,
-                'no_telp' => $request->noTelp,
+                'no_telp' => $request->noTelpKry,
                 'tgl_gabung' => $request->tglGabung,
                 'status_pegawai' => $request->statusPegawai,
                 'status_active' => $request->statusKaryawan,
@@ -151,27 +186,51 @@ class karyawanController extends Controller
                 'divisi' => $request->divisi,
                 'departement' => $request->departemen,
                 'posisi' => $request->posisi,
-                'email' => $request->email,
+                'email' => $request->emailPerusahaan,
                 'no_ktp' => $request->noKTP,
                 'no_npwp' => $request->noNPWP,
                 'no_rek' => $request->noRek,
                 'no_bpjs' => $request->noBpjs,
                 'no_jamsostek' => $request->noJamsostek,
                 'foto_karyawan' => $file,
+                'kewarganegaraan' => $request->kewarganegaraan,
+                'status_pernikahan' => $request->statusPernikahan,
+                'jml_tanggungan' => $request->jmlTanggungan,
+                'email_pribadi' => $request->emailPribadi,
+                'alamat_domisili' => $request->alamatDomisili,
+                'pendidikan_terakhir' => $request->pendidikanTerakhir,
+                'golongan_darah' => $request->golonganDarah,
+                'no_koperasi' => $request->noKoperasi,
+                'nama_kel' => $request->namaKel,
+                'status_kel' => $request->statusKel,
+                'alamat_kel' => $request->alamatKel,
+                'pekerjaan_kel' => $request->pekerjaanKel,
+                'no_telp_kel' => $request->noTelpKel,
+                'anak1' => $request->anak1,
+                'anak2' => $request->anak2,
+                'anak3' => $request->anak3,
+                'anak4' => $request->anak4,
+                'nama_kontak1' => $request->namaKontak1,
+                'status_kontak1' => $request->statusKontak1,
+                'alamat_kontak1' => $request->alamatKontak1,
+                'no_telp_kontak1' => $request->noTelpKontak1,
+                'nama_kontak2' => $request->namaKontak2,
+                'status_kontak2' => $request->statusKontak2,
+                'alamat_kontak2' => $request->alamatKontak2,
+                'no_telp_kontak2' => $request->noTelpKontak2,
                 'update_by' => $akses
             ]);
         } else {
             $file = 'foto-blank.jpg';
 
             $karyawan->update([
-                'nik_karyawan' => $request->nik,
                 'nama_karyawan' => $request->namaKaryawan,
                 'alamat' => $request->alamat,
                 'tempat_lahir' => $request->tmptLahir,
                 'tgl_lahir' => $request->tglLahir,
                 'jenis_kelamin' => $request->jenisKelamin,
                 'agama' => $request->agama,
-                'no_telp' => $request->noTelp,
+                'no_telp' => $request->noTelpKry,
                 'tgl_gabung' => $request->tglGabung,
                 'status_pegawai' => $request->statusPegawai,
                 'status_active' => $request->statusKaryawan,
@@ -180,13 +239,38 @@ class karyawanController extends Controller
                 'divisi' => $request->divisi,
                 'departement' => $request->departemen,
                 'posisi' => $request->posisi,
-                'email' => $request->email,
+                'email' => $request->emailPerusahaan,
                 'no_ktp' => $request->noKTP,
                 'no_npwp' => $request->noNPWP,
                 'no_rek' => $request->noRek,
                 'no_bpjs' => $request->noBpjs,
                 'no_jamsostek' => $request->noJamsostek,
                 'foto_karyawan' => $file,
+                'kewarganegaraan' => $request->kewarganegaraan,
+                'status_pernikahan' => $request->statusPernikahan,
+                'jml_tanggungan' => $request->jmlTanggungan,
+                'email_pribadi' => $request->emailPribadi,
+                'alamat_domisili' => $request->alamatDomisili,
+                'pendidikan_terakhir' => $request->pendidikanTerakhir,
+                'golongan_darah' => $request->golonganDarah,
+                'no_koperasi' => $request->noKoperasi,
+                'nama_kel' => $request->namaKel,
+                'status_kel' => $request->statusKel,
+                'alamat_kel' => $request->alamatKel,
+                'pekerjaan_kel' => $request->pekerjaanKel,
+                'no_telp_kel' => $request->noTelpKel,
+                'anak1' => $request->anak1,
+                'anak2' => $request->anak2,
+                'anak3' => $request->anak3,
+                'anak4' => $request->anak4,
+                'nama_kontak1' => $request->namaKontak1,
+                'status_kontak1' => $request->statusKontak1,
+                'alamat_kontak1' => $request->alamatKontak1,
+                'no_telp_kontak1' => $request->noTelpKontak1,
+                'nama_kontak2' => $request->namaKontak2,
+                'status_kontak2' => $request->statusKontak2,
+                'alamat_kontak2' => $request->alamatKontak2,
+                'no_telp_kontak2' => $request->noTelpKontak2,
                 'update_by' => $akses
             ]);
         }

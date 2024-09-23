@@ -54,7 +54,7 @@ Route::get('/karyawan', [karyawanController::class, 'index'])->name('dataKaryawa
 Route::get('/getDataKaryawan', [karyawanController::class, 'getDataKaryawan'])->name('getDataKaryawan')->middleware('auth');
 Route::post('/simpankaryawan', [karyawanController::class, 'simpankaryawan'])->name('simpankaryawan')->middleware('auth');
 Route::get('/detailKaryawan/{id}', [karyawanController::class, 'detailKaryawan'])->name('detailKaryawan')->middleware('auth');
-Route::put('/updateKaryawan/{id}', [karyawanController::class, 'updateKaryawan'])->name('updateKaryawan')->middleware('auth');
+Route::post('/updateKaryawan', [karyawanController::class, 'updateKaryawan'])->name('updateKaryawan')->middleware('auth');
 
 //end Karyawan //
 
@@ -81,7 +81,6 @@ Route::get('/updateTim/{id}', [TimController::class, 'updateTim'])->name('update
 
 //Assign Tim//
 Route::get('/analisaWo', [analisa_woController::class, 'index'])->name('analisaWo')->middleware('auth');
-
 
 Route::get('/assignTim', [AssignTimController::class, 'index'])->name('assignTim')->middleware('auth');
 Route::get('/getTabelAssignTim', [AssignTimController::class, 'getTabelAssignTim'])->name('getTabelAssignTim')->middleware('auth');
@@ -118,6 +117,8 @@ Route::get('/getLeadCallsign', [DistribusiToolController::class, 'getLeadCallsig
 Route::get('/getTim', [DistribusiToolController::class, 'getTim'])->name('getTim')->middleware('auth');
 Route::get('/getSelectTool', [DistribusiToolController::class, 'getSelectTool'])->name('getSelectTool')->middleware('auth');
 Route::post('/simpanDistribusi', [DistribusiToolController::class, 'simpanDistribusi'])->name('simpanDistribusi')->middleware('auth');
+
+Route::get('/approveDistribusi', [DistribusiToolController::class, 'approveDistribusi'])->name('approveDistribusi')->middleware('auth');
 
 Route::get('/dataKembaliTool', [KembaliToolController::class, 'index'])->name('dataKembaliTool')->middleware('auth');
 Route::get('/getDataKembali', [KembaliToolController::class, 'getDataKembali'])->name('getDataKembali')->middleware('auth');
