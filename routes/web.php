@@ -65,6 +65,10 @@ Route::get('/getLeader', [TimController::class, 'getLeader'])->name('getLeader')
 Route::post('/simpanLead', [TimController::class, 'simpanLead'])->name('simpanLead')->middleware('auth');
 Route::get('/showDetailLead', [TimController::class, 'showDetailLead'])->name('showDetailLead')->middleware('auth');
 Route::get('/getDetailLead', [TimController::class, 'getDetailLead'])->name('getDetailLead')->middleware('auth');
+Route::get('/getListTool', [TimController::class, 'getListTool'])->name('getListTool')->middleware('auth');
+
+Route::get('/getListWo', [TimController::class, 'getListWo'])->name('getListWo')->middleware('auth');
+
 Route::get('/getPosisi', [TimController::class, 'getPosisi'])->name('getPosisi')->middleware('auth');
 Route::put('/updateLead/{id}', [TimController::class, 'updateLead'])->name('updateLead')->middleware('auth');
 
