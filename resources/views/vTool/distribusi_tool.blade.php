@@ -564,7 +564,8 @@
                     </div>
                 </div>
             </div>
-            {{-- End Modal Show Detail Tool --}}
+        </div>
+        {{-- End Modal Show Detail Tool --}}
 
     </main>
 

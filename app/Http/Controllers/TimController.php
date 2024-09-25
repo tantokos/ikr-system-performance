@@ -122,6 +122,37 @@ class TimController extends Controller
         return response()->json(['showLead' => $showLead, 'showTim' => $show]);
     }
 
+    public function getListTool(Request $request)
+    {
+        // dd($request->all());
+        $req = explode('|', $request->tid);
+        $callTimId = $req[0];
+
+        // $idTool = $request->tid;
+
+        if ($request->ajax()) {
+
+            // $dtRw = DataDistribusiTool::where('barang_id', $idTool)->get();
+            $dtRw = DB::table('v_history_tools')
+                ->where('callsign_tim_id', $callTimId)
+                ->where('status_kembali', '=', 'Belum dikembalikan')->get();
+
+            return DataTables::of($dtRw)
+                ->addIndexColumn() //memberikan penomoran
+                ->addColumn('action', function ($row) {
+                    $btn = '
+                    <a href="javascript:void(0)" id="detail-distribusi" data-id="' . $row->id . '" class="btn btn-sm btn-primary detail-distribusi mb-0" >Detail</a>';
+                    // <a href="javascript:void(0)" id="detail-lead" data-id="' . $row->lead_call_id . "|" . $row->branch_id . "|" . $row->leader_id . '" class="btn btn-sm btn-primary detil-lead mb-0" >Edit</a>';
+                    //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])   //merender content column dalam bentuk html
+                ->escapeColumns()  //mencegah XSS Attack
+                ->toJson(); //merubah response dalam bentuk Json
+            // ->make(true);
+        }
+    }
+
     public function getDataShowTim(Request $request)
     {
         $akses = Auth::user()->name;
@@ -134,6 +165,40 @@ class TimController extends Controller
                 ->addIndexColumn() //memberikan penomoran
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" id="detail-tim" data-id="' . $row->callsign_tim_id . "|" . $row->lead_call_id . "|" . $row->leader_id . "|" . $row->branch_id . '" class="btn btn-sm btn-primary detil-lead mb-0" >Edit</a>';
+                    //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
+                    return $btn;
+                })
+                ->addColumn('tools', function ($row) {
+                    $tools = '<a href="javascript:void(0)" id="detail-tool" data-id="' . $row->callsign_tim_id . "|" . $row->lead_call_id . "|" . $row->leader_id . "|" . $row->branch_id . '" class="btn btn-sm btn-primary detail-tool mb-0" >Tools</a>
+                    <a href="javascript:void(0)" id="detail-wo" data-id="' . $row->callsign_tim_id . "|" . $row->callsign_tim . "|" . "|" . $row->lead_call_id . "|" . $row->leader_id . "|" . $row->branch_id . '" class="btn btn-sm btn-primary detail-wo mb-0" >WO</a>';
+                    //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
+                    return $tools;
+                })
+                ->rawColumns(['action', 'tools'])   //merender content column dalam bentuk html
+                ->escapeColumns()  //mencegah XSS Attack
+                ->toJson(); //merubah response dalam bentuk Json
+            // ->make(true);
+        }
+    }
+
+    public function getListWo(Request $request)
+    {
+        // dd($request);
+        $akses = Auth::user()->name;
+        $req = explode('|', $request->reqCallTim);
+        $callTim = $req[1];
+
+        if ($request->ajax()) {
+
+            $datas = DB::table('data_assign_tims')
+                ->where('callsign', '=', $callTim)->orderBy('tgl_ikr', 'DESC')->get();
+
+            return DataTables::of($datas)
+                ->addIndexColumn() //memberikan penomoran
+                ->addColumn('action', function ($row) {
+                    $btn = '
+                    <a href="javascript:void(0)" id="detail-assign" data-id="' . $row->id . '" class="btn btn-sm btn-primary detail-assign mb-0" >Detail</a>';
+                    // <a href="javascript:void(0)" id="detail-lead" data-id="' . $row->lead_call_id . "|" . $row->branch_id . "|" . $row->leader_id . '" class="btn btn-sm btn-primary detil-lead mb-0" >Edit</a>';
                     //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
                     return $btn;
                 })

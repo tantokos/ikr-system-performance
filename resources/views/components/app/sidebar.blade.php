@@ -9,7 +9,7 @@
     {{-- <div class="collapse navbar-collapse px-4  w-auto " id="sidenav-collapse-main"> --}}
     <div class="px-4  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a
                     class="nav-link  {{ is_current_route('leader-performance') || is_current_route('technician-performance') ? 'active' : '' }}">
                     <div
@@ -17,8 +17,8 @@
                         <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>table</title>
-                            {{-- <g id="table" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> --}}
-                            {{-- <g id="view-grid" transform="translate(12.000000, 12.000000)" fill="#FFFFFF"
+                            <g id="table" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <g id="view-grid" transform="translate(12.000000, 12.000000)" fill="#FFFFFF"
                                     fill-rule="nonzero">
                                     <path class="color-foreground"
                                         d="M3.42857143,0 C1.53502286,0 0,1.53502286 0,3.42857143 L0,6.85714286 C0,8.75069143 1.53502286,10.2857143 3.42857143,10.2857143 L6.85714286,10.2857143 C8.75069143,10.2857143 10.2857143,8.75069143 10.2857143,6.85714286 L10.2857143,3.42857143 C10.2857143,1.53502286 8.75069143,0 6.85714286,0 L3.42857143,0 Z"
@@ -32,21 +32,21 @@
                                     <path class="color-foreground"
                                         d="M13.7142857,17.1428571 C13.7142857,15.2492571 15.2492571,13.7142857 17.1428571,13.7142857 L20.5714286,13.7142857 C22.4650286,13.7142857 24,15.2492571 24,17.1428571 L24,20.5714286 C24,22.4650286 22.4650286,24 20.5714286,24 L17.1428571,24 C15.2492571,24 13.7142857,22.4650286 13.7142857,20.5714286 L13.7142857,17.1428571 Z"
                                         id="Path"></path>
-                                </g> --}}
-                            {{-- </g> --}}
+                                </g>
+                            </g>
                         </svg>
                     </div>
-                    {{-- <span class="nav-link-text ms-1">Monthly Performance</span> --}}
+                    <span class="nav-link-text ms-1">Monthly Performance</span>
                 </a>
             </li>
 
-            {{-- <li class="nav-item border-start my-0 pt-2">
+            <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('leader-performance') ? 'active' : '' }}"
                     href="{{ route('leader-performance') }}">
                     <span class="nav-link-text ms-1">Leader Performance</span>
                 </a>
-            </li> --}}
-            {{-- <li class="nav-item border-start my-0 pt-2">
+            </li>
+            <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('users-management') ? 'active' : '' }}"
                     href="#">
                     <span class="nav-link-text ms-1">Technician Performance</span>
@@ -199,7 +199,7 @@
             <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('laporanTool') ? 'active' : '' }}"
                     href="{{ route('laporanTool') }}">
-                    <span class="nav-link-text ms-1">Laporan Tools</span>
+                    <span class="nav-link-text ms-1">Laporan Kondisi Tools</span>
                 </a>
             </li>
 
