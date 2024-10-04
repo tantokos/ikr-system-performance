@@ -290,11 +290,6 @@
                                             name="WoDate" style="border-color:#9ca0a7;">
                                     </div>
 
-
-                                    {{-- </div> --}}
-
-                                    {{-- <div class="col"> --}}
-
                                     <div class="form-group mb-1">
                                         <div class="row">
                                             <div class="col-4 form-group mb-1">
@@ -310,21 +305,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    {{-- <div class="form-group mb-1">
-                                        <div class="row">
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Cust Phone</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="custPhone" name="custPhone" style="border-color:#9ca0a7;">
-                                            </div>
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Cust Mobile</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="custMobile" name="custMobile" style="border-color:#9ca0a7;">
-                                            </div>
-                                        </div>
-                                    </div> --}}
 
                                     <div class="form-group mb-1">
                                         <div class="row">
@@ -389,7 +369,6 @@
                                         <textarea class="form-control form-control-sm" type="text" id="remarks" name="remarks"
                                             style="border-color:#9ca0a7;"></textarea>
                                     </div>
-
                                 </div>
 
                                 <div class="col">
@@ -531,9 +510,6 @@
                                                 <option value="">Teknisi 3</option>
                                             </select>
                                         </div>
-                                        {{-- </div> --}}
-                                        {{-- <div class="col"> --}}
-
 
                                         <div class="form-group mb-1">
                                             <span class="text-xs">Teknisi 4</span>
@@ -597,11 +573,7 @@
                                             <input class="form-control form-control-sm" type="text"
                                                 id="ticketNoShow" name="ticketNoShow" style="border-color:#9ca0a7;">
                                         </div>
-
-
                                     </div>
-
-
 
                                     <div class="form-group mb-1">
                                         <div class="row">
@@ -634,11 +606,6 @@
                                             name="WoDateShow" style="border-color:#9ca0a7;">
                                     </div>
 
-
-                                    {{-- </div> --}}
-
-                                    {{-- <div class="col"> --}}
-
                                     <div class="form-group mb-1">
                                         <div class="row">
                                             <div class="col-4 form-group mb-1">
@@ -655,21 +622,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    {{-- <div class="form-group mb-1">
-                                        <div class="row">
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Cust Phone</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="custPhone" name="custPhone" style="border-color:#9ca0a7;">
-                                            </div>
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Cust Mobile</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="custMobile" name="custMobile" style="border-color:#9ca0a7;">
-                                            </div>
-                                        </div>
-                                    </div> --}}
 
                                     <div class="form-group mb-1">
                                         <div class="row">

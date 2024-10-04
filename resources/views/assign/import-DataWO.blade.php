@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                {{-- <div class="row">
                                     <label class="col-sm-3 col-form-label form-control-sm">Branch</label>
                                     <div class="col form-group">
                                         <select class="form-control form-control-sm" type="text" id="branchImport"
@@ -81,7 +81,7 @@
                                             @endif
                                         </select>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- <div class="row">
                                     <label class="col-sm-3 col-form-label form-control-sm">Number of Rows</label>
@@ -101,12 +101,12 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="col text-center">
+                    <div class="col text-end">
                         {{-- <button type="button" class="btn btn-sm btn-dark align-items-center" data-bs-toggle="modal"
                             data-bs-target="#previewModal">Show Preview</button> --}}
-                        <button onclick="return confirm('Simpan hasil import Data Absensi?')" type="submit"
-                            name="action" value="simpan" class="btn btn-sm btn-dark align-items-center">Save Import
-                            Data</button>
+                        <button onclick="return confirm('Simpan hasil import WO?')" type="submit" name="action"
+                            value="simpan" class="btn btn-sm btn-dark align-items-center">Save Import
+                            WO</button>
                         <button onclick="return confirm('Hapus hasil import Data Absensi?')"
                             onsubmit="this.disabled = true;" type="submit" name="action" value="batal"
                             class="btn btn-sm btn-dark align-items-center">Cancel Import
@@ -114,7 +114,6 @@
                     </div>
                     </form>
                 </div>
-
             </div>
 
             <div class="row">
@@ -237,8 +236,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Detail WO</h5>
-                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
-                            aria-label="Close">
+                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -397,34 +395,16 @@
                                 </div>
 
                                 <div class="col">
-
-
-
-
                                     <div class="form-group mb-1">
                                         <div class="row">
                                             <div class="col form-group mb-1">
-                                                <span class="text-xs">Branch</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="branchShowText" name="branchShowText"
-                                                    style="border-color:#9ca0a7;" readonly>
-
-                                                <input type="hidden" id="branchShow" name="branchShow"
-                                                    style="border-color:#9ca0a7;" readonly>
-
-                                                {{-- <select class="form-control form-control-sm" type="text"
-                                                    id="branchShow" name="branchShow" style="border-color:#9ca0a7;"
-                                                    disabled>
-                                                    <option value="">Pilih Branch</option>
-                                                    @if (isset($branches))
-                                                        @foreach ($branches as $b)
-                                                            <option value="{{ $b->id . '|' . $b->nama_branch }}">
-                                                                {{ $b->nama_branch }}
-                                                        @endforeach
-                                                    @endif
-
-                                                </select> --}}
+                                                <span class="text-xs">Tanggal Progress</span>
+                                                <input class="form-control form-control-sm" type="date"
+                                                    value="" id="tglProgressShow" name="tglProgressShow"
+                                                    style="border-color:#9ca0a7;">
                                             </div>
+
+
 
                                             <div class="col form-group mb-1">
                                                 <span class="text-xs">Type</span>
@@ -446,10 +426,25 @@
                                     <div class="form-group mb-1">
                                         <div class="row">
                                             <div class="col form-group mb-1">
-                                                <span class="text-xs">Tanggal Progress</span>
-                                                <input class="form-control form-control-sm" type="date"
-                                                    value="" id="tglProgressShow" name="tglProgressShow"
-                                                    style="border-color:#9ca0a7;">
+                                                <span class="text-xs">Branch</span>
+                                                {{-- <input class="form-control form-control-sm" type="text"
+                                                    id="branchShowText" name="branchShowText"
+                                                    style="border-color:#9ca0a7;" readonly>
+
+                                                <input type="hidden" id="branchShow" name="branchShow"
+                                                    style="border-color:#9ca0a7;" readonly> --}}
+
+                                                <select class="form-control form-control-sm" type="text"
+                                                    id="branchShow" name="branchShow" style="border-color:#9ca0a7;">
+                                                    <option value="">Pilih Branch</option>
+                                                    @if (isset($branches))
+                                                        @foreach ($branches as $b)
+                                                            <option value="{{ $b->id . '|' . $b->nama_branch }}">
+                                                                {{ $b->nama_branch }}
+                                                        @endforeach
+                                                    @endif
+
+                                                </select>
                                             </div>
 
                                             <div class="col form-group mb-1">
@@ -824,17 +819,15 @@
                     $('#portFatShow').val(dtDis.data.fat_port);
                     $('#remarksShow').val(dtDis.data.remarks);
 
-                    let br = branchImport.split('|');
+                    // let br = branchImport.split('|');
 
-                    $('#branchShow').val(branchImport);
-                    $('#branchShowText').val(br[1]);
+                    // $('#branchShow').val(branchImport);
+                    // $('#branchShowText').val(br[1]);
 
-                    // $('#branchShow').val(dtDis.data.branch_id + '|' + dtDis.data.branch);
+                    $('#branchShow').val(dtDis.data.branch_id + '|' + dtDis.data.branch);
                     $('#tglProgressShow').val(dtDis.data.tgl_ikr);
 
                     $('#sesiShow').val(dtDis.data.batch_wo);
-
-
 
                     leadCallsignDet = dtDis.data.leadcall_id + '|' + dtDis.data.leadcall +
                         '|' + dtDis.data.leader_id + '|' + dtDis.data.leader
@@ -905,12 +898,9 @@
                     $('#teknisi4Show').val(dtDis.data.tek4_nik + '|' + dtDis.data.teknisi4);
 
                     $('#showImportWo').modal('show');
-
-
                 }
             })
         })
-
 
         $(document).on('change', '#LeadCallsignShow', function(e) {
             // e.preventDefault();
@@ -940,8 +930,6 @@
             teknisi2Show = $('#teknisi2Show').val();
             teknisi3Show = $('#teknisi3Show').val();
             teknisi4Show = $('#teknisi4Show').val();
-
-            console.log(leaderIdShow, leaderShow);
 
             $.ajax({
                 url: "{{ route('updateImportWo') }}",
@@ -977,10 +965,7 @@
                     });
                 }
             })
-
-
         })
-
     })
 
 
@@ -1015,7 +1000,6 @@
                     `<th class="text-secondary text-xs font-weight-semibold">Status Absensi</th>`
                 )
 
-
                 $('#bodyDay').find("td").remove();
                 $('#bodyDay').find("th").remove();
                 $('#bodyDay').find("tr").remove();
@@ -1037,7 +1021,6 @@
                 })
 
                 $('#HeadDay').append(`<th>Subtotal</th>`);
-
 
                 $.each(respon.tblPreview, function(ky, absen) {
 
@@ -1074,7 +1057,6 @@
 
                 $('#bodyDay').append(bdayTotal +
                     `<th class="text-center">${gtotal.toLocaleString()}</th></tr>`);
-
 
             }
         })

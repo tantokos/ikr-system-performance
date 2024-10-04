@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Str;
 
 class AssignTimController extends Controller
 {
@@ -35,6 +36,18 @@ class AssignTimController extends Controller
 
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
+                ->editColumn('name', function ($nm) {
+                    return Str::title($nm->name);
+                })
+                ->editColumn('wo_type', function ($nm) {
+                    return Str::title($nm->wo_type);
+                })
+                ->editColumn('area', function ($nm) {
+                    return Str::title($nm->area);
+                })
+                ->editColumn('branch', function ($nm) {
+                    return Str::title($nm->branch);
+                })
                 ->addColumn('action', function ($row) {
                     $btn = '
                     <a href="javascript:void(0)" id="detail-assign" data-id="' . $row->id . '" class="btn btn-sm btn-primary detail-assign mb-0" >Detail</a>';
