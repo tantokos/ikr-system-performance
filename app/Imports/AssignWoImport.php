@@ -7,6 +7,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use \PhpOffice\PhpSpreadsheet\Shared\Date;
+use Illuminate\Support\Str;
 
 class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading
 {
@@ -34,18 +35,18 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading
 
             'wo_no' => $row['wo_no'],
             'ticket_no' => $row['ticket_no'],
-            'wo_type' => $row['wo_type'],
+            'wo_type' => Str::title($row['wo_type']),
             'wo_date' => $row['wo_date'],
             'cust_id' => $row['cust_id'],
-            'name' => $row['name'],
+            'name' => Str::title($row['name']),
             'cust_phone' => $row['cust_phone'],
             'cust_mobile' => $row['cust_mobile'],
-            'address' => $row['address'],
-            'area' => $row['area'],
+            'address' => Str::title($row['address']),
+            'area' => Str::title($row['area']),
             'fat_code' => $row['fat_code'],
             'fat_port' => $row['fat_port'],
-            'remarks' => $row['remarks'],
-            'vendor_installer' => $row['vendor_installer'],
+            'remarks' => Str::title($row['remarks']),
+            'vendor_installer' => Str::title($row['vendor_installer']),
             'ikr_date' => $row['ikr_date'],
             'time' => $row['time'],
 

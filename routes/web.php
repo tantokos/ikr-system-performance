@@ -17,6 +17,9 @@ use App\Http\Controllers\KembaliTool;
 use App\Http\Controllers\KembaliToolController;
 use App\Http\Controllers\LaporanToolController;
 use App\Http\Controllers\Leader_PerformController;
+use App\Http\Controllers\MonitFTTH_MTController;
+use App\Http\Controllers\MonitFtthMT_Controller;
+use App\Http\Controllers\Monitoring_FTTH_IB;
 use App\Http\Controllers\TimController;
 use App\Http\Controllers\ToolController;
 
@@ -104,6 +107,19 @@ Route::get('/updateImportWo', [Import_DataWoController::class, 'updateImportWo']
 Route::post('/simpanImportWo', [Import_DataWoController::class, 'simpanImportWo'])->name('simpanImportWo')->middleware('auth');
 
 //End Assign Tim//
+
+
+//Start Monitoring WO//
+
+Route::get('/monitFtthIB', [Monitoring_FTTH_IB::class, 'index'])->name('monitFtthIB')->middleware('auth');
+Route::get('/monitFtthMT', [MonitFtthMT_Controller::class, 'index'])->name('monitFtthMT')->middleware('auth');
+
+Route::get('/getDataMTOris', [MonitFtthMT_Controller::class, 'getDataMTOris'])->name('getDataMTOris')->middleware('auth');
+Route::get('/getDetailWOFtthMT', [MonitFtthMT_Controller::class, 'getDetailWOFtthMT'])->name('getDetailWOFtthMT')->middleware('auth');
+// Route::get('/getTabelAssignMT', [MonitFTTH_MTController::class, 'getTabelAssignMT'])->name('getTabelAssignMT')->middleware('auth');
+
+
+//End Monitoring//
 
 
 //Start Tools//
