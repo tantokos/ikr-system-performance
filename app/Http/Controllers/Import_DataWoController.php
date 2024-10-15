@@ -41,7 +41,7 @@ class Import_DataWoController extends Controller
 
             Excel::import(new AssignWoImport($akses), request()->file('fileDataWO'));
 
-            return back();
+            return back()->with(['success' => 'Import Work Order berhasil.']);
         }
     }
 
@@ -99,8 +99,8 @@ class Import_DataWoController extends Controller
 
             case 'simpan':
 
-                if ($request->branchImport) {
-                    $branchRq = explode('|', $request->branchImport);
+                if ($request->branchShow) {
+                    $branchRq = explode('|', $request->branchShow);
                     $branchId = $branchRq[0];
                     $branch = $branchRq[1];
                 } else {
@@ -148,17 +148,65 @@ class Import_DataWoController extends Controller
                         'login_id',
                         'login'
                     )
-                    ->where('branch', $branch)
+                    // ->where('branch', $branch)
+                    ->where('login', $akses)
+                    ->get()->toArray();
+                    
+                    // dd($dtImportAssign);
+
+                if (count($dtImportAssign) > 0 ) {
+
+                    $doubleAssign = [];
+                    for($i=0; $i < count($dtImportAssign); $i++)
+                    {
+                        $cekDoubleAssign = DataAssignTim::select('wo_no')->where('wo_no', $dtImportAssign[$i]['wo_no'])
+                            ->where('tgl_ikr', $dtImportAssign[$i]['tgl_ikr'])->first(); 
+                        
+                        if ($cekDoubleAssign) {
+                            // $doubleAssign[] = $cekDoubleAssign->wo_no;
+                            array_push($doubleAssign, $cekDoubleAssign->wo_no);
+                        }
+                    }
+
+                    // dd(count($doubleAssign));
+
+                    $dtImportAssign2 = ImportAssignTim::whereNotNull('callsign')
+                    ->select(
+                        'batch_wo','tgl_ikr','slot_time','jenis_wo','wo_no','ticket_no',
+                        'wo_date','cust_id','name','cust_phone','cust_mobile','address',
+                        'area','wo_type','fat_code','fat_port','remarks','vendor_installer',
+                        'ikr_date','time','branch_id','branch','leadcall_id','leadcall',
+                        'leader_id','leader','callsign_id','callsign','tek1_nik','teknisi1',
+                        'tek2_nik','teknisi2','tek3_nik','teknisi3','tek4_nik','teknisi4',
+                        'login_id','login'
+                    )
+                    ->whereNotIn('wo_no', $doubleAssign)
                     ->where('login', $akses)
                     ->get()->toArray();
 
-                $simpanImportWo = DataAssignTim::insert($dtImportAssign);
+                    // $dtImportAssign = $dtImportAssign->whereNotIn('wo_no', [$doubleAssign]);
 
-                if ($simpanImportWo) {
-                    return redirect()->route('assignTim')->with(['success' => 'Data tersimpan.']);
-                    ImportAssignTim::where('login', '=', $akses)->delete();
+                    // dd($dtImportAssign2);
+                    // dd($cekDoubleAssign->wo_no);
+
+                    $simpanImportWo = DataAssignTim::insert($dtImportAssign2);
+
+                    if ($simpanImportWo) {
+                        
+                        ImportAssignTim::whereNotIn('wo_no', $doubleAssign)->where('login', '=', $akses)->delete();
+
+                        if(count($doubleAssign) > 0) {
+                            return redirect()->route('importDataWo')->with(['success' => 'Sebagian Data tersimpan. Cek data assign WO yang sama']);
+                        } else {
+                            return redirect()->route('assignTim')->with(['success' => 'Data tersimpan.']);
+                        }
+                        
+                        // ImportAssignTim::where('login', '=', $akses)->delete();
+                    } else {
+                        return redirect()->route('importDataWo')->with(['error' => 'Gagal Simpan Data.']);
+                    }
                 } else {
-                    return redirect()->route('assignTim')->with(['error' => 'Gagal Simpan Data.']);
+                    return redirect()->route('importDataWo')->with(['error' => 'Data WO tidak ada assign tim.']);
                 }
 
                 break;

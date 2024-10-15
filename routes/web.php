@@ -17,9 +17,11 @@ use App\Http\Controllers\KembaliTool;
 use App\Http\Controllers\KembaliToolController;
 use App\Http\Controllers\LaporanToolController;
 use App\Http\Controllers\Leader_PerformController;
+use App\Http\Controllers\MonitFotoFtthMT_Controller;
 use App\Http\Controllers\MonitFTTH_MTController;
 use App\Http\Controllers\MonitFtthMT_Controller;
 use App\Http\Controllers\Monitoring_FTTH_IB;
+use App\Http\Controllers\RekapAssignTimController;
 use App\Http\Controllers\TimController;
 use App\Http\Controllers\ToolController;
 
@@ -89,6 +91,10 @@ Route::get('/updateTim/{id}', [TimController::class, 'updateTim'])->name('update
 //Assign Tim//
 Route::get('/analisaWo', [analisa_woController::class, 'index'])->name('analisaWo')->middleware('auth');
 
+Route::get('/rekapAssignTim', [RekapAssignTimController::class, 'index'])->name('rekapAssignTim')->middleware('auth');
+Route::get('/getTabelLeadAssignTim', [RekapAssignTimController::class, 'getTabelLeadAssignTim'])->name('getTabelLeadAssignTim')->middleware('auth');
+Route::get('/getDetailLeadAssignTim', [RekapAssignTimController::class, 'getDetailLeadAssignTim'])->name('getDetailLeadAssignTim')->middleware('auth');
+
 Route::get('/assignTim', [AssignTimController::class, 'index'])->name('assignTim')->middleware('auth');
 Route::get('/getTabelAssignTim', [AssignTimController::class, 'getTabelAssignTim'])->name('getTabelAssignTim')->middleware('auth');
 Route::get('/getDetailAssign', [AssignTimController::class, 'getDetailAssign'])->name('getDetailAssign')->middleware('auth');
@@ -121,6 +127,18 @@ Route::get('/getDetailWOFtthMT', [MonitFtthMT_Controller::class, 'getDetailWOFtt
 
 //End Monitoring//
 
+
+//Start Monitoring FOTO APK//
+
+Route::get('/monitFotoFtthMT', [MonitFotoFtthMT_Controller::class, 'index'])->name('monitFotoFtthMT')->middleware('auth');
+Route::get('/getMonitFotoFtthMT', [MonitFotoFtthMT_Controller::class, 'getMonitFotoFtthMT'])->name('getMonitFotoFtthMT')->middleware('auth');
+
+Route::get('/getDetailFotoFtthMT', [MonitFotoFtthMT_Controller::class, 'getDetailFotoFtthMT'])->name('getDetailFotoFtthMT')->middleware('auth');
+
+Route::post('/saveValidasi', [MonitFotoFtthMT_Controller::class, 'saveValidasi'])->name('saveValidasi')->middleware('auth');
+
+
+//End Monitoring FOTO APK//
 
 //Start Tools//
 Route::get('/dataTool', [ToolController::class, 'index'])->name('dataTool')->middleware('auth');

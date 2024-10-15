@@ -5,12 +5,12 @@
         <div class="container-fluid py-4 px-5">
             <div class="row">
                 <div class="col-12">
-                    <div class="card card-background card-background-after-none align-items-start mt-4 mb-5">
+                    <div class="card card-background card-background-after-none align-items-start mt-2 mb-2">
                         <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
                         </div>
                         <div class="card-body text-start p-4 w-100">
                             <h3 class="text-white mb-2">Import Data WO</h3>
-                            <p class="mb-4 font-weight-semibold">
+                            <p class="mb-2 font-weight-semibold">
                                 {{-- Check all the advantages and choose the best. --}}
                             </p>
                         </div>
@@ -28,9 +28,6 @@
                             <form action="{{ route('importProsesDataWo') }}" method="post"
                                 enctype="multipart/form-data">
                                 @csrf
-
-
-
                                 <div class="form-group">
                                     <input type="file" class="form-control form-control-sm" id="fileDataWO"
                                         name="fileDataWO" required>
@@ -107,7 +104,7 @@
                         <button onclick="return confirm('Simpan hasil import WO?')" type="submit" name="action"
                             value="simpan" class="btn btn-sm btn-dark align-items-center">Save Import
                             WO</button>
-                        <button onclick="return confirm('Hapus hasil import Data Absensi?')"
+                        <button onclick="return confirm('Hapus hasil import Data Work Order?')"
                             onsubmit="this.disabled = true;" type="submit" name="action" value="batal"
                             class="btn btn-sm btn-dark align-items-center">Cancel Import
                             Data</button>
@@ -258,11 +255,7 @@
                                             <input class="form-control form-control-sm" type="text"
                                                 id="ticketNoShow" name="ticketNoShow" style="border-color:#9ca0a7;">
                                         </div>
-
-
                                     </div>
-
-
 
                                     <div class="form-group mb-1">
                                         <div class="row">
@@ -277,18 +270,8 @@
                                                 <input class="form-control form-control-sm" type="text"
                                                     id="WoDateShow" name="WoDateShow" style="border-color:#9ca0a7;">
                                             </div>
-
-
                                         </div>
-
                                     </div>
-
-
-
-
-                                    {{-- </div> --}}
-
-                                    {{-- <div class="col"> --}}
 
                                     <div class="form-group mb-1">
                                         <div class="row">
@@ -306,21 +289,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    {{-- <div class="form-group mb-1">
-                                        <div class="row">
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Cust Phone</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="custPhone" name="custPhone" style="border-color:#9ca0a7;">
-                                            </div>
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Cust Mobile</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="custMobile" name="custMobile" style="border-color:#9ca0a7;">
-                                            </div>
-                                        </div>
-                                    </div> --}}
 
                                     <div class="form-group mb-1">
                                         <div class="row">
@@ -391,7 +359,6 @@
                                         <textarea class="form-control form-control-sm" type="text" id="remarksShow" name="remarksShow"
                                             style="border-color:#9ca0a7;"></textarea>
                                     </div>
-
                                 </div>
 
                                 <div class="col">
@@ -400,11 +367,9 @@
                                             <div class="col form-group mb-1">
                                                 <span class="text-xs">Tanggal Progress</span>
                                                 <input class="form-control form-control-sm" type="date"
-                                                    value="" id="tglProgressShow" name="tglProgressShow"
+                                                    value="{{ date('Y-m-d') }}" id="tglProgressShow" name="tglProgressShow"
                                                     style="border-color:#9ca0a7;">
                                             </div>
-
-
 
                                             <div class="col form-group mb-1">
                                                 <span class="text-xs">Type</span>
@@ -427,13 +392,6 @@
                                         <div class="row">
                                             <div class="col form-group mb-1">
                                                 <span class="text-xs">Branch</span>
-                                                {{-- <input class="form-control form-control-sm" type="text"
-                                                    id="branchShowText" name="branchShowText"
-                                                    style="border-color:#9ca0a7;" readonly>
-
-                                                <input type="hidden" id="branchShow" name="branchShow"
-                                                    style="border-color:#9ca0a7;" readonly> --}}
-
                                                 <select class="form-control form-control-sm" type="text"
                                                     id="branchShow" name="branchShow" style="border-color:#9ca0a7;">
                                                     <option value="">Pilih Branch</option>
@@ -443,15 +401,13 @@
                                                                 {{ $b->nama_branch }}
                                                         @endforeach
                                                     @endif
-
                                                 </select>
                                             </div>
 
                                             <div class="col form-group mb-1">
                                                 <span class="text-xs">Sesi</span>
                                                 <select class="form-control form-control-sm" type="text"
-                                                    id="sesiShow" name="sesiShow" style="border-color:#9ca0a7;"
-                                                    placeholder="Isi Callsign Tim">
+                                                    id="sesiShow" name="sesiShow" style="border-color:#9ca0a7;">
                                                     <option value="Regular">Regular</option>
                                                     <option value="Batch 1">Batch 1</option>
                                                     <option value="Batch 2">Batch 2</option>
@@ -464,16 +420,11 @@
 
                                                 </select>
                                             </div>
-
-
-
                                         </div>
                                     </div>
 
                                     <div class="form-group mb-1">
                                         <div class="row">
-
-
                                             <div class="col form-group mb-1">
                                                 <span class="text-xs">Lead Callsign</span>
                                                 <select class="form-control form-control-sm" id="LeadCallsignShow"
@@ -825,6 +776,7 @@
                     // $('#branchShowText').val(br[1]);
 
                     $('#branchShow').val(dtDis.data.branch_id + '|' + dtDis.data.branch);
+                    console.log(dtDis.data.tgl_ikr);
                     $('#tglProgressShow').val(dtDis.data.tgl_ikr);
 
                     $('#sesiShow').val(dtDis.data.batch_wo);
