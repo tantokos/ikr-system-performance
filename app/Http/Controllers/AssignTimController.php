@@ -21,18 +21,90 @@ class AssignTimController extends Controller
             ->orderBy('lead_callsign')->orderBy('branch_id')
             ->groupBy('lead_call_id', 'lead_callsign', 'nama_branch')->get();
 
-        $branches = DB::table('branches')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
+        $leader = DB::table('v_detail_callsign_tim')->select('leader_id', 'nama_leader', 'nama_branch')
+            ->orderBy('lead_callsign')->orderBy('branch_id')
+            ->groupBy('lead_call_id', 'lead_callsign', 'nama_branch')->get();
 
-        return view('assign.assign_tim', ['leadCallsign' => $Leadcallsign, 'branches' => $branches]);
+        $branches = DB::table('branches')->select('id','nama_branch')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
+
+        $callTim = DB::table('v_detail_callsign_tim')
+            ->select('callsign_tim_id', 'callsign_tim')->distinct()
+            ->orderBy('callsign_tim')->get();
+
+        $tim = Employee::whereIn('posisi', ['Installer', 'Maintenance'])
+            ->select('nik_karyawan', 'nama_karyawan')
+            ->orderBy('nama_karyawan')
+            ->get();
+        
+        $cluster = DB::table('fats')->select('cluster')
+                ->where('cluster', '<>', "")->distinct()->orderBy('cluster')->get();
+
+        return view('assign.assign_tim', ['leadCallsign' => $Leadcallsign, 'leader' => $leader, 
+                                        'branches' => $branches, 'callTim' => $callTim, 
+                                        'cluster' => $cluster, 'tim' => $tim]);
     }
 
     public function getTabelAssignTim(Request $request)
     {
         $akses = Auth::user()->name;
 
-        if ($request->ajax()) {
+        $datas = DB::table('data_assign_tims')->orderBy('tgl_ikr', 'DESC');
 
-            $datas = DB::table('data_assign_tims')->orderBy('tgl_ikr', 'DESC')->get();
+            if($request->filTgl != null) {
+                $dateRange = explode("-", $request->filTgl);
+                $startDt = \Carbon\Carbon::parse($dateRange[0]);
+                $endDt = \Carbon\Carbon::parse($dateRange[1]);
+
+                $datas = $datas->whereBetween('tgl_ikr',[$startDt, $endDt]);
+            }
+
+            if($request->filNoWo != null) {
+                $datas = $datas->where('wo_no', $request->filNoWo);
+            }
+            if($request->filcustId != null) {
+                $datas = $datas->where('cust_id', $request->filcustId);
+            }
+            if($request->filtypeWo != null) {
+                $datas = $datas->where('jenis_wo', $request->filtypeWo);
+            }
+            if($request->filarea != null) {
+                $b = explode("|", $request->filarea);
+                $br = $b[1];
+                $datas = $datas->where('branch', $br);
+            }
+            if($request->filleaderTim != null) {
+                $lt = explode("|", $request->filleaderTim);
+                $ld = $lt[1];
+                $datas = $datas->where('leader', $ld);
+            }
+            if($request->filcallsignTimid != null) {
+                $fct = explode("|", $request->filcallsignTimid);
+                $ct = $fct[1];
+                $datas = $datas->where('callsign', $ct);
+            }
+            if($request->filteknisi != null) {
+                $ftk = explode("|", $request->filteknisi );
+                $nikTk = $ftk[0];
+                $datas = $datas->where('tek1_nik', $nikTk)
+                                ->orWhere('tek2_nik', $nikTk)
+                                ->orWhere('tek3_nik', $nikTk)
+                                ->orWhere('tek4_nik', $nikTk);
+            }
+            if($request->filcluster != null) {
+                $datas = $datas->where('area', $request->filcluster);
+            }
+            if($request->filfatCode != null) {
+                $datas = $datas->where('fat_code', $request->filfatCode);
+            }
+            if($request->filslotTime != null) {
+                $datas = $datas->where('slot_time', $request->filslotTime);
+            }
+
+            $datas = $datas->get();
+
+            // dd($datas);
+
+        if ($request->ajax()) {
 
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
@@ -315,7 +387,7 @@ class AssignTimController extends Controller
             'fat_code' => $request['fatCodeShow'],
             'fat_port' => $request['portFatShow'],
             'remarks' => $request['remarksShow'],
-            'vendor_installer' => "MisitelShow",
+            // 'vendor_installer' => "MisitelShow",
             'ikr_date' => $request['ikrDateApkShow'],
             'time' => $request['timeApkShow'],
             'branch_id' => $branchId,

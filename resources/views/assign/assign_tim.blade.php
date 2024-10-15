@@ -5,12 +5,12 @@
         <div class="container-fluid py-4 px-5">
             <div class="row">
                 <div class="col-12">
-                    <div class="card card-background card-background-after-none align-items-start mt-2 mb-5">
+                    <div class="card card-background card-background-after-none align-items-start mt-2 mb-3">
                         <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
                         </div>
                         <div class="card-body text-start p-4 w-100">
                             <h3 class="text-white mb-2">Assign Tim IKR</h3>
-                            <p class="mb-4 font-weight-semibold">
+                            <p class="mb-2 font-weight-semibold">
                                 PT. Mitra Sinergi Telematika.
                             </p>
 
@@ -27,111 +27,173 @@
                         <div class="card-header border-bottom pb-0">
                             {{-- <div class="d-sm-flex align-items-center"> --}}
                             <div class="row">
-                                <div class="col">
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Tanggal Progress</span>
-                                        <input class="form-control form-control-sm" type="date"
-                                            value="{{ date('Y-m-d') }}" id="filtglProgress" name="filtglProgress"
-                                            style="border-color:#9ca0a7;">
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">No WO</span>
-                                        <input type="text" class="form-control form-control-sm" type="text"
-                                            id="filnoWo" name="filnoWo" style="border-color:#9ca0a7;">
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Cust Id</span>
-                                        <input type="text" class="form-control form-control-sm" id="filcustId"
-                                            name="filcustId" style="border-color:#9ca0a7;">
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Type WO</span>
-                                        <select class="form-control form-control-sm" type="text" id="filtypeWo"
-                                            name="filtypeWo" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Type WO</option>
-                                        </select>
-                                    </div>
+                                {{-- <div class="col"> --}}
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Tanggal Progress</span>
+                                    <input class="form-control form-control-sm date-range" type="text"
+                                        id="filtglProgress" name="filtglProgress" style="border-color:#9ca0a7;">
                                 </div>
 
-                                <div class="col">
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Area</span>
-                                        <select class="form-control form-control-sm" type="text" id="filarea"
-                                            name="filarea" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Area</option>
-                                        </select>
-                                        <input type="hidden" id="filareaId" name="filareaId">
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Nama Leader</span>
-                                        <select class="form-control form-control-sm" type="text" id="filleaderTim"
-                                            name="filleaderTim" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Leader</option>
-                                        </select>
-                                        <input type="hidden" id="filleaderid" name="filleaderid" readonly>
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Callsign Tim</span>
-                                        <select class="form-control form-control-sm" type="text"
-                                            id="filcallsignTimid" name="filcallsignTimid" style="border-color:#9ca0a7;"
-                                            placeholder="Isi Callsign Tim">
-                                            <option value="">Pilih Callsign Tim</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Teknisi</span>
-                                        <select class="form-control form-control-sm" type="text" id="filteknisi"
-                                            name="filteknisi" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Teknisi</option>
-                                        </select>
-                                    </div>
-
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">No WO</span>
+                                    <input type="text" class="form-control form-control-sm" type="text"
+                                        id="filnoWo" name="filnoWo" style="border-color:#9ca0a7;">
                                 </div>
 
-                                <div class="col">
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Cust Id</span>
+                                    <input type="text" class="form-control form-control-sm" id="filcustId"
+                                        name="filcustId" style="border-color:#9ca0a7;">
+                                </div>
 
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Cluster</span>
-                                        <select class="form-control form-control-sm" type="text" id="filcluster"
-                                            name="filcluster" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Cluster</option>
-                                        </select>
-                                    </div>
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Type WO</span>
+                                    <select class="form-control form-control-sm" type="text" id="filtypeWo"
+                                        name="filtypeWo" style="border-color:#9ca0a7;">
+                                        <option value="">Pilih Type WO</option>
+                                        <option value="FTTH New Installation">FTTH New Installation</option>
+                                        <option value="FTTH Maintenance">FTTH Maintenance</option>
+                                        <option value="Dismantle">Dismantle/option>
+                                    </select>
+                                </div>
+                                {{-- </div> --}}
+                            </div>
 
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">FAT Code</span>
-                                        <input type="text" class="form-control form-control-sm" id="filfatCode"
-                                            name="filfatCode" style="border-color:#9ca0a7;">
-                                    </div>
+                            <div class="row">
 
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Slot Time</span>
+                                {{-- <div class="col"> --}}
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Area</span>
+                                    <select class="form-control form-control-sm" type="text" id="filarea"
+                                        name="filarea" style="border-color:#9ca0a7;">
+                                        <option value="">Pilih Area</option>
+                                        @if (isset($branches))
+                                            @foreach ($branches as $b)
+                                                <option value="{{ $b->id . '|' . $b->nama_branch }}">
+                                                    {{ $b->nama_branch }}
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                    <input type="hidden" id="filareaId" name="filareaId">
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Nama Leader</span>
+                                    <select class="form-control form-control-sm" type="text" id="filleaderTim"
+                                        name="filleaderTim" style="border-color:#9ca0a7;">
+                                        <option value="">Pilih Leader</option>
+                                        @if (isset($leader))
+                                            @foreach ($leader as $ld)
+                                                <option value="{{ $ld->leader_id . '|' . $ld->nama_leader }}">
+                                                    {{ $ld->nama_leader }}
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                    <input type="hidden" id="filleaderid" name="filleaderid" readonly>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Callsign Tim</span>
+                                    <select class="form-control form-control-sm" type="text" id="filcallsignTimid"
+                                        name="filcallsignTimid" style="border-color:#9ca0a7;"
+                                        placeholder="Isi Callsign Tim">
+                                        <option value="">Pilih Callsign Tim</option>
+                                        @if (isset($callTim))
+                                            @foreach ($callTim as $cTim)
+                                                <option
+                                                    value="{{ $cTim->callsign_tim_id . '|' . $cTim->callsign_tim }}">
+                                                    {{ $cTim->callsign_tim }}
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Teknisi</span>
+                                    <select class="form-control form-control-sm" type="text" id="filteknisi"
+                                        name="filteknisi" style="border-color:#9ca0a7;">
+                                        <option value="">Pilih Teknisi</option>
+                                        @if (isset($tim))
+                                            @foreach ($tim as $tm)
+                                                <option value="{{ $tm->nik_karyawan . '|' . $tm->nama_karyawan }}">
+                                                    {{ $tm->nama_karyawan }}
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Cluster</span>
+                                    <select class="form-control form-control-sm" type="text" id="filcluster"
+                                        name="filcluster" style="border-color:#9ca0a7;">
+                                        <option value="">Pilih Cluster</option>
+                                        @if (isset($cluster))
+                                            @foreach ($cluster as $cl)
+                                                <option value="{{ $cl->cluster }}">
+                                                    {{ $cl->cluster }}
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">FAT Code</span>
+                                    <input type="text" class="form-control form-control-sm" id="filfatCode"
+                                        name="filfatCode" style="border-color:#9ca0a7;">
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Slot Time</span>
+                                    <select class="form-control form-control-sm" type="text" id="filslotTime"
+                                        name="filslotTime" style="border-color:#9ca0a7;">
+                                        <option value="">Pilih SlotTime</option>
+                                        <option value="09:00">09:00</option>
+                                        <option value="09:30">09:30</option>
+                                        <option value="10:00">10:00</option>
+                                        <option value="10:30">10:30</option>
+                                        <option value="11:00">11:00</option>
+                                        <option value="11:30">11:30</option>
+                                        <option value="12:00">12:00</option>
+                                        <option value="12:30">12:30</option>
+                                        <option value="13:00">13:00</option>
+                                        <option value="13:30">13:30</option>
+                                        <option value="14:00">14:00</option>
+                                        <option value="14:30">14:30</option>
+                                        <option value="15:00">15:00</option>
+                                        <option value="15:30">15:30</option>
+                                        <option value="16:00">16:00</option>
+                                        <option value="16:30">16:30</option>
+                                        <option value="17:00">17:00</option>
+                                        <option value="17:30">17:30</option>
+                                        <option value="18:00">18:00</option>
+                                        <option value="18:30">18:30</option>
+                                        <option value="19:00">19:00</option>
+                                        <option value="19:30">19:30</option>
+                                        <option value="20:00">20:00</option>
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    {{-- <span class="text-xs">Slot Time</span>
                                         <select class="form-control form-control-sm" type="text" id="filslotTime"
                                             name="filslotTime" style="border-color:#9ca0a7;">
                                             <option value="">Pilih SlotTime</option>
-                                        </select>
-                                    </div>
-
+                                        </select> --}}
                                 </div>
-                                <hr>
-                                <div class="row text-center mb-1">
-                                    <div class="col">
-                                        <button type="button"
-                                            class="btn btn-sm btn-dark align-items-center filAssignTim"
-                                            id="filAssignTim">Tampilkan</button>
-                                        <button type="button" value="close"
-                                            class="btn btn-sm btn-dark align-items-center"
-                                            data-bs-dismiss="modal">Reset</button>
-                                    </div>
+
+                            </div>
+                            <hr>
+                            <div class="row text-center mb-1">
+                                <div class="col">
+                                    <button type="button" class="btn btn-sm btn-dark align-items-center filAssignTim"
+                                        id="filAssignTim">Tampilkan</button>
+                                    <button type="button" value="close"
+                                        class="btn btn-sm btn-dark align-items-center">Reset</button>
                                 </div>
                             </div>
+                            {{-- </div> --}}
                             {{-- </div> --}}
                         </div>
                     </div>
@@ -198,8 +260,8 @@
                                             {{-- <th class="text-center text-xs font-weight-semibold">Cust Address</th> --}}
                                             <th class="text-center text-xs font-weight-semibold">Type WO</th>
                                             <th class="text-center text-xs font-weight-semibold">Fat Code</th>
-                                            <th class="text-center text-xs font-weight-semibold">Cluster</th>
                                             <th class="text-center text-xs font-weight-semibold">Area</th>
+                                            <th class="text-center text-xs font-weight-semibold">Cluster</th>
                                             <th class="text-center text-xs font-weight-semibold">Slot Time</th>
                                             <th class="text-center text-xs font-weight-semibold">Lead Callsign</th>
                                             <th class="text-center text-xs font-weight-semibold">Leader</th>
@@ -208,6 +270,7 @@
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 2</th>
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 3</th>
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 4</th>
+                                            <th class="text-center text-xs font-weight-semibold">Leader Assign</th>
                                             <th class="text-center text-xs font-weight-semibold">#</th>
 
                                         </tr>
@@ -990,16 +1053,46 @@
     });
 </script>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
-<script>
+<script type="text/javascript">
+
+    $('#rekapAssignTim').DataTable({
+        layout: {
+            topStart: {
+                buttons: ['excel']
+            },
+        },
+        paging: true,
+        orderClasses: false,
+        // fixedColumns: true,
+
+        // fixedColumns: {
+        //     leftColumns: 3,
+        //     // rightColumns: 1
+        // },
+        deferRender: true,
+        scrollCollapse: true,
+        scrollX: true,
+        pageLength: 10,
+        lengthChange: false,
+        bFilter: true,
+        destroy: true,
+        processing: true,
+        serverSide: false,
+
+    });
+
     $(document).ready(function() {
-
-
         var _token = $('meta[name=csrf-token]').attr('content');
         var firstDate;
         var lastDate;
+        var stDate;
+        var enDate;
+
         akses = $('#akses').val();
-        data_assignTim()
 
         function toTitleCase(str) {
             return str.replace(
@@ -1008,6 +1101,18 @@
             );
         }
 
+        $('.date-range').daterangepicker({
+            startDate: moment(),
+            endDate: moment(),
+        });
+
+        $(document).on('click', '#filAssignTim', function(e) {
+            data_assignTim();
+            stDate = $('.date-range').data('daterangepicker').startDate.format("DD-MMM-YYYY");
+            enDate = $('.date-range').data('daterangepicker').endDate.format("DD-MMM-YYYY");
+        })
+
+        $('#filAssignTim').trigger("click");
 
         function data_assignTim() {
             $('#tabelAssignTim').DataTable({
@@ -1020,25 +1125,10 @@
                 paging: true,
                 orderClasses: false,
                 // fixedColumns: true,
-
-                // fixedColumns: {
-                //     leftColumns: 3,
-                //     // rightColumns: 1
-                // },
-                // columnDefs: [{
-                //         width: '70px',
-                //         targets: [5, 6]
-                //     },
-                //     {
-                //         targets: [5, 6],
-                //         createdCell: function(td, cellData, rowData, row, col) {
-                //             // if (rowData[5] === 'Inactive') {
-                //             $(td).css('color', 'red');
-                //             $(td).css('text-transform', 'lowercase');
-                //             // }
-                //         }
-                //     }
-                // ],
+                fixedColumns: {
+                    leftColumns: 6,
+                    // rightColumns: 1
+                },
                 deferRender: true,
                 scrollCollapse: true,
                 scrollX: true,
@@ -1053,6 +1143,17 @@
                     type: "get",
                     dataType: "json",
                     data: {
+                        filTgl: $('#filtglProgress').val(),
+                        filNoWo: $('#filnoWo').val(),
+                        filcustId: $('#filcustId').val(),
+                        filtypeWo: $('#filtypeWo').val(),
+                        filarea: $('#filarea').val(),
+                        filleaderTim: $('#filleaderTim').val(),
+                        filcallsignTimid: $('#filcallsignTimid').val(),
+                        filteknisi: $('#filteknisi').val(),
+                        filcluster: $('#filcluster').val(),
+                        filfatCode: $('#filfatCode').val(),
+                        filslotTime: $('#filslotTime').val(),
                         _token: _token
                     }
                 },
@@ -1087,10 +1188,10 @@
                         data: 'fat_code'
                     },
                     {
-                        data: 'area'
+                        data: 'branch'
                     },
                     {
-                        data: 'branch'
+                        data: 'area'
                     },
                     {
                         data: 'slot_time'
@@ -1117,13 +1218,15 @@
                         data: 'teknisi4'
                     },
                     {
+                        data: 'login',
+                    },
+                    {
                         data: 'action',
                         "className": "text-center",
                     },
                 ]
             })
         }
-
 
         function showDetail_tool(tool) {
             $('#showTim').DataTable({
