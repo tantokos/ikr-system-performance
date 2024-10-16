@@ -20,11 +20,15 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
      * @return \Illuminate\Database\Eloquent\Model|null
      */
 
-    protected $login;
+    protected $logId, $logNm;
 
     function __construct($akses)
     {
-        $this->login = $akses;
+        $dtLogin = explode("|", $akses);
+        $loginId = $dtLogin[0];
+        $loginNm = $dtLogin[1];
+        $this->logId = $loginId;
+        $this->logNm = $loginNm;
     }
 
 
@@ -35,27 +39,27 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
 
             'batch_wo' => "Sesi",
             // 'tgl_ikr' => ,
-            'wo_no' => $row['wo_no'],
-            'ticket_no' => $row['ticket_no'],
-            'wo_type' => Str::title($row['wo_type']),
+            'no_wo_apk' => $row['wo_no'],
+            'no_ticket_apk' => $row['ticket_no'],
+            'wo_type_apk' => Str::title($row['wo_type']),
 
-            'jenis_wo' => Str::upper($row['wo_type'])=="MAINTENANCE" || Str::upper($row['wo_type'])=="REMOVE DEVICE" || Str::upper($row['wo_type'])=="ADD DEVICE" || Str::upper($row['wo_type'])=="ADD / REMOVE DEVICE" || Str::upper($row['wo_type'])=="PENDING DEVICE" ? "FTTH Maintenance" : (Str::upper($row['wo_type'])=="NEW INSTALLATION" || Str::upper($row['wo_type'])=="RELOCATION" ? "FTTH New Installation" : (Str::upper($row['wo_type'])=="DISMANTLE" ? "FTTH Dismantle" : "-")),
+            'type_wo' => Str::upper($row['wo_type'])=="MAINTENANCE" || Str::upper($row['wo_type'])=="REMOVE DEVICE" || Str::upper($row['wo_type'])=="ADD DEVICE" || Str::upper($row['wo_type'])=="ADD / REMOVE DEVICE" || Str::upper($row['wo_type'])=="PENDING DEVICE" ? "FTTH Maintenance" : (Str::upper($row['wo_type'])=="NEW INSTALLATION" || Str::upper($row['wo_type'])=="RELOCATION" ? "FTTH New Installation" : (Str::upper($row['wo_type'])=="DISMANTLE" ? "FTTH Dismantle" : "-")),
 
-            'wo_date' => $row['wo_date'],
-            'cust_id' => $row['cust_id'],
-            'name' => Str::title($row['name']),
-            'cust_phone' => $row['cust_phone'],
-            'cust_mobile' => $row['cust_mobile'],
-            'address' => Str::title($row['address']),
-            'area' => Str::title($row['area']),
-            'fat_code' => $row['fat_code'],
-            'fat_port' => $row['fat_port'],
-            'remarks' => Str::title($row['remarks']),
-            'vendor_installer' => Str::title($row['vendor_installer']),
-            'ikr_date' => $row['ikr_date'],
-            'time' => $row['time'],
-
-            'login' => $this->login
+            'wo_date_apk' => $row['wo_date'],
+            'cust_id_apk' => $row['cust_id'],
+            'name_cust_apk' => Str::title($row['name']),
+            'cust_phone_apk' => $row['cust_phone'],
+            'cust_mobile_apk' => $row['cust_mobile'],
+            'address_apk' => Str::title($row['address']),
+            'area_cluster_apk' => Str::title($row['area']),
+            'fat_code_apk' => $row['fat_code'],
+            'fat_port_apk' => $row['fat_port'],
+            'remarks_apk' => Str::title($row['remarks']),
+            'vendor_installer_apk' => Str::title($row['vendor_installer']),
+            'ikr_date_apk' => $row['ikr_date'],
+            'time_apk' => $row['time'],
+            'login_id' => $this->logId,
+            'login' => $this->logNm
         ]);
     }
 
@@ -67,7 +71,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
     public function rules(): array
     {
         return [
-            'wo_no' => Rule::unique('import_assign_tims', 'wo_no')
+            'no_wo_apk' => Rule::unique('import_assign_tims', 'no_wo_apk')
             // 'wo_no' => Rule::unique('import_assign_tims', 'wo_no')->where(fn (Builder $query) => $query->where('tgk_ikr', 'satu'))
         ];
     }
@@ -75,7 +79,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
     public function customValidationMessages()
 {
     return [
-        'wo_no.unique' => 'Duplicate',
+        'no_wo_apk.unique' => 'Duplicate',
     ];
 }
 
