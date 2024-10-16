@@ -664,20 +664,20 @@
                         "width": '20'
                     },
                     {
-                        data: 'wo_no',
+                        data: 'no_wo_apk',
                         width: '90'
                     },
                     {
-                        data: 'wo_date'
+                        data: 'wo_date_apk'
                     },
                     {
-                        data: 'cust_id'
+                        data: 'cust_id_apk'
                     },
                     {
-                        data: 'name'
+                        data: 'name_cust_apk'
                     },
                     {
-                        data: 'wo_type'
+                        data: 'wo_type_apk'
                     },
                     //{
                     //  data: 'ticket_no'
@@ -685,19 +685,19 @@
 
 
                     {
-                        data: 'area'
+                        data: 'area_cluster_apk'
                     },
                     {
-                        data: 'fat_code'
+                        data: 'fat_code_apk'
                     },
                     // {
                     //     data: 'fat_port'
                     // },
                     {
-                        data: 'ikr_date'
+                        data: 'ikr_date_apk'
                     },
                     {
-                        data: 'time'
+                        data: 'time_apk'
                     },
                     {
                         data: 'callsign',
@@ -752,23 +752,23 @@
                 },
                 success: function(dtDis) {
                     $('#detId').val(dtDis.data.id)
-                    $('#noWoShow').val(dtDis.data.wo_no)
-                    $('#ticketNoShow').val(dtDis.data.ticket_no)
-                    $('#woTypeShow').val(dtDis.data.wo_type)
-                    $('#jenisWoShow').val(dtDis.data.jenis_wo)
-                    $('#WoDateShow').val(dtDis.data.wo_date)
-                    $('#custIdShow').val(dtDis.data.cust_id)
-                    $('#custNameShow').val(dtDis.data.name)
-                    $('#custPhoneShow').val(dtDis.data.cust_phone)
+                    $('#noWoShow').val(dtDis.data.no_wo_apk)
+                    $('#ticketNoShow').val(dtDis.data.no_ticket_apk)
+                    $('#woTypeShow').val(dtDis.data.wo_type_apk)
+                    $('#jenisWoShow').val(dtDis.data.type_wo)
+                    $('#WoDateShow').val(dtDis.data.wo_date_apk)
+                    $('#custIdShow').val(dtDis.data.cust_id_apk)
+                    $('#custNameShow').val(dtDis.data.name_cust_apk)
+                    $('#custPhoneShow').val(dtDis.data.cust_phone_apk)
 
-                    $('#custMobileShow').val(dtDis.data.cust_mobile);
-                    $('#custAddressShow').val(dtDis.data.address);
-                    $('#areaShow').val(dtDis.data.area);
-                    $('#ikrDateApkShow').val(dtDis.data.ikr_date);
-                    $('#timeApkShow').val(dtDis.data.time);
-                    $('#fatCodeShow').val(dtDis.data.fat_code);
-                    $('#portFatShow').val(dtDis.data.fat_port);
-                    $('#remarksShow').val(dtDis.data.remarks);
+                    $('#custMobileShow').val(dtDis.data.cust_mobile_apk);
+                    $('#custAddressShow').val(dtDis.data.address_apk);
+                    $('#areaShow').val(dtDis.data.area_cluster_apk);
+                    $('#ikrDateApkShow').val(dtDis.data.ikr_date_apk);
+                    $('#timeApkShow').val(dtDis.data.time_apk);
+                    $('#fatCodeShow').val(dtDis.data.fat_code_apk);
+                    $('#portFatShow').val(dtDis.data.fat_port_apk);
+                    $('#remarksShow').val(dtDis.data.remarks_apk);
 
                     // let br = branchImport.split('|');
 

@@ -59,13 +59,13 @@ class AssignTimController extends Controller
             }
 
             if($request->filNoWo != null) {
-                $datas = $datas->where('wo_no', $request->filNoWo);
+                $datas = $datas->where('no_wo_apk', $request->filNoWo);
             }
             if($request->filcustId != null) {
-                $datas = $datas->where('cust_id', $request->filcustId);
+                $datas = $datas->where('cust_id_apk', $request->filcustId);
             }
             if($request->filtypeWo != null) {
-                $datas = $datas->where('jenis_wo', $request->filtypeWo);
+                $datas = $datas->where('type_wo', $request->filtypeWo);
             }
             if($request->filarea != null) {
                 $b = explode("|", $request->filarea);
@@ -91,10 +91,10 @@ class AssignTimController extends Controller
                                 ->orWhere('tek4_nik', $nikTk);
             }
             if($request->filcluster != null) {
-                $datas = $datas->where('area', $request->filcluster);
+                $datas = $datas->where('area_cluster_apk', $request->filcluster);
             }
             if($request->filfatCode != null) {
-                $datas = $datas->where('fat_code', $request->filfatCode);
+                $datas = $datas->where('fat_code_apk', $request->filfatCode);
             }
             if($request->filslotTime != null) {
                 $datas = $datas->where('slot_time', $request->filslotTime);
@@ -108,14 +108,14 @@ class AssignTimController extends Controller
 
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
-                ->editColumn('name', function ($nm) {
-                    return Str::title($nm->name);
+                ->editColumn('name_cust_apk', function ($nm) {
+                    return Str::title($nm->name_cust_apk);
                 })
-                ->editColumn('wo_type', function ($nm) {
-                    return Str::title($nm->wo_type);
+                ->editColumn('wo_type_apk', function ($nm) {
+                    return Str::title($nm->wo_type_apk);
                 })
-                ->editColumn('area', function ($nm) {
-                    return Str::title($nm->area);
+                ->editColumn('area_cluster_apk', function ($nm) {
+                    return Str::title($nm->area_cluster_apk);
                 })
                 ->editColumn('branch', function ($nm) {
                     return Str::title($nm->branch);
@@ -255,23 +255,23 @@ class AssignTimController extends Controller
             'batch_wo' => $request['sesi'],
             'tgl_ikr' => $request['tglProgress'],
             'slot_time' => $request['slotTime'],
-            'jenis_wo' => $request['jenisWo'],
-            'wo_no' => $request['noWo'],
-            'ticket_no' => $request['ticketNo'],
-            'wo_date' => $request['WoDate'],
-            'cust_id' => $request['custId'],
-            'name' => $request['custName'],
-            'cust_phone' => $request['custPhone'],
-            'cust_mobile' => $request['custMobile'],
-            'address' => $request['custAddress'],
-            'area' => $request['area'],
-            'wo_type' => $request['woType'],
-            'fat_code' => $request['fatCode'],
-            'fat_port' => $request['portFat'],
-            'remarks' => $request['remarks'],
-            'vendor_installer' => "Misitel",
-            'ikr_date' => $request['ikrDateApk'],
-            'time' => $request['timeApk'],
+            'type_wo' => $request['jenisWo'],
+            'no_wo_apk' => $request['noWo'],
+            'no_ticket_apk' => $request['ticketNo'],
+            'wo_date_apk' => $request['WoDate'],
+            'cust_id_apk' => $request['custId'],
+            'name_cust_apk' => $request['custName'],
+            'cust_phone_apk' => $request['custPhone'],
+            'cust_mobile_apk' => $request['custMobile'],
+            'address_apk' => $request['custAddress'],
+            'area_cluster_apk' => $request['area'],
+            'wo_type_apk' => $request['woType'],
+            'fat_code_apk' => $request['fatCode'],
+            'fat_port_apk' => $request['portFat'],
+            'remarks_apk' => $request['remarks'],
+            'vendor_installer_apk' => "Misitel",
+            'ikr_date_apk' => $request['ikrDateApk'],
+            'time_apk' => $request['timeApk'],
             'branch_id' => $branchId,
             'branch' => $branchNm,
             'leadcall_id' => $leadCallId,
@@ -373,23 +373,23 @@ class AssignTimController extends Controller
             'batch_wo' => $request['sesiShow'],
             'tgl_ikr' => $request['tglProgressShow'],
             'slot_time' => $request['slotTimeShow'],
-            'jenis_wo' => $request['jenisWoShow'],
-            'wo_no' => $request['noWoShow'],
-            'ticket_no' => $request['ticketNoShow'],
-            'wo_date' => $request['WoDateShow'],
-            'cust_id' => $request['custIdShow'],
-            'name' => $request['custNameShow'],
-            'cust_phone' => $request['custPhoneShow'],
-            'cust_mobile' => $request['custMobileShow'],
-            'address' => $request['custAddressShow'],
-            'area' => $request['areaShow'],
-            'wo_type' => $request['woTypeShow'],
-            'fat_code' => $request['fatCodeShow'],
-            'fat_port' => $request['portFatShow'],
-            'remarks' => $request['remarksShow'],
+            'type_wo' => $request['jenisWoShow'],
+            'no_wo_apk' => $request['noWoShow'],
+            'no_ticket_apk' => $request['ticketNoShow'],
+            'wo_date_apk' => $request['WoDateShow'],
+            'cust_id_apk' => $request['custIdShow'],
+            'name_cust_apk' => $request['custNameShow'],
+            'cust_phone_apk' => $request['custPhoneShow'],
+            'cust_mobile_apk' => $request['custMobileShow'],
+            'address_apk' => $request['custAddressShow'],
+            'area_cluster_apk' => $request['areaShow'],
+            'wo_type_apk' => $request['woTypeShow'],
+            'fat_code_apk' => $request['fatCodeShow'],
+            'fat_port_apk' => $request['portFatShow'],
+            'remarks_apk' => $request['remarksShow'],
             // 'vendor_installer' => "MisitelShow",
-            'ikr_date' => $request['ikrDateApkShow'],
-            'time' => $request['timeApkShow'],
+            'ikr_date_apk' => $request['ikrDateApkShow'],
+            'time_apk' => $request['timeApkShow'],
             'branch_id' => $branchId,
             'branch' => $branchNm,
             'leadcall_id' => $leadCallId,

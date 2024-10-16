@@ -1059,32 +1059,6 @@
 
 <script type="text/javascript">
 
-    $('#rekapAssignTim').DataTable({
-        layout: {
-            topStart: {
-                buttons: ['excel']
-            },
-        },
-        paging: true,
-        orderClasses: false,
-        // fixedColumns: true,
-
-        // fixedColumns: {
-        //     leftColumns: 3,
-        //     // rightColumns: 1
-        // },
-        deferRender: true,
-        scrollCollapse: true,
-        scrollX: true,
-        pageLength: 10,
-        lengthChange: false,
-        bFilter: true,
-        destroy: true,
-        processing: true,
-        serverSide: false,
-
-    });
-
     $(document).ready(function() {
         var _token = $('meta[name=csrf-token]').attr('content');
         var firstDate;
@@ -1170,28 +1144,28 @@
                         // width: '90'
                     },
                     {
-                        data: 'wo_no'
+                        data: 'no_wo_apk'
                     },
                     {
-                        data: 'wo_date'
+                        data: 'wo_date_apk'
                     },
                     {
-                        data: 'cust_id'
+                        data: 'cust_id_apk'
                     },
                     {
-                        data: 'name'
+                        data: 'name_cust_apk'
                     },
                     {
-                        data: 'wo_type'
+                        data: 'wo_type_apk'
                     },
                     {
-                        data: 'fat_code'
+                        data: 'fat_code_apk'
                     },
                     {
                         data: 'branch'
                     },
                     {
-                        data: 'area'
+                        data: 'area_cluster_apk'
                     },
                     {
                         data: 'slot_time'
@@ -1512,23 +1486,23 @@
                 success: function(dtDis) {
                     console.log(dtDis);
                     $('#detId').val(dtDis.data.id)
-                    $('#noWoShow').val(dtDis.data.wo_no)
-                    $('#ticketNoShow').val(dtDis.data.ticket_no)
-                    $('#woTypeShow').val(toTitleCase(dtDis.data.wo_type))
-                    $('#jenisWoShow').val(dtDis.data.jenis_wo)
-                    $('#WoDateShow').val(dtDis.data.wo_date)
-                    $('#custIdShow').val(dtDis.data.cust_id)
-                    $('#custNameShow').val(toTitleCase(dtDis.data.name))
-                    $('#custPhoneShow').val(dtDis.data.cust_phone)
+                    $('#noWoShow').val(dtDis.data.no_wo_apk)
+                    $('#ticketNoShow').val(dtDis.data.no_ticket_apk)
+                    $('#woTypeShow').val(toTitleCase(dtDis.data.wo_type_apk))
+                    $('#jenisWoShow').val(dtDis.data.type_wo)
+                    $('#WoDateShow').val(dtDis.data.wo_date_apk)
+                    $('#custIdShow').val(dtDis.data.cust_id_apk)
+                    $('#custNameShow').val(toTitleCase(dtDis.data.name_cust_apk))
+                    $('#custPhoneShow').val(dtDis.data.cust_phone_apk)
 
-                    $('#custMobileShow').val(dtDis.data.cust_mobile);
-                    $('#custAddressShow').val(toTitleCase(dtDis.data.address));
-                    $('#areaShow').val(toTitleCase(dtDis.data.area));
-                    $('#ikrDateApkShow').val(dtDis.data.ikr_date);
-                    $('#timeApkShow').val(dtDis.data.time);
-                    $('#fatCodeShow').val(dtDis.data.fat_code);
-                    $('#portFatShow').val(dtDis.data.fat_port);
-                    $('#remarksShow').val(toTitleCase(dtDis.data.remarks));
+                    $('#custMobileShow').val(dtDis.data.cust_mobile_apk);
+                    $('#custAddressShow').val(toTitleCase(dtDis.data.address_apk));
+                    $('#areaShow').val(toTitleCase(dtDis.data.area_cluster_apk));
+                    $('#ikrDateApkShow').val(dtDis.data.ikr_date_apk);
+                    $('#timeApkShow').val(dtDis.data.time_apk);
+                    $('#fatCodeShow').val(dtDis.data.fat_code_apk);
+                    $('#portFatShow').val(dtDis.data.fat_port_apk);
+                    $('#remarksShow').val(toTitleCase(dtDis.data.remarks_apk));
 
                     $('#branchShow').val(dtDis.data.branch_id + '|' + dtDis.data.branch);
                     $('#tglProgressShow').val(dtDis.data.tgl_ikr);
@@ -1603,8 +1577,6 @@
                     $('#teknisi4Show').val(dtDis.data.tek4_nik + '|' + dtDis.data.teknisi4);
 
                     $('#showAssignTim').modal('show');
-
-
                 }
             })
         })

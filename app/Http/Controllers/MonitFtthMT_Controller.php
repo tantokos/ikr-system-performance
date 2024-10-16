@@ -38,7 +38,6 @@ class MonitFtthMT_Controller extends Controller
                     'nama_cust',
                     'kode_fat',
                     'type_wo',
-                    'kode_fat',
                     'cluster',
                     'branch',
                     'slot_time_leader',
