@@ -19,6 +19,7 @@ use App\Http\Controllers\LaporanToolController;
 use App\Http\Controllers\Leader_PerformController;
 use App\Http\Controllers\MonitFotoFtthMT_Controller;
 use App\Http\Controllers\MonitFTTH_MTController;
+use App\Http\Controllers\MonitFtthIB_Controller;
 use App\Http\Controllers\MonitFtthMT_Controller;
 use App\Http\Controllers\Monitoring_FTTH_IB;
 use App\Http\Controllers\RekapAssignTimController;
@@ -117,11 +118,13 @@ Route::post('/simpanImportWo', [Import_DataWoController::class, 'simpanImportWo'
 
 //Start Monitoring WO//
 
-Route::get('/monitFtthIB', [Monitoring_FTTH_IB::class, 'index'])->name('monitFtthIB')->middleware('auth');
+Route::get('/monitFtthIB', [MonitFtthIB_Controller::class, 'index'])->name('monitFtthIB')->middleware('auth');
 Route::get('/monitFtthMT', [MonitFtthMT_Controller::class, 'index'])->name('monitFtthMT')->middleware('auth');
 
 Route::get('/getDataMTOris', [MonitFtthMT_Controller::class, 'getDataMTOris'])->name('getDataMTOris')->middleware('auth');
+Route::get('/getDataIBOris', [MonitFtthIB_Controller::class, 'getDataIBOris'])->name('getDataIBOris')->middleware('auth');
 Route::get('/getDetailWOFtthMT', [MonitFtthMT_Controller::class, 'getDetailWOFtthMT'])->name('getDetailWOFtthMT')->middleware('auth');
+Route::get('/getDetailWOFtthIB', [MonitFtthIB_Controller::class, 'getDetailWOFtthIB'])->name('getDetailWOFtthIB')->middleware('auth');
 // Route::get('/getTabelAssignMT', [MonitFTTH_MTController::class, 'getTabelAssignMT'])->name('getTabelAssignMT')->middleware('auth');
 
 
