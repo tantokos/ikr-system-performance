@@ -2,36 +2,64 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\FtthMtApkImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-use App\Models\DataAssignTim;
-use App\Models\Employee;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use Str;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Str;
 
-class MonitFtthMT_Controller extends Controller
+class ImportDataWoApkController extends Controller
 {
     public function index()
     {
-        return view('monitoringWo.monit_ftth_mt');
+        $akses = Auth::user()->name;
+        $leadCallsign = DB::table('v_detail_callsign_tim')->select('lead_call_id', 'lead_callsign', 'leader_id', 'nama_leader', 'nama_branch')
+            ->orderBy('lead_callsign')->orderBy('branch_id')
+            ->groupBy('lead_call_id', 'lead_callsign', 'nama_branch')->get();
+
+        $branches = DB::table('branches')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
+
+        $jmlData = DB::table('import_ftth_mt_apks');
+
+        return view('monitoringWo.monit_ftth_mt_apk', compact('branches', 'leadCallsign', 'akses', 'jmlData'));
     }
 
-    public function getDataMTOris(Request $request)
+    public function importProsesDataWoApk(Request $request)
     {
+        if ($request->hasFile('fileDataWO')) {
+
+            $request->validate([
+                'fileDataWO' => ['required', 'mimes:xlsx,xls,csv']
+            ]);
+
+            $akses = Auth::user()->id . "|" . Auth::user()->name;
+
+            Excel::import(new FtthMtApkImport($akses), request()->file('fileDataWO'));
+
+            return back()->with(['success' => 'Import WO FTTH Maintenance berhasil.']);
+
+        }
+
+    }
+
+    public function getFtthMtApk(Request $request)
+    {
+
+
         ini_set('max_execution_time', 1900);
         ini_set('memory_limit', '8192M');
         $akses = Auth::user()->name;
 
-        $datas = DB::table('data_ftth_mt_oris')->orderBy('tgl_ikr', 'DESC');
+        $datas = DB::table('import_ftth_mt_apks')->orderBy('wo_date', 'DESC');
 
             if($request->filTgl != null) {
                 $dateRange = explode("-", $request->filTgl);
                 $startDt = \Carbon\Carbon::parse($dateRange[0]);
                 $endDt = \Carbon\Carbon::parse($dateRange[1]);
 
-                $datas = $datas->whereBetween('tgl_ikr',[$startDt, $endDt]);
+                $datas = $datas->whereBetween('wo_date',[$startDt, $endDt]);
             }
 
             if($request->filNoWo != null) {
@@ -77,13 +105,12 @@ class MonitFtthMT_Controller extends Controller
             }
 
             $datas = $datas->get();
-
         if ($request->ajax()) {
 
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
-                ->editColumn('nama_cust', function ($nm) {
-                    return Str::title($nm->nama_cust);
+                ->editColumn('name', function ($nm) {
+                    return Str::title($nm->name);
                 })
                 // ->editColumn('type_wo', function ($nm) {
                 //     return Str::title($nm->type_wo);
@@ -108,16 +135,5 @@ class MonitFtthMT_Controller extends Controller
         }
 
         // return response()->json($request->ajax());
-    }
-
-
-    public function getDetailWOFtthMT(Request $request)
-    {
-        // dd($request);
-        $assignId = $request->filAssignId;
-        $datas = DB::table('data_ftth_mt_oris as d')
-            ->where('d.id', $assignId)->first();
-
-        return response()->json(['data' => $datas]);
     }
 }
