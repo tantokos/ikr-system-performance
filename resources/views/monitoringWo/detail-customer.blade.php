@@ -9,7 +9,7 @@
                         <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
                         </div>
                         <div class="card-body text-start p-4 w-100">
-                            <h3 class="text-white mb-2">Monitoring WO FTTH Maintenance</h3>
+                            <h3 class="text-white mb-2">Detail Customer FTTH Maintenance</h3>
                             <p class="mb-4 font-weight-semibold">
                                 PT. Mitra Sinergi Telematika.
                             </p>
@@ -21,233 +21,11 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="card border shadow-xs mb-4">
-                        <div class="card-header border-bottom pb-0">
-                            <div class="row">
-                                <div class="col">
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Tanggal Progress</span>
-                                        <input class="form-control form-control-sm date-range" type="text"
-                                            id="filtglProgress" name="filtglProgress" style="border-color:#9ca0a7;">
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">No WO</span>
-                                        <input type="text" class="form-control form-control-sm" type="text"
-                                            id="filnoWo" name="filnoWo" style="border-color:#9ca0a7;">
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Cust Id</span>
-                                        <input type="text" class="form-control form-control-sm" id="filcustId"
-                                            name="filcustId" style="border-color:#9ca0a7;">
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Type WO</span>
-                                        <select class="form-control form-control-sm" type="text" id="filtypeWo"
-                                            name="filtypeWo" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Type WO</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col">
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Area</span>
-                                        <select class="form-control form-control-sm" type="text" id="filarea"
-                                            name="filarea" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Area</option>
-                                        </select>
-                                        <input type="hidden" id="filareaId" name="filareaId">
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Nama Leader</span>
-                                        <select class="form-control form-control-sm" type="text" id="filleaderTim"
-                                            name="filleaderTim" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Leader</option>
-                                        </select>
-                                        <input type="hidden" id="filleaderid" name="filleaderid" readonly>
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Callsign Tim</span>
-                                        <select class="form-control form-control-sm" type="text"
-                                            id="filcallsignTimid" name="filcallsignTimid" style="border-color:#9ca0a7;"
-                                            placeholder="Isi Callsign Tim">
-                                            <option value="">Pilih Callsign Tim</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Teknisi</span>
-                                        <select class="form-control form-control-sm" type="text" id="filteknisi"
-                                            name="filteknisi" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Teknisi</option>
-                                        </select>
-                                    </div>
-
-                                </div>
-
-                                <div class="col">
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Cluster</span>
-                                        <select class="form-control form-control-sm" type="text" id="filcluster"
-                                            name="filcluster" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Cluster</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">FAT Code</span>
-                                        <input type="text" class="form-control form-control-sm" id="filfatCode"
-                                            name="filfatCode" style="border-color:#9ca0a7;">
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Slot Time</span>
-                                        <select class="form-control form-control-sm" type="text" id="filslotTime"
-                                            name="filslotTime" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih SlotTime</option>
-                                        </select>
-                                    </div>
-
-                                </div>
-                                <hr>
-                                <div class="row text-center mb-1">
-                                    <div class="col">
-                                        <button type="button"
-                                            class="btn btn-sm btn-dark align-items-center filAssignTim"
-                                            id="filAssignTim">Tampilkan</button>
-                                        <button type="button" value="close"
-                                            class="btn btn-sm btn-dark align-items-center"
-                                            data-bs-dismiss="modal">Reset</button>
-                                    </div>
-                                </div>
-                            </div>
-                            {{-- </div> --}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="card border shadow-xs mb-4">
-                        <div class="card-header border-bottom pb-0">
-                            <div class="d-sm-flex align-items-center">
-                                <div>
-                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data FTTH Maintenance</span>
-                                    </h6>
-                                    {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
-                                </div>
-
-                                <div class="ms-auto d-flex">
-                                    <a href="{{ route('importDataFtthMtApk') }}">
-                                        <button type="button"
-                                            class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
-                                            <span class="btn-inner--icon">
-                                                <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
-                                                    <path
-                                                        d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
-                                                    </path>
-                                                </svg>
-                                            </span>
-                                            <span class="btn-inner--text">Import Data WO</span>
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- <div class="card-header border-bottom pb-0"> --}}
-                        {{-- <div class="d-sm-flex align-items-center"> --}}
-                        {{-- <div> --}}
-                        {{-- <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data WO</span></h6> --}}
-                        {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
-                        {{-- </div> --}}
-
-                        {{-- <div class="ms-auto d-flex">
-                                    <button type="button"
-                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"
-                                        data-bs-toggle="modal" data-bs-target="#tambahAssignTim">
-                                        <span class="fa fa-pencil"></span>
-
-                                        <span class="btn-inner--text">Tambah Assign Tim</span>
-                                    </button>
-
-                                    <a href="{{ route('importDataWo') }}">
-                                        <button type="button"
-                                            class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
-                                            <span class="btn-inner--icon">
-                                                <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
-                                                    <path
-                                                        d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
-                                                    </path>
-                                                </svg>
-                                            </span>
-                                            <span class="btn-inner--text">Import Data WO</span>
-                                        </button>
-                                    </a>
-                                </div> --}}
-                        {{-- </div> --}}
-                        {{-- </div> --}}
-
-                        <div class="card-body px-2 py-2">
-                            <div class="table-responsive p-0">
-                                <table class="table table-striped table-bordered align-items-center mb-0"
-                                    id="tabelAssignTim" style="font-size: 12px">
-                                    <thead class="bg-gray-100">
-                                        <tr id="headTool">
-                                            <th class="text-xs font-weight-semibold">#</th>
-                                            <th class="text-center text-xs font-weight-semibold">Tanggal</th>
-                                            <th class="text-center text-xs font-weight-semibold">No WO</th>
-                                            <th class="text-center text-xs font-weight-semibold">WO Date</th>
-                                            <th class="text-center text-xs font-weight-semibold">Cust Id</th>
-                                            <th class="text-center text-xs font-weight-semibold">Cust Name</th>
-                                            {{-- <th class="text-center text-xs font-weight-semibold">Cust Address</th> --}}
-                                            <th class="text-center text-xs font-weight-semibold">Type WO</th>
-                                            <th class="text-center text-xs font-weight-semibold">Fat Code</th>
-                                            <th class="text-center text-xs font-weight-semibold">Cluster</th>
-                                            <th class="text-center text-xs font-weight-semibold">Area</th>
-                                            <th class="text-center text-xs font-weight-semibold">Slot Time</th>
-                                            {{-- <th class="text-center text-xs font-weight-semibold">Lead Callsign</th> --}}
-                                            <th class="text-center text-xs font-weight-semibold">Callsign Tim</th>
-                                            <th class="text-center text-xs font-weight-semibold">Leader</th>
-                                            <th class="text-center text-xs font-weight-semibold">Teknisi 1</th>
-                                            <th class="text-center text-xs font-weight-semibold">Teknisi 2</th>
-                                            <th class="text-center text-xs font-weight-semibold">Teknisi 3</th>
-                                            {{-- <th class="text-center text-xs font-weight-semibold">Teknisi 4</th> --}}
-                                            <th class="text-center text-xs font-weight-semibold">Status WO</th>
-
-                                            <th class="text-center text-xs font-weight-semibold">#</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody id="bodyTool">
-
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="border-top py-3 px-3 d-flex align-items-center">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             {{-- <x-app.footer /> --}}
         </div>
-
         {{-- Modal Show Detail Data Tool --}}
-        <div class="modal fade" id="showDetail" tabindex="-1" role="dialog"
+        <div class="modal fade" id="tambahAssignTim" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false"
             data-bs-backdrop="static">>
             <div class="modal-dialog modal-xl" role="document">
@@ -1482,7 +1260,7 @@
                     $('#actionTaken').val(dtDis.data.action_taken);
                     $('#penagihanShow').val(dtDis.data.penagihan);
 
-                    $('#showDetail').modal('show');
+                    $('#showAssignTim').modal('show');
 
                 }
             })

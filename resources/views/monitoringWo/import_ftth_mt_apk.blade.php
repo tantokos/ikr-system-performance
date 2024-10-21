@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <form action="{{ route('simpanImportWo') }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('updateFtthMtApk') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <label class="col-sm-3 col-form-label form-control-sm">Import By</label>
@@ -698,7 +698,7 @@
                         data: 'callsign'
                     },
                     {
-                        data: 'cust_id'
+                        data: 'cust_id',
                     },
                     {
                         data: 'name'

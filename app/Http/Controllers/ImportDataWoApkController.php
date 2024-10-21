@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Imports\FtthMtApkImport;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +24,7 @@ class ImportDataWoApkController extends Controller
 
         $jmlData = DB::table('import_ftth_mt_apks');
 
-        return view('monitoringWo.monit_ftth_mt_apk', compact('branches', 'leadCallsign', 'akses', 'jmlData'));
+        return view('monitoringWo.import_ftth_mt_apk', compact('branches', 'leadCallsign', 'akses', 'jmlData'));
     }
 
     public function importProsesDataWoApk(Request $request)
@@ -136,4 +137,47 @@ class ImportDataWoApkController extends Controller
 
         // return response()->json($request->ajax());
     }
+
+    public function updateFtthMtApk()
+    {
+        ini_set('max_execution_time', 1900);
+        ini_set('memory_limit', '8192M');
+
+        $importedData = DB::table('import_ftth_mt_apks')
+            ->get();
+
+        DB::beginTransaction();
+        try {
+            // Update status_wo pada data_ftth_mt_oris berdasarkan wo_no dan tgl_ikr
+            foreach ($importedData as $data) {
+                DB::table('data_ftth_mt_oris')
+                    ->where('no_wo', $data->wo_no)
+                    ->where('tgl_ikr', $data->installation_date) // Menambahkan syarat
+                    ->update([
+                        'status_wo' => $data->status,
+                        'login' => Auth::user()->name,
+                    ]);
+            }
+
+            // Commit transaksi
+            DB::commit();
+            return redirect()->route('monitFtthMT')->with(['success' => 'Status berhasil diupdate.']);
+        } catch (\Exception $e) {
+            // Rollback jika ada kesalahan
+            DB::rollback();
+            return redirect()->route('monitFtthMT')->with(['error' => 'Gagal mengupdate status.']);
+        }
+    }
+
+    public function getDetailCustId()
+    {
+        $detail_customer = DB::table('data_ftth_mt_oris')
+            ->select('id', 'teknisi1', 'teknisi2')
+            ->get();
+
+        return response()->json($detail_customer);
+
+        return view('monitoringWo.detail-customer', compact('detail_customer'));
+    }
+
 }
