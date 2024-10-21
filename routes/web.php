@@ -24,6 +24,7 @@ use App\Http\Controllers\MonitFtthIB_Controller;
 use App\Http\Controllers\MonitFtthMT_Controller;
 use App\Http\Controllers\Monitoring_FTTH_IB;
 use App\Http\Controllers\RekapAssignTimController;
+use App\Http\Controllers\RekapProgressWOController;
 use App\Http\Controllers\TimController;
 use App\Http\Controllers\ToolController;
 
@@ -122,6 +123,10 @@ Route::get('/getFtthMtApk', [ImportDataWoApkController::class, 'getFtthMtApk'])-
 
 
 //Start Monitoring WO//
+
+Route::get('/rekapProgressWO', [RekapProgressWOController::class, 'index'])->name('rekapProgressWO')->middleware('auth');
+Route::get('/getMonthReport', [RekapProgressWOController::class, 'getMonthReport'])->name('getMonthReport')->middleware('auth');
+Route::get('/getRekapProgressWO', [RekapProgressWOController::class, 'getRekapProgressWO'])->name('getRekapProgressWO')->middleware('auth');
 
 Route::get('/monitFtthIB', [MonitFtthIB_Controller::class, 'index'])->name('monitFtthIB')->middleware('auth');
 Route::get('/monitFtthMT', [MonitFtthMT_Controller::class, 'index'])->name('monitFtthMT')->middleware('auth');
