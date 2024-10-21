@@ -97,12 +97,60 @@ class Import_DataWoController extends Controller
 
         switch ($request->input('action')) {
             case 'simpan':
-                $branch = $request->branchShow ? explode('|', $request->branchShow)[1] : "";
+
+                if ($request->branchShow) {
+                    $branchRq = explode('|', $request->branchShow);
+                    $branchId = $branchRq[0];
+                    $branch = $branchRq[1];
+                } else {
+                    $branch = "";
+                }
 
                 $dtImportAssign = ImportAssignTim::whereNotNull('callsign')
+                    ->select(
+                        'batch_wo',
+                        'tgl_ikr',
+                        'slot_time',
+                        'type_wo',
+                        'no_wo_apk',
+                        'no_ticket_apk',
+                        'wo_date_apk',
+                        'cust_id_apk',
+                        'name_cust_apk',
+                        'cust_phone_apk',
+                        'cust_mobile_apk',
+                        'address_apk',
+                        'area_cluster_apk',
+                        'wo_type_apk',
+                        'fat_code_apk',
+                        'fat_port_apk',
+                        'remarks_apk',
+                        'vendor_installer_apk',
+                        'ikr_date_apk',
+                        'time_apk',
+                        'branch_id',
+                        'branch',
+                        'leadcall_id',
+                        'leadcall',
+                        'leader_id',
+                        'leader',
+                        'callsign_id',
+                        'callsign',
+                        'tek1_nik',
+                        'teknisi1',
+                        'tek2_nik',
+                        'teknisi2',
+                        'tek3_nik',
+                        'teknisi3',
+                        'tek4_nik',
+                        'teknisi4',
+                        'login_id',
+                        'login'
+
+                    )
+                    // ->where('branch', $branch)
                     ->where('login', $akses)
-                    ->get()
-                    ->toArray();
+                    ->get()->toArray();
 
                 // dd($dtImportAssign);
 
@@ -349,4 +397,5 @@ class Import_DataWoController extends Controller
             return response()->json(['error' => 'Gagal Simpan Data.', 'brImport' => $request->branchShow]);
         }
     }
+
 }
