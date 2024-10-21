@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\DistribusiToolController;
 use App\Http\Controllers\Import_AbsensiController;
 use App\Http\Controllers\Import_DataWoController;
+use App\Http\Controllers\ImportDataWoApkController;
 use App\Http\Controllers\karyawanController;
 use App\Http\Controllers\KembaliTool;
 use App\Http\Controllers\KembaliToolController;
@@ -113,6 +114,10 @@ Route::get('/getDetailImport', [Import_DataWoController::class, 'getDetailImport
 Route::get('/updateImportWo', [Import_DataWoController::class, 'updateImportWo'])->name('updateImportWo')->middleware('auth');
 Route::post('/simpanImportWo', [Import_DataWoController::class, 'simpanImportWo'])->name('simpanImportWo')->middleware('auth');
 
+//Import Data Wo Apk
+Route::get('/importDataFtthMtApk', [ImportDataWoApkController::class, 'index'])->name('importDataFtthMtApk')->middleware('auth');
+Route::post('/importProsesDataWoApk', [ImportDataWoApkController::class, 'importProsesDataWoApk'])->name('importProsesDataWoApk')->middleware('auth');
+Route::get('/getFtthMtApk', [ImportDataWoApkController::class, 'getFtthMtApk'])->name('getFtthMtApk')->middleware('auth');
 //End Assign Tim//
 
 
@@ -187,6 +192,7 @@ Route::post('/saveImportAbsensi', [Import_AbsensiController::class, 'saveImportA
 Route::get('/getFilterPreview', [Import_AbsensiController::class, 'getFilterPreview'])->name('getFilterPreview')->middleware('auth');
 
 // End Import Absensi //
+
 
 Route::get('/', function () {
     return redirect('/dashboard');
