@@ -32,7 +32,7 @@ class FtthMtApkImport implements ToModel, WithHeadingRow, WithChunkReading, With
             'wo_no' => $row['wo_no'],
             'ticket_no' => $row['ticket_no'],
             'wo_date' => $row['wo_date'],
-            'installation_date' => $row['installation_date'],
+            'installation_date' => date('Y-m-d', strtotime($row['installation_date'])),
             'time' => $row['time'],
             'vendor_installer' => $row['vendor_installer'],
             'callsign' => $row['call_sign'],

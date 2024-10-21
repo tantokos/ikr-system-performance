@@ -119,6 +119,8 @@ Route::post('/simpanImportWo', [Import_DataWoController::class, 'simpanImportWo'
 Route::get('/importDataFtthMtApk', [ImportDataWoApkController::class, 'index'])->name('importDataFtthMtApk')->middleware('auth');
 Route::post('/importProsesDataWoApk', [ImportDataWoApkController::class, 'importProsesDataWoApk'])->name('importProsesDataWoApk')->middleware('auth');
 Route::get('/getFtthMtApk', [ImportDataWoApkController::class, 'getFtthMtApk'])->name('getFtthMtApk')->middleware('auth');
+Route::post('/updateFtthMtApk', [ImportDataWoApkController::class, 'updateFtthMtApk'])->name('updateFtthMtApk')->middleware('auth');
+Route::get('/getDetailCustId', [ImportDataWoApkController::class, 'getDetailCustId'])->name('getDetailCustId')->middleware('auth');
 //End Assign Tim//
 
 
