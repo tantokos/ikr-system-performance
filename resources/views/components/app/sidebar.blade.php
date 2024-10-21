@@ -152,7 +152,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link  {{ is_current_route('monitFtthIB') ? 'active' : '' }}">
+                <a class="nav-link  {{ is_current_route('monitFtthIB') || is_current_route('monitFtthMT') || is_current_route('rekapProgressWO') ? 'active' : '' }}">
                     <div
                         class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
                         <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1"
@@ -178,6 +178,13 @@
                         </svg>
                     </div>
                     <span class="nav-link-text ms-1">Monitoring WO</span>
+                </a>
+            </li>
+
+            <li class="nav-item border-start my-0 pt-2">
+                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('rekapProgressWO') ? 'active' : '' }}"
+                    href="{{ route('rekapProgressWO') }}">
+                    <span class="nav-link-text ms-1">Rekap Progress WO</span>
                 </a>
             </li>
 
