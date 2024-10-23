@@ -261,7 +261,9 @@
                     </div>
                     <div class="modal-body">
                         {{-- <form action="{{ route('updateSignTim') }}" method="post" enctype="multipart/form-data"> --}}
-                        <form action="#" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('updateFtthMt') }}" method="post" enctype="multipart/form-data">
+
+                            @method('PUT')
                             @csrf
 
                             <div class="card-body px-1 py-1">
@@ -480,6 +482,9 @@
                                                                 <option value="19:30">19:30</option>
                                                                 <option value="20:00">20:00</option>
                                                             </select>
+                                                            {{-- <input class="form-control form-control-sm" type="text"
+                                                                id="slotTimeLeaderShow" name="slotTimeLeaderShow"
+                                                                style="border-color:#9ca0a7;"> --}}
                                                         </div>
 
                                                         <div class="col form-group mb-1">
@@ -524,7 +529,7 @@
                                                             <span class="text-xs">Lead Callsign</span>
                                                             <select class="form-control form-control-sm"
                                                                 id="LeadCallsignShow" name="LeadCallsignShow"
-                                                                style="border-color:#9ca0a7;" required>
+                                                                style="border-color:#9ca0a7;">
                                                                 <option value="">Pilih Lead Callsign</option>
                                                                 @if (isset($leadCallsign))
                                                                     @foreach ($leadCallsign as $lead)
@@ -565,31 +570,31 @@
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 1</span>
-                                                        <select class="form-control form-control-sm" id="teknisi1Show"
-                                                            name="teknisi1Show" style="border-color:#9ca0a7;">
-                                                            <option value="">Teknisi 1</option>
-                                                        </select>
+                                                        <input class="form-control form-control-sm" type="text"
+                                                                 id="teknisi1Show"
+                                                                name="teknisi1Show"
+                                                                style="border-color:#9ca0a7;">
                                                     </div>
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 2</span>
-                                                        <select class="form-control form-control-sm" id="teknisi2Show"
-                                                            name="teknisi2Show" style="border-color:#9ca0a7;">
-                                                            <option value="">Teknisi 2</option>
-                                                        </select>
+                                                        <input class="form-control form-control-sm" type="text"
+                                                                 id="teknisi2Show"
+                                                                name="teknisi2Show"
+                                                                style="border-color:#9ca0a7;">
                                                     </div>
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 3</span>
-                                                        <select class="form-control form-control-sm" id="teknisi3Show"
-                                                            name="teknisi3Show" style="border-color:#9ca0a7;">
-                                                            <option value="">Teknisi 3</option>
-                                                        </select>
+                                                        <input class="form-control form-control-sm" type="text"
+                                                                 id="teknisi3Show"
+                                                                name="teknisi3Show"
+                                                                style="border-color:#9ca0a7;">
                                                     </div>
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 4</span>
-                                                        <select class="form-control form-control-sm" id="teknisi4Show"
+                                                        <select class="form-control form-control-sm" type="text" id="teknisi4Show"
                                                             name="teknisi4Show" style="border-color:#9ca0a7;">
                                                             <option value="">Teknisi 4</option>
                                                         </select>
@@ -659,12 +664,12 @@
                                                     <div class="col form-group mb-1">
                                                         <span class="text-xs">Status WO</span>
                                                         <select class="form-control form-control-sm" type="text"
-                                                            id="statusWo" name="statusWo"
+                                                            id="statusWoShow" name="statusWo"
                                                             style="border-color:#9ca0a7;">
                                                             <option value="">Pilih Status WO</option>
-                                                            <option value="DONE">Done</option>
-                                                            <option value="PENDING">Pending</option>
-                                                            <option value="CANCEL">Cancel</option>
+                                                            <option value="Done">Done</option>
+                                                            <option value="Pending">Pending</option>
+                                                            <option value="Cancel">Cancel</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -867,7 +872,7 @@
                                                 <div class="col form-group mb-1">
                                                     <span class="text-xs">Status WO Aplikasi</span>
                                                     <select class="form-control form-control-sm" type="text"
-                                                        id="statusWoAPK" name="statusWoAPK"
+                                                        id="statusWoApk" name="statusWoApk"
                                                         style="border-color:#9ca0a7;">
                                                         <option value="">Pilih Status WO</option>
                                                         <option value="Checkout">Checkout</option>
@@ -910,15 +915,17 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkin Aplikasi</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                value="" id="checkinAPK" name="checkinAPK"
+                                                            <input class="form-control form-control-sm" type="date"
+                                                                value="{{ date('Y-m-d') }}" id="tglCheckinApk"
+                                                                name="checkin_apk"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkout Aplikasi</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                value="" id="checkoutAPK" name="checkoutAPK"
+                                                            <input class="form-control form-control-sm" type="date"
+                                                                value="{{ date('Y-m-d') }}" id="tglCheckoutApk"
+                                                                name="checkout_apk"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
                                                     </div>
@@ -1012,7 +1019,7 @@
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Merk STB Terambil</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                value="" id="merkStbIn" name="merkStbIn"
+                                                                id="merkStbIn" name="merkStbIn"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
 
@@ -1579,6 +1586,7 @@
         }
 
         $(document).on('click', '#detail-assign', function(e) {
+
             // e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
             let assign_id = $(this).data('id');
@@ -1592,9 +1600,30 @@
                     _token: _token
                 },
                 success: function(dtDis) {
-                    console.log(dtDis);
+
+                    function floatToTime(float) {
+                        // Konversi float menjadi total menit
+                        let totalMinutes = Math.floor(float * 60 * 24);
+                        let hours = Math.floor(totalMinutes / 60);
+                        let minutes = totalMinutes % 60;
+
+                        // Format supaya jam dan menit memiliki dua digit
+                        hours = hours < 10 ? '0' + hours : hours;
+                        minutes = minutes < 10 ? '0' + minutes : minutes;
+
+                        return `${hours}:${minutes}`;
+                    }
+
+                    // console.log(dtDis);
+                    let checkinDate = new Date(dtDis.data.checkin_apk).toISOString().slice(0, 10);
+                    let checkoutDate = new Date(dtDis.data.checkout_apk).toISOString().slice(0, 10);
+                    let slotTimeLeader = floatToTime(dtDis.data.slot_time_leader);
+                    // let timeValue = dtDis.data.slot_time_apk.replace('.', ':').slice(0, 5);
+                    console.log(slotTimeLeader);
+
                     $('#detId').val(dtDis.data.id)
                     $('#noWoShow').val(dtDis.data.no_wo)
+                    $('#statusWoShow').val(dtDis.data.status_wo).change()
                     $('#ticketNoShow').val(dtDis.data.no_ticket)
                     $('#woTypeShow').val(toTitleCase(dtDis.data.type_wo))
                     $('#jenisWoShow').val(dtDis.data.type_wo)
@@ -1605,7 +1634,6 @@
 
                     // $('#custMobileShow').val(dtDis.data.cust_mobile);
                     $('#custAddressShow').val(toTitleCase(dtDis.data.cust_address1));
-                    $('#areaShow').val(toTitleCase(dtDis.data.cluster));
                     // $('#ikrDateApkShow').val(dtDis.data.ikr_date);
                     $('#timeApkShow').val(dtDis.data.time);
                     $('#fatCodeShow').val(dtDis.data.kode_fat);
@@ -1618,28 +1646,39 @@
                     $('#tglProgressAPKShow').val(dtDis.data.tgl_ikr);
 
                     $('#sesiShow').val(dtDis.data.sesi);
-                    $('#slotTimeLeaderShow').val(dtDis.data.slot_time_leader);
+                    $('#slotTimeLeaderShow').val(slotTimeLeader);
                     $('#slotTimeAPKShow').val(dtDis.data.slot_time_apk);
 
-                    $('#slotTimeLeaderStatusShow').val(dtDis.data.slot_time_leader);
-                    $('#slotTimeAPKStatusShow').val(dtDis.data.slot_time_apk);
+                    $('#slotTimeLeaderStatusShow').val(slotTimeLeader);
+                    // $('#slotTimeAPKStatusShow').val(timeValue);
 
 
                     $('#leaderShow').val(dtDis.data.leader);
                     $('#LeadCallsignShow').val(dtDis.data.leadcall_id);
                     $('#callsignTimidShow').val(dtDis.data.callsign_id);
-                    $('#teknisi1Show').val(dtDis.data.teknisi1);
-                    $('#teknisi2Show').val(dtDis.data.teknisi2);
-                    $('#teknisi3Show').val(dtDis.data.teknisi3);
-                    $('#teknisi4Show').val(dtDis.data.teknisi4);
+                    // $('#teknisi1Show').val(toTitleCase(dtDis.data.teknisi1));
+                    // $('#teknisi2Show').val(toTitleCase(dtDis.data.teknisi2));
 
                     $('#statusWo').val(dtDis.data.status_wo);
+                    $('#statusWoApk').val(dtDis.data.status_apk);
+
                     $('#causeCode').val(dtDis.data.couse_code);
                     $('#rootCause').val(dtDis.data.root_couse);
                     $('#actionTaken').val(dtDis.data.action_taken);
                     $('#penagihanShow').val(dtDis.data.penagihan);
 
                     $('#actionTakenAPK').val(dtDis.data.action_taken);
+                    $('#tglCheckinApk').val(checkinDate);
+                    $('#tglCheckoutApk').val(checkoutDate);
+                    $('#teknisi1Show').val(dtDis.data.teknisi1);
+                    $('#merkStbIn').val(dtDis.data.stb_merk_in);
+                    $('#merkStbOut').val(dtDis.data.stb_merk_out);
+                    $('#merkOntOut').val(dtDis.data.ont_merk_out);
+                    $('#snStbIn').val(dtDis.data.stb_sn_in);
+                    $('#snStbOut').val(dtDis.data.stb_sn_out);
+                    $('#kabelPrecon').val(dtDis.data.precon_out);
+                    $('#kabelPreconBad').val(dtDis.data.bad_precon);
+
 
                     $('#showDetail').modal('show');
 

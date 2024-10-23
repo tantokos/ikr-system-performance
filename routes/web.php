@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\analisa_woController;
 use App\Http\Controllers\AssignTimController;
+use App\Http\Controllers\FtthDismantleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
@@ -133,9 +134,10 @@ Route::get('/getRekapProgressWO', [RekapProgressWOController::class, 'getRekapPr
 Route::get('/monitFtthIB', [MonitFtthIB_Controller::class, 'index'])->name('monitFtthIB')->middleware('auth');
 Route::get('/monitFtthMT', [MonitFtthMT_Controller::class, 'index'])->name(name: 'monitFtthMT')->middleware('auth');
 Route::get('/getDetailCustId', [MonitFtthMT_Controller::class, 'getDetailCustId'])->name('getDetailCustId')->middleware('auth');
-Route::get('/detail-customer/{cust_id}', [MonitFtthMT_Controller::class, 'getDetailCustId'])
-    ->name('detail-customer')
-    ->middleware('auth');
+Route::get('/detail-customer/{cust_id}', [MonitFtthMT_Controller::class, 'getDetailCustId'])->name('detail-customer')->middleware('auth');
+Route::put('/updateFtthMT/{id}', [MonitFtthMT_Controller::class, 'updateFtthMT'])->name('updateFtthMT')->middleware('auth');
+
+Route::get('/ftth-dismantle', [FtthDismantleController::class, 'index'])->name('ftth-dismantle')->middleware('auth');
 
 
 Route::get('/getDataMTOris', [MonitFtthMT_Controller::class, 'getDataMTOris'])->name('getDataMTOris')->middleware('auth');
