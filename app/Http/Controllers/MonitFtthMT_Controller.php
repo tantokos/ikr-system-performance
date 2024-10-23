@@ -7,21 +7,17 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\DataAssignTim;
 use App\Models\Employee;
+use App\Models\FtthMt;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 
 class MonitFtthMT_Controller extends Controller
 {
+
     public function index()
     {
-        // dd($cust_id);
-        // dd($request->all());
-        $branches = DB::table('data_ftth_mt_oris')
-        ->select('callsign_id')
-        ->get();
-
-        return view('monitoringWo.monit_ftth_mt', compact('branches'));
+        return view('monitoringWo.monit_ftth_mt');
     }
 
     public function getDataMTOris(Request $request)
@@ -170,5 +166,132 @@ class MonitFtthMT_Controller extends Controller
 
         // return response()->json(['data' => $detail_customer]);
         // return view('monitoringWo.detail-customer', compact('detail_customer'));
+    }
+
+    public function update(Request $request)
+    {
+        dd($request->all());
+        $aksesId = Auth::user()->id;
+        $akses = Auth::user()->name;
+        $id = $request->detId;
+
+        $ftthMt = FtthMt::findOrFail($id);
+
+        $updateFtthMt = $ftthMt->update([
+            // 'pic_monitoring' => $request[''],
+            'type_wo' => $request['Ftth Maintenance'],
+            'no_wo' => $request['noWoShow'],
+            'no_ticket' => $request['ticketNoShow'],
+            'cust_id' => $request['custIdShow'],
+            'nama_cust' => $request['custNameShow'],
+            'cust_address1' => $request['custAddressShow'],
+            // 'cust_address2' => $request[''],
+            'type_maintenance' => $request[''],
+            'kode_fat' => $request['fatCodeShow'],
+            'kode_wilayah' => $request[''],
+            'cluster' => $request[''],
+            'kotamadya' => $request[''],
+            'kotamadya_penagihan' => $request[''],
+            'branch' => $request['branchShow'],
+            'tgl_ikr' => $request[''],
+            'slot_time_leader' => $request[''],
+            'slot_time_apk' => $request[''],
+            'sesi' => $request['sesiShow'],
+            'remark_traffic' => $request[''],
+            'callsign' => $request[''],
+            'leader' => $request['leaderShow'],
+            'teknisi1' => $request['teknisi1Show'],
+            'teknisi2' => $request['teknisi2Show'],
+            'teknisi3' => $request['teknisi3Show'],
+            'status_wo' => $request[''],
+            'couse_code' => $request['causeCode'],
+            'root_couse' => $request['rootCause'],
+            'penagihan' => $request[''],
+            'alasan_tag_alarm' => $request[''],
+            'tgl_jam_reschedule' => $request['tglReschedule'],
+            'tgl_jam_fat_on' => $request[''],
+            'action_taken' => $request['actionTaken'],
+            'panjang_kabel' => $request[''],
+            'weather' => $request['weatherShow'],
+            'remark_status' => $request['remarkStatus'],
+            'action_status' => $request[''],
+            'visit_novisit' => $request[''],
+            'start_ikr_wa' => $request[''],
+            'end_ikr_wa' => $request[''],
+            'validasi_start' => $request[''],
+            'validasi_end' => $request[''],
+            'checkin_apk' => $request['checkin_apk'],
+            'checkout_apk' => $request['checkout_apk'],
+            'status_apk' => $request['statusWoApk'],
+            'keterangan' => $request[''],
+            'ms_regular' => $request[''],
+            'wo_date_apk' => $request[''],
+            'wo_date_mail_reschedule' => $request[''],
+            'wo_date_slot_time_apk' => $request[''],
+            'actual_sla_wo_minute_apk' => $request[''],
+            'actual_sla_wo_jam_apk' => $request[''],
+            'mttr_over_apk_minute' => $request[''],
+            'mttr_over_apk_jam' => $request[''],
+            'mttr_over_apk_persen' => $request[''],
+            'status_sla' => $request[''],
+            'root_couse_before' => $request[''],
+            'slot_time_assign_apk' => $request[''],
+            'slot_time_apk_delay' => $request[''],
+            'ket_delay_slot_time' => $request[''],
+            'konfirmasi_customer' => $request[''],
+            'ont_merk_out' => $request[''],
+            'ont_sn_out' => $request[''],
+            'ont_mac_out' => $request[''],
+            'ont_merk_in' => $request['merkOntIn'],
+            'ont_sn_in' => $request[''],
+            'ont_mac_in' => $request['macOntIn'],
+            'router_merk_out' => $request[''],
+            'router_sn_out' => $request['snRouterOut'],
+            'router_mac_out' => $request['macRouterOut'],
+            'router_merk_in' => $request['merkRouterIn'],
+            'router_sn_in' => $request['snRouterIn'],
+            'router_mac_in' => $request['macRouterIn'],
+            'stb_merk_out' => $request['merkStbOut'],
+            'stb_sn_out' => $request['snStbOut'],
+            'stb_mac_out' => $request['macStbOut'],
+            'stb_merk_in' => $request['merkStbIn'],
+            'stb_sn_in' => $request['snStbIn'],
+            'stb_mac_in' => $request['macStbIn'],
+            'dw_out' => $request[''],
+            'precon_out' => $request[''],
+            'bad_precon' => $request[''],
+            'fast_connector' => $request[''],
+            'patchcord' => $request[''],
+            'terminal_box' => $request[''],
+            'remote_fiberhome' => $request[''],
+            'remote_extrem' => $request[''],
+            'port_fat' => $request[''],
+            'site_penagihan' => $request[''],
+            'konfirmasi_penjadwalan' => $request[''],
+            'konfirmasi_cst' => $request[''],
+            'konfirmasi_dispatch' => $request[''],
+            'remark_status2' => $request[''],
+            'created_at' => $request[''],
+            'updated_at' => $request[''],
+            'wo_type_apk' => $request[''],
+            'branch_id' => $request[''],
+            'leadcall' => $request[''],
+            'tek1_nik' => $request[''],
+            'tek2_nik' => $request[''],
+            'tek3_nik' => $request[''],
+            'tek4_nik' => $request[''],
+            'leadcall_id' => $request[''],
+            'leader_id' => $request['leaderidShow'],
+            'callsign_id' => $request[''],
+            'teknisi4' => $request[''],
+            'login_id' => $aksesId,
+            'login' => $akses,
+        ]);
+
+        if ($updateFtthMt) {
+            return redirect()->route('monitFtthMT')->with(['success' => 'Data tersimpan.']);
+        } else {
+            return redirect()->route('monitFtthMT')->with(['error' => 'Gagal Simpan Data.']);
+        }
     }
 }
