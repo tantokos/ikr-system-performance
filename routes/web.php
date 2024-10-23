@@ -135,7 +135,7 @@ Route::get('/monitFtthIB', [MonitFtthIB_Controller::class, 'index'])->name('moni
 Route::get('/monitFtthMT', [MonitFtthMT_Controller::class, 'index'])->name(name: 'monitFtthMT')->middleware('auth');
 Route::get('/getDetailCustId', [MonitFtthMT_Controller::class, 'getDetailCustId'])->name('getDetailCustId')->middleware('auth');
 Route::get('/detail-customer/{cust_id}', [MonitFtthMT_Controller::class, 'getDetailCustId'])->name('detail-customer')->middleware('auth');
-Route::put('/updateFtthMT/{id}', [MonitFtthMT_Controller::class, 'updateFtthMT'])->name('updateFtthMT')->middleware('auth');
+Route::put('/updateFtthMt', [MonitFtthMT_Controller::class, 'update'])->name('updateFtthMt')->middleware('auth');
 
 Route::get('/ftth-dismantle', [FtthDismantleController::class, 'index'])->name('ftth-dismantle')->middleware('auth');
 

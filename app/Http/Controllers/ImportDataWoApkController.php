@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-use Str;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
 class ImportDataWoApkController extends Controller
