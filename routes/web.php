@@ -131,7 +131,12 @@ Route::get('/getMonthReport', [RekapProgressWOController::class, 'getMonthReport
 Route::get('/getRekapProgressWO', [RekapProgressWOController::class, 'getRekapProgressWO'])->name('getRekapProgressWO')->middleware('auth');
 
 Route::get('/monitFtthIB', [MonitFtthIB_Controller::class, 'index'])->name('monitFtthIB')->middleware('auth');
-Route::get('/monitFtthMT', [MonitFtthMT_Controller::class, 'index'])->name('monitFtthMT')->middleware('auth');
+Route::get('/monitFtthMT', [MonitFtthMT_Controller::class, 'index'])->name(name: 'monitFtthMT')->middleware('auth');
+Route::get('/getDetailCustId', [MonitFtthMT_Controller::class, 'getDetailCustId'])->name('getDetailCustId')->middleware('auth');
+Route::get('/detail-customer/{cust_id}', [MonitFtthMT_Controller::class, 'getDetailCustId'])
+    ->name('detail-customer')
+    ->middleware('auth');
+
 
 Route::get('/getDataMTOris', [MonitFtthMT_Controller::class, 'getDataMTOris'])->name('getDataMTOris')->middleware('auth');
 Route::get('/getDataIBOris', [MonitFtthIB_Controller::class, 'getDataIBOris'])->name('getDataIBOris')->middleware('auth');

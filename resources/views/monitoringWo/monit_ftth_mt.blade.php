@@ -249,7 +249,7 @@
         {{-- Modal Show Detail Data Tool --}}
         <div class="modal fade" id="showDetail" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false"
-            data-bs-backdrop="static">>
+            data-bs-backdrop="static">
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -411,17 +411,9 @@
                                             <div class="col">
                                                 <div class="col form-group mb-1">
                                                     <span class="text-xs">Branch</span>
-                                                    <select class="form-control form-control-sm" type="text"
+                                                    <input class="form-control form-control-sm" type="text"
                                                         id="branchShow" name="branchShow"
                                                         style="border-color:#9ca0a7;">
-                                                        <option value="">Pilih Branch</option>
-                                                        @if (isset($branches))
-                                                            @foreach ($branches as $b)
-                                                                <option value="{{ $b->id . '|' . $b->nama_branch }}">
-                                                                    {{ $b->nama_branch }}
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
                                                 </div>
 
                                                 <div class="form-group mb-1">
@@ -537,8 +529,9 @@
                                                                 @if (isset($leadCallsign))
                                                                     @foreach ($leadCallsign as $lead)
                                                                         <option
-                                                                            value="{{ $lead->lead_call_id . '|' . $lead->lead_callsign }}">
-                                                                            {{ $lead->lead_callsign }}
+                                                                            value="{{ $lead->leadcall_id }}">
+                                                                            {{ $lead->leadcall_id }}
+                                                                        </option>
                                                                     @endforeach
                                                                 @endif
                                                             </select>
@@ -669,9 +662,9 @@
                                                             id="statusWo" name="statusWo"
                                                             style="border-color:#9ca0a7;">
                                                             <option value="">Pilih Status WO</option>
-                                                            <option value="Done">Done</option>
-                                                            <option value="Pending">Pending</option>
-                                                            <option value="Cancel">Cancel</option>
+                                                            <option value="DONE">Done</option>
+                                                            <option value="PENDING">Pending</option>
+                                                            <option value="CANCEL">Cancel</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -707,7 +700,16 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="penagihanShow"
                                                                 name="penagihanShow" style="border-color:#9ca0a7;">
-                                                                <option value=""></option>
+                                                                <option value="Migrasi Dw To Precon">Migrasi Dw To Precon</option>
+                                                                <option value="Replace Precon To Precon">Replace Precon To Precon</option>
+                                                                <option value="No Customer">No Customer</option>
+                                                                <option value="Connector">Connector</option>
+                                                                <option value="Cancel by Dispatcher">Cancel by Dispatcher</option>
+                                                                <option value="Reconfig">Reconfig</option>
+                                                                <option value="ONT">ONT</option>
+                                                                <option value="Bad Cable Splice">Bad Cable Splice</option>
+                                                                <option value="Reschedule">Reschedule</option>
+                                                                <option value="STB">STB</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -1174,6 +1176,53 @@
         </div>
         {{-- End Modal Show Detail Tool --}}
 
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl"> <!-- Tambahkan modal-xl -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Customer</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Gunakan table-responsive agar tabel bisa di-scroll -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="detailHistoryuWo">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">No WO</th>
+                                        <th scope="col">Cust Id</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Tanggal Ikr</th>
+                                        <th scope="col">Status Wo</th>
+                                        <th scope="col">Couse Code</th>
+                                        <th scope="col">Root Couse</th>
+                                        <th scope="col">Action Taken</th>
+                                        <th scope="col">Kode Fat</th>
+                                        <th scope="col">Branch</th>
+                                        <th scope="col">Cluster</th>
+                                        <th scope="col">Kotamadya</th>
+                                        <th scope="col">Callsign</th>
+                                        <th scope="col">Leader</th>
+                                        <th scope="col">Teknisi1</th>
+                                        <th scope="col">Teknisi2</th>
+                                        <th scope="col">Teknisi3</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
 </x-app-layout>
@@ -1269,7 +1318,114 @@
     // });
 </script>
 
+<script>
+    function detailHistory(id) {
+        var _token = $('meta[name=csrf-token]').attr('content');
+        console.log(id); // Debugging ID yang dikirim
 
+            var data_assignTim = $('#detailHistoryuWo').DataTable({
+                // dom: 'Bftip',
+                layout: {
+                    topStart: {
+                        buttons: ['excel']
+                    },
+                },
+                paging: true,
+                orderClasses: false,
+                // fixedColumns: true,
+
+                fixedColumns: {
+                    leftColumns: 3,
+                    // rightColumns: 1
+                },
+                deferRender: true,
+                scrollCollapse: true,
+                scrollX: true,
+                pageLength: 10,
+                lengthChange: false,
+                bFilter: true,
+                destroy: true,
+                processing: true,
+                serverSide: false,
+                ajax: {
+                    url: "{{ route('getDetailCustId') }}",
+                    type: "get",
+                    dataType: "json",
+                    data: {
+                        cust_id: id,
+                        _token: _token
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_Row_Index',
+                        "className": "text-center",
+                        // orderable: false,
+                        searchable: false,
+                        "width": '10'
+                    },
+                    {
+                        data: 'no_wo',
+                        // width: '90'
+                    },
+                    {
+                        data: 'cust_id'
+                    },
+                    {
+                        data: 'type'
+                    },
+                    {
+                        data: 'tgl_ikr',
+                    },
+                    {
+                        data: 'status_wo'
+                    },
+                    {
+                        data: 'couse_code'
+                    },
+                    {
+                        data: 'root_couse'
+                    },
+                    {
+                        data: 'action_taken'
+                    },
+                    {
+                        data: 'kode_fat'
+                    },
+                    {
+                        data: 'branch'
+                    },
+                    {
+                        data: 'cluster'
+                    },
+                    {
+                        data: 'kotamadya'
+                    },
+                    {
+                        data: 'callsign'
+                    },
+                    {
+                        data: 'leader'
+                    },
+                    {
+                        data: 'teknisi1'
+                    },
+                    {
+                        data: 'teknisi2'
+                    },
+                    {
+                        data: 'teknisi3'
+                    },
+                    // {
+                    //     data: 'action',
+                    //     "className": "text-center",
+                    // },
+                ]
+            })
+            $('#exampleModal').modal('show'); // Tampilkan modal
+        }
+
+</script>
 <script>
     $(document).ready(function() {
         var _token = $('meta[name=csrf-token]').attr('content');
@@ -1374,8 +1530,8 @@
                     {
                         data: 'cust_id',
                         render: function (data, type, row) {
-                            // Pastikan data cust_id diterima dan diubah menjadi link
-                            return `<a href="/getDetailCustId" class="text-primary">${data}</a>`;
+                            return `<a href="javascript:void(0);" data-id="${data}" id="detail-history" onclick="detailHistory(${data})" class="text-primary">${data}</a>`;
+
                         }
                     },
                     {
@@ -1441,7 +1597,7 @@
                     $('#noWoShow').val(dtDis.data.no_wo)
                     $('#ticketNoShow').val(dtDis.data.no_ticket)
                     $('#woTypeShow').val(toTitleCase(dtDis.data.type_wo))
-                    $('#jenisWoShow').val(dtDis.data.jenis_wo)
+                    $('#jenisWoShow').val(dtDis.data.type_wo)
                     $('#WoDateShow').val(dtDis.data.wo_date_apk)
                     $('#custIdShow').val(dtDis.data.cust_id)
                     $('#custNameShow').val(toTitleCase(dtDis.data.nama_cust))
@@ -1453,10 +1609,10 @@
                     // $('#ikrDateApkShow').val(dtDis.data.ikr_date);
                     $('#timeApkShow').val(dtDis.data.time);
                     $('#fatCodeShow').val(dtDis.data.kode_fat);
-                    $('#portFatShow').val(dtDis.data.fat_port);
+                    $('#portFatShow').val(dtDis.data.port_fat);
                     $('#remarksShow').val(toTitleCase(dtDis.data.type_maintenance));
 
-                    $('#branchShow').val(dtDis.data.branch_id + '|' + dtDis.data.branch);
+                    $('#branchShow').val(dtDis.data.branch);
                     $('#tglProgressShow').val(dtDis.data.tgl_ikr);
                     $('#tglProgressStatusShow').val(dtDis.data.tgl_ikr);
                     $('#tglProgressAPKShow').val(dtDis.data.tgl_ikr);
@@ -1470,7 +1626,8 @@
 
 
                     $('#leaderShow').val(dtDis.data.leader);
-                    $('#callsignTimidShow').val(dtDis.data.callsign);
+                    $('#LeadCallsignShow').val(dtDis.data.leadcall_id);
+                    $('#callsignTimidShow').val(dtDis.data.callsign_id);
                     $('#teknisi1Show').val(dtDis.data.teknisi1);
                     $('#teknisi2Show').val(dtDis.data.teknisi2);
                     $('#teknisi3Show').val(dtDis.data.teknisi3);
@@ -1481,6 +1638,8 @@
                     $('#rootCause').val(dtDis.data.root_couse);
                     $('#actionTaken').val(dtDis.data.action_taken);
                     $('#penagihanShow').val(dtDis.data.penagihan);
+
+                    $('#actionTakenAPK').val(dtDis.data.action_taken);
 
                     $('#showDetail').modal('show');
 
