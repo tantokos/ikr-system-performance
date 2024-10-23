@@ -15,7 +15,13 @@ class MonitFtthMT_Controller extends Controller
 {
     public function index()
     {
-        return view('monitoringWo.monit_ftth_mt');
+        // dd($cust_id);
+        // dd($request->all());
+        $branches = DB::table('data_ftth_mt_oris')
+        ->select('callsign_id')
+        ->get();
+
+        return view('monitoringWo.monit_ftth_mt', compact('branches'));
     }
 
     public function getDataMTOris(Request $request)
@@ -119,5 +125,50 @@ class MonitFtthMT_Controller extends Controller
             ->where('d.id', $assignId)->first();
 
         return response()->json(['data' => $datas]);
+    }
+
+    public function getDetailCustId(Request $request)
+    {
+
+        // dd($request->all());req$request->cust_id)
+        // $custId = '22205377';
+
+        $detail_customer = DB::table('v_history_customers')
+        ->where('cust_id', $request->cust_id)
+        ->get();
+
+        if ($request->ajax()) {
+
+            return DataTables::of($detail_customer)
+                ->addIndexColumn() //memberikan penomoran
+                // ->editColumn('nama_cust', function ($nm) {
+                //     return Str::title($nm->nama_cust);
+                // })
+                // ->editColumn('type_wo', function ($nm) {
+                //     return Str::title($nm->type_wo);
+                // })
+                // ->editColumn('cluster', function ($nm) {
+                //     return Str::title($nm->cluster);
+                // })
+                // ->editColumn('branch', function ($nm) {
+                //     return Str::title($nm->branch);
+                // })
+                ->addColumn('action', function ($row) {
+                    $btn = '
+                    <a href="javascript:void(0)" id="detail-assign" data-id="' . $row->cust_id . '" class="btn btn-sm btn-primary detail-assign mb-0" >Detail</a>';
+                    // <a href="javascript:void(0)" id="detail-lead" data-id="' . $row->lead_call_id . "|" . $row->branch_id . "|" . $row->leader_id . '" class="btn btn-sm btn-primary detil-lead mb-0" >Edit</a>';
+                    //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])   //merender content column dalam bentuk html
+                ->escapeColumns()  //mencegah XSS Attack
+                ->toJson(); //merubah response dalam bentuk Json
+            // ->make(true);
+        }
+
+        // return $detail_customer;
+
+        // return response()->json(['data' => $detail_customer]);
+        // return view('monitoringWo.detail-customer', compact('detail_customer'));
     }
 }

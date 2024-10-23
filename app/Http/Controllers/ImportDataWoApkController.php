@@ -169,15 +169,4 @@ class ImportDataWoApkController extends Controller
         }
     }
 
-    public function getDetailCustId()
-    {
-        $detail_customer = DB::table('data_ftth_mt_oris')
-            ->select('id', 'teknisi1', 'teknisi2')
-            ->get();
-
-        return response()->json($detail_customer);
-
-        return view('monitoringWo.detail-customer', compact('detail_customer'));
-    }
-
 }
