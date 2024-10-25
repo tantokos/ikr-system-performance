@@ -3,6 +3,7 @@
 use App\Http\Controllers\analisa_woController;
 use App\Http\Controllers\AssignTimController;
 use App\Http\Controllers\FtthDismantleController;
+use App\Http\Controllers\ImportDataMaterialController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
@@ -122,7 +123,8 @@ Route::post('/importProsesDataWoApk', [ImportDataWoApkController::class, 'import
 Route::get('/getFtthMtApk', [ImportDataWoApkController::class, 'getFtthMtApk'])->name('getFtthMtApk')->middleware('auth');
 Route::post('/updateFtthMtApk', [ImportDataWoApkController::class, 'updateFtthMtApk'])->name('updateFtthMtApk')->middleware('auth');
 Route::get('/getDetailCustId', [ImportDataWoApkController::class, 'getDetailCustId'])->name('getDetailCustId')->middleware('auth');
-//End Assign Tim//
+
+Route::get('/importDataMaterial', [ImportDataMaterialController::class, 'index'])->name('importDataMaterial')->middleware('auth');
 
 
 //Start Monitoring WO//
