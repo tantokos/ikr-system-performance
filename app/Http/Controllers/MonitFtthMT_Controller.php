@@ -170,7 +170,7 @@ class MonitFtthMT_Controller extends Controller
 
     public function update(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $aksesId = Auth::user()->id;
         $akses = Auth::user()->name;
         $id = $request->detId;
@@ -179,7 +179,7 @@ class MonitFtthMT_Controller extends Controller
 
         $updateFtthMt = $ftthMt->update([
             // 'pic_monitoring' => $request[''],
-            'type_wo' => $request['Ftth Maintenance'],
+            'type_wo' => $request['woTypeShow'],
             'no_wo' => $request['noWoShow'],
             'no_ticket' => $request['ticketNoShow'],
             'cust_id' => $request['custIdShow'],
@@ -189,13 +189,13 @@ class MonitFtthMT_Controller extends Controller
             'type_maintenance' => $request[''],
             'kode_fat' => $request['fatCodeShow'],
             'kode_wilayah' => $request[''],
-            'cluster' => $request[''],
+            'cluster' => $request['cluster'],
             'kotamadya' => $request[''],
             'kotamadya_penagihan' => $request[''],
             'branch' => $request['branchShow'],
-            'tgl_ikr' => $request[''],
-            'slot_time_leader' => $request[''],
-            'slot_time_apk' => $request[''],
+            // 'tgl_ikr' => $request[''],
+            'slot_time_leader' => $request['slotTimeLeaderShow'],
+            'slot_time_apk' => $request['slotTimeAPKShow'],
             'sesi' => $request['sesiShow'],
             'remark_traffic' => $request[''],
             'callsign' => $request[''],
@@ -203,7 +203,7 @@ class MonitFtthMT_Controller extends Controller
             'teknisi1' => $request['teknisi1Show'],
             'teknisi2' => $request['teknisi2Show'],
             'teknisi3' => $request['teknisi3Show'],
-            'status_wo' => $request[''],
+            'status_wo' => $request['statusWo'],
             'couse_code' => $request['causeCode'],
             'root_couse' => $request['rootCause'],
             'penagihan' => $request[''],
@@ -225,7 +225,7 @@ class MonitFtthMT_Controller extends Controller
             'status_apk' => $request['statusWoApk'],
             'keterangan' => $request[''],
             'ms_regular' => $request[''],
-            'wo_date_apk' => $request[''],
+            'wo_date_apk' => $request['WoDateShow'],
             'wo_date_mail_reschedule' => $request[''],
             'wo_date_slot_time_apk' => $request[''],
             'actual_sla_wo_minute_apk' => $request[''],
@@ -258,7 +258,7 @@ class MonitFtthMT_Controller extends Controller
             'stb_sn_in' => $request['snStbIn'],
             'stb_mac_in' => $request['macStbIn'],
             'dw_out' => $request[''],
-            'precon_out' => $request[''],
+            'precon_out' => $request['kabelPrecon'],
             'bad_precon' => $request[''],
             'fast_connector' => $request[''],
             'patchcord' => $request[''],
@@ -271,8 +271,6 @@ class MonitFtthMT_Controller extends Controller
             'konfirmasi_cst' => $request[''],
             'konfirmasi_dispatch' => $request[''],
             'remark_status2' => $request[''],
-            'created_at' => $request[''],
-            'updated_at' => $request[''],
             'wo_type_apk' => $request[''],
             'branch_id' => $request[''],
             'leadcall' => $request[''],

@@ -9,6 +9,7 @@ class FtthMt extends Model
 {
     use HasFactory;
 
+    protected $table = 'data_ftth_mt_oris';
     protected $fillable = [
         'pic_monitoring',
         'type_wo',
