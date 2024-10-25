@@ -164,6 +164,9 @@
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Branch</th>
+                                            {{-- <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                kotamadya</th> --}}
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Area Cluster</th>
@@ -183,7 +186,13 @@
                                                 Time APK</th> --}}
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Callsign</th>
+                                                Lead Callsign</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Leader</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Callsign Tim</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Teknisi 1</th>
@@ -691,8 +700,17 @@
                     {
                         data: 'branch'
                     },
+                    // {
+                    //     data: 'kotamadya'
+                    // },
                     {
                         data: 'area_cluster_apk'
+                    },
+                    {
+                        data: 'leadcall'
+                    },
+                    {
+                        data: 'leader'
                     },
                     
                     
