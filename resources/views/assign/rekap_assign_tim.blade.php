@@ -469,28 +469,28 @@
                         // width: '90'
                     },
                     {
-                        data: 'wo_no'
+                        data: 'no_wo_apk'
                     },
                     {
-                        data: 'wo_date'
+                        data: 'wo_date_apk'
                     },
                     {
-                        data: 'cust_id'
+                        data: 'cust_id_apk'
                     },
                     {
-                        data: 'name'
+                        data: 'name_cust_apk'
                     },
                     {
-                        data: 'wo_type'
+                        data: 'wo_type_apk'
                     },
                     {
-                        data: 'fat_code'
+                        data: 'fat_code_apk'
                     },
                     {
                         data: 'branch'
                     },
                     {
-                        data: 'area'
+                        data: 'area_cluster_apk'
                     },
                     {
                         data: 'slot_time'
