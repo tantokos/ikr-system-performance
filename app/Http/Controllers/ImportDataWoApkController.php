@@ -138,6 +138,49 @@ class ImportDataWoApkController extends Controller
         // return response()->json($request->ajax());
     }
 
+    public function simpanImportWo(Request $request)
+    {
+        $akses = Auth::user()->name;
+
+        switch ($request->input('action')) {
+            case 'simpan':
+
+                $importedData = DB::table('import_ftth_mt_apks')
+                    ->get();
+
+                DB::beginTransaction();
+                try {
+                    // Update status_wo pada data_ftth_mt_oris berdasarkan wo_no dan tgl_ikr
+                    foreach ($importedData as $data) {
+                        DB::table('data_ftth_mt_oris')
+                            ->where('no_wo', $data->wo_no)
+                            ->where('tgl_ikr', $data->installation_date) // Menambahkan syarat
+                            ->update([
+                                'status_wo' => $data->status,
+                                'login' => Auth::user()->name,
+                            ]);
+                    }
+
+                    // Commit transaksi
+                    DB::commit();
+                    return redirect()->route('monitFtthMT')->with(['success' => 'Status berhasil diupdate.']);
+                } catch (\Exception $e) {
+                    // Rollback jika ada kesalahan
+                    DB::rollback();
+                    return redirect()->route('monitFtthMT')->with(['error' => 'Gagal mengupdate status.']);
+                }
+
+        break;
+
+            case 'batal':
+                $importedData = DB::table('import_ftth_mt_apks')
+                    ->where('login', $akses)
+                    ->delete();
+                return redirect()->route('assignTim');
+                break;
+        }
+
+    }
     public function updateFtthMtApk()
     {
         ini_set('max_execution_time', 1900);

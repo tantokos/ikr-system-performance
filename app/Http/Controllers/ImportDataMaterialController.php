@@ -20,4 +20,9 @@ class ImportDataMaterialController extends Controller
         // return 'Halaman Import Data Material';
         return view('monitoringWo.import_ftth_material', compact('akses', 'leadCallsign', 'branches'));
     }
+
+    public function importProsesMaterial(Request $request)
+    {
+        dd($request->all());
+    }
 }

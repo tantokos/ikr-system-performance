@@ -25,7 +25,7 @@
                     <div class="row">
 
                         <div class="col-md-6">
-                            <form action="{{ route('importProsesDataWoApk') }}" method="post"
+                            <form action="{{ route('importProsesMaterial') }}" method="post"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
