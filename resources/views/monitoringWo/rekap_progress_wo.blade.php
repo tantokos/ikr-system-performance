@@ -35,11 +35,18 @@
                                             id="filtglProgress" name="filtglProgress" style="border-color:#9ca0a7;">
                                     </div> --}}
                                     <div class="row">
+
                                         <div class="col form-group mb-1">
+                                            <span class="text-xs">Tanggal Progress</span>
+                                        <input class="form-control form-control-sm" type="date"
+                                            id="filtglProgress" name="filtglProgress" style="border-color:#9ca0a7;"
+                                            value="{{ date('Y-m-d') }}">
+                                        </div>
+                                        
+                                        {{-- <div class="col form-group mb-1">
                                             <span class="text-xs">Tahun</span>
                                             <select class="form-control form-control-sm" id="tahunReport"
                                                 name="tahunReport" style="border-color:#9ca0a7;">
-                                                    {{-- <option value="All">All</option> --}}
                                                 <option value="">Pilih Tahun</option>
                                                 @if (isset($tahun))
                                                     @foreach ($tahun as $thn )
@@ -48,13 +55,12 @@
                                                         
                                                 @endif
                                             </select>
-                                        </div>
+                                        </div> --}}
 
-                                        <div class="col form-group mb-1">
+                                        {{-- <div class="col form-group mb-1">
                                             <span class="text-xs">Bulan</span>
                                             <select class="form-control form-control-sm" id="bulanReport"
                                                 name="bulanReport" style="border-color:#9ca0a7;">
-                                                    {{-- <option value="All">All</option> --}}
                                                 <option value="">Pilih Bulan</option>
                                                 @if (isset($bulan))
                                                     @foreach ($bulan as $bln )
@@ -63,17 +69,17 @@
                                                         
                                                 @endif
                                             </select>
-                                        </div>
+                                        </div> --}}
                                     </div>
 
-                                    <div class="form-group mb-1">
+                                    {{-- <div class="form-group mb-1">
                                         <span class="text-xs">Nama Leader</span>
                                         <select class="form-control form-control-sm" type="text" id="filleaderTim"
                                             name="filleaderTim" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Leader</option>
                                         </select>
                                         <input type="hidden" id="filleaderid" name="filleaderid" readonly>
-                                    </div>
+                                    </div> --}}
 
                                     {{-- <div class="form-group mb-1">
                                         <span class="text-xs">No WO</span>
@@ -101,7 +107,7 @@
                                         <span class="text-xs">Area</span>
                                         <select class="form-control form-control-sm" type="text" id="filarea"
                                             name="filarea" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Area</option>
+                                            <option value="All">All</option>
                                             @if (isset($areaList))
                                                 @foreach ($areaList as $area )
                                                     <option value="{{ $area->nama_branch }}">{{ $area->nama_branch }}</option>
@@ -113,36 +119,36 @@
 
                                     
 
-                                    <div class="form-group mb-1">
+                                    {{-- <div class="form-group mb-1">
                                         <span class="text-xs">Callsign Tim</span>
                                         <select class="form-control form-control-sm" type="text"
                                             id="filcallsignTimid" name="filcallsignTimid" style="border-color:#9ca0a7;"
                                             placeholder="Isi Callsign Tim">
                                             <option value="">Pilih Callsign Tim</option>
                                         </select>
-                                    </div>
+                                    </div> --}}
 
                                     
 
                                 </div>
 
-                                <div class="col">
+                                {{-- <div class="col"> --}}
 
-                                    <div class="form-group mb-1">
+                                    {{-- <div class="form-group mb-1">
                                         <span class="text-xs">Cluster</span>
                                         <select class="form-control form-control-sm" type="text" id="filcluster"
                                             name="filcluster" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Cluster</option>
                                         </select>
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="form-group mb-1">
+                                    {{-- <div class="form-group mb-1">
                                         <span class="text-xs">Teknisi</span>
                                         <select class="form-control form-control-sm" type="text" id="filteknisi"
                                             name="filteknisi" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Teknisi</option>
                                         </select>
-                                    </div>
+                                    </div> --}}
 
                                     {{-- <div class="form-group mb-1">
                                         <span class="text-xs">FAT Code</span>
@@ -158,7 +164,7 @@
                                         </select>
                                     </div> --}}
 
-                                </div>
+                                {{-- </div> --}}
                                 <hr>
                                 <div class="row text-center mb-1">
                                     <div class="col">
@@ -166,8 +172,7 @@
                                             class="btn btn-sm btn-dark align-items-center tampilkan"
                                             id="tampilkan">Tampilkan</button>
                                         <button type="button" value="close"
-                                            class="btn btn-sm btn-dark align-items-center"
-                                            data-bs-dismiss="modal">Reset</button>
+                                            class="btn btn-sm btn-dark align-items-center">Reset</button>
                                     </div>
                                 </div>
                             </div>
@@ -185,6 +190,106 @@
                                 <div>
                                     {{-- <h6 class="font-weight-semibold text-lg mb-0">Progres WO Tim - <span id="progresWO"></span></h6> --}}
                                     {{-- <p class="text-sm" id="progresWoTim">Employee Name</p> --}}
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                        <div class="card-body px-2 py-2">    
+                            <div class="row">                        
+                                <div class="col-sm-6">
+                                    <div class="table-responsive p-0">
+                                        <table class="table table-striped table-bordered align-items-center mb-0">
+                                            <thead class="bg-gray-600">
+                                                <tr id="headProgresWo">
+                                                    <th class="text-white text-xs font-weight-semibold">Tipe WO 
+                                                    </th>
+                                                    <th class="text-white text-xs text-center font-weight-semibold">Total WO 
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="bodyProgresWo">
+                                                <tr>
+                                                    <td class="text-xs">FTTH New Installation</td>
+                                                    <td  id="ftthIB" class="text-center text-xs">??</td>
+                                                </tr>
+
+                                                <tr >
+                                                    <td class="text-xs">FTTH New Installation</td>
+                                                    <td id="ftthMT" class="text-center text-xs">??</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="text-xs">Dismantle</td>
+                                                    <td  id="dismantle" class="text-center text-xs">??</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="text-xs">FTTX New Installation</td>
+                                                    <td  id="fttxIB" class="text-center text-xs">??</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="text-xs">FTTX Maintenance</td>
+                                                    <td  id="fttxMT" class="text-center text-xs">??</td>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="table-responsive p-0">
+                                        <table class="table table-striped table-bordered align-items-center mb-0">
+                                            <thead class="bg-gray-600">
+                                                <tr id="headStatusProgresWo">
+                                                    <th class="text-white text-xs font-weight-semibold">Status WO 
+                                                    </th>
+                                                    <th class="text-white text-xs text-center font-weight-semibold">Total WO 
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="bodyStatusProgresWo">
+                                                <tr>
+                                                    <td class="text-xs">Checkout/Done</td>
+                                                    <td  id="statCheckout" class="text-center text-xs">??</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-xs">Pending</td>
+                                                    <td  id="statPending" class="text-center text-xs">??</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-xs">Cancel</td>
+                                                    <td  id="statCancel" class="text-center text-xs">??</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="text-xs">Checkin</td>
+                                                    <td  id="statCheckin" class="text-center text-xs">??</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="text-xs">Requested</td>
+                                                    <td  id="statRequested" class="text-center text-xs">??</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- <div class="row">
+                <div class="col-12">
+                    <div class="card border shadow-xs mb-4">
+                        <div class="card-header border-bottom pb-0">
+                            <div class="d-sm-flex align-items-center">
+                                <div>
                                 </div>
                                 
                             </div>
@@ -211,7 +316,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             {{-- <x-app.footer /> --}}
         </div>
@@ -1279,8 +1384,11 @@
             })
         });
 
+        getProgress();
+
         $(document).on('click', '#tampilkan', function(e) {
-            
+            // filTgl = $('#filtglProgress').val();
+            // console.log(filTgl)
             getProgress();
 
         })
@@ -1289,7 +1397,8 @@
             filthn = $('#tahunReport').val();
             filbln = $('#bulanReport').val();
             filArea = $('#filarea').val();
-            filCluster = $('#filcluster').val();
+            filTgl = $('#filtglProgress').val();
+            // filCluster = $('#filcluster').val();
 
             $.ajax({
                 url: "{{ route('getRekapProgressWO') }}",
@@ -1298,13 +1407,48 @@
                     filTahun: filthn,
                     filBulan: filbln,
                     area: filArea,
-                    filCluster: filCluster,
-                    filLead: filLead,
-                    filCallsignTim: filCallsignTim,
-                    filTeknisi: filTeknisi
+                    filTgl: filTgl,
                 },
                 success: function(pWO){
-                    
+
+                    let totType = []
+                    let subTotType = []
+                    let totalType
+                    let total = [];
+
+                    document.getElementById('ftthIB').innerHTML = pWO.totFtthIB;
+                    document.getElementById('ftthMT').innerHTML = pWO.totFtthMT;
+                    document.getElementById('dismantle').innerHTML = pWO.totDismantle;
+                    document.getElementById('fttxIB').innerHTML = pWO.totFttxIB;
+                    document.getElementById('fttxMT').innerHTML = pWO.totFttxMT;
+
+                    document.getElementById('statCheckout').innerHTML = pWO.totDone;
+                    document.getElementById('statPending').innerHTML = pWO.totPending;
+                    document.getElementById('statCancel').innerHTML = pWO.totCancel;
+                    document.getElementById('statCheckin').innerHTML = pWO.totCheckin;
+                    document.getElementById('statRequested').innerHTML = pWO.totRequested;
+                }
+            })
+        }
+
+        function getProgressOld() {
+            filthn = $('#tahunReport').val();
+            filbln = $('#bulanReport').val();
+            filArea = $('#filarea').val();
+            filTgl = $('#filtglProgress').val();
+            // filCluster = $('#filcluster').val();
+
+            $.ajax({
+                url: "{{ route('getRekapProgressWO') }}",
+                type: "GET",
+                data: {
+                    filTahun: filthn,
+                    filBulan: filbln,
+                    area: filArea,
+                    filTgl: filTgl,
+                },
+                success: function(pWO){
+                
                     let totType = []
                     let subTotType = []
                     let totalType
