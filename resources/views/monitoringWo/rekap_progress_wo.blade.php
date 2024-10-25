@@ -215,7 +215,7 @@
                                                 </tr>
 
                                                 <tr >
-                                                    <td class="text-xs">FTTH New Installation</td>
+                                                    <td class="text-xs">FTTH Maintenance</td>
                                                     <td id="ftthMT" class="text-center text-xs">??</td>
                                                 </tr>
 
