@@ -379,7 +379,7 @@
                                                 <div class="form-group mb-1">
                                                     <span class="text-xs">Area/Cluster</span>
                                                     <input type="text" class="form-control form-control-sm"
-                                                        type="text" id="areaShow" name="areaShow"
+                                                        type="text" id="cluster" name="cluster"
                                                         style="border-color:#9ca0a7;">
                                                 </div>
 
@@ -655,8 +655,6 @@
                                                             </select>
                                                         </div>
 
-
-
                                                     </div>
                                                 </div>
 
@@ -664,7 +662,7 @@
                                                     <div class="col form-group mb-1">
                                                         <span class="text-xs">Status WO</span>
                                                         <select class="form-control form-control-sm" type="text"
-                                                            id="statusWoShow" name="statusWo"
+                                                            id="statusWo" name="statusWo"
                                                             style="border-color:#9ca0a7;">
                                                             <option value="">Pilih Status WO</option>
                                                             <option value="Done">Done</option>
@@ -1616,29 +1614,34 @@
 
                     // console.log(dtDis);
                     let checkinDate = new Date(dtDis.data.checkin_apk).toISOString().slice(0, 10);
-                    let checkoutDate = new Date(dtDis.data.checkout_apk).toISOString().slice(0, 10);
+                    // let checkoutDate = new Date(dtDis.data.checkout_apk).toISOString().slice(0, 10);
                     let slotTimeLeader = floatToTime(dtDis.data.slot_time_leader);
-                    // let timeValue = dtDis.data.slot_time_apk.replace('.', ':').slice(0, 5);
+
+                    let rawDate = dtDis.data.checkout_apk;
+                    let checkoutDate = (rawDate === "0000-00-00 00:00:00")
+                        ? "" : new Date(rawDate).toISOString().slice(0, 10);
+
                     console.log(slotTimeLeader);
+
 
                     $('#detId').val(dtDis.data.id)
                     $('#noWoShow').val(dtDis.data.no_wo)
-                    $('#statusWoShow').val(dtDis.data.status_wo).change()
+                    $('#statusWo').val(toTitleCase(dtDis.data.status_wo || ""))
                     $('#ticketNoShow').val(dtDis.data.no_ticket)
-                    $('#woTypeShow').val(toTitleCase(dtDis.data.type_wo))
+                    $('#woTypeShow').val(toTitleCase(dtDis.data.type_wo || ""))
                     $('#jenisWoShow').val(dtDis.data.type_wo)
                     $('#WoDateShow').val(dtDis.data.wo_date_apk)
                     $('#custIdShow').val(dtDis.data.cust_id)
-                    $('#custNameShow').val(toTitleCase(dtDis.data.nama_cust))
+                    $('#custNameShow').val(toTitleCase(dtDis.data.nama_cust || ""))
                     // $('#custPhoneShow').val(dtDis.data.cust_phone)
 
                     // $('#custMobileShow').val(dtDis.data.cust_mobile);
-                    $('#custAddressShow').val(toTitleCase(dtDis.data.cust_address1));
+                    $('#custAddressShow').val(toTitleCase(dtDis.data.cust_address1 || ""));
                     // $('#ikrDateApkShow').val(dtDis.data.ikr_date);
                     $('#timeApkShow').val(dtDis.data.time);
                     $('#fatCodeShow').val(dtDis.data.kode_fat);
                     $('#portFatShow').val(dtDis.data.port_fat);
-                    $('#remarksShow').val(toTitleCase(dtDis.data.type_maintenance));
+                    $('#remarksShow').val(toTitleCase(dtDis.data.type_maintenance || "" ));
 
                     $('#branchShow').val(dtDis.data.branch);
                     $('#tglProgressShow').val(dtDis.data.tgl_ikr);
@@ -1650,16 +1653,12 @@
                     $('#slotTimeAPKShow').val(dtDis.data.slot_time_apk);
 
                     $('#slotTimeLeaderStatusShow').val(slotTimeLeader);
-                    // $('#slotTimeAPKStatusShow').val(timeValue);
+                    $('#slotTimeAPKStatusShow').val(dtDis.data.slot_time_apk);
 
 
                     $('#leaderShow').val(dtDis.data.leader);
                     $('#LeadCallsignShow').val(dtDis.data.leadcall_id);
                     $('#callsignTimidShow').val(dtDis.data.callsign_id);
-                    // $('#teknisi1Show').val(toTitleCase(dtDis.data.teknisi1));
-                    // $('#teknisi2Show').val(toTitleCase(dtDis.data.teknisi2));
-
-                    $('#statusWo').val(dtDis.data.status_wo);
                     $('#statusWoApk').val(dtDis.data.status_apk);
 
                     $('#causeCode').val(dtDis.data.couse_code);
@@ -1670,15 +1669,21 @@
                     $('#actionTakenAPK').val(dtDis.data.action_taken);
                     $('#tglCheckinApk').val(checkinDate);
                     $('#tglCheckoutApk').val(checkoutDate);
-                    $('#teknisi1Show').val(dtDis.data.teknisi1);
+
+                    $('#teknisi1Show').val(toTitleCase(dtDis.data.teknisi1 || "" ));
+                    $('#teknisi2Show').val(toTitleCase(dtDis.data.teknisi2 || "" ));
+                    $('#teknisi3Show').val(toTitleCase(dtDis.data.teknisi3 || "" ));
+                    $('#teknisi4Show').val(toTitleCase(dtDis.data.teknisi4 || "" ));
+
                     $('#merkStbIn').val(dtDis.data.stb_merk_in);
                     $('#merkStbOut').val(dtDis.data.stb_merk_out);
                     $('#merkOntOut').val(dtDis.data.ont_merk_out);
                     $('#snStbIn').val(dtDis.data.stb_sn_in);
+
                     $('#snStbOut').val(dtDis.data.stb_sn_out);
                     $('#kabelPrecon').val(dtDis.data.precon_out);
                     $('#kabelPreconBad').val(dtDis.data.bad_precon);
-
+                    $('#cluster').val(dtDis.data.cluster);
 
                     $('#showDetail').modal('show');
 
