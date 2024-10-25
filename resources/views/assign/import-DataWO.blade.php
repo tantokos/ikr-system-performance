@@ -160,25 +160,27 @@
                                                 Address</th> --}}
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Area Cluster</th>
-                                            {{-- <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Tipe Hari</th> --}}
+                                                FAT Code</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                FAT Code</th>
+                                                Branch</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Area Cluster</th>
+                                            
+                                            
                                             {{-- <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 FAT Port</th> --}}
                                             {{-- <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Remarks</th> --}}
-                                            <th
+                                            {{-- <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 IKR Date APK</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Time APK</th>
+                                                Time APK</th> --}}
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Callsign</th>
@@ -683,22 +685,26 @@
                     //  data: 'ticket_no'
                     //},
 
-
-                    {
-                        data: 'area_cluster_apk'
-                    },
                     {
                         data: 'fat_code_apk'
                     },
+                    {
+                        data: 'branch'
+                    },
+                    {
+                        data: 'area_cluster_apk'
+                    },
+                    
+                    
                     // {
                     //     data: 'fat_port'
                     // },
-                    {
-                        data: 'ikr_date_apk'
-                    },
-                    {
-                        data: 'time_apk'
-                    },
+                    // {
+                    //     data: 'ikr_date_apk'
+                    // },
+                    // {
+                    //     data: 'time_apk'
+                    // },
                     {
                         data: 'callsign',
                         "className": "text-center",

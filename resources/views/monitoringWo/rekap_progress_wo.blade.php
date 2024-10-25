@@ -1298,6 +1298,10 @@
                     filTahun: filthn,
                     filBulan: filbln,
                     area: filArea,
+                    filCluster: filCluster,
+                    filLead: filLead,
+                    filCallsignTim: filCallsignTim,
+                    filTeknisi: filTeknisi
                 },
                 success: function(pWO){
                     

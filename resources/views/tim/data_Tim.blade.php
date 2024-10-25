@@ -2005,6 +2005,7 @@
         $('#updateTim').click(function(e) {
             // e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
+            
             let callTimId = $('#callTimEdit').val();
             let tek1 = $('#teknisi1Edit').val();
             let tek2 = $('#teknisi2Edit').val();

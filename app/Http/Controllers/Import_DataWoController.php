@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\HeadingRowImport;
 
 class Import_DataWoController extends Controller
 {
@@ -28,6 +29,14 @@ class Import_DataWoController extends Controller
         return view('assign.import-DataWO', ['branches' => $branches, 'leadCallsign' => $Leadcallsign, 'akses' => $akses, 'brImport' => $request->brImport]);
     }
 
+    
+
+    public function import()
+    {
+        $headings = (new HeadingRowImport)->toArray('users.xlsx');
+    }
+
+
     public function importProsesDataWo(Request $request)
     {
 
@@ -39,7 +48,26 @@ class Import_DataWoController extends Controller
 
             $akses = Auth::user()->id . "|" . Auth::user()->name;
 
-            Excel::import(new AssignWoImport($akses), request()->file('fileDataWO'));
+            // $headings = (new HeadingRowImport)->toArray($request->fileDataWO);
+            // dd($headings);
+            try {
+                Excel::import(new AssignWoImport($akses), request()->file('fileDataWO'));
+
+            } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+                // DB::rollBack();
+                // return $e->getMessage();
+            //     return redirect()->route('importDataWo')
+            //         ->with(['error' => 'Gagal Import Assign Tim: ' . $e->getMessage()]);
+            $failures = $e->failures();
+     
+     foreach ($failures as $failure) {
+         $failure->row(); // row that went wrong
+         $failure->attribute(); // either heading key (if using heading row concern) or column index
+         $failure->errors(); // Actual error messages from Laravel validator
+         $failure->values(); // The values of the row that has failed.
+     }
+            }
+            
 
             return back()->with(['success' => 'Import Work Order berhasil.']);
         }
@@ -255,6 +283,7 @@ class Import_DataWoController extends Controller
                                 'teknisi3' => $data['teknisi3'],
                                 'tek4_nik' => $data['tek4_nik'],
                                 'teknisi4' => $data['teknisi4'],
+                                'login' => $data['login']
                             ]);
                         }
 

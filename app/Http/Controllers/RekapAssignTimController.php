@@ -161,14 +161,14 @@ class RekapAssignTimController extends Controller
 
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
-                ->editColumn('name', function ($nm) {
-                    return Str::title($nm->name);
+                ->editColumn('name_cust_apk', function ($nm) {
+                    return Str::title($nm->name_cust_apk);
                 })
-                ->editColumn('wo_type', function ($nm) {
-                    return Str::title($nm->wo_type);
+                ->editColumn('wo_type_apk', function ($nm) {
+                    return Str::title($nm->wo_type_apk);
                 })
-                ->editColumn('area', function ($nm) {
-                    return Str::title($nm->area);
+                ->editColumn('area_cluster_apk', function ($nm) {
+                    return Str::title($nm->area_cluster_apk);
                 })
                 ->editColumn('branch', function ($nm) {
                     return Str::title($nm->branch);
