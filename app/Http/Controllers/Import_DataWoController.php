@@ -29,7 +29,7 @@ class Import_DataWoController extends Controller
         return view('assign.import-DataWO', ['branches' => $branches, 'leadCallsign' => $Leadcallsign, 'akses' => $akses, 'brImport' => $request->brImport]);
     }
 
-    
+
 
     public function import()
     {
@@ -59,7 +59,7 @@ class Import_DataWoController extends Controller
                 //return redirect()->route('importDataWo')
                 //->with(['error' => 'Gagal Import Assign Tim: ' . $e->getMessage()]);
                 $failures = $e->failures();
-     
+
                 foreach ($failures as $failure) {
                     $failure->row(); // row that went wrong
                     $failure->attribute(); // either heading key (if using heading row concern) or column index
@@ -67,7 +67,7 @@ class Import_DataWoController extends Controller
                     $failure->values(); // The values of the row that has failed.
                 }
             }
-            
+
 
             return back()->with(['success' => 'Import Work Order berhasil.']);
         }
@@ -421,6 +421,32 @@ class Import_DataWoController extends Controller
         } else {
             return response()->json(['error' => 'Gagal Simpan Data.', 'brImport' => $request->branchShow]);
         }
+    }
+
+    public function getMaterial(Request $request)
+    {
+        $wo_no = "WO-24102024-2112494"; // contoh WO No
+
+        $ftth_material = DB::table('ftth_materials')
+            ->select(
+                'wo_no',
+                'installation_date',
+                'status_item',
+                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%ONT%" THEN description END AS merk_ont_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%ONT%" THEN sn END AS sn_ont_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%ONT%" THEN mac_address END AS mac_ont_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%STB%" THEN description END AS stb_merk_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%PRECON%" THEN description END AS precon_out'),
+                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%STB%" THEN description END AS stb_merk_in'),
+                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%ONT%" THEN description END AS merk_ont_in'),
+                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%ONT%" THEN sn END AS sn_ont_in'),
+                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%ONT%" THEN mac_address END AS mac_ont_in')
+            )
+            ->where('wo_no', $wo_no)
+            ->get();
+
+        return $ftth_material;
+
     }
 
 }
