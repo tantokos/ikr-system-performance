@@ -125,6 +125,7 @@ Route::post('/updateFtthMtApk', [ImportDataWoApkController::class, 'updateFtthMt
 Route::get('/getDetailCustId', [ImportDataWoApkController::class, 'getDetailCustId'])->name('getDetailCustId')->middleware('auth');
 
 Route::get('/importDataMaterial', [ImportDataMaterialController::class, 'index'])->name('importDataMaterial')->middleware('auth');
+Route::post('/importProsesMaterial', [ImportDataMaterialController::class, 'importProsesMaterial'])->name('importProsesMaterial')->middleware('auth');
 
 
 //Start Monitoring WO//
