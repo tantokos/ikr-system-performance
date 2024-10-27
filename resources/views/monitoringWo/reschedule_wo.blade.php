@@ -9,7 +9,7 @@
                         <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
                         </div>
                         <div class="card-body text-start p-4 w-100">
-                            <h3 class="text-white mb-2">Rekap Progress WO</h3>
+                            <h3 class="text-white mb-2">Penjadwalan Ulang WO</h3>
                             <p class="mb-4 font-weight-semibold">
                                 PT. Mitra Sinergi Telematika.
                             </p>
@@ -25,81 +25,34 @@
                 <div class="col-12">
                     <div class="card border shadow-xs mb-4">
                         <div class="card-header border-bottom pb-0">
-                            {{-- <div class="d-sm-flex align-items-center"> --}}
                             <div class="row">
                                 <div class="col">
 
-                                    {{-- <div class="form-group mb-1">
+                                    <div class="form-group mb-1">
                                         <span class="text-xs">Tanggal Progress</span>
                                         <input class="form-control form-control-sm date-range" type="text"
                                             id="filtglProgress" name="filtglProgress" style="border-color:#9ca0a7;">
-                                    </div> --}}
-                                    <div class="row">
-
-                                        <div class="col form-group mb-1">
-                                            <span class="text-xs">Tanggal Progress</span>
-                                        <input class="form-control form-control-sm" type="date"
-                                            id="filtglProgress" name="filtglProgress" style="border-color:#9ca0a7;"
-                                            value="{{ date('Y-m-d') }}">
-                                        </div>
-                                        
-                                        {{-- <div class="col form-group mb-1">
-                                            <span class="text-xs">Tahun</span>
-                                            <select class="form-control form-control-sm" id="tahunReport"
-                                                name="tahunReport" style="border-color:#9ca0a7;">
-                                                <option value="">Pilih Tahun</option>
-                                                @if (isset($tahun))
-                                                    @foreach ($tahun as $thn )
-                                                        <option value="{{ $thn->tahun}}">{{ $thn->tahun}}</option>
-                                                    @endforeach
-                                                        
-                                                @endif
-                                            </select>
-                                        </div> --}}
-
-                                        {{-- <div class="col form-group mb-1">
-                                            <span class="text-xs">Bulan</span>
-                                            <select class="form-control form-control-sm" id="bulanReport"
-                                                name="bulanReport" style="border-color:#9ca0a7;">
-                                                <option value="">Pilih Bulan</option>
-                                                @if (isset($bulan))
-                                                    @foreach ($bulan as $bln )
-                                                        <option value="{{ $bln->bulan}}">{{ $bln->bulan}}</option>
-                                                    @endforeach
-                                                        
-                                                @endif
-                                            </select>
-                                        </div> --}}
                                     </div>
 
-                                    {{-- <div class="form-group mb-1">
-                                        <span class="text-xs">Nama Leader</span>
-                                        <select class="form-control form-control-sm" type="text" id="filleaderTim"
-                                            name="filleaderTim" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Leader</option>
-                                        </select>
-                                        <input type="hidden" id="filleaderid" name="filleaderid" readonly>
-                                    </div> --}}
-
-                                    {{-- <div class="form-group mb-1">
+                                    <div class="form-group mb-1">
                                         <span class="text-xs">No WO</span>
                                         <input type="text" class="form-control form-control-sm" type="text"
                                             id="filnoWo" name="filnoWo" style="border-color:#9ca0a7;">
-                                    </div> --}}
+                                    </div>
 
-                                    {{-- <div class="form-group mb-1">
+                                    <div class="form-group mb-1">
                                         <span class="text-xs">Cust Id</span>
                                         <input type="text" class="form-control form-control-sm" id="filcustId"
                                             name="filcustId" style="border-color:#9ca0a7;">
-                                    </div> --}}
+                                    </div>
 
-                                    {{-- <div class="form-group mb-1">
+                                    <div class="form-group mb-1">
                                         <span class="text-xs">Type WO</span>
                                         <select class="form-control form-control-sm" type="text" id="filtypeWo"
                                             name="filtypeWo" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Type WO</option>
                                         </select>
-                                    </div> --}}
+                                    </div>
                                 </div>
 
                                 <div class="col">
@@ -107,72 +60,73 @@
                                         <span class="text-xs">Area</span>
                                         <select class="form-control form-control-sm" type="text" id="filarea"
                                             name="filarea" style="border-color:#9ca0a7;">
-                                            <option value="All">All</option>
-                                            @if (isset($areaList))
-                                                @foreach ($areaList as $area )
-                                                    <option value="{{ $area->nama_branch }}">{{ $area->nama_branch }}</option>
-                                                @endforeach                                                
-                                            @endif
+                                            <option value="">Pilih Area</option>
                                         </select>
                                         <input type="hidden" id="filareaId" name="filareaId">
                                     </div>
 
-                                    
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Nama Leader</span>
+                                        <select class="form-control form-control-sm" type="text" id="filleaderTim"
+                                            name="filleaderTim" style="border-color:#9ca0a7;">
+                                            <option value="">Pilih Leader</option>
+                                        </select>
+                                        <input type="hidden" id="filleaderid" name="filleaderid" readonly>
+                                    </div>
 
-                                    {{-- <div class="form-group mb-1">
+                                    <div class="form-group mb-1">
                                         <span class="text-xs">Callsign Tim</span>
                                         <select class="form-control form-control-sm" type="text"
                                             id="filcallsignTimid" name="filcallsignTimid" style="border-color:#9ca0a7;"
                                             placeholder="Isi Callsign Tim">
                                             <option value="">Pilih Callsign Tim</option>
                                         </select>
-                                    </div> --}}
+                                    </div>
 
-                                    
-
-                                </div>
-
-                                {{-- <div class="col"> --}}
-
-                                    {{-- <div class="form-group mb-1">
-                                        <span class="text-xs">Cluster</span>
-                                        <select class="form-control form-control-sm" type="text" id="filcluster"
-                                            name="filcluster" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Cluster</option>
-                                        </select>
-                                    </div> --}}
-
-                                    {{-- <div class="form-group mb-1">
+                                    <div class="form-group mb-1">
                                         <span class="text-xs">Teknisi</span>
                                         <select class="form-control form-control-sm" type="text" id="filteknisi"
                                             name="filteknisi" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Teknisi</option>
                                         </select>
-                                    </div> --}}
+                                    </div>
 
-                                    {{-- <div class="form-group mb-1">
+                                </div>
+
+                                <div class="col">
+
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Cluster</span>
+                                        <select class="form-control form-control-sm" type="text" id="filcluster"
+                                            name="filcluster" style="border-color:#9ca0a7;">
+                                            <option value="">Pilih Cluster</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group mb-1">
                                         <span class="text-xs">FAT Code</span>
                                         <input type="text" class="form-control form-control-sm" id="filfatCode"
                                             name="filfatCode" style="border-color:#9ca0a7;">
-                                    </div> --}}
+                                    </div>
 
-                                    {{-- <div class="form-group mb-1">
+                                    <div class="form-group mb-1">
                                         <span class="text-xs">Slot Time</span>
                                         <select class="form-control form-control-sm" type="text" id="filslotTime"
                                             name="filslotTime" style="border-color:#9ca0a7;">
                                             <option value="">Pilih SlotTime</option>
                                         </select>
-                                    </div> --}}
+                                    </div>
 
-                                {{-- </div> --}}
+                                </div>
                                 <hr>
                                 <div class="row text-center mb-1">
                                     <div class="col">
                                         <button type="button"
-                                            class="btn btn-sm btn-dark align-items-center tampilkan"
-                                            id="tampilkan">Tampilkan</button>
+                                            class="btn btn-sm btn-dark align-items-center filAssignTim"
+                                            id="filAssignTim">Tampilkan</button>
                                         <button type="button" value="close"
-                                            class="btn btn-sm btn-dark align-items-center">Reset</button>
+                                            class="btn btn-sm btn-dark align-items-center"
+                                            data-bs-dismiss="modal">Reset</button>
                                     </div>
                                 </div>
                             </div>
@@ -188,143 +142,128 @@
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div>
-                                    {{-- <h6 class="font-weight-semibold text-lg mb-0">Progres WO Tim - <span id="progresWO"></span></h6> --}}
-                                    {{-- <p class="text-sm" id="progresWoTim">Employee Name</p> --}}
+                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data FTTH Maintenance</span>
+                                    </h6>
+                                    {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
                                 </div>
-                                
+
+                                <div class="ms-auto d-flex">
+                                    <a href="{{ route('importDataFtthMtApk') }}">
+                                        <button type="button"
+                                            class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
+                                            <span class="btn-inner--icon">
+                                                <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
+                                                    <path
+                                                        d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
+                                                    </path>
+                                                </svg>
+                                            </span>
+                                            <span class="btn-inner--text">Import Data WO</span>
+                                        </button>
+                                    </a>
+                                    <a href="{{ route('importDataMaterial') }}">
+                                        <button type="button"
+                                            class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
+                                            <span class="btn-inner--icon">
+                                                <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
+                                                    <path
+                                                        d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
+                                                    </path>
+                                                </svg>
+                                            </span>
+                                            <span class="btn-inner--text">Import Data Material</span>
+                                        </button>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                        
-                        <div class="card-body px-2 py-2">    
-                            <div class="row">                        
-                                <div class="col-sm-6">
-                                    <div class="table-responsive p-0">
-                                        <table class="table table-striped table-bordered align-items-center mb-0">
-                                            <thead class="bg-gray-600">
-                                                <tr id="headProgresWo">
-                                                    <th class="text-white text-xs font-weight-semibold">Tipe WO 
-                                                    </th>
-                                                    <th class="text-white text-xs text-center font-weight-semibold">Total WO 
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="bodyProgresWo">
-                                                <tr>
-                                                    <td class="text-xs">FTTH New Installation</td>
-                                                    <td  id="ftthIB" class="text-center text-xs">0</td>
-                                                </tr>
+                        {{-- <div class="card-header border-bottom pb-0"> --}}
+                        {{-- <div class="d-sm-flex align-items-center"> --}}
+                        {{-- <div> --}}
+                        {{-- <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data WO</span></h6> --}}
+                        {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
+                        {{-- </div> --}}
 
-                                                <tr >
-                                                    <td class="text-xs">FTTH Maintenance</td>
-                                                    <td id="ftthMT" class="text-center text-xs">0</td>
-                                                </tr>
+                        {{-- <div class="ms-auto d-flex">
+                                    <button type="button"
+                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"
+                                        data-bs-toggle="modal" data-bs-target="#tambahAssignTim">
+                                        <span class="fa fa-pencil"></span>
 
-                                                <tr>
-                                                    <td class="text-xs">Dismantle</td>
-                                                    <td  id="dismantle" class="text-center text-xs">0</td>
-                                                </tr>
+                                        <span class="btn-inner--text">Tambah Assign Tim</span>
+                                    </button>
 
-                                                <tr>
-                                                    <td class="text-xs">FTTX New Installation</td>
-                                                    <td  id="fttxIB" class="text-center text-xs">0</td>
-                                                </tr>
+                                    <a href="{{ route('importDataWo') }}">
+                                        <button type="button"
+                                            class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
+                                            <span class="btn-inner--icon">
+                                                <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
+                                                    <path
+                                                        d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
+                                                    </path>
+                                                </svg>
+                                            </span>
+                                            <span class="btn-inner--text">Import Data WO</span>
+                                        </button>
+                                    </a>
+                                </div> --}}
+                        {{-- </div> --}}
+                        {{-- </div> --}}
 
-                                                <tr>
-                                                    <td class="text-xs">FTTX Maintenance</td>
-                                                    <td  id="fttxMT" class="text-center text-xs">0</td>
-                                                </tr>
-                                                
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                        <div class="card-body px-2 py-2">
+                            <div class="table-responsive p-0">
+                                <table class="table table-striped table-bordered align-items-center mb-0"
+                                    id="tabelAssignTim" style="font-size: 12px">
+                                    <thead class="bg-gray-100">
+                                        <tr id="headTool">
+                                            <th class="text-xs font-weight-semibold">#</th>
+                                            <th class="text-center text-xs font-weight-semibold">Tanggal</th>
+                                            <th class="text-center text-xs font-weight-semibold">No WO</th>
+                                            <th class="text-center text-xs font-weight-semibold">WO Date</th>
+                                            <th class="text-center text-xs font-weight-semibold">Cust Id</th>
+                                            <th class="text-center text-xs font-weight-semibold">Cust Name</th>
+                                            {{-- <th class="text-center text-xs font-weight-semibold">Cust Address</th> --}}
+                                            <th class="text-center text-xs font-weight-semibold">Type WO</th>
+                                            <th class="text-center text-xs font-weight-semibold">Fat Code</th>
+                                            <th class="text-center text-xs font-weight-semibold">Cluster</th>
+                                            <th class="text-center text-xs font-weight-semibold">Area</th>
+                                            <th class="text-center text-xs font-weight-semibold">Slot Time</th>
+                                            {{-- <th class="text-center text-xs font-weight-semibold">Lead Callsign</th> --}}
+                                            <th class="text-center text-xs font-weight-semibold">Callsign Tim</th>
+                                            <th class="text-center text-xs font-weight-semibold">Leader</th>
+                                            <th class="text-center text-xs font-weight-semibold">Teknisi 1</th>
+                                            <th class="text-center text-xs font-weight-semibold">Teknisi 2</th>
+                                            <th class="text-center text-xs font-weight-semibold">Teknisi 3</th>
+                                            {{-- <th class="text-center text-xs font-weight-semibold">Teknisi 4</th> --}}
+                                            <th class="text-center text-xs font-weight-semibold">Status WO</th>
 
-                                <div class="col-sm-6">
-                                    <div class="table-responsive p-0">
-                                        <table class="table table-striped table-bordered align-items-center mb-0">
-                                            <thead class="bg-gray-600">
-                                                <tr id="headStatusProgresWo">
-                                                    <th class="text-white text-xs font-weight-semibold">Status WO 
-                                                    </th>
-                                                    <th class="text-white text-xs text-center font-weight-semibold">Total WO 
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="bodyStatusProgresWo">
-                                                <tr>
-                                                    <td class="text-xs">Checkout/Done</td>
-                                                    <td  id="statCheckout" class="text-center text-xs">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-xs">Pending</td>
-                                                    <td  id="statPending" class="text-center text-xs">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-xs">Cancel</td>
-                                                    <td  id="statCancel" class="text-center text-xs">0</td>
-                                                </tr>
+                                            <th class="text-center text-xs font-weight-semibold">#</th>
 
-                                                <tr>
-                                                    <td class="text-xs">Checkin</td>
-                                                    <td  id="statCheckin" class="text-center text-xs">0</td>
-                                                </tr>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bodyTool">
 
-                                                <tr>
-                                                    <td class="text-xs">Requested</td>
-                                                    <td  id="statRequested" class="text-center text-xs">0</td>
-                                                </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="border-top py-3 px-3 d-flex align-items-center">
 
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {{-- <div class="row">
-                <div class="col-12">
-                    <div class="card border shadow-xs mb-4">
-                        <div class="card-header border-bottom pb-0">
-                            <div class="d-sm-flex align-items-center">
-                                <div>
-                                </div>
-                                
-                            </div>
-                        </div>
-                        
-                        <div class="card-body px-2 py-2">                            
-
-                            <div class="table-responsive p-0">
-                                <table class="table table-striped table-bordered align-items-center mb-0">
-                                    <thead class="bg-gray-600">
-                                        <tr id="headProgresWo">
-                                            <th class="text-white text-xs font-weight-semibold">Tipe WO 
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="bodyProgresWo">
-                                        
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="border-top py-3 px-3 d-flex align-items-center">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-
             {{-- <x-app.footer /> --}}
         </div>
 
         {{-- Modal Show Detail Data Tool --}}
-        <div class="modal fade" id="showAssignTim" tabindex="-1" role="dialog"
+        <div class="modal fade" id="showDetail" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false"
-            data-bs-backdrop="static">>
+            data-bs-backdrop="static">
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -336,7 +275,9 @@
                     </div>
                     <div class="modal-body">
                         {{-- <form action="{{ route('updateSignTim') }}" method="post" enctype="multipart/form-data"> --}}
-                        <form action="#" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('updateFtthMt') }}" method="post" enctype="multipart/form-data">
+
+                            @method('PUT')
                             @csrf
 
                             <div class="card-body px-1 py-1">
@@ -452,7 +393,7 @@
                                                 <div class="form-group mb-1">
                                                     <span class="text-xs">Area/Cluster</span>
                                                     <input type="text" class="form-control form-control-sm"
-                                                        type="text" id="areaShow" name="areaShow"
+                                                        type="text" id="cluster" name="cluster"
                                                         style="border-color:#9ca0a7;">
                                                 </div>
 
@@ -486,17 +427,9 @@
                                             <div class="col">
                                                 <div class="col form-group mb-1">
                                                     <span class="text-xs">Branch</span>
-                                                    <select class="form-control form-control-sm" type="text"
+                                                    <input class="form-control form-control-sm" type="text"
                                                         id="branchShow" name="branchShow"
                                                         style="border-color:#9ca0a7;">
-                                                        <option value="">Pilih Branch</option>
-                                                        @if (isset($branches))
-                                                            @foreach ($branches as $b)
-                                                                <option value="{{ $b->id . '|' . $b->nama_branch }}">
-                                                                    {{ $b->nama_branch }}
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
                                                 </div>
 
                                                 <div class="form-group mb-1">
@@ -563,6 +496,9 @@
                                                                 <option value="19:30">19:30</option>
                                                                 <option value="20:00">20:00</option>
                                                             </select>
+                                                            {{-- <input class="form-control form-control-sm" type="text"
+                                                                id="slotTimeLeaderShow" name="slotTimeLeaderShow"
+                                                                style="border-color:#9ca0a7;"> --}}
                                                         </div>
 
                                                         <div class="col form-group mb-1">
@@ -607,13 +543,14 @@
                                                             <span class="text-xs">Lead Callsign</span>
                                                             <select class="form-control form-control-sm"
                                                                 id="LeadCallsignShow" name="LeadCallsignShow"
-                                                                style="border-color:#9ca0a7;" required>
+                                                                style="border-color:#9ca0a7;">
                                                                 <option value="">Pilih Lead Callsign</option>
                                                                 @if (isset($leadCallsign))
                                                                     @foreach ($leadCallsign as $lead)
                                                                         <option
-                                                                            value="{{ $lead->lead_call_id . '|' . $lead->lead_callsign }}">
-                                                                            {{ $lead->lead_callsign }}
+                                                                            value="{{ $lead->leadcall_id }}">
+                                                                            {{ $lead->leadcall_id }}
+                                                                        </option>
                                                                     @endforeach
                                                                 @endif
                                                             </select>
@@ -647,31 +584,31 @@
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 1</span>
-                                                        <select class="form-control form-control-sm" id="teknisi1Show"
-                                                            name="teknisi1Show" style="border-color:#9ca0a7;">
-                                                            <option value="">Teknisi 1</option>
-                                                        </select>
+                                                        <input class="form-control form-control-sm" type="text"
+                                                                 id="teknisi1Show"
+                                                                name="teknisi1Show"
+                                                                style="border-color:#9ca0a7;">
                                                     </div>
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 2</span>
-                                                        <select class="form-control form-control-sm" id="teknisi2Show"
-                                                            name="teknisi2Show" style="border-color:#9ca0a7;">
-                                                            <option value="">Teknisi 2</option>
-                                                        </select>
+                                                        <input class="form-control form-control-sm" type="text"
+                                                                 id="teknisi2Show"
+                                                                name="teknisi2Show"
+                                                                style="border-color:#9ca0a7;">
                                                     </div>
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 3</span>
-                                                        <select class="form-control form-control-sm" id="teknisi3Show"
-                                                            name="teknisi3Show" style="border-color:#9ca0a7;">
-                                                            <option value="">Teknisi 3</option>
-                                                        </select>
+                                                        <input class="form-control form-control-sm" type="text"
+                                                                 id="teknisi3Show"
+                                                                name="teknisi3Show"
+                                                                style="border-color:#9ca0a7;">
                                                     </div>
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 4</span>
-                                                        <select class="form-control form-control-sm" id="teknisi4Show"
+                                                        <select class="form-control form-control-sm" type="text" id="teknisi4Show"
                                                             name="teknisi4Show" style="border-color:#9ca0a7;">
                                                             <option value="">Teknisi 4</option>
                                                         </select>
@@ -732,8 +669,6 @@
                                                             </select>
                                                         </div>
 
-
-
                                                     </div>
                                                 </div>
 
@@ -782,7 +717,16 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="penagihanShow"
                                                                 name="penagihanShow" style="border-color:#9ca0a7;">
-                                                                <option value=""></option>
+                                                                <option value="Migrasi Dw To Precon">Migrasi Dw To Precon</option>
+                                                                <option value="Replace Precon To Precon">Replace Precon To Precon</option>
+                                                                <option value="No Customer">No Customer</option>
+                                                                <option value="Connector">Connector</option>
+                                                                <option value="Cancel by Dispatcher">Cancel by Dispatcher</option>
+                                                                <option value="Reconfig">Reconfig</option>
+                                                                <option value="ONT">ONT</option>
+                                                                <option value="Bad Cable Splice">Bad Cable Splice</option>
+                                                                <option value="Reschedule">Reschedule</option>
+                                                                <option value="STB">STB</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -940,7 +884,7 @@
                                                 <div class="col form-group mb-1">
                                                     <span class="text-xs">Status WO Aplikasi</span>
                                                     <select class="form-control form-control-sm" type="text"
-                                                        id="statusWoAPK" name="statusWoAPK"
+                                                        id="statusWoApk" name="statusWoApk"
                                                         style="border-color:#9ca0a7;">
                                                         <option value="">Pilih Status WO</option>
                                                         <option value="Checkout">Checkout</option>
@@ -983,15 +927,17 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkin Aplikasi</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                value="" id="checkinAPK" name="checkinAPK"
+                                                            <input class="form-control form-control-sm" type="date"
+                                                                value="{{ date('Y-m-d') }}" id="tglCheckinApk"
+                                                                name="checkin_apk"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkout Aplikasi</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                value="" id="checkoutAPK" name="checkoutAPK"
+                                                            <input class="form-control form-control-sm" type="date"
+                                                                value="{{ date('Y-m-d') }}" id="tglCheckoutApk"
+                                                                name="checkout_apk"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
                                                     </div>
@@ -1085,7 +1031,7 @@
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Merk STB Terambil</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                value="" id="merkStbIn" name="merkStbIn"
+                                                                id="merkStbIn" name="merkStbIn"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
 
@@ -1249,6 +1195,53 @@
         </div>
         {{-- End Modal Show Detail Tool --}}
 
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl"> <!-- Tambahkan modal-xl -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Customer</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Gunakan table-responsive agar tabel bisa di-scroll -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="detailHistoryuWo">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">No WO</th>
+                                        <th scope="col">Cust Id</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Tanggal Ikr</th>
+                                        <th scope="col">Status Wo</th>
+                                        <th scope="col">Couse Code</th>
+                                        <th scope="col">Root Couse</th>
+                                        <th scope="col">Action Taken</th>
+                                        <th scope="col">Kode Fat</th>
+                                        <th scope="col">Branch</th>
+                                        <th scope="col">Cluster</th>
+                                        <th scope="col">Kotamadya</th>
+                                        <th scope="col">Callsign</th>
+                                        <th scope="col">Leader</th>
+                                        <th scope="col">Teknisi1</th>
+                                        <th scope="col">Teknisi2</th>
+                                        <th scope="col">Teknisi3</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
 </x-app-layout>
@@ -1344,15 +1337,123 @@
     // });
 </script>
 
+<script>
+    function detailHistory(id) {
+        var _token = $('meta[name=csrf-token]').attr('content');
+        console.log(id); // Debugging ID yang dikirim
 
+            var data_assignTim = $('#detailHistoryuWo').DataTable({
+                // dom: 'Bftip',
+                layout: {
+                    topStart: {
+                        buttons: ['excel']
+                    },
+                },
+                paging: true,
+                orderClasses: false,
+                // fixedColumns: true,
+
+                fixedColumns: {
+                    leftColumns: 3,
+                    // rightColumns: 1
+                },
+                deferRender: true,
+                scrollCollapse: true,
+                scrollX: true,
+                pageLength: 10,
+                lengthChange: false,
+                bFilter: true,
+                destroy: true,
+                processing: true,
+                serverSide: false,
+                ajax: {
+                    url: "{{ route('getDetailCustId') }}",
+                    type: "get",
+                    dataType: "json",
+                    data: {
+                        cust_id: id,
+                        _token: _token
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_Row_Index',
+                        "className": "text-center",
+                        // orderable: false,
+                        searchable: false,
+                        "width": '10'
+                    },
+                    {
+                        data: 'no_wo',
+                        // width: '90'
+                    },
+                    {
+                        data: 'cust_id'
+                    },
+                    {
+                        data: 'type'
+                    },
+                    {
+                        data: 'tgl_ikr',
+                    },
+                    {
+                        data: 'status_wo'
+                    },
+                    {
+                        data: 'couse_code'
+                    },
+                    {
+                        data: 'root_couse'
+                    },
+                    {
+                        data: 'action_taken'
+                    },
+                    {
+                        data: 'kode_fat'
+                    },
+                    {
+                        data: 'branch'
+                    },
+                    {
+                        data: 'cluster'
+                    },
+                    {
+                        data: 'kotamadya'
+                    },
+                    {
+                        data: 'callsign'
+                    },
+                    {
+                        data: 'leader'
+                    },
+                    {
+                        data: 'teknisi1'
+                    },
+                    {
+                        data: 'teknisi2'
+                    },
+                    {
+                        data: 'teknisi3'
+                    },
+                    // {
+                    //     data: 'action',
+                    //     "className": "text-center",
+                    // },
+                ]
+            })
+            $('#exampleModal').modal('show'); // Tampilkan modal
+        }
+
+</script>
 <script>
     $(document).ready(function() {
         var _token = $('meta[name=csrf-token]').attr('content');
         var firstDate;
         var lastDate;
-        var filthn;
-        var filbln;
+        var stDate;
+        var enDate;
         akses = $('#akses').val();
+        // get_data_assignTim()
 
         function toTitleCase(str) {
             return str.replace(
@@ -1361,245 +1462,27 @@
             );
         }
 
-        $(document).on('change', '#tahunReport', function(){
-            filthn = $('#tahunReport').val()
-
-            $.ajax({
-                url: "{{ route('getMonthReport') }}",
-                type: "GET",
-                data: {
-                    filTahun: filthn 
-                },
-                success: function(resData) {
-                    $('#bulanReport').find('option').remove();
-                    // $('#bulanReport').append(
-                    //     `<option value="All">All</option>`);
-
-                    $.each(resData, function(key, bln) {
-                        $('#bulanReport').append(
-                            `<option value="${key + 1}">${bln.bulan}</option>`
-                        )
-                    })
-                }
-            })
+        $('.date-range').daterangepicker({
+            startDate: moment(),
+            endDate: moment(),
         });
 
-        getProgress();
-
-        $(document).on('click', '#tampilkan', function(e) {
-            // filTgl = $('#filtglProgress').val();
-            // console.log(filTgl)
-            getProgress();
-
+        $(document).on('click', '#filAssignTim', function(e) {
+            get_data_assignTim();
+            stDate = $('.date-range').data('daterangepicker').startDate.format("DD-MMM-YYYY");
+            enDate = $('.date-range').data('daterangepicker').endDate.format("DD-MMM-YYYY");
         })
 
-        function getProgress() {
-            filthn = $('#tahunReport').val();
-            filbln = $('#bulanReport').val();
-            filArea = $('#filarea').val();
-            filTgl = $('#filtglProgress').val();
-            // filCluster = $('#filcluster').val();
+        $('#filAssignTim').trigger("click");
 
-            $.ajax({
-                url: "{{ route('getRekapProgressWO') }}",
-                type: "GET",
-                data: {
-                    filTahun: filthn,
-                    filBulan: filbln,
-                    area: filArea,
-                    filTgl: filTgl,
-                },
-                success: function(pWO){
-
-                    let totType = []
-                    let subTotType = []
-                    let totalType
-                    let total = [];
-
-                    document.getElementById('ftthIB').innerHTML = pWO.totFtthIB;
-                    document.getElementById('ftthMT').innerHTML = pWO.totFtthMT;
-                    document.getElementById('dismantle').innerHTML = pWO.totDismantle;
-                    document.getElementById('fttxIB').innerHTML = pWO.totFttxIB;
-                    document.getElementById('fttxMT').innerHTML = pWO.totFttxMT;
-
-                    document.getElementById('statCheckout').innerHTML = pWO.totDone;
-                    document.getElementById('statPending').innerHTML = pWO.totPending;
-                    document.getElementById('statCancel').innerHTML = pWO.totCancel;
-                    document.getElementById('statCheckin').innerHTML = pWO.totCheckin;
-                    document.getElementById('statRequested').innerHTML = pWO.totRequested;
-                }
-            })
-        }
-
-        function getProgressOld() {
-            filthn = $('#tahunReport').val();
-            filbln = $('#bulanReport').val();
-            filArea = $('#filarea').val();
-            filTgl = $('#filtglProgress').val();
-            // filCluster = $('#filcluster').val();
-
-            $.ajax({
-                url: "{{ route('getRekapProgressWO') }}",
-                type: "GET",
-                data: {
-                    filTahun: filthn,
-                    filBulan: filbln,
-                    area: filArea,
-                    filTgl: filTgl,
-                },
-                success: function(pWO){
-                
-                    let totType = []
-                    let subTotType = []
-                    let totalType
-                    let total = [];
-
-                    // document.getElementById('progresWO').innerText = filbln + "-" + filthn
-                    // document.getElementById('progresWoTim').innerText = filNama
-                    
-                    $('#headProgresWo').find("th").remove();
-                    $('#headProgresWo').append(`
-                        <th class="text-white text-xs font-weight-semibold">Tipe WO</th>
-                        <th class="text-white text-xs font-weight-semibold">Status WO</th>
-                    `)
-
-                    $('#bodyProgresWo').find("td").remove();
-                    $('#bodyProgresWo').find("th").remove();
-                    $('#bodyProgresWo').find("tr").remove();
-
-                    for(pw=0; pw<pWO.tgl.length; pw++){
-
-                        days = new Date(pWO.tgl[pw].tanggal).getDate().toString().padStart(2, "0");
-                        $('#headProgresWo').append(`
-                                    <th class="text-center text-white text-xs px-1">${days}</th>
-                        `);
-
-                        total.push(0);
-                        totType.push(0);
-                    }
-
-                    $('#headProgresWo').append(`<th class="text-center text-white text-xs px-1">Subtotal</th>`);
-
-
-                    for (tp=0; tp < pWO.dataProgress.length; tp++)
-                    {
-
-
-                        bType = `
-                            <tr id="HeadType${pWO.dataProgress[tp].type.replaceAll(" ","")}" class="table-info">
-                                <th class="text-secondary text-xs font-weight-semibold">${pWO.dataProgress[tp].type}</th>
-                                <th class="text-secondary text-xs font-weight-semibold"></th>                             
-                            `;
-
-                        $('#bodyProgresWo').append(bType + `</tr>`);
-
-                        bstatD = `
-                            <tr><th class="text-secondary text-xs font-weight-semibold"></th>
-                                <th class="text-secondary text-xs font-weight-semibold">Done</th>                             
-                            `;
-                        
-                        stotD = 0;
-                        stotType = 0;
-                        totalType = "";
-                        totType.fill(0);
-                        for (st=0; st < pWO.dataProgress[tp].status.done.length; st++){
-                            
-                            
-                            if(pWO.dataProgress[tp].status.done[st] == 0){
-                                stday = "-";
-                            }else{
-                                stday = pWO.dataProgress[tp].status.done[st];
-                            }
-
-                            bstatD = bstatD + `
-                                <th class="text-center text-xs">${stday}</th>`;
-
-                            stotD= stotD + pWO.dataProgress[tp].status.done[st]
-                            totType[st] = totType[st] + pWO.dataProgress[tp].status.done[st]
-                            total[st] = total[st] + pWO.dataProgress[tp].status.done[st]
-
-                        }
-
-                        $('#bodyProgresWo').append(bstatD + `<th class="text-center text-xs">${stotD.toLocaleString()}</th></tr>`);
-
-
-                        bstatP = `
-                            <tr><th class="text-secondary text-xs font-weight-semibold"></th>
-                                <th class="text-secondary text-xs font-weight-semibold">Pending</th>                             
-                            `;
-
-                        stotP = 0;
-                        for (st=0; st < pWO.dataProgress[tp].status.pending.length; st++){
-                            
-                            if(pWO.dataProgress[tp].status.pending[st] == 0){
-                                stday = "-";
-                            }else{
-                                stday = pWO.dataProgress[tp].status.pending[st];
-                            }
-
-                            bstatP = bstatP + `
-                                <th class="text-center text-xs">${stday}</th>`;
-
-                            stotP = stotP + pWO.dataProgress[tp].status.pending[st]
-                            totType[st] = totType[st] + pWO.dataProgress[tp].status.pending[st]
-                            total[st] = total[st] + pWO.dataProgress[tp].status.pending[st]
-
-                        }
-
-                        $('#bodyProgresWo').append(bstatP + `<th class="text-center text-sm">${stotP.toLocaleString()}</th></tr>`);
-
-                        bstatC = `
-                            <tr><th class="text-secondary text-xs font-weight-semibold"></th>
-                                <th class="text-secondary text-xs font-weight-semibold">Cancel</th>                             
-                            `;
-                        
-                        stotC = 0;
-                        for (st=0; st < pWO.dataProgress[tp].status.cancel.length; st++){
-                            
-                            if(pWO.dataProgress[tp].status.cancel[st] == 0){
-                                stday = "-";
-                            }else{
-                                stday = pWO.dataProgress[tp].status.cancel[st];
-                            }
-
-                            bstatC = bstatC + `
-                                <th class="text-center text-xs">${stday}</th>`;
-
-                            stotC = stotC + pWO.dataProgress[tp].status.cancel[st]
-                            totType[st] = totType[st] + pWO.dataProgress[tp].status.cancel[st]
-                            total[st] = total[st] + pWO.dataProgress[tp].status.cancel[st]
-                            stotType = stotType + totType[st]
-                            totalType = totalType +  `<th class="text-center text-sm">${totType[st]}</th>`;
-                            
-                        }
-
-                        $('#bodyProgresWo').append(bstatC + `<th class="text-center text-xs">${stotC.toLocaleString()}</th></tr>`);
-
-                        $(`#HeadType${pWO.dataProgress[tp].type.replaceAll(" ","")}`).append(totalType + `<th class="text-center text-xs">${stotType.toLocaleString()}</th>`)
-
-                    }
-
-                    bdayTotal = `<tr>
-                        <th class="bg-gray-600 text-white text-sm font-weight-semibold">Total</th>
-                        <th class="bg-gray-600 text-white text-sm font-weight-semibold"></th>`;
-
-                    gtotal = 0;
-                    for(t=0; t < total.length; t++){
-                        bdayTotal = bdayTotal + `
-                        <th class="bg-gray-600 text-center text-white text-sm font-weight-semibold">${total[t]}</th>
-                        
-                        `;
-
-                        gtotal = gtotal + total[t];
-                    }
-
-                    $('#bodyProgresWo').append(bdayTotal + 
-                            `<th class="bg-gray-600 text-center text-white text-sm font-weight-semibold">${gtotal.toLocaleString()}</th></tr>`);
-                
-                }
-            })
-        }
-
+        // $.ajax({
+        //     url: "{{ route('getDataMTOris') }}",
+        //     type: "get",
+        //     dataType: "json",
+        //     success: function(dtRes) {
+        //         console.log(dtRes);
+        //     }
+        // })
 
         function get_data_assignTim() {
             var data_assignTim = $('#tabelAssignTim').DataTable({
@@ -1631,7 +1514,18 @@
                     type: "get",
                     dataType: "json",
                     data: {
-                        _token: _token,
+                        filTgl: $('#filtglProgress').val(),
+                        filNoWo: $('#filnoWo').val(),
+                        filcustId: $('#filcustId').val(),
+                        filtypeWo: $('#filtypeWo').val(),
+                        filarea: $('#filarea').val(),
+                        filleaderTim: $('#filleaderTim').val(),
+                        filcallsignTimid: $('#filcallsignTimid').val(),
+                        filteknisi: $('#filteknisi').val(),
+                        filcluster: $('#filcluster').val(),
+                        filfatCode: $('#filfatCode').val(),
+                        filslotTime: $('#filslotTime').val(),
+                        _token: _token
                     }
                 },
                 columns: [{
@@ -1653,7 +1547,11 @@
                         data: 'wo_date_apk'
                     },
                     {
-                        data: 'cust_id'
+                        data: 'cust_id',
+                        render: function (data, type, row) {
+                            return `<a href="javascript:void(0);" data-id="${data}" id="detail-history" onclick="detailHistory(${data})" class="text-primary">${data}</a>`;
+
+                        }
                     },
                     {
                         data: 'nama_cust'
@@ -1700,6 +1598,7 @@
         }
 
         $(document).on('click', '#detail-assign', function(e) {
+
             // e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
             let assign_id = $(this).data('id');
@@ -1713,53 +1612,94 @@
                     _token: _token
                 },
                 success: function(dtDis) {
-                    console.log(dtDis);
+
+                    function floatToTime(float) {
+                        // Konversi float menjadi total menit
+                        let totalMinutes = Math.floor(float * 60 * 24);
+                        let hours = Math.floor(totalMinutes / 60);
+                        let minutes = totalMinutes % 60;
+
+                        // Format supaya jam dan menit memiliki dua digit
+                        hours = hours < 10 ? '0' + hours : hours;
+                        minutes = minutes < 10 ? '0' + minutes : minutes;
+
+                        return `${hours}:${minutes}`;
+                    }
+
+                    // console.log(dtDis);
+                    let checkinDate = new Date(dtDis.data.checkin_apk).toISOString().slice(0, 10);
+                    // let checkoutDate = new Date(dtDis.data.checkout_apk).toISOString().slice(0, 10);
+                    let slotTimeLeader = floatToTime(dtDis.data.slot_time_leader);
+
+                    let rawDate = dtDis.data.checkout_apk;
+                    let checkoutDate = (rawDate === "0000-00-00 00:00:00")
+                        ? "" : new Date(rawDate).toISOString().slice(0, 10);
+
+                    console.log(slotTimeLeader);
+
+
                     $('#detId').val(dtDis.data.id)
                     $('#noWoShow').val(dtDis.data.no_wo)
+                    $('#statusWo').val(toTitleCase(dtDis.data.status_wo || ""))
                     $('#ticketNoShow').val(dtDis.data.no_ticket)
-                    $('#woTypeShow').val(toTitleCase(dtDis.data.type_wo))
-                    $('#jenisWoShow').val(dtDis.data.jenis_wo)
+                    $('#woTypeShow').val(toTitleCase(dtDis.data.type_wo || ""))
+                    $('#jenisWoShow').val(dtDis.data.type_wo)
                     $('#WoDateShow').val(dtDis.data.wo_date_apk)
                     $('#custIdShow').val(dtDis.data.cust_id)
-                    $('#custNameShow').val(toTitleCase(dtDis.data.nama_cust))
+                    $('#custNameShow').val(toTitleCase(dtDis.data.nama_cust || ""))
                     // $('#custPhoneShow').val(dtDis.data.cust_phone)
 
                     // $('#custMobileShow').val(dtDis.data.cust_mobile);
-                    $('#custAddressShow').val(toTitleCase(dtDis.data.cust_address1));
-                    $('#areaShow').val(toTitleCase(dtDis.data.cluster));
+                    $('#custAddressShow').val(toTitleCase(dtDis.data.cust_address1 || ""));
                     // $('#ikrDateApkShow').val(dtDis.data.ikr_date);
                     $('#timeApkShow').val(dtDis.data.time);
                     $('#fatCodeShow').val(dtDis.data.kode_fat);
-                    $('#portFatShow').val(dtDis.data.fat_port);
-                    $('#remarksShow').val(toTitleCase(dtDis.data.type_maintenance));
+                    $('#portFatShow').val(dtDis.data.port_fat);
+                    $('#remarksShow').val(toTitleCase(dtDis.data.type_maintenance || "" ));
 
-                    $('#branchShow').val(dtDis.data.branch_id + '|' + dtDis.data.branch);
+                    $('#branchShow').val(dtDis.data.branch);
                     $('#tglProgressShow').val(dtDis.data.tgl_ikr);
                     $('#tglProgressStatusShow').val(dtDis.data.tgl_ikr);
                     $('#tglProgressAPKShow').val(dtDis.data.tgl_ikr);
 
                     $('#sesiShow').val(dtDis.data.sesi);
-                    $('#slotTimeLeaderShow').val(dtDis.data.slot_time_leader);
+                    $('#slotTimeLeaderShow').val(slotTimeLeader);
                     $('#slotTimeAPKShow').val(dtDis.data.slot_time_apk);
 
-                    $('#slotTimeLeaderStatusShow').val(dtDis.data.slot_time_leader);
+                    $('#slotTimeLeaderStatusShow').val(slotTimeLeader);
                     $('#slotTimeAPKStatusShow').val(dtDis.data.slot_time_apk);
 
 
                     $('#leaderShow').val(dtDis.data.leader);
-                    $('#callsignTimidShow').val(dtDis.data.callsign);
-                    $('#teknisi1Show').val(dtDis.data.teknisi1);
-                    $('#teknisi2Show').val(dtDis.data.teknisi2);
-                    $('#teknisi3Show').val(dtDis.data.teknisi3);
-                    $('#teknisi4Show').val(dtDis.data.teknisi4);
+                    $('#LeadCallsignShow').val(dtDis.data.leadcall_id);
+                    $('#callsignTimidShow').val(dtDis.data.callsign_id);
+                    $('#statusWoApk').val(dtDis.data.status_apk);
 
-                    $('#statusWo').val(dtDis.data.status_wo);
                     $('#causeCode').val(dtDis.data.couse_code);
                     $('#rootCause').val(dtDis.data.root_couse);
                     $('#actionTaken').val(dtDis.data.action_taken);
                     $('#penagihanShow').val(dtDis.data.penagihan);
 
-                    $('#showAssignTim').modal('show');
+                    $('#actionTakenAPK').val(dtDis.data.action_taken);
+                    $('#tglCheckinApk').val(checkinDate);
+                    $('#tglCheckoutApk').val(checkoutDate);
+
+                    $('#teknisi1Show').val(toTitleCase(dtDis.data.teknisi1 || "" ));
+                    $('#teknisi2Show').val(toTitleCase(dtDis.data.teknisi2 || "" ));
+                    $('#teknisi3Show').val(toTitleCase(dtDis.data.teknisi3 || "" ));
+                    $('#teknisi4Show').val(toTitleCase(dtDis.data.teknisi4 || "" ));
+
+                    $('#merkStbIn').val(dtDis.data.stb_merk_in);
+                    $('#merkStbOut').val(dtDis.data.stb_merk_out);
+                    $('#merkOntOut').val(dtDis.data.ont_merk_out);
+                    $('#snStbIn').val(dtDis.data.stb_sn_in);
+
+                    $('#snStbOut').val(dtDis.data.stb_sn_out);
+                    $('#kabelPrecon').val(dtDis.data.precon_out);
+                    $('#kabelPreconBad').val(dtDis.data.bad_precon);
+                    $('#cluster').val(dtDis.data.cluster);
+
+                    $('#showDetail').modal('show');
 
                 }
             })

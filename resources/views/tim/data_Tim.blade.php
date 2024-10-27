@@ -596,8 +596,16 @@
                                             <div class="form-group mb-1">
                                                 <input type="hidden" id="callTimEdit" name="callTimEdit" readonly>
                                                 <span class="text-xs">Lead Callsign</span>
-                                                <input class="form-control form-control-sm" id="LeadTimEdit"
-                                                    name="LeadTimEdit" style="border-color:#9ca0a7;" readonly>
+                                                {{-- <input class="form-control form-control-sm" id="LeadTimEdit"
+                                                    name="LeadTimEdit" style="border-color:#9ca0a7;" readonly> --}}
+                                                <select class="form-control form-control-sm" id="LeadTimEdit"
+                                                    name="LeadTimEdit" style="border-color:#9ca0a7;">
+                                                    <option value="">Pilih Lead Callsign</option>
+                                                    @foreach ($dtLeadCallsign as $listLead)
+                                                        <option value="{{ $listLead->id }}">
+                                                            {{ $listLead->lead_callsign }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
 
                                             <div class="form-group mb-1">
@@ -1855,6 +1863,32 @@
             })
         })
 
+        $(document).on('change', '#LeadTimEdit', function(e) {
+            // e.preventDefault();
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let leadCallsignId = $('#LeadTimEdit').val();
+
+            $.ajax({
+                url: "{{ route('getDataLeadCallsign') }}",
+                type: "get",
+                data: {
+                    filLeadId: leadCallsignId,
+                    _token: _token
+                },
+                success: function(dtLead) {
+
+                    area = dtLead.callLead.branch_id;
+                    leader = dtLead.callLead.nik_karyawan
+                    $('#TimLeaderEdit').val(dtLead.callLead.nama_karyawan)
+                    $('#areaTimEdit').val(dtLead.callLead.nama_branch)
+                    $('#posisiTimEdit').val(dtLead.callLead.posisi)
+
+                    // selectTeknisi("baru", area, leader);
+
+                }
+            })
+        })
+
         function selectTeknisi(vstatus, vArea, vLeader) {
             // e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
@@ -1959,7 +1993,8 @@
 
                     $('#editTim').modal('show');
                     $('#callTimEdit').val(responEdit.callsign_tim_id);
-                    $('#LeadTimEdit').val(responEdit.lead_callsign);
+                    // $('#LeadTimEdit').val(responEdit.lead_callsign);
+                    $('#LeadTimEdit').val(responEdit.lead_call_id);
                     $('#TimLeaderEdit').val(responEdit.nama_leader);
                     $('#areaTimEdit').val(responEdit.nama_branch);
                     $('#posisiTimEdit').val(responEdit.posisi);
@@ -2006,6 +2041,7 @@
             // e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
             
+            let ledTimId = $('#LeadTimEdit').val();
             let callTimId = $('#callTimEdit').val();
             let tek1 = $('#teknisi1Edit').val();
             let tek2 = $('#teknisi2Edit').val();
@@ -2017,6 +2053,7 @@
                 url: `/updateTim/${callTimId}`,
                 type: 'get',
                 data: {
+                    idLeadTim: ledTimId,
                     idCallTim: callTimId,
                     tim1: tek1,
                     tim2: tek2,
