@@ -321,6 +321,7 @@ class TimController extends Controller
 
     public function updateTim(Request $request, CallsignTim $Callsigntim, $id)
     {
+        $leadTimId = $request->idLeadTim;
         $callTimId = $request->idCallTim;
         $tim1 = $request->tim1;
         $tim2 = $request->tim2;
@@ -330,6 +331,7 @@ class TimController extends Controller
         $callsignTim = CallsignTim::find($id);
 
         $callsignTim->update([
+            'lead_callsign' => $leadTimId,
             'nik_tim1' => $tim1,
             'nik_tim2' => $tim2,
             'nik_tim3' => $tim3,
