@@ -538,23 +538,13 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
 
-
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Lead Callsign</span>
-                                                            <select class="form-control form-control-sm"
-                                                                id="LeadCallsignShow" name="LeadCallsignShow"
-                                                                style="border-color:#9ca0a7;">
+                                                            <select class="form-control form-control-sm" id="LeadCallsignShow" name="LeadCallsignShow" style="border-color:#9ca0a7;">
                                                                 <option value="">Pilih Lead Callsign</option>
-                                                                @if (isset($leadCallsign))
-                                                                    @foreach ($leadCallsign as $lead)
-                                                                        <option
-                                                                            value="{{ $lead->leadcall_id }}">
-                                                                            {{ $lead->leadcall_id }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                @endif
                                                             </select>
                                                         </div>
+
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Nama Leader</span>
                                                             <input class="form-control form-control-sm" type="text"
@@ -569,17 +559,13 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
 
-
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Callsign Tim</span>
-                                                            <select class="form-control form-control-sm"
-                                                                id="callsignTimidShow" name="callsignTimidShow"
-                                                                style="border-color:#9ca0a7;">
+                                                            <select class="form-control form-control-sm" id="callsignTimidShow" name="callsignTimidShow" style="border-color:#9ca0a7;">
                                                                 <option value="">Pilih Callsign Tim</option>
                                                             </select>
-                                                            <input type="hidden" id="callsignTimShow"
-                                                                name="callsignTimShow">
                                                         </div>
+
                                                     </div>
 
                                                     <div class="form-group mb-1">
@@ -1597,12 +1583,9 @@
             })
         }
 
-        $(document).on('click', '#detail-assign', function(e) {
-
-            // e.preventDefault();
+        $(document).on('click', '#detail-assign', function (e) {
             var _token = $('meta[name=csrf-token]').attr('content');
             let assign_id = $(this).data('id');
-
 
             $.ajax({
                 url: "{{ route('getDetailWOFtthMT') }}",
@@ -1611,99 +1594,98 @@
                     filAssignId: assign_id,
                     _token: _token
                 },
-                success: function(dtDis) {
+                success: function (response) {
+                    console.log('Respons dari API:', response);
 
-                    function floatToTime(float) {
-                        // Konversi float menjadi total menit
-                        let totalMinutes = Math.floor(float * 60 * 24);
-                        let hours = Math.floor(totalMinutes / 60);
-                        let minutes = totalMinutes % 60;
+                    let dtDis = response.data;
+                    let material = response.ftth_material;
+                    let callsignTims = response.callsign_tims;
+                    let callsignLeads = response.callsign_leads;
 
-                        // Format supaya jam dan menit memiliki dua digit
-                        hours = hours < 10 ? '0' + hours : hours;
-                        minutes = minutes < 10 ? '0' + minutes : minutes;
+                    // Populasi dropdown Callsign Tim
+                    let selectTim = $('#callsignTimidShow');
+                    selectTim.empty().append('<option value="">Pilih Callsign Tim</option>');
+                    callsignTims.forEach(item => {
+                        selectTim.append(`<option value="${item.id}">${item.callsign_tim}</option>`);
+                    });
+                    selectTim.val(dtDis.callsign_id);
 
-                        return `${hours}:${minutes}`;
+                    // Populasi dropdown Lead Callsign
+                    let selectLead = $('#LeadCallsignShow');
+                    selectLead.empty().append('<option value="">Pilih Lead Callsign</option>');
+                    callsignLeads.forEach(item => {
+                        selectLead.append(`<option value="${item.id}">${item.lead_callsign}</option>`);
+                    });
+
+                    // Atur nilai dropdown Lead Callsign sesuai dengan `leadcall_id`
+                    if (dtDis.leadcall_id) {
+                        selectLead.val(dtDis.leadcall_id);
                     }
 
-                    // console.log(dtDis);
-                    let checkinDate = new Date(dtDis.data.checkin_apk).toISOString().slice(0, 10);
-                    // let checkoutDate = new Date(dtDis.data.checkout_apk).toISOString().slice(0, 10);
-                    let slotTimeLeader = floatToTime(dtDis.data.slot_time_leader);
+                    // Isi data detail lainnya ke dalam form
+                    let checkinDate = new Date(dtDis.checkin_apk).toISOString().slice(0, 10);
+                    let checkoutDate = (dtDis.checkout_apk === "0000-00-00 00:00:00")
+                        ? "" : new Date(dtDis.checkout_apk).toISOString().slice(0, 10);
 
-                    let rawDate = dtDis.data.checkout_apk;
-                    let checkoutDate = (rawDate === "0000-00-00 00:00:00")
-                        ? "" : new Date(rawDate).toISOString().slice(0, 10);
-
-                    console.log(slotTimeLeader);
-
-
-                    $('#detId').val(dtDis.data.id)
-                    $('#noWoShow').val(dtDis.data.no_wo)
-                    $('#statusWo').val(toTitleCase(dtDis.data.status_wo || ""))
-                    $('#ticketNoShow').val(dtDis.data.no_ticket)
-                    $('#woTypeShow').val(toTitleCase(dtDis.data.type_wo || ""))
-                    $('#jenisWoShow').val(dtDis.data.type_wo)
-                    $('#WoDateShow').val(dtDis.data.wo_date_apk)
-                    $('#custIdShow').val(dtDis.data.cust_id)
-                    $('#custNameShow').val(toTitleCase(dtDis.data.nama_cust || ""))
-                    // $('#custPhoneShow').val(dtDis.data.cust_phone)
-
-                    // $('#custMobileShow').val(dtDis.data.cust_mobile);
-                    $('#custAddressShow').val(toTitleCase(dtDis.data.cust_address1 || ""));
-                    // $('#ikrDateApkShow').val(dtDis.data.ikr_date);
-                    $('#timeApkShow').val(dtDis.data.time);
-                    $('#fatCodeShow').val(dtDis.data.kode_fat);
-                    $('#portFatShow').val(dtDis.data.port_fat);
-                    $('#remarksShow').val(toTitleCase(dtDis.data.type_maintenance || "" ));
-
-                    $('#branchShow').val(dtDis.data.branch);
-                    $('#tglProgressShow').val(dtDis.data.tgl_ikr);
-                    $('#tglProgressStatusShow').val(dtDis.data.tgl_ikr);
-                    $('#tglProgressAPKShow').val(dtDis.data.tgl_ikr);
-
-                    $('#sesiShow').val(dtDis.data.sesi);
-                    $('#slotTimeLeaderShow').val(slotTimeLeader);
-                    $('#slotTimeAPKShow').val(dtDis.data.slot_time_apk);
-
-                    $('#slotTimeLeaderStatusShow').val(slotTimeLeader);
-                    $('#slotTimeAPKStatusShow').val(dtDis.data.slot_time_apk);
-
-
-                    $('#leaderShow').val(dtDis.data.leader);
-                    $('#LeadCallsignShow').val(dtDis.data.leadcall_id);
-                    $('#callsignTimidShow').val(dtDis.data.callsign_id);
-                    $('#statusWoApk').val(dtDis.data.status_apk);
-
-                    $('#causeCode').val(dtDis.data.couse_code);
-                    $('#rootCause').val(dtDis.data.root_couse);
-                    $('#actionTaken').val(dtDis.data.action_taken);
-                    $('#penagihanShow').val(dtDis.data.penagihan);
-
-                    $('#actionTakenAPK').val(dtDis.data.action_taken);
+                    $('#detId').val(dtDis.id);
+                    $('#noWoShow').val(dtDis.no_wo);
+                    $('#statusWo').val(toTitleCase(dtDis.status_wo || ""));
+                    $('#ticketNoShow').val(dtDis.no_ticket);
+                    $('#woTypeShow').val(toTitleCase(dtDis.type_wo || ""));
+                    $('#jenisWoShow').val(dtDis.type_wo);
+                    $('#WoDateShow').val(dtDis.wo_date_apk);
+                    $('#custIdShow').val(dtDis.cust_id);
+                    $('#custNameShow').val(toTitleCase(dtDis.nama_cust || ""));
+                    $('#custAddressShow').val(toTitleCase(dtDis.cust_address1 || ""));
+                    $('#timeApkShow').val(dtDis.time);
+                    $('#fatCodeShow').val(dtDis.kode_fat);
+                    $('#portFatShow').val(dtDis.port_fat);
+                    $('#remarksShow').val(toTitleCase(dtDis.type_maintenance || ""));
+                    $('#branchShow').val(dtDis.branch);
+                    $('#tglProgressShow').val(dtDis.tgl_ikr);
+                    $('#sesiShow').val(toTitleCase(dtDis.sesi || ""));
+                    $('#slotTimeLeaderShow').val(dtDis.slot_time_leader);
+                    $('#leaderShow').val(dtDis.leader);
+                    $('#slotTimeAPKShow').val(dtDis.slot_time_apk);
+                    $('#statusWoApk').val(dtDis.status_apk);
+                    $('#causeCode').val(dtDis.couse_code);
+                    $('#rootCause').val(dtDis.root_couse);
+                    $('#actionTaken').val(dtDis.action_taken);
+                    $('#penagihanShow').val(dtDis.penagihan);
                     $('#tglCheckinApk').val(checkinDate);
                     $('#tglCheckoutApk').val(checkoutDate);
+                    $('#teknisi1Show').val(toTitleCase(dtDis.teknisi1 || ""));
+                    $('#teknisi2Show').val(toTitleCase(dtDis.teknisi2 || ""));
+                    $('#teknisi3Show').val(toTitleCase(dtDis.teknisi3 || ""));
+                    $('#teknisi4Show').val(toTitleCase(dtDis.teknisi4 || ""));
+                    $('#merkStbIn').val(dtDis.stb_merk_in);
+                    $('#merkStbOut').val(dtDis.stb_merk_out);
+                    $('#merkOntOut').val(dtDis.ont_merk_out);
+                    $('#snStbIn').val(dtDis.stb_sn_in);
+                    $('#snStbOut').val(dtDis.stb_sn_out);
+                    $('#kabelPrecon').val(dtDis.precon_out);
+                    $('#kabelPreconBad').val(dtDis.bad_precon);
+                    $('#cluster').val(dtDis.cluster);
 
-                    $('#teknisi1Show').val(toTitleCase(dtDis.data.teknisi1 || "" ));
-                    $('#teknisi2Show').val(toTitleCase(dtDis.data.teknisi2 || "" ));
-                    $('#teknisi3Show').val(toTitleCase(dtDis.data.teknisi3 || "" ));
-                    $('#teknisi4Show').val(toTitleCase(dtDis.data.teknisi4 || "" ));
-
-                    $('#merkStbIn').val(dtDis.data.stb_merk_in);
-                    $('#merkStbOut').val(dtDis.data.stb_merk_out);
-                    $('#merkOntOut').val(dtDis.data.ont_merk_out);
-                    $('#snStbIn').val(dtDis.data.stb_sn_in);
-
-                    $('#snStbOut').val(dtDis.data.stb_sn_out);
-                    $('#kabelPrecon').val(dtDis.data.precon_out);
-                    $('#kabelPreconBad').val(dtDis.data.bad_precon);
-                    $('#cluster').val(dtDis.data.cluster);
+                    $('#snOntOut').val(material.sn_ont_out);
+                    $('#macOntOut').val(material.mac_ont_out);
+                    $('#macOntIn').val(material.mac_ont_in);
+                    $('#merkOntIn').val(material.merk_ont_in);
+                    $('#merkStbOut').val(material.stb_merk_out);
+                    $('#merkStbIn').val(material.stb_merk_in);
+                    $('#kabelPrecon').val(material.precon_out);
+                    $('#snOntIn').val(material.sn_ont_in);
 
                     $('#showDetail').modal('show');
-
+                },
+                error: function (xhr, status, error) {
+                    console.error('Gagal memuat data:', error);
                 }
-            })
-        })
+            });
+        });
+
+
+
 
 
     })

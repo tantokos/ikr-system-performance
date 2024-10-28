@@ -113,6 +113,7 @@ Route::get('/importDataWo', [Import_DataWoController::class, 'index'])->name('im
 Route::post('/importProsesDataWo', [Import_DataWoController::class, 'importProsesDataWo'])->name('importProsesDataWo')->middleware('auth');
 Route::get('/getdataImportWo', [Import_DataWoController::class, 'getdataImportWo'])->name('getdataImportWo')->middleware('auth');
 Route::get('/getDetailImport', [Import_DataWoController::class, 'getDetailImport'])->name('getDetailImport')->middleware('auth');
+Route::get('/getMaterial', [Import_DataWoController::class, 'getMaterial'])->name('getMaterial')->middleware('auth');
 
 Route::get('/updateImportWo', [Import_DataWoController::class, 'updateImportWo'])->name('updateImportWo')->middleware('auth');
 Route::post('/simpanImportWo', [Import_DataWoController::class, 'simpanImportWo'])->name('simpanImportWo')->middleware('auth');
@@ -121,12 +122,14 @@ Route::post('/simpanImportWo', [Import_DataWoController::class, 'simpanImportWo'
 Route::get('/importDataFtthMtApk', [ImportDataWoApkController::class, 'index'])->name('importDataFtthMtApk')->middleware('auth');
 Route::post('/importProsesDataWoApk', [ImportDataWoApkController::class, 'importProsesDataWoApk'])->name('importProsesDataWoApk')->middleware('auth');
 Route::get('/getFtthMtApk', [ImportDataWoApkController::class, 'getFtthMtApk'])->name('getFtthMtApk')->middleware('auth');
+Route::post('/storeFtthMtApk', [ImportDataWoApkController::class, 'storeFtthMtApk'])->name('storeFtthMtApk')->middleware('auth');
 Route::post('/updateFtthMtApk', [ImportDataWoApkController::class, 'updateFtthMtApk'])->name('updateFtthMtApk')->middleware('auth');
 Route::get('/getDetailCustId', [ImportDataWoApkController::class, 'getDetailCustId'])->name('getDetailCustId')->middleware('auth');
 
 Route::get('/importDataMaterial', [ImportDataMaterialController::class, 'index'])->name('importDataMaterial')->middleware('auth');
 Route::post('/importProsesMaterial', [ImportDataMaterialController::class, 'importProsesMaterial'])->name('importProsesMaterial')->middleware('auth');
-
+Route::get('/getDataImportMaterial', [ImportDataMaterialController::class, 'getDataImportMaterial'])->name('getDataImportMaterial')->middleware('auth');
+Route::post('/storeFtthMaterial', [ImportDataMaterialController::class, 'storeFtthMaterial'])->name('storeFtthMaterial')->middleware('auth');
 
 //Start Monitoring WO//
 

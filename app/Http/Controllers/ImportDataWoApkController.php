@@ -138,8 +138,9 @@ class ImportDataWoApkController extends Controller
         // return response()->json($request->ajax());
     }
 
-    public function simpanImportWo(Request $request)
+    public function storeFtthMtApk(Request $request)
     {
+        // return 'test';
         $akses = Auth::user()->name;
 
         switch ($request->input('action')) {
@@ -174,10 +175,15 @@ class ImportDataWoApkController extends Controller
 
             case 'batal':
                 $importedData = DB::table('import_ftth_mt_apks')
-                    ->where('login', $akses)
                     ->delete();
-                return redirect()->route('assignTim');
-                break;
+                return redirect()->route('monitFtthMT')->with(['success' => 'Data berhasil dihapus.']);
+            break;
+            // case 'batal':
+            //     ImportAssignTim::where('login', $akses)->delete();
+            //         return redirect()->route('assignTim');
+            // break;
+
+
         }
 
     }
