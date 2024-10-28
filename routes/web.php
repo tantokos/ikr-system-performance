@@ -27,6 +27,7 @@ use App\Http\Controllers\MonitFtthMT_Controller;
 use App\Http\Controllers\Monitoring_FTTH_IB;
 use App\Http\Controllers\RekapAssignTimController;
 use App\Http\Controllers\RekapProgressWOController;
+use App\Http\Controllers\RescheduleWO_Controller;
 use App\Http\Controllers\TimController;
 use App\Http\Controllers\ToolController;
 
@@ -209,6 +210,11 @@ Route::post('/saveImportAbsensi', [Import_AbsensiController::class, 'saveImportA
 Route::get('/getFilterPreview', [Import_AbsensiController::class, 'getFilterPreview'])->name('getFilterPreview')->middleware('auth');
 
 // End Import Absensi //
+
+//Reschedule WO//
+Route::get('/rescheduleWO',[RescheduleWO_Controller::class, 'index'])->name('rescheduleWO')->middleware('auth');
+
+//End Reschedule WO//
 
 
 Route::get('/', function () {
