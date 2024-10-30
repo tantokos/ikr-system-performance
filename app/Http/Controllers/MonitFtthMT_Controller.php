@@ -243,7 +243,7 @@ class MonitFtthMT_Controller extends Controller
             'kotamadya' => $request[''],
             'kotamadya_penagihan' => $request[''],
             'branch' => $request['branchShow'],
-            // 'tgl_ikr' => $request[''],
+            'tgl_ikr' => $request['tglProgressShow'],
             'slot_time_leader' => $request['slotTimeLeaderShow'],
             'slot_time_apk' => $request['slotTimeAPKShow'],
             'sesi' => $request['sesiShow'],
@@ -289,8 +289,8 @@ class MonitFtthMT_Controller extends Controller
             'slot_time_apk_delay' => $request[''],
             'ket_delay_slot_time' => $request[''],
             'konfirmasi_customer' => $request[''],
-            'ont_merk_out' => $request[''],
-            'ont_sn_out' => $request[''],
+            'ont_merk_out' => $request['ont_merk_out'],
+            'ont_sn_out' => $request['sn_ont_out'],
             'ont_mac_out' => $request[''],
             'ont_merk_in' => $request['merkOntIn'],
             'ont_sn_in' => $request[''],
@@ -330,7 +330,11 @@ class MonitFtthMT_Controller extends Controller
             'tek4_nik' => $request[''],
             'leadcall_id' => $request[''],
             'leader_id' => $request['leaderidShow'],
-            'callsign_id' => $request[''],
+            'callsign_id' => $request['callsign_id'],
+            'alasan_tidak_ganti_precon' => $request['alasan_tidak_ganti_precon'],
+            'alasan_pending' => $request['alasan_pending'],
+            'alasan_cancel' => $request['alasan_cancel'],
+            'report_teknisi' => $request['report_teknisi'],
             'teknisi4' => $request[''],
             'login_id' => $aksesId,
             'login' => $akses,
@@ -342,4 +346,81 @@ class MonitFtthMT_Controller extends Controller
             return redirect()->route('monitFtthMT')->with(['error' => 'Gagal Simpan Data.']);
         }
     }
+
+    // public function update(Request $request)
+    // {
+    //     // dd($request->all());
+    //     // Dapatkan data user yang login
+    //     $aksesId = Auth::user()->id;
+    //     $akses = Auth::user()->name;
+
+    //     // Ambil ID record yang akan di-update dari request
+    //     $id = $request->detId;
+
+    //     $ftthMt = FtthMt::findOrFail($id);
+
+    //     // Siapkan data untuk di-update
+    //     $dataUpdate = [
+    //         'type_wo' => $request->woTypeShow,
+    //         'no_wo' => $request->noWoShow,
+    //         'no_ticket' => $request->ticketNoShow,
+    //         'cust_id' => $request->custIdShow,
+    //         'nama_cust' => $request->custNameShow,
+    //         'cust_address1' => $request->custAddressShow,
+    //         'kode_fat' => $request->fatCodeShow,
+    //         'cluster' => $request->cluster,
+    //         'branch' => $request->branchShow,
+    //         'tgl_ikr' => $request->tglProgressShow,
+    //         'slot_time_leader' => $request->slotTimeLeaderShow,
+    //         'slot_time_apk' => $request->slotTimeAPKShow,
+    //         'sesi' => $request->sesiShow,
+    //         'leader' => $request->leaderShow,
+    //         'teknisi1' => $request->teknisi1Show,
+    //         'teknisi2' => $request->teknisi2Show,
+    //         'teknisi3' => $request->teknisi3Show,
+    //         'status_wo' => $request->statusWo,
+    //         'couse_code' => $request->causeCode,
+    //         'root_couse' => $request->rootCause,
+    //         'tgl_jam_reschedule' => $request->tglReschedule,
+    //         'action_taken' => $request->actionTaken,
+    //         'weather' => $request->weatherShow,
+    //         'remark_status' => $request->remarkStatus,
+    //         'checkin_apk' => $request->checkin_apk,
+    //         'checkout_apk' => $request->checkout_apk,
+    //         'status_apk' => $request->statusWoApk,
+    //         'ont_merk_in' => $request->merkOntIn,
+    //         'ont_mac_in' => $request->macOntIn,
+    //         'router_sn_out' => $request->snRouterOut,
+    //         'router_mac_out' => $request->macRouterOut,
+    //         'router_merk_in' => $request->merkRouterIn,
+    //         'router_sn_in' => $request->snRouterIn,
+    //         'router_mac_in' => $request->macRouterIn,
+    //         'stb_merk_out' => $request->merkStbOut,
+    //         'stb_sn_out' => $request->snStbOut,
+    //         'stb_mac_out' => $request->macStbOut,
+    //         'stb_merk_in' => $request->merkStbIn,
+    //         'stb_sn_in' => $request->snStbIn,
+    //         'stb_mac_in' => $request->macStbIn,
+    //         'precon_out' => $request->kabelPrecon,
+    //         'leader_id' => $request->leaderidShow,
+    //         'callsign_id' => $request->callsign_id,
+    //         'alasan_tidak_ganti_precon' => $request->alasan_tidak_ganti_precon,
+    //         'alasan_pending' => $request->alasan_pending,
+    //         'alasan_cancel' => $request->alasan_cancel,
+    //         'report_teknisi' => $request->report_teknisi,
+    //         'login_id' => $aksesId,
+    //         'login' => $akses,
+    //     ];
+
+    //     // Update data di database
+    //     $updateFtthMt = $ftthMt->update($dataUpdate);
+
+    //     // Cek apakah update berhasil
+    //     if ($updateFtthMt) {
+    //         return redirect()->route('monitFtthMT')->with(['success' => 'Data berhasil disimpan.']);
+    //     } else {
+    //         return redirect()->route('monitFtthT')->with(['error' => 'Gagal menyimpan data.']);
+    //     }
+    // }
+
 }

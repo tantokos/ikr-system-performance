@@ -118,5 +118,9 @@ class FtthMt extends Model
         'leader_id',
         'callsign_id',
         'teknisi4',
+        'alasan_tidak_ganti_precon',
+        'alasan_pending',
+        'alasan_cancel',
+        'report_teknisi',
     ];
 }

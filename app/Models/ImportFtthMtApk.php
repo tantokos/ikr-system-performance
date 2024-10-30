@@ -26,7 +26,7 @@ class ImportFtthMtApk extends Model
         'wo_type',
         'cause_code',
         'root_cause',
-        'action_take',
+        'action_taken',
         'fat_code',
         'fat_port',
         'remarks',

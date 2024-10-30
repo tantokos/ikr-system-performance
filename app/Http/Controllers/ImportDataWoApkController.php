@@ -158,6 +158,12 @@ class ImportDataWoApkController extends Controller
                             ->where('tgl_ikr', $data->installation_date) // Menambahkan syarat
                             ->update([
                                 'status_wo' => $data->status,
+                                'couse_code' => $data->cause_code,
+                                'root_couse' => $data->root_cause,
+                                'action_taken' => $data->action_taken,
+                                'status_apk' => $data->status,
+                                'checkin_apk' => $data->check_in,
+                                'checkout_apk' => $data->check_out,
                                 'login' => Auth::user()->name,
                             ]);
                     }
@@ -168,6 +174,7 @@ class ImportDataWoApkController extends Controller
                 } catch (\Exception $e) {
                     // Rollback jika ada kesalahan
                     DB::rollback();
+                    return $e;
                     return redirect()->route('monitFtthMT')->with(['error' => 'Gagal mengupdate status.']);
                 }
 

@@ -418,7 +418,7 @@
 
                                                 <div class="form-group mb-1">
                                                     <span class="text-xs">Remarks</span>
-                                                    <textarea class="form-control form-control-sm" type="text" id="remarksShow" name="remarksShow"
+                                                    <textarea class="form-control form-control-sm" type="text" id="remarkStatus" name="remarkStatus"
                                                         style="border-color:#9ca0a7;"></textarea>
                                                 </div>
 
@@ -722,26 +722,6 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Alasan Tidak Ganti Precon</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="remarkStatus" name="remarkStatus"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Kondisi Cuaca</span>
-                                                            <select class="form-control form-control-sm"
-                                                                type="text" id="weatherShow" name="weatherShow"
-                                                                style="border-color:#9ca0a7;">
-                                                                <option value="Cerah">Cerah</option>
-                                                                <option value="Hujan">Hujan</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
                                                             <span class="text-xs">Tanggal Penjadwalan
                                                                 Ulang</span>
                                                             <input class="form-control form-control-sm" type="date"
@@ -783,39 +763,8 @@
                                                 </div>
 
                                                 <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Alasan Pending</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="alasanPending" name="alasanPending"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">PIC Dispatch</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="picDispatch" name="picDispatch"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Alasan Cancel</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="alasanCancel" name="alasanCancel"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                        <div class="col form-group mb-1">
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
                                                     <span class="text-xs">Report Teknisi</span>
-                                                    <textarea class="form-control form-control-sm" type="text" id="remarksTeknisi" name="remarksTeknisi"
+                                                    <textarea class="form-control form-control-sm" type="text" id="reportTeknisi" name="report_teknisi"
                                                         style="border-color:#9ca0a7;"></textarea>
                                                 </div>
 
@@ -873,6 +822,7 @@
                                                         id="statusWoApk" name="statusWoApk"
                                                         style="border-color:#9ca0a7;">
                                                         <option value="">Pilih Status WO</option>
+                                                        <option value="Checkin">Checkin</option>
                                                         <option value="Checkout">Checkout</option>
                                                         <option value="Done">Done</option>
                                                         <option value="Pending">Pending</option>
@@ -883,39 +833,10 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Cause Code Aplikasi</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="causeCodeAPK" name="causeCodeAPK"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Root Cause Aplikasi</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="rootCauseAPK" name="rootCauseAPK"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Action Taken Aplikasi</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="actionTakenAPK" name="actionTakenAPK"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkin Aplikasi</span>
                                                             <input class="form-control form-control-sm" type="date"
                                                                 value="{{ date('Y-m-d') }}" id="tglCheckinApk"
-                                                                name="checkin_apk"
+                                                                name="tglCheckinApk"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
 
@@ -928,6 +849,58 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Alasan Tidak Ganti Precon</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="alasanTidakGantiPrecon" name="alasan_tidak_ganti_precon"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Kondisi Cuaca</span>
+                                                            <select class="form-control form-control-sm"
+                                                                type="text" id="weatherShow" name="weatherShow"
+                                                                style="border-color:#9ca0a7;">
+                                                                <option value="Cerah">Cerah</option>
+                                                                <option value="Hujan">Hujan</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Alasan Pending</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="alasanPending" name="alasan_pending"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">PIC Dispatch</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="picDispatch" name="pic_dispatch"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Alasan Cancel</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="alasanCancel" name="alasan_cancel"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -952,7 +925,7 @@
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">SN ONT Terpasang</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                value="" id="snOntOut" name="snOntOut"
+                                                                value="" id="snOntOut" name="ont_sn_out"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
 
@@ -1640,14 +1613,15 @@
                     $('#timeApkShow').val(dtDis.time);
                     $('#fatCodeShow').val(dtDis.kode_fat);
                     $('#portFatShow').val(dtDis.port_fat);
-                    $('#remarksShow').val(toTitleCase(dtDis.type_maintenance || ""));
+                    $('#remarkStatus').val(toTitleCase(dtDis.remarkStatus || ""));
                     $('#branchShow').val(dtDis.branch);
                     $('#tglProgressShow').val(dtDis.tgl_ikr);
                     $('#sesiShow').val(toTitleCase(dtDis.sesi || ""));
                     $('#slotTimeLeaderShow').val(dtDis.slot_time_leader);
+                    $('#slotTimeLeaderStatusShow').val(dtDis.slot_time_leader);
                     $('#leaderShow').val(dtDis.leader);
                     $('#slotTimeAPKShow').val(dtDis.slot_time_apk);
-                    $('#statusWoApk').val(dtDis.status_apk);
+                    $('#statusWoApk').val(toTitleCase(dtDis.status_apk || ""));
                     $('#causeCode').val(dtDis.couse_code);
                     $('#rootCause').val(dtDis.root_couse);
                     $('#actionTaken').val(dtDis.action_taken);
@@ -1667,7 +1641,7 @@
                     $('#kabelPreconBad').val(dtDis.bad_precon);
                     $('#cluster').val(dtDis.cluster);
 
-                    $('#snOntOut').val(material.sn_ont_out);
+                    $('#snOntOut').val(material.ont_sn_out);
                     $('#macOntOut').val(material.mac_ont_out);
                     $('#macOntIn').val(material.mac_ont_in);
                     $('#merkOntIn').val(material.merk_ont_in);
@@ -1675,6 +1649,14 @@
                     $('#merkStbIn').val(material.stb_merk_in);
                     $('#kabelPrecon').val(material.precon_out);
                     $('#snOntIn').val(material.sn_ont_in);
+                    $('#slotTimeAPKStatusShow').val(dtDis.slot_time_apk);
+
+                    $('#alasanTidakGantiPrecon').val(toTitleCase(dtDis.alasan_tidak_ganti_precon || ""));
+                    $('#alasanPending').val(toTitleCase(dtDis.alasan_pending || ""));
+                    $('#alasanCancel').val(toTitleCase(dtDis.alasan_cancel || ""));
+                    $('#reportTeknisi').val(toTitleCase(dtDis.report_teknisi || ""));
+
+                    $('#picDispatch').val(toTitleCase(dtDis.pic_dispatch || ""));
 
                     $('#showDetail').modal('show');
                 },
