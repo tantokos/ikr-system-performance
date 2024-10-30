@@ -38,7 +38,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
     {
         if(!array_filter($row)) {
             return null;
-         } 
+         }
 
         $tm = intval($row['time']);
 
@@ -69,8 +69,9 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
 
             'tgl_ikr' => Date::excelToDateTimeObject($row['ikr_date'])->format("Y-m-d"),
             'slot_time' => is_string($row['time']) ? \Carbon\Carbon::createFromFormat('H:i', $row['time'])->format('H:i') : Date::excelToDateTimeObject($row['time'])->format("H:i"),
+            'time_apk' => is_string($row['time']) ? \Carbon\Carbon::createFromFormat('H:i', $row['time'])->format('H:i') : Date::excelToDateTimeObject($row['time'])->format("H:i"),
 
-            'branch_id' => $this->get_data_id("branch_id", $row['branch']), 
+            'branch_id' => $this->get_data_id("branch_id", $row['branch']),
             'branch' => $this->get_data_id("branch", $row['branch']),
             'leadcall_id' => $this->get_data_id("leadcall_id", $row['leader']),
             'leadcall' => $this->get_data_id("leadcall", $row['leader']),
@@ -130,51 +131,51 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     $branch = DB::table('branches')->select('nama_branch')->where('nama_branch', $data)->first();
                     return is_null($branch) ? "-" : $branch->nama_branch;
                     break;
-    
+
                 case "leadcall_id":
                     $leadcall_id = DB::table('v_detail_callsign_tim')->select('lead_call_id')->where('nama_leader', $data)->first();
                     $leadCallID= is_null($leadcall_id) ? "-" : $leadcall_id->lead_call_id;
                     return $leadCallID;
                     break;
-    
+
                 case "leadcall":
                     $leadcall = DB::table('v_detail_callsign_tim')->select('lead_callsign')->where('nama_leader', $data)->first();
                     $leadCallsign =  is_null($leadcall) ? "-" : $leadcall->lead_callsign;
                     return $leadCallsign;
                     break;
-    
+
                 case "leader_id":
                     $leader_id = DB::table('v_detail_callsign_tim')->select('leader_id')->where('nama_leader', $data)->first();
                     $leaderID= is_null($leader_id) ? "-" : $leader_id->leader_id;
                     return $leaderID;
                     break;
-    
+
                 case "callsign_id":
                     $callsign_id = DB::table('v_detail_callsign_tim')->select('callsign_tim_id')->where('callsign_tim', $data)->first();
                     // $leaderID= is_null($leader_id) ? "-" : $leader_id->leader_id;
                     return is_null($callsign_id) ?  "-" : $callsign_id->callsign_tim_id;
                     break;
-            
+
                 case "tek1_nik":
                     $tek1_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->first();
                     // dd(is_null($tek1_nik));
                     $tek1Nik = is_null($tek1_nik) ? "-" : $tek1_nik->nik_karyawan;
                     return $tek1Nik;
-    
+
                     break;
-    
+
                 case "tek2_nik":
                     $tek2_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->first();
                     $tek2Nik = is_null($tek2_nik) ? "-" : $tek2_nik->nik_karyawan;
                     return $tek2Nik;
                     break;
-    
+
                 case "tek3_nik":
                     $tek3_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->first();
                     $tek3Nik = is_null($tek3_nik) ? "-" : $tek3_nik->nik_karyawan;
                     return $tek3Nik;
                     break;
-    
+
                     // dd($branch);
             }
 
@@ -186,7 +187,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                 // ->with(['error' => 'Gagal Import Assign Tim: ' . $e->getMessage()]);
         // }
 
-        
+
     }
 
     private function convertTime($time)
