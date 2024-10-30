@@ -216,6 +216,13 @@ Route::get('/getFilterPreview', [Import_AbsensiController::class, 'getFilterPrev
 
 //Reschedule WO//
 Route::get('/rescheduleWO',[RescheduleWO_Controller::class, 'index'])->name('rescheduleWO')->middleware('auth');
+Route::get('/getDataPendingReschedule',[RescheduleWO_Controller::class, 'getDataPendingReschedule'])->name('getDataPendingReschedule')->middleware('auth');
+Route::get('/getDetailWORsch',[RescheduleWO_Controller::class, 'getDetailWORsch'])->name('getDetailWORsch')->middleware('auth');
+Route::get('/getDetailPending',[RescheduleWO_Controller::class, 'getDetailPending'])->name('getDetailPending')->middleware('auth');
+
+Route::get('/getRekapPendingReschedule',[RescheduleWO_Controller::class, 'getRekapPendingReschedule'])->name('getRekapPendingReschedule')->middleware('auth');
+
+Route::post('/simpanReschedule',[RescheduleWO_Controller::class, 'simpanReschedule'])->name('simpanReschedule')->middleware('auth');
 
 //End Reschedule WO//
 

@@ -267,6 +267,7 @@ class Import_DataWoController extends Controller
                                 'type_maintenance' => $data['remarks_apk'],
                                 'slot_time_leader' => $data['slot_time'],
                                 'slot_time_apk' => $data['time_apk'],
+                                'status_wo' => "Requested",
                                 'branch_id' => $data['branch_id'],
                                 'branch' => $data['branch'],
                                 'leadcall_id' => $data['leadcall_id'],
@@ -298,6 +299,7 @@ class Import_DataWoController extends Controller
                             return redirect()->route('importDataWo')
                                 ->with(['success' => 'Sebagian Data tersimpan. Cek data assign WO yang sama']);
                         } else {
+                            ImportAssignTim::where('login', $akses)->delete();
                             return redirect()->route('assignTim')
                                 ->with(['success' => 'Data tersimpan.']);
                         }
