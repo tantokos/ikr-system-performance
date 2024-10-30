@@ -6,11 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\DataAssignTim;
+use App\Models\DataPendingReschedule;
 use App\Models\Employee;
 use App\Models\FtthMt;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
+
+use function Livewire\on;
 
 class RescheduleWO_Controller extends Controller
 {
@@ -20,63 +23,237 @@ class RescheduleWO_Controller extends Controller
         return view('monitoringWo.reschedule_wo');
     }
 
-    public function getDataMTOris(Request $request)
+    public function getDetailWORsch(Request $request)
     {
-        ini_set('max_execution_time', 1900);
-        ini_set('memory_limit', '8192M');
-        $akses = Auth::user()->name;
 
-        $datas = DB::table('data_ftth_mt_oris')->orderBy('tgl_ikr', 'DESC');
+        $dtWO = DB::table('data_ftth_ib_oris')->select(DB::raw('*, "FTTH New Installation" as type'))->where('no_wo', $request->filWO)->orderBy('tgl_ikr', 'desc') ->first();
+        
+        if (is_null($dtWO)) {
+            $dtWO = DB::table('data_ftth_mt_oris')->select(DB::raw('*, "FTTH Maintenance" as type'))->where('no_wo', $request->filWO)->orderBy('tgl_ikr', 'desc') ->first(); 
+        }
+        if (is_null($dtWO)) {
+            $dtWO = DB::table('data_ftth_dismantle_oris')->select(DB::raw('*, "FTTH Dismantle" as type'))->where('no_wo', $request->filWO)->orderBy('visit_date', 'desc') ->first(); 
+        }
+        // if (count($dtWO) == 0) {
+        //     $dtWO = DB::table('data_fttx_ib_oris')->where('no_wo', $request->filWO)->orderBy('visit_date', 'desc') ->first(); 
+        // }
+        if(is_null($dtWO)){
+            return response()->json('NoData');
+        } else {
+            return response()->json($dtWO);
+        }
+
+    }
+
+    public function simpanReschedule(Request $request)
+    {
+        $akses = Auth::user()->name;
+        $aksesId = Auth::user()->id;
+
+        if ($request->hasFile('fotoKonfirmCst')) {
+            $fileFoto = $request->file('fotoKonfirmCst');
+            $fileKonfirmCst = $fileFoto->hashName();
+            $request->file('fotoKonfirmCst')->move(public_path('storage/image-pending'), $fileKonfirmCst);
+        } else {
+            $fileKonfirmCst = 'foto-blank.jpg';
+        }
+
+        if ($request->hasFile('fotoKonfirmDispatch')) {
+            $fileFoto = $request->file('fotoKonfirmDispatch');
+            $fileKonfirmDispatch = $fileFoto->hashName();
+            $request->file('fotoKonfirmDispatch')->move(public_path('storage/image-pending'), $fileKonfirmDispatch);
+        } else {
+            $fileKonfirmDispatch = 'foto-blank.jpg';
+        }
+
+        DB::beginTransaction();
+
+        try {
+
+            $simpanPendingRsch = DataPendingReschedule::create([
+                'wo_id' => $request['detId'],
+                'type' => $request['woTypeShow'],
+                'wo_no' => $request['noWoShow'],
+                'installation_date' => $request['tglProgressShow'],
+                'slot_time_leader' => $request['slotTimeLeaderShow'],
+                'reschedule_date' => $request['tglReschedule'],
+                'reschedule_time' => $request['slotTimeReschedule'],
+                'keterangan' => $request['keterangan'],
+
+                'konfirmasi_cst' => $fileKonfirmCst,
+                'konfirmasi_dispatch' => $fileKonfirmDispatch,
+                
+                'login_id' => $aksesId,
+                'login' => $akses
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('rescheduleWO')
+                    ->with(['success' => 'Data tersimpan.']);
+            
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $e->getMessage();
+            return redirect()->route('rescheduleWO')
+            ->with(['error' => 'Gagal Simpan Data: ' . $e->getMessage()]);
+        }
+
+    }
+
+    public function getRekapPendingReschedule(Request $request)
+    {
+        $akses = Auth::user()->name;
+        
+        $datas = DB::table('v_pending_rekap')
+                ->select('branch', 'installation_date', 
+                    DB::raw('sum(ftth_ib) as ftth_ib'),
+                    DB::raw('sum(ftth_mt) as ftth_mt'),
+                    DB::raw('sum(dismantle) as dismantle'),
+                    DB::raw('sum(fttx_ib) as fttx_ib'),
+                    DB::raw('sum(fttx_mt) as fttx_mt'),
+                );
+            // ->get();
+        
+        // $datas = DB::table('data_pending_reschedules')->leftJoin('')->orderBy('reschedule_date', 'DESC');
 
             if($request->filTgl != null) {
                 $dateRange = explode("-", $request->filTgl);
                 $startDt = \Carbon\Carbon::parse($dateRange[0]);
                 $endDt = \Carbon\Carbon::parse($dateRange[1]);
 
-                $datas = $datas->whereBetween('tgl_ikr',[$startDt, $endDt]);
+                $datas = $datas->whereBetween('installation_date',[$startDt, $endDt]);
             }
 
-            if($request->filNoWo != null) {
-                $datas = $datas->where('no_wo', $request->filNoWo);
-            }
-            if($request->filcustId != null) {
-                $datas = $datas->where('cust_id', $request->filcustId);
-            }
-            if($request->filtypeWo != null) {
-                $datas = $datas->where('type_wo', $request->filtypeWo);
-            }
+            // if($request->filNoWo != null) {
+            //     $datas = $datas->where('wo_no', $request->filNoWo);
+            // }
+            // if($request->filcustId != null) {
+            //     $datas = $datas->where('cust_id', $request->filcustId);
+            // }
+            // if($request->filtypeWo != null) {
+            //     $datas = $datas->where('type_wo', $request->filtypeWo);
+            // }
             if($request->filarea != null) {
                 $b = explode("|", $request->filarea);
                 $br = $b[1];
                 $datas = $datas->where('branch', $br);
             }
-            if($request->filleaderTim != null) {
-                $lt = explode("|", $request->filleaderTim);
-                $ld = $lt[1];
-                $datas = $datas->where('leader', $ld);
+            // if($request->filleaderTim != null) {
+            //     $lt = explode("|", $request->filleaderTim);
+            //     $ld = $lt[1];
+            //     $datas = $datas->where('leader', $ld);
+            // }
+            // if($request->filcallsignTimid != null) {
+            //     $fct = explode("|", $request->filcallsignTimid);
+            //     $ct = $fct[1];
+            //     $datas = $datas->where('callsign', $ct);
+            // }
+            // if($request->filteknisi != null) {
+            //     $ftk = explode("|", $request->filteknisi );
+            //     $nikTk = $ftk[0];
+            //     $datas = $datas->where('tek1_nik', $nikTk)
+            //                     ->orWhere('tek2_nik', $nikTk)
+            //                     ->orWhere('tek3_nik', $nikTk)
+            //                     ->orWhere('tek4_nik', $nikTk);
+            // }
+            // if($request->filcluster != null) {
+            //     $datas = $datas->where('cluster', $request->filcluster);
+            // }
+            // if($request->filfatCode != null) {
+            //     $datas = $datas->where('kode_fat', $request->filfatCode);
+            // }
+            // if($request->filslotTime != null) {
+            //     $datas = $datas->where('slot_time', $request->filslotTime);
+            // }
+
+            $datas = $datas->groupBy('branch','installation_date')->get();
+
+        if ($request->ajax()) {
+
+            return DataTables::of($datas)
+                ->addIndexColumn() //memberikan penomoran
+                ->addColumn('action', function ($row) {
+                    $btn = '
+                        <button type="button" id="detail-rekapReschedule" name="detail-rekapReschedule" data-id= "'. $row->branch . '" class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-0 mb-0 px-1 py-1">
+                            <span class="btn-inner--icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
+                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"></path>
+                                </svg>
+                            </span>
+                        </button>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])   //merender content column dalam bentuk html
+                ->escapeColumns()  //mencegah XSS Attack
+                ->toJson(); //merubah response dalam bentuk Json
+            // ->make(true);
+        }
+
+        // return response()->json($request->ajax());
+    }
+    
+
+    public function getDataPendingReschedule(Request $request)
+    {
+        $akses = Auth::user()->name;
+        
+        $datas = DB::table('v_pending_detail');
+            // ->get();
+        
+        // $datas = DB::table('data_pending_reschedules')->leftJoin('')->orderBy('reschedule_date', 'DESC');
+
+            if($request->filTgl != null) {
+                $dateRange = explode("-", $request->filTgl);
+                $startDt = \Carbon\Carbon::parse($dateRange[0]);
+                $endDt = \Carbon\Carbon::parse($dateRange[1]);
+
+                $datas = $datas->whereBetween('installation_date',[$startDt, $endDt]);
             }
-            if($request->filcallsignTimid != null) {
-                $fct = explode("|", $request->filcallsignTimid);
-                $ct = $fct[1];
-                $datas = $datas->where('callsign', $ct);
+
+            if($request->filNoWo != null) {
+                $datas = $datas->where('wo_no', $request->filNoWo);
             }
-            if($request->filteknisi != null) {
-                $ftk = explode("|", $request->filteknisi );
-                $nikTk = $ftk[0];
-                $datas = $datas->where('tek1_nik', $nikTk)
-                                ->orWhere('tek2_nik', $nikTk)
-                                ->orWhere('tek3_nik', $nikTk)
-                                ->orWhere('tek4_nik', $nikTk);
+            if($request->filcustId != null) {
+                $datas = $datas->where('cust_id', $request->filcustId);
             }
-            if($request->filcluster != null) {
-                $datas = $datas->where('cluster', $request->filcluster);
+            // if($request->filtypeWo != null) {
+            //     $datas = $datas->where('type_wo', $request->filtypeWo);
+            // }
+            if($request->filarea != null) {
+                $b = explode("|", $request->filarea);
+                $br = $b[1];
+                $datas = $datas->where('branch', $br);
             }
-            if($request->filfatCode != null) {
-                $datas = $datas->where('kode_fat', $request->filfatCode);
-            }
-            if($request->filslotTime != null) {
-                $datas = $datas->where('slot_time', $request->filslotTime);
-            }
+            // if($request->filleaderTim != null) {
+            //     $lt = explode("|", $request->filleaderTim);
+            //     $ld = $lt[1];
+            //     $datas = $datas->where('leader', $ld);
+            // }
+            // if($request->filcallsignTimid != null) {
+            //     $fct = explode("|", $request->filcallsignTimid);
+            //     $ct = $fct[1];
+            //     $datas = $datas->where('callsign', $ct);
+            // }
+            // if($request->filteknisi != null) {
+            //     $ftk = explode("|", $request->filteknisi );
+            //     $nikTk = $ftk[0];
+            //     $datas = $datas->where('tek1_nik', $nikTk)
+            //                     ->orWhere('tek2_nik', $nikTk)
+            //                     ->orWhere('tek3_nik', $nikTk)
+            //                     ->orWhere('tek4_nik', $nikTk);
+            // }
+            // if($request->filcluster != null) {
+            //     $datas = $datas->where('cluster', $request->filcluster);
+            // }
+            // if($request->filfatCode != null) {
+            //     $datas = $datas->where('kode_fat', $request->filfatCode);
+            // }
+            // if($request->filslotTime != null) {
+            //     $datas = $datas->where('slot_time', $request->filslotTime);
+            // }
 
             $datas = $datas->get();
 
@@ -98,7 +275,7 @@ class RescheduleWO_Controller extends Controller
                 // })
                 ->addColumn('action', function ($row) {
                     $btn = '
-                    <a href="javascript:void(0)" id="detail-assign" data-id="' . $row->id . '" class="btn btn-sm btn-primary detail-assign mb-0" >Detail</a>';
+                    <a href="javascript:void(0)" id="detail-pending" data-id="' . $row->id . '" class="btn btn-sm btn-primary detail-pending mb-0" >Detail</a>';
                     // <a href="javascript:void(0)" id="detail-lead" data-id="' . $row->lead_call_id . "|" . $row->branch_id . "|" . $row->leader_id . '" class="btn btn-sm btn-primary detil-lead mb-0" >Edit</a>';
                     //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
                     return $btn;
@@ -112,15 +289,16 @@ class RescheduleWO_Controller extends Controller
         // return response()->json($request->ajax());
     }
 
+    
 
-    public function getDetailWOFtthMT(Request $request)
+    public function getDetailPending(Request $request)
     {
         // dd($request);
-        $assignId = $request->filAssignId;
-        $datas = DB::table('data_ftth_mt_oris as d')
-            ->where('d.id', $assignId)->first();
+        $pendingId = $request->filPendingID;
+        $datas = DB::table('v_pending_detail')
+            ->where('id', $pendingId)->first();
 
-        return response()->json(['data' => $datas]);
+        return response()->json($datas);
     }
 
     public function getDetailCustId(Request $request)

@@ -115,12 +115,10 @@
                                             <th class="text-xs font-weight-semibold">#</th>
                                             <th class="text-center text-xs font-weight-semibold">Area</th>
                                             <th class="text-center text-xs font-weight-semibold">PIC Assign Tim</th>
-                                            <th class="text-center text-xs font-weight-semibold">FTTH New Installation
-                                            </th>
+                                            <th class="text-center text-xs font-weight-semibold">FTTH New Installation</th>
                                             <th class="text-center text-xs font-weight-semibold">FTTH Maintenance</th>
                                             <th class="text-center text-xs font-weight-semibold">Dismantle</th>
-                                            <th class="text-center text-xs font-weight-semibold">FTTX New Installation
-                                            </th>
+                                            <th class="text-center text-xs font-weight-semibold">FTTX New Installation</th>
                                             <th class="text-center text-xs font-weight-semibold">FTTX Maintenance</th>
                                             <th class="text-center text-xs font-weight-semibold">#</th>
 
