@@ -632,7 +632,7 @@
         {{-- Modal Show Detail Data Tool --}}
         <div class="modal fade" id="showAssignTim" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false"
-            data-bs-backdrop="static">>
+            data-bs-backdrop="static">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -841,12 +841,12 @@
                                                     id="sesiShowAdd" name="sesiShowAdd" style="border-color:#9ca0a7;"
                                                     placeholder="Isi Callsign Tim">
                                                     <option value="Regular">Regular</option>
-                                                    <option value="BATCH 1">Batch 1</option>
-                                                    <option value="BATCH 2">Batch 2</option>
-                                                    <option value="BATCH 3">Batch 3</option>
-                                                    <option value="BATCH 4">Batch 4</option>
-                                                    <option value="BATCH 5">Batch 5</option>
-                                                    <option value="BATCH 6">Batch 6</option>
+                                                    <option value="Batch 1">Batch 1</option>
+                                                    <option value="Batch 2">Batch 2</option>
+                                                    <option value="Batch 3">Batch 3</option>
+                                                    <option value="Batch 4">Batch 4</option>
+                                                    <option value="Batch 5">Batch 5</option>
+                                                    <option value="Batch 6">Batch 6</option>
                                                     <option value="Pendingan">Pendingan</option>
                                                     <option value="Sameday">Sameday</option>
 
@@ -1507,8 +1507,9 @@
                     $('#branchShow').val(dtDis.data.branch_id + '|' + dtDis.data.branch);
                     $('#tglProgressShow').val(dtDis.data.tgl_ikr);
 
-                    $('#sesiShowAdd').val(dtDis.data.batch_wo);
-                    $('#sesiShow').val(toTitleCase(dtDis.data.batch_wo));
+                    $('#sesiShowAdd').val(toTitleCase(dtDis.data.batch_wo || ""));
+                    $('#sesiShow').val(toTitleCase(dtDis.data.batch_wo || ""));
+                    console.log(dtDis.data.batch_wo);
 
 
                     leadCallsignDet = dtDis.data.leadcall_id + '|' + dtDis.data.leadcall

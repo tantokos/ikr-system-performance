@@ -822,6 +822,7 @@
                                                         id="statusWoApk" name="statusWoApk"
                                                         style="border-color:#9ca0a7;">
                                                         <option value="">Pilih Status WO</option>
+                                                        <option value="Requested">Requested</option>
                                                         <option value="Checkin">Checkin</option>
                                                         <option value="Checkout">Checkout</option>
                                                         <option value="Done">Done</option>
