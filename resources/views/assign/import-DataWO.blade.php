@@ -170,8 +170,8 @@
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Area Cluster</th>
-                                            
-                                            
+
+
                                             {{-- <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 FAT Port</th> --}}
@@ -231,6 +231,29 @@
                             </div> --}}
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 mt-3 mb-3">
+                <div class="table-responsive p-0">
+                    <table class="table table-striped table-bordered align-items-center mb-0">
+                        <thead class="bg-gray-600">
+                            <tr id="headStatusProgresWo">
+                                <th class="text-white text-sm font-weight-semibold">No</th>
+                                <th class="text-white text-sm font-weight-semibold">Callsign Tim</th>
+                                <th class="text-white text-sm font-weight-semibold">Total WO</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyStatusProgresWo">
+                            @foreach ($callsigns as $callsign)
+                            <tr>
+                                <td class="text-sm">{{ $loop->iteration }}</td>
+                                <td class="text-sm">{{ $callsign->callsign }}</td>
+                                <td class="text-sm">{{ $callsign->total_wo }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -328,24 +351,6 @@
                                         <span class="text-xs">Area/Cluster</span>
                                         <input type="text" class="form-control form-control-sm" type="text"
                                             id="areaShow" name="areaShow" style="border-color:#9ca0a7;">
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <div class="row">
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">IKR Date APK</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="ikrDateApkShow" name="ikrDateApkShow"
-                                                    style="border-color:#9ca0a7;">
-                                            </div>
-
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Time APK</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="timeApkShow" name="timeApkShow"
-                                                    style="border-color:#9ca0a7;">
-                                            </div>
-                                        </div>
                                     </div>
 
                                     <div class="form-group mb-1">
@@ -712,8 +717,8 @@
                     {
                         data: 'leader'
                     },
-                    
-                    
+
+
                     // {
                     //     data: 'fat_port'
                     // },
@@ -767,6 +772,13 @@
             branchImport = $('#branchImport').val();
             // let leadCallDt = {!! $leadCallsign !!}
 
+            function toTitleCase(str) {
+                return str.replace(
+                    /\w\S*/g,
+                    text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+                );
+            }
+
             $.ajax({
                 url: "{{ route('getDetailImport') }}",
                 type: "get",
@@ -803,7 +815,7 @@
                     console.log(dtDis.data.tgl_ikr);
                     $('#tglProgressShow').val(dtDis.data.tgl_ikr);
 
-                    $('#sesiShow').val(dtDis.data.batch_wo);
+                    $('#sesiShow').val(toTitleCase(dtDis.data.batch_wo || ""));
 
                     leadCallsignDet = dtDis.data.leadcall_id + '|' + dtDis.data.leadcall +
                         '|' + dtDis.data.leader_id + '|' + dtDis.data.leader

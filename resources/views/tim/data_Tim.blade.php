@@ -150,7 +150,7 @@
 
         {{-- Modal Tambah Data Lead Callsign --}}
         <div class="modal fade" id="tambahLead" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">>
+            aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
             <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -239,7 +239,7 @@
 
         {{-- Modal Tambah Data Callsign Tim --}}
         <div class="modal fade" id="tambahTim" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">>
+            aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
             <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -364,7 +364,7 @@
         {{-- Modal Detail Data Lead Callsign --}}
         <div class="modal fade" id="showDetailLead" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false"
-            data-bs-backdrop="static">>
+            data-bs-backdrop="static">
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -478,7 +478,7 @@
         {{-- Modal Edit Data Lead Callsign --}}
         <div class="modal fade" id="detailEditLead" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false"
-            data-bs-backdrop="static">>
+            data-bs-backdrop="static">
             <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -575,7 +575,7 @@
 
         {{-- Modal Edit Data Callsign Tim --}}
         <div class="modal fade" id="editTim" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">>
+            aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
             <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -704,7 +704,7 @@
 
         {{-- Modal Show Detail Data Tool --}}
         <div class="modal fade" id="ShowTool" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">>
+            aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -760,7 +760,7 @@
         {{-- Modal Show Detail Data Tool --}}
         <div class="modal fade" id="showDistribusi" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false"
-            data-bs-backdrop="static">>
+            data-bs-backdrop="static">
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -2040,7 +2040,7 @@
         $('#updateTim').click(function(e) {
             // e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
-            
+
             let ledTimId = $('#LeadTimEdit').val();
             let callTimId = $('#callTimEdit').val();
             let tek1 = $('#teknisi1Edit').val();
