@@ -9,6 +9,7 @@ class ImportFtthMtApk extends Model
 {
     use HasFactory;
 
+    protected $table = 'import_ftth_mt_apks';
     protected $fillable = [
         'wo_no',
         'ticket_no',

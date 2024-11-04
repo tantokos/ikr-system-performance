@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Imports\FtthMtApkImport;
+use App\Models\ImportFtthMtApk;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -169,6 +170,7 @@ class ImportDataWoApkController extends Controller
                     }
 
                     // Commit transaksi
+                    DB::table('import_ftth_mt_apks')->delete();
                     DB::commit();
                     return redirect()->route('monitFtthMT')->with(['success' => 'Status berhasil diupdate.']);
                 } catch (\Exception $e) {

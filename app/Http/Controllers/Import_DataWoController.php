@@ -26,7 +26,18 @@ class Import_DataWoController extends Controller
 
         $jmlData = DB::table('import_assign_tims')->where('login', '=', $akses)->count('login');
 
-        return view('assign.import-DataWO', ['branches' => $branches, 'leadCallsign' => $Leadcallsign, 'akses' => $akses, 'brImport' => $request->brImport]);
+        $callsigns = DB::table('import_assign_tims')
+            ->select('callsign', DB::raw('count(*) as total_wo'))
+            ->groupBy('callsign')
+            ->get();
+
+        return view('assign.import-DataWO', [
+            'branches' => $branches,
+            'leadCallsign' => $Leadcallsign,
+            'akses' => $akses,
+            'brImport' => $request->brImport,
+            'callsigns' => $callsigns,
+        ]);
     }
 
 
@@ -264,6 +275,7 @@ class Import_DataWoController extends Controller
                                 'cluster' => $data['area_cluster_apk'],
                                 'wo_type_apk' => $data['wo_type_apk'],
                                 'kode_fat' => $data['fat_code_apk'],
+                                'port_fat' => $data['fat_port_apk'],
                                 'type_maintenance' => $data['remarks_apk'],
                                 'slot_time_leader' => $data['slot_time'],
                                 'slot_time_apk' => $data['time_apk'],

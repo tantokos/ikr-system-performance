@@ -766,24 +766,6 @@
                                     <div class="form-group mb-1">
                                         <div class="row">
                                             <div class="col form-group mb-1">
-                                                <span class="text-xs">IKR Date APK</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="ikrDateApkShow" name="ikrDateApkShow"
-                                                    style="border-color:#9ca0a7;">
-                                            </div>
-
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Time APK</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="timeApkShow" name="timeApkShow"
-                                                    style="border-color:#9ca0a7;">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <div class="row">
-                                            <div class="col form-group mb-1">
                                                 <span class="text-xs">FAT Code</span>
                                                 <input class="form-control form-control-sm" type="text"
                                                     id="fatCodeShow" name="fatCodeShow"
