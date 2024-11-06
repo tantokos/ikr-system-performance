@@ -926,7 +926,7 @@
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">SN ONT Terpasang</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                value="" id="snOntOut" name="ont_sn_out"
+                                                                value="" id="snOntOut" name="sn_ont_out"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
 
@@ -1642,7 +1642,7 @@
                     $('#kabelPreconBad').val(dtDis.bad_precon);
                     $('#cluster').val(dtDis.cluster);
 
-                    $('#snOntOut').val(material.ont_sn_out);
+                    $('#snOntOut').val(material.sn_ont_out);
                     $('#macOntOut').val(material.mac_ont_out);
                     $('#macOntIn').val(material.mac_ont_in);
                     $('#merkOntIn').val(material.merk_ont_in);
