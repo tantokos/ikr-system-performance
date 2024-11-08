@@ -33,6 +33,10 @@ class Import_DataWoController extends Controller
 
 
         $pivotData = [];
+        $totalFtthNewInstallation = 0;
+        $totalFtthMt = 0;
+        $totalDismantle = 0;
+        $totalFttxIb = 0;
 
         foreach ($callsigns as $item) {
             $area = $item->branch;
@@ -56,6 +60,22 @@ class Import_DataWoController extends Controller
             // Tambahkan nilai total_wo ke type_wo yang sesuai
             $pivotData[$callsign][$type_wo] = $item->total_wo;
 
+            if($type_wo == 'FTTH New Installation'){
+                $totalFtthNewInstallation += $item->total_wo;
+            }
+
+            if($type_wo == 'FTTH Maintenance'){
+                $totalFtthMt += $item->total_wo;
+            }
+
+            if($type_wo == 'Dismantle'){
+                $totalDismantle += $item->total_wo;
+            }
+
+            if($type_wo == 'FTTX New Installation'){
+                $totalFttxIb += $item->total_wo;
+            }
+
             // Tambahkan ke total WO
             $pivotData[$callsign]['Total WO'] += $item->total_wo;
         }
@@ -67,6 +87,10 @@ class Import_DataWoController extends Controller
             'brImport' => $request->brImport,
             'callsigns' => $callsigns,
             'pivotData' => $pivotData,
+            'totalFtthNewInstallation' => $totalFtthNewInstallation,
+            'totalFtthMt' => $totalFtthMt,
+            'totalDismantle' => $totalDismantle,
+            'totalFttxIb' => $totalFttxIb,
         ]);
     }
 

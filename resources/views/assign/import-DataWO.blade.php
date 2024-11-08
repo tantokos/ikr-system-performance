@@ -121,7 +121,7 @@
                                 <div class="col-12">
                                     <div class="w-100 text-center">
                                         <p class="text-sm text-secondary mb-1">Total FTTH IB</p>
-                                        <h4 class="mb-2 font-weight-bold">30</h4>
+                                        <h4 class="mb-2 font-weight-bold">{{ $totalFtthNewInstallation }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -135,7 +135,7 @@
                                 <div class="col-12">
                                     <div class="w-100 text-center">
                                         <p class="text-sm text-secondary mb-1">Total FTTH MT</p>
-                                        <h4 class="mb-2 font-weight-bold">30</h4>
+                                        <h4 class="mb-2 font-weight-bold">{{ $totalFtthMt }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -148,8 +148,8 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="w-100 text-center">
-                                        <p class="text-sm text-secondary mb-1">Total FTTH Dismantle</p>
-                                        <h4 class="mb-2 font-weight-bold">30</h4>
+                                        <p class="text-sm text-secondary mb-1">Total Dismantle</p>
+                                        <h4 class="mb-2 font-weight-bold">{{ $totalDismantle }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -163,7 +163,7 @@
                                 <div class="col-12">
                                     <div class="w-100 text-center">
                                         <p class="text-sm text-secondary mb-1">Total FTTX IB</p>
-                                        <h4 class="mb-2 font-weight-bold">30</h4>
+                                        <h4 class="mb-2 font-weight-bold">{{ $totalFttxIb }}</h4>
                                     </div>
                                 </div>
                             </div>
