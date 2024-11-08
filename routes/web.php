@@ -15,6 +15,7 @@ use App\Http\Controllers\DistribusiToolController;
 use App\Http\Controllers\Import_AbsensiController;
 use App\Http\Controllers\Import_DataWoController;
 use App\Http\Controllers\ImportDataWoApkController;
+use App\Http\Controllers\ImportFtthDismantleController;
 use App\Http\Controllers\karyawanController;
 use App\Http\Controllers\KembaliTool;
 use App\Http\Controllers\KembaliToolController;
@@ -145,6 +146,11 @@ Route::get('/detail-customer/{cust_id}', [MonitFtthMT_Controller::class, 'getDet
 Route::put('/updateFtthMt', [MonitFtthMT_Controller::class, 'update'])->name('updateFtthMt')->middleware('auth');
 
 Route::get('/ftth-dismantle', [FtthDismantleController::class, 'index'])->name('ftth-dismantle')->middleware('auth');
+Route::get('/getDetailFtthDismantle', [FtthDismantleController::class, 'getDetailFtthDismantle'])->name('getDetailFtthDismantle')->middleware('auth');
+Route::get('/getFtthDismantle', [FtthDismantleController::class, 'getFtthDismantle'])->name('getFtthDismantle')->middleware('auth');
+
+Route::get('/importFtthDismantle', [ImportFtthDismantleController::class, 'index'])->name('importFtthDismantle')->middleware('auth');
+Route::post('/importProsesFtthDismantle', [ImportFtthDismantleController::class, 'importProsesFtthDismantle'])->name('importProsesFtthDismantle')->middleware('auth');
 
 
 Route::get('/getDataMTOris', [MonitFtthMT_Controller::class, 'getDataMTOris'])->name('getDataMTOris')->middleware('auth');

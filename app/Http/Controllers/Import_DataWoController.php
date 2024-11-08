@@ -27,9 +27,38 @@ class Import_DataWoController extends Controller
         $jmlData = DB::table('import_assign_tims')->where('login', '=', $akses)->count('login');
 
         $callsigns = DB::table('import_assign_tims')
-            ->select('callsign', DB::raw('count(*) as total_wo'))
-            ->groupBy('callsign')
-            ->get();
+        ->select('callsign', 'branch', 'type_wo', DB::raw('count(*) as total_wo'))
+        ->groupBy('callsign', 'type_wo', 'branch')
+        ->get();
+
+
+        $pivotData = [];
+
+        foreach ($callsigns as $item) {
+            $area = $item->branch;
+            $callsign = $item->callsign;
+            $type_wo = $item->type_wo;
+
+            // Inisialisasi array jika belum ada
+            if (!isset($pivotData[$callsign])) {
+                $pivotData[$callsign] = [
+                    'area' => $area,
+                    'callsign' => $callsign,
+                    'FTTH New Installation' => 0,
+                    'FTTH Maintenance' => 0,
+                    'Dismantle' => 0,
+                    'FTTX New Installation' => 0,
+                    'FTTX Maintenance' => 0,
+                    'Total WO' => 0
+                ];
+            }
+
+            // Tambahkan nilai total_wo ke type_wo yang sesuai
+            $pivotData[$callsign][$type_wo] = $item->total_wo;
+
+            // Tambahkan ke total WO
+            $pivotData[$callsign]['Total WO'] += $item->total_wo;
+        }
 
         return view('assign.import-DataWO', [
             'branches' => $branches,
@@ -37,6 +66,7 @@ class Import_DataWoController extends Controller
             'akses' => $akses,
             'brImport' => $request->brImport,
             'callsigns' => $callsigns,
+            'pivotData' => $pivotData,
         ]);
     }
 

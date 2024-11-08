@@ -143,7 +143,7 @@
                                 </div>
 
                                 <div class="ms-auto d-flex">
-                                    <a href="javascript:void(0);">
+                                    <a href="{{ route('importFtthDismantle') }}">
                                         <button type="button"
                                             class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
                                             <span class="btn-inner--icon">
@@ -306,7 +306,7 @@
                 processing: true,
                 serverSide: false,
                 ajax: {
-                    url: "{{ route('getDataMTOris') }}",
+                    url: "{{ route('getFtthDismantle') }}",
                     type: "get",
                     dataType: "json",
                     data: {
@@ -401,7 +401,7 @@
 
 
             $.ajax({
-                url: "{{ route('getDetailWOFtthMT') }}",
+                url: "{{ route('getFtthDismantle') }}",
                 type: "get",
                 data: {
                     filAssignId: assign_id,

@@ -113,6 +113,41 @@
                 </div>
             </div>
 
+            <div class="col-sm-12 mt-3 mb-3">
+                <div class="table-responsive p-0">
+                    <table class="table table-striped table-bordered align-items-center mb-0">
+                        <thead class="bg-gray-600">
+                            <tr id="headStatusProgresWo">
+                                <th class="text-white text-sm font-weight-semibold">No</th>
+                                <th class="text-white text-sm font-weight-semibold">Area</th>
+                                <th class="text-white text-sm font-weight-semibold">Callsign Tim</th>
+                                <th class="text-white text-sm font-weight-semibold">FTTH New Installation</th>
+                                <th class="text-white text-sm font-weight-semibold">FTTH Maintenance</th>
+                                <th class="text-white text-sm font-weight-semibold">Dismantle</th>
+                                <th class="text-white text-sm font-weight-semibold">FTTX New Installation</th>
+                                <th class="text-white text-sm font-weight-semibold">FTTX Maintenance</th>
+                                <th class="text-white text-sm font-weight-semibold">Total WO</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyStatusProgresWo">
+                            @foreach ($pivotData as $index => $data)
+                            <tr>
+                                <td class="text-sm">{{ $loop->iteration }}</td>
+                                <td class="text-sm">{{ $data['area'] }}</td>
+                                <td class="text-sm">{{ $data['callsign'] }}</td>
+                                <td class="text-sm">{{ $data['FTTH New Installation'] }}</td>
+                                <td class="text-sm">{{ $data['FTTH Maintenance'] }}</td>
+                                <td class="text-sm">{{ $data['Dismantle'] }}</td>
+                                <td class="text-sm">{{ $data['FTTX New Installation'] }}</td>
+                                <td class="text-sm">{{ $data['FTTX Maintenance'] }}</td>
+                                <td class="text-sm">{{ $data['Total WO'] }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-12">
                     <div class="card border shadow-xs mb-4">
@@ -231,29 +266,6 @@
                             </div> --}}
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="col-sm-12 mt-3 mb-3">
-                <div class="table-responsive p-0">
-                    <table class="table table-striped table-bordered align-items-center mb-0">
-                        <thead class="bg-gray-600">
-                            <tr id="headStatusProgresWo">
-                                <th class="text-white text-sm font-weight-semibold">No</th>
-                                <th class="text-white text-sm font-weight-semibold">Callsign Tim</th>
-                                <th class="text-white text-sm font-weight-semibold">Total WO</th>
-                            </tr>
-                        </thead>
-                        <tbody id="bodyStatusProgresWo">
-                            @foreach ($callsigns as $callsign)
-                            <tr>
-                                <td class="text-sm">{{ $loop->iteration }}</td>
-                                <td class="text-sm">{{ $callsign->callsign }}</td>
-                                <td class="text-sm">{{ $callsign->total_wo }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
                 </div>
             </div>
 

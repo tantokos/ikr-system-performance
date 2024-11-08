@@ -1,4 +1,4 @@
-    <x-app-layout>
+<x-app-layout>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
@@ -9,7 +9,7 @@
                         <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
                         </div>
                         <div class="card-body text-start p-4 w-100">
-                            <h3 class="text-white mb-2">Import Data Material APK</h3>
+                            <h3 class="text-white mb-2">Import FTTH Dismantle</h3>
                             <p class="mb-2 font-weight-semibold">
                                 {{-- Check all the advantages and choose the best. --}}
                             </p>
@@ -25,7 +25,7 @@
                     <div class="row">
 
                         <div class="col-md-6">
-                            <form action="{{ route('importProsesMaterial') }}" method="post"
+                            <form action="{{ route('importProsesFtthDismantle') }}" method="post"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
@@ -36,13 +36,25 @@
                                     <button type="submit" class="btn btn-dark btn-sm w-100" onclick="cek()">
                                         <span class="spinner-border spinner-border-sm" style="display: none"
                                             role="status" aria-hidden="true"></span>
-                                        Import Data Material</button>
+                                        Import FTTH Dismantle</button>
+                                    {{-- </div> --}}
+                                    {{-- <div class="form-group"> --}}
+                                    {{-- <label class="col-form-label form-control-sm">Information of Data Import :</label> --}}
+                                    {{-- <div class="col-form-label form-control-sm"> --}}
+                                    {{-- @if (isset($croscekData)) --}}
+                                    {{-- @if ($croscekData != '-') --}}
+                                    {{-- <span class="error">{{ $croscekData }}</span> --}}
+                                    {{-- @else --}}
+                                    {{-- <span class="error">-</span> --}}
+                                    {{-- @endif --}}
+                                    {{-- @endif --}}
+                                    {{-- </div> --}}
                                 </div>
                             </form>
                         </div>
 
                         <div class="col-md-6">
-                            <form action="{{ route('storeFtthMaterial') }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('simpanImportWo') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <label class="col-sm-3 col-form-label form-control-sm">Import By</label>
@@ -52,46 +64,52 @@
                                     </div>
                                 </div>
 
+                                {{-- <div class="row">
+                                    <label class="col-sm-3 col-form-label form-control-sm">Branch</label>
+                                    <div class="col form-group">
+                                        <select class="form-control form-control-sm" type="text" id="branchImport"
+                                            name="branchImport" style="border-color:#9ca0a7;">
+                                            <option value="">Pilih Branch</option>
+                                            @if (isset($branches))
+                                                @foreach ($branches as $b)
+                                                    <option value="{{ $b->id . '|' . $b->nama_branch }}">
+                                                        {{ $b->nama_branch }}
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div> --}}
+
+                                {{-- <div class="row">
+                                    <label class="col-sm-3 col-form-label form-control-sm">Number of Rows</label>
+                                    <div class="col form-group">
+                                        <input type="text" class="form-control form-control-sm" id="jmlData"
+                                            name="jmlData" value=""" readonly />
+                                    </div>
+                                </div> --}}
+
+                                {{-- <div class="row">
+                                    <label class="col-sm-3 col-form-label form-control-sm">Periode of Rows</label>
+                                    <div class="col form-group">
+                                        <input type="text" class="form-control form-control-sm" id="periode"
+                                            name="periode" value="" readonly />
+                                    </div>
+                                </div> --}}
                         </div>
                     </div>
                     <hr>
                     <div class="col text-end">
+                        {{-- <button type="button" class="btn btn-sm btn-dark align-items-center" data-bs-toggle="modal"
+                            data-bs-target="#previewModal">Show Preview</button> --}}
                         <button onclick="return confirm('Simpan hasil import WO?')" type="submit" name="action"
-                            value="simpan" class="btn btn-sm btn-dark align-items-center">Save Import
-                            Material</button>
-                        <button onclick="return confirm('Hapus hasil import Data Work Order?')"
+                            value="simpan" class="btn btn-sm btn-dark align-items-center">Save FTTH Dismantle
+                        </button>
+                        <button onclick="return confirm('Hapus hasil import FTTH Dismantle?')"
                             onsubmit="this.disabled = true;" type="submit" name="action" value="batal"
                             class="btn btn-sm btn-dark align-items-center">Cancel Import
-                            Material</button>
+                            Data</button>
                     </div>
                     </form>
-                </div>
-            </div>
-
-            <div class="col-sm-12 mt-3 mb-3">
-                <div class="table-responsive p-0">
-                    <table class="table table-striped table-bordered align-items-center mb-0">
-                        <thead class="bg-gray-600">
-                            <tr id="headStatusProgresWo">
-                                <th class="text-white text-sm font-weight-semibold">No</th>
-                                <th class="text-white text-sm font-weight-semibold">Area</th>
-                                <th class="text-white text-sm font-weight-semibold">Description</th>
-                                <th class="text-white text-sm font-weight-semibold">Total Out</th>
-                                <th class="text-white text-sm font-weight-semibold">Total In</th>
-                            </tr>
-                        </thead>
-                        <tbody id="statusMaterial">
-                            @foreach ($processedData as $index => $data)
-                            <tr>
-                                <td class="text-sm">{{ $loop->iteration }}</td>
-                                <td class="text-sm">{{ $data['area'] }}</td>
-                                <td class="text-sm">{{ $data['description'] }}</td>
-                                <td class="text-sm">{{ $data['out'] }}</td>
-                                <td class="text-sm">{{ $data['in'] }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
                 </div>
             </div>
 
@@ -102,76 +120,101 @@
                             <div class="d-sm-flex align-items-center">
                                 <div>
                                     <h6 class="font-weight-semibold text-lg">Import Data list</h6>
+                                    {{-- <p class="text-sm">See information about all members</p> --}}
                                 </div>
                             </div>
                         </div>
 
                         <div class="card-body px-2 py-2">
                             <div class="table-responsive">
-                                <table class="table align-items-center mb-0" id="tableImportMaterial" name="tableImportMaterial"
+                                <table class="table align-items-center mb-0" id="tabelDataWoImport"
                                     style="font-size: 12px">
                                     <thead class="bg-gray-100">
                                         <tr>
                                             <th class="text-secondary text-xs font-weight-semibold">#</th>
                                             <th class="text-secondary text-xs font-weight-semibold ps-2">WO No</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                WO Date
+                                            <th class="text-center text-secondary text-xs font-weight-semibold ">WO
+                                                Date
                                             </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Installation Date
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Vendor Installer
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Callsign
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Area
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Warehouse
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Cust Id
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Nama Customer
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Type WO
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Remarks
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Status
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Status Item
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Item Code
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Description
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Qty
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                SN
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Mac Address
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Material Condition
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Login
-                                            </th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Cust Id</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Cust Name</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                WO Type</th>
+                                            {{-- <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Ticket No</th> --}}
 
+                                            {{-- <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Cust Phone</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Cust Mobile</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Address</th> --}}
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                FAT Code</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Branch</th>
+                                            {{-- <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                kotamadya</th> --}}
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Area Cluster</th>
+
+
+                                            {{-- <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                FAT Port</th> --}}
+                                            {{-- <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Remarks</th> --}}
+                                            {{-- <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                IKR Date APK</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Time APK</th> --}}
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Lead Callsign</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Leader</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Callsign Tim</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Teknisi 1</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Teknisi 2</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Teknisi 3</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Teknisi 4</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Installation Date</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Slot Time</th>
+
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                #</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -179,6 +222,13 @@
                                     </tbody>
                                 </table>
                             </div>
+                            {{-- <div class="border-top py-3 px-3 d-flex align-items-center">
+                                <p class="font-weight-semibold mb-0 text-dark text-sm">Page 1 of 10</p>
+                                <div class="ms-auto">
+                                    <button class="btn btn-sm btn-white mb-0">Previous</button>
+                                    <button class="btn btn-sm btn-white mb-0">Next</button>
+                                </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -278,24 +328,6 @@
                                         <span class="text-xs">Area/Cluster</span>
                                         <input type="text" class="form-control form-control-sm" type="text"
                                             id="areaShow" name="areaShow" style="border-color:#9ca0a7;">
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <div class="row">
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">IKR Date APK</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="ikrDateApkShow" name="ikrDateApkShow"
-                                                    style="border-color:#9ca0a7;">
-                                            </div>
-
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Time APK</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="timeApkShow" name="timeApkShow"
-                                                    style="border-color:#9ca0a7;">
-                                            </div>
-                                        </div>
                                     </div>
 
                                     <div class="form-group mb-1">
@@ -576,8 +608,14 @@
         akses = $('#akses').val();
         data_import()
 
+        // bln = new Date($('#periodeMin').val()).getMonth();
+        // thn = new Date($('#periodeMin').val()).getFullYear();
+
+        // firstDate = moment([thn, bln]);
+        // lastDate = moment(firstDate).endOf('month');
+
         function data_import() {
-            $('#tableImportMaterial').DataTable({
+            $('#tabelDataWoImport').DataTable({
                 // dom: 'Bftip',
                 // layout: {
                 //     topStart: {
@@ -602,13 +640,13 @@
                 processing: true,
                 serverSide: false,
                 ajax: {
-                    url: "{{ route('getDataImportMaterial') }}",
+                    url: "{{ route('getdataImportWo') }}",
                     type: "get",
                     dataType: "json",
                     data: {
                         akses: akses,
                         _token: _token
-                    },
+                    }
                 },
                 columns: [{
                         data: 'DT_RowIndex',
@@ -619,68 +657,280 @@
                         "width": '20'
                     },
                     {
-                        data: 'wo_no',
+                        data: 'no_wo_apk',
+                        width: '90'
                     },
                     {
-                        data: 'wo_date'
+                        data: 'wo_date_apk'
                     },
                     {
-                        data: 'installation_date'
+                        data: 'cust_id_apk'
                     },
                     {
-                        data: 'vendor_installer'
+                        data: 'name_cust_apk'
                     },
                     {
-                        data: 'callsign'
+                        data: 'wo_type_apk'
+                    },
+                    //{
+                    //  data: 'ticket_no'
+                    //},
+
+                    {
+                        data: 'fat_code_apk'
                     },
                     {
-                        data: 'area'
+                        data: 'branch'
+                    },
+                    // {
+                    //     data: 'kotamadya'
+                    // },
+                    {
+                        data: 'area_cluster_apk'
                     },
                     {
-                        data: 'warehouse'
+                        data: 'leadcall'
                     },
                     {
-                        data: 'cust_id'
+                        data: 'leader'
+                    },
+
+
+                    // {
+                    //     data: 'fat_port'
+                    // },
+                    // {
+                    //     data: 'ikr_date_apk'
+                    // },
+                    // {
+                    //     data: 'time_apk'
+                    // },
+                    {
+                        data: 'callsign',
+                        "className": "text-center",
                     },
                     {
-                        data: 'name'
+                        data: 'teknisi1',
+                        // "className": "text-center",
                     },
                     {
-                        data: 'wo_type'
+                        data: 'teknisi2',
+                        // "className": "text-center",
                     },
                     {
-                        data: 'remarks'
+                        data: 'teknisi3',
+                        // "className": "text-center",
                     },
                     {
-                        data: 'status'
+                        data: 'teknisi4',
+                        // "className": "text-center",
                     },
                     {
-                        data: 'status_item'
+                        data: 'tgl_ikr',
+                        "className": "text-center",
                     },
                     {
-                        data: 'item_code'
+                        data: 'slot_time',
+                        "className": "text-center",
                     },
                     {
-                        data: 'description'
-                    },
-                    {
-                        data: 'qty'
-                    },
-                    {
-                        data: 'sn'
-                    },
-                    {
-                        data: 'mac_address'
-                    },
-                    {
-                        data: 'material_condition'
-                    },
-                    {
-                        data: 'login_id'
-                    },
+                        data: 'action',
+                        "className": "text-center",
+                    }
                 ]
             })
         }
+
+
+        $(document).on('click', '#detail-importWo', function(e) {
+            // e.preventDefault();
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let wo_id = $(this).data('id');
+            branchImport = $('#branchImport').val();
+            // let leadCallDt = {!! $leadCallsign !!}
+
+            function toTitleCase(str) {
+                return str.replace(
+                    /\w\S*/g,
+                    text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+                );
+            }
+
+            $.ajax({
+                url: "{{ route('getDetailImport') }}",
+                type: "get",
+                data: {
+                    filWoId: wo_id,
+                    _token: _token
+                },
+                success: function(dtDis) {
+                    $('#detId').val(dtDis.data.id)
+                    $('#noWoShow').val(dtDis.data.no_wo_apk)
+                    $('#ticketNoShow').val(dtDis.data.no_ticket_apk)
+                    $('#woTypeShow').val(dtDis.data.wo_type_apk)
+                    $('#jenisWoShow').val(dtDis.data.type_wo)
+                    $('#WoDateShow').val(dtDis.data.wo_date_apk)
+                    $('#custIdShow').val(dtDis.data.cust_id_apk)
+                    $('#custNameShow').val(dtDis.data.name_cust_apk)
+                    $('#custPhoneShow').val(dtDis.data.cust_phone_apk)
+
+                    $('#custMobileShow').val(dtDis.data.cust_mobile_apk);
+                    $('#custAddressShow').val(dtDis.data.address_apk);
+                    $('#areaShow').val(dtDis.data.area_cluster_apk);
+                    $('#ikrDateApkShow').val(dtDis.data.ikr_date_apk);
+                    $('#timeApkShow').val(dtDis.data.time_apk);
+                    $('#fatCodeShow').val(dtDis.data.fat_code_apk);
+                    $('#portFatShow').val(dtDis.data.fat_port_apk);
+                    $('#remarksShow').val(dtDis.data.remarks_apk);
+
+                    // let br = branchImport.split('|');
+
+                    // $('#branchShow').val(branchImport);
+                    // $('#branchShowText').val(br[1]);
+
+                    $('#branchShow').val(dtDis.data.branch_id + '|' + dtDis.data.branch);
+                    console.log(dtDis.data.tgl_ikr);
+                    $('#tglProgressShow').val(dtDis.data.tgl_ikr);
+
+                    $('#sesiShow').val(toTitleCase(dtDis.data.batch_wo || ""));
+
+                    leadCallsignDet = dtDis.data.leadcall_id + '|' + dtDis.data.leadcall +
+                        '|' + dtDis.data.leader_id + '|' + dtDis.data.leader
+
+                    $('#LeadCallsignShow').val(leadCallsignDet);
+                    // $('#LeadCallsignShow').trigger('change');
+
+                    $('#leaderShow').val(dtDis.data.leader);
+                    $('#leaderidShow').val(dtDis.data.leader_id);
+                    $('#slotTimeShow').val(dtDis.data.slot_time);
+
+                    $('#callsignTimidShow').find('option').remove();
+                    $('#callsignTimidShow').append(
+                        `<option value="">Pilih Callsign Tim</option>`);
+
+                    $.each(dtDis.callTim, function(key, tim) {
+                        $('#callsignTimidShow').append(
+                            `<option value="${tim.callsign_tim_id+'|'+tim.callsign_tim}">${tim.callsign_tim}</option>`
+                        )
+                    })
+
+                    callsignTImidDet = dtDis.data.callsign_id + '|' + dtDis.data.callsign;
+                    $('#callsignTimidShow').val(callsignTImidDet);
+                    // $('#callsignTimidShow').trigger('change');
+                    $('#callsignTimShow').val(dtDis.data.callsign);
+
+                    $('#teknisi1Show').find('option').remove();
+                    $('#teknisi1Show').append(
+                        `<option value="">Pilih Teknisi 1</option>`);
+
+                    $('#teknisi2Show').find('option').remove();
+                    $('#teknisi2Show').append(
+                        `<option value="">Pilih Teknisi 2</option>`);
+
+                    $('#teknisi3Show').find('option').remove();
+                    $('#teknisi3Show').append(
+                        `<option value="">Pilih Teknisi 3</option>`);
+
+                    $('#teknisi4Show').find('option').remove();
+                    $('#teknisi4Show').append(
+                        `<option value="">Pilih Teknisi 4</option>`);
+
+
+                    $.each(dtDis.tim, function(key, t1) {
+                        $('#teknisi1Show').append(
+                            `<option value="${t1.nik_karyawan+'|'+t1.nama_karyawan}">${t1.nama_karyawan}</option>`
+                        )
+                    })
+                    $.each(dtDis.tim, function(key, t2) {
+                        $('#teknisi2Show').append(
+                            `<option value="${t2.nik_karyawan+'|'+t2.nama_karyawan}">${t2.nama_karyawan}</option>`
+                        )
+                    })
+                    $.each(dtDis.tim, function(key, t3) {
+                        $('#teknisi3Show').append(
+                            `<option value="${t3.nik_karyawan+'|'+t3.nama_karyawan}">${t3.nama_karyawan}</option>`
+                        )
+                    })
+                    $.each(dtDis.tim, function(key, t4) {
+                        $('#teknisi4Show').append(
+                            `<option value="${t4.nik_karyawan+'|'+t4.nama_karyawan}">${t4.nama_karyawan}</option>`
+                        )
+                    })
+                    // $('#callsignTimShow').val(dtDis.callsign);
+                    $('#teknisi1Show').val(dtDis.data.tek1_nik + '|' + dtDis.data.teknisi1);
+                    $('#teknisi2Show').val(dtDis.data.tek2_nik + '|' + dtDis.data.teknisi2);
+                    $('#teknisi3Show').val(dtDis.data.tek3_nik + '|' + dtDis.data.teknisi3);
+                    $('#teknisi4Show').val(dtDis.data.tek4_nik + '|' + dtDis.data.teknisi4);
+
+                    $('#showImportWo').modal('show');
+                }
+            })
+        })
+
+        $(document).on('change', '#LeadCallsignShow', function(e) {
+            // e.preventDefault();
+            var _token = $('meta[name=csrf-token]').attr('content');
+
+            let lead = $('#LeadCallsignShow').val();
+            lead_call = lead.split('|');
+
+            $('#leaderShow').val(lead_call[3]);
+            $('#leaderidShow').val(lead_call[2]);
+
+        })
+
+        $(document).on('click', '#updateAssign', function(e) {
+            e.preventDefault();
+            sesiShow = $('#sesiShow').val();
+            tglProgressShow = $('#tglProgressShow').val();
+            slotTimeShow = $('#slotTimeShow').val();
+            jenisWoShow = $('#jenisWoShow').val();
+            detId = $('#detId').val();
+            branchShow = $('#branchShow').val();
+            LeadCallsignShow = $('#LeadCallsignShow').val();
+            leaderIdShow = $('#leaderidShow').val();
+            leaderShow = $('#leaderShow').val();
+            callsignTimidShow = $('#callsignTimidShow').val();
+            teknisi1Show = $('#teknisi1Show').val();
+            teknisi2Show = $('#teknisi2Show').val();
+            teknisi3Show = $('#teknisi3Show').val();
+            teknisi4Show = $('#teknisi4Show').val();
+
+            $.ajax({
+                url: "{{ route('updateImportWo') }}",
+                type: "get",
+                data: {
+                    sesiShow: sesiShow,
+                    tglProgressShow: tglProgressShow,
+                    slotTimeShow: slotTimeShow,
+                    jenisWoShow: jenisWoShow,
+                    detId: detId,
+                    branchShow: branchShow,
+                    LeadCallsignShow: LeadCallsignShow,
+                    leaderIdShow: leaderIdShow,
+                    leaderShow: leaderShow,
+                    callsignTimidShow: callsignTimidShow,
+                    teknisi1Show: teknisi1Show,
+                    teknisi2Show: teknisi2Show,
+                    teknisi3Show: teknisi3Show,
+                    teknisi4Show: teknisi4Show,
+                    _token: _token,
+                },
+                success: function(resUp) {
+                    console.log(resUp);
+                    $('#showImportWo').modal('hide');
+                    data_import();
+
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil",
+                        text: "{{ session('success') }}",
+                        showConfirmButton: true,
+                        // timer: 2000
+                    });
+                }
+            })
+        })
     })
 
 

@@ -2,7 +2,6 @@
 
 namespace App\Imports;
 
-use App\Models\FtthMt;
 use App\Models\ImportFtthMaterial;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -54,7 +53,7 @@ class MaterialImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
     public function rules(): array
     {
         return [
-            'no_wo_apk' => Rule::unique('import_assign_tims', 'no_wo_apk')
+            'no_wo_apk' => Rule::unique('import_ftth_material', 'no_wo_apk')
             // 'wo_no' => Rule::unique('import_assign_tims', 'wo_no')->where(fn (Builder $query) => $query->where('tgk_ikr', 'satu'))
         ];
     }

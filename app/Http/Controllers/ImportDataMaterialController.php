@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Imports\MaterialImport;
+use App\Models\ImportFtthMaterial;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,8 +23,35 @@ class ImportDataMaterialController extends Controller
 
         $branches = DB::table('branches')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
 
+        $pivotData = ImportFtthMaterial::select(
+            'area',
+            'description',
+            'status_item',
+            'qty'
+        )
+        ->get()
+        ->groupBy(['area', 'description', 'wo_no']); // Kelompokkan berdasarkan area, description, dan wo_no
+
+        // Menghitung jumlah 'Out' dan 'In' untuk setiap grup area, description, dan wo_no
+        $processedData = $pivotData->map(function($itemsByDescription, $area) {
+            return $itemsByDescription->map(function($itemsByWoNo, $description) use ($area) {
+                return $itemsByWoNo->map(function($items, $wo_no) use ($area, $description) {
+                    // Hitung total 'Out' dan 'In' berdasarkan status_item dan jumlah qty
+                    $out = $items->where('status_item', 'OUT')->sum('qty');
+                    $in = $items->where('status_item', 'IN')->sum('qty');
+
+                    return [
+                        'area' => $area,
+                        'description' => $description,
+                        'out' => $out,
+                        'in' => $in,
+                    ];
+                });
+            });
+        })->flatten(2);
+
         // return 'Halaman Import Data Material';
-        return view('monitoringWo.import_ftth_material', compact('akses', 'leadCallsign', 'branches'));
+        return view('monitoringWo.import_ftth_material', compact('akses', 'leadCallsign', 'branches', 'processedData'));
     }
 
     public function import()

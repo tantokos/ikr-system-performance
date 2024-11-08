@@ -290,7 +290,7 @@ class MonitFtthMT_Controller extends Controller
             // 'ket_delay_slot_time' => $request[''],
             // 'konfirmasi_customer' => $request[''],
             'ont_merk_out' => $request['ont_merk_out'],
-            'ont_sn_out' => $request['ont_sn_out'],
+            'ont_sn_out' => $request['snOntOut'],
             // 'ont_mac_out' => $request[''],
             'ont_merk_in' => $request['merkOntIn'],
             // 'ont_sn_in' => $request[''],
