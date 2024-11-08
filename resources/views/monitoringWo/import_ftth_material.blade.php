@@ -70,7 +70,7 @@
 
             <div class="col-sm-12 mt-3 mb-3">
                 <div class="table-responsive p-0">
-                    <table class="table table-striped table-bordered align-items-center mb-0">
+                    <table id="summaryMaterial" class="table table-striped table-bordered align-items-center mb-0">
                         <thead class="bg-gray-600">
                             <tr id="headStatusProgresWo">
                                 <th class="text-white text-sm font-weight-semibold">No</th>
@@ -560,6 +560,12 @@
             // timer: 2000
         });
     @endif
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#summaryMaterial').DataTable();
+    });
 </script>
 
 <script>

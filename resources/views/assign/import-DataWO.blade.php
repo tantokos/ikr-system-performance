@@ -113,14 +113,73 @@
                 </div>
             </div>
 
+            <div class="row mt-3">
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card border shadow-xs mb-4">
+                        <div class="card-body text-start p-3 w-100">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="w-100 text-center">
+                                        <p class="text-sm text-secondary mb-1">Total FTTH IB</p>
+                                        <h4 class="mb-2 font-weight-bold">30</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card border shadow-xs mb-4">
+                        <div class="card-body text-start p-3 w-100">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="w-100 text-center">
+                                        <p class="text-sm text-secondary mb-1">Total FTTH MT</p>
+                                        <h4 class="mb-2 font-weight-bold">30</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card border shadow-xs mb-4">
+                        <div class="card-body text-start p-3 w-100">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="w-100 text-center">
+                                        <p class="text-sm text-secondary mb-1">Total FTTH Dismantle</p>
+                                        <h4 class="mb-2 font-weight-bold">30</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card border shadow-xs mb-4">
+                        <div class="card-body text-start p-3 w-100">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="w-100 text-center">
+                                        <p class="text-sm text-secondary mb-1">Total FTTX IB</p>
+                                        <h4 class="mb-2 font-weight-bold">30</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="col-sm-12 mt-3 mb-3">
                 <div class="table-responsive p-0">
-                    <table class="table table-striped table-bordered align-items-center mb-0">
+                    <table id="summaryAssignTeam" class="table table-striped table-bordered align-items-center mb-0">
                         <thead class="bg-gray-600">
                             <tr id="headStatusProgresWo">
-                                <th class="text-white text-sm font-weight-semibold">No</th>
-                                <th class="text-white text-sm font-weight-semibold">Area</th>
-                                <th class="text-white text-sm font-weight-semibold">Callsign Tim</th>
+                                <th class="text-sm font-weight-semibold">No</th>
+                                <th class="text-sm font-weight-semibold">Area</th>
+                                <th class="text-sm font-weight-semibold">Callsign Tim</th>
                                 <th class="text-white text-sm font-weight-semibold">FTTH New Installation</th>
                                 <th class="text-white text-sm font-weight-semibold">FTTH Maintenance</th>
                                 <th class="text-white text-sm font-weight-semibold">Dismantle</th>
@@ -628,6 +687,18 @@
         });
     @endif
 </script>
+
+<script>
+    $(document).ready(function() {
+        $('#summaryAssignTeam').DataTable({
+            scrollX: true, // Aktifkan scroll horizontal
+            fixedColumns: {
+                leftColumns: 3 // Jumlah kolom di sebelah kiri yang di-"fix"
+            },
+        });
+    });
+</script>
+
 
 <script>
     $(document).ready(function() {
