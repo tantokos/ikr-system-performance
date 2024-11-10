@@ -75,6 +75,7 @@ class FtthDismantleController extends Controller
 
             $datas = $datas->get();
 
+
         if ($request->ajax()) {
 
             return DataTables::of($datas)

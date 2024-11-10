@@ -182,7 +182,7 @@
                                 <th class="text-sm font-weight-semibold">Callsign Tim</th>
                                 <th class="text-white text-sm font-weight-semibold">FTTH New Installation</th>
                                 <th class="text-white text-sm font-weight-semibold">FTTH Maintenance</th>
-                                <th class="text-white text-sm font-weight-semibold">Dismantle</th>
+                                <th class="text-white text-sm font-weight-semibold">FTTH Dismantle</th>
                                 <th class="text-white text-sm font-weight-semibold">FTTX New Installation</th>
                                 <th class="text-white text-sm font-weight-semibold">FTTX Maintenance</th>
                                 <th class="text-white text-sm font-weight-semibold">Total WO</th>
@@ -196,7 +196,7 @@
                                 <td class="text-sm">{{ $data['callsign'] }}</td>
                                 <td class="text-sm">{{ $data['FTTH New Installation'] }}</td>
                                 <td class="text-sm">{{ $data['FTTH Maintenance'] }}</td>
-                                <td class="text-sm">{{ $data['Dismantle'] }}</td>
+                                <td class="text-sm">{{ $data['FTTH Dismantle'] }}</td>
                                 <td class="text-sm">{{ $data['FTTX New Installation'] }}</td>
                                 <td class="text-sm">{{ $data['FTTX Maintenance'] }}</td>
                                 <td class="text-sm">{{ $data['Total WO'] }}</td>
