@@ -31,6 +31,9 @@ use App\Http\Controllers\RekapProgressWOController;
 use App\Http\Controllers\RescheduleWO_Controller;
 use App\Http\Controllers\TimController;
 use App\Http\Controllers\ToolController;
+use App\Http\Controllers\ImportJadwalTim_controller;
+use App\Http\Controllers\JadwalTim_controller;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +97,13 @@ Route::get('/getDetailTim', [TimController::class, 'getDetailTim'])->name('getDe
 
 Route::get('/updateTim/{id}', [TimController::class, 'updateTim'])->name('updateTim')->middleware('auth');
 //end Tim & Callsign //
+
+//Jadwal Tim//
+
+Route::get('/jadwalTim', [JadwalTim_controller::class,'index'])->name('jadwalTim')->middleware('auth');
+Route::get('/importScheduleIkr', [ImportJadwalTim_controller::class, 'index'])->name('importJadwalTim')->middleware('auth');
+
+//End Jadwal Tim//
 
 //Assign Tim//
 Route::get('/analisaWo', [analisa_woController::class, 'index'])->name('analisaWo')->middleware('auth');
