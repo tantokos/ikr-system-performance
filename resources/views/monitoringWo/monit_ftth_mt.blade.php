@@ -912,6 +912,8 @@
                                 <div class="tab-pane" id="StatusMaterial" role="tabpanel" aria-expanded="true">
                                     <div class="card-body">
 
+                                        <input type="hidden" name="id_material" id="id_material">
+
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group mb-1">
@@ -926,7 +928,7 @@
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">SN ONT Terpasang</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                value="" id="snOntOut" name="sn_ont_out"
+                                                                id="snOntOut" name="snOntOut"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
 
@@ -1602,6 +1604,7 @@
                         ? "" : new Date(dtDis.checkout_apk).toISOString().slice(0, 10);
 
                     $('#detId').val(dtDis.id);
+                    $('#id_material').val(dtDis.id_material);
                     $('#noWoShow').val(dtDis.no_wo);
                     $('#statusWo').val(toTitleCase(dtDis.status_wo || ""));
                     $('#ticketNoShow').val(dtDis.no_ticket);
@@ -1667,9 +1670,6 @@
             });
         });
 
-
-
-
-
     })
 </script>
+

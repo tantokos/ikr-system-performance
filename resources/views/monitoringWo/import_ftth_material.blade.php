@@ -68,6 +68,33 @@
                 </div>
             </div>
 
+            <div class="col-sm-12 mt-3 mb-3">
+                <div class="table-responsive p-0">
+                    <table id="summaryMaterial" class="table table-striped table-bordered align-items-center mb-0">
+                        <thead class="bg-gray-600">
+                            <tr id="headStatusProgresWo">
+                                <th class="text-white text-sm font-weight-semibold">No</th>
+                                <th class="text-white text-sm font-weight-semibold">Area</th>
+                                <th class="text-white text-sm font-weight-semibold">Description</th>
+                                <th class="text-white text-sm font-weight-semibold">Total Out</th>
+                                <th class="text-white text-sm font-weight-semibold">Total In</th>
+                            </tr>
+                        </thead>
+                        <tbody id="statusMaterial">
+                            @foreach ($processedData as $index => $data)
+                            <tr>
+                                <td class="text-sm">{{ $loop->iteration }}</td>
+                                <td class="text-sm">{{ $data['area'] }}</td>
+                                <td class="text-sm">{{ $data['description'] }}</td>
+                                <td class="text-sm">{{ $data['out'] }}</td>
+                                <td class="text-sm">{{ $data['in'] }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-12">
                     <div class="card border shadow-xs mb-4">
@@ -533,6 +560,12 @@
             // timer: 2000
         });
     @endif
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#summaryMaterial').DataTable();
+    });
 </script>
 
 <script>
