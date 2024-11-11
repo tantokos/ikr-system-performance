@@ -143,7 +143,7 @@
                                 </div>
 
                                 <div class="ms-auto d-flex">
-                                    <a href="javascript:void(0);">
+                                    <a href="{{ route('importFtthDismantle') }}">
                                         <button type="button"
                                             class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
                                             <span class="btn-inner--icon">
@@ -306,7 +306,7 @@
                 processing: true,
                 serverSide: false,
                 ajax: {
-                    url: "{{ route('getDataMTOris') }}",
+                    url: "{{ route('getFtthDismantle') }}",
                     type: "get",
                     dataType: "json",
                     data: {
@@ -333,7 +333,7 @@
                         "width": '10'
                     },
                     {
-                        data: 'tgl_ikr',
+                        data: 'visit_date',
                         // width: '90'
                     },
                     {
@@ -401,7 +401,7 @@
 
 
             $.ajax({
-                url: "{{ route('getDetailWOFtthMT') }}",
+                url: "{{ route('getFtthDismantle') }}",
                 type: "get",
                 data: {
                     filAssignId: assign_id,
@@ -449,9 +449,9 @@
                     $('#remarksShow').val(toTitleCase(dtDis.data.type_maintenance));
 
                     $('#branchShow').val(dtDis.data.branch);
-                    $('#tglProgressShow').val(dtDis.data.tgl_ikr);
-                    $('#tglProgressStatusShow').val(dtDis.data.tgl_ikr);
-                    $('#tglProgressAPKShow').val(dtDis.data.tgl_ikr);
+                    $('#tglProgressShow').val(dtDis.data.visit_date);
+                    $('#tglProgressStatusShow').val(dtDis.data.visit_date);
+                    $('#tglProgressAPKShow').val(dtDis.data.visit_date);
 
                     $('#sesiShow').val(dtDis.data.sesi);
                     $('#slotTimeLeaderShow').val(slotTimeLeader);

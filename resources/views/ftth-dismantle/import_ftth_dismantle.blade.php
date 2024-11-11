@@ -9,7 +9,7 @@
                         <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
                         </div>
                         <div class="card-body text-start p-4 w-100">
-                            <h3 class="text-white mb-2">Import Data WO</h3>
+                            <h3 class="text-white mb-2">Import FTTH Dismantle</h3>
                             <p class="mb-2 font-weight-semibold">
                                 {{-- Check all the advantages and choose the best. --}}
                             </p>
@@ -25,7 +25,7 @@
                     <div class="row">
 
                         <div class="col-md-6">
-                            <form action="{{ route('importProsesDataWo') }}" method="post"
+                            <form action="{{ route('importProsesFtthDismantle') }}" method="post"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
@@ -36,7 +36,7 @@
                                     <button type="submit" class="btn btn-dark btn-sm w-100" onclick="cek()">
                                         <span class="spinner-border spinner-border-sm" style="display: none"
                                             role="status" aria-hidden="true"></span>
-                                        Import Data Work Order</button>
+                                        Import FTTH Dismantle</button>
                                     {{-- </div> --}}
                                     {{-- <div class="form-group"> --}}
                                     {{-- <label class="col-form-label form-control-sm">Information of Data Import :</label> --}}
@@ -102,108 +102,14 @@
                         {{-- <button type="button" class="btn btn-sm btn-dark align-items-center" data-bs-toggle="modal"
                             data-bs-target="#previewModal">Show Preview</button> --}}
                         <button onclick="return confirm('Simpan hasil import WO?')" type="submit" name="action"
-                            value="simpan" class="btn btn-sm btn-dark align-items-center">Save Import
-                            WO</button>
-                        <button onclick="return confirm('Hapus hasil import Data Work Order?')"
+                            value="simpan" class="btn btn-sm btn-dark align-items-center">Save FTTH Dismantle
+                        </button>
+                        <button onclick="return confirm('Hapus hasil import FTTH Dismantle?')"
                             onsubmit="this.disabled = true;" type="submit" name="action" value="batal"
                             class="btn btn-sm btn-dark align-items-center">Cancel Import
                             Data</button>
                     </div>
                     </form>
-                </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-xl-3 col-sm-6">
-                    <div class="card border shadow-xs mb-4">
-                        <div class="card-body text-start p-3 w-100">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="w-100 text-center">
-                                        <p class="text-sm text-secondary mb-1">Total FTTH IB</p>
-                                        <h4 class="mb-2 font-weight-bold">{{ $totalFtthNewInstallation }}</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-sm-6">
-                    <div class="card border shadow-xs mb-4">
-                        <div class="card-body text-start p-3 w-100">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="w-100 text-center">
-                                        <p class="text-sm text-secondary mb-1">Total FTTH MT</p>
-                                        <h4 class="mb-2 font-weight-bold">{{ $totalFtthMt }}</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-sm-6">
-                    <div class="card border shadow-xs mb-4">
-                        <div class="card-body text-start p-3 w-100">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="w-100 text-center">
-                                        <p class="text-sm text-secondary mb-1">Total Dismantle</p>
-                                        <h4 class="mb-2 font-weight-bold">{{ $totalDismantle }}</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-sm-6">
-                    <div class="card border shadow-xs mb-4">
-                        <div class="card-body text-start p-3 w-100">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="w-100 text-center">
-                                        <p class="text-sm text-secondary mb-1">Total FTTX IB</p>
-                                        <h4 class="mb-2 font-weight-bold">{{ $totalFttxIb }}</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-12 mt-3 mb-3">
-                <div class="table-responsive p-0">
-                    <table id="summaryAssignTeam" class="table table-striped table-bordered align-items-center mb-0">
-                        <thead class="bg-gray-600">
-                            <tr id="headStatusProgresWo">
-                                <th class="text-sm font-weight-semibold">No</th>
-                                <th class="text-sm font-weight-semibold">Area</th>
-                                <th class="text-sm font-weight-semibold">Callsign Tim</th>
-                                <th class="text-white text-sm font-weight-semibold">FTTH New Installation</th>
-                                <th class="text-white text-sm font-weight-semibold">FTTH Maintenance</th>
-                                <th class="text-white text-sm font-weight-semibold">FTTH Dismantle</th>
-                                <th class="text-white text-sm font-weight-semibold">FTTX New Installation</th>
-                                <th class="text-white text-sm font-weight-semibold">FTTX Maintenance</th>
-                                <th class="text-white text-sm font-weight-semibold">Total WO</th>
-                            </tr>
-                        </thead>
-                        <tbody id="bodyStatusProgresWo">
-                            @foreach ($pivotData as $index => $data)
-                            <tr>
-                                <td class="text-sm">{{ $loop->iteration }}</td>
-                                <td class="text-sm">{{ $data['area'] }}</td>
-                                <td class="text-sm">{{ $data['callsign'] }}</td>
-                                <td class="text-sm">{{ $data['FTTH New Installation'] }}</td>
-                                <td class="text-sm">{{ $data['FTTH Maintenance'] }}</td>
-                                <td class="text-sm">{{ $data['FTTH Dismantle'] }}</td>
-                                <td class="text-sm">{{ $data['FTTX New Installation'] }}</td>
-                                <td class="text-sm">{{ $data['FTTX Maintenance'] }}</td>
-                                <td class="text-sm">{{ $data['Total WO'] }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
                 </div>
             </div>
 
@@ -687,18 +593,6 @@
         });
     @endif
 </script>
-
-<script>
-    $(document).ready(function() {
-        $('#summaryAssignTeam').DataTable({
-            scrollX: true, // Aktifkan scroll horizontal
-            fixedColumns: {
-                leftColumns: 3 // Jumlah kolom di sebelah kiri yang di-"fix"
-            },
-        });
-    });
-</script>
-
 
 <script>
     $(document).ready(function() {
