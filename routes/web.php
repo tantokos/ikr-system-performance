@@ -15,6 +15,8 @@ use App\Http\Controllers\DistribusiToolController;
 use App\Http\Controllers\Import_AbsensiController;
 use App\Http\Controllers\Import_DataWoController;
 use App\Http\Controllers\ImportDataWoApkController;
+use App\Http\Controllers\ImportJadwalTim_controller;
+use App\Http\Controllers\JadwalTim_controller;
 use App\Http\Controllers\karyawanController;
 use App\Http\Controllers\KembaliTool;
 use App\Http\Controllers\KembaliToolController;
@@ -93,6 +95,13 @@ Route::get('/getDetailTim', [TimController::class, 'getDetailTim'])->name('getDe
 
 Route::get('/updateTim/{id}', [TimController::class, 'updateTim'])->name('updateTim')->middleware('auth');
 //end Tim & Callsign //
+
+//Jadwal Tim//
+
+Route::get('/jadwalTim', [JadwalTim_controller::class,'index'])->name('jadwalTim')->middleware('auth');
+Route::get('/importScheduleIkr', [ImportJadwalTim_controller::class, 'index'])->name('importJadwalTim')->middleware('auth');
+
+//End Jadwal Tim//
 
 //Assign Tim//
 Route::get('/analisaWo', [analisa_woController::class, 'index'])->name('analisaWo')->middleware('auth');
