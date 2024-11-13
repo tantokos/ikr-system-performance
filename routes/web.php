@@ -15,6 +15,7 @@ use App\Http\Controllers\DistribusiToolController;
 use App\Http\Controllers\Import_AbsensiController;
 use App\Http\Controllers\Import_DataWoController;
 use App\Http\Controllers\ImportDataWoApkController;
+use App\Http\Controllers\ImportDataWoIbApkController;
 use App\Http\Controllers\ImportFtthDismantleController;
 use App\Http\Controllers\karyawanController;
 use App\Http\Controllers\KembaliTool;
@@ -128,6 +129,13 @@ Route::post('/storeFtthMtApk', [ImportDataWoApkController::class, 'storeFtthMtAp
 Route::post('/updateFtthMtApk', [ImportDataWoApkController::class, 'updateFtthMtApk'])->name('updateFtthMtApk')->middleware('auth');
 Route::get('/getDetailCustId', [ImportDataWoApkController::class, 'getDetailCustId'])->name('getDetailCustId')->middleware('auth');
 
+Route::get('/monitFtthIB', [MonitFtthIB_Controller::class, 'index'])->name('monitFtthIB')->middleware('auth');
+Route::get('/importDataFtthIbApk', [ImportDataWoIbApkController::class, 'index'])->name('importDataFtthIbApk')->middleware(middleware: 'auth');
+Route::post('/importProsesDataIbApk', [ImportDataWoIbApkController::class,'importProsesDataWoIbApk'])->name('importProsesDataWoIbApk')->middleware('auth');
+Route::get('/getFtthIbApk', [ImportDataWoIbApkController::class, 'getFtthIbApk'])->name('getFtthIbApk')->middleware('auth');
+Route::post('/storeFtthIbApk', [ImportDataWoIbApkController::class, 'storeFtthIbApk'])->name('storeFtthIbApk')->middleware('auth');
+
+
 Route::get('/importDataMaterial', [ImportDataMaterialController::class, 'index'])->name('importDataMaterial')->middleware('auth');
 Route::post('/importProsesMaterial', [ImportDataMaterialController::class, 'importProsesMaterial'])->name('importProsesMaterial')->middleware('auth');
 Route::get('/getDataImportMaterial', [ImportDataMaterialController::class, 'getDataImportMaterial'])->name('getDataImportMaterial')->middleware('auth');
@@ -139,7 +147,6 @@ Route::get('/rekapProgressWO', [RekapProgressWOController::class, 'index'])->nam
 Route::get('/getMonthReport', [RekapProgressWOController::class, 'getMonthReport'])->name('getMonthReport')->middleware('auth');
 Route::get('/getRekapProgressWO', [RekapProgressWOController::class, 'getRekapProgressWO'])->name('getRekapProgressWO')->middleware('auth');
 
-Route::get('/monitFtthIB', [MonitFtthIB_Controller::class, 'index'])->name('monitFtthIB')->middleware('auth');
 Route::get('/monitFtthMT', [MonitFtthMT_Controller::class, 'index'])->name(name: 'monitFtthMT')->middleware('auth');
 Route::get('/getDetailCustId', [MonitFtthMT_Controller::class, 'getDetailCustId'])->name('getDetailCustId')->middleware('auth');
 Route::get('/detail-customer/{cust_id}', [MonitFtthMT_Controller::class, 'getDetailCustId'])->name('detail-customer')->middleware('auth');
