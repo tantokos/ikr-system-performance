@@ -17,7 +17,32 @@ class MonitFtthMT_Controller extends Controller
 
     public function index()
     {
-        return view('monitoringWo.monit_ftth_mt');
+        $mostCauseCode = FtthMt::select(
+                    'couse_code',
+                    DB::raw('COUNT(couse_code) AS qtyCauseCode')
+                )
+                ->groupBy('couse_code') // Tambahkan groupBy di sini
+                ->orderBy('qtyCauseCode', 'desc')
+                ->limit(5)
+                ->get();
+
+        $mostRootCause = FtthMt::select(
+            'root_couse',
+                DB::raw('COUNT(root_couse) AS qtyRootCause')
+            )
+            ->groupBy('root_couse') ->orderBy('qtyRootCause','desc')
+            ->limit(5)
+            ->get();
+
+        $mostActionTaken = FtthMt::select(
+            'action_taken',
+                DB::raw('COUNT(action_taken) AS qtyActionTaken')
+            )
+            ->groupBy('action_taken') ->orderBy('qtyActionTaken','desc')
+            ->limit(5)
+            ->get();
+
+        return view('monitoringWo.monit_ftth_mt', compact('mostCauseCode', 'mostRootCause', 'mostActionTaken'));
     }
 
     public function getDataMTOris(Request $request)

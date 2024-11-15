@@ -9,7 +9,7 @@
                         <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
                         </div>
                         <div class="card-body text-start p-4 w-100">
-                            <h3 class="text-white mb-2">Import Data WO FTTH MT APK</h3>
+                            <h3 class="text-white mb-2">Import Data WO FTTH IB APK</h3>
                             <p class="mb-2 font-weight-semibold">
                                 {{-- Check all the advantages and choose the best. --}}
                             </p>
@@ -621,106 +621,8 @@
                         _token: _token
                     }
                 },
-                columns: [{
-                        data: 'DT_RowIndex',
-                        name: 'DT_Row_Index',
-                        "className": "text-center",
-                        // orderable: false,
-                        searchable: false,
-                        "width": '20'
-                    },
-                    {
-                        data: 'wo_no',
-                        width: '90'
-                    },
-                    {
-                        data: 'ticket_no'
-                    },
-                    {
-                        data: 'wo_date'
-                    },
-                    {
-                        data: 'installation_date'
-                    },
-                    {
-                        data: 'time'
-                    },
-                    {
-                        data: 'vendor_installer'
-                    },
-                    {
-                        data: 'callsign'
-                    },
-                    {
-                        data: 'cust_id',
-                    },
-                    {
-                        data: 'name'
-                    },
-                    {
-                        data: 'cust_phone',
-                    },
-                    {
-                        data: 'cust_mobile',
-                    },
-                    {
-                        data: 'address',
-                    },
-                    {
-                        data: 'area',
-                    },
-                    {
-                        data: 'wo_type',
-                    },
-                    {
-                        data: 'cause_code',
-                    },
-                    {
-                        data: 'root_cause',
-                    },
-                    {
-                        data: 'action_taken',
-                    },
-                    {
-                        data: 'fat_code',
-                    },
-                    {
-                        data: 'fat_port',
-                    },
-                    {
-                        data: 'remarks',
-                    },
-                    {
-                        data: 'status',
-                    },
-                    {
-                        data: 'pending',
-                    },
-                    {
-                        data: 'reason',
-                    },
-                    {
-                        data: 'check_in',
-                    },
-                    {
-                        data: 'check_out',
-                    },
-                    {
-                        data: 'mttr_all',
-                    },
-                    {
-                        data: 'mttr_pending',
-                    },
-                    {
-                        data: 'mttr_progress',
-                    },
-                    {
-                        data: 'mttr_technician',
-                    },
-                    {
-                        data: 'sla_over',
-                    },
-                ]
+
+
             })
         }
 
