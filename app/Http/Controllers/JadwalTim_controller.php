@@ -48,7 +48,7 @@ class JadwalTim_controller extends Controller
     {
         $akses = Auth::user()->name;
 
-        $datas = DB::table('data_jadwal_ikrs')->where('login',$akses)
+        $datas = DB::table('data_jadwal_ikrs')
                 ->select(DB::raw('*, monthname(DATE(CONCAT_WS("-", tahun, bulan, 1))) as bulanname'))->get();
 
         if ($request->ajax()) {
