@@ -257,6 +257,82 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-sm-6 mt-3 mb-3">
+                    <h6>5 Cause Code Terbanyak</h6>
+                    <div class="table-responsive p-0">
+                        <table id="summaryAssignTeam" class="table table-striped table-sm table-bordered align-items-center mb-0" style="font-size: 0.85rem;">
+                            <thead class="bg-gray-600">
+                                <tr id="headStatusProgresWo">
+                                    <th class="text-white text-sm font-weight-semibold p-1">No</th>
+                                    <th class="text-white text-sm font-weight-semibold p-1">Cause Code</th>
+                                    <th class="text-white text-sm font-weight-semibold p-1">Total Cause Code</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($mostCauseCode as $causeCode)
+                                <tr>
+                                    <td class="text-sm p-1">{{ $loop->iteration }}</td>
+                                    <td class="text-sm p-1">{{ $causeCode->couse_code }}</td>
+                                    <td class="text-sm p-1">{{ $causeCode->qtyCauseCode }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 mt-3 mb-3">
+                    <h6>5 Root Cause Terbanyak</h6>
+                    <div class="table-responsive p-0">
+                        <table id="summaryAssignTeam" class="table table-striped table-bordered table-sm align-items-center mb-0" style="font-size: 0.85rem;">
+                            <thead class="bg-gray-600">
+                                <tr id="headStatusProgresWo">
+                                    <th class="text-white text-sm font-weight-semibold p-1">No</th>
+                                    <th class="text-white text-sm font-weight-semibold p-1">Root Cause</th>
+                                    <th class="text-white text-sm font-weight-semibold p-1">Total Root Cause</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($mostRootCause as $root_cause)
+                                <tr>
+                                    <td class="text-sm p-1">{{ $loop->iteration }}</td>
+                                    <td class="text-sm p-1">{{ $root_cause->root_couse }}</td>
+                                    <td class="text-sm p-1">{{ $root_cause->qtyRootCause }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 mt-3 mb-3">
+                    <h6>5 Action Taken Terbanyak</h6>
+                    <div class="table-responsive p-0">
+                        <table id="summaryAssignTeam" class="table table-striped table-bordered table-sm align-items-center mb-0" style="font-size: 0.85rem;">
+                            <thead class="bg-gray-600">
+                                <tr id="headStatusProgresWo">
+                                    <th class="text-white text-sm font-weight-semibold p-1">No</th>
+                                    <th class="text-white text-sm font-weight-semibold p-1">Action Taken</th>
+                                    <th class="text-white text-sm font-weight-semibold p-1">Total Action Taken</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($mostActionTaken as $actionTaken)
+                                <tr>
+                                    <td class="text-sm p-1">{{ $loop->iteration }}</td>
+                                    <td class="text-sm p-1">{{ $actionTaken->action_taken }}</td>
+                                    <td class="text-sm p-1">{{ $actionTaken->qtyActionTaken }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
             {{-- <x-app.footer /> --}}
         </div>
 
