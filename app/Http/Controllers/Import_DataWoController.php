@@ -398,7 +398,6 @@ class Import_DataWoController extends Controller
                                     'no_wo' => $data['no_wo_apk'],
                                     'no_ticket' => $data['no_ticket_apk'],
                                     'wo_date' => $data['wo_date_apk'],
-                                    'wo_date_apk' => $data['wo_date_apk'],
                                     'cust_id' => $data['cust_id_apk'],
                                     'nama_cust' => $data['name_cust_apk'],
                                     'cust_address1' => $data['address_apk'],

@@ -154,7 +154,7 @@
                                                     </path>
                                                 </svg>
                                             </span>
-                                            <span class="btn-inner--text">Import FTTH Dismantle</span>
+                                            <span class="btn-inner--text">Import Data WO</span>
                                         </button>
                                     </a>
                                 </div>
@@ -340,7 +340,7 @@
                         data: 'no_wo'
                     },
                     {
-                        data: 'wo_date_apk'
+                        data: 'wo_date'
                     },
                     {
                         data: 'cust_id',
@@ -435,7 +435,7 @@
                     $('#ticketNoShow').val(dtDis.data.no_ticket)
                     $('#woTypeShow').val(toTitleCase(dtDis.data.type_wo))
                     $('#jenisWoShow').val(dtDis.data.type_wo)
-                    $('#WoDateShow').val(dtDis.data.wo_date_apk)
+                    $('#WoDateShow').val(dtDis.data.wo_date)
                     $('#custIdShow').val(dtDis.data.cust_id)
                     $('#custNameShow').val(toTitleCase(dtDis.data.nama_cust))
                     // $('#custPhoneShow').val(dtDis.data.cust_phone)

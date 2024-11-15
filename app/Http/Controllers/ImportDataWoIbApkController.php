@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Imports\FtthMtApkImport;
-use App\Models\ImportFtthMtApk;
-use Carbon\Carbon;
+use App\Imports\FtthIbApkImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -12,23 +10,23 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class ImportDataWoApkController extends Controller
+class ImportDataWoIbApkController extends Controller
 {
     public function index()
     {
-        $akses = Auth::user()->name;
+        $akses = Auth::user()->akses;
         $leadCallsign = DB::table('v_detail_callsign_tim')->select('lead_call_id', 'lead_callsign', 'leader_id', 'nama_leader', 'nama_branch')
             ->orderBy('lead_callsign')->orderBy('branch_id')
             ->groupBy('lead_call_id', 'lead_callsign', 'nama_branch')->get();
 
         $branches = DB::table('branches')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
 
-        $jmlData = DB::table('import_ftth_mt_apks');
+        $jmlData = DB::table('import_ftth_ib_apks');
 
-        return view('monitoringWo.import_ftth_mt_apk', compact('branches', 'leadCallsign', 'akses', 'jmlData'));
+        return view('monitoringWo.import_ftth_ib_apk', compact('branches', 'leadCallsign', 'akses', 'jmlData'));
     }
 
-    public function importProsesDataWoApk(Request $request)
+    public function importProsesDataWoIbApk(Request $request)
     {
         if ($request->hasFile('fileDataWO')) {
 
@@ -38,33 +36,29 @@ class ImportDataWoApkController extends Controller
 
             $akses = Auth::user()->id . "|" . Auth::user()->name;
 
-            Excel::import(new FtthMtApkImport($akses), request()->file('fileDataWO'));
+            Excel::import(new FtthIbApkImport($akses), request()->file('fileDataWO'));
 
-            return back()->with(['success' => 'Import WO FTTH Maintenance berhasil.']);
-
+            return back()->with(['success' => 'Import WO FTTH New Installation berhasil.']);
         }
-
     }
 
-    public function getFtthMtApk(Request $request)
+    public function getFtthIbApk(Request $request)
     {
-
-
         ini_set('max_execution_time', 1900);
         ini_set('memory_limit', '8192M');
         $akses = Auth::user()->name;
 
-        $datas = DB::table('import_ftth_mt_apks')->orderBy('wo_date', 'DESC');
+        $datas = DB::table('import_ftth_ib_apks')->orderBy('wo_date', 'DESC');
 
-            if($request->filTgl != null) {
-                $dateRange = explode("-", $request->filTgl);
-                $startDt = \Carbon\Carbon::parse($dateRange[0]);
-                $endDt = \Carbon\Carbon::parse($dateRange[1]);
+        if($request->filTgl != null) {
+            $dateRange = explode("-", $request->filTgl);
+            $startDt = \Carbon\Carbon::parse($dateRange[0]);
+            $endDt = \Carbon\Carbon::parse($dateRange[1]);
 
-                $datas = $datas->whereBetween('wo_date',[$startDt, $endDt]);
-            }
+            $datas = $datas->whereBetween('wo_date', [$startDt, $endDt]);
+        }
 
-            if($request->filNoWo != null) {
+        if($request->filNoWo != null) {
                 $datas = $datas->where('no_wo', $request->filNoWo);
             }
             if($request->filcustId != null) {
@@ -107,6 +101,7 @@ class ImportDataWoApkController extends Controller
             }
 
             $datas = $datas->get();
+
         if ($request->ajax()) {
 
             return DataTables::of($datas)
@@ -114,54 +109,36 @@ class ImportDataWoApkController extends Controller
                 ->editColumn('name', function ($nm) {
                     return Str::title($nm->name);
                 })
-                // ->editColumn('type_wo', function ($nm) {
-                //     return Str::title($nm->type_wo);
-                // })
-                // ->editColumn('cluster', function ($nm) {
-                //     return Str::title($nm->cluster);
-                // })
-                // ->editColumn('branch', function ($nm) {
-                //     return Str::title($nm->branch);
-                // })
                 ->addColumn('action', function ($row) {
                     $btn = '
                     <a href="javascript:void(0)" id="detail-assign" data-id="' . $row->id . '" class="btn btn-sm btn-primary detail-assign mb-0" >Detail</a>';
-                    // <a href="javascript:void(0)" id="detail-lead" data-id="' . $row->lead_call_id . "|" . $row->branch_id . "|" . $row->leader_id . '" class="btn btn-sm btn-primary detil-lead mb-0" >Edit</a>';
-                    //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])   //merender content column dalam bentuk html
                 ->escapeColumns()  //mencegah XSS Attack
                 ->toJson(); //merubah response dalam bentuk Json
-            // ->make(true);
         }
-
-        // return response()->json($request->ajax());
     }
 
-    public function storeFtthMtApk(Request $request)
+    public function storeFtthIbApk(Request $request)
     {
-        // return 'test';
         $akses = Auth::user()->name;
 
         switch ($request->input('action')) {
             case 'simpan':
 
-                $importedData = DB::table('import_ftth_mt_apks')
+                $importedData = DB::table('import_ftth_ib_apks')
                     ->get();
 
                 DB::beginTransaction();
                 try {
-                    // Update status_wo pada data_ftth_mt_oris berdasarkan wo_no dan tgl_ikr
+                    // Update status_wo pada data_ftth_ib_oris berdasarkan wo_no dan tgl_ikr
                     foreach ($importedData as $data) {
-                        DB::table('data_ftth_mt_oris')
+                        DB::table('data_ftth_ib_oris')
                             ->where('no_wo', $data->wo_no)
                             ->where('tgl_ikr', $data->installation_date) // Menambahkan syarat
                             ->update([
                                 'status_wo' => $data->status,
-                                'couse_code' => $data->cause_code,
-                                'root_couse' => $data->root_cause,
-                                'action_taken' => $data->action_taken,
                                 'status_apk' => $data->status,
                                 'checkin_apk' => $data->check_in,
                                 'checkout_apk' => $data->check_out,
@@ -170,22 +147,22 @@ class ImportDataWoApkController extends Controller
                     }
 
                     // Commit transaksi
-                    DB::table('import_ftth_mt_apks')->delete();
+                    DB::table('import_ftth_ib_apks')->delete();
                     DB::commit();
-                    return redirect()->route('monitFtthMT')->with(['success' => 'Status berhasil diupdate.']);
+                    return redirect()->route('monitFtthIB')->with(['success' => 'Status berhasil diupdate.']);
                 } catch (\Exception $e) {
                     // Rollback jika ada kesalahan
                     DB::rollback();
-                    // return $e;
-                    return redirect()->route('monitFtthMT')->with(['error' => 'Gagal mengupdate status.']);
+                    return $e;
+                    return redirect()->route('monitFtthIB')->with(['error' => 'Gagal mengupdate status.']);
                 }
 
         break;
 
             case 'batal':
-                $importedData = DB::table('import_ftth_mt_apks')
+                $importedData = DB::table('import_ftth_ib_apks')
                     ->delete();
-                return redirect()->route('monitFtthMT')->with(['success' => 'Data berhasil dihapus.']);
+                return redirect()->route('monitFtthIB')->with(['success' => 'Data berhasil dihapus.']);
             break;
             // case 'batal':
             //     ImportAssignTim::where('login', $akses)->delete();
@@ -194,21 +171,21 @@ class ImportDataWoApkController extends Controller
 
 
         }
-
     }
-    public function updateFtthMtApk()
+
+    public function updateFtthIbApk(Request $request)
     {
         ini_set('max_execution_time', 1900);
         ini_set('memory_limit', '8192M');
 
-        $importedData = DB::table('import_ftth_mt_apks')
+        $importedData = DB::table('import_ftth_ib_apks')
             ->get();
 
         DB::beginTransaction();
         try {
             // Update status_wo pada data_ftth_mt_oris berdasarkan wo_no dan tgl_ikr
             foreach ($importedData as $data) {
-                DB::table('data_ftth_mt_oris')
+                DB::table('data_ftth_ib_oris')
                     ->where('no_wo', $data->wo_no)
                     ->where('tgl_ikr', $data->installation_date) // Menambahkan syarat
                     ->update([
@@ -219,12 +196,11 @@ class ImportDataWoApkController extends Controller
 
             // Commit transaksi
             DB::commit();
-            return redirect()->route('monitFtthMT')->with(['success' => 'Status berhasil diupdate.']);
+            return redirect()->route('monitFtthIB')->with(['success' => 'Status berhasil diupdate.']);
         } catch (\Exception $e) {
             // Rollback jika ada kesalahan
             DB::rollback();
-            return redirect()->route('monitFtthMT')->with(['error' => 'Gagal mengupdate status.']);
+            return redirect()->route('monitFtthIB')->with(['error' => 'Gagal mengupdate status.']);
         }
     }
-
 }

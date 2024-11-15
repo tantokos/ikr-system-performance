@@ -140,23 +140,13 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card border shadow-xs mb-4">
-                        {{-- <div class="card-header border-bottom pb-0"> --}}
-                        {{-- <div class="d-sm-flex align-items-center"> --}}
-                        {{-- <div> --}}
-                        {{-- <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data WO</span></h6> --}}
-                        {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
-                        {{-- </div> --}}
-
-                        {{-- <div class="ms-auto d-flex">
-                                    <button type="button"
-                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"
-                                        data-bs-toggle="modal" data-bs-target="#tambahAssignTim">
-                                        <span class="fa fa-pencil"></span>
-
-                                        <span class="btn-inner--text">Tambah Assign Tim</span>
-                                    </button>
-
-                                    <a href="{{ route('importDataWo') }}">
+                        <div class="card-header border-bottom pb-0">
+                            <div class="d-sm-flex align-items-center">
+                                <div>
+                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data FTTH New Installation</span></h6>
+                                </div>
+                                <div class="ms-auto d-flex">
+                                    <a href="{{ route('importDataFtthIbApk') }}">
                                         <button type="button"
                                             class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
                                             <span class="btn-inner--icon">
@@ -170,9 +160,23 @@
                                             <span class="btn-inner--text">Import Data WO</span>
                                         </button>
                                     </a>
-                                </div> --}}
-                        {{-- </div> --}}
-                        {{-- </div> --}}
+                                    <a href="javascript:void(0);">
+                                        <button type="button"
+                                            class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
+                                            <span class="btn-inner--icon">
+                                                <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
+                                                    <path
+                                                        d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
+                                                    </path>
+                                                </svg>
+                                            </span>
+                                            <span class="btn-inner--text">Import Data Material</span>
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="card-body px-2 py-2">
                             <div class="table-responsive p-0">
@@ -1222,26 +1226,6 @@
     $('.date-range').daterangepicker();
     //set date rangepicker value empty after load
     $('.date-range').val("");
-
-
-    // $(function() {
-    //     $('input[name="filtglProgress"]').daterangepicker({
-    //         opens: 'right'
-    //     }, function(start, end, label) {
-    //         firstDate = start.format('YYYY-MM-DD')
-    //         lastDate = end.format('YYYY-MM-DD')
-    //         // console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-
-    //         // console.log("firstDate: " + firstDate)
-    //         // console.log("lastDate: " + lastDate);
-
-    //         starting = moment(start.format('YYYY-MM-DD'))
-    //         ending = moment(end.format('YYYY-MM-DD'))
-    //         let dif = ending.diff(starting, 'days');
-    //         // console.log(dif);
-
-    //     });
-    // });
 </script>
 
 
