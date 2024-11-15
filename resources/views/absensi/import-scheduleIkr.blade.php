@@ -25,7 +25,7 @@
                     <div class="row">
 
                         <div class="col-md-6">
-                            <form action="{{ route('importProsesDataWo') }}" method="post"
+                            <form action="{{ route('importProsesJadwalIkr') }}" method="post"
                                 enctype="multipart/form-data">
                                 @csrf
                                 {{-- <div class=row> --}}
@@ -34,6 +34,7 @@
                                         <div class="col form-group">
                                             <select class="form-control form-control-sm" id="tahun"
                                                 name="tahun" style="border-color:#9ca0a7;" required>
+                                                <option value="">Pilih Tahun</option>
                                                 <option value="2024">2024</option>
 
                                             </select>
@@ -43,6 +44,7 @@
                                         <div class="col form-group">
                                             <select class="form-control form-control-sm" id="bulan"
                                                 name="bulan" style="border-color:#9ca0a7;" required>
+                                                <option value="">Pilih Bulan</option>
                                                 <option value="01">Januari</option>
                                                 <option value="02">Februari</option>
                                                 <option value="03">Maret</option>
@@ -63,8 +65,8 @@
                                 {{-- </div> --}}
 
                                 <div class="form-group">
-                                    <input type="file" class="form-control form-control-sm" id="fileDataWO"
-                                        name="fileDataWO" style="border-color:#9ca0a7;" required>
+                                    <input type="file" class="form-control form-control-sm" id="fileDataJadwal"
+                                        name="fileDataJadwal" style="border-color:#9ca0a7;" required>
                                 </div>
                                 <div class="form-group mb-1">
                                     <button type="submit" class="btn btn-dark btn-sm w-100" onclick="cek()">
@@ -88,7 +90,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <form action="{{ route('simpanImportWo') }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('simpanImportJadwal') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <label class="col-sm-3 col-form-label form-control-sm">Import By</label>
@@ -135,10 +137,10 @@
                     <div class="col text-end">
                         {{-- <button type="button" class="btn btn-sm btn-dark align-items-center" data-bs-toggle="modal"
                             data-bs-target="#previewModal">Show Preview</button> --}}
-                        <button onclick="return confirm('Simpan hasil import WO?')" type="submit" name="action"
+                        <button onclick="return confirm('Simpan hasil import?')" type="submit" name="action"
                             value="simpan" class="btn btn-sm btn-dark align-items-center">Save Import
                             WO</button>
-                        <button onclick="return confirm('Hapus hasil import Data Work Order?')"
+                        <button onclick="return confirm('Hapus hasil import Jadwal IKR?')"
                             onsubmit="this.disabled = true;" type="submit" name="action" value="batal"
                             class="btn btn-sm btn-dark align-items-center">Cancel Import
                             Data</button>
@@ -153,7 +155,7 @@
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div>
-                                    <h6 class="font-weight-semibold text-lg">Import Data list</h6>
+                                    <h6 class="font-weight-semibold text-lg">Nama Karyawan Tidak Terdaftar</h6>
                                     {{-- <p class="text-sm">See information about all members</p> --}}
                                 </div>
                             </div>
@@ -161,41 +163,13 @@
 
                         <div class="card-body px-2 py-2">
                             <div class="table-responsive">
-                                <table class="table align-items-center mb-0" id="tabelDataWoImport"
-                                    style="font-size: 12px">
-                                    <thead class="bg-gray-100">
+                                <table class="table align-items-center mb-0" id="tabelKaryawanTidakTerdaftar"
+                                    style="font-size: 12px; border-color:#9ca0a7;">
+                                    <thead class="bg-gray-400">
                                         <tr>
                                             <th class="text-secondary text-xs font-weight-semibold">#</th>
-                                            <th class="text-secondary text-xs font-weight-semibold ps-2">Nama Karyawan</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">Bulan-Tahun
-                                            </th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Cust Id</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">01</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">02</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">03</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">04</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">05</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">06</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">07</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">08</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">09</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">10</th>    
-
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                #</th>
+                                            {{-- <th class="text-center text-secondary text-xs font-weight-semibold">Nik Karyawan</th> --}}
+                                            <th class="text-secondary text-xs font-weight-semibold">Nama Karyawan</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -215,28 +189,170 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 mt-3 mb-3">
-                <div class="table-responsive p-0">
-                    <table class="table table-striped table-bordered align-items-center mb-0">
-                        <thead class="bg-gray-600">
-                            <tr id="headStatusProgresWo">
-                                <th class="text-white text-sm font-weight-semibold">No</th>
-                                <th class="text-white text-sm font-weight-semibold">Callsign Tim</th>
-                                <th class="text-white text-sm font-weight-semibold">Total WO</th>
-                            </tr>
-                        </thead>
-                        <tbody id="bodyStatusProgresWo">
-                            @if(isset($callsigns))
-                            @foreach ($callsigns as $callsign)
-                            <tr>
-                                <td class="text-sm">{{ $loop->iteration }}</td>
-                                <td class="text-sm">{{ $callsign->callsign }}</td>
-                                <td class="text-sm">{{ $callsign->total_wo }}</td>
-                            </tr>
-                            @endforeach
-                            @endif
-                        </tbody>
-                    </table>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border shadow-xs mb-4">
+                        <div class="card-header border-bottom pb-0">
+                            <div class="d-sm-flex align-items-center">
+                                <div>
+                                    <h6 class="font-weight-semibold text-lg">Rekap Import Jadwal IKR</h6>
+                                    {{-- <p class="text-sm">See information about all members</p> --}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body px-2 py-2">
+                            <div class="table-responsive">
+                                <table class="table align-items-center mb-0" id="tabelRekapJadwalImport"
+                                    style="font-size: 12px; border-color:#9ca0a7;">
+                                    <thead class="bg-gray-200">
+                                        <tr>
+                                            <th class="text-secondary text-xs font-weight-semibold">#</th>
+                                            <th class="text-secondary text-xs font-weight-semibold ps-2">Area</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold ">Bulan</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold">Tahun</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold">Status</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">01</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">02</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">03</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">04</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">05</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">06</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">07</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">08</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">09</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">10</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">11</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">12</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">13</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">14</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">15</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">16</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">17</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">18</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">19</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">20</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">21</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">22</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">23</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">24</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">25</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">26</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">27</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">28</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">29</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">30</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">31</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            {{-- <div class="border-top py-3 px-3 d-flex align-items-center">
+                                <p class="font-weight-semibold mb-0 text-dark text-sm">Page 1 of 10</p>
+                                <div class="ms-auto">
+                                    <button class="btn btn-sm btn-white mb-0">Previous</button>
+                                    <button class="btn btn-sm btn-white mb-0">Next</button>
+                                </div>
+                            </div> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>            
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border shadow-xs mb-4">
+                        <div class="card-header border-bottom pb-0">
+                            <div class="d-sm-flex align-items-center">
+                                <div>
+                                    <h6 class="font-weight-semibold text-lg">Import Data list</h6>
+                                    {{-- <p class="text-sm">See information about all members</p> --}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body px-2 py-2">
+                            <div class="table-responsive">
+                                <table class="table align-items-center mb-0" id="tabelJadwalImport"
+                                    style="font-size: 12px; border-color:#9ca0a7;">
+                                    <thead class="bg-gray-200">
+                                        <tr>
+                                            <th class="text-xs font-weight-semibold">#</th>
+                                            <th class="text-secondary text-xs font-weight-semibold ps-2">Area</th>
+                                            <th class="text-secondary text-xs font-weight-semibold ps-2">NIK Karyawan</th>
+                                            <th class="text-secondary text-xs font-weight-semibold ps-2">Nama Karyawan</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold ">Bulan</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold">Tahun</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">01</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">02</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">03</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">04</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">05</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">06</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">07</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">08</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">09</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">10</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">11</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">12</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">13</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">14</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">15</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">16</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">17</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">18</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">19</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">20</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">21</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">22</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">23</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">24</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">25</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">26</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">27</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">28</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">29</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">30</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">31</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            {{-- <div class="border-top py-3 px-3 d-flex align-items-center">
+                                <p class="font-weight-semibold mb-0 text-dark text-sm">Page 1 of 10</p>
+                                <div class="ms-auto">
+                                    <button class="btn btn-sm btn-white mb-0">Previous</button>
+                                    <button class="btn btn-sm btn-white mb-0">Next</button>
+                                </div>
+                            </div> --}}
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -613,6 +729,8 @@
 
         akses = $('#akses').val();
         data_import()
+        karyawan_tidakTerdaftar()
+        rekap_data_import()
 
         // bln = new Date($('#periodeMin').val()).getMonth();
         // thn = new Date($('#periodeMin').val()).getFullYear();
@@ -621,7 +739,7 @@
         // lastDate = moment(firstDate).endOf('month');
 
         function data_import() {
-            $('#tabelDataWoImport').DataTable({
+            $('#tabelJadwalImport').DataTable({
                 // dom: 'Bftip',
                 // layout: {
                 //     topStart: {
@@ -633,7 +751,7 @@
                 fixedColumns: true,
 
                 fixedColumns: {
-                    leftColumns: 2,
+                    leftColumns: 4,
                     // rightColumns: 1
                 },
                 deferRender: true,
@@ -644,9 +762,9 @@
                 bFilter: true,
                 destroy: true,
                 processing: true,
-                serverSide: false,
+                serverSide: true,
                 ajax: {
-                    url: "{{ route('getdataImportWo') }}",
+                    url: "{{ route('getdataImportJadwal') }}",
                     type: "get",
                     dataType: "json",
                     data: {
@@ -662,88 +780,136 @@
                         searchable: false,
                         "width": '20'
                     },
+                    {data: 'branch'},
                     {
-                        data: 'no_wo_apk',
+                        data: 'nik_karyawan',
                         width: '90'
                     },
                     {
-                        data: 'wo_date_apk'
+                        data: 'nama_karyawan'
                     },
                     {
-                        data: 'cust_id_apk'
+                        data: 'bulanname'
                     },
                     {
-                        data: 'name_cust_apk'
+                        data: 'tahun'
                     },
-                    {
-                        data: 'wo_type_apk'
-                    },
-                    //{
-                    //  data: 'ticket_no'
-                    //},
+                    {data: 't01'},{data: 't02'},{data: 't03'},{data: 't04'},{data: 't05'},{data: 't06'},{data: 't07'},{data: 't08'},{data: 't09'},{data: 't10'},
+                    {data: 't11'},{data: 't12'},{data: 't13'},{data: 't14'},{data: 't15'},{data: 't16'},{data: 't17'},{data: 't18'},{data: 't19'},{data: 't20'},
+                    {data: 't21'},{data: 't22'},{data: 't23'},{data: 't24'},{data: 't25'},{data: 't26'},{data: 't27'},{data: 't28'},{data: 't29'},{data: 't30'},
+                    {data: 't31'},
+                    
+                ],
+            })
+        }
 
-                    {
-                        data: 'fat_code_apk'
-                    },
-                    {
-                        data: 'branch'
-                    },
-                    // {
-                    //     data: 'kotamadya'
-                    // },
-                    {
-                        data: 'area_cluster_apk'
-                    },
-                    {
-                        data: 'leadcall'
-                    },
-                    {
-                        data: 'leader'
-                    },
+        function rekap_data_import() {
+            $('#tabelRekapJadwalImport').DataTable({
+                // dom: 'Bftip',
+                // layout: {
+                //     topStart: {
+                //         buttons: ['excel']
+                //     },
+                // },
+                paging: true,
+                orderClasses: false,
+                fixedColumns: true,
 
-
-                    // {
-                    //     data: 'fat_port'
-                    // },
-                    // {
-                    //     data: 'ikr_date_apk'
-                    // },
-                    // {
-                    //     data: 'time_apk'
-                    // },
-                    {
-                        data: 'callsign',
-                        "className": "text-center",
-                    },
-                    {
-                        data: 'teknisi1',
-                        // "className": "text-center",
-                    },
-                    {
-                        data: 'teknisi2',
-                        // "className": "text-center",
-                    },
-                    {
-                        data: 'teknisi3',
-                        // "className": "text-center",
-                    },
-                    {
-                        data: 'teknisi4',
-                        // "className": "text-center",
-                    },
-                    {
-                        data: 'tgl_ikr',
-                        "className": "text-center",
-                    },
-                    {
-                        data: 'slot_time',
-                        "className": "text-center",
-                    },
-                    {
-                        data: 'action',
-                        "className": "text-center",
+                fixedColumns: {
+                    leftColumns: 4,
+                    // rightColumns: 1
+                },
+                deferRender: true,
+                scrollCollapse: true,
+                scrollX: true,
+                pageLength: 10,
+                lengthChange: false,
+                bFilter: true,
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('getRekapDataImportJadwal') }}",
+                    type: "get",
+                    dataType: "json",
+                    data: {
+                        akses: akses,
+                        _token: _token
                     }
-                ]
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_Row_Index',
+                        "className": "text-center",
+                        // orderable: false,
+                        searchable: false,
+                        "width": '20'
+                    },
+                    {data: 'branch'},
+                    {
+                        data: 'bulanname'
+                    },
+                    {
+                        data: 'tahun'
+                    },                    
+                    {
+                        data: 'status'
+                    },
+                    {data: 't01'},{data: 't02'},{data: 't03'},{data: 't04'},{data: 't05'},{data: 't06'},{data: 't07'},{data: 't08'},{data: 't09'},{data: 't10'},
+                    {data: 't11'},{data: 't12'},{data: 't13'},{data: 't14'},{data: 't15'},{data: 't16'},{data: 't17'},{data: 't18'},{data: 't19'},{data: 't20'},
+                    {data: 't21'},{data: 't22'},{data: 't23'},{data: 't24'},{data: 't25'},{data: 't26'},{data: 't27'},{data: 't28'},{data: 't29'},{data: 't30'},
+                    {data: 't31'},
+                    
+                ],
+            })
+        }
+
+        function karyawan_tidakTerdaftar() {
+            $('#tabelKaryawanTidakTerdaftar').DataTable({
+                // dom: 'Bftip',
+                // layout: {
+                //     topStart: {
+                //         buttons: ['excel']
+                //     },
+                // },
+                paging: true,
+                orderClasses: false,
+                // fixedColumns: true,
+
+                // fixedColumns: {
+                    // leftColumns: 4,
+                    // rightColumns: 1
+                // },
+                deferRender: true,
+                scrollCollapse: true,
+                scrollX: true,
+                pageLength: 10,
+                lengthChange: false,
+                bFilter: true,
+                destroy: true,
+                processing: true,
+                serverSide: false,
+                ajax: {
+                    url: "{{ route('getKaryawanTidakTerdaftar') }}",
+                    type: "get",
+                    dataType: "json",
+                    data: {
+                        akses: akses,
+                        _token: _token
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_Row_Index',
+                        "className": "text-center",
+                        // orderable: false,
+                        searchable: false,
+                        "width": '20'
+                    },
+                    // {data: 'nik_karyawan'},
+                    {data: 'nama_karyawan', "classNmae": "text-center",
+                    }
+                ],
             })
         }
 

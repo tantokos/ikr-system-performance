@@ -102,7 +102,20 @@ Route::get('/updateTim/{id}', [TimController::class, 'updateTim'])->name('update
 //Jadwal Tim//
 
 Route::get('/jadwalTim', [JadwalTim_controller::class,'index'])->name('jadwalTim')->middleware('auth');
+Route::get('/getdataJadwalIkr', [JadwalTim_controller::class,'getdataJadwalIkr'])->name('getdataJadwalIkr')->middleware('auth');
+Route::get('/getRekapDataJadwal', [JadwalTim_controller::class,'getRekapDataJadwal'])->name('getRekapDataJadwal')->middleware('auth');
+Route::get('/getKaryawan', [JadwalTim_controller::class,'getKaryawan'])->name('getKaryawan')->middleware('auth');
+Route::post('/simpanEditKehadiran', [JadwalTim_controller::class, 'simpanEditKehadiran'])->name('simpanEditKehadiran')->middleware('auth');
+
 Route::get('/importScheduleIkr', [ImportJadwalTim_controller::class, 'index'])->name('importJadwalTim')->middleware('auth');
+Route::get('/getdataImportJadwal', [ImportJadwalTim_controller::class, 'getdataImportJadwal'])->name('getdataImportJadwal')->middleware('auth');
+
+Route::get('/getRekapDataImportJadwal', [ImportJadwalTim_controller::class, 'getRekapDataImportJadwal'])->name('getRekapDataImportJadwal')->middleware('auth');
+Route::get('/getKaryawanTidakTerdaftar', [ImportJadwalTim_controller::class, 'getKaryawanTidakTerdaftar'])->name('getKaryawanTidakTerdaftar')->middleware('auth');
+
+Route::post('/importProsesJadwalIkr', [ImportJadwalTim_controller::class, 'importProsesJadwalIkr'])->name('importProsesJadwalIkr')->middleware('auth');
+Route::post('/simpanImportJadwal', [ImportJadwalTim_controller::class, 'simpanImportJadwal'])->name('simpanImportJadwal')->middleware('auth');
+
 
 //End Jadwal Tim//
 
