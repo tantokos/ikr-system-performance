@@ -133,11 +133,11 @@ class ImportFtthDismantleController extends Controller
 
                 DB::beginTransaction();
                 try {
-                    // Update status_wo pada data_ftth_ib_oris berdasarkan wo_no dan tgl_ikr
+                    // Update status_wo pada data_ftth_dismantle_oris berdasarkan wo_no dan tgl_ikr
                     foreach ($importedData as $data) {
-                        DB::table('data_ftth_ib_oris')
+                        DB::table('data_ftth_dismantle_oris')
                             ->where('no_wo', $data->wo_no)
-                            ->where('tgl_ikr', $data->installation_date) // Menambahkan syarat
+                            ->where('visit_date', $data->installation_date) // Menambahkan syarat
                             ->update([
                                 'status_wo' => $data->status,
                                 'status_apk' => $data->status,
@@ -150,11 +150,12 @@ class ImportFtthDismantleController extends Controller
                     // Commit transaksi
                     DB::table('import_ftth_dismantle_apk')->delete();
                     DB::commit();
-                    return redirect()->route('monitFtthIB')->with(['success' => 'Status berhasil diupdate.']);
+                    return redirect()->route('ftth-dismantle')->with(['success' => 'Status berhasil diupdate.']);
                 } catch (\Exception $e) {
                     // Rollback jika ada kesalahan
+                    return $e;
                     DB::rollback();
-                    return redirect()->route('monitFtthIB')->with(['error' => 'Gagal mengupdate status.']);
+                    return redirect()->route('ftth-dismantle')->with(['error' => 'Gagal mengupdate status.']);
                 }
 
         break;
@@ -162,7 +163,7 @@ class ImportFtthDismantleController extends Controller
             case 'batal':
                 $importedData = DB::table('import_ftth_dismantle_apk')
                     ->delete();
-                return redirect()->route('monitFtthIB')->with(['success' => 'Data berhasil dihapus.']);
+                return redirect()->route('ftth-dismantle')->with(['success' => 'Data berhasil dihapus.']);
             break;
 
         }

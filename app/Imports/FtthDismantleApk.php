@@ -64,7 +64,7 @@ class FtthDismantleApk implements ToModel, WithHeadingRow, WithValidation, WithC
     public function rules(): array
     {
         return [
-            'wo_no' => Rule::unique('import_ftth_ib_apks', 'wo_no'), // Sesuaikan nama tabel dan kolom
+            'wo_no' => Rule::unique('import_ftth_dismantle_apk', 'wo_no'), // Sesuaikan nama tabel dan kolom
         ];
     }
 

@@ -589,19 +589,10 @@
 
         function data_import() {
             $('#tabelDataWoImportApk').DataTable({
-                // dom: 'Bftip',
-                // layout: {
-                //     topStart: {
-                //         buttons: ['excel']
-                //     },
-                // },
                 paging: true,
                 orderClasses: false,
-                fixedColumns: true,
-
                 fixedColumns: {
                     leftColumns: 2,
-                    // rightColumns: 1
                 },
                 deferRender: true,
                 scrollCollapse: true,
@@ -621,11 +612,42 @@
                         _token: _token
                     }
                 },
-
-
-            })
+                columns: [
+                    { data: 'DT_RowIndex', title: '#' },
+                    { data: 'wo_no', title: 'WO No' },
+                    { data: 'ticket_no', title: 'Ticket No' },
+                    { data: 'wo_date', title: 'WO Date' },
+                    { data: 'installation_date', title: 'Installation Date' },
+                    { data: 'time', title: 'Time' },
+                    { data: 'vendor_installer', title: 'Vendor Installer' },
+                    { data: 'callsign', title: 'Callsign' },
+                    { data: 'cust_id', title: 'Cust ID' },
+                    { data: 'name', title: 'Name' },
+                    { data: 'cust_phone', title: 'Cust Phone' },
+                    { data: 'cust_mobile', title: 'Cust Mobile' },
+                    { data: 'address', title: 'Address' },
+                    { data: 'area', title: 'Area' },
+                    { data: 'wo_type', title: 'WO Type' },
+                    { data: 'cause_code', title: 'Cause Code' },
+                    { data: 'root_cause', title: 'Root Cause' },
+                    { data: 'action_taken', title: 'Action Taken' },
+                    { data: 'fat_code', title: 'Fat Code' },
+                    { data: 'fat_port', title: 'Fat Port' },
+                    { data: 'remarks', title: 'Remarks' },
+                    { data: 'status', title: 'Status' },
+                    { data: 'pending', title: 'Pending' },
+                    { data: 'reason', title: 'Reason' },
+                    { data: 'check_in', title: 'Check In' },
+                    { data: 'check_out', title: 'Check Out' },
+                    { data: 'mttr_all', title: 'MTTR All' },
+                    { data: 'mttr_pending', title: 'MTTR Pending' },
+                    { data: 'mttr_progress', title: 'MTTR Progress' },
+                    { data: 'mttr_technician', title: 'MTTR Technician' },
+                    { data: 'sla_over', title: 'SLA Over' },
+                    { data: 'action', title: 'Action' }
+                ]
+            });
         }
-
 
         $(document).on('click', '#detail-importWo', function(e) {
             // e.preventDefault();
