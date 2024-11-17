@@ -83,7 +83,7 @@ class MonitFtthIB_Controller extends Controller
 
         if ($request->ajax()) {
 
-            
+
 
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
@@ -119,10 +119,17 @@ class MonitFtthIB_Controller extends Controller
     {
         // dd($request);
         $assignId = $request->filAssignId;
+
         $datas = DB::table('data_ftth_ib_oris as d')
             ->where('d.id', $assignId)->first();
+        $callsign_tims = DB::table('callsign_tims')->get();
+        $callsign_leads = DB::table('callsign_leads')->get();
 
-        return response()->json(['data' => $datas]);
+        return response()->json([
+            'data' => $datas,
+            'callsign_tims' => $callsign_tims,
+            'callsign_leads' => $callsign_leads,
+        ]);
     }
 
 
