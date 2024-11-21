@@ -1109,7 +1109,7 @@
         <div class="modal fade" id="showMaterial" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel2" aria-hidden="true" data-bs-keyboard="false"
             data-bs-backdrop="static">>
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel2">Detail Material</h5>
