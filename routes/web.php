@@ -274,6 +274,7 @@ Route::post('/simpanReschedule',[RescheduleWO_Controller::class, 'simpanReschedu
 
 //End Reschedule WO//
 
+
 Route::get('/linkstorage', function () {
     Artisan::call('storage:link');
 });
