@@ -1105,6 +1105,51 @@
         </div>
         {{-- End Modal Show Detail Tool --}}
 
+        {{-- Modal Detail Material --}}
+        <div class="modal fade" id="showMaterial" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel2" aria-hidden="true" data-bs-keyboard="false"
+            data-bs-backdrop="static">>
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel2">Detail Material</h5>
+                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-sm-12 mt-3 mb-3">
+                            <div class="table-responsive p-0">
+                                <table id="summaryAssignTeam" class="table table-sm table-striped table-bordered align-items-center mb-0">
+                                    <thead class="bg-gray-600">
+                                        <tr id="headStatusProgresWo">
+                                            <th class="text-white text-sm font-weight-semibold">No</th>
+                                            <th class="text-white text-sm font-weight-semibold">Status Item</th>
+                                            <th class="text-white text-sm font-weight-semibold">Description</th>
+                                            <th class="text-white text-sm font-weight-semibold">Qty</th>
+                                            <th class="text-white text-sm font-weight-semibold">SN</th>
+                                            <th class="text-white text-sm font-weight-semibold">Mac Address</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bodyStatusProgresWo">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" value="close" class="btn btn-sm btn-dark align-items-center"
+                            data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {{-- End Modal Detail Material --}}
+
     </main>
 
 </x-app-layout>
@@ -1421,10 +1466,84 @@
                     $('#actionTaken').val(dtDis.action_taken);
                     $('#penagihanShow').val(dtDis.penagihan);
 
+                    $('#snOntOut').val(material.sn_ont_out);
+                    $('#macOntOut').val(material.mac_ont_out);
+                    $('#macOntIn').val(material.mac_ont_in);
+                    $('#merkOntIn').val(material.merk_ont_in);
+                    $('#merkStbOut').val(material.stb_merk_out);
+                    $('#merkStbIn').val(material.stb_merk_in);
+                    $('#kabelPrecon').val(material.precon_out);
+                    $('#snOntIn').val(material.sn_ont_in);
+
                     $('#showAssignTim').modal('show');
 
                 }
             })
+        })
+
+        $(document).on('click', '#detail-material', function(e) {
+            // e.preventDefault();
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let assign_id = $(this).data('id');
+
+
+            $.ajax({
+                url: "{{ route('getMaterialFtthIb') }}",
+                type: "get",
+                data: {
+                    filAssignId: assign_id,
+                    _token: _token
+                },
+                success: function(response) {
+                    console.log('Respons dari API:', response);
+
+                    // Ambil data material dari response
+                    let materials = response.data;
+
+                    // Filter data untuk menghapus duplikat berdasarkan kolom tertentu (misalnya description + SN)
+                    let uniqueMaterials = materials.filter((value, index, self) =>
+                        index === self.findIndex((t) => (
+                            t.description === value.description && t.sn === value.sn
+                        ))
+                    );
+
+                    // Kosongkan tabel sebelum mengisi data baru
+                    $('#bodyStatusProgresWo').empty();
+
+                    // Iterasi data unik dan buat baris baru
+                    if (uniqueMaterials && uniqueMaterials.length > 0) {
+                        uniqueMaterials.forEach((item, index) => {
+                            let row = `
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td>${item.status_item}</td>
+                                    <td>${item.description}</td>
+                                    <td>${item.qty}</td>
+                                    <td>${item.sn ? item.sn : '-'}</td>
+                                    <td>${item.mac_address ? item.mac_address : '-'}</td>
+                                </tr>
+                            `;
+                            // Tambahkan baris ke tabel
+                            $('#bodyStatusProgresWo').append(row);
+                        });
+                    } else {
+                        // Jika tidak ada data, tambahkan baris kosong
+                        $('#bodyStatusProgresWo').append(`
+                            <tr>
+                                <td colspan="6" class="text-center">No data available</td>
+                            </tr>
+                        `);
+                    }
+
+                    // Tampilkan modal
+                    $('#showMaterial').modal('show');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('Failed to fetch data. Please try again.');
+                }
+            });
+
         })
 
 
