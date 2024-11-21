@@ -276,7 +276,7 @@
 
             <li class="nav-item">
                 <a
-                    class="nav-link  {{ is_current_route('dataTool') || is_current_route('distribusiTool') || is_current_route('dataKembaliTool') || is_current_route('laporanTool') ? 'active' : '' }}">
+                    class="nav-link  {{ is_current_route('dataTool') || is_current_route('distribusiTool') || is_current_route('dataKembaliTool') || is_current_route('dataKembaliToolGA') || is_current_route('laporanTool') ? 'active' : '' }}">
                     <div
                         class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
                         <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1"
@@ -323,6 +323,13 @@
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('dataKembaliTool') ? 'active' : '' }}"
                     href="{{ route('dataKembaliTool') }}">
                     <span class="nav-link-text ms-1">Pengembalian Tools</span>
+                </a>
+            </li>
+
+            <li class="nav-item border-start my-0 pt-2">
+                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('dataKembaliToolGA') ? 'active' : '' }}"
+                    href="{{ route('dataKembaliToolGA') }}">
+                    <span class="nav-link-text ms-1">Pengembalian Tools GA</span>
                 </a>
             </li>
 

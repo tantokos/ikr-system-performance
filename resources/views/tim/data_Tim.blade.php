@@ -886,14 +886,14 @@
                             </div>
                             <div class="col">
                                 <div class="form-group mb-1">
-                                    <span class="text-xs">Tanggal Distribusi Tool</span>
+                                    <span class="text-xs">Tanggal Distribusi dari GA</span>
                                     <input class="form-control form-control-sm" type="date"
                                         value="{{ date('Y-m-d') }}" id="tglDistribusiShow" name="tglDistribusiShow"
                                         style="border-color:#9ca0a7;" readonly>
                                 </div>
 
                                 <div class="form-group mb-1">
-                                    <span class="text-xs">Tanggal Penerimaan Tool</span>
+                                    <span class="text-xs">Tanggal Serah Terima ke Teknisi</span>
                                     <input class="form-control form-control-sm" type="date"
                                         value="{{ date('Y-m-d') }}" id="tglPenerimaanShow" name="tglPenerimaanShow"
                                         style="border-color:#9ca0a7;" readonly>
@@ -920,7 +920,7 @@
                             </div>
 
                             <div class="col">
-                                <span class="text-xs">Foto Distribusi Tool</span>
+                                <span class="text-xs">Foto Distribusi Dari GA</span>
                                 <div class="form-group mb-1 text-center">
                                     <img src="{{ asset('assets/img/default-150x150.png') }}"
                                         id="showgambarDistribusiShow" alt="Card Image"

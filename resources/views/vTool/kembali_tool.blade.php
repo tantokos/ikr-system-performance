@@ -46,7 +46,21 @@
                                                 </path>
                                             </svg>
                                         </span>
-                                        <span class="btn-inner--text">Tambah Pengembalian Tool</span>
+                                        <span class="btn-inner--text">+ Pengembalian Tool ke SPV</span>
+                                    </button>
+
+                                    <button type="button"
+                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"
+                                        data-bs-toggle="modal" data-bs-target="#tambahDistribusi">
+                                        {{-- <span class="btn-inner--icon">
+                                            <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
+                                                <path
+                                                    d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
+                                                </path>
+                                            </svg>
+                                        </span> --}}
+                                        <span class="btn-inner--text">+ Pengembalian Tool ke GA</span>
                                     </button>
                                 </div>
 
@@ -345,10 +359,10 @@
                             </div>
                         </form>
                     </div>
-                    <div class="modal-footer">
+                    {{-- <div class="modal-footer"> --}}
                         {{-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> --}}
                         {{-- <button type="button" class="btn btn-dark">Save changes</button> --}}
-                    </div>
+                    {{-- </div> --}}
                 </div>
             </div>
         </div>
