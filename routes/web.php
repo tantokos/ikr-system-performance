@@ -34,7 +34,7 @@ use App\Http\Controllers\TimController;
 use App\Http\Controllers\ToolController;
 use App\Http\Controllers\ImportJadwalTim_controller;
 use App\Http\Controllers\JadwalTim_controller;
-
+use App\Http\Controllers\KembaliToolGA_Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -232,6 +232,11 @@ Route::get('/getRawDistribusi', [KembaliToolController::class, 'getRawDistribusi
 
 Route::post('/simpanPengembalian', [KembaliToolController::class, 'simpanPengembalian'])->name('simpanPengembalian')->middleware('auth');
 
+
+Route::get('/dataKembaliToolGA', [KembaliToolGA_Controller::class, 'index'])->name('dataKembaliToolGA')->middleware('auth');
+Route::get('/getDataKembaliGA', [KembaliToolGA_Controller::class, 'getDataKembaliGA'])->name('getDataKembaliGA')->middleware('auth');
+Route::get('/getRawTool', [KembaliToolGA_Controller::class, 'getRawTool'])->name('getRawTool')->middleware('auth');
+Route::post('/simpanPengembalianGA', [KembaliToolGA_Controller::class, 'simpanPengembalianGA'])->name('simpanPengembalianGA')->middleware('auth');
 
 Route::get('/laporanTool', [LaporanToolController::class, 'index'])->name('laporanTool')->middleware('auth');
 Route::get('/getDataPengecekan', [LaporanToolController::class, 'getDataPengecekan'])->name('getDataPengecekan')->middleware('auth');

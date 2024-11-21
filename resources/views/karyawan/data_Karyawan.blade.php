@@ -77,7 +77,7 @@
                                             <th class="text-center text-xs font-weight-semibold">Tanggal Keluar</th>
                                             <th class="text-center text-xs font-weight-semibold">No KTP</th>
                                             <th class="text-center text-xs font-weight-semibold">No NPWP</th>
-                                            <th class="text-center text-xs font-weight-semibold">No Rekening</th>
+                                            {{-- <th class="text-center text-xs font-weight-semibold">No Rekening</th> --}}
                                             <th class="text-center text-xs font-weight-semibold">No BPJS</th>
                                             <th class="text-center text-xs font-weight-semibold">No Jamsostek</th>
                                             <th class="text-center text-xs font-weight-semibold">#</th>
@@ -127,7 +127,7 @@
                                         <li class="nav-item">
                                             <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#Kepesertaan"
                                                 role="tab" aria-controls="Kepesertaan" aria-selected="true">
-                                                Kepesertaan
+                                                Informasi Tambahan
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -428,11 +428,11 @@
                                                         name="noNPWP" style="border-color:#9ca0a7;">
                                                 </div>
 
-                                                <div class="form-group mb-1">
+                                                {{-- <div class="form-group mb-1">
                                                     <span class="text-xs">No. Rekening Bank</span>
                                                     <input class="form-control form-control-sm" id="noRek"
                                                         name="noRek" style="border-color:#9ca0a7;">
-                                                </div>
+                                                </div> --}}
 
                                                 <div class="form-group mb-1">
                                                     <span class="text-xs">No. BPJS</span>
@@ -834,9 +834,9 @@
                     {
                         data: 'no_npwp'
                     },
-                    {
-                        data: 'no_rek'
-                    },
+                    // {
+                    //     data: 'no_rek'
+                    // },
                     {
                         data: 'no_bpjs'
                     },

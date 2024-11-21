@@ -25,6 +25,10 @@ class ToolIkr extends Model
         'nopol',
         'pajak_1tahun',
         'pajak_5tahun',
+        'nik_penerima',
+        'nama_penerima',
+        'branch_penerima',
+        'posisi',
         'login',
         'status_distribusi'
 

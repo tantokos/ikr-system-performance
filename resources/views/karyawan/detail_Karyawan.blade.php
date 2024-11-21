@@ -125,9 +125,9 @@
                                             {{ $join->y . ' Tahun ' . $join->m . ' Bulan ' . $join->d . ' Hari' }}
                                         </dd>
 
-                                        <dt class="col-sm-4"><small>No Rekening Bank</small></dt>
+                                        {{-- <dt class="col-sm-4"><small>No Rekening Bank</small></dt>
                                         <dd class="col-sm-8"><small>{{ $karyawan->no_rek ?: '-' }}</small>
-                                        </dd>
+                                        </dd> --}}
                                         <dt class="col-sm-4"><small> No BPJS</small></dt>
                                         <dd class="col-sm-8">
                                             <small>{{ $karyawan->no_bpjs ?: '-' }}</small>
@@ -171,7 +171,7 @@
                                     <li class="nav-item" style="background-color: #c2c3c4">
                                         <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#Kepesertaan"
                                             role="tab" aria-controls="Kepesertaan" aria-selected="true">
-                                            Kepesertaan
+                                            Informasi Tambahan
                                         </a>
                                     </li>
                                     <li class="nav-item" style="background-color: #c2c3c4">
@@ -284,9 +284,9 @@
                                                 <dt class="col-sm-4  text-sm">No NPWP</dt>
                                                 <dd class="col-sm-8 text-sm">{{ $karyawan->no_npwp ?: '-' }}
                                                 </dd>
-                                                <dt class="col-sm-4 text-sm">No Rek Bank</dt>
+                                                {{-- <dt class="col-sm-4 text-sm">No Rek Bank</dt>
                                                 <dd class="col-sm-8 text-sm">{{ $karyawan->no_rek ?: '-' }}
-                                                </dd>
+                                                </dd> --}}
 
                                                 <dt class="col-sm-4 text-sm">No BPJS</dt>
                                                 <dd class="col-sm-8 text-sm">
@@ -453,7 +453,7 @@
                                             <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab"
                                                 href="#KepesertaanEdit" role="tab" aria-controls="Kepesertaan"
                                                 aria-selected="true">
-                                                Kepesertaan
+                                                Informasi Tambahan
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -850,12 +850,12 @@
                                                         value="{{ $karyawan->no_npwp }}">
                                                 </div>
 
-                                                <div class="form-group mb-1">
+                                                {{-- <div class="form-group mb-1">
                                                     <span class="text-xs">No. Rekening Bank</span>
                                                     <input class="form-control form-control-sm" id="noRek"
                                                         name="noRek" style="border-color:#9ca0a7;"
                                                         value="{{ $karyawan->no_rek }}">
-                                                </div>
+                                                </div> --}}
 
                                                 <div class="form-group mb-1">
                                                     <span class="text-xs">No. BPJS</span>

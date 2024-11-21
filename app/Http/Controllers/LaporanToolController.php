@@ -66,7 +66,7 @@ class LaporanToolController extends Controller
 
         $dataDis = DB::table('v_history_tools')
             ->where('leadcall_id', $request->filLeadId)
-            ->whereRaw('((kategory="Data Distribusi and status_kembali="Belum dikembalikan") or kategori="Data Pengecekan"')
+            ->whereRaw('((kategory="Data Distribusi" and status_kembali="Belum dikembalikan") or kategori="Data Pengecekan"')
             ->get();
 
         $dataLead = DB::table('data_distribusi_tools')

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DataDistribusiTool;
+use App\Models\Employee;
 use App\Models\ToolIkr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,13 @@ class ToolController extends Controller
      */
     public function index()
     {
-        return view('vTool.data_Tool');
+        $mail = Auth::user()->email;
+        $login = Employee::where('email', $mail)
+                ->leftJoin('branches', 'employees.branch_id','=','branches.id')
+                ->select('nik_karyawan', 'nama_karyawan','departement','posisi','nama_branch',)
+                ->first();
+
+        return view('vTool.data_Tool',['login' => $login]);
     }
 
     public function getDataTool(Request $request)
@@ -90,6 +97,10 @@ class ToolController extends Controller
             'kategori' => 'Tools',
             'tgl_pengadaan' => $request['tglPenerimaan'],
             'foto_barang' => $file,
+            'nik_penerima' => $request['nikpenerima'],
+            'nama_penerima' => $request['namapenerima'],
+            'branch_penerima' => $request['namaBranch'],
+            'posisi' => "Supervisor",
             'login' => $login,
 
         ]);
@@ -99,7 +110,9 @@ class ToolController extends Controller
 
     public function showDetailTool(Request $request)
     {
-        $detTool = DB::table('tool_ikrs')->where('id', $request->filToolId)
+        $detTool = DB::table('tool_ikrs')
+                ->leftJoin('employees','tool_ikrs.nik_penerima','=','employees.nik_karyawan')
+                ->select('tool_ikrs.*','employees.*')->where('tool_ikrs.id', $request->filToolId)
             ->first();
 
         return response()->json($detTool);

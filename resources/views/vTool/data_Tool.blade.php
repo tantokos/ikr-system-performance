@@ -63,7 +63,10 @@
                                             <th class="text-center text-xs font-weight-semibold">Merk</th>
                                             <th class="text-center text-xs font-weight-semibold">Kode Aset</th>
                                             <th class="text-center text-xs font-weight-semibold">Kode GA</th>
-                                            <th class="text-center text-xs font-weight-semibold">Spesifikasi</th>
+                                            <th class="text-center text-xs font-weight-semibold">Branch</th>
+                                            <th class="text-center text-xs font-weight-semibold">Kondisi</th>
+                                            <th class="text-center text-xs font-weight-semibold">Status</th>
+                                            <th class="text-center text-xs font-weight-semibold">Posisi</th>
                                             <th class="text-center text-xs font-weight-semibold">#</th>
 
                                         </tr>
@@ -140,7 +143,7 @@
 
                                         <div class="col">
                                             <div class="form-group mb-1">
-                                                <span class="text-xs">Tanggal Penerimaan Tool</span>
+                                                <span class="text-xs">Tanggal Penerimaan Tool dari GA</span>
                                                 <input class="form-control form-control-sm" type="date"
                                                     value="{{ date('Y-m-d') }}" id="tglPenerimaan"
                                                     name="tglPenerimaan" style="border-color:#9ca0a7;">
@@ -168,6 +171,46 @@
                                                 <input class="form-control form-control-sm" type="text"
                                                     id="kodeGA" name="kodeGA" style="border-color:#9ca0a7;"
                                                     required>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Nik Penerima Tool</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="nikpenerima" name="nikpenerima" style="border-color:#9ca0a7;"
+                                                    value="{{ isset($login) ? $login->nik_karyawan : "" }}" readonly>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Nama Penerima</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="namapenerima" name="namapenerima" style="border-color:#9ca0a7;"
+                                                    value="{{ isset($login) ? $login->nama_karyawan : "" }}" readonly>
+                                            </div>
+
+                                            <div class="row form-group mb-1">
+                                                <div class="col">
+                                                <span class="text-xs">Departemen</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="departemen" name="departemen" style="border-color:#9ca0a7;"
+                                                    value="{{ isset($login) ? $login->departement : "" }}" readonly>
+                                                </div>
+
+                                                <div class="col">
+                                                    <span class="text-xs">Posisi</span>
+                                                    <input class="form-control form-control-sm" type="text"
+                                                        id="posisi" name="posisi" style="border-color:#9ca0a7;"
+                                                        value="{{ isset($login) ? $login->posisi : "" }}" readonly>
+                                                    </div>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Branch</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="namaBranch" name="namaBranch" style="border-color:#9ca0a7;"
+                                                    value="{{ isset($login) ? $login->nama_branch : "" }}" readonly>
                                             </div>
 
                                         </div>
@@ -302,6 +345,46 @@
                                                 <span class="text-xs">Kode GA</span>
                                                 <input class="form-control form-control-sm" type="text"
                                                     id="kodeGAShow" name="kodeGAShow" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Nik Penerima Tool</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="nikpenerimaShow" name="nikpenerimaShow" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Nama Penerima</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="namapenerimaShow" name="namapenerimaShow" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                            <div class="row form-group mb-1">
+                                                <div class="col">
+                                                <span class="text-xs">Departemen</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="departemenShow" name="departemenShow" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                                </div>
+
+                                                <div class="col">
+                                                    <span class="text-xs">Posisi</span>
+                                                    <input class="form-control form-control-sm" type="text"
+                                                        id="posisiShow" name="posisiShow" style="border-color:#9ca0a7;"
+                                                        readonly>
+                                                    </div>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Branch</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="namaBranchShow" name="namaBranchShow" style="border-color:#9ca0a7;"
                                                     readonly>
                                             </div>
 
@@ -726,7 +809,16 @@
                         data: 'kode_ga'
                     },
                     {
-                        data: 'spesifikasi'
+                        data: 'branch_penerima'
+                    },
+                    {
+                        data: 'kondisi'
+                    },
+                    {
+                        data: 'status_distribusi'
+                    },
+                    {
+                        data: 'posisi'
                     },
                     {
                         data: 'action',
@@ -771,6 +863,11 @@
                     $('#kondisiShow').val(respon.kondisi)
                     $('#kodeAsetShow').val(respon.kode_aset)
                     $('#kodeGAShow').val(respon.kode_ga)
+                    $('#nikpenerimaShow').val(respon.nik_penerima)
+                    $('#namapenerimaShow').val(respon.nama_penerima)
+                    $('#departemenShow').val(respon.departement)
+                    $('#posisiShow').val(respon.posisi)
+                    $('#namaBranchShow').val(respon.branch_penerima)
                     $('#showgambarShow').attr('src',
                         `/storage/image-tool/${respon.foto_barang}`)
 

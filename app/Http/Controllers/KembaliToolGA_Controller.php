@@ -4,37 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Models\DataDistribusiTool;
 use App\Models\DataPengembalianTool;
+use App\Models\DataPengembalianToolsGa;
+use App\Models\Employee;
 use App\Models\ToolIkr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
-class KembaliToolController extends Controller
+class KembaliToolGA_Controller extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $loginId = Auth::user()->id;
+        $loginEmail = Auth::user()->email;
 
-        $LeadDistribusi = DB::table('data_distribusi_tools')
-            ->where('status_kembali', '=', 'Belum dikembalikan')
-            ->select('leadcall_id', 'lead_callsign', 'leader_id', 'leader', 'posisi', 'area')
-            ->groupBy('leadcall_id', 'lead_callsign', 'leader_id', 'leader', 'posisi', 'area')
-            ->orderBy('lead_callsign')->get();
+        $dtLog = Employee::where('email',$loginEmail)
+                ->select('nik_karyawan','nama_karyawan')
+                ->first();
 
-
-        return view('vTool.kembali_tool', ['leadCallsign' => $LeadDistribusi]);
+        return view('vTool.kembaliTool_GA',['dtlog' => $dtLog]);
     }
 
-    public function getDataKembali(Request $request)
+    public function getDataKembaliGA(Request $request)
     {
         $akses = Auth::user()->name;
 
         if ($request->ajax()) {
 
-            $datas = DB::table('data_pengembalian_tools')->orderBy('tgl_kembali', 'DESC')->get();
+            $datas = DB::table('data_pengembalian_tools_gas')->orderBy('tgl_kembali', 'DESC')->get();
 
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
@@ -61,43 +62,40 @@ class KembaliToolController extends Controller
         return response()->json($datas);
     }
 
-    public function getRawDistribusi(Request $request)
+    public function getRawTool(Request $request)
     {
 
-        $dataDis = DB::table('data_distribusi_tools')
-            ->where('leadcall_id', $request->filLeadId)
-            ->where('status_kembali', '=', 'Belum dikembalikan')
+        $dataDis = DB::table('tool_ikrs')
+            ->where('status_distribusi', '=', 'Not Distributed')
+            ->whereNotIn('posisi', ['Dikembalikan ke GA'])
+            ->orderBy('nama_barang')
             ->get();
 
-        $dataLead = DB::table('data_distribusi_tools')
-            ->where('leadcall_id', $request->filLeadId)
-            ->where('status_kembali', '=', 'Belum dikembalikan')->first();
-
-        $listTim = DB::table('data_distribusi_tools')->where('leadcall_id', $request->filLeadId)
-            ->select('callsign_tim_id', 'callsign_tim', 'nik_tim1', 'teknisi1', 'nik_tim2', 'teknisi2', 'nik_tim3', 'teknisi3')->distinct()->get();
-
-        return response()->json(['dataDis' => $dataDis, 'callLead' => $dataLead, 'listTim' => $listTim]);
+        return response()->json(['dataDis' => $dataDis]);
     }
 
-    public function simpanPengembalian(Request $request)
+    public function simpanPengembalianGA(Request $request)
     {
         $login = Auth::user()->name;
+        $loginMail = Auth::user()->email;
         $loginid = Auth::user()->id;
 
         $brg_id = $request->namaToolid;
+        $pengembali = explode("|", $request->nikPengembalian);
+        $nikPengembali = $pengembali[0];
+        $namaPengembali = $pengembali[1];
 
         if ($request->hasFile('fotoKembaliTool')) {
             $fileFoto = $request->file('fotoKembaliTool');
             $file = $fileFoto->hashName();
-            $request->file('fotoKembaliTool')->move(public_path('storage/image-pengembalian'), $file);
+            $request->file('fotoKembaliTool')->move(public_path('storage/image-pengembalianGA'), $file);
         } else {
             $file = 'foto-blank.jpg';
         }
 
-        $simpanPengembalian = DataPengembalianTool::create([
-            'id_dis' => $request['disId'],
+        $simpanPengembalian = DataPengembalianToolsGa::create([
+            'tgl_pengadaan' => $request['tglPengadaan'],
             'tgl_kembali' => $request['tglPengembalian'],
-            'tgl_distribusi' => $request['tglDistribusi'],
             'barang_id' => $request['namaToolid'],
             'nama_barang' => $request['namaTool'],
             'merk_barang' => $request['merk'],
@@ -106,24 +104,10 @@ class KembaliToolController extends Controller
             'kode_aset' => $request['kodeAset'],
             'kode_ga' => $request['kodeGA'],
             'spesifikasi' => $request['spesifikasi'],
-            'leadcall_id' => $request['LeadCallsignTim'],
-            'lead_callsign' => $request['leadCallsign'],
-            'leader_id' => $request['leaderid'],
-            'leader' => $request['leaderTim'],
-            'posisi' => $request['posisiTim'],
-            'callsign_tim_id' => $request['callsignTimid'],
-            'callsign_tim' => $request['callsignTim'],
-            'area' => $request['areaTim'],
-            'nik_tim1' => $request['teknisi1Nk'],
-            'teknisi1' => $request['teknisi1'],
-            'nik_tim2' => $request['teknisi2Nk'],
-            'teknisi2' => $request['teknisi2'],
-            'nik_tim3' => $request['teknisi3Nk'],
-            'teknisi3' => $request['teknisi3'],
-            'nik_tim4' => $request['teknisi4Nk'],
-            'teknisi4' => $request['teknisi4'],
-            'status_pengembalian' => "Pengembalian ke SPV",
+            'status_pengembalian' => $request['statPengembalian'],
             'keterangan' => $request['keterangan'],
+            'nik_pengembalian' => $nikPengembali,
+            'nama_pengembalian' => $namaPengembali,
             'foto_kembali' => $file,
             'login_id' => $loginid,
             'login' => $login,
@@ -131,21 +115,15 @@ class KembaliToolController extends Controller
 
         if ($simpanPengembalian) {
 
-            $dataDis = DataDistribusiTool::find($request->disId);
-            $dataDis->update([
-                'status_kembali' => "Sudah dikembalikan"
-
-            ]);
-
             $toolDis = ToolIkr::find($brg_id);
             $toolDis->update([
                 'status_distribusi' => "Not Distributed",
                 'kondisi' => $request['kondisi'],
-                'posisi' => "Supervisor"
+                'posisi' => "Dikembalikan ke GA"
             ]);
         }
 
-        return redirect()->route('dataKembaliTool')->with(['success' => 'Data tersimpan.']);
+        return redirect()->route('dataKembaliToolGA')->with(['success' => 'Data tersimpan.']);
     }
 
     /**

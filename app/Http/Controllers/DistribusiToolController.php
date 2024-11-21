@@ -193,7 +193,8 @@ class DistribusiToolController extends Controller
             $toolDis = ToolIkr::find($brg_id);
 
             $toolDis->update([
-                'status_distribusi' => "Distributed"
+                'status_distribusi' => "Distributed",
+                'posisi' => $request['callsignTim']
             ]);
         }
 

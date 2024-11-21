@@ -238,7 +238,7 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group mb-1">
-                                        <span class="text-xs">Tanggal Distribusi Tool</span>
+                                        <span class="text-xs">Tanggal Distribusi ke Teknisi</span>
                                         <input class="form-control form-control-sm" type="date"
                                             value="{{ date('Y-m-d') }}" id="tglDistribusi" name="tglDistribusi"
                                             style="border-color:#9ca0a7;" readonly>
@@ -303,7 +303,7 @@
                                     <div class="row">
 
                                         <div class="col form-group mb-1 text-center">
-                                            <span class="text-xs">Foto Terakhir Pengecekan</span>
+                                            <span class="text-xs">Foto Serah Terima Teknisi</span>
                                             <img src="{{ asset('assets/img/default-150x150.png') }}"
                                                 id="showgambarDistribusi" alt="Card Image"
                                                 style="width:160px;height: 160px;" />
@@ -359,7 +359,7 @@
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Detail Pengembalian Tool</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Pengecekan Tool</h5>
                         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
                             aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -480,14 +480,14 @@
                             </div>
                             <div class="col">
                                 <div class="form-group mb-1">
-                                    <span class="text-xs">Tanggal Distribusi Tool</span>
+                                    <span class="text-xs">Tanggal Distribusi ke Teknisi</span>
                                     <input class="form-control form-control-sm" type="date"
                                         value="{{ date('Y-m-d') }}" id="tglDistribusiShow" name="tglDistribusiShow"
                                         style="border-color:#9ca0a7;" readonly>
                                 </div>
 
                                 <div class="form-group mb-1">
-                                    <span class="text-xs">Tanggal Pengembalian Tool</span>
+                                    <span class="text-xs">Tanggal Pengecekan Tool</span>
                                     <input class="form-control form-control-sm" type="date"
                                         value="{{ date('Y-m-d') }}" id="tglPenerimaanShow" name="tglPenerimaanShow"
                                         style="border-color:#9ca0a7;" readonly>
