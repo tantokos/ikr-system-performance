@@ -544,7 +544,7 @@
                                         data-bs-dismiss="modal">Kembali</button>
                                 </div>
 
-                                <div class="col-4">
+                                {{-- <div class="col-4">
                                     <div class="input-group mb-3">
                                         <button class="btn btn-sm btn-dark mb-0" type="button"
                                             id="persetujuanSpv">Persetujuan
@@ -553,7 +553,7 @@
                                             name="approveSpv" readonly>
                                     </div>
 
-                                </div>
+                                </div> --}}
                             </div>
                             {{-- </form> --}}
                         </div>

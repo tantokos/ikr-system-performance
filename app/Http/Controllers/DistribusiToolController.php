@@ -180,7 +180,7 @@ class DistribusiToolController extends Controller
             'teknisi3' => $request['teknisi3'],
             'nik_tim4' => $request['teknisi4Nk'],
             'teknisi4' => $request['teknisi4'],
-            'status_distribusi' => "Distribusi ke IKR",
+            'status_distribusi' => "Distributed",
             'keterangan' => $request['keterangan'],
             'foto_distribusi' => $file,
             'login_id' => $loginid,
