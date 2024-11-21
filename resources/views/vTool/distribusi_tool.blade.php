@@ -781,16 +781,16 @@
                     $('#showgambarDistribusiShow').attr('src',
                         `/storage/image-distribusi/${dtDis.foto_distribusi}`)
 
-                    if (dtDis.approve_spv === null) {
-                        // console.log("isi null")
-                        approve = "-"
-                        $(persetujuanSpv).prop('disabled', false);
-                    } else {
-                        approve = dtDis.approve_spv
-                        $(persetujuanSpv).prop('disabled', true);
-                    }
+                    // if (dtDis.approve_spv === null) {
+                    //     // console.log("isi null")
+                    //     approve = "-"
+                    //     $(persetujuanSpv).prop('disabled', false);
+                    // } else {
+                    //     approve = dtDis.approve_spv
+                    //     $(persetujuanSpv).prop('disabled', true);
+                    // }
 
-                    $('#approveSpv').val(approve);
+                    // $('#approveSpv').val(approve);
 
                     $('#showDistribusi').modal('show');
 
