@@ -4,6 +4,7 @@ use App\Http\Controllers\analisa_woController;
 use App\Http\Controllers\AssignTimController;
 use App\Http\Controllers\FtthDismantleController;
 use App\Http\Controllers\ImportDataMaterialController;
+use App\Http\Controllers\ImportIbMaterialController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
@@ -157,13 +158,17 @@ Route::get('/importDataFtthIbApk', [ImportDataWoIbApkController::class, 'index']
 Route::post('/importProsesDataIbApk', [ImportDataWoIbApkController::class,'importProsesDataWoIbApk'])->name('importProsesDataWoIbApk')->middleware('auth');
 Route::get('/getFtthIbApk', [ImportDataWoIbApkController::class, 'getFtthIbApk'])->name('getFtthIbApk')->middleware('auth');
 Route::post('/storeFtthIbApk', [ImportDataWoIbApkController::class, 'storeFtthIbApk'])->name('storeFtthIbApk')->middleware('auth');
-
+Route::get('/getMaterialFtthIb', [MonitFtthIB_Controller::class, 'getMaterialFtthIb'])->name('getMaterialFtthIb')->middleware('auth');
 
 Route::get('/importDataMaterial', [ImportDataMaterialController::class, 'index'])->name('importDataMaterial')->middleware('auth');
 Route::post('/importProsesMaterial', [ImportDataMaterialController::class, 'importProsesMaterial'])->name('importProsesMaterial')->middleware('auth');
 Route::get('/getDataImportMaterial', [ImportDataMaterialController::class, 'getDataImportMaterial'])->name('getDataImportMaterial')->middleware('auth');
 Route::post('/storeFtthMaterial', [ImportDataMaterialController::class, 'storeFtthMaterial'])->name('storeFtthMaterial')->middleware('auth');
 
+Route::get('/importIbMaterial', [ImportIbMaterialController::class,'index'])->name('importIbMaterial')->middleware('auth');
+Route::post('/importIbProsesMaterial', [ImportIbMaterialController::class,'importIbProsesMaterial'])->name('importIbProsesMaterial')->middleware('auth');
+Route::get('/getDataImportIbMaterial', [ImportIbMaterialController::class,'getDataImportIbMaterial'])->name('getDataImportIbMaterial')->middleware('auth');
+Route::post('/storeFtthIbMaterial', [ImportIbMaterialController::class, 'storeFtthIbMaterial'])->name('storeFtthIbMaterial')->middleware('auth');
 //Start Monitoring WO//
 
 Route::get('/rekapProgressWO', [RekapProgressWOController::class, 'index'])->name('rekapProgressWO')->middleware('auth');

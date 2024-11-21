@@ -160,7 +160,7 @@
                                             <span class="btn-inner--text">Import Data WO</span>
                                         </button>
                                     </a>
-                                    <a href="javascript:void(0);">
+                                    <a href="{{ route('importIbMaterial') }}">
                                         <button type="button"
                                             class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
                                             <span class="btn-inner--icon">
@@ -659,30 +659,6 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Cause Code</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="causeCode" name="causeCode"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Root Cause</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="rootCause" name="rootCause"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Action Taken</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="actionTaken" name="actionTaken"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                        <div class="col form-group mb-1">
                                                             <span class="text-xs">Penagihan</span>
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="penagihanShow"
@@ -691,7 +667,6 @@
                                                             </select>
                                                         </div>
                                                     </div>
-
                                                 </div>
 
                                                 <div class="form-group mb-1">
@@ -753,37 +728,6 @@
                                                                 <option value="19:30">19:30</option>
                                                                 <option value="20:00">20:00</option>
                                                             </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Alasan Pending</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="alasanPending" name="alasanPending"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">PIC Dispatch</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="picDispatch" name="picDispatch"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Alasan Cancel</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="alasanCancel" name="alasanCancel"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                        <div class="col form-group mb-1">
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -860,35 +804,6 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Cause Code Aplikasi</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="causeCodeAPK" name="causeCodeAPK"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Root Cause Aplikasi</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="rootCauseAPK" name="rootCauseAPK"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Action Taken Aplikasi</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="actionTakenAPK" name="actionTakenAPK"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkin Aplikasi</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 value="" id="checkinApkShow" name="checkinApk"
@@ -903,6 +818,40 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Alasan Cancel</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="alasanCancel" name="alasanCancel"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Reason Status</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="reasonStatus" name="reasonStatus"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Alasan Pending</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="alasanPending" name="alasanPending"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">PIC Dispatch</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="picDispatch" name="picDispatch"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>

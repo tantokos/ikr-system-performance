@@ -101,11 +101,21 @@ class MonitFtthIB_Controller extends Controller
                 // })
                 ->addColumn('action', function ($row) {
                     $btn = '
-                    <a href="javascript:void(0)" id="detail-assign" data-id="' . $row->id . '" class="btn btn-sm btn-primary detail-assign mb-0" >Detail</a>';
-                    // <a href="javascript:void(0)" id="detail-lead" data-id="' . $row->lead_call_id . "|" . $row->branch_id . "|" . $row->leader_id . '" class="btn btn-sm btn-primary detil-lead mb-0" >Edit</a>';
-                    //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
+                        <a href="javascript:void(0)"
+                        id="detail-assign"
+                        data-id="' . $row->id . '"
+                        class="btn btn-sm btn-primary detail-assign mb-0">
+                        Detail
+                        </a>
+                        <a href="' . route('getMaterialFtthIb') . '"
+                        id="ftth-ib-material"
+                        data-id="' . $row->id . '"
+                        class="btn btn-sm btn-secondary ftth-ib-material mb-0">
+                        Material
+                        </a>';
                     return $btn;
                 })
+
                 ->rawColumns(['action'])   //merender content column dalam bentuk html
                 ->escapeColumns()  //mencegah XSS Attack
                 ->toJson(); //merubah response dalam bentuk Json
@@ -130,6 +140,25 @@ class MonitFtthIB_Controller extends Controller
             'callsign_tims' => $callsign_tims,
             'callsign_leads' => $callsign_leads,
         ]);
+    }
+
+    public function getMaterialFtthIb(Request $request)
+    {
+        $assignId = $request->filAssignId;
+        $datas = DB::table('data_ftth_ib_oris as d')
+            ->where('d.id', $assignId)->first();
+
+        $wo_no = DB::table('data_ftth_ib_oris')->where('id', $assignId)->value('no_wo'); // contoh WO No
+        $ftth_ib_material = DB::table('ftth_ib_materials')
+            ->select(
+                'wo_no',
+                'installation_date',
+                'status_item'
+            )
+            ->where('wo_no', $wo_no)
+            ->get();
+
+        return $ftth_ib_material;
     }
 
 
