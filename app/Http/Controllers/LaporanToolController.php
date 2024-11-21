@@ -60,7 +60,6 @@ class LaporanToolController extends Controller
         return response()->json($datas);
     }
 
-
     public function getRawDistribusi(Request $request)
     {
 
