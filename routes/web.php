@@ -37,6 +37,7 @@ use App\Http\Controllers\ImportJadwalTim_controller;
 use App\Http\Controllers\ImportMaterialDismantleController;
 use App\Http\Controllers\JadwalTim_controller;
 use App\Http\Controllers\KembaliToolGA_Controller;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -283,6 +284,10 @@ Route::post('/simpanReschedule',[RescheduleWO_Controller::class, 'simpanReschedu
 
 //End Reschedule WO//
 
+
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});
 
 Route::get('/', function () {
     return redirect('/dashboard');
