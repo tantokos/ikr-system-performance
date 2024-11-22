@@ -1079,6 +1079,9 @@
             if (kategori == "Data Pengembalian") {
                 url = "{{ route('getDetailKembali') }}"
             }
+            if (kategori == "Data Pengecekan") {
+                url = "{{ route('getDetailCek') }}"
+            }
 
             $.ajax({
                 url: url,
