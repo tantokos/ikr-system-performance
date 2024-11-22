@@ -1126,6 +1126,7 @@
                                         <tr id="headStatusProgresWo">
                                             <th class="text-white text-sm font-weight-semibold">No</th>
                                             <th class="text-white text-sm font-weight-semibold">Status Item</th>
+                                            <th class="text-white text-sm font-weight-semibold">Item Code</th>
                                             <th class="text-white text-sm font-weight-semibold">Description</th>
                                             <th class="text-white text-sm font-weight-semibold">Qty</th>
                                             <th class="text-white text-sm font-weight-semibold">SN</th>
@@ -1517,6 +1518,7 @@
                                 <tr>
                                     <td>${index + 1}</td>
                                     <td>${item.status_item}</td>
+                                    <td>${item.item_code}</td>
                                     <td>${item.description}</td>
                                     <td>${item.qty}</td>
                                     <td>${item.sn ? item.sn : '-'}</td>

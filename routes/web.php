@@ -34,6 +34,7 @@ use App\Http\Controllers\RescheduleWO_Controller;
 use App\Http\Controllers\TimController;
 use App\Http\Controllers\ToolController;
 use App\Http\Controllers\ImportJadwalTim_controller;
+use App\Http\Controllers\ImportMaterialDismantleController;
 use App\Http\Controllers\JadwalTim_controller;
 use App\Http\Controllers\KembaliToolGA_Controller;
 
@@ -169,6 +170,12 @@ Route::get('/importIbMaterial', [ImportIbMaterialController::class,'index'])->na
 Route::post('/importIbProsesMaterial', [ImportIbMaterialController::class,'importIbProsesMaterial'])->name('importIbProsesMaterial')->middleware('auth');
 Route::get('/getDataImportIbMaterial', [ImportIbMaterialController::class,'getDataImportIbMaterial'])->name('getDataImportIbMaterial')->middleware('auth');
 Route::post('/storeFtthIbMaterial', [ImportIbMaterialController::class, 'storeFtthIbMaterial'])->name('storeFtthIbMaterial')->middleware('auth');
+
+Route::get('/importMaterialDismantle', [ImportMaterialDismantleController::class,'index'])->name('importMaterialDismantle')->middleware('auth');
+Route::post('/importDismantleProsesMaterial', [ImportMaterialDismantleController::class,'importDismantleProsesMaterial'])->name('importDismantleProsesMaterial')->middleware('auth');
+Route::get('/getDataImportMaterialDismantle', [ImportMaterialDismantleController::class,'getDataImportMaterialDismantle'])->name('getDataImportMaterialDismantle')->middleware('auth');
+Route::post('/storeDismantleMaterial', [ImportMaterialDismantleController::class, 'storeDismantleMaterial'])->name('storeDismantleMaterial')->middleware('auth');
+
 //Start Monitoring WO//
 
 Route::get('/rekapProgressWO', [RekapProgressWOController::class, 'index'])->name('rekapProgressWO')->middleware('auth');
@@ -183,6 +190,7 @@ Route::put('/updateFtthMt', [MonitFtthMT_Controller::class, 'update'])->name('up
 Route::get('/ftth-dismantle', [FtthDismantleController::class, 'index'])->name('ftth-dismantle')->middleware('auth');
 Route::get('/getDetailFtthDismantle', [FtthDismantleController::class, 'getDetailFtthDismantle'])->name('getDetailFtthDismantle')->middleware('auth');
 Route::get('/getFtthDismantle', [FtthDismantleController::class, 'getFtthDismantle'])->name('getFtthDismantle')->middleware('auth');
+Route::get('/getMaterialFtthDismantle', [FtthDismantleController::class,'getMaterialFtthDismantle'])->name('getMaterialFtthDismantle')->middleware('auth');
 
 Route::get('/importFtthDismantle', [ImportFtthDismantleController::class, 'index'])->name('importFtthDismantle')->middleware('auth');
 Route::post('/importProsesFtthDismantle', [ImportFtthDismantleController::class, 'importProsesFtthDismantle'])->name('importProsesFtthDismantle')->middleware('auth');
@@ -193,6 +201,8 @@ Route::get('/getDataMTOris', [MonitFtthMT_Controller::class, 'getDataMTOris'])->
 Route::get('/getDataIBOris', [MonitFtthIB_Controller::class, 'getDataIBOris'])->name('getDataIBOris')->middleware('auth');
 Route::get('/getDetailWOFtthMT', [MonitFtthMT_Controller::class, 'getDetailWOFtthMT'])->name('getDetailWOFtthMT')->middleware('auth');
 Route::get('/getDetailWOFtthIB', [MonitFtthIB_Controller::class, 'getDetailWOFtthIB'])->name('getDetailWOFtthIB')->middleware('auth');
+
+Route::get('/getMaterialFtthMt', [MonitFtthMT_Controller::class,'getMaterialFtthMt'])->name('getMaterialFtthMt')->middleware('auth');
 // Route::get('/getTabelAssignMT', [MonitFTTH_MTController::class, 'getTabelAssignMT'])->name('getTabelAssignMT')->middleware('auth');
 
 

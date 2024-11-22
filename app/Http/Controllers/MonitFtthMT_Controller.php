@@ -123,9 +123,18 @@ class MonitFtthMT_Controller extends Controller
                 // })
                 ->addColumn('action', function ($row) {
                     $btn = '
-                    <a href="javascript:void(0)" id="detail-assign" data-id="' . $row->id . '" class="btn btn-sm btn-primary detail-assign mb-0" >Detail</a>';
-                    // <a href="javascript:void(0)" id="detail-lead" data-id="' . $row->lead_call_id . "|" . $row->branch_id . "|" . $row->leader_id . '" class="btn btn-sm btn-primary detil-lead mb-0" >Edit</a>';
-                    //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
+                        <a href="javascript:void(0)"
+                        id="detail-assign"
+                        data-id="' . $row->id . '"
+                        class="btn btn-sm btn-primary detail-assign mb-0">
+                        Detail
+                        </a>
+                        <a href="javascript:void(0)"
+                        id="detail-material"
+                        data-id="' . $row->id . '"
+                        class="btn btn-sm btn-secondary detail-material mb-0">
+                        Material
+                        </a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])   //merender content column dalam bentuk html
@@ -241,6 +250,56 @@ class MonitFtthMT_Controller extends Controller
 
         // return response()->json(['data' => $detail_customer]);
         // return view('monitoringWo.detail-customer', compact('detail_customer'));
+    }
+
+    public function getMaterialFtthMt(Request $request)
+    {
+        try {
+            // Ambil assignId dari request
+            $assignId = $request->filAssignId;
+
+            // Ambil data dari tabel 'data_ftth_mt_oris' berdasarkan assignId
+            $datas = DB::table('data_ftth_mt_oris as d')->where('d.id', $assignId)->first();
+
+            // Jika tidak ditemukan, kembalikan respons error
+            if (!$datas) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data not found',
+                ], 404);
+            }
+
+            // Ambil nomor WO berdasarkan assignId
+            $wo_no = DB::table('data_ftth_mt_oris')->where('id', $assignId)->value('no_wo');
+
+            // Ambil data material berdasarkan nomor WO
+            $ftth_ib_material = DB::table('ftth_materials')
+                ->select(
+
+                    'status_item',
+                    'item_code',
+                    'description',
+                    'qty',
+                    'sn',
+                    'mac_address',
+                )
+                ->where('wo_no', $wo_no)
+                ->get();
+
+            // Kembalikan response dalam format JSON
+            return response()->json([
+                'success' => true,
+                'message' => 'Data retrieved successfully',
+                'data' => $ftth_ib_material,
+            ], 200);
+
+        } catch (\Exception $e) {
+            // Tangani error dan kembalikan respons JSON
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function update(Request $request)
