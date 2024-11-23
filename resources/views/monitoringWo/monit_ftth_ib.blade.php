@@ -225,6 +225,52 @@
             {{-- <x-app.footer /> --}}
         </div>
 
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl"> <!-- Tambahkan modal-xl -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Customer</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Gunakan table-responsive agar tabel bisa di-scroll -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="detailHistoryuWo">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">No WO</th>
+                                        <th scope="col">Cust Id</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Tanggal Ikr</th>
+                                        <th scope="col">Status Wo</th>
+                                        <th scope="col">Couse Code</th>
+                                        <th scope="col">Root Couse</th>
+                                        <th scope="col">Action Taken</th>
+                                        <th scope="col">Kode Fat</th>
+                                        <th scope="col">Branch</th>
+                                        <th scope="col">Cluster</th>
+                                        <th scope="col">Kotamadya</th>
+                                        <th scope="col">Callsign</th>
+                                        <th scope="col">Leader</th>
+                                        <th scope="col">Teknisi1</th>
+                                        <th scope="col">Teknisi2</th>
+                                        <th scope="col">Teknisi3</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {{-- Modal Show Detail Data Tool --}}
         <div class="modal fade" id="showAssignTim" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false"
@@ -240,7 +286,8 @@
                     </div>
                     <div class="modal-body">
                         {{-- <form action="{{ route('updateSignTim') }}" method="post" enctype="multipart/form-data"> --}}
-                        <form action="#" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('updateFtthIb') }}" method="post" enctype="multipart/form-data">
+                            @method('PUT')
                             @csrf
 
                             <div class="card-body px-1 py-1">
@@ -671,12 +718,6 @@
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Alasan Tidak Ganti Precon</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="remarkStatus" name="remarkStatus"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Kondisi Cuaca</span>
                                                             <select class="form-control form-control-sm"
@@ -1216,6 +1257,115 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
+<script>
+    function detailHistory(id) {
+        var _token = $('meta[name=csrf-token]').attr('content');
+        console.log(id); // Debugging ID yang dikirim
+
+            var data_assignTim = $('#detailHistoryuWo').DataTable({
+                // dom: 'Bftip',
+                layout: {
+                    topStart: {
+                        buttons: ['excel']
+                    },
+                },
+                paging: true,
+                orderClasses: false,
+                // fixedColumns: true,
+
+                fixedColumns: {
+                    leftColumns: 3,
+                    // rightColumns: 1
+                },
+                deferRender: true,
+                scrollCollapse: true,
+                scrollX: true,
+                pageLength: 10,
+                lengthChange: false,
+                bFilter: true,
+                destroy: true,
+                processing: true,
+                serverSide: false,
+                ajax: {
+                    url: "{{ route('getDetailCustId') }}",
+                    type: "get",
+                    dataType: "json",
+                    data: {
+                        cust_id: id,
+                        _token: _token
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_Row_Index',
+                        "className": "text-center",
+                        // orderable: false,
+                        searchable: false,
+                        "width": '10'
+                    },
+                    {
+                        data: 'no_wo',
+                        // width: '90'
+                    },
+                    {
+                        data: 'cust_id'
+                    },
+                    {
+                        data: 'type'
+                    },
+                    {
+                        data: 'tgl_ikr',
+                    },
+                    {
+                        data: 'status_wo'
+                    },
+                    {
+                        data: 'couse_code'
+                    },
+                    {
+                        data: 'root_couse'
+                    },
+                    {
+                        data: 'action_taken'
+                    },
+                    {
+                        data: 'kode_fat'
+                    },
+                    {
+                        data: 'branch'
+                    },
+                    {
+                        data: 'cluster'
+                    },
+                    {
+                        data: 'kotamadya'
+                    },
+                    {
+                        data: 'callsign'
+                    },
+                    {
+                        data: 'leader'
+                    },
+                    {
+                        data: 'teknisi1'
+                    },
+                    {
+                        data: 'teknisi2'
+                    },
+                    {
+                        data: 'teknisi3'
+                    },
+                    // {
+                    //     data: 'action',
+                    //     "className": "text-center",
+                    // },
+                ]
+            })
+            $('#exampleModal').modal('show'); // Tampilkan modal
+        }
+
+</script>
+
 <script type="text/javascript">
     let firstDate;
     let lastDate;
@@ -1330,7 +1480,11 @@
                         data: 'wo_date_apk'
                     },
                     {
-                        data: 'cust_id'
+                        data: 'cust_id',
+                        render: function (data, type, row) {
+                            return `<a href="javascript:void(0);" data-id="${data}" id="detail-history" onclick="detailHistory(${data})" class="text-primary">${data}</a>`;
+
+                        }
                     },
                     {
                         data: 'nama_cust'
@@ -1429,13 +1583,13 @@
                     // $('#custPhoneShow').val(dtDis.cust_phone)
 
                     // $('#custMobileShow').val(dtDis.cust_mobile);
-                    $('#custAddressShow').val(toTitleCase(dtDis.cust_address1));
-                    $('#areaShow').val(toTitleCase(dtDis.cluster));
+                    $('#custAddressShow').val(toTitleCase(dtDis.cust_address1 || "" ));
+                    $('#areaShow').val(toTitleCase(dtDis.cluster || "" ));
                     // $('#ikrDateApkShow').val(dtDis.ikr_date);
                     $('#timeApkShow').val(dtDis.time);
                     $('#fatCodeShow').val(dtDis.kode_fat);
                     $('#portFatShow').val(dtDis.port_fat);
-                    $('#remarksShow').val(toTitleCase(dtDis.type_maintenance));
+                    $('#remarksShow').val(toTitleCase(dtDis.type_maintenance || "" ));
 
                     $('#branchShow').val(dtDis.branch_id + '|' + dtDis.branch);
                     $('#tglProgressShow').val(dtDis.tgl_ikr);
@@ -1448,6 +1602,7 @@
 
                     $('#slotTimeLeaderStatusShow').val(dtDis.slot_time_leader);
                     $('#slotTimeAPKStatusShow').val(dtDis.slot_time_apk);
+                    $('#weatherShow').val(dtDis.weather);
 
                     $('#checkinApkShow').val(dtDis.checkin_apk);
                     $('#checkoutApkShow').val(dtDis.checkin_apk);

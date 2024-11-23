@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FtthDismantle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -126,11 +127,53 @@ class FtthDismantleController extends Controller
         $callsign_leads = DB::table('callsign_leads')->get();
 
 
+        $wo_no = DB::table('data_ftth_dismantle_oris')->where('id', $assignId)->value('no_wo'); // contoh WO No
+
+        // Mendapatkan data dari database seperti biasa
+        $ftth_material = DB::table('ftth_dismantle_materials')
+            ->select(
+                'wo_no',
+                'installation_date',
+                'status_item',
+                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%ONT%" THEN description END AS merk_ont_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%ONT%" THEN sn END AS sn_ont_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%ONT%" THEN mac_address END AS mac_ont_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%STB%" THEN description END AS stb_merk_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%PRECON%" THEN description END AS precon_out'),
+                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%STB%" THEN description END AS stb_merk_in'),
+                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%ONT%" THEN description END AS merk_ont_in'),
+                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%ONT%" THEN sn END AS sn_ont_in'),
+                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%ONT%" THEN mac_address END AS mac_ont_in')
+            )
+            ->where('wo_no', $wo_no)
+            ->get()
+            ->toArray(); // Konversi hasil query ke array
+
+        // Fungsi untuk menggabungkan data dari beberapa array menjadi satu array
+        function mergeFtthMaterials($materials) {
+            $result = [];
+
+            foreach ($materials as $material) {
+                foreach ($material as $key => $value) {
+                    // Jika key belum ada di $result atau nilainya masih null, isi dengan data baru
+                    if (!isset($result[$key]) || $result[$key] === null) {
+                        $result[$key] = $value;
+                    }
+                }
+            }
+
+            return $result;
+        }
+
+        // Gabungkan data ftth_material menjadi satu array
+        $mergedMaterial = mergeFtthMaterials($ftth_material);
+
         // Mengirimkan response JSON
         return response()->json([
             'data' => $datas,
             'callsign_tims' => $callsign_tims,
             'callsign_leads' => $callsign_leads,
+            'ftth_material' => $mergedMaterial
         ]);
 
     }
@@ -182,6 +225,93 @@ class FtthDismantleController extends Controller
                 'success' => false,
                 'message' => 'An error occurred: ' . $e->getMessage(),
             ], 500);
+        }
+    }
+
+    public function updateFtthDismantle(Request $request)
+    {
+        // dd($request->all());
+        $aksesId = Auth::user()->id;
+        $akses = Auth::user()->name;
+        $id = $request->detId;
+
+        $ftthDismantle = FtthDismantle::findOrFail($id);
+
+        $updateFtthDismantle = $ftthDismantle->update([
+            'type_wo' => $request['woTypeShow'],
+            'no_wo' => $request['noWoShow'],
+            'no_ticket' => $request['ticketNoShow'],
+            'cust_id' => $request['custIdShow'],
+            'nama_cust' => $request['custNameShow'],
+            'cust_address1' => $request['custAddressShow'],
+            'kode_fat' => $request['fatCodeShow'],
+            'cluster' => $request['cluster'],
+            'branch' => $request['branchShow'],
+            'visit_date' => $request['tglProgressShow'],
+            'slot_time_leader' => $request['slotTimeLeaderShow'],
+            'slot_time_apk' => $request['slotTimeAPKShow'],
+            'sesi' => $request['sesiShow'],
+            'leader' => $request['leaderShow'],
+            'teknisi1' => $request['teknisi1Show'],
+            'teknisi2' => $request['teknisi2Show'],
+            'teknisi3' => $request['teknisi3Show'],
+            'status_wo' => $request['statusWo'],
+            'tgl_jam_reschedule' => $request['tglReschedule'],
+            'weather' => $request['weatherShow'],
+            'checkin_apk' => $request['checkin_apk'],
+            'checkout_apk' => $request['checkout_apk'],
+            'status_apk' => $request['statusWoApk'],
+            'wo_date_apk' => $request['WoDateShow'],
+            'ont_merk_out' => $request['ont_merk_out'],
+            'ont_sn_out' => $request['snOntOut'],
+            'ont_merk_in' => $request['merkOntIn'],
+            'ont_mac_in' => $request['macOntIn'],
+            'router_sn_out' => $request['snRouterOut'],
+            'router_mac_out' => $request['macRouterOut'],
+            'router_merk_in' => $request['merkRouterIn'],
+            'router_sn_in' => $request['snRouterIn'],
+            'router_mac_in' => $request['macRouterIn'],
+            'stb_merk_out' => $request['merkStbOut'],
+            'stb_sn_out' => $request['snStbOut'],
+            'stb_mac_out' => $request['macStbOut'],
+            'stb_merk_in' => $request['merkStbIn'],
+            'stb_sn_in' => $request['snStbIn'],
+            'stb_mac_in' => $request['macStbIn'],
+            'precon_out' => $request['kabelPrecon'],
+            'leader_id' => $request['leaderidShow'],
+            'callsign_id' => $request['callsign_id'],
+            'alasan_pending' => $request['alasan_pending'],
+            'alasan_cancel' => $request['alasan_cancel'],
+            'login_id' => $aksesId,
+            'login' => $akses,
+        ]);
+
+        if ($updateFtthDismantle) {
+            return redirect()->route('ftth-dismantle')->with(['success' => 'Data tersimpan.']);
+        } else {
+            return redirect()->route('ftth-dismantle')->with(['error' => 'Gagal Simpan Data.']);
+        }
+    }
+
+    public function getDetailCustId(Request $request)
+    {
+
+        $detail_customer = DB::table('v_history_customers')
+        ->where('cust_id', $request->cust_id)
+        ->get();
+
+        if ($request->ajax()) {
+
+            return DataTables::of($detail_customer)
+                ->addIndexColumn() //memberikan penomoran
+                ->addColumn('action', function ($row) {
+                    $btn = '
+                    <a href="javascript:void(0)" id="detail-assign" data-id="' . $row->cust_id . '" class="btn btn-sm btn-primary detail-assign mb-0" >Detail</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])   //merender content column dalam bentuk html
+                ->escapeColumns()  //mencegah XSS Attack
+                ->toJson(); //merubah response dalam bentuk Json
         }
     }
 }

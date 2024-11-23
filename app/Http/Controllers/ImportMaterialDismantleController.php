@@ -118,6 +118,7 @@ class ImportMaterialDismantleController extends Controller
                     }
 
                     // Commit transaksi jika tidak ada kesalahan
+                    DB::table('import_ftth_dismantle_materials')->delete();
                     DB::commit();
                     return redirect()->route('importFtthDismantle')->with('success', 'Data berhasil disimpan.');
                 } catch (\Exception $e) {

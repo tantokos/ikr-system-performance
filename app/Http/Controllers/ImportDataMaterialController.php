@@ -150,6 +150,7 @@ class ImportDataMaterialController extends Controller
                     }
 
                     // Commit transaksi jika tidak ada kesalahan
+                    DB::table('import_ftth_material')->delete();
                     DB::commit();
                     return redirect()->route('importDataMaterial')->with('success', 'Data berhasil disimpan.');
                 } catch (\Exception $e) {
