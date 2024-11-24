@@ -627,7 +627,7 @@
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">Slot Time Leader</span>
                                                                 <select class="form-control form-control-sm"
-                                                                    type="text" id="slotTimeLeaderStatusShow"
+                                                                    type="text" id="slotTimeLeaderStatusShow" disabled
                                                                     name="slotTimeLeaderStatusShow"
                                                                     style="border-color:#9ca0a7;">
                                                                     <option value="">Pilih Slot Time</option>
@@ -676,30 +676,6 @@
 
                                                     <div class="form-group mb-1">
                                                         <div class="row">
-                                                            <div class="col form-group mb-1">
-                                                                <span class="text-xs">Cause Code</span>
-                                                                <input class="form-control form-control-sm" type="text"
-                                                                    id="causeCode" name="causeCode"
-                                                                    style="border-color:#9ca0a7;">
-                                                            </div>
-
-                                                            <div class="col form-group mb-1">
-                                                                <span class="text-xs">Root Cause</span>
-                                                                <input class="form-control form-control-sm" type="text"
-                                                                    id="rootCause" name="rootCause"
-                                                                    style="border-color:#9ca0a7;">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group mb-1">
-                                                        <div class="row">
-                                                            <div class="col form-group mb-1">
-                                                                <span class="text-xs">Action Taken</span>
-                                                                <input class="form-control form-control-sm" type="text"
-                                                                    id="actionTaken" name="actionTaken"
-                                                                    style="border-color:#9ca0a7;">
-                                                            </div>
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">Penagihan</span>
                                                                 <select class="form-control form-control-sm"
@@ -786,7 +762,7 @@
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">Slot Time Aplikasi</span>
                                                                 <select class="form-control form-control-sm"
-                                                                    type="text" id="slotTimeAPKStatusShow"
+                                                                    type="text" id="slotTimeAPKStatusShow" disabled
                                                                     name="slotTimeAPKStatusShow"
                                                                     style="border-color:#9ca0a7;">
                                                                     <option value="">Pilih Slot Time</option>
@@ -837,16 +813,16 @@
                                                         <div class="row">
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">Checkin Aplikasi</span>
-                                                                <input class="form-control form-control-sm" type="date"
-                                                                    value="{{ date('Y-m-d') }}" id="tglCheckinApk"
+                                                                <input class="form-control form-control-sm" type="text"
+                                                                    value="" id="tglCheckinApk"
                                                                     name="tglCheckinApk"
                                                                     style="border-color:#9ca0a7;">
                                                             </div>
 
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">Checkout Aplikasi</span>
-                                                                <input class="form-control form-control-sm" type="date"
-                                                                    value="{{ date('Y-m-d') }}" id="tglCheckoutApk"
+                                                                <input class="form-control form-control-sm" type="text"
+                                                                    value="" id="tglCheckoutApk"
                                                                     name="checkout_apk"
                                                                     style="border-color:#9ca0a7;">
                                                             </div>
@@ -1520,32 +1496,12 @@
                 },
                 success: function(dtDis) {
 
-                    function floatToTime(float) {
-                        // Konversi float menjadi total menit
-                        let totalMinutes = Math.floor(float * 60 * 24);
-                        let hours = Math.floor(totalMinutes / 60);
-                        let minutes = totalMinutes % 60;
-
-                        // Format supaya jam dan menit memiliki dua digit
-                        hours = hours < 10 ? '0' + hours : hours;
-                        minutes = minutes < 10 ? '0' + minutes : minutes;
-
-                        return `${hours}:${minutes}`;
-                    }
-
-                    // console.log(dtDis);
-                    let checkinDate = new Date(dtDis.data.checkin_apk).toISOString().slice(0, 10);
-                    let checkoutDate = new Date(dtDis.data.checkout_apk).toISOString().slice(0, 10);
-                    let slotTimeLeader = floatToTime(dtDis.data.slot_time_leader);
-                    // let timeValue = dtDis.data.slot_time_apk.replace('.', ':').slice(0, 5);
-                    console.log(slotTimeLeader);
-
                     $('#detId').val(dtDis.data.id)
                     $('#noWoShow').val(dtDis.data.no_wo)
                     $('#statusWo').val(toTitleCase(dtDis.status_wo || ""));
                     $('#ticketNoShow').val(dtDis.data.no_ticket)
-                    $('#woTypeShow').val(toTitleCase(dtDis.data.type_wo))
-                    $('#jenisWoShow').val(dtDis.data.type_wo)
+                    $('#woTypeShow').val(toTitleCase(dtDis.data.type_wo || "" ))
+                    $('#jenisWoShow').val(toTitleCase(dtDis.data.type_wo || "" ))
                     $('#WoDateShow').val(dtDis.data.wo_date)
                     $('#custIdShow').val(dtDis.data.cust_id)
                     $('#custNameShow').val(toTitleCase(dtDis.data.nama_cust))
@@ -1644,11 +1600,6 @@
                         selectLead.val(dtDis.leadcall_id);
                     }
 
-                    // Isi data detail lainnya ke dalam form
-                    let checkinDate = new Date(dtDis.checkin_apk).toISOString().slice(0, 10);
-                    let checkoutDate = (dtDis.checkout_apk === "0000-00-00 00:00:00")
-                        ? "" : new Date(dtDis.checkout_apk).toISOString().slice(0, 10);
-
                     $('#detId').val(dtDis.id);
                     $('#id_material').val(dtDis.id_material);
                     $('#noWoShow').val(dtDis.no_wo);
@@ -1676,8 +1627,8 @@
                     $('#rootCause').val(dtDis.root_couse);
                     $('#actionTaken').val(dtDis.action_taken);
                     $('#penagihanShow').val(dtDis.penagihan);
-                    $('#tglCheckinApk').val(checkinDate);
-                    $('#tglCheckoutApk').val(checkoutDate);
+                    $('#tglCheckinApk').val(dtDis.checkin_apk);
+                    $('#tglCheckoutApk').val(dtDis.checkout_apk);
                     $('#teknisi1Show').val(toTitleCase(dtDis.teknisi1 || ""));
                     $('#teknisi2Show').val(toTitleCase(dtDis.teknisi2 || ""));
                     $('#teknisi3Show').val(toTitleCase(dtDis.teknisi3 || ""));

@@ -430,7 +430,7 @@
                                                             <span class="text-xs">WO Type</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 id="woTypeShow" name="woTypeShow"
-                                                                style="border-color:#9ca0a7;">
+                                                                style="border-color:#9ca0a7;" readonly>
                                                         </div>
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Type</span>

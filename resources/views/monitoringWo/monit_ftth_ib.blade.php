@@ -364,7 +364,7 @@
                                                             <span class="text-xs">WO Type</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 id="woTypeShow" name="woTypeShow"
-                                                                style="border-color:#9ca0a7;">
+                                                                style="border-color:#9ca0a7;" readonly>
                                                         </div>
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Type</span>
@@ -655,7 +655,7 @@
                                                             <span class="text-xs">Slot Time Leader</span>
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="slotTimeLeaderStatusShow"
-                                                                name="slotTimeLeaderStatusShow"
+                                                                name="slotTimeLeaderStatusShow" disabled
                                                                 style="border-color:#9ca0a7;">
                                                                 <option value="">Pilih Slot Time</option>
                                                                 <option value="09:00">09:00</option>
@@ -795,7 +795,7 @@
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Slot Time Aplikasi</span>
                                                             <select class="form-control form-control-sm"
-                                                                type="text" id="slotTimeAPKStatusShow"
+                                                                type="text" id="slotTimeAPKStatusShow" disabled
                                                                 name="slotTimeAPKStatusShow"
                                                                 style="border-color:#9ca0a7;">
                                                                 <option value="">Pilih Slot Time</option>
@@ -1575,8 +1575,8 @@
                     $('#detId').val(dtDis.id)
                     $('#noWoShow').val(dtDis.no_wo);
                     $('#ticketNoShow').val(dtDis.no_ticket)
-                    $('#woTypeShow').val(toTitleCase(dtDis.type_wo))
-                    $('#jenisWoShow').val(dtDis.jenis_wo)
+                    $('#woTypeShow').val(toTitleCase(dtDis.type_wo || ""));
+                    $('#jenisWoShow').val(dtDis.type_wo)
                     $('#WoDateShow').val(dtDis.wo_date_apk)
                     $('#custIdShow').val(dtDis.cust_id)
                     $('#custNameShow').val(toTitleCase(dtDis.nama_cust))
@@ -1605,7 +1605,7 @@
                     $('#weatherShow').val(dtDis.weather);
 
                     $('#checkinApkShow').val(dtDis.checkin_apk);
-                    $('#checkoutApkShow').val(dtDis.checkin_apk);
+                    $('#checkoutApkShow').val(dtDis.checkout_apk);
 
 
                     $('#leaderShow').val(dtDis.leader);

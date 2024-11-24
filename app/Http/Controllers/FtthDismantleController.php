@@ -238,7 +238,7 @@ class FtthDismantleController extends Controller
         $ftthDismantle = FtthDismantle::findOrFail($id);
 
         $updateFtthDismantle = $ftthDismantle->update([
-            'type_wo' => $request['woTypeShow'],
+            'type_wo' => $request['jenisWoShow'],
             'no_wo' => $request['noWoShow'],
             'no_ticket' => $request['ticketNoShow'],
             'cust_id' => $request['custIdShow'],

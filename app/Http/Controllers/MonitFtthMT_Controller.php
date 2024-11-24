@@ -304,7 +304,6 @@ class MonitFtthMT_Controller extends Controller
 
     public function update(Request $request)
     {
-        // dd($request->all());
         $aksesId = Auth::user()->id;
         $akses = Auth::user()->name;
         $id = $request->detId;
@@ -313,7 +312,7 @@ class MonitFtthMT_Controller extends Controller
 
         $updateFtthMt = $ftthMt->update([
             // 'pic_monitoring' => $request[''],
-            'type_wo' => $request['woTypeShow'],
+            'type_wo' => $request['jenisWoShow'],
             'no_wo' => $request['noWoShow'],
             'no_ticket' => $request['ticketNoShow'],
             'cust_id' => $request['custIdShow'],
