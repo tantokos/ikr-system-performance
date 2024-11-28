@@ -119,6 +119,7 @@ class ImportIbMaterialController extends Controller
                     }
 
                     // Commit transaksi jika tidak ada kesalahan
+                    DB::table('import_ftth_ib_materials')->delete();
                     DB::commit();
                     return redirect()->route('importIbMaterial')->with('success', 'Data berhasil disimpan.');
                 } catch (\Exception $e) {

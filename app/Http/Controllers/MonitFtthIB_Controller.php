@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\DataAssignTim;
 use App\Models\Employee;
+use App\Models\FtthIb;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
@@ -234,6 +235,93 @@ class MonitFtthIB_Controller extends Controller
         }
     }
 
+    public function updateFtthIb(Request $request)
+    {
+        // dd($request->all());
+        $aksesId = Auth::user()->id;
+        $akses = Auth::user()->name;
+        $id = $request->detId;
+
+        $ftthIb = FtthIb::findOrFail($id);
+
+        $updateFtthIb = $ftthIb->update([
+            'type_wo' => $request['jenisWoShow'],
+            'no_wo' => $request['noWoShow'],
+            'no_ticket' => $request['ticketNoShow'],
+            'cust_id' => $request['custIdShow'],
+            'nama_cust' => $request['custNameShow'],
+            'cust_address1' => $request['custAddressShow'],
+            'kode_fat' => $request['fatCodeShow'],
+            'cluster' => $request['cluster'],
+            'branch' => $request['branchShow'],
+            'tgl_ikr' => $request['tglProgressShow'],
+            'slot_time_leader' => $request['slotTimeLeaderShow'],
+            'slot_time_apk' => $request['slotTimeAPKShow'],
+            'sesi' => $request['sesiShow'],
+            'leader' => $request['leaderShow'],
+            'teknisi1' => $request['teknisi1Show'],
+            'teknisi2' => $request['teknisi2Show'],
+            'teknisi3' => $request['teknisi3Show'],
+            'status_wo' => $request['statusWo'],
+            'tgl_jam_reschedule' => $request['tglReschedule'],
+            'weather' => $request['weatherShow'],
+            'checkin_apk' => $request['checkin_apk'],
+            'checkout_apk' => $request['checkout_apk'],
+            'status_apk' => $request['statusWoApk'],
+            'wo_date_apk' => $request['WoDateShow'],
+            'ont_merk_out' => $request['ont_merk_out'],
+            'ont_sn_out' => $request['snOntOut'],
+            'ont_merk_in' => $request['merkOntIn'],
+            'ont_mac_in' => $request['macOntIn'],
+            'router_sn_out' => $request['snRouterOut'],
+            'router_mac_out' => $request['macRouterOut'],
+            'router_merk_in' => $request['merkRouterIn'],
+            'router_sn_in' => $request['snRouterIn'],
+            'router_mac_in' => $request['macRouterIn'],
+            'stb_merk_out' => $request['merkStbOut'],
+            'stb_sn_out' => $request['snStbOut'],
+            'stb_mac_out' => $request['macStbOut'],
+            'stb_merk_in' => $request['merkStbIn'],
+            'stb_sn_in' => $request['snStbIn'],
+            'stb_mac_in' => $request['macStbIn'],
+            'precon_out' => $request['kabelPrecon'],
+            'leader_id' => $request['leaderidShow'],
+            'callsign_id' => $request['callsign_id'],
+            'alasan_pending' => $request['alasan_pending'],
+            'alasan_cancel' => $request['alasan_cancel'],
+            'login_id' => $aksesId,
+            'login' => $akses,
+        ]);
+
+        if ($updateFtthIb) {
+            return redirect()->route('monitFtthIB')->with(['success' => 'Data tersimpan.']);
+        } else {
+            return redirect()->route('monitFtthIB')->with(['error' => 'Gagal Simpan Data.']);
+        }
+    }
+
+    public function getDetailCustId(Request $request)
+    {
+
+        $detail_customer = DB::table('v_history_customers')
+        ->where('cust_id', $request->cust_id)
+        ->get();
+
+        if ($request->ajax()) {
+
+            return DataTables::of($detail_customer)
+                ->addIndexColumn() //memberikan penomoran
+                ->addColumn('action', function ($row) {
+                    $btn = '
+                    <a href="javascript:void(0)" id="detail-assign" data-id="' . $row->cust_id . '" class="btn btn-sm btn-primary detail-assign mb-0" >Detail</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])   //merender content column dalam bentuk html
+                ->escapeColumns()  //mencegah XSS Attack
+                ->toJson(); //merubah response dalam bentuk Json
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -262,14 +350,6 @@ class MonitFtthIB_Controller extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
     {
         //
     }
