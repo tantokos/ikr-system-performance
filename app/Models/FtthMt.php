@@ -42,6 +42,7 @@ class FtthMt extends Model
         'penagihan',
         'alasan_tag_alarm',
         'tgl_jam_reschedule',
+        'tgl_reschedule',
         'tgl_jam_fat_on',
         'action_taken',
         'panjang_kabel',
