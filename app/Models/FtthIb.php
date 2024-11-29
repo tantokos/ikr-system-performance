@@ -46,6 +46,7 @@ class FtthIb extends Model
         'teknisi3',
         'status_wo',
         'reason_status',
+        'remarks_teknisi',
         'penagihan',
         'tgl_jam_reschedule',
         'tgl_reschedule',

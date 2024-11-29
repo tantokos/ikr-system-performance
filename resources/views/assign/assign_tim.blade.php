@@ -1,5 +1,18 @@
 <x-app-layout>
 
+    <style>
+        #emptyDataLottie {
+            display: none; /* Awalnya tersembunyi */
+            display: flex; /* Aktifkan Flexbox */
+            justify-content: center; /* Pusatkan secara horizontal */
+            align-items: center; /* Pusatkan secara vertikal */
+            flex-direction: column; /* Elemen disusun secara vertikal */
+            min-height: 300px; /* Tinggi minimum agar terlihat */
+            text-align: center; /* Pusatkan teks */
+        }
+
+    </style>
+
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
         <div class="container-fluid py-4 px-5">
@@ -280,6 +293,18 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div id="emptyDataLottie" style="display: flex; justify-content: center; align-items: center; text-align: center;">
+                                <lottie-player
+                                    src="{{ asset('assets/animate/empty.json') }}"
+                                    background="transparent"
+                                    speed="1"
+                                    style="width: 180px; height: 180px;"
+                                    loop
+                                    autoplay>
+                                </lottie-player>
+                                <p class="text-muted">Tidak ada data untuk ditampilkan</p>
+                            </div>
+
                             <div class="border-top py-3 px-3 d-flex align-items-center">
 
                             </div>
@@ -1038,6 +1063,7 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
 <script type="text/javascript">
 
@@ -1072,7 +1098,6 @@
 
         function data_assignTim() {
             $('#tabelAssignTim').DataTable({
-                // dom: 'Bftip',
                 layout: {
                     topStart: {
                         buttons: ['excel']
@@ -1080,10 +1105,8 @@
                 },
                 paging: true,
                 orderClasses: false,
-                // fixedColumns: true,
                 fixedColumns: {
                     leftColumns: 6,
-                    // rightColumns: 1
                 },
                 deferRender: true,
                 scrollCollapse: true,
@@ -1093,7 +1116,7 @@
                 bFilter: true,
                 destroy: true,
                 processing: true,
-                serverSide: false,
+                serverSide: true, // Ubah ke serverSide jika memang menggunakan serverside
                 ajax: {
                     url: "{{ route('getTabelAssignTim') }}",
                     type: "get",
@@ -1113,76 +1136,46 @@
                         _token: _token
                     }
                 },
-                columns: [{
-                        data: 'DT_RowIndex',
-                        name: 'DT_Row_Index',
-                        "className": "text-center",
-                        // orderable: false,
-                        searchable: false,
-                        "width": '10'
-                    },
-                    {
-                        data: 'tgl_ikr',
-                        // width: '90'
-                    },
-                    {
-                        data: 'no_wo_apk'
-                    },
-                    {
-                        data: 'wo_date_apk'
-                    },
-                    {
-                        data: 'cust_id_apk'
-                    },
-                    {
-                        data: 'name_cust_apk'
-                    },
-                    {
-                        data: 'wo_type_apk'
-                    },
-                    {
-                        data: 'fat_code_apk'
-                    },
-                    {
-                        data: 'branch'
-                    },
-                    {
-                        data: 'area_cluster_apk'
-                    },
-                    {
-                        data: 'slot_time'
-                    },
-                    {
-                        data: 'leadcall'
-                    },
-                    {
-                        data: 'leader'
-                    },
-                    {
-                        data: 'callsign'
-                    },
-                    {
-                        data: 'teknisi1'
-                    },
-                    {
-                        data: 'teknisi2'
-                    },
-                    {
-                        data: 'teknisi3'
-                    },
-                    {
-                        data: 'teknisi4'
-                    },
-                    {
-                        data: 'login',
-                    },
-                    {
-                        data: 'action',
-                        "className": "text-center",
-                    },
-                ]
-            })
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_Row_Index', "className": "text-center", searchable: false, "width": '10' },
+                    { data: 'tgl_ikr' },
+                    { data: 'no_wo_apk' },
+                    { data: 'wo_date_apk' },
+                    { data: 'cust_id_apk' },
+                    { data: 'name_cust_apk' },
+                    { data: 'wo_type_apk' },
+                    { data: 'fat_code_apk' },
+                    { data: 'branch' },
+                    { data: 'area_cluster_apk' },
+                    { data: 'slot_time' },
+                    { data: 'leadcall' },
+                    { data: 'leader' },
+                    { data: 'callsign' },
+                    { data: 'teknisi1' },
+                    { data: 'teknisi2' },
+                    { data: 'teknisi3' },
+                    { data: 'teknisi4' },
+                    { data: 'login' },
+                    { data: 'action', "className": "text-center" },
+                ],
+                drawCallback: function(settings) {
+                    let api = this.api();
+                    let dataCount = api.rows({ page: 'current' }).count();
+
+                    if (dataCount === 0) {
+                        // Jika data kosong
+                        $('#tabelAssignTim').parent().hide(); // Sembunyikan tabel beserta wrapping div
+                        $('#emptyDataLottie').show(); // Tampilkan animasi
+                    } else {
+                        // Jika ada data
+                        $('#tabelAssignTim').parent().show(); // Tampilkan tabel beserta wrapping div
+                        $('#emptyDataLottie').hide(); // Sembunyikan animasi
+                    }
+                }
+            });
         }
+
+
 
         function showDetail_tool(tool) {
             $('#showTim').DataTable({

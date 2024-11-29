@@ -701,6 +701,21 @@
                                                             <option value="Cancel">Cancel</option>
                                                         </select>
                                                     </div>
+                                                    <div class="col form-group mb-1">
+                                                        <span class="text-xs">Reason Status</span>
+                                                        <input type="text" class="form-control form-control-sm" id="reasonStatus" name="reasonStatus">
+                                                    </div>
+                                                    {{-- <div class="form-group mb-1">
+                                                        <div class="row">
+                                                            <div class="col form-group mb-1">
+                                                                <div class="form-group mb-1">
+                                                                    <span class="text-xs">Reason Status</span>
+                                                                    <textarea class="form-control form-control-sm" type="text" id="reasonStatus" name="reasonStatus"
+                                                                        style="border-color:#9ca0a7;"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div> --}}
                                                 </div>
 
                                                 <div class="col form-group mb-1">
@@ -851,21 +866,22 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkin Aplikasi</span>
-                                                            <input class="form-control form-control-sm"
-                                                                value="{{ date('Y-m-d') }}" id="tglCheckinApk"
-                                                                name="tglCheckinApk"
+                                                            <input class="form-control form-control-sm" type="datetime-local"
+                                                                value="{{ date('Y-m-d\TH:i') }}" id="checkinApkShow"
+                                                                name="checkinApkShow"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkout Aplikasi</span>
-                                                            <input class="form-control form-control-sm"
-                                                                value="{{ date('Y-m-d') }}" id="tglCheckoutApk"
-                                                                name="checkout_apk"
+                                                            <input class="form-control form-control-sm" type="datetime-local"
+                                                                value="{{ date('Y-m-d\TH:i') }}" id="checkoutApkShow"
+                                                                name="checkoutApkShow"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
                                                     </div>
                                                 </div>
+
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
@@ -890,18 +906,6 @@
                                                             <input class="form-control form-control-sm" type="text"
                                                                 id="picDispatch" name="picDispatch"
                                                                 style="border-color:#9ca0a7;">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <div class="form-group mb-1">
-                                                                <span class="text-xs">Reason Status</span>
-                                                                <textarea class="form-control form-control-sm" type="text" id="reasonStatus" name="reasonStatus"
-                                                                    style="border-color:#9ca0a7;"></textarea>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1625,6 +1629,7 @@
                     $('#tglReschedule').val(dtDis.tgl_reschedule);
 
                     $('#reasonStatus').val(dtDis.reason_status);
+                    $('#remarksTeknisi').val(dtDis.remarks_teknisi);
                     $('#alasanCancel').val(dtDis.alasan_cancel);
                     $('#alasanPending').val(dtDis.alasan_pending);
 

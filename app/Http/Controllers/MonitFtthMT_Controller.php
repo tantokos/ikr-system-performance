@@ -355,7 +355,7 @@ class MonitFtthMT_Controller extends Controller
             // 'end_ikr_wa' => $request[''],
             // 'validasi_start' => $request[''],
             // 'validasi_end' => $request[''],
-            'checkin_apk' => $request['checkin_apk'],
+            'checkin_apk' => $request['tglCheckinApk'],
             'checkout_apk' => $request['checkout_apk'],
             'status_apk' => $request['statusWoApk'],
             // 'keterangan' => $request[''],

@@ -753,10 +753,10 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="causeCode"
                                                                 name="causeCode" style="border-color:#9ca0a7;">
-                                                                <option value="Migrasi Dw To Precon">FO Segment Drop Wire Cable</option>
-                                                                <option value="Replace Precon To Precon">Fast Connector</option>
-                                                                <option value="No Customer">FO Segment Precon Cable</option>
-                                                                <option value="No Customer">ONT</option>
+                                                                <option value="FO Segment Drop Wire Cable">FO Segment Drop Wire Cable</option>
+                                                                <option value="Fast Connector">Fast Connector</option>
+                                                                <option value="FO Segment Precon Cable">FO Segment Precon Cable</option>
+                                                                <option value="ONT">ONT</option>
                                                             </select>
                                                         </div>
 
@@ -765,11 +765,11 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="rootCause"
                                                                 name="rootCause" style="border-color:#9ca0a7;">
-                                                                <option value="Migrasi Dw To Precon">Fast Connector Not Proper Plug in at Port FAT</option>
-                                                                <option value="Replace Precon To Precon">Migration Drop Wire to Precon</option>
-                                                                <option value="No Customer">Vandalism</option>
-                                                                <option value="No Customer">Miss SSID WIFI</option>
-                                                                <option value="No Customer">Bad Core</option>
+                                                                <option value="Fast Connector Not Proper Plug in at Port FAT">Fast Connector Not Proper Plug in at Port FAT</option>
+                                                                <option value="Migration Drop Wire to Precon">Migration Drop Wire to Precon</option>
+                                                                <option value="Vandalism">Vandalism</option>
+                                                                <option value="Miss SSID WIFI">Miss SSID WIFI</option>
+                                                                <option value="Bad Core">Bad Core</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -925,7 +925,7 @@
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkin Aplikasi</span>
                                                             <input class="form-control form-control-sm" type="datetime-local"
-                                                                value="{{ date('Y-m-d') }}" id="tglCheckinApk"
+                                                                value="{{ date('Y-m-d\TH:i') }}" id="tglCheckinApk"
                                                                 name="tglCheckinApk"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
@@ -933,7 +933,7 @@
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkout Aplikasi</span>
                                                             <input class="form-control form-control-sm" type="datetime-local"
-                                                                value="{{ date('Y-m-d') }}" id="tglCheckoutApk"
+                                                                value="{{ date('Y-m-d\TH:i') }}" id="tglCheckoutApk"
                                                                 name="checkout_apk"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>

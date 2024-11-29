@@ -1,5 +1,38 @@
 <x-app-layout>
 
+    <style>
+        /* Overlay untuk loader */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Loader animasi */
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: #000;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
+
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
         <div class="container-fluid py-4 px-5">
@@ -24,34 +57,24 @@
                     {{-- <form> --}}
                     <div class="row">
 
+                        <div id="pageLoader" class="loader-overlay" style="display: none;">
+                            <div class="loader"></div>
+                        </div>
+
                         <div class="col-md-6">
-                            <form action="{{ route('importProsesDataWo') }}" method="post"
-                                enctype="multipart/form-data">
+                            <form action="{{ route('importProsesDataWo') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="file" class="form-control form-control-sm" id="fileDataWO"
-                                        name="fileDataWO" required>
+                                    <input type="file" class="form-control form-control-sm" id="fileDataWO" name="fileDataWO" required>
                                 </div>
                                 <div class="form-group mb-1">
-                                    <button type="submit" class="btn btn-dark btn-sm w-100" onclick="cek()">
-                                        <span class="spinner-border spinner-border-sm" style="display: none"
-                                            role="status" aria-hidden="true"></span>
-                                        Import Data Work Order</button>
-                                    {{-- </div> --}}
-                                    {{-- <div class="form-group"> --}}
-                                    {{-- <label class="col-form-label form-control-sm">Information of Data Import :</label> --}}
-                                    {{-- <div class="col-form-label form-control-sm"> --}}
-                                    {{-- @if (isset($croscekData)) --}}
-                                    {{-- @if ($croscekData != '-') --}}
-                                    {{-- <span class="error">{{ $croscekData }}</span> --}}
-                                    {{-- @else --}}
-                                    {{-- <span class="error">-</span> --}}
-                                    {{-- @endif --}}
-                                    {{-- @endif --}}
-                                    {{-- </div> --}}
+                                    <button type="submit" id="importButton" class="btn btn-dark btn-sm w-100">
+                                        Import Data Work Order
+                                    </button>
                                 </div>
                             </form>
                         </div>
+
 
                         <div class="col-md-6">
                             <form action="{{ route('simpanImportWo') }}" method="post" enctype="multipart/form-data">
@@ -1132,4 +1155,20 @@
             }
         })
     })
+</script>
+<script>
+    $(document).ready(function () {
+        $('#importButton').on('click', function (e) {
+            // Cek apakah file sudah dipilih
+            if ($('#fileDataWO').val() === '') {
+                alert('Silakan pilih file terlebih dahulu!');
+                e.preventDefault(); // Mencegah form dikirim
+                return false;
+            }
+
+            // Tampilkan loader di tengah halaman
+            $('#pageLoader').fadeIn();
+        });
+    });
+
 </script>
