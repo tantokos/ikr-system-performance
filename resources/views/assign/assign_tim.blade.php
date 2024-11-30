@@ -1,18 +1,5 @@
 <x-app-layout>
 
-    <style>
-        #emptyDataLottie {
-            display: none; /* Awalnya tersembunyi */
-            display: flex; /* Aktifkan Flexbox */
-            justify-content: center; /* Pusatkan secara horizontal */
-            align-items: center; /* Pusatkan secara vertikal */
-            flex-direction: column; /* Elemen disusun secara vertikal */
-            min-height: 300px; /* Tinggi minimum agar terlihat */
-            text-align: center; /* Pusatkan teks */
-        }
-
-    </style>
-
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
         <div class="container-fluid py-4 px-5">

@@ -24,6 +24,10 @@
                     {{-- <form> --}}
                     <div class="row">
 
+                        <div id="pageLoader" class="loader-overlay" style="display: none;">
+                            <div class="loader"></div>
+                        </div>
+
                         <div class="col-md-6">
                             <form action="{{ route('importProsesDataWoApk') }}" method="post"
                                 enctype="multipart/form-data">
@@ -33,7 +37,7 @@
                                         name="fileDataWO" required>
                                 </div>
                                 <div class="form-group mb-1">
-                                    <button type="submit" class="btn btn-dark btn-sm w-100" onclick="cek()">
+                                    <button type="submit" id="importButton" class="btn btn-dark btn-sm w-100" onclick="cek()">
                                         <span class="spinner-border spinner-border-sm" style="display: none"
                                             role="status" aria-hidden="true"></span>
                                         Import Data Work Order</button>
@@ -1048,4 +1052,20 @@
             }
         })
     })
+</script>
+<script>
+    $(document).ready(function () {
+        $('#importButton').on('click', function (e) {
+            // Cek apakah file sudah dipilih
+            if ($('#fileDataWO').val() === '') {
+                alert('Silakan pilih file terlebih dahulu!');
+                e.preventDefault(); // Mencegah form dikirim
+                return false;
+            }
+
+            // Tampilkan loader di tengah halaman
+            $('#pageLoader').fadeIn();
+        });
+    });
+
 </script>
