@@ -38,7 +38,11 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
     {
         if(!array_filter($row)) {
             return null;
-         }
+        }
+
+        if (empty($row['wo_no'])) {
+            return null;
+        }
 
         $tm = intval($row['time']);
 
