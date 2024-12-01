@@ -52,7 +52,6 @@ class FtthDismantle extends Model
         'keterangan',
         'ikr_progress_date',
         'ikr_report_date',
-        'tgl_ikr',
         'reconsile_date',
         'weather',
         'leader',

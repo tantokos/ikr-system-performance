@@ -245,7 +245,7 @@ class MonitFtthIB_Controller extends Controller
         $ftthIb = FtthIb::findOrFail($id);
 
         $updateFtthIb = $ftthIb->update([
-            'type_wo' => $request['jenisWoShow'],
+            'type_wo' => $request['woTypeShow'],
             'no_wo' => $request['noWoShow'],
             'no_ticket' => $request['ticketNoShow'],
             'cust_id' => $request['custIdShow'],

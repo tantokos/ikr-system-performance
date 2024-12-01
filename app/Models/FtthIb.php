@@ -15,6 +15,7 @@ class FtthIb extends Model
         'pic_monitoring',
         'site',
         'type_wo',
+        'wo_type_apk',
         'no_wo',
         'no_ticket',
         'cust_id',

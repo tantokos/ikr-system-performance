@@ -866,16 +866,16 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkin Aplikasi</span>
-                                                            <input class="form-control form-control-sm" type="datetime-local"
-                                                                value="{{ date('Y-m-d\TH:i') }}" id="checkinApkShow"
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                value="" id="checkinApkShow"
                                                                 name="checkinApkShow"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkout Aplikasi</span>
-                                                            <input class="form-control form-control-sm" type="datetime-local"
-                                                                value="{{ date('Y-m-d\TH:i') }}" id="checkoutApkShow"
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                value="" id="checkoutApkShow"
                                                                 name="checkoutApkShow"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
@@ -1594,8 +1594,8 @@
                     $('#detId').val(dtDis.id)
                     $('#noWoShow').val(dtDis.no_wo);
                     $('#ticketNoShow').val(dtDis.no_ticket)
-                    $('#woTypeShow').val(toTitleCase(dtDis.type_wo || ""));
-                    $('#jenisWoShow').val(dtDis.type_wo)
+                    $('#woTypeShow').val(toTitleCase(dtDis.wo_type_apk || ""));
+                    $('#jenisWoShow').val(dtDis.type_wo);
                     $('#WoDateShow').val(dtDis.wo_date_apk)
                     $('#custIdShow').val(dtDis.cust_id)
                     $('#custNameShow').val(toTitleCase(dtDis.nama_cust))

@@ -1738,7 +1738,7 @@
                     $('#noWoShow').val(dtDis.no_wo);
                     $('#statusWo').val(toTitleCase(dtDis.status_wo || ""));
                     $('#ticketNoShow').val(dtDis.no_ticket);
-                    $('#woTypeShow').val(toTitleCase(dtDis.type_wo || ""));
+                    $('#woTypeShow').val(toTitleCase(dtDis.wo_type_apk || ""));
                     $('#jenisWoShow').val(dtDis.type_wo);
                     $('#WoDateShow').val(dtDis.wo_date_apk);
                     $('#custIdShow').val(dtDis.cust_id);
