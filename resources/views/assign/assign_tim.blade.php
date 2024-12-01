@@ -324,13 +324,13 @@
                                     <div class="row">
                                         <div class="col form-group mb-1">
                                             <span class="text-xs">WO No</span>
-                                            <input class="form-control form-control-sm" type="text" id="noWo"
-                                                name="noWo" style="border-color:#9ca0a7;">
+                                            <input class="form-control form-control-sm" value="{{ old('noWo') }}" type="text" id="noWo"
+                                                name="noWo" style="border-color:#9ca0a7;" required>
                                         </div>
 
                                         <div class="col-4 form-group mb-1">
                                             <span class="text-xs">Ticket No</span>
-                                            <input class="form-control form-control-sm" type="text" id="ticketNo"
+                                            <input class="form-control form-control-sm" type="text" value="{{ old('noWo') }}" id="ticketNo"
                                                 name="ticketNo" style="border-color:#9ca0a7;">
                                         </div>
                                     </div>
@@ -340,12 +340,12 @@
                                             <div class="col form-group mb-1">
                                                 <span class="text-xs">WO Type</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="woType" name="woType" style="border-color:#9ca0a7;">
+                                                    id="woType" name="woType" value="{{ old('woType') }}" style="border-color:#9ca0a7;">
                                             </div>
                                             <div class="col form-group mb-1">
                                                 <span class="text-xs">Type</span>
                                                 <select class="form-control form-control-sm" type="text"
-                                                    id="jenisWo" name="jenisWo" style="border-color:#9ca0a7;">
+                                                    id="jenisWo" name="jenisWo" style="border-color:#9ca0a7;" value="{{ old('jenisWo') }}" required>
                                                     <option value="FTTH New Installation">FTTH New Installation
                                                     </option>
                                                     <option value="FTTH Maintenance">FTTH Maintenance</option>
@@ -362,7 +362,7 @@
                                     <div class="form-group mb-1">
                                         <span class="text-xs">WO Date</span>
                                         <input class="form-control form-control-sm" type="text" id="WoDate"
-                                            name="WoDate" style="border-color:#9ca0a7;">
+                                            name="WoDate" style="border-color:#9ca0a7;" required value="{{ old('WoDate') }}">
                                     </div>
 
 
@@ -375,44 +375,29 @@
                                             <div class="col-4 form-group mb-1">
                                                 <span class="text-xs">Cust Id</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="custId" name="custId" style="border-color:#9ca0a7;">
+                                                    id="custId" name="custId" style="border-color:#9ca0a7;" required value="{{ old('custId') }}">
                                             </div>
 
                                             <div class="col form-group mb-1">
                                                 <span class="text-xs">Cust Name</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="custName" name="custName" style="border-color:#9ca0a7;">
+                                                    id="custName" name="custName" style="border-color:#9ca0a7;" required value="{{ old('custName') }}">
                                             </div>
                                         </div>
                                     </div>
-
-                                    {{-- <div class="form-group mb-1">
-                                        <div class="row">
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Cust Phone</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="custPhone" name="custPhone" style="border-color:#9ca0a7;">
-                                            </div>
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Cust Mobile</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="custMobile" name="custMobile" style="border-color:#9ca0a7;">
-                                            </div>
-                                        </div>
-                                    </div> --}}
 
                                     <div class="form-group mb-1">
                                         <div class="row">
                                             <div class="col form-group mb-1">
                                                 <span class="text-xs">Cust Phone</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="custPhone" name="custPhone" style="border-color:#9ca0a7;">
+                                                    id="custPhone" name="custPhone" style="border-color:#9ca0a7;" required value="{{ old('custPhone') }}">
                                             </div>
 
                                             <div class="col form-group mb-1">
                                                 <span class="text-xs">Cust Mobile</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="custMobile" name="custMobile" style="border-color:#9ca0a7;">
+                                                    id="custMobile" name="custMobile" style="border-color:#9ca0a7;" required value="{{ old('custMobile') }}">
                                             </div>
                                         </div>
                                     </div>
@@ -420,27 +405,56 @@
                                     <div class="form-group mb-1">
                                         <span class="text-xs">Address</span>
                                         <textarea class="form-control form-control-sm" type="text" id="custAddress" name="custAddress"
-                                            style="border-color:#9ca0a7;"></textarea>
+                                            style="border-color:#9ca0a7;" required></textarea>
                                     </div>
                                     <div class="form-group mb-1">
                                         <span class="text-xs">Area/Cluster</span>
                                         <input type="text" class="form-control form-control-sm" type="text"
-                                            id="area" name="area" style="border-color:#9ca0a7;">
+                                            id="area" name="area" style="border-color:#9ca0a7;" required value="{{ old('area') }}">
                                     </div>
 
                                     <div class="form-group mb-1">
                                         <div class="row">
                                             <div class="col form-group mb-1">
                                                 <span class="text-xs">IKR Date APK</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="ikrDateApk" name="ikrDateApk" style="border-color:#9ca0a7;">
+                                                <input class="form-control form-control-sm" type="date"
+                                                    id="ikrDateApk" name="ikrDateApk" style="border-color:#9ca0a7;" required value="{{ old('ikrDateApk') }}">
                                             </div>
 
                                             <div class="col form-group mb-1">
                                                 <span class="text-xs">Time APK</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="timeApk" name="timeApk" style="border-color:#9ca0a7;">
+                                                <select class="form-control form-control-sm"
+                                                        id="timeApk"
+                                                        name="timeApk"
+                                                        style="border-color:#9ca0a7;"
+                                                        placeholder="Isi Callsign Tim" required>
+                                                    <option value="">Pilih Time APK</option>
+                                                    <option value="09:00" {{ old('timeApk') == '09:00' ? 'selected' : '' }}>09:00</option>
+                                                    <option value="09:30" {{ old('timeApk') == '09:30' ? 'selected' : '' }}>09:30</option>
+                                                    <option value="10:00" {{ old('timeApk') == '10:00' ? 'selected' : '' }}>10:00</option>
+                                                    <option value="10:30" {{ old('timeApk') == '10:30' ? 'selected' : '' }}>10:30</option>
+                                                    <option value="11:00" {{ old('timeApk') == '11:00' ? 'selected' : '' }}>11:00</option>
+                                                    <option value="11:30" {{ old('timeApk') == '11:30' ? 'selected' : '' }}>11:30</option>
+                                                    <option value="12:00" {{ old('timeApk') == '12:00' ? 'selected' : '' }}>12:00</option>
+                                                    <option value="12:30" {{ old('timeApk') == '12:30' ? 'selected' : '' }}>12:30</option>
+                                                    <option value="13:00" {{ old('timeApk') == '13:00' ? 'selected' : '' }}>13:00</option>
+                                                    <option value="13:30" {{ old('timeApk') == '13:30' ? 'selected' : '' }}>13:30</option>
+                                                    <option value="14:00" {{ old('timeApk') == '14:00' ? 'selected' : '' }}>14:00</option>
+                                                    <option value="14:30" {{ old('timeApk') == '14:30' ? 'selected' : '' }}>14:30</option>
+                                                    <option value="15:00" {{ old('timeApk') == '15:00' ? 'selected' : '' }}>15:00</option>
+                                                    <option value="15:30" {{ old('timeApk') == '15:30' ? 'selected' : '' }}>15:30</option>
+                                                    <option value="16:00" {{ old('timeApk') == '16:00' ? 'selected' : '' }}>16:00</option>
+                                                    <option value="16:30" {{ old('timeApk') == '16:30' ? 'selected' : '' }}>16:30</option>
+                                                    <option value="17:00" {{ old('timeApk') == '17:00' ? 'selected' : '' }}>17:00</option>
+                                                    <option value="17:30" {{ old('timeApk') == '17:30' ? 'selected' : '' }}>17:30</option>
+                                                    <option value="18:00" {{ old('timeApk') == '18:00' ? 'selected' : '' }}>18:00</option>
+                                                    <option value="18:30" {{ old('timeApk') == '18:30' ? 'selected' : '' }}>18:30</option>
+                                                    <option value="19:00" {{ old('timeApk') == '19:00' ? 'selected' : '' }}>19:00</option>
+                                                    <option value="19:30" {{ old('timeApk') == '19:30' ? 'selected' : '' }}>19:30</option>
+                                                    <option value="20:00" {{ old('timeApk') == '20:00' ? 'selected' : '' }}>20:00</option>
+                                                </select>
                                             </div>
+
                                         </div>
                                     </div>
 
@@ -449,12 +463,12 @@
                                             <div class="col form-group mb-1">
                                                 <span class="text-xs">FAT Code</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="fatCode" name="fatCode" style="border-color:#9ca0a7;">
+                                                    id="fatCode" name="fatCode" style="border-color:#9ca0a7;" required value="{{ old('fatCode') }}">
                                             </div>
                                             <div class="col-4 form-group mb-1">
                                                 <span class="text-xs">Port FAT</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="portFat" name="portFat" style="border-color:#9ca0a7;">
+                                                    id="portFat" name="portFat" style="border-color:#9ca0a7;" required value="{{ old('portFat') }}">
                                             </div>
                                         </div>
                                     </div>
@@ -489,13 +503,13 @@
                                                 <span class="text-xs">Tanggal Progress</span>
                                                 <input class="form-control form-control-sm" type="date"
                                                     value="{{ date('Y-m-d') }}" id="tglProgress" name="tglProgress"
-                                                    style="border-color:#9ca0a7;">
+                                                    style="border-color:#9ca0a7;" value="{{ old('tglProgress') }}">
                                             </div>
 
                                             <div class="col form-group mb-1">
                                                 <span class="text-xs">Sesi</span>
                                                 <select class="form-control form-control-sm" type="text"
-                                                    id="sesiShow" name="sesiShow" style="border-color:#9ca0a7;"
+                                                    id="sesiShowAdd" name="sesiShowAdd" style="border-color:#9ca0a7;"
                                                     placeholder="Isi Callsign Tim">
                                                     <option value="Regular">Regular</option>
                                                     <option value="Batch 1">Batch 1</option>
@@ -544,7 +558,7 @@
                                                 <span class="text-xs">Slot Time</span>
                                                 <select class="form-control form-control-sm" type="text"
                                                     id="slotTime" name="slotTime" style="border-color:#9ca0a7;"
-                                                    placeholder="Isi Callsign Tim">
+                                                    placeholder="Isi Callsign Tim" required>
                                                     <option value="">Pilih Slot Time</option>
                                                     <option value="09:00">09:00</option>
                                                     <option value="09:30">09:30</option>
@@ -576,7 +590,7 @@
                                                 <span class="text-xs">Callsign Tim</span>
                                                 <select class="form-control form-control-sm" id="callsignTimid"
                                                     name="callsignTimid" style="border-color:#9ca0a7;"
-                                                    placeholder="Isi Callsign Tim">
+                                                    placeholder="Isi Callsign Tim" required>
                                                     <option value="">Pilih Callsign Tim</option>
                                                 </select>
                                                 <input type="hidden" id="callsignTim" name="callsignTim">
@@ -586,7 +600,7 @@
                                         <div class="form-group mb-1">
                                             <span class="text-xs">Teknisi 1</span>
                                             <select class="form-control form-control-sm" id="teknisi1"
-                                                name="teknisi1" style="border-color:#9ca0a7;">
+                                                name="teknisi1" style="border-color:#9ca0a7;" required>
                                                 <option value="">Teknisi 1</option>
                                             </select>
                                         </div>
@@ -594,7 +608,7 @@
                                         <div class="form-group mb-1">
                                             <span class="text-xs">Teknisi 2</span>
                                             <select class="form-control form-control-sm" id="teknisi2"
-                                                name="teknisi2" style="border-color:#9ca0a7;">
+                                                name="teknisi2" style="border-color:#9ca0a7;" required>
                                                 <option value="">Teknisi 2</option>
                                             </select>
                                         </div>
@@ -731,21 +745,6 @@
                                         </div>
                                     </div>
 
-                                    {{-- <div class="form-group mb-1">
-                                        <div class="row">
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Cust Phone</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="custPhone" name="custPhone" style="border-color:#9ca0a7;">
-                                            </div>
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Cust Mobile</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="custMobile" name="custMobile" style="border-color:#9ca0a7;">
-                                            </div>
-                                        </div>
-                                    </div> --}}
-
                                     <div class="form-group mb-1">
                                         <div class="row">
                                             <div class="col form-group mb-1">
@@ -832,7 +831,7 @@
                                             <div class="col form-group mb-1">
                                                 <span class="text-xs">Sesi</span>
                                                 <select class="form-control form-control-sm" type="text"
-                                                    id="sesiShowAdd" name="sesiShowAdd" style="border-color:#9ca0a7;"
+                                                    id="sesiShow" name="sesiShow" style="border-color:#9ca0a7;"
                                                     placeholder="Isi Callsign Tim">
                                                     <option value="Regular">Regular</option>
                                                     <option value="Batch 1">Batch 1</option>
@@ -1464,7 +1463,7 @@
                     $('#timeApkShow').val(dtDis.data.time_apk);
                     $('#fatCodeShow').val(dtDis.data.fat_code_apk);
                     $('#portFatShow').val(dtDis.data.fat_port_apk);
-                    $('#remarksShow').val(toTitleCase(dtDis.data.remarks_apk));
+                    $('#remarksShow').val(toTitleCase(dtDis.data.remarks_apk || ""));
 
                     $('#branchShow').val(dtDis.data.branch_id + '|' + dtDis.data.branch);
                     $('#tglProgressShow').val(dtDis.data.tgl_ikr);
