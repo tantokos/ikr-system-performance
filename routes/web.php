@@ -74,6 +74,8 @@ Route::post('/simpankaryawan', [karyawanController::class, 'simpankaryawan'])->n
 Route::get('/detailKaryawan/{id}', [karyawanController::class, 'detailKaryawan'])->name('detailKaryawan')->middleware('auth');
 Route::post('/updateKaryawan', [karyawanController::class, 'updateKaryawan'])->name('updateKaryawan')->middleware('auth');
 
+Route::get('/kelengkapanKaryawan', [karyawanController::class, 'kelengkapanKaryawan'])->name('kelengkapanKaryawan')->middleware('auth');
+
 //end Karyawan //
 
 // Tim & Callsign //
@@ -214,11 +216,20 @@ Route::post('/saveValidasi', [MonitFotoFtthMT_Controller::class, 'saveValidasi']
 
 //Start Tools//
 Route::get('/dataTool', [ToolController::class, 'index'])->name('dataTool')->middleware('auth');
+Route::get('/getRekapTool', [ToolController::class, 'getRekapTool'])->name('getRekapTool')->middleware('auth');
 Route::get('/getDataTool', [ToolController::class, 'getDataTool'])->name('getDataTool')->middleware('auth');
 Route::get('/showDetailTool', [ToolController::class, 'showDetailTool'])->name('showDetailTool')->middleware('auth');
 Route::get('/getDataShowTool', [ToolController::class, 'getDataShowTool'])->name('getDataShowTool')->middleware('auth');
 Route::get('/getRiwayatTool', [ToolController::class, 'getRiwayatTool'])->name('getRiwayatTool')->middleware('auth');
 Route::post('/simpanTool', [ToolController::class, 'simpanTool'])->name('simpanTool')->middleware('auth');
+Route::post('/updateTool', [ToolController::class, 'updateTool'])->name('updateTool')->middleware('auth');
+
+Route::post('/simpanApproval', [ToolController::class, 'simpanApproval'])->name('simpanApproval')->middleware('auth');
+Route::get('/getRiwayatApprove', [ToolController::class, 'getRiwayatApprove'])->name('getRiwayatApprove')->middleware('auth');
+
+Route::get('/getCallsignBranch', [ToolController::class, 'getCallsignBranch'])->name('getCallsignBranch')->middleware('auth');
+Route::get('/getDetailRekap_click', [ToolController::class, 'getDetailRekap_click'])->name('getDetailRekap_click')->middleware('auth');
+
 
 Route::get('/distribusiTool', [DistribusiToolController::class, 'index'])->name('distribusiTool')->middleware('auth');
 Route::get('/getDataDistribusi', [DistribusiToolController::class, 'getDataDistribusi'])->name('getDataDistribusi')->middleware('auth');
@@ -241,6 +252,7 @@ Route::post('/simpanPengembalian', [KembaliToolController::class, 'simpanPengemb
 
 Route::get('/dataKembaliToolGA', [KembaliToolGA_Controller::class, 'index'])->name('dataKembaliToolGA')->middleware('auth');
 Route::get('/getDataKembaliGA', [KembaliToolGA_Controller::class, 'getDataKembaliGA'])->name('getDataKembaliGA')->middleware('auth');
+Route::get('/getDetailKembaliGA', [KembaliToolGA_Controller::class, 'getDetailKembaliGA'])->name('getDetailKembaliGA')->middleware('auth');
 Route::get('/getRawTool', [KembaliToolGA_Controller::class, 'getRawTool'])->name('getRawTool')->middleware('auth');
 Route::post('/simpanPengembalianGA', [KembaliToolGA_Controller::class, 'simpanPengembalianGA'])->name('simpanPengembalianGA')->middleware('auth');
 

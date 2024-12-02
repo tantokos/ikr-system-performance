@@ -13,6 +13,8 @@ use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 
+use function PHPUnit\Framework\isNull;
+
 class karyawanController extends Controller
 {
     /**
@@ -22,7 +24,10 @@ class karyawanController extends Controller
     {
         $area = DB::table('branches')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
 
-        return view('karyawan.data_Karyawan', ['area' => $area]);
+        $posisi = DB::table('data_posisi')->get();
+
+
+        return view('karyawan.data_Karyawan', ['area' => $area, 'posisi' => $posisi]);
     }
 
     public function getDataKaryawan(Request $request)
@@ -151,8 +156,16 @@ class karyawanController extends Controller
             ->first();
 
         $area = Branch::all();
-
-        $join = Carbon::parse(substr($karyawan->nik_karyawan, 0, 4) . "-" . substr($karyawan->nik_karyawan, 4, 2))->diff(Carbon::now());
+        // dd($karyawan->tgl_gabung);
+        // $join = Carbon::parse(substr($karyawan->nik_karyawan, 0, 4) . "-" . substr($karyawan->nik_karyawan, 4, 2))->diff(Carbon::now());
+        
+        if(is_null($karyawan->tgl_gabung)) {
+            $join = Carbon::parse(Carbon::now())->diff(Carbon::now());
+        }else {
+            $join = Carbon::parse($karyawan->tgl_gabung)->diff(Carbon::now());
+            
+        }
+        
         return view('karyawan.detail_Karyawan', ['karyawan' => $karyawan, 'area' => $area, 'join' => $join]);
     }
 
@@ -171,6 +184,7 @@ class karyawanController extends Controller
             File::delete(public_path('storage/image-kry/' . $karyawan->foto_karyawan));
 
             $karyawan->update([
+                'nik_karyawan' => $request->nik,
                 'nama_karyawan' => $request->namaKaryawan,
                 'alamat' => $request->alamat,
                 'tempat_lahir' => $request->tmptLahir,
@@ -224,6 +238,7 @@ class karyawanController extends Controller
             $file = 'foto-blank.jpg';
 
             $karyawan->update([
+                'nik_karyawan' => $request->nik,
                 'nama_karyawan' => $request->namaKaryawan,
                 'alamat' => $request->alamat,
                 'tempat_lahir' => $request->tmptLahir,
@@ -276,6 +291,11 @@ class karyawanController extends Controller
         }
 
         return redirect()->route('dataKaryawan')->with(['success' => 'Data sudah tersimpan.']);
+    }
+
+    public function kelengkapanKaryawan(Request $request)
+    {
+        return view('karyawan.kelengkapan_karyawan');
     }
 
     /**

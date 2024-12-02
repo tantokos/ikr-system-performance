@@ -43,10 +43,94 @@
                                                 </path>
                                             </svg>
                                         </span>
-                                        <span class="btn-inner--text">Tambah Data</span>
+                                        <span class="btn-inner--text">Tambah Karyawan</span>
                                     </button>
+
+                                    {{-- <button type="button"
+                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"
+                                        data-bs-toggle="modal" data-bs-target="#tambahKelengkapan">
+                                        <span class="btn-inner--icon">
+                                            <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
+                                                <path
+                                                    d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
+                                                </path>
+                                            </svg>
+                                        </span>
+                                        <span class="btn-inner--text">+ Kelengkapan Karyawan</span>
+                                    </button> --}}
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <div class="card-body px-2 py-2">
+
+                            <div class="table-responsive p-0">
+                                <table class="table table-striped table-bordered align-items-center mb-0"
+                                    id="tabelSummaryKaryawan" style="font-size: 12px">
+                                    <thead class="bg-gray-100">
+                                        <tr id="headSumKaryawan">
+                                            <th class="text-xs font-weight-semibold">#</th>
+                                            <th class="text-center text-xs font-weight-semibold">Area</th>
+                                            <th class="text-center text-xs font-weight-semibold">Departemen</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bodySumKaryawan">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="border-top py-3 px-3 d-flex align-items-center">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border shadow-xs mb-4">
+                        <div class="card-header border-bottom pb-0">
+                            <div class="d-sm-flex align-items-center">
+                                <div>
+                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleMonthly">List Data Karyawan</span></h6>
+                                    {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
                                 </div>
 
+                                <div class="ms-auto d-flex">
+                                    {{-- <button type="button"
+                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"
+                                        data-bs-toggle="modal" data-bs-target="#tambahData">
+                                        <span class="btn-inner--icon">
+                                            <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
+                                                <path
+                                                    d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
+                                                </path>
+                                            </svg>
+                                        </span>
+                                        <span class="btn-inner--text">Tambah Karyawan</span>
+                                    </button> --}}
+
+                                    {{-- <button type="button"
+                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"
+                                        data-bs-toggle="modal" data-bs-target="#tambahKelengkapan">
+                                        <span class="btn-inner--icon">
+                                            <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
+                                                <path
+                                                    d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
+                                                </path>
+                                            </svg>
+                                        </span>
+                                        <span class="btn-inner--text">+ Kelengkapan Karyawan</span>
+                                    </button> --}}
+                                </div>
+                                
                             </div>
                         </div>
 
@@ -625,6 +709,206 @@
         </div>
         {{-- End Modal Tambah Data --}}
 
+        {{-- Modal Tambah Kelengkapan --}}
+        <div class="modal fade" id="tambahKelengkapan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">>
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Data Tool</h5>
+                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="#" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group mb-1">
+                                                {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                                <input class="form-control form-control-sm" type="hidden"
+                                                    id="namaToolShowId" name="namaToolShowId" readonly>
+
+                                                <span class="text-xs">Nama Tool</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="namaToolShow" name="namaToolShow"
+                                                    style="border-color:#9ca0a7;" readonly>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Merk</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="merkShow" name="merkShow" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Satuan</span>
+                                                <select class="form-control form-control-sm" id="satuanShow"
+                                                    name="satuanShow" style="border-color:#9ca0a7;" disabled>
+                                                    <option value="">Pilih Satuan</option>
+                                                    <option value="Unit">Unit</option>
+                                                    <option value="Pcs">Pcs</option>
+                                                    <option value="Set">Set</option>
+
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                                <span class="text-xs">Spesifikasi</span>
+                                                <textarea class="form-control form-control-sm" id="spesifikasiShow" name="spesifikasiShow"
+                                                    style="border-color:#9ca0a7;" readonly></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Tanggal Penerimaan Tool</span>
+                                                <input class="form-control form-control-sm" type="date"
+                                                    value="{{ date('Y-m-d') }}" id="tglPenerimaanShow"
+                                                    name="tglPenerimaanShow" style="border-color:#9ca0a7;" readonly>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Kondisi</span>
+                                                <select class="form-control form-control-sm" id="kondisiShow"
+                                                    name="kondisiShow" style="border-color:#9ca0a7;" disabled>
+                                                    <option value="">Pilih Kondisi</option>
+                                                    <option value="Baik">Baik</option>
+                                                    <option value="Rusak">Rusak</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Kode Aset</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="kodeAsetShow" name="kodeAsetShow"
+                                                    style="border-color:#9ca0a7;" readonly>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Kode GA</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="kodeGAShow" name="kodeGAShow" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Nik Penerima Tool</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="nikpenerimaShow" name="nikpenerimaShow" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Nama Penerima</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="namapenerimaShow" name="namapenerimaShow" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                            <div class="row form-group mb-1">
+                                                <div class="col">
+                                                <span class="text-xs">Departemen</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="departemenShow" name="departemenShow" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                                </div>
+
+                                                <div class="col">
+                                                    <span class="text-xs">Posisi</span>
+                                                    <input class="form-control form-control-sm" type="text"
+                                                        id="posisiShow" name="posisiShow" style="border-color:#9ca0a7;"
+                                                        readonly>
+                                                    </div>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Branch</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="namaBranchShow" name="namaBranchShow" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col">
+                                            <span class="text-xs">Foto Tool</span>
+                                            <div class="form-group mb-1 text-center">
+
+                                                <img src="{{ asset('assets/img/default-150x150.png') }}"
+                                                    id="showgambarShow" alt="Card Image"
+                                                    style="width:200px;height: 200px;" />
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <input class="form-control form-control-sm" id="fotoToolShow"
+                                                    name="fotoToolShow" type="file" style="border-color:#9ca0a7;"
+                                                    disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <p>Riwayat Tool</p>
+                            </div>
+
+                            <div class="row">
+                                <div class="table-responsive p-0">
+                                    <table class="table table-striped table-bordered align-items-center mb-0"
+                                        id="tabelRiwayatTool" style="font-size: 12px">
+                                        <thead class="bg-gray-100">
+                                            <tr id="headShowTool">
+                                                <th class="text-xs font-weight-semibold">#</th>
+                                                <th class="text-center text-xs font-weight-semibold">Tanggal</th>
+                                                <th class="text-center text-xs font-weight-semibold">Status</th>
+                                                <th class="text-center text-xs font-weight-semibold">Callsign Tim</th>
+                                                <th class="text-center text-xs font-weight-semibold">Leader</th>
+                                                <th class="text-center text-xs font-weight-semibold">Teknisi 1</th>
+                                                <th class="text-center text-xs font-weight-semibold">Teknisi 2</th>
+                                                <th class="text-center text-xs font-weight-semibold">Teknisi 3</th>
+                                                <th class="text-center text-xs font-weight-semibold">Teknisi 4</th>
+                                                <th class="text-center text-xs font-weight-semibold">Kondisi</th>
+                                                <th class="text-center text-xs font-weight-semibold">#</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bodyShowTool">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row text-center mb-1">
+                                <div class="col ">
+                                    {{-- <button type="submit" class="btn btn-sm btn-dark align-items-center showSimpan"
+                                        id="showSimpan">Simpan Data</button> --}}
+                                    <button type="button" value="close"
+                                        class="btn btn-sm btn-dark align-items-center"
+                                        data-bs-dismiss="modal">Kembali</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    {{-- <div class="modal-footer"> --}}
+                    {{-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> --}}
+                    {{-- <button type="button" class="btn btn-dark">Save changes</button> --}}
+                    {{-- </div> --}}
+                </div>
+            </div>
+        </div>
+        {{-- End Modal Tambah Kelengkapan --}}
+
         {{-- <script>
             $('#simpanKaryawan').click(function(e) {
                 e.prevenDefault();
@@ -730,6 +1014,12 @@
         var lastDate;
         akses = $('#akses').val();
         data_absen()
+
+        var sum = {!! $posisi !!};
+
+        console.log(sum)
+
+    
 
 
 

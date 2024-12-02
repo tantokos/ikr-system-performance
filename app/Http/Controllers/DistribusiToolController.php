@@ -133,6 +133,7 @@ class DistribusiToolController extends Controller
     public function getSelectTool(Request $request)
     {
         $tool = ToolIkr::where('status_distribusi', 'Not Distributed')->where('kondisi', 'Baik')
+            ->where('posisi','Supervisor')->where('approve1','Approved')->where('approve2','Approved')
             ->select('id', 'nama_barang', 'merk_barang', 'satuan', 'spesifikasi', 'tgl_pengadaan', 'kondisi', 'kode_aset', 'kode_ga', 'foto_barang')
             ->orderBy('nama_barang')->get();
 

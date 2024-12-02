@@ -41,7 +41,7 @@ class KembaliToolGA_Controller extends Controller
                 ->addIndexColumn() //memberikan penomoran
                 ->addColumn('action', function ($row) {
                     $btn = '
-                    <a href="javascript:void(0)" id="detail-kembali" data-id="' . $row->id . '" class="btn btn-sm btn-primary detail-kembali mb-0" >Detail</a>';
+                    <a href="javascript:void(0)" id="detail-kembaliGA" data-id="' . $row->id . '" class="btn btn-sm btn-primary detail-kembaliGA mb-0" >Detail</a>';
                     // <a href="javascript:void(0)" id="detail-lead" data-id="' . $row->lead_call_id . "|" . $row->branch_id . "|" . $row->leader_id . '" class="btn btn-sm btn-primary detil-lead mb-0" >Edit</a>';
                     //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
                     return $btn;
@@ -53,10 +53,10 @@ class KembaliToolGA_Controller extends Controller
         }
     }
 
-    public function getDetailKembali(Request $request)
+    public function getDetailKembaliGA(Request $request)
     {
         // dd($request->all());
-        $datas = DB::table('data_pengembalian_tools')
+        $datas = DB::table('data_pengembalian_tools_gas')
             ->where('id', $request->filDisId)->first();
 
         return response()->json($datas);
