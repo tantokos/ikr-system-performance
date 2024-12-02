@@ -131,7 +131,8 @@ class KembaliToolController extends Controller
 
         if ($simpanPengembalian) {
 
-            $dataDis = DataDistribusiTool::find($request->disId);
+            $dataDis = DataDistribusiTool::findOrFail($request->disId);
+            dd($dataDis);
             $dataDis->update([
                 'status_kembali' => "Sudah dikembalikan"
 

@@ -88,7 +88,7 @@
             {{-- <x-app.footer /> --}}
         </div>
 
-        {{-- Modal Tambah Distribusi Tool --}}
+        {{-- Modal Tambah Pengembalian GA Tool --}}
         <div class="modal fade" id="tambahDistribusi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">>
             <div class="modal-dialog modal-xl" role="document">
@@ -257,241 +257,170 @@
                 </div>
             </div>
         </div>
-        {{-- End Modal Tambah Data Tool --}}
+        {{-- End Modal Tambah pengembalian GA Tool --}}
 
-        {{-- Modal Show Detail Data Tool --}}
-        <div class="modal fade" id="showKembali" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        {{-- Modal Detail Pengembalian GA Tool --}}
+        <div class="modal fade" id="showKembaliGA" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">>
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Detail Pengembalian Tool</h5>
-                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
-                            aria-label="Close">
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Pengembalian Tool ke GA</h5>
+                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        {{-- <form action="{{ route('simpanDistribusi') }}" method="post" enctype="multipart/form-data"> --}}
-                        {{-- @csrf --}}
-                        <div class="row">
-                            <div class="col">
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Lead Callsign</span>
-                                    <input type="text" class="form-control form-control-sm"
-                                        id="LeadCallsignTimShow" name="LeadCallsignTimShow"
-                                        style="border-color:#9ca0a7;" readonly>
-                                    <input type="hidden" id="leadCallsignShow" name="leadCallsignShow" readonly>
-                                </div>
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Nama Leader</span>
-                                    <input class="form-control form-control-sm" type="text" id="leaderTimShow"
-                                        name="leaderTimShow" style="border-color:#9ca0a7;" readonly>
-                                    <input type="hidden" id="leaderidShow" name="leaderidShow" readonly>
-                                </div>
-
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Posisi</span>
-                                    <input class="form-control form-control-sm" type="text" id="posisiTimShow"
-                                        name="posisiTimShow" style="border-color:#9ca0a7;" readonly>
-                                </div>
-                            </div>
-
-                            <div class="col">
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Callsign Tim</span>
-                                    <input class="form-control form-control-sm" type="text" id="callsignTimidShow"
-                                        name="callsignTimidShow" style="border-color:#9ca0a7;" readonly>
-                                    <input type="hidden" id="callsignTimShow" name="callsignTim">
-                                </div>
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Teknisi 1</span>
-                                    <input id="teknisi1NkShow" name="teknisi1NkShow" type="hidden" readonly>
-                                    <input type="text" class="form-control form-control-sm" id="teknisi1Show"
-                                        name="teknisi1Show" style="border-color:#9ca0a7;" readonly>
-                                </div>
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Teknisi 3</span>
-                                    <input id="teknisi3NkShow" name="teknisi3NkShow" type="hidden" readonly>
-                                    <input type="text" class="form-control form-control-sm" id="teknisi3Show"
-                                        name="teknisi3Show" style="border-color:#9ca0a7;" readonly>
-                                </div>
-                            </div>
-
-                            <div class="col">
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Area</span>
-                                    <input class="form-control form-control-sm" type="text" id="areaTimShow"
-                                        name="areaTimShow" style="border-color:#9ca0a7;" readonly>
-                                </div>
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Teknisi 2</span>
-                                    <input id="teknisi2NkShow" name="teknisi2NkShow" type="hidden" readonly>
-                                    <input type="text" class="form-control form-control-sm" id="teknisi2Show"
-                                        name="teknisi2Show" style="border-color:#9ca0a7;" readonly>
-                                </div>
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Teknisi 4</span>
-                                    <input id="teknisi4NkShow" name="teknisi4NkShow" type="hidden" readonly>
-                                    <input type="text" class="form-control form-control-sm" id="teknisi4Show"
-                                        name="teknisi4Show" style="border-color:#9ca0a7;" readonly>
-                                </div>
-                            </div>
-
-                            <hr>
-                            {{-- </div>1 --}}
-
-                            {{-- <div class="row">1 --}}
-                            <div class="col">
-                                {{-- <div class="form-group mb-1"> --}}
-                                {{-- <span class="text-xs">Pilih Tool</span> --}}
-                                {{-- <div class="input-group"> --}}
-                                {{-- <input class="form-control form-control-sm" type="text" id="pilihToolShow" --}}
-                                {{-- name="pilihToolShow" style="border-color:#9ca0a7;" readonly> --}}
-                                {{-- </div> --}}
-                                {{-- </div> --}}
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Nama Tool</span>
-                                    <input type="hidden" id="namaToolidShow" name="namaToolidShow" readonly>
-                                    <input class="form-control form-control-sm" type="text" id="namaToolShow"
-                                        name="namaToolShow" style="border-color:#9ca0a7;" readonly>
-                                </div>
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Merk</span>
-                                    <input class="form-control form-control-sm" type="text" id="merkShow"
-                                        name="merkShow" style="border-color:#9ca0a7;" readonly>
-                                </div>
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Satuan</span>
-                                    <input type="text" class="form-control form-control-sm" id="satuanShow"
-                                        name="satuanShow" style="border-color:#9ca0a7;" readonly>
-                                </div>
-
-                                <div class="form-group mb-1">
-                                    {{-- <label class="form-control-label">Nik Karyawan</label> --}}
-                                    <span class="text-xs">Spesifikasi</span>
-                                    <textarea class="form-control form-control-sm" id="spesifikasiShow" name="spesifikasiShow"
-                                        style="border-color:#9ca0a7;" readonly></textarea>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Tanggal Distribusi Tool</span>
-                                    <input class="form-control form-control-sm" type="date"
-                                        value="{{ date('Y-m-d') }}" id="tglDistribusiShow" name="tglDistribusiShow"
-                                        style="border-color:#9ca0a7;" readonly>
-                                </div>
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Tanggal Pengembalian Tool</span>
-                                    <input class="form-control form-control-sm" type="date"
-                                        value="{{ date('Y-m-d') }}" id="tglPenerimaanShow" name="tglPenerimaanShow"
-                                        style="border-color:#9ca0a7;" readonly>
-                                </div>
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Kondisi</span>
-                                    <input type="text" class="form-control form-control-sm" id="kondisiShow"
-                                        name="kondisiShow" style="border-color:#9ca0a7;" readonly>
-                                </div>
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Kode Aset</span>
-                                    <input class="form-control form-control-sm" type="text" id="kodeAsetShow"
-                                        name="kodeAsetShow" style="border-color:#9ca0a7;" readonly>
-                                </div>
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Kode GA</span>
-                                    <input class="form-control form-control-sm" type="text" id="kodeGAShow"
-                                        name="kodeGAShow" style="border-color:#9ca0a7;" readonly>
-                                </div>
-
-                            </div>
-
-                            {{-- </div>1 --}}
-
-                            {{-- <div class="row">2 --}}
-
-
-                            {{-- <div class="col"> --}}
-                            {{-- <span class="text-xs">Foto Data Tool</span> --}}
-                            {{-- <div class="form-group mb-1 text-center"> --}}
-                            {{-- <img src="{{ asset('assets/img/default-150x150.png') }}" id="showgambar" --}}
-                            {{-- alt="Card Image" style="width:200px;height: 200px;" /> --}}
-                            {{-- </div> --}}
-
-                            {{-- <div class="form-group mb-1"> --}}
-                            {{-- </div> --}}
-
-                            {{-- <div class="form-group mb-1"> --}}
-                            {{-- <span class="text-xs">Keterangan</span> --}}
-                            {{-- <textarea class="form-control form-control-sm" id="keteranganShow" name="keteranganShow" --}}
-                            {{-- style="border-color:#9ca0a7;" readonly></textarea> --}}
-                            {{-- </div> --}}
-                            {{-- </div> --}}
-
-                            <div class="col">
-                                {{-- <div class="row"> --}}
-
-                                {{-- <div class="col form-group mb-1 text-center">
-                                        <span class="text-xs">Foto Distribusi Tool</span>
-                                        <img src="{{ asset('assets/img/default-150x150.png') }}"
-                                            id="showgambarDistribusiShow" alt="Card Image"
-                                            style="width:160px;height: 160px;" />
-                                    </div> --}}
-                                <span class="text-xs text-center">Foto Pengembalian Tool</span>
-                                <div class="col form-group mb-1 text-center">
-                                    {{-- <span class="text-xs">Foto Pengembalian Tool</span> --}}
-                                    <img src="{{ asset('assets/img/default-150x150.png') }}"
-                                        id="showgambarKembaliShow" alt="Card Image"
-                                        style="width:160px;height: 160px;" />
-                                </div>
-
-
-                                {{-- </div> --}}
-
-                                <div class="form-group mb-1">
-                                    <input class="form-control form-control-sm" id="fotoKembaliTool"
-                                        name="fotoKembaliToolShow" type="file" style="border-color:#9ca0a7;">
-                                </div>
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Keterangan</span>
-                                    <textarea class="form-control form-control-sm" id="keteranganShow" name="keteranganShow"
-                                        style="border-color:#9ca0a7;"></textarea>
-                                </div>
-                            </div>
-                            {{-- </div>2 --}}
-                            <hr>
-                            <div class="row text-center mb-1">
+                        {{-- <form action="{{ route('simpanPengembalianGA') }}" method="post" enctype="multipart/form-data"> --}}
+                            {{-- @csrf --}}
+                            <div class="row">
+                                
                                 <div class="col">
-                                    <button type="button" value="close"
-                                        class="btn btn-sm btn-dark align-items-center"
-                                        data-bs-dismiss="modal">Kembali</button>
+                                    {{-- <div class="form-group mb-1">
+                                        <span class="text-xs">Pilih Tool</span>
+                                        <div class="input-group">
+                                            <select class="form-control form-control-sm" type="text"
+                                                id="pilihTool" name="pilihTool" style="border-color:#9ca0a7;"
+                                                required>
+                                                <option value="">Pilih Tool</option>
+                                            </select>
+                                        </div>
+                                        <input type="hidden" id="disId" name="disId" readonly required>
+                                    </div> --}}
+
+                                    <div class="form-group mb-1">
+                                        {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                        <span class="text-xs">Nama Tool</span>
+                                        <input type="hidden" id="namaToolidGAShow" name="namaToolidGAShow" readonly required>
+                                        <div class="input-group">
+                                            <input class="form-control form-control-sm" type="text" id="namaToolGAShow"
+                                                name="namaToolGAShow" style="border-color:#9ca0a7;" readonly required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Merk</span>
+                                        <input class="form-control form-control-sm" type="text" id="merkGAShow"
+                                            name="merkGAShow" style="border-color:#9ca0a7;" readonly>
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Satuan</span>
+                                        <input type="text" class="form-control form-control-sm" id="satuanGAShow"
+                                            name="satuanGAShow" style="border-color:#9ca0a7;" readonly>
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                        <span class="text-xs">Spesifikasi</span>
+                                        <textarea class="form-control form-control-sm" id="spesifikasiGAShow" name="spesifikasiGAShow" style="border-color:#9ca0a7;"
+                                            readonly></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Tanggal Penerimaan Tool dari GA</span>
+                                        <input class="form-control form-control-sm" type="date"
+                                            value="{{ date('Y-m-d') }}" id="tglPengadaanGAShow" name="tglPengadaanGAShow"
+                                            style="border-color:#9ca0a7;" readonly>
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Tanggal Pengembalian Tool ke GA</span>
+                                        <input class="form-control form-control-sm" type="date"
+                                            value="{{ date('Y-m-d') }}" id="tglPengembalianGAShow" name="tglPengembalianGAShow"
+                                            style="border-color:#9ca0a7;" readonly>
+                                    </div>
+
+
+
+                                    <div class="row form-group mb-1">
+                                        <div class="col">
+                                            <span class="text-xs">Kondisi</span>
+                                            <input type="text" class="form-control form-control-sm" id="kondisiGAShow"
+                                                name="kondisiGAShow" style="border-color:#9ca0a7;" readonly>
+                                        </div>
+                                        <div class="col">
+                                            <span class="text-xs">Status Pengembalian</span>
+                                            <input class="form-control form-control-sm" type="text"
+                                                value="Dikembalikan ke GA" id="statPengembalianGAShow" name="statPengembalianGAShow"
+                                                style="border-color:#9ca0a7;" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group mb-1">
+                                        <div class="col">
+                                            <span class="text-xs">Kode Aset</span>
+                                            <input class="form-control form-control-sm" type="text" id="kodeAsetGAShow"
+                                                name="kodeAsetGAShow" style="border-color:#9ca0a7;" readonly>
+                                        </div>
+                                        <div class="col">
+                                            <span class="text-xs">Kode GA</span>
+                                            <input class="form-control form-control-sm" type="text" id="kodeGAGAShow"
+                                                name="kodeGAGAShow" style="border-color:#9ca0a7;" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Dikembalikan Oleh</span>
+                                        <input class="form-control form-control-sm" type="text"
+                                            id="nikPengembalianGAShow" name="nikPengembalianGAShow"
+                                            style="border-color:#9ca0a7;" readonly>
+                                    </div>
+
+                                </div>
+
+                                <div class="col">
+                                    {{-- <div class="row"> --}}
+
+                                        {{-- <div class="col form-group mb-1 text-center">
+                                            <span class="text-xs">Foto Penerimaan Tool</span>
+                                            <img src="{{ asset('assets/img/default-150x150.png') }}"
+                                                id="showgambarPenerimaanGAShow" alt="Card Image"
+                                                style="width:160px;height: 160px;" />
+                                        </div> --}}
+                                        <span class="text-xs">Foto Pengembalian Tool</span>
+                                        <div class="form-group mb-1 text-center">
+                                            
+                                            <img src="{{ asset('assets/img/default-150x150.png') }}"
+                                                id="showgambarKembaliGAShow" alt="Card Image"
+                                                style="width:160px;height: 160px;" />
+                                        </div>
+
+
+                                    {{-- </div> --}}
+
+                                    <div class="form-group mb-1">
+                                        <input class="form-control form-control-sm" id="fotoKembaliToolGAShow"
+                                            name="fotoKembaliToolGAShow" type="file" style="border-color:#9ca0a7;" readonly>
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Keterangan</span>
+                                        <textarea class="form-control form-control-sm" id="keteranganGAShow" name="keteranganGAShow" style="border-color:#9ca0a7;" readonly></textarea>
+                                    </div>
+                                </div>
+                                {{-- </div>2 --}}
+                                <hr>
+                                <div class="row text-center mb-1">
+                                    <div class="col">
+                                        <button type="button" value="close"
+                                            class="btn btn-sm btn-dark align-items-center"
+                                            data-bs-dismiss="modal">Kembali</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         {{-- </form> --}}
                     </div>
-                    <div class="modal-footer">
+                    {{-- <div class="modal-footer"> --}}
                         {{-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> --}}
                         {{-- <button type="button" class="btn btn-dark">Save changes</button> --}}
-                    </div>
+                    {{-- </div> --}}
                 </div>
             </div>
         </div>
-        {{-- End Modal Show Detail Tool --}}
+        {{-- End Modal Detail pengembalian GA Tool --}}
 
     </main>
 
@@ -699,57 +628,42 @@
             $('#disId').val(pilih[10])
         })
 
-        $(document).on('click', '#detail-kembali', function(e) {
+        $(document).on('click', '#detail-kembaliGA', function(e) {
             // e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
             let dis_id = $(this).data('id');
 
             $.ajax({
-                url: "{{ route('getDetailKembali') }}",
+                url: "{{ route('getDetailKembaliGA') }}",
                 type: "get",
                 data: {
                     filDisId: dis_id,
                     _token: _token
                 },
                 success: function(dtDis) {
-                    $('#LeadCallsignTimShow').val(dtDis.lead_callsign)
-                    $('#leadCallsignShow').val(dtDis.lead_callsign)
-                    $('#leaderidShow').val(dtDis.leader_id)
-                    $('#leaderTimShow').val(dtDis.leader)
-                    $('#posisiTimShow').val(dtDis.posisi)
-                    $('#callsignTimidShow').val(dtDis.callsign_tim)
-                    $('#callsignTimShow').val(dtDis.callsign_tim_id)
-                    $('#areaTimShow').val(dtDis.area)
+                    
+                    $('#namaToolidGAShow').val(dtDis.barang_id);
+                    $('#namaToolGAShow').val(dtDis.nama_barang);
 
-                    $('#teknisi1NkShow').val(dtDis.nik_tim1);
-                    $('#teknisi1Show').val(dtDis.teknisi1);
-                    $('#teknisi2NkShow').val(dtDis.nik_tim2);
-                    $('#teknisi2Show').val(dtDis.teknisi2);
-                    $('#teknisi3NkShow').val(dtDis.nik_tim3);
-                    $('#teknisi3Show').val(dtDis.teknisi3);
-                    $('#teknisi4NkShow').val(dtDis.nik_tim4);
-                    $('#teknisi4Show').val(dtDis.teknisi4);
+                    $('#merkGAShow').val(dtDis.merk_barang);
+                    $('#satuanGAShow').val(dtDis.satuan);
+                    $('#spesifikasiGAShow').val(dtDis.spesifikasi);
 
-                    $('#namaToolidShow').val(dtDis.nama_barang);
-                    $('#namaToolShow').val(dtDis.nama_barang);
+                    $('#tglPengadaanGAShow').val(dtDis.tgl_pengadaan);
+                    $('#tglPengembalianGAShow').val(dtDis.tgl_kembali);
 
-                    $('#merkShow').val(dtDis.merk_barang);
-                    $('#satuanShow').val(dtDis.satuan);
-                    $('#spesifikasiShow').val(dtDis.spesifikasi);
+                    $('#kondisiGAShow').val(dtDis.kondisi);
+                    $('#statPengembalianGAShow').val(dtDis.status_pengembalian);
+                    $('#kodeAsetGAShow').val(dtDis.kode_aset);
+                    $('#kodeGAGAShow').val(dtDis.kode_ga);
+                    $('#nikPengembalianGAShow').val(dtDis.nik_pengembalian + "|" + dtDis.nama_pengembalian);
 
-                    $('#tglDistribusiShow').val(dtDis.tgl_distribusi);
-                    $('#tglPenerimaanShow').val(dtDis.tgl_kembali);
+                    $('#keteranganGAShow').val(dtDis.keterangan);
 
-                    $('#kondisiShow').val(dtDis.kondisi);
-                    $('#kodeAsetShow').val(dtDis.kode_aset);
-                    $('#kodeGAShow').val(dtDis.kode_ga);
+                    $('#showgambarKembaliGAShow').attr('src',
+                        `/storage/image-pengembalianGA/${dtDis.foto_kembali}`)
 
-                    $('#keteranganShow').val(dtDis.keterangan);
-
-                    $('#showgambarKembaliShow').attr('src',
-                        `/storage/image-pengembalian/${dtDis.foto_kembali}`)
-
-                    $('#showKembali').modal('show');
+                    $('#showKembaliGA').modal('show');
 
 
                 }
