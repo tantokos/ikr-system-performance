@@ -55,6 +55,48 @@
         <title>
             IKR Management System
         </title>
+
+        <style>
+            /* Overlay untuk loader */
+            .loader-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.8);
+                z-index: 9999;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            /* Loader animasi */
+            .loader {
+                width: 50px;
+                height: 50px;
+                border: 4px solid rgba(0, 0, 0, 0.1);
+                border-radius: 50%;
+                border-top-color: #000;
+                animation: spin 1s ease-in-out infinite;
+            }
+
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            #emptyDataLottie {
+                display: none; /* Awalnya tersembunyi */
+                display: flex; /* Aktifkan Flexbox */
+                justify-content: center; /* Pusatkan secara horizontal */
+                align-items: center; /* Pusatkan secara vertikal */
+                flex-direction: column; /* Elemen disusun secara vertikal */
+                min-height: 300px; /* Tinggi minimum agar terlihat */
+                text-align: center; /* Pusatkan teks */
+            }
+        </style>
         <!--     Fonts and icons     -->
         <link
             href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Noto+Sans:300,400,500,600,700,800|PT+Mono:300,400,500,600,700"

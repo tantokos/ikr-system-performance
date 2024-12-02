@@ -368,7 +368,7 @@
                                                                     </option>
                                                                     <option value="FTTH Maintenance">FTTH Maintenance
                                                                     </option>
-                                                                    <option value="Dismantle">Dismantle</option>
+                                                                    <option value="FTTH Dismantle">FTTH Dismantle</option>
                                                                     <option value="FTTX/B New Installation">FTTX/B New
                                                                         Installation
                                                                     </option>
@@ -1480,87 +1480,6 @@
             })
         }
 
-        $(document).on('click', '#detail-assign', function(e) {
-
-            // e.preventDefault();
-            var _token = $('meta[name=csrf-token]').attr('content');
-            let assign_id = $(this).data('id');
-
-
-            $.ajax({
-                url: "{{ route('getFtthDismantle') }}",
-                type: "get",
-                data: {
-                    filAssignId: assign_id,
-                    _token: _token
-                },
-                success: function(dtDis) {
-
-                    $('#detId').val(dtDis.data.id)
-                    $('#noWoShow').val(dtDis.data.no_wo)
-                    $('#statusWo').val(toTitleCase(dtDis.status_wo || ""));
-                    $('#ticketNoShow').val(dtDis.data.no_ticket)
-                    $('#woTypeShow').val(toTitleCase(dtDis.data.type_wo || "" ))
-                    $('#jenisWoShow').val(toTitleCase(dtDis.data.type_wo || "" ))
-                    $('#WoDateShow').val(dtDis.data.wo_date)
-                    $('#custIdShow').val(dtDis.data.cust_id)
-                    $('#custNameShow').val(toTitleCase(dtDis.data.nama_cust))
-                    // $('#custPhoneShow').val(dtDis.data.cust_phone)
-
-                    // $('#custMobileShow').val(dtDis.data.cust_mobile);
-                    $('#custAddressShow').val(toTitleCase(dtDis.data.cust_address1));
-                    // $('#ikrDateApkShow').val(dtDis.data.ikr_date);
-                    $('#timeApkShow').val(dtDis.data.time);
-                    $('#fatCodeShow').val(dtDis.data.kode_fat);
-                    $('#portFatShow').val(dtDis.data.port_fat);
-                    $('#remarksShow').val(toTitleCase(dtDis.data.type_maintenance));
-
-                    $('#branchShow').val(dtDis.data.branch);
-                    $('#tglProgressShow').val(dtDis.data.visit_date);
-                    $('#tglProgressStatusShow').val(dtDis.data.visit_date);
-                    $('#tglProgressAPKShow').val(dtDis.data.visit_date);
-
-                    $('#sesiShow').val(dtDis.data.sesi);
-                    $('#slotTimeLeaderShow').val(slotTimeLeader);
-                    $('#slotTimeAPKShow').val(dtDis.data.slot_time_apk);
-
-                    $('#slotTimeLeaderStatusShow').val(slotTimeLeader);
-                    // $('#slotTimeAPKStatusShow').val(timeValue);
-
-
-                    $('#leaderShow').val(dtDis.data.leader);
-                    $('#LeadCallsignShow').val(dtDis.data.leadcall_id);
-                    $('#callsignTimidShow').val(dtDis.data.callsign_id);
-                    // $('#teknisi1Show').val(toTitleCase(dtDis.data.teknisi1));
-                    // $('#teknisi2Show').val(toTitleCase(dtDis.data.teknisi2));
-
-                    $('#statusWo').val(dtDis.data.status_wo);
-                    $('#statusWoApk').val(dtDis.data.status_apk);
-
-                    $('#causeCode').val(dtDis.data.couse_code);
-                    $('#rootCause').val(dtDis.data.root_couse);
-                    $('#actionTaken').val(dtDis.data.action_taken);
-                    $('#penagihanShow').val(dtDis.data.penagihan);
-
-                    $('#actionTakenAPK').val(dtDis.data.action_taken);
-                    $('#tglCheckinApk').val(checkinDate);
-                    $('#tglCheckoutApk').val(checkoutDate);
-                    $('#teknisi1Show').val(dtDis.data.teknisi1);
-                    $('#merkStbIn').val(dtDis.data.stb_merk_in);
-                    $('#merkStbOut').val(dtDis.data.stb_merk_out);
-                    $('#merkOntOut').val(dtDis.data.ont_merk_out);
-                    $('#snStbIn').val(dtDis.data.stb_sn_in);
-                    $('#snStbOut').val(dtDis.data.stb_sn_out);
-                    $('#kabelPrecon').val(dtDis.data.precon_out);
-                    $('#kabelPreconBad').val(dtDis.data.bad_precon);
-
-
-                    $('#showDetail').modal('show');
-
-                }
-            })
-        })
-
         $(document).on('click', '#detail-assign', function (e) {
             var _token = $('meta[name=csrf-token]').attr('content');
             let assign_id = $(this).data('id');
@@ -1605,9 +1524,9 @@
                     $('#noWoShow').val(dtDis.no_wo);
                     $('#statusWo').val(toTitleCase(dtDis.status_wo || ""));
                     $('#ticketNoShow').val(dtDis.no_ticket);
-                    $('#woTypeShow').val(toTitleCase(dtDis.type_wo || ""));
+                    $('#woTypeShow').val(toTitleCase(dtDis.wo_type_apk || ""));
                     $('#jenisWoShow').val(dtDis.type_wo);
-                    $('#WoDateShow').val(dtDis.wo_date_apk);
+                    $('#WoDateShow').val(dtDis.wo_date);
                     $('#custIdShow').val(dtDis.cust_id);
                     $('#custNameShow').val(toTitleCase(dtDis.nama_cust || ""));
                     $('#custAddressShow').val(toTitleCase(dtDis.cust_address1 || ""));
@@ -1616,7 +1535,7 @@
                     $('#portFatShow').val(dtDis.port_fat);
                     $('#remarkStatus').val(toTitleCase(dtDis.remarkStatus || ""));
                     $('#branchShow').val(dtDis.branch);
-                    $('#tglProgressShow').val(dtDis.tgl_ikr);
+                    $('#tglProgressShow').val(dtDis.visit_date);
                     $('#sesiShow').val(toTitleCase(dtDis.sesi || ""));
                     $('#slotTimeLeaderShow').val(dtDis.slot_time_leader);
                     $('#slotTimeLeaderStatusShow').val(dtDis.slot_time_leader);

@@ -304,6 +304,7 @@ class MonitFtthMT_Controller extends Controller
 
     public function update(Request $request)
     {
+        // dd($request->all());
         $aksesId = Auth::user()->id;
         $akses = Auth::user()->name;
         $id = $request->detId;
@@ -338,12 +339,13 @@ class MonitFtthMT_Controller extends Controller
             'teknisi3' => $request['teknisi3Show'],
             'status_wo' => $request['statusWo'],
             'couse_code' => $request['causeCode'],
-            // 'root_couse' => $request['rootCause'],
-            // 'penagihan' => $request[''],
-            // 'alasan_tag_alarm' => $request[''],
-            'tgl_jam_reschedule' => $request['tglReschedule'],
-            // 'tgl_jam_fat_on' => $request[''],
+            'root_couse' => $request['rootCause'],
             'action_taken' => $request['actionTaken'],
+            'penagihan' => $request['penagihanShow'],
+            // 'alasan_tag_alarm' => $request[''],
+            'tgl_reschedule' => $request['tglReschedule'],
+            'tgl_jam_reschedule' => $request['tglJamReschedule'],
+            // 'tgl_jam_fat_on' => $request[''],
             // 'panjang_kabel' => $request[''],
             'weather' => $request['weatherShow'],
             'remark_status' => $request['remarkStatus'],
@@ -353,7 +355,7 @@ class MonitFtthMT_Controller extends Controller
             // 'end_ikr_wa' => $request[''],
             // 'validasi_start' => $request[''],
             // 'validasi_end' => $request[''],
-            'checkin_apk' => $request['checkin_apk'],
+            'checkin_apk' => $request['tglCheckinApk'],
             'checkout_apk' => $request['checkout_apk'],
             'status_apk' => $request['statusWoApk'],
             // 'keterangan' => $request[''],

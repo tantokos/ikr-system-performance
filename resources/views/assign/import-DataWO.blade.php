@@ -24,34 +24,24 @@
                     {{-- <form> --}}
                     <div class="row">
 
+                        <div id="pageLoader" class="loader-overlay" style="display: none;">
+                            <div class="loader"></div>
+                        </div>
+
                         <div class="col-md-6">
-                            <form action="{{ route('importProsesDataWo') }}" method="post"
-                                enctype="multipart/form-data">
+                            <form action="{{ route('importProsesDataWo') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="file" class="form-control form-control-sm" id="fileDataWO"
-                                        name="fileDataWO" required>
+                                    <input type="file" class="form-control form-control-sm" id="fileDataWO" name="fileDataWO" required>
                                 </div>
                                 <div class="form-group mb-1">
-                                    <button type="submit" class="btn btn-dark btn-sm w-100" onclick="cek()">
-                                        <span class="spinner-border spinner-border-sm" style="display: none"
-                                            role="status" aria-hidden="true"></span>
-                                        Import Data Work Order</button>
-                                    {{-- </div> --}}
-                                    {{-- <div class="form-group"> --}}
-                                    {{-- <label class="col-form-label form-control-sm">Information of Data Import :</label> --}}
-                                    {{-- <div class="col-form-label form-control-sm"> --}}
-                                    {{-- @if (isset($croscekData)) --}}
-                                    {{-- @if ($croscekData != '-') --}}
-                                    {{-- <span class="error">{{ $croscekData }}</span> --}}
-                                    {{-- @else --}}
-                                    {{-- <span class="error">-</span> --}}
-                                    {{-- @endif --}}
-                                    {{-- @endif --}}
-                                    {{-- </div> --}}
+                                    <button type="submit" id="importButton" class="btn btn-dark btn-sm w-100">
+                                        Import Data Work Order
+                                    </button>
                                 </div>
                             </form>
                         </div>
+
 
                         <div class="col-md-6">
                             <form action="{{ route('simpanImportWo') }}" method="post" enctype="multipart/form-data">
@@ -1132,4 +1122,20 @@
             }
         })
     })
+</script>
+<script>
+    $(document).ready(function () {
+        $('#importButton').on('click', function (e) {
+            // Cek apakah file sudah dipilih
+            if ($('#fileDataWO').val() === '') {
+                alert('Silakan pilih file terlebih dahulu!');
+                e.preventDefault(); // Mencegah form dikirim
+                return false;
+            }
+
+            // Tampilkan loader di tengah halaman
+            $('#pageLoader').fadeIn();
+        });
+    });
+
 </script>

@@ -35,12 +35,12 @@ class AssignTimController extends Controller
             ->select('nik_karyawan', 'nama_karyawan')
             ->orderBy('nama_karyawan')
             ->get();
-        
+
         $cluster = DB::table('fats')->select('cluster')
                 ->where('cluster', '<>', "")->distinct()->orderBy('cluster')->get();
 
-        return view('assign.assign_tim', ['leadCallsign' => $Leadcallsign, 'leader' => $leader, 
-                                        'branches' => $branches, 'callTim' => $callTim, 
+        return view('assign.assign_tim', ['leadCallsign' => $Leadcallsign, 'leader' => $leader,
+                                        'branches' => $branches, 'callTim' => $callTim,
                                         'cluster' => $cluster, 'tim' => $tim]);
     }
 
@@ -188,6 +188,11 @@ class AssignTimController extends Controller
 
     public function simpanSignTim(Request $request)
     {
+        // dd(request()->all());
+        $this->validate($request, [
+            'noWo' => 'required|unique:data_assign_tims,no_wo_apk',
+        ]);
+
         $aksesId = Auth::user()->id;
         $akses = Auth::user()->name;
 
@@ -252,7 +257,7 @@ class AssignTimController extends Controller
         }
 
         $simpanAssignTim = DataAssignTim::create([
-            'batch_wo' => $request['sesi'],
+            'batch_wo' => $request['sesiShowAdd'],
             'tgl_ikr' => $request['tglProgress'],
             'slot_time' => $request['slotTime'],
             'type_wo' => $request['jenisWo'],
@@ -292,11 +297,14 @@ class AssignTimController extends Controller
             'login' => $akses
         ]);
 
+        // return $simpanAssignTim;
+
         if ($simpanAssignTim) {
             return redirect()->route('assignTim')->with(['success' => 'Data tersimpan.']);
         } else {
-            return redirect()->route('assignTim')->with(['error' => 'Gagal Simpan Data.']);
+            return redirect()->route('assignTim')->withInput()->with(['error' => 'Gagal Simpan Data.']);
         }
+
     }
 
     public function updateSignTim(Request $request)
