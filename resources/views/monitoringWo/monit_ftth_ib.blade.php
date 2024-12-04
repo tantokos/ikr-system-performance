@@ -1529,7 +1529,7 @@
                         data: 'teknisi3'
                     },
                     {
-                        data: 'status_wo'
+                        data: 'status_apk'
                     },
                     {
                         data: 'action',

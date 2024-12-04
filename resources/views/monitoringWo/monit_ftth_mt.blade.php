@@ -924,16 +924,16 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkin Aplikasi</span>
-                                                            <input class="form-control form-control-sm" type="datetime-local"
-                                                                value="{{ date('Y-m-d\TH:i') }}" id="tglCheckinApk"
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                value="" id="tglCheckinApk"
                                                                 name="tglCheckinApk"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkout Aplikasi</span>
-                                                            <input class="form-control form-control-sm" type="datetime-local"
-                                                                value="{{ date('Y-m-d\TH:i') }}" id="tglCheckoutApk"
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                value="" id="tglCheckoutApk"
                                                                 name="checkout_apk"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>

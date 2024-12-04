@@ -105,39 +105,34 @@ class Import_DataWoController extends Controller
 
     public function importProsesDataWo(Request $request)
     {
-
         if ($request->hasFile('fileDataWO')) {
-
             $request->validate([
                 'fileDataWO' => ['required', 'mimes:xlsx,xls,csv']
             ]);
 
             $akses = Auth::user()->id . "|" . Auth::user()->name;
 
-            // $headings = (new HeadingRowImport)->toArray($request->fileDataWO);
-            // dd($headings);
             try {
-                Excel::import(new AssignWoImport($akses), request()->file('fileDataWO'));
+                Excel::import(new AssignWoImport($akses), $request->file('fileDataWO'));
 
+                return back()->with(['success' => 'Import Work Order berhasil.']);
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-                // DB::rollBack();
-                // return $e->getMessage();
-                //return redirect()->route('importDataWo')
-                //->with(['error' => 'Gagal Import Assign Tim: ' . $e->getMessage()]);
                 $failures = $e->failures();
 
+                $errorMessages = [];
                 foreach ($failures as $failure) {
-                    $failure->row(); // row that went wrong
-                    $failure->attribute(); // either heading key (if using heading row concern) or column index
-                    $failure->errors(); // Actual error messages from Laravel validator
-                    $failure->values(); // The values of the row that has failed.
+                    $errorMessages[] = "Baris " . $failure->row() . " (" . $failure->attribute() . "): " . implode(', ', $failure->errors());
                 }
+
+                return back()->with(['error' => 'Kesalahan validasi: <br>' . implode('<br>', $errorMessages)]);
+            } catch (\Exception $e) {
+                return back()->with(['error' => 'Kesalahan: ' . $e->getMessage()]);
             }
-
-
-            return back()->with(['success' => 'Import Work Order berhasil.']);
         }
+
+        return back()->with(['error' => 'Tidak ada file yang diunggah.']);
     }
+
 
     public function getDataImportWo(Request $request)
     {

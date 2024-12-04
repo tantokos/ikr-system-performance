@@ -13,8 +13,9 @@ use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 
-class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithValidation
+class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithValidation, SkipsEmptyRows
 {
     /**
      * @param array $row
@@ -102,7 +103,9 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
     public function rules(): array
     {
         return [
-            'no_wo_apk' => Rule::unique('import_assign_tims', 'no_wo_apk')
+            '*.wo_no' => ['required', Rule::unique('import_assign_tims', 'no_wo_apk')],
+            '*.branch' => ['required'],
+            '*.callsign' => ['required'],
             // 'wo_no' => Rule::unique('import_assign_tims', 'wo_no')->where(fn (Builder $query) => $query->where('tgk_ikr', 'satu'))
         ];
     }
@@ -110,7 +113,10 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
     public function customValidationMessages()
     {
         return [
-            'no_wo_apk.unique' => 'Duplicate',
+            '*.wo_no.unique' => 'No WO sudah ada di database',
+            '*.wo_no.required' => 'No WO harus diisi',
+            '*.branch.required' => 'Branch harus diisi',
+            '*.callsign.required' => 'Callsign harus diisi',
         ];
     }
 
