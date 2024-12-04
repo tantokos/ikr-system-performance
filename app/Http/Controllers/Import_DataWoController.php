@@ -367,7 +367,7 @@ class Import_DataWoController extends Controller
                                     'nama_cust' => $data['name_cust_apk'],
                                     'cust_address1' => $data['address_apk'],
                                     'cluster' => $data['area_cluster_apk'],
-                                    // 'wo_type_apk' => $data['wo_type_apk'],
+                                    'wo_type_apk' => $data['wo_type_apk'],
                                     'kode_fat' => $data['fat_code_apk'],
                                     'port_fat' => $data['fat_port_apk'],
                                     'type_maintenance' => $data['remarks_apk'],

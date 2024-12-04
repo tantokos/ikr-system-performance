@@ -437,17 +437,9 @@
                                             <div class="col">
                                                 <div class="col form-group mb-1">
                                                     <span class="text-xs">Branch</span>
-                                                    <select class="form-control form-control-sm" type="text"
+                                                    <input class="form-control form-control-sm" type="text"
                                                         id="branchShow" name="branchShow"
                                                         style="border-color:#9ca0a7;" readonly>
-                                                        <option value="">Pilih Branch</option>
-                                                        @if (isset($branches))
-                                                            @foreach ($branches as $b)
-                                                                <option value="{{ $b->id . '|' . $b->nama_branch }}">
-                                                                    {{ $b->nama_branch }}
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
                                                 </div>
 
                                                 <div class="form-group mb-1">
@@ -1610,12 +1602,12 @@
                     $('#portFatShow').val(dtDis.port_fat);
                     $('#remarksShow').val(toTitleCase(dtDis.type_maintenance || "" ));
 
-                    $('#branchShow').val(dtDis.branch_id + '|' + dtDis.branch);
+                    $('#branchShow').val(dtDis.branch);
                     $('#tglProgressShow').val(dtDis.tgl_ikr);
                     $('#tglProgressStatusShow').val(dtDis.tgl_ikr);
                     $('#tglProgressAPKShow').val(dtDis.tgl_ikr);
 
-                    $('#sesiShow').val(dtDis.sesi);
+                    $('#sesiShow').val(toTitleCase(dtDis.sesi || ""));
                     $('#slotTimeLeaderShow').val(dtDis.slot_time_leader);
                     $('#slotTimeAPKShow').val(dtDis.slot_time_apk);
 
