@@ -239,6 +239,7 @@
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 3</th>
                                             {{-- <th class="text-center text-xs font-weight-semibold">Teknisi 4</th> --}}
                                             <th class="text-center text-xs font-weight-semibold">Status WO</th>
+                                            <th class="text-center text-xs font-weight-semibold">Status Check</th>
 
                                             <th class="text-center text-xs font-weight-semibold">#</th>
 
@@ -741,7 +742,7 @@
                                                             <option value="">Pilih Status WO</option>
                                                             <option value="Done">Done</option>
                                                             <option value="Pending">Pending</option>
-                                                            <option value="Cancel">Cancel</option>
+                                                            <option value="Cancelled">Cancelled</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -753,10 +754,27 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="causeCode"
                                                                 name="causeCode" style="border-color:#9ca0a7;">
-                                                                <option value="FO Segment Drop Wire Cable">FO Segment Drop Wire Cable</option>
-                                                                <option value="Fast Connector">Fast Connector</option>
-                                                                <option value="FO Segment Precon Cable">FO Segment Precon Cable</option>
+                                                                <option value="FO SEGMENT DROP WIRE CABLE">FO Segment Drop Wire Cable</option>
+                                                                <option value="FAST CONNECTOR">Fast Connector</option>
+                                                                <option value="FO SEGMENT PRECON CABLE">FO Segment Precon Cable</option>
+                                                                <option value="CABLE SUPPORT">Cable Support</option>
+                                                                <option value="IMPROVEMENT (DETECTED ALARM)">Improvement (Detected Alarm)</option>
+                                                                <option value="BAREL/OPTICAL ADAPTER">Barel/Optical Adapter</option>
+                                                                <option value="RJ45">RJ45</option>
+                                                                <option value="CONNECTOR PRECON">Connector Precon</option>
+                                                                <option value="FO SEGMENT TERMINATION BOX">FO Segment Termination Box</option>
+                                                                <option value="STB">STB</option>
+                                                                <option value="ACCESS POINT">Access Point</option>
+                                                                <option value="ROUTER WIRELESS">Router Wireless</option>
+                                                                <option value="NOT COMPLETE INSTALLATION">Not Complete Installation</option>
                                                                 <option value="ONT">ONT</option>
+                                                                <option value="REMOVE DEVICE">Remove Device</option>
+                                                                <option value="ADD DEVICE">Add Device</option>
+                                                                <option value="PENDING DEVICE">Pending Device</option>
+                                                                <option value="MOVING ADDRESS">Moving Address</option>
+                                                                <option value="MOVING OUTLET">Moving Outlet</option>
+                                                                <option value="RESIDENTIAL AREA">Residential Area</option>
+                                                                <option value="BUILDING">Building</option>
                                                             </select>
                                                         </div>
 
@@ -765,11 +783,78 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="rootCause"
                                                                 name="rootCause" style="border-color:#9ca0a7;">
-                                                                <option value="Fast Connector Not Proper Plug in at Port FAT">Fast Connector Not Proper Plug in at Port FAT</option>
-                                                                <option value="Migration Drop Wire to Precon">Migration Drop Wire to Precon</option>
-                                                                <option value="Vandalism">Vandalism</option>
-                                                                <option value="Miss SSID WIFI">Miss SSID WIFI</option>
-                                                                <option value="Bad Core">Bad Core</option>
+                                                                <option value="" selected>Pilih Root Cause</option>
+                                                                <option value="Bad HDMI Cable">Bad HDMI Cable</option>
+                                                                <option value="HDMI Cable Faulty">HDMI Cable Faulty</option>
+                                                                <option value="Bad RCA Cable">Bad RCA Cable</option>
+                                                                <option value="RCA CABLE FAULTY">RCA Cable Faulty</option>
+                                                                <option value="BAD UTP">Bad UTP</option>
+                                                                <option value="UTP FAULTY">UTP Faulty</option>
+                                                                <option value="BAD PATCHCORD">Bad Patchcord</option>
+                                                                <option value="CABLE PRECON NETWORK UN-ALLOWED BY CITIZEN">Cable Precon Network Un-Allowed By Citizen</option>
+                                                                <option value="VANDALISM">Vandalism</option>
+                                                                <option value="CABLE BURNED">Cable Burned</option>
+                                                                <option value="THE LOGGING OF TREES">The Logging Of Trees</option>
+                                                                <option value="BITTEN BY ANIMAL">Bitten By Animal</option>
+                                                                <option value="HIT BY TRUCK">Hit By Truck</option>
+                                                                <option value="PU ACTIVITY">PU Activity</option>
+                                                                <option value="CITIZEN ACTIVITY">Citizen Activity</option>
+                                                                <option value="CABLE BENDING">Cable Bending</option>
+                                                                <option value="BAD CORE">Bad Core</option>
+                                                                <option value="NOT PROPER INSTALLATION PRECON CABLE">Not Proper Installation Precon Cable</option>
+                                                                <option value="SUSPECT PORT FULL AT FAT">Suspect Port Full At FAT</option>
+                                                                <option value="CABLE DW NETWORK UN-ALLOWED BY CITIZEN">Cable DW Network Un-Allowed By Citizen</option>
+                                                                <option value="NOT PROPER INSTALLATION DROP WIRE">Not Proper Installation Drop Wire</option>
+                                                                <option value="MIGRATION DROP WIRE TO PRECON">Migration Drop Wire To Precon</option>
+                                                                <option value="BAD PRECON">Bad Precon</option>
+                                                                <option value="BAD DW">Bad DW</option>
+                                                                <option value="BAD ONT">Bad ONT</option>
+                                                                <option value="BAD BAREL/OPTICAL ADAPTER AT TB">Bad Barel/Optical Adapter At TB</option>
+                                                                <option value="BAD TB">Bad TB</option>
+                                                                <option value="BAD BAREL/OPTICAL ADAPTER AT FAT">Bad Barel/Optical Adapter At FAT</option>
+                                                                <option value="BAD RJ45">Bad RJ45</option>
+                                                                <option value="CONNECTOR PRECON NOT CONNECT - SUSPECT PORT FULL AT FAT">Connector Precon Not Connect - Suspect Port Full At FAT</option>
+                                                                <option value="CONNECTOR PRECON NOT PROPER AT PORT ONT">Connector Precon Not Proper At Port ONT</option>
+                                                                <option value="CONNECTOR PRECON NOT PROPER AT PORT FAT">Connector Precon Not Proper At Port FAT</option>
+                                                                <option value="CONNECTOR PRECON BAD AT ONT">Connector Precon Bad At ONT</option>
+                                                                <option value="CONNECTOR PRECON BAD AT FAT">Connector Precon Bad At FAT</option>
+                                                                <option value="BAD FAST CONNECTOR AT TB">Bad Fast Connector At TB</option>
+                                                                <option value="BAD FAST CONNECTOR AT FAT">Bad Fast Connector At FAT</option>
+                                                                <option value="FAST CONNECTOR NOT PROPER PLUG IN AT PORT FAT">Fast Connector Not Proper Plug In At Port FAT</option>
+                                                                <option value="FAST CONNECTOR NOT PROPER PLUG IN AT TB">Fast Connector Not Proper Plug In At TB</option>
+                                                                <option value="FAST CONNECTOR NOT CONNECT - SUSPECT PORT FULL AT FAT">Fast Connector Not Connect - Suspect Port Full At FAT</option>
+                                                                <option value="BAD FAST CONNECTOR AT FAT AND TB">Bad Fast Connector At FAT And TB</option>
+                                                                <option value="BENDING PATCHCORD">Bending Patchcord</option>
+                                                                <option value="INCORRECTLY INSTALLED STB">Incorrectly Installed STB</option>
+                                                                <option value="BAD ADAPTOR STB">Bad Adaptor STB</option>
+                                                                <option value="STB FAULTY">STB Faulty</option>
+                                                                <option value="CHANNEL FREEZE">Channel Freeze</option>
+                                                                <option value="LOG IN PROBLEM">Log In Problem</option>
+                                                                <option value="BAD STB">Bad STB</option>
+                                                                <option value="BAD REMOTE">Bad Remote</option>
+                                                                <option value="BLANK CHANNEL">Blank Channel</option>
+                                                                <option value="BAD ADAPTOR ACCESS POINT">Bad Adaptor Access Point</option>
+                                                                <option value="ACCESS POINT FAULTY">Access Point Faulty</option>
+                                                                <option value="CONFIGURATION PROBLEM">Configuration Problem</option>
+                                                                <option value="FIRMWARE PROBLEM">Firmware Problem</option>
+                                                                <option value="BAD ACCESS POINT">Bad Access Point</option>
+                                                                <option value="BAD ADAPTOR ROUTER WIRELESS">Bad Adaptor Router Wireless</option>
+                                                                <option value="ROUTER WIRELESS FAULTY">Router Wireless Faulty</option>
+                                                                <option value="BAD ROUTER WIRELESS">Bad Router Wireless</option>
+                                                                <option value="STB OUT OF STOCK">STB Out Of Stock</option>
+                                                                <option value="AFTER UPGRADE PACKAGE">After Upgrade Package</option>
+                                                                <option value="MISS PORT LAN ONT">Miss Port LAN ONT</option>
+                                                                <option value="MISS SSID WIFI">Miss SSID WiFi</option>
+                                                                <option value="BAD ADAPTER ONT">Bad Adapter ONT</option>
+                                                                <option value="ONT STOLEN">ONT Stolen</option>
+                                                                <option value="DOWNGRADE">Downgrade</option>
+                                                                <option value="CHANGE PACKAGE SERVICE">Change Package Service</option>
+                                                                <option value="UPGRADE">Upgrade</option>
+                                                                <option value="DEVICE NOT INSTALLED">Device Not Installed</option>
+                                                                <option value="REQUEST MOVING">Request Moving</option>
+                                                                <option value="PARTNERSHIP ISSUE">Partnership Issue</option>
+                                                                <option value="PERMITE ISSUE">Permite Issue</option>
+
                                                             </select>
                                                         </div>
                                                     </div>
@@ -782,9 +867,85 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="actionTaken"
                                                                 name="actionTaken" style="border-color:#9ca0a7;">
-                                                                <option value="Migrasi Dw To Precon">Replace New Precon</option>
-                                                                <option value="Replace Precon To Precon">Tigntining Fast Connector at Port Fat</option>
-                                                                <option value="No Customer">Re-configure wifi ONT</option>
+                                                                <option value="REPLACE HDMI CABLE">Replace HDMI Cable</option>
+                                                                <option value="UNPLUG AND PLUG HDMI CABLE">Unplug and Plug HDMI Cable</option>
+                                                                <option value="REPLACE RCA CABLE">Replace RCA Cable</option>
+                                                                <option value="UNPLUG AND PLUG RCA CABLE">Unplug and Plug RCA Cable</option>
+                                                                <option value="REPLACE UTP">Replace UTP</option>
+                                                                <option value="UNPLUG AND PLUG RCA CABLE">Unplug And Plug RCA Cable</option>
+                                                                <option value="CLEANING CONNECTOR PATCHCORD">Cleaning Connector Patchcord</option>
+                                                                <option value="TIDYING PATCHCORD">Tidying Patchcord</option>
+                                                                <option value="REPLACE PATCHCORD">Replace Patchcord</option>
+                                                                <option value="CLEANING PORT AT ONT">Cleaning Port At ONT</option>
+                                                                <option value="RELOCATION, REPLACE ONT AND MOVE TO ANOTHER FAT">Relocation, Replace ONT And Move To Another FAT</option>
+                                                                <option value="RELOCATION AND MOVE TO ANOTHER FAT">Relocation And Move To Another FAT</option>
+                                                                <option value="RELOCATION, REPLACE NEW PRECON AND MOVE ANOTHER FAT">Relocation, Replace New Precon And Move Another FAT</option>
+                                                                <option value="RELOCATION AND REPLACE NEW PRECON">Relocation And Replace New Precon</option>
+                                                                <option value="RELOCATION, REPLACE NEW PRECON, MOVE TO ANOTHER FAT AND REPLACE ONT">Relocation, Replace New Precon, Move To Another FAT And Replace ONT</option>
+                                                                <option value="RELOCATION PRECON CABLE">Relocation Precon Cable</option>
+                                                                <option value="REPLACE NEW PRECON">Replace New Precon</option>
+                                                                <option value="REPLACE NEW PRECON AND REPLACE ONT">Replace New Precon And Replace ONT</option>
+                                                                <option value="Replace Precon, Replace ONT, Relocation And Move To Another FAT">Replace Precon, Replace ONT, Relocation And Move To Another FAT</option>
+                                                                <option value="REPLACE PRECON, RELLOCATION ONT, RELLOCATION AND MOVE TO ANOTHER FAT">Replace Precon, Relocation ONT, Relocation And Move To Another FAT</option>
+                                                                <option value="TIDYING PRECON">Tidying Precon</option>
+                                                                <option value="REPLACE NEW PRECON AND ONT">Replace New Precon And ONT</option>
+                                                                <option value="TIDYING UP PRECON CABLE">Tidying Up Precon Cable</option>
+                                                                <option value="RELOCATION, MOVE ANOTHER FAT, REPLACE NEW PRECON, MOVE TO ANOTHER FAT AND REPLACE ONT">Relocation, Move Another FAT, Replace New Precon, Move To Another FAT And Replace ONT</option>
+                                                                <option value="Change FAT">Change FAT</option>
+                                                                <option value="REPLACE NEW DROP WIRE">Replace New Drop Wire</option>
+                                                                <option value="SPLICING DROP WIRE">Splicing Drop Wire</option>
+                                                                <option value="CHANGE CORE">Change Core</option>
+                                                                <option value="REPLACE NEW PRECON AND REPLACE ONT AND REPLACE STB">Replace New Precon And Replace ONT And Replace STB</option>
+                                                                <option value="REPLACE NEW PRECON AND REPLACE ONT AND CHANGE FAT">Replace New Precon And Replace ONT And Change FAT</option>
+                                                                <option value="PROVISIONING BY DISPATCHER">Provisioning By Dispatcher</option>
+                                                                <option value="REPLACE BAREL OR OPTICAL ADAPTER">Replace Barel Or Optical Adapter</option>
+                                                                <option value="REPLACE RJ45">Replace RJ45</option>
+                                                                <option value="VALIDATION, RELOCATION, REPLACE NEW PRECON AND MOVE ANOTHER FAT">Validation, Relocation, Replace New Precon And Move Another FAT</option>
+                                                                <option value="VALIDATION AND RE-ASSIGN PORT AT FAT">Validation And Re-Assign Port At FAT</option>
+                                                                <option value="VALIDATION, RELOCATION, REPLACE NEW PRECON, MOVE ANOTHER FAT AND REPLACE ONT">Validation, Relocation, Replace New Precon, Move Another FAT And Replace ONT</option>
+                                                                <option value="TIGHTINING CONNECTOR PRECON AT PORT ONT">Tightining Connector Precon At Port ONT</option>
+                                                                <option value="REVISI FASTCONNECTOR ON TB">Revisi Fastconnector On TB</option>
+                                                                <option value="REPLACE FASTCONNECTOR ON TB">Replace Fastconnector On TB</option>
+                                                                <option value="REVISI FASTCONNECTOR ON FAT">Revisi Fastconnector On FAT</option>
+                                                                <option value="REPLACE FASTCONNECTOR ON FAT">Replace Fastconnector On FAT</option>
+                                                                <option value="TIGHTINING FAST CONNECTOR AT PORT FAT">Tightining Fast Connector At Port FAT</option>
+                                                                <option value="TIGHTINING FAST CONNECTOR AT TB">Tightining Fast Connector At TB</option>
+                                                                <option value="VALIDATION AND RE-ASSIGN PORT AT FAT">Validation And Re-Assign Port At FAT</option>
+                                                                <option value="REPLACE FASTCONNECTOR ON FAT AND TB">Replace Fastconnector On FAT And TB</option>
+                                                                <option value="CHANGE STB">Change STB</option>
+                                                                <option value="REPLACE ADAPTOR STB">Replace Adaptor STB</option>
+                                                                <option value="RESTART STB">Restart STB</option>
+                                                                <option value="UNPLUG and PLUG ADAPTOR STB">Unplug And Plug Adaptor STB</option>
+                                                                <option value="RE-LOG IN ACCOUNT">Re-Log In Account</option>
+                                                                <option value="REPLACE STB AND ONT">Replace STB And ONT</option>
+                                                                <option value="REPLACE BATERAI">Replace Baterai</option>
+                                                                <option value="REPLACE REMOTE">Replace Remote</option>
+                                                                <option value="REPLACE ADAPTOR ACCESS POINT">Replace Adaptor Access Point</option>
+                                                                <option value="RESTART ACCESS POINT">Restart Access Point</option>
+                                                                <option value="RE-CONFIGURE ACCESS POINT">Re-Configure Access Point</option>
+                                                                <option value="UPGRADE FIRMWARE">Upgrade Firmware</option>
+                                                                <option value="REPLACE ACCESS POINT">Replace Access Point</option>
+                                                                <option value="REPLACE ADAPTOR ROUTER WIRELESS">Replace Adaptor Router Wireless</option>
+                                                                <option value="RE-CONFIGURE ROUTER WIRELESS">Re-Configure Router Wireless</option>
+                                                                <option value="REPLACE ROUTER WIRELESS">Replace Router Wireless</option>
+                                                                <option value="RESTART ROUTER WIRELESS">Restart Router Wireless</option>
+                                                                <option value="INSTALLATION STB">Installation STB</option>
+                                                                <option value="REPLACE ONT">Replace ONT</option>
+                                                                <option value="CHANGE PORT LAN ONT">Change Port Lan ONT</option>
+                                                                <option value="RE-CONFIGURE WIFI ONT">Re-Configure Wifi ONT</option>
+                                                                <option value="REPLACE ADAPTOR">Replace Adaptor</option>
+                                                                <option value="DOWNGRADE STB">Downgrade STB</option>
+                                                                <option value="REPLACE DEVICE">Replace Device</option>
+                                                                <option value="ADD DEVICE">Add Device</option>
+                                                                <option value="INSTALLED DEVICE">Installed Device</option>
+                                                                <option value="MOVING ADDRESS">Moving Address</option>
+                                                                <option value="MOVING OUTLET AND REPLACE DROP WIRE">Moving Outlet And Replace Drop Wire</option>
+                                                                <option value="MOVING OUTLET">Moving Outlet</option>
+                                                                <option value="ESCALATION TO PARTNERSHIP TEAM">Escalation To Partnership Team</option>
+                                                                <option value="ESCALATION TO PROJECT AND PROCUREMENT TEAM">Escalation To Project And Procurement Team</option>
+                                                                <option value="ESCALATION TO PROJECT AND INFRA TEAM">Escalation To Project And Infra Team</option>
+                                                                <option value="ESCALATION TO PARTNERSHIP TEAM">Escalation To Partnership Team</option>
+
                                                             </select>
                                                         </div>
                                                         <div class="col form-group mb-1">
@@ -916,7 +1077,7 @@
                                                         <option value="Checkout">Checkout</option>
                                                         <option value="Done">Done</option>
                                                         <option value="Pending">Pending</option>
-                                                        <option value="Cancel">Cancel</option>
+                                                        <option value="Cancelled">Cancelled</option>
                                                     </select>
                                                 </div>
 
@@ -985,8 +1146,14 @@
                                                                 id="alasanCancel" name="alasan_cancel"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
-                                                        <div class="col form-group mb-1">
-
+                                                        <div class="col form-group mt-4">
+                                                            <div class="form-check">
+                                                                <input type="hidden" name="is_checked" value="0"> <!-- Default jika tidak dicentang -->
+                                                                <input class="form-check-input" type="checkbox" name="is_checked" value="1" id="isChecked">
+                                                                <label class="form-check-label" for="isChecked">
+                                                                    Sudah Dicek
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1266,8 +1433,8 @@
                                         <th scope="col">Type</th>
                                         <th scope="col">Tanggal Ikr</th>
                                         <th scope="col">Status Wo</th>
-                                        <th scope="col">Couse Code</th>
-                                        <th scope="col">Root Couse</th>
+                                        <th scope="col">Cause Code</th>
+                                        <th scope="col">Root Cause</th>
                                         <th scope="col">Action Taken</th>
                                         <th scope="col">Kode Fat</th>
                                         <th scope="col">Branch</th>
@@ -1684,7 +1851,19 @@
                         data: 'teknisi3'
                     },
                     {
-                        data: 'status_wo'
+                        data: 'status_apk'
+                    },
+                    {
+                        data: 'is_checked',
+                        render: function(data, type, row) {
+                            if (data == 1) {
+                                // Jika sudah dicek, tampilkan badge hijau
+                                return '<span class="badge text-bg-success text-white">Sudah Dicek</span>';
+                            } else {
+                                // Jika belum dicek, tampilkan badge kuning
+                                return '<span class="badge text-bg-warning text-white">Belum Dicek</span>';
+                            }
+                        }
                     },
                     {
                         data: 'action',
@@ -1756,6 +1935,7 @@
                     $('#leaderShow').val(dtDis.leader);
                     $('#slotTimeAPKShow').val(dtDis.slot_time_apk);
                     $('#statusWoApk').val(toTitleCase(dtDis.status_apk || ""));
+                    $('#isChecked').prop('checked', dtDis.is_checked == 1);
 
                     $('#causeCode').val(dtDis.couse_code);
                     $('#rootCause').val(dtDis.root_couse);
@@ -1793,7 +1973,7 @@
                     $('#alasanTidakGantiPrecon').val(toTitleCase(dtDis.alasan_tidak_ganti_precon || ""));
                     $('#alasanPending').val(toTitleCase(dtDis.alasan_pending || ""));
                     $('#alasanCancel').val(toTitleCase(dtDis.alasan_cancel || ""));
-                    $('#reportTeknisi').val(toTitleCase(dtDis.report_teknisi || ""));
+                    $('#reportTeknisi').val(toTitleCase(dtDis.keterangan || ""));
 
                     $('#picDispatch').val(toTitleCase(dtDis.pic_dispatch || ""));
 

@@ -805,7 +805,7 @@
                                                             <option value="Checkout">Checkout</option>
                                                             <option value="Done">Done</option>
                                                             <option value="Pending">Pending</option>
-                                                            <option value="Cancel">Cancel</option>
+                                                            <option value="Cancelled">Cancelled</option>
                                                         </select>
                                                     </div>
 
@@ -1470,7 +1470,7 @@
                         data: 'teknisi3'
                     },
                     {
-                        data: 'status_wo'
+                        data: 'status_apk'
                     },
                     {
                         data: 'action',

@@ -293,6 +293,7 @@ class MonitFtthIB_Controller extends Controller
             'callsign_id' => $request['callsign_id'],
             'alasan_pending' => $request['alasanPending'],
             'alasan_cancel' => $request['alasanCancel'],
+            'is_checked' => $request['is_checked'],
             'login_id' => $aksesId,
             'login' => $akses,
         ]);

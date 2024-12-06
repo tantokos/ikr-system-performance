@@ -117,5 +117,6 @@ class FtthIb extends Model
         'marker',
         'site_penagihan',
         'login',
+        'is_checked'
     ];
 }

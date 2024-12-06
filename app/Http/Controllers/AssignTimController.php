@@ -323,7 +323,7 @@ class AssignTimController extends Controller
                         'type_maintenance' => $dataForFtth['remarks_apk'],
                         'slot_time_leader' => $dataForFtth['slot_time'],
                         'slot_time_apk' => $dataForFtth['time_apk'],
-                        'status_wo' => "Requested",
+                        'status_apk' => "Requested",
                         'branch_id' => $dataForFtth['branch_id'],
                         'branch' => $dataForFtth['branch'],
                         'leadcall_id' => $dataForFtth['leadcall_id'],
@@ -338,6 +338,7 @@ class AssignTimController extends Controller
                         'teknisi2' => $dataForFtth['teknisi2'],
                         'tek3_nik' => $dataForFtth['tek3_nik'],
                         'teknisi3' => $dataForFtth['teknisi3'],
+                        'is_checked' => 0,
                         'login' => $dataForFtth['login']
                     ]);
                     break;
@@ -360,7 +361,7 @@ class AssignTimController extends Controller
                         'type_maintenance' => $dataForFtth['remarks_apk'],
                         'slot_time_leader' => $dataForFtth['slot_time'],
                         'slot_time_apk' => $dataForFtth['time_apk'],
-                        'status_wo' => "Requested",
+                        'status_apk' => "Requested",
                         'branch_id' => $dataForFtth['branch_id'],
                         'branch' => $dataForFtth['branch'],
                         'leadcall_id' => $dataForFtth['leadcall_id'],
@@ -377,6 +378,7 @@ class AssignTimController extends Controller
                         'teknisi3' => $dataForFtth['teknisi3'],
                         'tek4_nik' => $dataForFtth['tek4_nik'],
                         'teknisi4' => $dataForFtth['teknisi4'],
+                        'is_checked' => 0,
                         'login' => $dataForFtth['login']
                     ]);
                     break;
@@ -398,7 +400,7 @@ class AssignTimController extends Controller
                         'port_fat' => $dataForFtth['fat_port_apk'],
                         'slot_time_leader' => $dataForFtth['slot_time'],
                         'slot_time_apk' => $dataForFtth['time_apk'],
-                        'status_wo' => "Requested",
+                        'status_apk' => "Requested",
                         'branch_id' => $dataForFtth['branch_id'],
                         'branch' => $dataForFtth['branch'],
                         'leadcall_id' => $dataForFtth['leadcall_id'],
@@ -413,6 +415,7 @@ class AssignTimController extends Controller
                         'teknisi2' => $dataForFtth['teknisi2'],
                         'tek3_nik' => $dataForFtth['tek3_nik'],
                         'teknisi3' => $dataForFtth['teknisi3'],
+                        'is_checked' => 0,
                         'login' => $dataForFtth['login']
                     ]);
                     break;

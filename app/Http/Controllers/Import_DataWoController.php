@@ -331,7 +331,7 @@ class Import_DataWoController extends Controller
                                     'type_maintenance' => $data['remarks_apk'],
                                     'slot_time_leader' => $data['slot_time'],
                                     'slot_time_apk' => $data['time_apk'],
-                                    'status_wo' => "Requested",
+                                    'status_apk' => "Requested",
                                     'branch_id' => $data['branch_id'],
                                     'branch' => $data['branch'],
                                     'leadcall_id' => $data['leadcall_id'],
@@ -348,6 +348,7 @@ class Import_DataWoController extends Controller
                                     'teknisi3' => $data['teknisi3'],
                                     'tek4_nik' => $data['tek4_nik'],
                                     'teknisi4' => $data['teknisi4'],
+                                    'is_checked' => 0,
                                     'login' => $data['login']
                                 ]);
                             } elseif ($data['type_wo'] === 'FTTH New Installation') {
@@ -368,7 +369,7 @@ class Import_DataWoController extends Controller
                                     'type_maintenance' => $data['remarks_apk'],
                                     'slot_time_leader' => $data['slot_time'],
                                     'slot_time_apk' => $data['time_apk'],
-                                    'status_wo' => "Requested",
+                                    'status_apk' => "Requested",
                                     'branch_id' => $data['branch_id'],
                                     'branch' => $data['branch'],
                                     'leadcall_id' => $data['leadcall_id'],
@@ -383,6 +384,7 @@ class Import_DataWoController extends Controller
                                     'teknisi2' => $data['teknisi2'],
                                     'tek3_nik' => $data['tek3_nik'],
                                     'teknisi3' => $data['teknisi3'],
+                                    'is_checked' => 0,
                                     'login' => $data['login']
                                 ]);
                             } elseif ($data['type_wo'] == 'FTTH Dismantle') {
@@ -402,7 +404,7 @@ class Import_DataWoController extends Controller
                                     'port_fat' => $data['fat_port_apk'],
                                     'slot_time_leader' => $data['slot_time'],
                                     'slot_time_apk' => $data['time_apk'],
-                                    'status_wo' => "Requested",
+                                    'status_apk' => "Requested",
                                     'branch_id' => $data['branch_id'],
                                     'branch' => $data['branch'],
                                     'leadcall_id' => $data['leadcall_id'],

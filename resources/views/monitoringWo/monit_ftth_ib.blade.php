@@ -204,6 +204,7 @@
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 3</th>
                                             {{-- <th class="text-center text-xs font-weight-semibold">Teknisi 4</th> --}}
                                             <th class="text-center text-xs font-weight-semibold">Status WO</th>
+                                            <th class="text-center text-xs font-weight-semibold">Status Check</th>
 
                                             <th class="text-center text-xs font-weight-semibold">#</th>
 
@@ -902,6 +903,16 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="form-group mt-4">
+                                                    <div class="form-check">
+                                                        <input type="hidden" name="is_checked" value="0"> <!-- Default jika tidak dicentang -->
+                                                        <input class="form-check-input" type="checkbox" name="is_checked" value="1" id="isChecked">
+                                                        <label class="form-check-label" for="isChecked">
+                                                            Sudah Dicek
+                                                        </label>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -1532,6 +1543,18 @@
                         data: 'status_apk'
                     },
                     {
+                        data: 'is_checked',
+                        render: function(data, type, row) {
+                            if (data == 1) {
+                                // Jika sudah dicek, tampilkan badge hijau
+                                return '<span class="badge text-bg-success text-white">Sudah Dicek</span>';
+                            } else {
+                                // Jika belum dicek, tampilkan badge kuning
+                                return '<span class="badge text-bg-warning text-white">Belum Dicek</span>';
+                            }
+                        }
+                    },
+                    {
                         data: 'action',
                         "className": "text-center",
                     },
@@ -1634,6 +1657,8 @@
 
                     $('#statusWo').val(toTitleCase(dtDis.status_wo || ""));
                     $('#statusWoApk').val(toTitleCase(dtDis.status_apk || ""));
+                    $('#isChecked').prop('checked', dtDis.is_checked == 1);
+
 
                     $('#causeCode').val(dtDis.couse_code);
                     $('#rootCause').val(dtDis.root_couse);

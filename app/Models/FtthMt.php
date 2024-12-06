@@ -123,5 +123,6 @@ class FtthMt extends Model
         'alasan_pending',
         'alasan_cancel',
         'report_teknisi',
+        'is_checked',
     ];
 }
