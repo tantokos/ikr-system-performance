@@ -71,8 +71,8 @@ class karyawanController extends Controller
         // ]);
 
         $cekValidasi = $request->validate([
-            'nik' => ['required', 'unique:Employees,nik_karyawan'],
-            'namaKaryawan' => ['required', 'unique:Employees,nama_karyawan'],
+            'nik' => ['required', 'unique:employees,nik_karyawan'],
+            'namaKaryawan' => ['required', 'unique:employees,nama_karyawan'],
         ]);
 
         if ($request->hasFile('foto_karyawan')) {
@@ -181,8 +181,10 @@ class karyawanController extends Controller
             $file = $fileFoto->hashName();
             $request->file('foto_karyawan')->move(public_path('storage/image-kry'), $file);
 
-            File::delete(public_path('storage/image-kry/' . $karyawan->foto_karyawan));
-
+            if($karyawan->foto_karyawan != "foto-blank.jpg"){
+                File::delete(public_path('storage/image-kry/' . $karyawan->foto_karyawan));
+            }
+            
             $karyawan->update([
                 'nik_karyawan' => $request->nik,
                 'nama_karyawan' => $request->namaKaryawan,
@@ -291,11 +293,6 @@ class karyawanController extends Controller
         }
 
         return redirect()->route('dataKaryawan')->with(['success' => 'Data sudah tersimpan.']);
-    }
-
-    public function kelengkapanKaryawan(Request $request)
-    {
-        return view('karyawan.kelengkapan_karyawan');
     }
 
     /**

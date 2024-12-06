@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class ToolController extends Controller
 {
@@ -23,7 +24,7 @@ class ToolController extends Controller
         $mail = Auth::user()->email;
         $login = Employee::where('email', $mail)
                 ->leftJoin('branches', 'employees.branch_id','=','branches.id')
-                ->select('nik_karyawan', 'nama_karyawan','departement','posisi','nama_branch',)
+                ->select('nik_karyawan', 'nama_karyawan','departement','posisi','nama_branch','email')
                 ->first();
         
         //get data karyawaan approval 1
@@ -84,6 +85,7 @@ class ToolController extends Controller
                         DB::raw('(case posisi 
                                     when "Supervisor" then posisi
                                     when "Dikembalikan ke GA" then posisi
+                                    when "Disposal" then posisi
                                     else "Tim"
                                 end) as posisiTool, 
                                 count(if(kondisi="Baik",1,null)) as baik,
@@ -225,25 +227,60 @@ class ToolController extends Controller
         $filApprove1 = $click[5];
         $filApprove2 = $click[6];
 
-        $branchList = DB::table('tool_ikrs')->select(DB::raw('branch_penerima, count(*) as jml'))
-                    ->where('posisi', $clickPosisi)
+        if($clickKondisi == "Subtotal"){
+            $branchList = DB::table('tool_ikrs')->select(DB::raw('branch_penerima, count(*) as jml'))
+                    // ->where('posisi', $clickPosisi)
+                    // ->where('kondisi', $clickKondisi)
+                    ->groupBy('branch_penerima')->orderBy('jml','DESC');
+
+            $RekapTool = DB::table('tool_ikrs')->select(DB::raw('nama_barang, count(*) as jml'))
+                // ->where('posisi', $clickPosisi)
+                // ->where('kondisi', $clickKondisi)
+                ->groupBy('nama_barang')->orderBy('jml','DESC'); //->get();
+        
+            $RekapToolBranch = DB::table('tool_ikrs')->select(DB::raw('branch_penerima, nama_barang, count(*) as jml'))
+                // ->where('posisi', $clickPosisi)
+                // ->where('kondisi', $clickKondisi)
+                ->groupBy('branch_penerima', 'nama_barang')->orderBy('jml','DESC'); //->get();
+
+            $listTool = DB::table('tool_ikrs');
+                // ->where('posisi', $clickPosisi)
+                // ->where('kondisi', $clickKondisi);
+                // ->groupBy('nama_barang'); //->get();
+        } else {
+
+            $branchList = DB::table('tool_ikrs')->select(DB::raw('branch_penerima, count(*) as jml'))
+                    // ->where('posisi', $clickPosisi)
                     ->where('kondisi', $clickKondisi)
                     ->groupBy('branch_penerima')->orderBy('jml','DESC');
 
-        $RekapTool = DB::table('tool_ikrs')->select(DB::raw('nama_barang, count(*) as jml'))
-                ->where('posisi', $clickPosisi)
+            $RekapTool = DB::table('tool_ikrs')->select(DB::raw('nama_barang, count(*) as jml'))
+                // ->where('posisi', $clickPosisi)
                 ->where('kondisi', $clickKondisi)
                 ->groupBy('nama_barang')->orderBy('jml','DESC'); //->get();
         
-        $RekapToolBranch = DB::table('tool_ikrs')->select(DB::raw('branch_penerima, nama_barang, count(*) as jml'))
-                ->where('posisi', $clickPosisi)
+            $RekapToolBranch = DB::table('tool_ikrs')->select(DB::raw('branch_penerima, nama_barang, count(*) as jml'))
+                // ->where('posisi', $clickPosisi)
                 ->where('kondisi', $clickKondisi)
                 ->groupBy('branch_penerima', 'nama_barang')->orderBy('jml','DESC'); //->get();
 
-        $listTool = DB::table('tool_ikrs')
-                ->where('posisi', $clickPosisi)
+            $listTool = DB::table('tool_ikrs')
+                // ->where('posisi', $clickPosisi)
                 ->where('kondisi', $clickKondisi);
                 // ->groupBy('nama_barang'); //->get();
+        }
+        
+        if($clickPosisi=="Tim"){
+            $branchList = $branchList->whereNotIn('posisi',['Supervisor','Dikembalikan ke GA','Disposal']);
+            $RekapTool = $RekapTool->whereNotIn('posisi',['Supervisor','Dikembalikan ke GA','Disposal']);
+            $RekapToolBranch = $RekapToolBranch->whereNotIn('posisi',['Supervisor','Dikembalikan ke GA','Disposal']);
+            $listTool = $listTool->whereNotIn('posisi',['Supervisor','Dikembalikan ke GA','Disposal']);
+        } else {
+            $RekapTool = $RekapTool->where('posisi', $clickPosisi);
+            $RekapToolBranch = $RekapToolBranch->where('posisi', $clickPosisi);
+            $branchList = $branchList->where('posisi', $clickPosisi);
+            $listTool = $listTool->where('posisi', $clickPosisi);
+        }
 
         if($filBranch != "ALL"){
             $RekapTool = $RekapTool->where('branch_penerima',$filBranch);
@@ -289,17 +326,43 @@ class ToolController extends Controller
     public function simpanTool(Request $request)
     {
 
-        if ($request->kode_aset != '-') {
-            $request->validate([
-                'kodeAset' => 'unique:tool_ikrs,kode_aset',
-            ]);
+        if ($request->kodeAset != '-') {
+            if (Str::upper($request->kodeAset) != "NO CODING") {
+                // dd($request->kodeAset, $request->all());
+                $request->validate([
+                    'kodeAset' => 'unique:tool_ikrs,kode_aset',
+                ]);
+            }
+            
         }
 
-        if ($request->kode_ga != '-') {
-            $request->validate([
-                'kodeGA' => 'unique:tool_ikrs,kode_ga',
-            ]);
+        if ($request->kodeGA != '-') {
+            if (Str::upper($request->kodeGA) != "NO CODING") {
+                // dd($request->kodeAset, $request->all());
+                $request->validate([
+                    'kodeGA' => 'unique:tool_ikrs,kode_ga',
+                ]);
+            }
+            
         }
+
+        // if ($request->kode_aset != 'No Coding') {
+        //     $request->validate([
+        //         'kodeAset' => 'unique:tool_ikrs,kode_aset',
+        //     ]);
+        // }
+
+        // if ($request->kode_ga != '-' || $request->kode_ga != 'No Coding') {
+        //     $request->validate([
+        //         'kodeGA' => 'unique:tool_ikrs,kode_ga',
+        //     ]);
+        // }
+
+        // if ($request->kode_ga != 'No Coding') {
+        //     $request->validate([
+        //         'kodeGA' => 'unique:tool_ikrs,kode_ga',
+        //     ]);
+        // }
 
 
         $request->validate([
@@ -328,8 +391,8 @@ class ToolController extends Controller
                 'nama_barang' => $request['namaTool'],
                 'merk_barang' => $request['merk'],
                 'spesifikasi' => $request['spesifikasi'],
-                'kode_aset' => $request['kodeAset'],
-                'kode_ga' => $request['kodeGA'],
+                'kode_aset' => Str::upper($request['kodeAset']),
+                'kode_ga' => Str::upper($request['kodeGA']),
                 'kondisi' => $request['kondisi'],
                 'satuan' => $request['satuan'],
                 'jumlah' => 0,
@@ -359,15 +422,20 @@ class ToolController extends Controller
     {
 
         if ($request->kodeAsetShow != '-') {
-            $request->validate([
-                'kodeAsetShow' => 'unique:tool_ikrs,kode_aset,'.$request->namaToolShowId,
-            ]);
+            if (Str::upper($request->kodeAsetShow) != "NO CODING") {
+                $request->validate([
+                    'kodeAsetShow' => 'unique:tool_ikrs,kode_aset,'.$request->namaToolShowId,
+                ]);
+            }
         }
 
         if ($request->kodeGAShow != '-') {
-            $request->validate([
-                'kodeGAShow' => 'unique:tool_ikrs,kode_ga,'.$request->namaToolShowId,
-            ]);
+            if (Str::upper($request->kodeGAShow) != "NO CODING") {
+                $request->validate([
+                    'kodeGAShow' => 'unique:tool_ikrs,kode_ga,'.$request->namaToolShowId,
+                ]);
+            }
+            
         }
 
         $request->validate([
@@ -400,8 +468,8 @@ class ToolController extends Controller
                 'nama_barang' => $request['namaToolShow'],
                 'merk_barang' => $request['merkShow'],
                 'spesifikasi' => $request['spesifikasiShow'],
-                'kode_aset' => $request['kodeAsetShow'],
-                'kode_ga' => $request['kodeGAShow'],
+                'kode_aset' => Str::upper($request['kodeAsetShow']),
+                'kode_ga' => Str::upper($request['kodeGAShow']),
                 'kondisi' => $request['kondisiShow'],
                 'satuan' => $request['satuanShow'],
                 'tgl_pengadaan' => $request['tglPenerimaanShow'],
@@ -412,7 +480,9 @@ class ToolController extends Controller
 
             DB::commit();
 
-            File::delete(public_path('storage/image-tool/' . $dtToolOld->foto_barang));
+            if($dtToolOld->foto_barang != 'default-150x150.png'){
+                File::delete(public_path('storage/image-tool/' . $dtToolOld->foto_barang));
+            }
 
             return redirect()->route('dataTool')->with(['success' => 'Data tersimpan.']);
 
@@ -425,7 +495,6 @@ class ToolController extends Controller
 
     public function simpanApproval(Request $request)
     {
-        
         $akses = Auth::user()->name;
         $aksesId = Auth::user()->id;
         $toolId = $request->namaToolApp1Id;
@@ -457,12 +526,14 @@ class ToolController extends Controller
                     };
 
                     DB::commit();
-                    return redirect()->route('dataTool')->with(['success' => 'Berhasil update Persetujuan 1']);
+                    // return redirect()->route('dataTool')->with(['success' => 'Berhasil update Persetujuan 1']);
+                    return response()->json('success');
 
                 } catch (\Exception $e) {
                     // Rollback jika ada kesalahan
                     DB::rollback();
-                    return redirect()->route('dataTool')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+                    // return redirect()->route('dataTool')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+                    return response()->json($e->getMessage());
                 }
 
                 break;
@@ -490,12 +561,14 @@ class ToolController extends Controller
                     };
 
                     DB::commit();
-                    return redirect()->route('dataTool')->with(['success' => 'Berhasil update Persetujuan 2']);
+                    // return redirect()->route('dataTool')->with(['success' => 'Berhasil update Persetujuan 1']);
+                    return response()->json('success');
 
                 } catch (\Exception $e) {
                     // Rollback jika ada kesalahan
                     DB::rollback();
-                    return redirect()->route('dataTool')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+                    // return redirect()->route('dataTool')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+                    return response()->json($e->getMessage());
                 }
 
                 break;

@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\DisposalToolController;
 use App\Http\Controllers\DistribusiToolController;
 use App\Http\Controllers\Import_AbsensiController;
 use App\Http\Controllers\Import_DataWoController;
@@ -36,7 +37,9 @@ use App\Http\Controllers\ToolController;
 use App\Http\Controllers\ImportJadwalTim_controller;
 use App\Http\Controllers\ImportMaterialDismantleController;
 use App\Http\Controllers\JadwalTim_controller;
+use App\Http\Controllers\KaryawanKelengkapanController;
 use App\Http\Controllers\KembaliToolGA_Controller;
+use App\Http\Controllers\SeragamController;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -75,8 +78,6 @@ Route::post('/simpankaryawan', [karyawanController::class, 'simpankaryawan'])->n
 Route::get('/detailKaryawan/{id}', [karyawanController::class, 'detailKaryawan'])->name('detailKaryawan')->middleware('auth');
 Route::post('/updateKaryawan', [karyawanController::class, 'updateKaryawan'])->name('updateKaryawan')->middleware('auth');
 
-Route::get('/kelengkapanKaryawan', [karyawanController::class, 'kelengkapanKaryawan'])->name('kelengkapanKaryawan')->middleware('auth');
-
 //end Karyawan //
 
 // Tim & Callsign //
@@ -97,7 +98,7 @@ Route::put('/updateLead/{id}', [TimController::class, 'updateLead'])->name('upda
 Route::get('/getDataLeadCallsign', [TimController::class, 'getDataLeadCallsign'])->name('getDataLeadCallsign')->middleware('auth');
 Route::get('/getDataShowTim', [TimController::class, 'getDataShowTim'])->name('getDataShowTim')->middleware('auth');
 Route::get('/getDataTim', [TimController::class, 'getDataTim'])->name('getDataTim')->middleware('auth');
-Route::get('/getTeknisi', [TimController::class, 'getTeknisi'])->name('getTeknisi')->middleware('auth');
+Route::get('/getTeknisiTim', [TimController::class, 'getTeknisiTim'])->name('getTeknisiTim')->middleware('auth');
 Route::post('/simpanTim', [TimController::class, 'simpanTim'])->name('simpanTim')->middleware('auth');
 Route::get('/getDetailTim', [TimController::class, 'getDetailTim'])->name('getDetailTim')->middleware('auth');
 
@@ -236,7 +237,7 @@ Route::get('/getRiwayatTool', [ToolController::class, 'getRiwayatTool'])->name('
 Route::post('/simpanTool', [ToolController::class, 'simpanTool'])->name('simpanTool')->middleware('auth');
 Route::post('/updateTool', [ToolController::class, 'updateTool'])->name('updateTool')->middleware('auth');
 
-Route::post('/simpanApproval', [ToolController::class, 'simpanApproval'])->name('simpanApproval')->middleware('auth');
+Route::get('/simpanApproval', [ToolController::class, 'simpanApproval'])->name('simpanApproval')->middleware('auth');
 Route::get('/getRiwayatApprove', [ToolController::class, 'getRiwayatApprove'])->name('getRiwayatApprove')->middleware('auth');
 
 Route::get('/getCallsignBranch', [ToolController::class, 'getCallsignBranch'])->name('getCallsignBranch')->middleware('auth');
@@ -274,7 +275,20 @@ Route::get('/getDetailCek', [LaporanToolController::class, 'getDetailCek'])->nam
 
 Route::post('/simpanPengecekan', [LaporanToolController::class, 'simpanPengecekan'])->name('simpanPengecekan')->middleware('auth');
 
+Route::get('/disposalTool', [DisposalToolController::class, 'index'])->name('disposalTool')->middleware('auth');
+Route::get('/getSelectToolDisposal', [DisposalToolController::class, 'getSelectToolDisposal'])->name('getSelectToolDisposal')->middleware('auth');
+Route::post('/simpanDisposal', [DisposalToolController::class, 'simpanDisposal'])->name('simpanDisposal')->middleware('auth');
+Route::get('/getDataDisposal', [DisposalToolController::class, 'getDataDisposal'])->name('getDataDisposal')->middleware('auth');
+Route::get('/getDetailDisposal', [DisposalToolController::class, 'getDetailDisposal'])->name('getDetailDisposal')->middleware('auth');
+
 //End Tools//
+
+//Start kelengkapan Seragam
+Route::get('/dataSeragam', [SeragamController::class, 'index'])->name('dataSeragam')->middleware('auth');
+Route::post('/simpanSeragam',[SeragamController::class,'simpanSeragam'])->name('simpanSeragam')->middleware('auth');
+Route::get('/getKaryawanBranch', [SeragamController::class, 'getKaryawanBranch'])->name('getKaryawanBranch')->middleware('auth');
+
+//End Kelengkapan Seragam
 
 
 // Import Absensi //
