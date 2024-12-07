@@ -283,6 +283,7 @@ class FtthDismantleController extends Controller
             'callsign_id' => $request['callsign_id'],
             'alasan_pending' => $request['alasan_pending'],
             'alasan_cancel' => $request['alasan_cancel'],
+            'is_checked' => $request['is_checked'],
             'login_id' => $aksesId,
             'login' => $akses,
         ]);

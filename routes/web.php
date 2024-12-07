@@ -211,7 +211,7 @@ Route::get('/getMaterialFtthMt', [MonitFtthMT_Controller::class,'getMaterialFtth
 
 //End Monitoring//
 
-
+Route::get('ftth-mt/export', [MonitFtthMT_Controller::class, 'export'])->name('ftth-mt.export')->middleware('auth');
 //Start Monitoring FOTO APK//
 
 Route::get('/monitFotoFtthMT', [MonitFotoFtthMT_Controller::class, 'index'])->name('monitFotoFtthMT')->middleware('auth');

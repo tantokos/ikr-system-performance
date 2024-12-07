@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\FtthMtExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,6 +12,7 @@ use App\Models\FtthMt;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MonitFtthMT_Controller extends Controller
 {
@@ -508,5 +510,20 @@ class MonitFtthMT_Controller extends Controller
     //         return redirect()->route('monitFtthT')->with(['error' => 'Gagal menyimpan data.']);
     //     }
     // }
+
+    public function export(Request $request)
+    {
+        $export = new FtthMtExport($request);
+        return Excel::download($export, 'FTTH_MT.xlsx');
+    }
+
+    public function tampilkanSLA()
+    {
+        // Ambil semua data dari tabel
+        $records = FtthMt::all();
+
+        // Kirimkan data ke view atau API
+        return view('sla.index', compact('records'));
+    }
 
 }

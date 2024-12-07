@@ -57,6 +57,7 @@ class FtthDismantle extends Model
         'leader',
         'pic_monitoring',
         'login',
+        'is_checked',
         'created_at',
         'updated_at'
     ];
