@@ -212,6 +212,8 @@ Route::get('/getMaterialFtthMt', [MonitFtthMT_Controller::class,'getMaterialFtth
 //End Monitoring//
 
 Route::get('ftth-mt/export', [MonitFtthMT_Controller::class, 'export'])->name('ftth-mt.export')->middleware('auth');
+Route::get('/ftth-ib/export', [MonitFtthIB_Controller::class, 'export'])->name('ftth-ib.export')->middleware('auth');
+Route::get('/ftth-dismantle/export', [FtthDismantleController::class, 'export'])->name('ftth-dismantle.export')->middleware('auth');
 //Start Monitoring FOTO APK//
 
 Route::get('/monitFotoFtthMT', [MonitFotoFtthMT_Controller::class, 'index'])->name('monitFotoFtthMT')->middleware('auth');

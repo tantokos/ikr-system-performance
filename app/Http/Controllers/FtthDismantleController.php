@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\FtthDismantleExport;
 use App\Models\FtthDismantle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FtthDismantleController extends Controller
 {
@@ -315,5 +317,11 @@ class FtthDismantleController extends Controller
                 ->escapeColumns()  //mencegah XSS Attack
                 ->toJson(); //merubah response dalam bentuk Json
         }
+    }
+
+    public function export(Request $request)
+    {
+        $export = new FtthDismantleExport($request);
+        return Excel::download($export, 'FTTH_IB.xlsx');
     }
 }
