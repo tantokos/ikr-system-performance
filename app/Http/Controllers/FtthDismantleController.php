@@ -322,6 +322,6 @@ class FtthDismantleController extends Controller
     public function export(Request $request)
     {
         $export = new FtthDismantleExport($request);
-        return Excel::download($export, 'FTTH_IB.xlsx');
+        return Excel::download($export, 'FTTH_Dismantle.xlsx');
     }
 }

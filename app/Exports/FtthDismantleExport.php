@@ -2,13 +2,15 @@
 
 namespace App\Exports;
 
-use App\Models\FtthDismantle;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class FtthDismantleExport implements FromCollection
+class FtthDismantleExport implements FromCollection, WithHeadings, WithStyles
 {
     protected $request;
     /**
@@ -23,7 +25,60 @@ class FtthDismantleExport implements FromCollection
         ini_set('max_execution_time', 1900);
         ini_set('memory_limit', '8192M');
 
-        $datas = DB::table('data_ftth_dismantle_oris')->orderBy('visit_date', 'DESC');
+        $datas = DB::table('data_ftth_dismantle_oris')
+        ->select
+            (
+                'no_wo',
+            'wo_date',
+            'visit_date',
+            'dis_port_date',
+            'takeout_notakeout',
+            'port',
+            'close_date',
+            'cust_id',
+            'nama_cust',
+            'cust_address',
+            'slot_time',
+            'teknisi1',
+            'teknisi2',
+            'teknisi3',
+            'start',
+            'finish',
+            'kode_fat',
+            'kode_area',
+            'cluster',
+            'kotamadya',
+            'kotamadya_penagihan',
+            'main_branch',
+            'ms_regular',
+            'fat_status',
+            'ont_sn_in',
+            'stb_sn_in',
+            'router_sn_in',
+            'tarik_cable',
+            'status_wo',
+            'reason_status',
+            'remarks',
+            'reschedule_date',
+            'alasan_no_rollback',
+            'reschedule_time',
+            'callsign',
+            'checkin_apk',
+            'checkout_apk',
+            'status_apk',
+            'keterangan',
+            'ikr_progress_date',
+            'ikr_report_date',
+            'reconsile_date',
+            'weather',
+            'leader',
+            'pic_monitoring',
+            'login',
+            'is_checked',
+            'created_at',
+            'updated_at'
+        )
+        ->orderBy('visit_date', 'DESC');
 
         if($this->request->filtglProgress) {
             $dateRange = explode(" - ", $this->request->filtglProgress);
@@ -91,4 +146,78 @@ class FtthDismantleExport implements FromCollection
 
         return $datas->get();
     }
+
+    public function headings(): array
+    {
+        return [
+            'No Wo',
+            'Wo Date',
+            'Visit Date',
+            'Dis Port Date',
+            'Takeout Notakeout',
+            'Port',
+            'Close Date',
+            'Cust Id',
+            'Nama Cust',
+            'Cust Address',
+            'Slot Time',
+            'Teknisi1',
+            'Teknisi2',
+            'Teknisi3',
+            'Start',
+            'Finish',
+            'Kode Fat',
+            'Kode Area',
+            'Cluster',
+            'Kotamadya',
+            'Kotamadya Penagihan',
+            'Main Branch',
+            'Ms Regular',
+            'Fat Status',
+            'Ont Sn In',
+            'Stb Sn In',
+            'Router Sn In',
+            'Tarik Cable',
+            'Status Wo',
+            'Reason Status',
+            'Remarks',
+            'Reschedule Date',
+            'Alasan No Rollback',
+            'Reschedule Time',
+            'Callsign',
+            'Checkin Apk',
+            'Checkout Apk',
+            'Status Apk',
+            'Keterangan',
+            'Ikr Progress Date',
+            'Ikr Report Date',
+            'Reconsile Date',
+            'Weather',
+            'Leader',
+            'Pic Monitoring',
+            'Login',
+            'Is Checked',
+            'Created At',
+            'Updated At',
+        ];
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            1 => [ // Gaya untuk baris pertama (heading)
+                'font' => [
+                    'bold' => true,
+                    'color' => ['argb' => 'FFFFFF'], // Teks putih
+                ],
+                'fill' => [
+                    'fillType' => 'solid',
+                    'startColor' => [
+                        'argb' => 'A020F0', // Background biru
+                    ],
+                ],
+            ],
+        ];
+    }
+
 }
