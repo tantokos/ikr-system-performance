@@ -235,13 +235,9 @@ class Import_DataWoController extends Controller
                         'teknisi4',
                         'login_id',
                         'login'
-
                     )
-                    // ->where('branch', $branch)
                     ->where('login', $akses)
                     ->get()->toArray();
-
-                // dd($dtImportAssign);
 
                 if (count($dtImportAssign) > 0) {
                     $doubleAssign = [];
@@ -252,68 +248,65 @@ class Import_DataWoController extends Controller
                             ->first();
 
                         if ($cekDoubleAssign) {
-                            array_push($doubleAssign, $cekDoubleAssign->wo_no);
+                            array_push($doubleAssign, $data['no_wo_apk']);
                         }
                     }
 
                     $dtImportAssign2 = ImportAssignTim::whereNotIn('no_wo_apk', $doubleAssign)
-                    ->select(
-                        'batch_wo',
-                        'tgl_ikr',
-                        'slot_time',
-                        'type_wo',
-                        'no_wo_apk',
-                        'no_ticket_apk',
-                        'wo_date_apk',
-                        'cust_id_apk',
-                        'name_cust_apk',
-                        'cust_phone_apk',
-                        'cust_mobile_apk',
-                        'address_apk',
-                        'area_cluster_apk',
-                        'wo_type_apk',
-                        'fat_code_apk',
-                        'fat_port_apk',
-                        'remarks_apk',
-                        'vendor_installer_apk',
-                        'ikr_date_apk',
-                        'time_apk',
-                        'branch_id',
-                        'branch',
-                        'leadcall_id',
-                        'leadcall',
-                        'leader_id',
-                        'leader',
-                        'callsign_id',
-                        'callsign',
-                        'tek1_nik',
-                        'teknisi1',
-                        'tek2_nik',
-                        'teknisi2',
-                        'tek3_nik',
-                        'teknisi3',
-                        'tek4_nik',
-                        'teknisi4',
-                        'login_id',
-                        'login',
-                    )
+                        ->select(
+                            'batch_wo',
+                            'tgl_ikr',
+                            'slot_time',
+                            'type_wo',
+                            'no_wo_apk',
+                            'no_ticket_apk',
+                            'wo_date_apk',
+                            'cust_id_apk',
+                            'name_cust_apk',
+                            'cust_phone_apk',
+                            'cust_mobile_apk',
+                            'address_apk',
+                            'area_cluster_apk',
+                            'wo_type_apk',
+                            'fat_code_apk',
+                            'fat_port_apk',
+                            'remarks_apk',
+                            'vendor_installer_apk',
+                            'ikr_date_apk',
+                            'time_apk',
+                            'branch_id',
+                            'branch',
+                            'leadcall_id',
+                            'leadcall',
+                            'leader_id',
+                            'leader',
+                            'callsign_id',
+                            'callsign',
+                            'tek1_nik',
+                            'teknisi1',
+                            'tek2_nik',
+                            'teknisi2',
+                            'tek3_nik',
+                            'teknisi3',
+                            'tek4_nik',
+                            'teknisi4',
+                            'login_id',
+                            'login'
+                        )
                         ->whereNotNull('callsign')
                         ->where('login', $akses)
                         ->get()
                         ->toArray();
 
-                    // dd($dtImportAssign2);
-
                     DB::beginTransaction();
 
                     try {
-                        // Insert ke data_assign_tims
+                        // Insert data yang valid ke data_assign_tims
                         DataAssignTim::insert($dtImportAssign2);
 
-                        // Insert ke data_ftth_mt_oris
+                        // Proses penyimpanan ke tabel sesuai type_wo
                         foreach ($dtImportAssign2 as $data) {
-                            if($data['type_wo'] == "FTTH Maintenance"){
-
+                            if ($data['type_wo'] == "FTTH Maintenance") {
                                 DB::table('data_ftth_mt_oris')->insert([
                                     'sesi' => $data['batch_wo'],
                                     'tgl_ikr' => $data['tgl_ikr'],
@@ -424,24 +417,25 @@ class Import_DataWoController extends Controller
                             }
                         }
 
-                        // Hapus data dari ImportAssignTim
+                        // Hapus data sementara yang sudah diproses
                         ImportAssignTim::whereNotIn('no_wo_apk', $doubleAssign)
                             ->where('login', $akses)
                             ->delete();
 
                         DB::commit();
 
+                        // Cek apakah ada duplikasi
                         if (count($doubleAssign) > 0) {
-                            return redirect()->route('importDataWo')
-                                ->with(['success' => 'Sebagian Data tersimpan. Cek data assign WO yang sama']);
+                            $warningMessage = 'Beberapa No WO sudah ada di assign tim: ' . implode(', ', $doubleAssign);
+                            return redirect()->route('assignTim')
+                                ->with(['success' => 'Data tersimpan sebagian.'. $warningMessage])
+                                ->with(['warning' => $warningMessage]);
                         } else {
-                            ImportAssignTim::where('login', $akses)->delete();
                             return redirect()->route('assignTim')
                                 ->with(['success' => 'Data tersimpan.']);
                         }
                     } catch (\Exception $e) {
                         DB::rollBack();
-                        return $e->getMessage();
                         return redirect()->route('importDataWo')
                             ->with(['error' => 'Gagal Simpan Data: ' . $e->getMessage()]);
                     }
@@ -457,6 +451,9 @@ class Import_DataWoController extends Controller
                 break;
         }
     }
+
+
+
     public function updateImportWo(Request $request)
     {
         $aksesId = Auth::user()->id;

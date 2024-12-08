@@ -1017,6 +1017,14 @@
             showConfirmButton: true,
             // timer: 2000
         });
+    @elseif (session('warning'))
+        Swal.fire({
+            icon: "warning",
+            title: "Gagal!",
+            text: "{{ session('warning') }}",
+            showConfirmButton: true,
+            // timer: 2000
+        });
     @endif
 
     @if (session()->get('errors'))
