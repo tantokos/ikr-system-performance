@@ -29,6 +29,8 @@ class ToolIkr extends Model
         'nama_penerima',
         'branch_penerima',
         'posisi',
+        'approve1',
+        'approve2',
         'login',
         'status_distribusi'
 

@@ -64,14 +64,19 @@ class FtthIbApkImport implements ToModel, WithHeadingRow, WithChunkReading, With
     public function rules(): array
     {
         return [
-            'wo_no' => Rule::unique('import_ftth_ib_apks', 'wo_no'), // Sesuaikan nama tabel dan kolom
+            '*.wo_no' => ['required', Rule::unique('import_ftth_ib_apks', 'wo_no')],
+            '*.wo_date' => ['required'],
+            '*.installation_date' => ['required'],
         ];
     }
 
     public function customValidationMessages()
     {
         return [
-            'wo_no.unique' => 'No WO sudah ada.',
+            '*.wo_no.unique' => 'No WO sudah ada di database',
+            '*.wo_no.required' => 'No WO harus diisi',
+            '*.wo_date.required' => 'WO Date harus diisi',
+            '*.installation_date.required' => 'Installation Date harus diisi',
         ];
     }
 }

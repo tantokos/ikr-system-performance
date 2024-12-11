@@ -93,6 +93,13 @@
             </li>
 
             <li class="nav-item border-start my-0 pt-2">
+                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('kelengkapanKaryawan') ? 'active' : '' }}"
+                    href="{{ route('kelengkapanKaryawan') }}">
+                    <span class="nav-link-text ms-1">Kelengkapan Karyawan</span>
+                </a>
+            </li>
+
+            <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('dataTim') ? 'active' : '' }}"
                     href="{{ route('dataTim') }}">
                     <span class="nav-link-text ms-1">Data Tim</span>

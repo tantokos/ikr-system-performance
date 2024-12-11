@@ -5,17 +5,161 @@
         <div class="container-fluid py-4 px-5">
             <div class="row">
                 <div class="col-12">
-                    <div class="card card-background card-background-after-none align-items-start mt-2 mb-5">
+                    <div class="card card-background card-background-after-none align-items-start mt-0 mb-3">
                         <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
                         </div>
-                        <div class="card-body text-start p-4 w-100">
-                            <h3 class="text-white mb-2">Data Tool IKR</h3>
-                            <p class="mb-4 font-weight-semibold">
+                        <div class="card-body text-start p-3 w-100">
+                            <h4 class="text-white mb-2">Data Tool IKR</h4>
+                            <p class="mb-1 font-weight-semibold">
                                 PT. Mitra Sinergi Telematika.
                             </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                            {{-- <img src="../assets/img/3d-cube.png" alt="3d-cube"
-                                class="position-absolute top-0 end-1 w-25 max-width-200 mt-n6 d-sm-block d-none" /> --}}
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border shadow-xs mb-4">
+                        <div class="card-body px-2 py-2">
+                            <div class="row mb-2">
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Branch</span>
+                                    <select class="form-control form-control-sm" 
+                                        id="filBranch" name="filBranch" style="border-color:#9ca0a7;">
+                                        <option value="ALL">ALL</option>
+                                        @if (isset($branch))
+                                            @foreach ($branch as $b )
+                                                <option value="{{ $b->nama_branch}}">{{ $b->nama_branch }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Nama Tool</span>
+                                    <select class="form-control form-control-sm" 
+                                        id="filNamaTool" name="filNamaTool" style="border-color:#9ca0a7;">
+                                        <option value="ALL">ALL</option>
+                                        @if (isset($namaTool))
+                                            @foreach ($namaTool as $n )
+                                                <option value="{{ $n->nama_tool}}">{{ $n->nama_tool }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Posisi Tool</span>
+                                    <select class="form-control form-control-sm" 
+                                        id="filPosisi" name="filPosisi" style="border-color:#9ca0a7;">
+                                        <option value="ALL">ALL</option>
+                                        @if(isset($posisi))
+                                            @foreach ($posisi as $p )
+                                                <option value="{{ $p->posisiTool }}">{{ $p->posisiTool}}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Kondisi Tool</span>
+                                    <select class="form-control form-control-sm" 
+                                        id="filKondisi" name="filKondisi" style="border-color:#9ca0a7;">
+                                        <option value="ALL">ALL</option>
+                                        <option value="Baik">Baik</option>
+                                        <option value="Rusak">Rusak</option>
+                                        <option value="Hilang">Hilang</option>
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Callsign Tim</span>
+                                    <select class="form-control form-control-sm" 
+                                        id="filCallsign" name="filCallsign" style="border-color:#9ca0a7;">
+                                        <option value="ALL">ALL</option>
+                                        @if (isset($callsign))
+                                            @foreach ($callsign as $c )
+                                                <option value="{{ $c->callsign_tim }}">{{ $c->callsign_tim }}</option>
+                                            @endforeach
+                                            
+                                        @endif
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Approval 1</span>
+                                    <select class="form-control form-control-sm" 
+                                        id="filApprove1" name="filApprove1" style="border-color:#9ca0a7;">
+                                        <option value="ALL">ALL</option>
+                                        <option value="Submited">Submited</option>
+                                        <option value="Approved">Approved</option>
+                                        <option value="Reject">Reject</option>
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Approval 2</span>
+                                    <select class="form-control form-control-sm" 
+                                        id="filApprove2" name="filApprove2" style="border-color:#9ca0a7;">
+                                        <option value="ALL">ALL</option>
+                                        <option value="Submited">Submited</option>
+                                        <option value="Approved">Approved</option>
+                                        <option value="Reject">Reject</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row text-center">
+                                <div class="col">
+                                    <button type="button"
+                                        class="btn btn-sm btn-dark align-items-center filterData"
+                                        id="filterData">Filter Data</button>
+                                </div>                     
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border shadow-xs mb-4">
+                        <div class="card-header border-bottom pb-0">
+                            <div class="d-sm-flex align-items-center">
+                                <div>
+                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Rekap Data Tool</span>
+                                    </h6>
+                                    {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body px-2 py-2">
+
+                            <div class="table-responsive p-0">
+                                <table class="table table-striped table-bordered align-items-center mb-0" 
+                                    id="tabelRekapTool" style="font-size: 12px; border-color:#9ca0a7;">
+                                    <thead class="bg-gray-800 text-white">
+                                        <tr id="headRekapTool" >
+                                            <th class="text-xs font-weight-semibold">Posisi Tool</th>
+                                            <th class="text-center text-xs font-weight-semibold">Baik</th>
+                                            <th class="text-center text-xs font-weight-semibold">Rusak</th>
+                                            <th class="text-center text-xs font-weight-semibold">Hilang</th>
+                                            <th class="text-center text-xs font-weight-semibold">SubTotal</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bodyRekapTool">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            {{-- <div class="border-top py-3 px-3 d-flex align-items-center">
+
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -67,6 +211,8 @@
                                             <th class="text-center text-xs font-weight-semibold">Kondisi</th>
                                             <th class="text-center text-xs font-weight-semibold">Status</th>
                                             <th class="text-center text-xs font-weight-semibold">Posisi</th>
+                                            <th class="text-center text-xs font-weight-semibold">Approval 1 Penerimaan Tool</th>
+                                            <th class="text-center text-xs font-weight-semibold">Approval 2 Penerimaan Tool</th>
                                             <th class="text-center text-xs font-weight-semibold">#</th>
 
                                         </tr>
@@ -108,9 +254,16 @@
                                             <div class="form-group mb-1">
                                                 {{-- <label class="form-control-label">Nik Karyawan</label> --}}
                                                 <span class="text-xs">Nama Tool</span>
-                                                <input class="form-control form-control-sm" type="text"
+                                                <select class="form-control form-control-sm namaTool"
                                                     id="namaTool" name="namaTool" style="border-color:#9ca0a7;"
                                                     required>
+                                                    @if (isset($namaTool))
+                                                        @foreach ($namaTool as $nt )
+                                                            <option value="{{ $nt->nama_tool }}">{{ $nt->nama_tool}}</option>
+                                                        @endforeach
+                                                        
+                                                    @endif
+                                                </select>
                                             </div>
 
                                             <div class="form-group mb-1">
@@ -122,17 +275,9 @@
 
                                             <div class="form-group mb-1">
                                                 <span class="text-xs">Satuan</span>
-                                                <select class="form-control form-control-sm" id="satuan"
-                                                    name="satuan" style="border-color:#9ca0a7;">
-                                                    <option value="">Pilih Satuan</option>
-                                                    <option value="Unit">Unit</option>
-                                                    <option value="Pcs">Pcs</option>
-                                                    <option value="Set">Set</option>
-
-                                                </select>
+                                                <input type="text" class="form-control form-control-sm" id="satuan"
+                                                    name="satuan" style="border-color:#9ca0a7;" readonly>
                                             </div>
-
-
 
                                             <div class="form-group mb-1">
                                                 {{-- <label class="form-control-label">Nik Karyawan</label> --}}
@@ -272,9 +417,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="#" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('updateTool') }}" method="post" enctype="multipart/form-data">
                             @csrf
-                            <div class="row">
+                            <div class="row mb-1">
                                 <div class="col">
                                     <div class="row">
                                         <div class="col">
@@ -284,35 +429,34 @@
                                                     id="namaToolShowId" name="namaToolShowId" readonly>
 
                                                 <span class="text-xs">Nama Tool</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="namaToolShow" name="namaToolShow"
-                                                    style="border-color:#9ca0a7;" readonly>
+                                                <select class="form-control form-control-sm"
+                                                    id="namaToolShow" name="namaToolShow" style="border-color:#9ca0a7;">
+                                                    @if (isset($namaTool))
+                                                        @foreach ($namaTool as $nt )
+                                                            <option value="{{ $nt->nama_tool }}">{{ $nt->nama_tool}}</option>
+                                                        @endforeach
+                                                        
+                                                    @endif
+                                                </select>
                                             </div>
 
                                             <div class="form-group mb-1">
                                                 <span class="text-xs">Merk</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="merkShow" name="merkShow" style="border-color:#9ca0a7;"
-                                                    readonly>
+                                                    id="merkShow" name="merkShow" style="border-color:#9ca0a7;">
                                             </div>
 
                                             <div class="form-group mb-1">
                                                 <span class="text-xs">Satuan</span>
-                                                <select class="form-control form-control-sm" id="satuanShow"
-                                                    name="satuanShow" style="border-color:#9ca0a7;" disabled>
-                                                    <option value="">Pilih Satuan</option>
-                                                    <option value="Unit">Unit</option>
-                                                    <option value="Pcs">Pcs</option>
-                                                    <option value="Set">Set</option>
-
-                                                </select>
+                                                <input type="text" class="form-control form-control-sm" id="satuanShow"
+                                                    name="satuanShow" style="border-color:#9ca0a7;" readonly>
                                             </div>
 
                                             <div class="form-group mb-1">
                                                 {{-- <label class="form-control-label">Nik Karyawan</label> --}}
                                                 <span class="text-xs">Spesifikasi</span>
                                                 <textarea class="form-control form-control-sm" id="spesifikasiShow" name="spesifikasiShow"
-                                                    style="border-color:#9ca0a7;" readonly></textarea>
+                                                    style="border-color:#9ca0a7;"></textarea>
                                             </div>
                                         </div>
 
@@ -321,13 +465,13 @@
                                                 <span class="text-xs">Tanggal Penerimaan Tool</span>
                                                 <input class="form-control form-control-sm" type="date"
                                                     value="{{ date('Y-m-d') }}" id="tglPenerimaanShow"
-                                                    name="tglPenerimaanShow" style="border-color:#9ca0a7;" readonly>
+                                                    name="tglPenerimaanShow" style="border-color:#9ca0a7;">
                                             </div>
 
                                             <div class="form-group mb-1">
                                                 <span class="text-xs">Kondisi</span>
                                                 <select class="form-control form-control-sm" id="kondisiShow"
-                                                    name="kondisiShow" style="border-color:#9ca0a7;" disabled>
+                                                    name="kondisiShow" style="border-color:#9ca0a7;">
                                                     <option value="">Pilih Kondisi</option>
                                                     <option value="Baik">Baik</option>
                                                     <option value="Rusak">Rusak</option>
@@ -338,14 +482,13 @@
                                                 <span class="text-xs">Kode Aset</span>
                                                 <input class="form-control form-control-sm" type="text"
                                                     id="kodeAsetShow" name="kodeAsetShow"
-                                                    style="border-color:#9ca0a7;" readonly>
+                                                    style="border-color:#9ca0a7;">
                                             </div>
 
                                             <div class="form-group mb-1">
                                                 <span class="text-xs">Kode GA</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="kodeGAShow" name="kodeGAShow" style="border-color:#9ca0a7;"
-                                                    readonly>
+                                                    id="kodeGAShow" name="kodeGAShow" style="border-color:#9ca0a7;">
                                             </div>
 
                                         </div>
@@ -367,10 +510,10 @@
 
                                             <div class="row form-group mb-1">
                                                 <div class="col">
-                                                <span class="text-xs">Departemen</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="departemenShow" name="departemenShow" style="border-color:#9ca0a7;"
-                                                    readonly>
+                                                    <span class="text-xs">Departemen</span>
+                                                    <input class="form-control form-control-sm" type="text"
+                                                        id="departemenShow" name="departemenShow" style="border-color:#9ca0a7;"
+                                                        readonly>
                                                 </div>
 
                                                 <div class="col">
@@ -378,7 +521,7 @@
                                                     <input class="form-control form-control-sm" type="text"
                                                         id="posisiShow" name="posisiShow" style="border-color:#9ca0a7;"
                                                         readonly>
-                                                    </div>
+                                                </div>
                                             </div>
 
                                             <div class="form-group mb-1">
@@ -401,15 +544,25 @@
 
                                             <div class="form-group mb-1">
                                                 <input class="form-control form-control-sm" id="fotoToolShow"
-                                                    name="fotoToolShow" type="file" style="border-color:#9ca0a7;"
-                                                    disabled>
+                                                    name="fotoToolShow" type="file" style="border-color:#9ca0a7;">
                                             </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row text-center mb-1">
+                                        <div class="col">
+                                            <button type="submit"
+                                                class="btn btn-sm btn-dark align-items-center updateTool"
+                                                id="updateTool">Update Data</button>
+                                            <button type="button" value="close"
+                                                class="btn btn-sm btn-dark align-items-center"
+                                                data-bs-dismiss="modal">Kembali</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="row">
+                            <hr class="mb-1">
+                            <div class="row mb-1">
                                 <p>Riwayat Tool</p>
                             </div>
 
@@ -439,15 +592,15 @@
                                 </div>
                             </div>
                             <hr>
-                            <div class="row text-center mb-1">
-                                <div class="col ">
+                            {{-- <div class="row text-center mb-1"> --}}
+                                {{-- <div class="col "> --}}
                                     {{-- <button type="submit" class="btn btn-sm btn-dark align-items-center showSimpan"
                                         id="showSimpan">Simpan Data</button> --}}
-                                    <button type="button" value="close"
+                                    {{-- <button type="button" value="close"
                                         class="btn btn-sm btn-dark align-items-center"
-                                        data-bs-dismiss="modal">Kembali</button>
-                                </div>
-                            </div>
+                                        data-bs-dismiss="modal">Kembali</button> --}}
+                                {{-- </div> --}}
+                            {{-- </div> --}}
                         </form>
                     </div>
                     {{-- <div class="modal-footer"> --}}
@@ -685,6 +838,765 @@
         </div>
         {{-- End Modal Show Detail Riwayat Distribusi Tool --}}
 
+        {{-- Modal Detail Pengembalian GA Tool --}}
+        <div class="modal fade" id="showKembaliGA" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">>
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Pengembalian Tool ke GA</h5>
+                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{-- <form action="{{ route('simpanPengembalianGA') }}" method="post" enctype="multipart/form-data"> --}}
+                            {{-- @csrf --}}
+                            <div class="row">
+                                
+                                <div class="col">
+                                    {{-- <div class="form-group mb-1">
+                                        <span class="text-xs">Pilih Tool</span>
+                                        <div class="input-group">
+                                            <select class="form-control form-control-sm" type="text"
+                                                id="pilihTool" name="pilihTool" style="border-color:#9ca0a7;"
+                                                required>
+                                                <option value="">Pilih Tool</option>
+                                            </select>
+                                        </div>
+                                        <input type="hidden" id="disId" name="disId" readonly required>
+                                    </div> --}}
+
+                                    <div class="form-group mb-1">
+                                        {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                        <span class="text-xs">Nama Tool</span>
+                                        <input type="hidden" id="namaToolidGAShow" name="namaToolidGAShow" readonly required>
+                                        <div class="input-group">
+                                            <input class="form-control form-control-sm" type="text" id="namaToolGAShow"
+                                                name="namaToolGAShow" style="border-color:#9ca0a7;" readonly required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Merk</span>
+                                        <input class="form-control form-control-sm" type="text" id="merkGAShow"
+                                            name="merkGAShow" style="border-color:#9ca0a7;" readonly>
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Satuan</span>
+                                        <input type="text" class="form-control form-control-sm" id="satuanGAShow"
+                                            name="satuanGAShow" style="border-color:#9ca0a7;" readonly>
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                        <span class="text-xs">Spesifikasi</span>
+                                        <textarea class="form-control form-control-sm" id="spesifikasiGAShow" name="spesifikasiGAShow" style="border-color:#9ca0a7;"
+                                            readonly></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Tanggal Penerimaan Tool dari GA</span>
+                                        <input class="form-control form-control-sm" type="date"
+                                            value="{{ date('Y-m-d') }}" id="tglPengadaanGAShow" name="tglPengadaanGAShow"
+                                            style="border-color:#9ca0a7;" readonly>
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Tanggal Pengembalian Tool ke GA</span>
+                                        <input class="form-control form-control-sm" type="date"
+                                            value="{{ date('Y-m-d') }}" id="tglPengembalianGAShow" name="tglPengembalianGAShow"
+                                            style="border-color:#9ca0a7;" readonly>
+                                    </div>
+
+
+
+                                    <div class="row form-group mb-1">
+                                        <div class="col">
+                                            <span class="text-xs">Kondisi</span>
+                                            <input type="text" class="form-control form-control-sm" id="kondisiGAShow"
+                                                name="kondisiGAShow" style="border-color:#9ca0a7;" readonly>
+                                        </div>
+                                        <div class="col">
+                                            <span class="text-xs">Status Pengembalian</span>
+                                            <input class="form-control form-control-sm" type="text"
+                                                value="Dikembalikan ke GA" id="statPengembalianGAShow" name="statPengembalianGAShow"
+                                                style="border-color:#9ca0a7;" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group mb-1">
+                                        <div class="col">
+                                            <span class="text-xs">Kode Aset</span>
+                                            <input class="form-control form-control-sm" type="text" id="kodeAsetGAShow"
+                                                name="kodeAsetGAShow" style="border-color:#9ca0a7;" readonly>
+                                        </div>
+                                        <div class="col">
+                                            <span class="text-xs">Kode GA</span>
+                                            <input class="form-control form-control-sm" type="text" id="kodeGAGAShow"
+                                                name="kodeGAGAShow" style="border-color:#9ca0a7;" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Dikembalikan Oleh</span>
+                                        <input class="form-control form-control-sm" type="text"
+                                            id="nikPengembalianGAShow" name="nikPengembalianGAShow"
+                                            style="border-color:#9ca0a7;" readonly>
+                                    </div>
+
+                                </div>
+
+                                <div class="col">
+                                    {{-- <div class="row"> --}}
+
+                                        {{-- <div class="col form-group mb-1 text-center">
+                                            <span class="text-xs">Foto Penerimaan Tool</span>
+                                            <img src="{{ asset('assets/img/default-150x150.png') }}"
+                                                id="showgambarPenerimaanGAShow" alt="Card Image"
+                                                style="width:160px;height: 160px;" />
+                                        </div> --}}
+                                        <span class="text-xs">Foto Pengembalian Tool</span>
+                                        <div class="form-group mb-1 text-center">
+                                            
+                                            <img src="{{ asset('assets/img/default-150x150.png') }}"
+                                                id="showgambarKembaliGAShow" alt="Card Image"
+                                                style="width:160px;height: 160px;" />
+                                        </div>
+
+
+                                    {{-- </div> --}}
+
+                                    <div class="form-group mb-1">
+                                        <input class="form-control form-control-sm" id="fotoKembaliToolGAShow"
+                                            name="fotoKembaliToolGAShow" type="file" style="border-color:#9ca0a7;" readonly>
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Keterangan</span>
+                                        <textarea class="form-control form-control-sm" id="keteranganGAShow" name="keteranganGAShow" style="border-color:#9ca0a7;" readonly></textarea>
+                                    </div>
+                                </div>
+                                {{-- </div>2 --}}
+                                <hr>
+                                <div class="row text-center mb-1">
+                                    <div class="col">
+                                        <button type="button" value="close"
+                                            class="btn btn-sm btn-dark align-items-center"
+                                            data-bs-dismiss="modal">Kembali</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {{-- </form> --}}
+                    </div>
+                    {{-- <div class="modal-footer"> --}}
+                        {{-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> --}}
+                        {{-- <button type="button" class="btn btn-dark">Save changes</button> --}}
+                    {{-- </div> --}}
+                </div>
+            </div>
+        </div>
+        {{-- End Modal Detail pengembalian GA Tool --}}
+
+        {{-- Modal Show Approve1 --}}
+        <div class="modal fade" id="ShowApp1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">>
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Persetujuan 1</h5>
+                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('simpanApproval')}}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group mb-1">
+                                                {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                                <input class="form-control form-control-sm" type="hidden"
+                                                    id="namaToolApp1Id" name="namaToolApp1Id" readonly>
+
+                                                <span class="text-xs">Nama Tool</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="namaToolApp1" name="namaToolApp1"
+                                                    style="border-color:#9ca0a7;" readonly>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Merk</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="merkApp1" name="merkApp1" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Satuan</span>
+                                                <select class="form-control form-control-sm" id="satuanApp1"
+                                                    name="satuanApp1" style="border-color:#9ca0a7;" disabled>
+                                                    <option value="">Pilih Satuan</option>
+                                                    <option value="Unit">Unit</option>
+                                                    <option value="Pcs">Pcs</option>
+                                                    <option value="Set">Set</option>
+
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                                <span class="text-xs">Spesifikasi</span>
+                                                <textarea class="form-control form-control-sm" id="spesifikasiApp1" name="spesifikasiApp1"
+                                                    style="border-color:#9ca0a7;" readonly></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Tanggal Penerimaan Tool</span>
+                                                <input class="form-control form-control-sm" type="date"
+                                                    value="{{ date('Y-m-d') }}" id="tglPenerimaanApp1"
+                                                    name="tglPenerimaanApp1" style="border-color:#9ca0a7;" readonly>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Kondisi</span>
+                                                <select class="form-control form-control-sm" id="kondisiApp1"
+                                                    name="kondisiApp1" style="border-color:#9ca0a7;" disabled>
+                                                    <option value="">Pilih Kondisi</option>
+                                                    <option value="Baik">Baik</option>
+                                                    <option value="Rusak">Rusak</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Kode Aset</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="kodeAsetApp1" name="kodeAsetApp1"
+                                                    style="border-color:#9ca0a7;" readonly>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Kode GA</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="kodeGAApp1" name="kodeGAApp1" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Nik Penerima Tool</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="nikpenerimaApp1" name="nikpenerimaApp1" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Nama Penerima</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="namapenerimaApp1" name="namapenerimaApp1" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                            <div class="row form-group mb-1">
+                                                <div class="col">
+                                                <span class="text-xs">Departemen</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="departemenApp1" name="departemenApp1" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                                </div>
+
+                                                <div class="col">
+                                                    <span class="text-xs">Posisi</span>
+                                                    <input class="form-control form-control-sm" type="text"
+                                                        id="posisiApp1" name="posisiApp1" style="border-color:#9ca0a7;"
+                                                        readonly>
+                                                    </div>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Branch</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="namaBranchApp1" name="namaBranchApp1" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col">
+                                            <span class="text-xs">Foto Tool</span>
+                                            <div class="form-group mb-1 text-center">
+
+                                                <img src="{{ asset('assets/img/default-150x150.png') }}"
+                                                    id="showgambarApp1" alt="Card Image"
+                                                    style="width:200px;height: 200px;" />
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <input class="form-control form-control-sm" id="fotoToolApp1"
+                                                    name="fotoToolApp1" type="file" style="border-color:#9ca0a7;"
+                                                    disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="mb-0">
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row form-group mb-1">
+                                        {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                        {{-- <input class="form-control form-control-sm" type="hidden"
+                                            id="namaToolApp1Id" name="namaToolApp1Id" readonly> --}}
+                                        <div class="col">
+                                            <span class="text-xs">Persetujuan 1</span>
+                                            <input class="form-control form-control-sm" type="text"
+                                                id="namaApp1" name="namaApp1"
+                                                style="border-color:#9ca0a7;" 
+                                                value="{{ isset($loginApp1) ? $loginApp1->nama_karyawan : '-' }}" readonly>
+                                        </div>
+                                        <div class="col">
+                                            <span class="text-xs">Tanggal</span>
+                                            <input class="form-control form-control-sm" type="date"
+                                                id="tglApp1" name="tglApp1" style="border-color:#9ca0a7;" required>
+                                        </div>
+                                        <div class="col">
+                                            <span class="text-xs">Status</span>
+                                            <select class="form-control form-control-sm" type="text"
+                                                id="statusApp1" name="statusApp1" style="border-color:#9ca0a7;" required>
+                                                <option value="">Pilih Status</option>
+                                                <option value="Approved">Approved</option>
+                                                <option value="Reject">Reject</option>
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <span class="text-xs">Keterangan</span>
+                                            <textarea class="form-control form-control-sm" id="keteranganApp1" name="keteranganApp1"
+                                                style="border-color:#9ca0a7;"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-center mb-0">
+                                <div class="col mb-0">
+                                    {{-- <button type="submit" class="btn btn-sm btn-dark align-items-center showSimpan"
+                                        id="showSimpan">Simpan Data</button> --}}
+                                    {{-- @if ($loginApp1->email == $login->email ) --}}
+                                            
+                                        <button type="submit" class="btn btn-sm btn-dark align-items-center mb-0"
+                                        id="action1" name="action" value="Approve1">Simpan Persetujuan 1</button>
+                                    {{-- @else --}}
+                                        {{-- <button type="submit" class="btn btn-sm btn-secondary align-items-center" disabled>
+                                        Simpan Approval</button> --}}
+                                    {{-- @endif --}}
+                                    
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <p>Riwayat Persetujuan 1</p>
+                            </div>
+
+                            <div class="row">
+                                <div class="table-responsive p-0">
+                                    <table class="table table-striped table-bordered align-items-center mb-0"
+                                        id="tabelRiwayatApp1" style="font-size: 12px">
+                                        <thead class="bg-gray-100">
+                                            <tr id="headShowApprove1">
+                                                <th class="text-xs font-weight-semibold">#</th>
+                                                <th class="text-center text-xs font-weight-semibold">Tanggal</th>
+                                                <th class="text-center text-xs font-weight-semibold">Nama Approval 1</th>
+                                                <th class="text-center text-xs font-weight-semibold">Status</th>
+                                                <th class="text-center text-xs font-weight-semibold">Keterangan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bodyShowApprove1">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row text-end mb-1">
+                                <div class="col ">
+                                    {{-- <button type="submit" class="btn btn-sm btn-dark align-items-center showSimpan"
+                                        id="showSimpan">Simpan Data</button> --}}
+                                    <button type="button" value="close"
+                                        class="btn btn-sm btn-dark align-items-center"
+                                        data-bs-dismiss="modal">Kembali</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    {{-- <div class="modal-footer"> --}}
+                    {{-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> --}}
+                    {{-- <button type="button" class="btn btn-dark">Save changes</button> --}}
+                    {{-- </div> --}}
+                </div>
+            </div>
+        </div>
+        {{-- End Modal Show Approve1 --}}
+
+        {{-- Modal Show Approve2 --}}
+        <div class="modal fade" id="ShowApp2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">>
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Persetujuan 2</h5>
+                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('simpanApproval')}}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group mb-1">
+                                                {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                                <input class="form-control form-control-sm" type="hidden"
+                                                    id="namaToolApp2Id" name="namaToolApp2Id" readonly>
+
+                                                <span class="text-xs">Nama Tool</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="namaToolApp2" name="namaToolApp2"
+                                                    style="border-color:#9ca0a7;" readonly>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Merk</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="merkApp2" name="merkApp2" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Satuan</span>
+                                                <select class="form-control form-control-sm" id="satuanApp2"
+                                                    name="satuanApp2" style="border-color:#9ca0a7;" disabled>
+                                                    <option value="">Pilih Satuan</option>
+                                                    <option value="Unit">Unit</option>
+                                                    <option value="Pcs">Pcs</option>
+                                                    <option value="Set">Set</option>
+
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                                <span class="text-xs">Spesifikasi</span>
+                                                <textarea class="form-control form-control-sm" id="spesifikasiApp2" name="spesifikasiApp2"
+                                                    style="border-color:#9ca0a7;" readonly></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Tanggal Penerimaan Tool</span>
+                                                <input class="form-control form-control-sm" type="date"
+                                                    value="{{ date('Y-m-d') }}" id="tglPenerimaanApp2"
+                                                    name="tglPenerimaanApp2" style="border-color:#9ca0a7;" readonly>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Kondisi</span>
+                                                <select class="form-control form-control-sm" id="kondisiApp2"
+                                                    name="kondisiApp2" style="border-color:#9ca0a7;" disabled>
+                                                    <option value="">Pilih Kondisi</option>
+                                                    <option value="Baik">Baik</option>
+                                                    <option value="Rusak">Rusak</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Kode Aset</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="kodeAsetApp2" name="kodeAsetApp2"
+                                                    style="border-color:#9ca0a7;" readonly>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Kode GA</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="kodeGAApp2" name="kodeGAApp2" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Nik Penerima Tool</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="nikpenerimaApp2" name="nikpenerimaApp2" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Nama Penerima</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="namapenerimaApp2" name="namapenerimaApp2" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                            <div class="row form-group mb-1">
+                                                <div class="col">
+                                                <span class="text-xs">Departemen</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="departemenApp2" name="departemenApp2" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                                </div>
+
+                                                <div class="col">
+                                                    <span class="text-xs">Posisi</span>
+                                                    <input class="form-control form-control-sm" type="text"
+                                                        id="posisiApp2" name="posisiApp2" style="border-color:#9ca0a7;"
+                                                        readonly>
+                                                    </div>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Branch</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="namaBranchApp2" name="namaBranchApp2" style="border-color:#9ca0a7;"
+                                                    readonly>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col">
+                                            <span class="text-xs">Foto Tool</span>
+                                            <div class="form-group mb-1 text-center">
+
+                                                <img src="{{ asset('assets/img/default-150x150.png') }}"
+                                                    id="showgambarApp2" alt="Card Image"
+                                                    style="width:200px;height: 200px;" />
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <input class="form-control form-control-sm" id="fotoToolApp2"
+                                                    name="fotoToolApp2" type="file" style="border-color:#9ca0a7;"
+                                                    disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="mb-0">
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row form-group mb-1">
+                                        {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                        {{-- <input class="form-control form-control-sm" type="hidden"
+                                            id="namaToolApp1Id" name="namaToolApp1Id" readonly> --}}
+                                        <div class="col">
+                                            <span class="text-xs">Persetujuan 2</span>
+                                            <input class="form-control form-control-sm" type="text"
+                                                id="namaApp2" name="namaApp2"
+                                                style="border-color:#9ca0a7;" 
+                                                value="{{ isset($loginApp2) ? $loginApp2->nama_karyawan : '-' }}" readonly>
+                                        </div>
+                                        <div class="col">
+                                            <span class="text-xs">Tanggal</span>
+                                            <input class="form-control form-control-sm" type="date"
+                                                id="tglApp2" name="tglApp2" style="border-color:#9ca0a7;" required>
+                                        </div>
+                                        <div class="col">
+                                            <span class="text-xs">Status</span>
+                                            <select class="form-control form-control-sm" type="text"
+                                                id="statusApp2" name="statusApp2" style="border-color:#9ca0a7;" required>
+                                                <option value="">Pilih Status</option>
+                                                <option value="Approved">Approved</option>
+                                                <option value="Reject">Reject</option>
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <span class="text-xs">Keterangan</span>
+                                            <textarea class="form-control form-control-sm" id="keteranganApp2" name="keteranganApp2"
+                                                style="border-color:#9ca0a7;"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-center mb-0">
+                                <div class="col mb-0">
+                                    {{-- <button type="submit" class="btn btn-sm btn-dark align-items-center showSimpan"
+                                        id="showSimpan">Simpan Data</button> --}}
+                                    {{-- @if ($loginApp1->email == $login->email ) --}}
+                                            
+                                        <button type="submit" class="btn btn-sm btn-dark align-items-center mb-0"
+                                        id="action2" name="action" value="Approve2">Simpan Persetujuan 2</button>
+                                    {{-- @else --}}
+                                        {{-- <button type="submit" class="btn btn-sm btn-secondary align-items-center" disabled>
+                                        Simpan Approval</button> --}}
+                                    {{-- @endif --}}
+                                    
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <p>Riwayat Persetujuan 2</p>
+                            </div>
+
+                            <div class="row">
+                                <div class="table-responsive p-0">
+                                    <table class="table table-striped table-bordered align-items-center mb-0"
+                                        id="tabelRiwayatApp2" style="font-size: 12px">
+                                        <thead class="bg-gray-100">
+                                            <tr id="headShowApprove2">
+                                                <th class="text-xs font-weight-semibold">#</th>
+                                                <th class="text-center text-xs font-weight-semibold">Tanggal</th>
+                                                <th class="text-center text-xs font-weight-semibold">Nama Approval 2</th>
+                                                <th class="text-center text-xs font-weight-semibold">Status</th>
+                                                <th class="text-center text-xs font-weight-semibold">Keterangan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bodyShowApprove2">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row text-end mb-1">
+                                <div class="col ">
+                                    {{-- <button type="submit" class="btn btn-sm btn-dark align-items-center showSimpan"
+                                        id="showSimpan">Simpan Data</button> --}}
+                                    <button type="button" value="close"
+                                        class="btn btn-sm btn-dark align-items-center"
+                                        data-bs-dismiss="modal">Kembali</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    {{-- <div class="modal-footer"> --}}
+                    {{-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> --}}
+                    {{-- <button type="button" class="btn btn-dark">Save changes</button> --}}
+                    {{-- </div> --}}
+                </div>
+            </div>
+        </div>
+        {{-- End Modal Show Approve2 --}}
+
+        {{-- Modal Detail Click Rekap Data Tool --}}
+        <div class="modal fade" id="DetailClickTool" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">>
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="mb-0">Detail Rekap Tool</h6>
+                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        
+                    </div>
+                    <style>
+                        .tableFixHead          { overflow-y: auto; max-height: 300px; }
+                        .tableFixHead thead th {position: sticky;  top: 0; }
+                        .tableFixHead th { background: #495057; }
+
+                        .clickable {background: #bcd1e5;}
+                    </style>
+                    <div class="modal-body">
+                        <div class="row">
+                            <p class="col text-sm mb-1" id="subtitel">testing</p>
+                            <p class="col text-sm mb-1 text-end">
+                                <span class="badge badge-dark  text-white" 
+                                onclick="clearSelection()" style="cursor:pointer">clear Selection</span>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="table-responsive tableFixHead" style="min-heigth: 100px; max-height: 300px">
+                                    <table class="table table-sm table-bordered align-items-center mb-3" style="font-size: 12px;"
+                                        id="tabelDetClickToolBranch">
+                                        <thead class="bg-gray-700 text-white" >
+                                            <tr id="headBranchTool">
+                                                <th class="text-center text-xs font-weight-semibold p-2">#</th>
+                                                <th class="text-xs font-weight-semibold" >Branch</th>
+                                                <th class="text-center text-xs font-weight-semibold" >Jml</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bodyBranchTool" >
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="table-responsive tableFixHead" style="min-heigth: 100px; max-height: 300px">
+                                    <table class="table table-sm table-bordered align-items-center mb-3" style="font-size: 12px;"
+                                        id="tabelDetClickToolName">
+                                        <thead class="bg-gray-700 text-white" >
+                                            <tr id="headToolName">
+                                                <th class="text-center text-xs font-weight-semibold p-2">#</th>
+                                                <th class="text-xs font-weight-semibold" >Nama Tool</th>
+                                                <th class="text-center text-xs font-weight-semibold" >Jml</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bodyToolName" >
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            {{-- <div class="col"> --}}
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered align-items-center mb-0"
+                                        id="tabelDetClickTool" style="font-size: 12px; width:100%">
+                                        <thead class="bg-gray-100">
+                                            <tr id="headToolList">
+                                                <th class="text-xs font-weight-semibold">#</th>
+                                                <th class="text-center text-xs font-weight-semibold">Nama</th>
+                                                <th class="text-center text-xs font-weight-semibold">Merk</th>
+                                                <th class="text-center text-xs font-weight-semibold">Kode Aset</th>
+                                                <th class="text-center text-xs font-weight-semibold">Kode GA</th>
+                                                <th class="text-center text-xs font-weight-semibold">Branch</th>
+                                                <th class="text-center text-xs font-weight-semibold">Kondisi</th>
+                                                <th class="text-center text-xs font-weight-semibold">Status</th>
+                                                <th class="text-center text-xs font-weight-semibold">Posisi</th>
+                                                {{-- <th class="text-center text-xs font-weight-semibold">Approval 1 Penerimaan Tool</th> --}}
+                                                {{-- <th class="text-center text-xs font-weight-semibold">Approval 2 Penerimaan Tool</th> --}}
+                                                {{-- <th class="text-center text-xs font-weight-semibold">#</th> --}}
+    
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bodyToolList">
+    
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {{-- </div> --}}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Kembali</button>
+                    {{-- <button type="button" class="btn btn-dark">Save changes</button> --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- End Modal Detail Click Rekap Data Tool --}}
+
     </main>
 
 </x-app-layout>
@@ -730,7 +1642,7 @@
 </script>
 
 <script>
-    function readURL(input) {
+    function readURLNew(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
@@ -741,8 +1653,343 @@
     }
 
     $("#fotoTool").change(function() {
-        readURL(this);
+        readURLNew(this);
     });
+
+    function readURLShow(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#showgambarShow').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#fotoToolShow").change(function() {
+        readURLShow(this);
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        var listBranch;
+        var listToolRekap;
+        var listToolN;
+        var listToolData;
+    })
+</script>
+
+<script>
+
+    //klik di tabel rekap tool, get data
+    function detRekap_click(did) {
+        var _token = $('meta[name=csrf-token]').attr('content');
+        $('#DetailClickTool').modal('show');
+
+        $.ajax({
+            url: "{{ route('getDetailRekap_click' )}}",
+            type: "get",
+            data: {
+                _token: _token,
+                filClick: did,
+            },
+            success: function(detailRkp) {
+                listBranch = detailRkp.branchList;
+                listToolN = detailRkp.rekapToolBranch;
+                listToolRekap = detailRkp.rekapTool;
+                listToolData = detailRkp.listTool;
+
+                click = did.split("|");
+                subtit = "Posisi Tool " + click[0] + " - Kondisi " + click[1];
+
+                $('#bodyBranchTool').find('tr').remove();
+                $('#bodyToolName').find('tr').remove();
+
+                branch = "";
+                toolN = "";
+                toolL = "";
+                for(b=0;b<detailRkp.branchList.length;b++){
+                    branch = branch + `<tr id="${detailRkp.branchList[b].branch_penerima}" onclick="detRekapBranch_click(this.id)"> 
+                            <td class="text-center" style="font-weight:500">${b + 1}</td>
+                            <td style="font-weight:500;cursor:pointer">${detailRkp.branchList[b].branch_penerima}</td>
+                            <td class="text-center" style="font-weight:500">${detailRkp.branchList[b].jml}</td>
+                          </tr>`;
+                }
+
+                $('#bodyBranchTool').append(branch);
+
+                for(b=0;b<detailRkp.rekapTool.length;b++){
+                    toolN = toolN + `<tr>
+                            <td class="text-center" style="font-weight:500">${b + 1}</td>
+                            <td style="font-weight:500">${detailRkp.rekapTool[b].nama_barang}</td>
+                            <td class="text-center" style="font-weight:500">${detailRkp.rekapTool[b].jml}</td>
+                          </tr>`;
+                }
+
+                $('#bodyToolName').append(toolN);
+
+                $('#tabelDetClickTool').DataTable().clear().destroy();
+
+                for(t=0;t<detailRkp.listTool.length;t++){
+                    toolL = toolL + `<tr>
+                            <td class="text-center" style="font-weight:500">${t + 1}</td>
+                            <td style="font-weight:500">${detailRkp.listTool[t].nama_barang}</td>
+                            <td style="font-weight:500">${detailRkp.listTool[t].merk_barang}</td>
+                            <td style="font-weight:500">${detailRkp.listTool[t].kode_aset}</td>
+                            <td style="font-weight:500">${detailRkp.listTool[t].kode_ga}</td>
+                            <td style="font-weight:500">${detailRkp.listTool[t].branch_penerima}</td>
+                            <td style="font-weight:500">${detailRkp.listTool[t].kondisi}</td>
+                            <td style="font-weight:500">${detailRkp.listTool[t].status_distribusi}</td>
+                            <td style="font-weight:500">${detailRkp.listTool[t].posisi}</td>
+                          </tr>`;
+                }
+
+                $('#bodyToolList').append(toolL);
+
+                tabelList = $('#tabelDetClickTool').DataTable({
+                    // processing: true,
+                    // paging: true,
+                    // destroy: true,
+                    // retrieve: true,
+                    layout: {
+                        topStart: {
+                            pageLength: {
+                                menu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                            } ,
+                            buttons: ['excel'],
+                        },
+                    
+                    },
+                });
+
+                tabelList
+                    .on('order.dt search.dt', function () {
+                        var i = 1;
+ 
+                        tabelList
+                        .cells(null, 0, { search: 'applied', order: 'applied' })
+                        .every(function (cell) {
+                            this.data(i++);
+                        });
+                })
+                .draw();
+
+                document.querySelectorAll('#subtitel').forEach(function(elem) {
+                    elem.innerText = subtit;
+                })
+                
+                
+                // tblDetailList.draw();
+            }
+        })
+
+        // $('#tabelDetClickTool').DataTable().columns.adjust().draw();
+        
+    }
+
+    //klick tabel detail branch, langsung filter tool & listdata
+    function detRekapBranch_click(branch){
+        
+        //background table selected/clickable
+        $('#bodyBranchTool').find('tr').removeClass();
+        document.getElementById(branch).setAttribute("class","clickable");
+
+        filToolBranch = listToolN.filter(k => k.branch_penerima === branch);
+        filDataTool = listToolData.filter(k => k.branch_penerima === branch);
+
+        $('#bodyToolName').find('tr').remove();
+        toolN = "";
+        for(b=0;b<filToolBranch.length;b++){
+                    toolN = toolN + `<tr id="${branch+"|"+filToolBranch[b].nama_barang}" onclick="detRekapName_click(this.id)">
+                            <td class="text-center" style="font-weight:500">${b + 1}</td>
+                            <td style="font-weight:500;cursor:pointer">${filToolBranch[b].nama_barang}</td>
+                            <td class="text-center" style="font-weight:500">${filToolBranch[b].jml}</td>
+                          </tr>`;
+                }
+
+        $('#bodyToolName').append(toolN);
+
+        $('#tabelDetClickTool').DataTable().clear().destroy();
+
+        toolL = "";
+        for(t=0;t<filDataTool.length;t++){
+            toolL = toolL + `<tr>
+                    <td class="text-center" style="font-weight:500">${t + 1}</td>
+                    <td style="font-weight:500">${filDataTool[t].nama_barang}</td>
+                    <td style="font-weight:500">${filDataTool[t].merk_barang}</td>
+                    <td style="font-weight:500">${filDataTool[t].kode_aset}</td>
+                    <td style="font-weight:500">${filDataTool[t].kode_ga}</td>
+                    <td style="font-weight:500">${filDataTool[t].branch_penerima}</td>
+                    <td style="font-weight:500">${filDataTool[t].kondisi}</td>
+                    <td style="font-weight:500">${filDataTool[t].status_distribusi}</td>
+                    <td style="font-weight:500">${filDataTool[t].posisi}</td>
+                    </tr>`;
+        }
+
+        $('#bodyToolList').append(toolL);
+
+        tabelList = $('#tabelDetClickTool').DataTable({
+                        // processing: true,
+                        // paging: true,
+                        // destroy: true,
+                        // retrieve: true,
+                        layout: {
+                            topStart: {
+                                pageLength: {
+                                    menu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                                } ,
+                                buttons: ['excel'],
+                            },
+                    
+                        },
+                    });
+
+        tabelList
+            .on('order.dt search.dt', function () {
+                var i = 1;
+ 
+                tabelList
+                    .cells(null, 0, { search: 'applied', order: 'applied' })
+                    .every(function (cell) {
+                        this.data(i++);
+                    });
+            })
+        .draw();
+
+    }
+
+    function detRekapName_click(name){
+        $('#bodyToolName').find('tr').removeClass();
+        document.getElementById(name).setAttribute("class","clickable");
+
+        branchTool = name.split("|");
+
+        filBranchToolName = listToolData.filter(k => k.branch_penerima === branchTool[0] && k.nama_barang === branchTool[1]);
+
+        $('#tabelDetClickTool').DataTable().clear().destroy();
+
+        toolL = "";
+        for(t=0;t<filBranchToolName.length;t++){
+            toolL = toolL + `<tr>
+                    <td class="text-center" style="font-weight:500">${t + 1}</td>
+                    <td style="font-weight:500">${filBranchToolName[t].nama_barang}</td>
+                    <td style="font-weight:500">${filBranchToolName[t].merk_barang}</td>
+                    <td style="font-weight:500">${filBranchToolName[t].kode_aset}</td>
+                    <td style="font-weight:500">${filBranchToolName[t].kode_ga}</td>
+                    <td style="font-weight:500">${filBranchToolName[t].branch_penerima}</td>
+                    <td style="font-weight:500">${filBranchToolName[t].kondisi}</td>
+                    <td style="font-weight:500">${filBranchToolName[t].status_distribusi}</td>
+                    <td style="font-weight:500">${filBranchToolName[t].posisi}</td>
+                    </tr>`;
+        }
+
+        $('#bodyToolList').append(toolL);
+
+        tabelList = $('#tabelDetClickTool').DataTable({
+                        // processing: true,
+                        // paging: true,
+                        // destroy: true,
+                        // retrieve: true,
+                        layout: {
+                            topStart: {
+                                pageLength: {
+                                    menu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                                } ,
+                                buttons: ['excel'],
+                            },
+                    
+                        },
+                    });
+
+        tabelList
+            .on('order.dt search.dt', function () {
+                var i = 1;
+ 
+                tabelList
+                    .cells(null, 0, { search: 'applied', order: 'applied' })
+                    .every(function (cell) {
+                        this.data(i++);
+                    });
+            })
+        .draw();
+
+    }
+
+    function clearSelection(){
+        $('#bodyBranchTool').find('tr').remove();
+        $('#bodyToolName').find('tr').remove();
+
+        branch = "";
+        toolN = "";
+        toolL = "";
+        for(b=0;b<listBranch.length;b++){
+            branch = branch + `<tr id="${listBranch[b].branch_penerima}" onclick="detRekapBranch_click(this.id)"> 
+                            <td class="text-center" style="font-weight:500">${b + 1}</td>
+                            <td style="font-weight:500;cursor:pointer">${listBranch[b].branch_penerima}</td>
+                            <td class="text-center" style="font-weight:500">${listBranch[b].jml}</td>
+                          </tr>`;
+        }
+
+        $('#bodyBranchTool').append(branch);
+
+        for(b=0;b<listToolRekap.length;b++){
+            toolN = toolN + `<tr>
+                            <td class="text-center" style="font-weight:500">${b + 1}</td>
+                            <td style="font-weight:500">${listToolRekap[b].nama_barang}</td>
+                            <td class="text-center" style="font-weight:500">${listToolRekap[b].jml}</td>
+                          </tr>`;
+        }
+
+        $('#bodyToolName').append(toolN);
+
+        $('#tabelDetClickTool').DataTable().clear().destroy();
+
+        for(t=0;t<listToolData.length;t++){
+                toolL = toolL + `<tr>
+                            <td class="text-center" style="font-weight:500">${t + 1}</td>
+                            <td style="font-weight:500">${listToolData[t].nama_barang}</td>
+                            <td style="font-weight:500">${listToolData[t].merk_barang}</td>
+                            <td style="font-weight:500">${listToolData[t].kode_aset}</td>
+                            <td style="font-weight:500">${listToolData[t].kode_ga}</td>
+                            <td style="font-weight:500">${listToolData[t].branch_penerima}</td>
+                            <td style="font-weight:500">${listToolData[t].kondisi}</td>
+                            <td style="font-weight:500">${listToolData[t].status_distribusi}</td>
+                            <td style="font-weight:500">${listToolData[t].posisi}</td>
+                          </tr>`;
+        }
+
+        $('#bodyToolList').append(toolL);
+
+        tabelList = $('#tabelDetClickTool').DataTable({
+                        // processing: true,
+                        // paging: true,
+                        // destroy: true,
+                        // retrieve: true,
+                        layout: {
+                            topStart: {
+                                pageLength: {
+                                    menu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                                } ,
+                            buttons: ['excel'],
+                            },
+                    
+                        },
+                    });
+
+        tabelList
+            .on('order.dt search.dt', function () {
+                var i = 1;
+ 
+                tabelList
+                    .cells(null, 0, { search: 'applied', order: 'applied' })
+                    .every(function (cell) {
+                        this.data(i++);
+                    });
+                })
+            .draw();
+        }
+        
 </script>
 
 <script>
@@ -752,29 +1999,141 @@
         var firstDate;
         var lastDate;
         akses = $('#akses').val();
+        toolNm = {!! $namaTool !!};
+        
+
+        rekap_tool()
         data_tool()
+
+        $(document).on('change', '#namaTool', function(e) {
+            e.preventDefault();
+            sat = toolNm.find(k=>k.nama_tool === $(this).val());
+            $('#satuan').val(sat.satuan_tool);
+
+        })
+
+        $(document).on('change', '#namaToolShow', function(e) {
+            e.preventDefault();
+            sat = toolNm.find(k=>k.nama_tool === $(this).val());
+            $('#satuanShow').val(sat.satuan_tool);
+
+        })
+
+        $(document).on('click', '#filterData', function(e) {
+            e.preventDefault();
+            rekap_tool();
+            data_tool();
+        })
+
+        function rekap_tool() {
+
+            filterAll = $('#filBranch').val() + "|" + $('#filNamaTool').val() + "|" + $('#filPosisi').val() + "|" +  $('#filKondisi').val() + "|" + $('#filCallsign').val() + "|" + $('#filApprove1').val() + "|" + $('#filApprove2').val()
+            
+            $.ajax({
+                url: "{{ route('getRekapTool' )}}",
+                type: "get",
+                data: {
+                    _token: _token,
+                    filBranch: $('#filBranch').val(),
+                    filNamaTool: $('#filNamaTool').val(),
+                    filPosisi: $('#filPosisi').val(),
+                    filKondisi: $('#filKondisi').val(),
+                    filCallsign: $('#filCallsign').val(),
+                    filApprove1: $('#filApprove1').val(),
+                    filApprove2: $('#filApprove2').val(),
+                },
+                success: function(dtRekap) {
+
+                    $('#bodyRekapTool').find('tr').remove();
+                    
+                    bdRekapTool = "";
+                    stotal = [];
+                    tbaik = 0;
+                    trusak = 0;
+                    thilang = 0;
+                    ttot = 0;
+                    for(p=0; p<dtRekap.length; p++ ){
+
+                        stotal[p] = 0;
+                        stotal[p] = Number(dtRekap[p].baik) + Number(dtRekap[p].rusak) +Number(dtRekap[p].hilang);
+                        tbaik += Number(dtRekap[p].baik); 
+                        trusak += Number(dtRekap[p].rusak);
+                        thilang += Number(dtRekap[p].hilang);  
+                        ttot += stotal[p];
+                        bdRekapTool = bdRekapTool + `
+                            <tr>
+                                <td style="font-weight:500">${dtRekap[p].posisiTool}</td>
+                                <td class="text-center" style="font-weight:500"><span id="${dtRekap[p].posisiTool + "|Baik|" + filterAll}" onclick="detRekap_click(this.id)" style="cursor:pointer">${dtRekap[p].baik.toLocaleString()}</span></td>
+                                <td class="text-center" style="font-weight:500"><span id="${dtRekap[p].posisiTool + "|Rusak|" + filterAll}" onclick="detRekap_click(this.id)" style="cursor:pointer">${dtRekap[p].rusak.toLocaleString()}</span></td>
+                                <td class="text-center" style="font-weight:500"><span id="${dtRekap[p].posisiTool + "|Hilang|" + filterAll}" onclick="detRekap_click(this.id)" style="cursor:pointer">${dtRekap[p].hilang.toLocaleString()}</span></td>
+                                <td class="text-center" style="font-weight:500"><span style="cursor:pointer">${stotal[p].toLocaleString()}</span></td>
+                            </tr>`;
+                    }
+
+                    bdRekapTool = bdRekapTool + `
+                        <tr class="table-dark">
+                            <td class="text-center" style="font-weight:500">Total</td>
+                            <td class="text-center" style="font-weight:500"><span style="cursor:pointer">${tbaik.toLocaleString()}</span></td>
+                            <td class="text-center" style="font-weight:500"><span style="cursor:pointer">${trusak.toLocaleString()}</span></td>
+                            <td class="text-center" style="font-weight:500"><span style="cursor:pointer">${thilang.toLocaleString()}</span></td>
+                            <td class="text-center" style="font-weight:500"><span style="cursor:pointer">${ttot.toLocaleString()}</span></td>
+                        </tr>
+                        
+                        <tr>
+                            <td style="font-weight:500"></td>
+                            <td class="text-center" style="font-weight:500"></td>
+                            <td class="text-center" style="font-weight:500"></td>
+                            <td class="text-center" style="font-weight:500"></td>
+                            <td class="text-center" style="font-weight:500"></td>
+                        </tr>
+                        
+                        <tr class="bg-gray-600 text-white">
+                            <td style="font-weight:500">Disposal Tool</td>
+                            <td class="text-center" style="font-weight:500"><span style="cursor:pointer">0</span></td>
+                            <td class="text-center" style="font-weight:500"><span style="cursor:pointer">0</span></td>
+                            <td class="text-center" style="font-weight:500"><span style="cursor:pointer">0</span></td>
+                            <td class="text-center" style="font-weight:500"><span style="cursor:pointer">0</span></td>
+                        </tr>`;
+
+                    $('#bodyRekapTool').append(bdRekapTool);
+
+                    
+                }
+            })
+            
+        }
 
         function data_tool() {
             $('#tabelTool').DataTable({
-                // dom: 'Bftip',
+                // dom: 'Blrtip',
                 layout: {
                     topStart: {
-                        buttons: ['excel']
+                        pageLength: {
+                            menu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                        } ,
+                        buttons: ['excel'],
                     },
+                    
                 },
+                // buttons: [
+                //     'excel',
+                // ],
                 paging: true,
                 orderClasses: false,
                 // fixedColumns: true,
 
-                // fixedColumns: {
-                //     leftColumns: 3,
-                //     // rightColumns: 1
-                // },
+                fixedColumns: {
+                    leftColumns: 2,
+                    // rightColumns: 1
+                },
+                // lengthMenu: [
+                //     [10, 50, 100 - 1], [10, 50, 100, "All"]
+                // ],
                 deferRender: true,
                 scrollCollapse: true,
                 scrollX: true,
                 pageLength: 10,
-                lengthChange: false,
+                lengthChange: true,
                 bFilter: true,
                 destroy: true,
                 processing: true,
@@ -784,7 +2143,14 @@
                     type: "get",
                     dataType: "json",
                     data: {
-                        _token: _token
+                        _token: _token,
+                        filBranch: $('#filBranch').val(),
+                        filNamaTool: $('#filNamaTool').val(),
+                        filPosisi: $('#filPosisi').val(),
+                        filKondisi: $('#filKondisi').val(),
+                        filCallsign: $('#filCallsign').val(),
+                        filApprove1: $('#filApprove1').val(),
+                        filApprove2: $('#filApprove2').val(),
                     }
                 },
                 columns: [{
@@ -821,12 +2187,49 @@
                         data: 'posisi'
                     },
                     {
+                        data: 'app1',
+                        "className": "text-center",
+                    },
+                    {
+                        data: 'app2',
+                        "className": "text-center",
+                    },
+                    {
                         data: 'action',
                         "className": "text-center",
                     },
                 ]
             })
         }
+
+        $(document).on('change', '#filBranch', function(e) {
+            e.preventDefault();
+            branch = $(this).val();
+
+            $.ajax({
+                url: "{{ route('getCallsignBranch') }}",
+                type: "get",
+                data: {
+                    _token: _token,
+                    branch: branch,
+                },
+                success: function(dtCallsign) {
+
+                    $('#filCallsign').find("option").remove();
+
+                    $('#filCallsign').append(`
+                        <option value="ALL">ALL</option>
+                    `);
+
+                    $.each(dtCallsign, function(key, item){
+                        $('#filCallsign').append(`
+                            <option value="${item.callsign_tim}">${item.callsign_tim}</option>
+                        
+                        `);
+                    })
+                }
+            })
+        })
 
         $(document).on('click', '#detail-tool', function(e) {
             e.preventDefault();
@@ -842,17 +2245,43 @@
                 },
                 success: function(respon) {
 
-                    $('#namaToolShowId').val('')
-                    $('#namaToolShow').val('')
-                    $('#merkShow').val('')
-                    $('#satuanShow').val('')
-                    $('#spesifikasiShow').val('')
-                    $('#tglPenerimaanShow').val('')
-                    $('#kondisiShow').val('')
-                    $('#kodeAsetShow').val('')
-                    $('#kodeGAShow').val('')
-                    $('#showgambarShow').val('')
-                    $('#fotoToolShow').val('')
+                    if(respon.approve1=="Approved" && respon.approve2 =="Approved"){
+                        document.getElementById('namaToolShow').disabled = true;
+                        document.getElementById('merkShow').readOnly = true;
+                        document.getElementById('satuanShow').disabled = true;
+                        document.getElementById('spesifikasiShow').readOnly = true;
+                        document.getElementById('tglPenerimaanShow').readOnly = true;
+                        document.getElementById('kondisiShow').disabled = true;
+                        document.getElementById('kodeAsetShow').readOnly = true;
+                        document.getElementById('kodeGAShow').readOnly = true;
+                        document.getElementById('fotoToolShow').disabled = true;
+                        document.getElementById('updateTool').disabled = true;
+                    }else{
+                        document.getElementById('namaToolShow').disabled = false;
+                        document.getElementById('merkShow').readOnly = false;
+                        document.getElementById('satuanShow').disabled = false;
+                        document.getElementById('spesifikasiShow').readOnly = false;
+                        document.getElementById('tglPenerimaanShow').readOnly = false;
+                        document.getElementById('kondisiShow').disabled = false;
+                        document.getElementById('kodeAsetShow').readOnly = false;
+                        document.getElementById('kodeGAShow').readOnly = false;
+                        document.getElementById('fotoToolShow').disabled = false;
+                        document.getElementById('updateTool').disabled = false;
+                        
+                        
+                    }
+
+                        $('#namaToolShowId').val('')
+                        $('#namaToolShow').val('')
+                        $('#merkShow').val('')
+                        $('#satuanShow').val('')
+                        $('#spesifikasiShow').val('')
+                        $('#tglPenerimaanShow').val('')
+                        $('#kondisiShow').val('')
+                        $('#kodeAsetShow').val('')
+                        $('#kodeGAShow').val('')
+                        $('#showgambarShow').val('')
+                        $('#fotoToolShow').val('')
 
                     $('#namaToolShowId').val(respon.id)
                     $('#namaToolShow').val(respon.nama_barang)
@@ -874,6 +2303,7 @@
                     $('#ShowTool').modal('show');
                     // showDetail_tool(t_id);
                     showRiwayatTool(t_id);
+
 
                 }
             })
@@ -1023,42 +2453,244 @@
             })
         }
 
-        $('#updateLead').click(function(e) {
-            // e.preventDefault();
+        function showRiwayatApp1(detTool) {
+            $('#tabelRiwayatApp1').DataTable({
+                // dom: 'Bftip',
+                layout: {
+                    topStart: {
+                        buttons: ['excel']
+                    },
+                },
+                paging: true,
+                orderClasses: false,
+                // fixedColumns: true,
+
+                // fixedColumns: {
+                //     leftColumns: 3,
+                //     // rightColumns: 1
+                // },
+                deferRender: true,
+                scrollCollapse: true,
+                scrollX: true,
+                pageLength: 10,
+                lengthChange: false,
+                bFilter: true,
+                destroy: true,
+                processing: true,
+                serverSide: false,
+                ajax: {
+                    url: "{{ route('getRiwayatApprove') }}",
+                    type: "get",
+                    dataType: "json",
+                    data: {
+                        tid: detTool,
+                        app: "app1",
+                        _token: _token
+                    },
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_Row_Index',
+                        "className": "text-center",
+                        // orderable: false,
+                        searchable: false,
+                        "width": '10'
+                    },
+                    {
+                        data: 'tgl_approve',
+                        width: '20',
+                        "className": "text-center",
+                    },
+                    {
+                        data: 'nama_karyawan'
+                    },
+                    {
+                        data: 'status_approve'
+                    },
+                    {
+                        data: 'ket_approve'
+                    },
+                ]
+            })
+        }
+
+        $(document).on('click', '#detail-app1', function(e) {
+            e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
-            let callLeadId = $('#leadCallsignId').val();
-            let leadCallsign = $('#leadCallsignEdit').val();
-            let areaId = $('#areaEdit').val();
-            let leaderId = $('#namaLeaderEdit').val();
+            let t_id = $(this).data('id');
 
             $.ajax({
-                url: `/updateLead/${callLeadId}`,
-                type: 'PUT',
+                url: "{{ route('showDetailTool') }}",
+                type: "get",
                 data: {
-                    idCallsignLead: callLeadId,
-                    idArea: areaId,
-                    leadCallsign: leadCallsign,
-                    idLeader: leaderId,
-                    _token: '{{ csrf_token() }}'
+                    filToolId: t_id,
+                    _token: _token
                 },
-                success: function(hasil) {
+                success: function(respon) {
 
-                    $('#detailEditLead').modal('hide');
-                    Swal.fire({
-                        icon: "success",
-                        title: "Berhasil",
-                        text: "{{ session('success') }}",
-                        showConfirmButton: true,
-                        // timer: 2000
-                    });
+                    $('#namaToolApp1Id').val('')
+                    $('#namaToolApp1').val('')
+                    $('#merkApp1').val('')
+                    $('#satuanApp1').val('')
+                    $('#spesifikasiApp1').val('')
+                    $('#tglPenerimaanApp1').val('')
+                    $('#kondisiApp1').val('')
+                    $('#kodeAsetApp1').val('')
+                    $('#kodeGAApp1').val('')
+                    $('#showgambarApp1').val('')
+                    $('#fotoToolApp1').val('')
+                    $('#tglApp1').val('')
+                    $('#statusApp1').val('')
+                    $('#keteranganApp1').val('')
 
-                    data_lead();
+                    $('#namaToolApp1Id').val(respon.id)
+                    $('#namaToolApp1').val(respon.nama_barang)
+                    $('#merkApp1').val(respon.merk_barang)
+                    $('#satuanApp1').val(respon.satuan)
+                    $('#spesifikasiApp1').val(respon.spesifikasi)
+                    $('#tglPenerimaanApp1').val(respon.tgl_pengadaan)
+                    $('#kondisiApp1').val(respon.kondisi)
+                    $('#kodeAsetApp1').val(respon.kode_aset)
+                    $('#kodeGAApp1').val(respon.kode_ga)
+                    $('#nikpenerimaApp1').val(respon.nik_penerima)
+                    $('#namapenerimaApp1').val(respon.nama_penerima)
+                    $('#departemenApp1').val(respon.departement)
+                    $('#posisiApp1').val(respon.posisi)
+                    $('#namaBranchApp1').val(respon.branch_penerima)
+                    $('#showgambarApp1').attr('src',
+                        `/storage/image-tool/${respon.foto_barang}`)
 
-                },
-                error: function(error) {
-                    if (error.responseJSON.message) {
-                        alert(error.responseJSON.message)
+                    $('#ShowApp1').modal('show');
+                    // showDetail_tool(t_id);
+                    showRiwayatApp1(t_id);
+                    if(respon.approve1=="Approved"){
+                        document.getElementById("action1").disabled = true;
                     }
+
+
+
+                }
+            })
+        })
+
+        function showRiwayatApp2(detTool) {
+            $('#tabelRiwayatApp2').DataTable({
+                // dom: 'Bftip',
+                layout: {
+                    topStart: {
+                        buttons: ['excel']
+                    },
+                },
+                paging: true,
+                orderClasses: false,
+                // fixedColumns: true,
+
+                // fixedColumns: {
+                //     leftColumns: 3,
+                //     // rightColumns: 1
+                // },
+                deferRender: true,
+                scrollCollapse: true,
+                scrollX: true,
+                pageLength: 10,
+                lengthChange: false,
+                bFilter: true,
+                destroy: true,
+                processing: true,
+                serverSide: false,
+                ajax: {
+                    url: "{{ route('getRiwayatApprove') }}",
+                    type: "get",
+                    dataType: "json",
+                    data: {
+                        tid: detTool,
+                        app: "app2",
+                        _token: _token
+                    },
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_Row_Index',
+                        "className": "text-center",
+                        // orderable: false,
+                        searchable: false,
+                        "width": '10'
+                    },
+                    {
+                        data: 'tgl_approve',
+                        width: '20',
+                        "className": "text-center",
+                    },
+                    {
+                        data: 'nama_karyawan'
+                    },
+                    {
+                        data: 'status_approve'
+                    },
+                    {
+                        data: 'ket_approve'
+                    },
+                ]
+            })
+        }
+
+        $(document).on('click', '#detail-app2', function(e) {
+            e.preventDefault();
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let t_id = $(this).data('id');
+
+            $.ajax({
+                url: "{{ route('showDetailTool') }}",
+                type: "get",
+                data: {
+                    filToolId: t_id,
+                    _token: _token
+                },
+                success: function(respon) {
+
+                    $('#namaToolApp2Id').val('')
+                    $('#namaToolApp2').val('')
+                    $('#merkApp2').val('')
+                    $('#satuanApp2').val('')
+                    $('#spesifikasiApp2').val('')
+                    $('#tglPenerimaanApp2').val('')
+                    $('#kondisiApp2').val('')
+                    $('#kodeAsetApp2').val('')
+                    $('#kodeGAApp2').val('')
+                    $('#showgambarApp2').val('')
+                    $('#fotoToolApp2').val('')
+                    $('#tglApp2').val('')
+                    $('#statusApp2').val('')
+                    $('#keteranganApp2').val('')
+
+                    $('#namaToolApp2Id').val(respon.id)
+                    $('#namaToolApp2').val(respon.nama_barang)
+                    $('#merkApp2').val(respon.merk_barang)
+                    $('#satuanApp2').val(respon.satuan)
+                    $('#spesifikasiApp2').val(respon.spesifikasi)
+                    $('#tglPenerimaanApp2').val(respon.tgl_pengadaan)
+                    $('#kondisiApp2').val(respon.kondisi)
+                    $('#kodeAsetApp2').val(respon.kode_aset)
+                    $('#kodeGAApp2').val(respon.kode_ga)
+                    $('#nikpenerimaApp2').val(respon.nik_penerima)
+                    $('#namapenerimaApp2').val(respon.nama_penerima)
+                    $('#departemenApp2').val(respon.departement)
+                    $('#posisiApp2').val(respon.posisi)
+                    $('#namaBranchApp2').val(respon.branch_penerima)
+                    $('#showgambarApp2').attr('src',
+                        `/storage/image-tool/${respon.foto_barang}`)
+
+                    $('#ShowApp2').modal('show');
+                    // showDetail_tool(t_id);
+                    showRiwayatApp2(t_id);
+                    if(respon.approve1=="Submited" || respon.approve1=="Reject"){
+                        document.getElementById("action2").disabled = true;
+                    }
+                    if(respon.approve2=="Approved"){
+                        document.getElementById("action2").disabled = true;
+                    }
+
+
 
                 }
             })
@@ -1082,6 +2714,9 @@
             if (kategori == "Data Pengecekan") {
                 url = "{{ route('getDetailCek') }}"
             }
+            if (kategori == "Data Pengembalian GA") {
+                url = "{{ route('getDetailKembaliGA') }}"
+            }
 
             $.ajax({
                 url: url,
@@ -1093,69 +2728,110 @@
                 },
                 success: function(dtDis) {
 
-                    $('#LeadCallsignTimShow').val(dtDis.lead_callsign)
-                    $('#leadCallsignShow').val(dtDis.lead_callsign)
-                    $('#leaderidShow').val(dtDis.leader_id)
-                    $('#leaderTimShow').val(dtDis.leader)
-                    $('#posisiTimShow').val(dtDis.posisi)
-                    $('#callsignTimidShow').val(dtDis.callsign_tim)
-                    $('#callsignTimShow').val(dtDis.callsign_tim_id)
-                    $('#areaTimShow').val(dtDis.area)
+                    if(kategori == "Data Distribusi" || kategori == "Data Pengembalian" || kategori == "Data Pengecekan") {
 
-                    $('#teknisi1NkShow').val(dtDis.nik_tim1);
-                    $('#teknisi1Show').val(dtDis.teknisi1);
-                    $('#teknisi2NkShow').val(dtDis.nik_tim2);
-                    $('#teknisi2Show').val(dtDis.teknisi2);
-                    $('#teknisi3NkShow').val(dtDis.nik_tim3);
-                    $('#teknisi3Show').val(dtDis.teknisi3);
-                    $('#teknisi4NkShow').val(dtDis.nik_tim4);
-                    $('#teknisi4Show').val(dtDis.teknisi4);
+                        $('#LeadCallsignTimShow').val(dtDis.lead_callsign)
+                        $('#leadCallsignShow').val(dtDis.lead_callsign)
+                        $('#leaderidShow').val(dtDis.leader_id)
+                        $('#leaderTimShow').val(dtDis.leader)
+                        $('#posisiTimShow').val(dtDis.posisi)
+                        $('#callsignTimidShow').val(dtDis.callsign_tim)
+                        $('#callsignTimShow').val(dtDis.callsign_tim_id)
+                        $('#areaTimShow').val(dtDis.area)
 
-                    $('#namaToolShowDis').val(dtDis.nama_barang);
+                        $('#teknisi1NkShow').val(dtDis.nik_tim1);
+                        $('#teknisi1Show').val(dtDis.teknisi1);
+                        $('#teknisi2NkShow').val(dtDis.nik_tim2);
+                        $('#teknisi2Show').val(dtDis.teknisi2);
+                        $('#teknisi3NkShow').val(dtDis.nik_tim3);
+                        $('#teknisi3Show').val(dtDis.teknisi3);
+                        $('#teknisi4NkShow').val(dtDis.nik_tim4);
+                        $('#teknisi4Show').val(dtDis.teknisi4);
 
-                    $('#merkShowDis').val(dtDis.merk_barang);
-                    $('#satuanShowDis').val(dtDis.satuan);
-                    $('#spesifikasiShowDis').val(dtDis.spesifikasi);
+                        $('#namaToolShowDis').val(dtDis.nama_barang);
+
+                        $('#merkShowDis').val(dtDis.merk_barang);
+                        $('#satuanShowDis').val(dtDis.satuan);
+                        $('#spesifikasiShowDis').val(dtDis.spesifikasi);
 
 
 
-                    $('#kondisiShowDis').val(dtDis.kondisi);
-                    $('#kodeAsetShowDis').val(dtDis.kode_aset);
-                    $('#kodeGAShowDis').val(dtDis.kode_ga);
+                        $('#kondisiShowDis').val(dtDis.kondisi);
+                        $('#kodeAsetShowDis').val(dtDis.kode_aset);
+                        $('#kodeGAShowDis').val(dtDis.kode_ga);
 
-                    $('#keteranganShow').val(dtDis.keterangan);
+                        $('#keteranganShow').val(dtDis.keterangan);
 
-                    if (kategori == "Data Distribusi") {
+                        if (kategori == "Data Distribusi") {
 
-                        $('#tglPenerimaanShowDis').val(dtDis.tgl_pengadaan);
-                        $('#tglDistribusiShowDis').val(dtDis.tgl_distribusi);
+                            $('#tglPenerimaanShowDis').val(dtDis.tgl_pengadaan);
+                            $('#tglDistribusiShowDis').val(dtDis.tgl_distribusi);
 
-                        document.getElementById('txDisPenerimaan').innerHTML =
-                            "Tanggal Penerimaan Tool";
-                        document.getElementById('txTglDistribusi').innerHTML =
+                            document.getElementById('txDisPenerimaan').innerHTML =
+                                "Tanggal Penerimaan Tool";
+                            document.getElementById('txTglDistribusi').innerHTML =
+                                "Tanggal Distribusi Tool";
+
+                            $('#showgambarDistribusiShow').attr('src',
+                                `/storage/image-distribusi/${dtDis.foto_distribusi}`)
+                        }
+                        if (kategori == "Data Pengembalian") {
+
+                            $('#tglPenerimaanShowDis').val(dtDis.tgl_distribusi);
+                            $('#tglDistribusiShowDis').val(dtDis.tgl_kembali);
+
+                            document.getElementById('txDisPenerimaan').innerHTML =
+                                "Tanggal Distribusi Tool";
+                            document.getElementById('txTglDistribusi').innerHTML =
+                                "Tanggal Pengembalian Tool";
+
+                            $('#showgambarDistribusiShow').attr('src',
+                                `/storage/image-pengembalian/${dtDis.foto_kembali}`)
+                        }
+
+                        if (kategori == "Data Pengecekan") {
+
+                            $('#tglPenerimaanShowDis').val(dtDis.tgl_distribusi);
+                            $('#tglDistribusiShowDis').val(dtDis.tgl_pengecekan);
+
+                            document.getElementById('txDisPenerimaan').innerHTML =
                             "Tanggal Distribusi Tool";
+                            document.getElementById('txTglDistribusi').innerHTML =
+                            "Tanggal Pengecekan Tool";
 
-                        $('#showgambarDistribusiShow').attr('src',
-                            `/storage/image-distribusi/${dtDis.foto_distribusi}`)
-                    }
-                    if (kategori == "Data Pengembalian") {
+                            $('#showgambarDistribusiShow').attr('src',
+                            `/storage/image-laporan/${dtDis.foto_pengecekan}`)
+                        }
 
-                        $('#tglPenerimaanShowDis').val(dtDis.tgl_distribusi);
-                        $('#tglDistribusiShowDis').val(dtDis.tgl_kembali);
 
-                        document.getElementById('txDisPenerimaan').innerHTML =
-                            "Tanggal Distribusi Tool";
-                        document.getElementById('txTglDistribusi').innerHTML =
-                            "Tanggal Pengembalian Tool";
+                        $('#showRiwayatDistribusi').modal('show');
 
-                        $('#showgambarDistribusiShow').attr('src',
-                            `/storage/image-pengembalian/${dtDis.foto_kembali}`)
                     }
 
+                    if(kategori == "Data Pengembalian GA") {
+                        $('#namaToolidGAShow').val(dtDis.barang_id);
+                        $('#namaToolGAShow').val(dtDis.nama_barang);
 
-                    $('#showRiwayatDistribusi').modal('show');
+                        $('#merkGAShow').val(dtDis.merk_barang);
+                        $('#satuanGAShow').val(dtDis.satuan);
+                        $('#spesifikasiGAShow').val(dtDis.spesifikasi);
 
+                        $('#tglPengadaanGAShow').val(dtDis.tgl_pengadaan);
+                        $('#tglPengembalianGAShow').val(dtDis.tgl_kembali);
 
+                        $('#kondisiGAShow').val(dtDis.kondisi);
+                        $('#statPengembalianGAShow').val(dtDis.status_pengembalian);
+                        $('#kodeAsetGAShow').val(dtDis.kode_aset);
+                        $('#kodeGAGAShow').val(dtDis.kode_ga);
+                        $('#nikPengembalianGAShow').val(dtDis.nik_pengembalian + "|" + dtDis.nama_pengembalian);
+
+                        $('#keteranganGAShow').val(dtDis.keterangan);
+
+                        $('#showgambarKembaliGAShow').attr('src',
+                            `/storage/image-pengembalianGA/${dtDis.foto_kembali}`)
+
+                        $('#showKembaliGA').modal('show');
+                    }
                 }
             })
         })
@@ -1347,7 +3023,6 @@
             let tek3 = $('#teknisi3Edit').val();
             let tek4 = $('#teknisi4Edit').val();
 
-            console.log(tek1, tek2, tek3, tek4)
             $.ajax({
                 url: `/updateTim/${callTimId}`,
                 type: 'get',
@@ -1375,7 +3050,6 @@
 
                 },
                 error: function(error) {
-                    console.log(error);
                     if (error.responseJSON.message) {
                         alert(error.responseJSON.message)
                     }
