@@ -104,8 +104,6 @@ class MonitFtthIB_Controller extends Controller
 
         if ($request->ajax()) {
 
-
-
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
                 ->editColumn('nama_cust', function ($nm) {

@@ -31,7 +31,23 @@
                     </div>
                 </div>
             </div>
-            <hr class="my-0">
+
+            <div class="row mb-3">
+                <div class="col-10"></div>
+                <div class="col-2">
+                    <div class="filter-section">
+                        <form method="GET" action="{{ url('/dashboard') }}" class="form-inline">
+                            <label for="filter">Filter: </label>
+                            <select name="filter" id="filter" class="form-control" onchange="this.form.submit()">
+                                <option value="daily" {{ request('filter') == 'daily' ? 'selected' : '' }}>Daily</option>
+                                <option value="weekly" {{ request('filter') == 'weekly' ? 'selected' : '' }}>Weekly</option>
+                                <option value="monthly" {{ request('filter') == 'monthly' ? 'selected' : '' }}>Monthly</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-xl-3 col-sm-6 mb-xl-0">
                     <div class="card border shadow-xs mb-4">
@@ -50,7 +66,7 @@
                                 <div class="col-12">
                                     <div class="w-100">
                                         <p class="text-sm text-secondary mb-1">FTTH New Installation</p>
-                                        <h4 class="mb-2 font-weight-bold">$99,118.5</h4>
+                                        <h4 class="mb-2 font-weight-bold">{{ $ftth_ib }}</h4>
                                         <div class="d-flex align-items-center">
                                             <span class="text-sm text-success font-weight-bolder">
                                                 <i class="fa fa-chevron-up text-xs me-1"></i>10.5%
@@ -81,7 +97,7 @@
                                 <div class="col-12">
                                     <div class="w-100">
                                         <p class="text-sm text-secondary mb-1">FTTH Maintenance</p>
-                                        <h4 class="mb-2 font-weight-bold">376</h4>
+                                        <h4 class="mb-2 font-weight-bold">{{ $ftth_mt }}</h4>
                                         <div class="d-flex align-items-center">
                                             <span class="text-sm text-success font-weight-bolder">
                                                 <i class="fa fa-chevron-up text-xs me-1"></i>55%
@@ -110,7 +126,7 @@
                                 <div class="col-12">
                                     <div class="w-100">
                                         <p class="text-sm text-secondary mb-1">FTTH Dismantle</p>
-                                        <h4 class="mb-2 font-weight-bold">$450.53</h4>
+                                        <h4 class="mb-2 font-weight-bold">{{ $ftth_dismantle }}</h4>
                                         <div class="d-flex align-items-center">
                                             <span class="text-sm text-success font-weight-bolder">
                                                 <i class="fa fa-chevron-up text-xs me-1"></i>22%
@@ -139,7 +155,7 @@
                                 <div class="col-12">
                                     <div class="w-100">
                                         <p class="text-sm text-secondary mb-1">FTTX</p>
-                                        <h4 class="mb-2 font-weight-bold">$23,364.55</h4>
+                                        <h4 class="mb-2 font-weight-bold">10</h4>
                                         <div class="d-flex align-items-center">
                                             <span class="text-sm text-success font-weight-bolder">
                                                 <i class="fa fa-chevron-up text-xs me-1"></i>18%
