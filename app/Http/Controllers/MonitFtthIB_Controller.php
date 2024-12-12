@@ -21,7 +21,25 @@ class MonitFtthIB_Controller extends Controller
      */
     public function index()
     {
-        return view('monitoringWo.monit_ftth_ib');
+        $branches = DB::table('branches')->select('id','nama_branch')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
+
+        $leader = DB::table('v_detail_callsign_tim')->select('leader_id', 'nama_leader', 'nama_branch')
+            ->orderBy('lead_callsign')->orderBy('branch_id')
+            ->groupBy('lead_call_id', 'lead_callsign', 'nama_branch')->get();
+
+        $callTim = DB::table('v_detail_callsign_tim')
+            ->select('callsign_tim_id', 'callsign_tim')->distinct()
+            ->orderBy('callsign_tim')->get();
+
+        $cluster = DB::table('fats')->select('cluster')
+                ->where('cluster', '<>', "")->distinct()->orderBy('cluster')->get();
+
+        return view('monitoringWo.monit_ftth_ib', compact(
+            'branches',
+            'leader',
+            'callTim',
+            'cluster'
+        ));
     }
 
     public function getDataIBOris(Request $request)

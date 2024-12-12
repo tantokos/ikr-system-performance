@@ -49,8 +49,8 @@
                                     <div class="form-group mb-1">
                                         <span class="text-xs">Type WO</span>
                                         <select class="form-control form-control-sm" type="text" id="filtypeWo"
-                                            name="filtypeWo" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Type WO</option>
+                                            name="filtypeWo" style="border-color:#9ca0a7;" readonly>
+                                            <option value="">FTTH Maintenance</option>
                                         </select>
                                     </div>
                                 </div>
@@ -61,6 +61,12 @@
                                         <select class="form-control form-control-sm" type="text" id="filarea"
                                             name="filarea" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Area</option>
+                                            @if (isset($branches))
+                                                @foreach ($branches as $b)
+                                                    <option value="{{ $b->id . '|' . $b->nama_branch }}">
+                                                        {{ $b->nama_branch }}
+                                                @endforeach
+                                            @endif
                                         </select>
                                         <input type="hidden" id="filareaId" name="filareaId">
                                     </div>
@@ -70,16 +76,29 @@
                                         <select class="form-control form-control-sm" type="text" id="filleaderTim"
                                             name="filleaderTim" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Leader</option>
+                                            @if (isset($leader))
+                                                @foreach ($leader as $ld)
+                                                    <option value="{{ $ld->leader_id . '|' . $ld->nama_leader }}">
+                                                        {{ $ld->nama_leader }}
+                                                @endforeach
+                                            @endif
                                         </select>
                                         <input type="hidden" id="filleaderid" name="filleaderid" readonly>
                                     </div>
 
                                     <div class="form-group mb-1">
                                         <span class="text-xs">Callsign Tim</span>
-                                        <select class="form-control form-control-sm" type="text"
-                                            id="filcallsignTimid" name="filcallsignTimid" style="border-color:#9ca0a7;"
+                                        <select class="form-control form-control-sm" type="text" id="filcallsignTimid"
+                                            name="filcallsignTimid" style="border-color:#9ca0a7;"
                                             placeholder="Isi Callsign Tim">
                                             <option value="">Pilih Callsign Tim</option>
+                                            @if (isset($callTim))
+                                                @foreach ($callTim as $cTim)
+                                                    <option
+                                                        value="{{ $cTim->callsign_tim_id . '|' . $cTim->callsign_tim }}">
+                                                        {{ $cTim->callsign_tim }}
+                                                @endforeach
+                                            @endif
                                         </select>
                                     </div>
 
@@ -100,6 +119,12 @@
                                         <select class="form-control form-control-sm" type="text" id="filcluster"
                                             name="filcluster" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Cluster</option>
+                                            @if (isset($cluster))
+                                                @foreach ($cluster as $cl)
+                                                    <option value="{{ $cl->cluster }}">
+                                                        {{ $cl->cluster }}
+                                                @endforeach
+                                            @endif
                                         </select>
                                     </div>
 
@@ -112,10 +137,33 @@
                                     <div class="form-group mb-1">
                                         <span class="text-xs">Slot Time</span>
                                         <select class="form-control form-control-sm" type="text" id="filslotTime"
-                                            name="filslotTime" style="border-color:#9ca0a7;">
+                                            name="filslotTime" style="border-color:#9ca0a7;" disabled>
                                             <option value="">Pilih SlotTime</option>
+                                            <option value="09:00">09:00</option>
+                                            <option value="09:30">09:30</option>
+                                            <option value="10:00">10:00</option>
+                                            <option value="10:30">10:30</option>
+                                            <option value="11:00">11:00</option>
+                                            <option value="11:30">11:30</option>
+                                            <option value="12:00">12:00</option>
+                                            <option value="12:30">12:30</option>
+                                            <option value="13:00">13:00</option>
+                                            <option value="13:30">13:30</option>
+                                            <option value="14:00">14:00</option>
+                                            <option value="14:30">14:30</option>
+                                            <option value="15:00">15:00</option>
+                                            <option value="15:30">15:30</option>
+                                            <option value="16:00">16:00</option>
+                                            <option value="16:30">16:30</option>
+                                            <option value="17:00">17:00</option>
+                                            <option value="17:30">17:30</option>
+                                            <option value="18:00">18:00</option>
+                                            <option value="18:30">18:30</option>
+                                            <option value="19:00">19:00</option>
+                                            <option value="19:30">19:30</option>
+                                            <option value="20:00">20:00</option>
                                         </select>
-                                    </div>
+                                        </div>
 
                                 </div>
                                 <hr>
@@ -190,39 +238,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="card-header border-bottom pb-0"> --}}
-                        {{-- <div class="d-sm-flex align-items-center"> --}}
-                        {{-- <div> --}}
-                        {{-- <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data WO</span></h6> --}}
-                        {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
-                        {{-- </div> --}}
-
-                        {{-- <div class="ms-auto d-flex">
-                                    <button type="button"
-                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"
-                                        data-bs-toggle="modal" data-bs-target="#tambahAssignTim">
-                                        <span class="fa fa-pencil"></span>
-
-                                        <span class="btn-inner--text">Tambah Assign Tim</span>
-                                    </button>
-
-                                    <a href="{{ route('importDataWo') }}">
-                                        <button type="button"
-                                            class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
-                                            <span class="btn-inner--icon">
-                                                <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
-                                                    <path
-                                                        d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
-                                                    </path>
-                                                </svg>
-                                            </span>
-                                            <span class="btn-inner--text">Import Data WO</span>
-                                        </button>
-                                    </a>
-                                </div> --}}
-                        {{-- </div> --}}
-                        {{-- </div> --}}
 
                         <div class="card-body px-2 py-2">
                             <div class="table-responsive p-0">

@@ -19,6 +19,19 @@ class MonitFtthMT_Controller extends Controller
 
     public function index()
     {
+        $branches = DB::table('branches')->select('id','nama_branch')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
+
+        $leader = DB::table('v_detail_callsign_tim')->select('leader_id', 'nama_leader', 'nama_branch')
+            ->orderBy('lead_callsign')->orderBy('branch_id')
+            ->groupBy('lead_call_id', 'lead_callsign', 'nama_branch')->get();
+
+        $callTim = DB::table('v_detail_callsign_tim')
+            ->select('callsign_tim_id', 'callsign_tim')->distinct()
+            ->orderBy('callsign_tim')->get();
+
+        $cluster = DB::table('fats')->select('cluster')
+                ->where('cluster', '<>', "")->distinct()->orderBy('cluster')->get();
+
         $mostCauseCode = FtthMt::select(
                     'couse_code',
                     DB::raw('COUNT(couse_code) AS qtyCauseCode')
@@ -44,7 +57,15 @@ class MonitFtthMT_Controller extends Controller
             ->limit(5)
             ->get();
 
-        return view('monitoringWo.monit_ftth_mt', compact('mostCauseCode', 'mostRootCause', 'mostActionTaken'));
+        return view('monitoringWo.monit_ftth_mt', compact(
+            'mostCauseCode',
+            'mostRootCause',
+            'mostActionTaken',
+            'branches',
+            'leader',
+            'callTim',
+            'cluster',
+        ));
     }
 
     public function getDataMTOris(Request $request)

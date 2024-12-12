@@ -50,8 +50,8 @@
                                     <div class="form-group mb-1">
                                         <span class="text-xs">Type WO</span>
                                         <select class="form-control form-control-sm" type="text" id="filtypeWo"
-                                            name="filtypeWo" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Type WO</option>
+                                            name="filtypeWo" style="border-color:#9ca0a7;" disabled>
+                                            <option value="">FTTH New Installation</option>
                                         </select>
                                     </div>
                                 </div>
@@ -62,6 +62,12 @@
                                         <select class="form-control form-control-sm" type="text" id="filarea"
                                             name="filarea" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Area</option>
+                                            @if (isset($branches))
+                                                @foreach ($branches as $b)
+                                                    <option value="{{ $b->id . '|' . $b->nama_branch }}">
+                                                        {{ $b->nama_branch }}
+                                                @endforeach
+                                            @endif
                                         </select>
                                         <input type="hidden" id="filareaId" name="filareaId">
                                     </div>
@@ -71,16 +77,29 @@
                                         <select class="form-control form-control-sm" type="text" id="filleaderTim"
                                             name="filleaderTim" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Leader</option>
+                                            @if (isset($leader))
+                                                @foreach ($leader as $ld)
+                                                    <option value="{{ $ld->leader_id . '|' . $ld->nama_leader }}">
+                                                        {{ $ld->nama_leader }}
+                                                @endforeach
+                                            @endif
                                         </select>
                                         <input type="hidden" id="filleaderid" name="filleaderid" readonly>
                                     </div>
 
                                     <div class="form-group mb-1">
                                         <span class="text-xs">Callsign Tim</span>
-                                        <select class="form-control form-control-sm" type="text"
-                                            id="filcallsignTimid" name="filcallsignTimid" style="border-color:#9ca0a7;"
+                                        <select class="form-control form-control-sm" type="text" id="filcallsignTimid"
+                                            name="filcallsignTimid" style="border-color:#9ca0a7;"
                                             placeholder="Isi Callsign Tim">
                                             <option value="">Pilih Callsign Tim</option>
+                                            @if (isset($callTim))
+                                                @foreach ($callTim as $cTim)
+                                                    <option
+                                                        value="{{ $cTim->callsign_tim_id . '|' . $cTim->callsign_tim }}">
+                                                        {{ $cTim->callsign_tim }}
+                                                @endforeach
+                                            @endif
                                         </select>
                                     </div>
 
@@ -101,6 +120,12 @@
                                         <select class="form-control form-control-sm" type="text" id="filcluster"
                                             name="filcluster" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Cluster</option>
+                                            @if (isset($cluster))
+                                                @foreach ($cluster as $cl)
+                                                    <option value="{{ $cl->cluster }}">
+                                                        {{ $cl->cluster }}
+                                                @endforeach
+                                            @endif
                                         </select>
                                     </div>
 
