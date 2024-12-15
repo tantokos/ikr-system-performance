@@ -47,10 +47,16 @@
                                     </div>
 
                                     <div class="form-group mb-1">
-                                        <span class="text-xs">Type WO</span>
-                                        <select class="form-control form-control-sm" type="text" id="filtypeWo"
-                                            name="filtypeWo" style="border-color:#9ca0a7;" readonly>
-                                            <option value="">FTTH Maintenance</option>
+                                        <span class="text-xs">Status WO</span>
+                                        <select class="form-control form-control-sm" type="text" id="filstatusWo"
+                                            name="filstatusWo" style="border-color:#9ca0a7;">
+                                            <option value="" disabled selected>Pilih Status WO</option>
+                                            <option value="Requested">Requested</option>
+                                            <option value="Checkin">Checkin</option>
+                                            <option value="Checkout">Checkout</option>
+                                            <option value="Done">Done</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="Cancelled">Cancelled</option>
                                         </select>
                                     </div>
                                 </div>
@@ -779,6 +785,7 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="causeCode"
                                                                 name="causeCode" style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Cause Code--</option>
                                                                 <option value="FO SEGMENT DROP WIRE CABLE">FO Segment Drop Wire Cable</option>
                                                                 <option value="FAST CONNECTOR">Fast Connector</option>
                                                                 <option value="FO SEGMENT PRECON CABLE">FO Segment Precon Cable</option>
@@ -808,7 +815,7 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="rootCause"
                                                                 name="rootCause" style="border-color:#9ca0a7;">
-                                                                <option value="" selected>Pilih Root Cause</option>
+                                                                <option value="" disabled selected>--Pilih Cause Code--</option>
                                                                 <option value="Bad HDMI Cable">Bad HDMI Cable</option>
                                                                 <option value="HDMI Cable Faulty">HDMI Cable Faulty</option>
                                                                 <option value="Bad RCA Cable">Bad RCA Cable</option>
@@ -892,6 +899,7 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="actionTaken"
                                                                 name="actionTaken" style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Action Taken--</option>
                                                                 <option value="REPLACE HDMI CABLE">Replace HDMI Cable</option>
                                                                 <option value="UNPLUG AND PLUG HDMI CABLE">Unplug and Plug HDMI Cable</option>
                                                                 <option value="REPLACE RCA CABLE">Replace RCA Cable</option>
@@ -938,6 +946,7 @@
                                                                 <option value="VALIDATION AND RE-ASSIGN PORT AT FAT">Validation And Re-Assign Port At FAT</option>
                                                                 <option value="REPLACE FASTCONNECTOR ON FAT AND TB">Replace Fastconnector On FAT And TB</option>
                                                                 <option value="CHANGE STB">Change STB</option>
+                                                                <option value="TIGHTINING CONNECTOR PRECON AT PORT FAT">Tightining Connector Precon At Port FAT</option>
                                                                 <option value="REPLACE ADAPTOR STB">Replace Adaptor STB</option>
                                                                 <option value="RESTART STB">Restart STB</option>
                                                                 <option value="UNPLUG and PLUG ADAPTOR STB">Unplug And Plug Adaptor STB</option>
@@ -976,8 +985,10 @@
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Penagihan</span>
                                                             <select class="form-control form-control-sm"
-                                                                type="text" id="penagihanShow"
-                                                                name="penagihanShow" style="border-color:#9ca0a7;">
+                                                                id="penagihanShow"
+                                                                name="penagihanShow"
+                                                                style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Penagihan--</option>
                                                                 <option value="Migrasi Dw To Precon">Migrasi Dw To Precon</option>
                                                                 <option value="Replace Precon To Precon">Replace Precon To Precon</option>
                                                                 <option value="No Customer">No Customer</option>
@@ -990,6 +1001,7 @@
                                                                 <option value="STB">STB</option>
                                                             </select>
                                                         </div>
+
                                                     </div>
 
                                                 </div>
@@ -1008,7 +1020,7 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="tglJamReschedule"
                                                                 name="tglJamReschedule" style="border-color:#9ca0a7;">
-                                                                <option value="">Pilih Slot Time</option>
+                                                                <option value="" disabled selected>--Pilih Slot Time--</option>
                                                                 <option value="09:00">09:00</option>
                                                                 <option value="09:30">09:30</option>
                                                                 <option value="10:00">10:00</option>
@@ -1139,6 +1151,7 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="weatherShow" name="weatherShow"
                                                                 style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Kondisi Cuaca--</option>
                                                                 <option value="Cerah">Cerah</option>
                                                                 <option value="Hujan">Hujan</option>
                                                             </select>
@@ -1157,7 +1170,7 @@
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">PIC Dispatch</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                id="picDispatch" name="pic_dispatch"
+                                                                id="picDispatch" name="picDispatch"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
                                                     </div>
@@ -1751,7 +1764,7 @@
                 filtglProgress: $('#filtglProgress').val(),
                 filnoWo: $('#filnoWo').val(),
                 filcustId: $('#filcustId').val(),
-                filtypeWo: $('#filtypeWo').val(),
+                filstatusWo: $('#filstatusWo').val(),
                 filarea: $('#filarea').val(),
                 filleaderTim: $('#filleaderTim').val(),
                 filcallsignTimid: $('#filcallsignTimid').val(),
@@ -1797,7 +1810,7 @@
                         filTgl: $('#filtglProgress').val(),
                         filNoWo: $('#filnoWo').val(),
                         filcustId: $('#filcustId').val(),
-                        filtypeWo: $('#filtypeWo').val(),
+                        filstatusWo: $('#filstatusWo').val(),
                         filarea: $('#filarea').val(),
                         filleaderTim: $('#filleaderTim').val(),
                         filcallsignTimid: $('#filcallsignTimid').val(),
@@ -1942,7 +1955,7 @@
                     $('#timeApkShow').val(dtDis.time);
                     $('#fatCodeShow').val(dtDis.kode_fat);
                     $('#portFatShow').val(dtDis.port_fat);
-                    $('#remarkStatus').val(toTitleCase(dtDis.remarkStatus || ""));
+                    $('#remarkStatus').val(toTitleCase(dtDis.type_maintenance || ""));
                     $('#branchShow').val(dtDis.branch);
                     $('#tglProgressShow').val(dtDis.tgl_ikr);
                     $('#sesiShow').val(toTitleCase(dtDis.sesi || ""));
@@ -1985,6 +1998,8 @@
                     $('#kabelPrecon').val(material.precon_out);
                     $('#snOntIn').val(material.sn_ont_in);
                     $('#slotTimeAPKStatusShow').val(dtDis.slot_time_apk);
+
+                    $('#weatherShow').val(dtDis.weather);
 
                     $('#alasanTidakGantiPrecon').val(toTitleCase(dtDis.alasan_tidak_ganti_precon || ""));
                     $('#alasanPending').val(toTitleCase(dtDis.alasan_pending || ""));

@@ -48,10 +48,16 @@
                                     </div>
 
                                     <div class="form-group mb-1">
-                                        <span class="text-xs">Type WO</span>
-                                        <select class="form-control form-control-sm" type="text" id="filtypeWo"
-                                            name="filtypeWo" style="border-color:#9ca0a7;" disabled>
-                                            <option value="">FTTH New Installation</option>
+                                        <span class="text-xs">Status WO</span>
+                                        <select class="form-control form-control-sm" type="text" id="filstatusWo"
+                                            name="filstatusWo" style="border-color:#9ca0a7;">
+                                            <option value="" disabled selected>Pilih Status WO</option>
+                                            <option value="Requested">Requested</option>
+                                            <option value="Checkin">Checkin</option>
+                                            <option value="Checkout">Checkout</option>
+                                            <option value="Done">Done</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="Cancelled">Cancelled</option>
                                         </select>
                                     </div>
                                 </div>
@@ -775,6 +781,7 @@
                                                     <select class="form-control form-control-sm"
                                                         type="text" id="penagihanShow"
                                                         name="penagihanShow" style="border-color:#9ca0a7;">
+                                                        <option value="" disabled selected>--Pilih Penagihan--</option>
                                                         <option value="Migrasi Dw To Precon">Migrasi Dw To Precon</option>
                                                         <option value="Replace Precon To Precon">Replace Precon To Precon</option>
                                                         <option value="No Customer">No Customer</option>
@@ -795,6 +802,7 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="weatherShow" name="weatherShow"
                                                                 style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Kondisi Cuaca--</option>
                                                                 <option value="Cerah">Cerah</option>
                                                                 <option value="Hujan">Hujan</option>
                                                             </select>
@@ -816,7 +824,7 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="jamReschedule"
                                                                 name="jamReschedule" style="border-color:#9ca0a7;">
-                                                                <option value="">Pilih Slot Time</option>
+                                                                <option value="" disabled selected>--Pilih Slot Time--</option>
                                                                 <option value="09:00">09:00</option>
                                                                 <option value="09:30">09:30</option>
                                                                 <option value="10:00">10:00</option>
@@ -1495,7 +1503,7 @@
                 filtglProgress: $('#filtglProgress').val(),
                 filnoWo: $('#filnoWo').val(),
                 filcustId: $('#filcustId').val(),
-                filtypeWo: $('#filtypeWo').val(),
+                filstatusWo: $('#filstatusWo').val(),
                 filarea: $('#filarea').val(),
                 filleaderTim: $('#filleaderTim').val(),
                 filcallsignTimid: $('#filcallsignTimid').val(),
@@ -1541,7 +1549,7 @@
                         filTgl: $('#filtglProgress').val(),
                         filNoWo: $('#filnoWo').val(),
                         filcustId: $('#filcustId').val(),
-                        filtypeWo: $('#filtypeWo').val(),
+                        filstatusWo: $('#filstatusWo').val(),
                         filarea: $('#filarea').val(),
                         filleaderTim: $('#filleaderTim').val(),
                         filcallsignTimid: $('#filcallsignTimid').val(),

@@ -66,7 +66,6 @@ class FtthIbApkImport implements ToModel, WithHeadingRow, WithChunkReading, With
         return [
             '*.wo_no' => ['required', Rule::unique('import_ftth_ib_apks', 'wo_no')],
             '*.wo_date' => ['required'],
-            '*.ticket_no' => ['required'],
             '*.installation_date' => ['required'],
         ];
     }
@@ -76,7 +75,6 @@ class FtthIbApkImport implements ToModel, WithHeadingRow, WithChunkReading, With
         return [
             '*.wo_no.unique' => 'No WO sudah ada di database',
             '*.wo_no.required' => 'No WO harus diisi',
-            '*.ticket_no.required' => 'Ticket No harus diisi',
             '*.wo_date.required' => 'WO Date harus diisi',
             '*.installation_date.required' => 'Installation Date harus diisi',
         ];

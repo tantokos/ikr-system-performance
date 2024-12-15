@@ -44,10 +44,16 @@
                                     </div>
 
                                     <div class="form-group mb-1">
-                                        <span class="text-xs">Type WO</span>
-                                        <select class="form-control form-control-sm" type="text" id="filtypeWo"
-                                            name="filtypeWo" style="border-color:#9ca0a7;" disabled>
-                                            <option value="">FTTH Dismantle</option>
+                                        <span class="text-xs">Status WO</span>
+                                        <select class="form-control form-control-sm" type="text" id="filstatusWo"
+                                            name="filstatusWo" style="border-color:#9ca0a7;">
+                                            <option value="" disabled selected>Pilih Status WO</option>
+                                            <option value="Requested">Requested</option>
+                                            <option value="Checkin">Checkin</option>
+                                            <option value="Checkout">Checkout</option>
+                                            <option value="Done">Done</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="Cancelled">Cancelled</option>
                                         </select>
                                     </div>
                                 </div>
@@ -1417,7 +1423,7 @@
                 filtglProgress: $('#filtglProgress').val(),
                 filnoWo: $('#filnoWo').val(),
                 filcustId: $('#filcustId').val(),
-                filtypeWo: $('#filtypeWo').val(),
+                filstatusWo: $('#filstatusWo').val(),
                 filarea: $('#filarea').val(),
                 filleaderTim: $('#filleaderTim').val(),
                 filcallsignTimid: $('#filcallsignTimid').val(),
@@ -1463,7 +1469,7 @@
                         filTgl: $('#filtglProgress').val(),
                         filNoWo: $('#filnoWo').val(),
                         filcustId: $('#filcustId').val(),
-                        filtypeWo: $('#filtypeWo').val(),
+                        filstatusWo: $('#filstatusWo').val(),
                         filarea: $('#filarea').val(),
                         filleaderTim: $('#filleaderTim').val(),
                         filcallsignTimid: $('#filcallsignTimid').val(),

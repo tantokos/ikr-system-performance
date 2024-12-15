@@ -110,6 +110,7 @@ class FtthMt extends Model
         'updated_at',
         'wo_type_apk',
         'branch_id',
+        'pic_dispatch',
         'leadcall',
         'tek1_nik',
         'tek2_nik',

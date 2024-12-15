@@ -158,8 +158,8 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles
             $datas = $datas->where('cust_id', 'like', '%' . $this->request->filcustId . '%');
         }
 
-        if($this->request->filtypeWo) {
-            $datas = $datas->where('type_wo', $this->request->filtypeWo);
+        if($this->request->filstatusWo) {
+            $datas = $datas->where('type_wo', $this->request->filstatusWo);
         }
 
         if($this->request->filarea) {

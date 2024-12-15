@@ -58,8 +58,8 @@ class FtthDismantleController extends Controller
             if($request->filcustId != null) {
                 $datas = $datas->where('cust_id', $request->filcustId);
             }
-            if($request->filtypeWo != null) {
-                $datas = $datas->where('type_wo', $request->filtypeWo);
+            if($request->filstatusWo != null) {
+                $datas = $datas->where('status_wo', $request->filstatusWo);
             }
             if($request->filarea != null) {
                 $b = explode("|", $request->filarea);
