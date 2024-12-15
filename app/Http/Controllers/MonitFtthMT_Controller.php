@@ -336,7 +336,7 @@ class MonitFtthMT_Controller extends Controller
 
         $updateFtthMt = $ftthMt->update([
             // 'pic_monitoring' => $request[''],
-            'type_wo' => $request['jenisWoShow'],
+            // 'type_wo' => $request['jenisWoShow'],
             'no_wo' => $request['noWoShow'],
             'no_ticket' => $request['ticketNoShow'],
             'cust_id' => $request['custIdShow'],
