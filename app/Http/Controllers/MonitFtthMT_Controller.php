@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\FtthMtExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,12 +12,26 @@ use App\Models\FtthMt;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MonitFtthMT_Controller extends Controller
 {
 
     public function index()
     {
+        $branches = DB::table('branches')->select('id','nama_branch')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
+
+        $leader = DB::table('v_detail_callsign_tim')->select('leader_id', 'nama_leader', 'nama_branch')
+            ->orderBy('lead_callsign')->orderBy('branch_id')
+            ->groupBy('lead_call_id', 'lead_callsign', 'nama_branch')->get();
+
+        $callTim = DB::table('v_detail_callsign_tim')
+            ->select('callsign_tim_id', 'callsign_tim')->distinct()
+            ->orderBy('callsign_tim')->get();
+
+        $cluster = DB::table('fats')->select('cluster')
+                ->where('cluster', '<>', "")->distinct()->orderBy('cluster')->get();
+
         $mostCauseCode = FtthMt::select(
                     'couse_code',
                     DB::raw('COUNT(couse_code) AS qtyCauseCode')
@@ -42,7 +57,15 @@ class MonitFtthMT_Controller extends Controller
             ->limit(5)
             ->get();
 
-        return view('monitoringWo.monit_ftth_mt', compact('mostCauseCode', 'mostRootCause', 'mostActionTaken'));
+        return view('monitoringWo.monit_ftth_mt', compact(
+            'mostCauseCode',
+            'mostRootCause',
+            'mostActionTaken',
+            'branches',
+            'leader',
+            'callTim',
+            'cluster',
+        ));
     }
 
     public function getDataMTOris(Request $request)
@@ -67,8 +90,8 @@ class MonitFtthMT_Controller extends Controller
             if($request->filcustId != null) {
                 $datas = $datas->where('cust_id', $request->filcustId);
             }
-            if($request->filtypeWo != null) {
-                $datas = $datas->where('type_wo', $request->filtypeWo);
+            if($request->filstatusWo != null) {
+                $datas = $datas->where('status_wo', $request->filstatusWo);
             }
             if($request->filarea != null) {
                 $b = explode("|", $request->filarea);
@@ -313,7 +336,7 @@ class MonitFtthMT_Controller extends Controller
 
         $updateFtthMt = $ftthMt->update([
             // 'pic_monitoring' => $request[''],
-            'type_wo' => $request['jenisWoShow'],
+            // 'type_wo' => $request['jenisWoShow'],
             'no_wo' => $request['noWoShow'],
             'no_ticket' => $request['ticketNoShow'],
             'cust_id' => $request['custIdShow'],
@@ -414,12 +437,14 @@ class MonitFtthMT_Controller extends Controller
             // 'tek3_nik' => $request[''],
             // 'tek4_nik' => $request[''],
             // 'leadcall_id' => $request[''],
+            'pic_dispatch' => $request['picDispatch'],
             'leader_id' => $request['leaderidShow'],
             'callsign_id' => $request['callsign_id'],
             'alasan_tidak_ganti_precon' => $request['alasan_tidak_ganti_precon'],
             'alasan_pending' => $request['alasan_pending'],
             'alasan_cancel' => $request['alasan_cancel'],
-            'report_teknisi' => $request['report_teknisi'],
+            'keterangan' => $request['report_teknisi'],
+            'is_checked' => $request['is_checked'],
             'teknisi4' => $request[''],
             'login_id' => $aksesId,
             'login' => $akses,
@@ -507,5 +532,20 @@ class MonitFtthMT_Controller extends Controller
     //         return redirect()->route('monitFtthT')->with(['error' => 'Gagal menyimpan data.']);
     //     }
     // }
+
+    public function export(Request $request)
+    {
+        $export = new FtthMtExport($request);
+        return Excel::download($export, 'FTTH_MT.xlsx');
+    }
+
+    public function tampilkanSLA()
+    {
+        // Ambil semua data dari tabel
+        $records = FtthMt::all();
+
+        // Kirimkan data ke view atau API
+        return view('sla.index', compact('records'));
+    }
 
 }

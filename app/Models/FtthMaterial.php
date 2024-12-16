@@ -32,4 +32,10 @@ class FtthMaterial extends Model
         'mac_address',
         'material_condition'
     ];
+
+    public function FtthIb()
+    {
+        return $this->belongsTo(FtthMt::class);
+    }
+
 }

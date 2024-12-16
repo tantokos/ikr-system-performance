@@ -44,10 +44,16 @@
                                     </div>
 
                                     <div class="form-group mb-1">
-                                        <span class="text-xs">Type WO</span>
-                                        <select class="form-control form-control-sm" type="text" id="filtypeWo"
-                                            name="filtypeWo" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Type WO</option>
+                                        <span class="text-xs">Status WO</span>
+                                        <select class="form-control form-control-sm" type="text" id="filstatusWo"
+                                            name="filstatusWo" style="border-color:#9ca0a7;">
+                                            <option value="" disabled selected>Pilih Status WO</option>
+                                            <option value="Requested">Requested</option>
+                                            <option value="Checkin">Checkin</option>
+                                            <option value="Checkout">Checkout</option>
+                                            <option value="Done">Done</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="Cancelled">Cancelled</option>
                                         </select>
                                     </div>
                                 </div>
@@ -58,6 +64,12 @@
                                         <select class="form-control form-control-sm" type="text" id="filarea"
                                             name="filarea" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Area</option>
+                                            @if (isset($branches))
+                                                @foreach ($branches as $b)
+                                                    <option value="{{ $b->id . '|' . $b->nama_branch }}">
+                                                        {{ $b->nama_branch }}
+                                                @endforeach
+                                            @endif
                                         </select>
                                         <input type="hidden" id="filareaId" name="filareaId">
                                     </div>
@@ -67,16 +79,28 @@
                                         <select class="form-control form-control-sm" type="text" id="filleaderTim"
                                             name="filleaderTim" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Leader</option>
+                                            @if (isset($leader))
+                                                @foreach ($leader as $ld)
+                                                    <option value="{{ $ld->leader_id . '|' . $ld->nama_leader }}">
+                                                        {{ $ld->nama_leader }}
+                                                @endforeach
+                                            @endif
                                         </select>
-                                        <input type="hidden" id="filleaderid" name="filleaderid" readonly>
                                     </div>
 
                                     <div class="form-group mb-1">
                                         <span class="text-xs">Callsign Tim</span>
-                                        <select class="form-control form-control-sm" type="text"
-                                            id="filcallsignTimid" name="filcallsignTimid" style="border-color:#9ca0a7;"
+                                        <select class="form-control form-control-sm" type="text" id="filcallsignTimid"
+                                            name="filcallsignTimid" style="border-color:#9ca0a7;"
                                             placeholder="Isi Callsign Tim">
                                             <option value="">Pilih Callsign Tim</option>
+                                            @if (isset($callTim))
+                                                @foreach ($callTim as $cTim)
+                                                    <option
+                                                        value="{{ $cTim->callsign_tim_id . '|' . $cTim->callsign_tim }}">
+                                                        {{ $cTim->callsign_tim }}
+                                                @endforeach
+                                            @endif
                                         </select>
                                     </div>
 
@@ -97,6 +121,12 @@
                                         <select class="form-control form-control-sm" type="text" id="filcluster"
                                             name="filcluster" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Cluster</option>
+                                            @if (isset($cluster))
+                                                @foreach ($cluster as $cl)
+                                                    <option value="{{ $cl->cluster }}">
+                                                        {{ $cl->cluster }}
+                                                @endforeach
+                                            @endif
                                         </select>
                                     </div>
 
@@ -143,6 +173,16 @@
                                 </div>
 
                                 <div class="ms-auto d-flex">
+                                    <a href="#" id="exportButton">
+                                        <button type="button"
+                                            class="btn btn-sm btn-icon d-flex align-items-center me-2"
+                                            style="background-color: #1abd64; border-color: #1abd64; color: white; padding: 5px 12px;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50" style="margin-right: 8px;">
+                                                <path fill="white" d="M 28.875 0 C 28.855469 0.0078125 28.832031 0.0195313 28.8125 0.03125 L 0.8125 5.34375 C 0.335938 5.433594 -0.0078125 5.855469 0 6.34375 L 0 43.65625 C -0.0078125 44.144531 0.335938 44.566406 0.8125 44.65625 L 28.8125 49.96875 C 29.101563 50.023438 29.402344 49.949219 29.632813 49.761719 C 29.859375 49.574219 29.996094 49.296875 30 49 L 30 44 L 47 44 C 48.09375 44 49 43.09375 49 42 L 49 8 C 49 6.90625 48.09375 6 47 6 L 30 6 L 30 1 C 30.003906 0.710938 29.878906 0.4375 29.664063 0.246094 C 29.449219 0.0546875 29.160156 -0.0351563 28.875 0 Z M 28 2.1875 L 28 6.53125 C 27.867188 6.808594 27.867188 7.128906 28 7.40625 L 28 42.8125 C 27.972656 42.945313 27.972656 43.085938 28 43.21875 L 28 47.8125 L 2 42.84375 L 2 7.15625 Z M 30 8 L 47 8 L 47 42 L 30 42 L 30 37 L 34 37 L 34 35 L 30 35 L 30 29 L 34 29 L 34 27 L 30 27 L 30 22 L 34 22 L 34 20 L 30 20 L 30 15 L 34 15 L 34 13 L 30 13 Z M 36 13 L 36 15 L 44 15 L 44 13 Z M 6.6875 15.6875 L 12.15625 25.03125 L 6.1875 34.375 L 11.1875 34.375 L 14.4375 28.34375 C 14.664063 27.761719 14.8125 27.316406 14.875 27.03125 L 14.90625 27.03125 C 15.035156 27.640625 15.160156 28.054688 15.28125 28.28125 L 18.53125 34.375 L 23.5 34.375 L 17.75 24.9375 L 23.34375 15.6875 L 18.65625 15.6875 L 15.6875 21.21875 C 15.402344 21.941406 15.199219 22.511719 15.09375 22.875 L 15.0625 22.875 C 14.898438 22.265625 14.710938 21.722656 14.5 21.28125 L 11.8125 15.6875 Z M 36 20 L 36 22 L 44 22 L 44 20 Z M 36 27 L 36 29 L 44 29 L 44 27 Z M 36 35 L 36 37 L 44 37 L 44 35 Z"></path>
+                                            </svg>
+                                            <span class="btn-inner--text">Export</span>
+                                        </button>
+                                    </a>
                                     <a href="{{ route('importFtthDismantle') }}">
                                         <button type="button"
                                             class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
@@ -198,6 +238,7 @@
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 2</th>
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 3</th>
                                             <th class="text-center text-xs font-weight-semibold">Status WO</th>
+                                            <th class="text-center text-xs font-weight-semibold">Status Check</th>
 
                                             <th class="text-center text-xs font-weight-semibold">#</th>
 
@@ -321,14 +362,14 @@
                                                             <span class="text-xs">WO No</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 id="noWoShow" name="noWoShow"
-                                                                style="border-color:#9ca0a7;">
+                                                                style="border-color:#9ca0a7;" readonly>
                                                         </div>
 
                                                         <div class="col-4 form-group mb-1">
                                                             <span class="text-xs">Ticket No</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 id="ticketNoShow" name="ticketNoShow"
-                                                                style="border-color:#9ca0a7;">
+                                                                style="border-color:#9ca0a7;" readonly>
                                                         </div>
                                                     </div>
 
@@ -338,14 +379,14 @@
                                                                 <span class="text-xs">Cust Id</span>
                                                                 <input class="form-control form-control-sm" type="text"
                                                                     id="custIdShow" name="custIdShow"
-                                                                    style="border-color:#9ca0a7;">
+                                                                    style="border-color:#9ca0a7;" readonly>
                                                             </div>
 
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">Cust Name</span>
                                                                 <input class="form-control form-control-sm" type="text"
                                                                     id="custNameShow" name="custNameShow"
-                                                                    style="border-color:#9ca0a7;">
+                                                                    style="border-color:#9ca0a7;" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -356,13 +397,13 @@
                                                                 <span class="text-xs">WO Type</span>
                                                                 <input class="form-control form-control-sm" type="text"
                                                                     id="woTypeShow" name="woTypeShow"
-                                                                    style="border-color:#9ca0a7;">
+                                                                    style="border-color:#9ca0a7;" readonly>
                                                             </div>
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">Type</span>
                                                                 <select class="form-control form-control-sm"
                                                                     type="text" id="jenisWoShow" name="jenisWoShow"
-                                                                    style="border-color:#9ca0a7;">
+                                                                    style="border-color:#9ca0a7;" readonly>
                                                                     <option value="FTTH New Installation">FTTH New
                                                                         Installation
                                                                     </option>
@@ -384,19 +425,19 @@
                                                         <span class="text-xs">WO Date</span>
                                                         <input class="form-control form-control-sm" type="text"
                                                             id="WoDateShow" name="WoDateShow"
-                                                            style="border-color:#9ca0a7;">
+                                                            style="border-color:#9ca0a7;" readonly>
                                                     </div>
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Address</span>
                                                         <textarea class="form-control form-control-sm" type="text" id="custAddressShow" name="custAddressShow"
-                                                            style="border-color:#9ca0a7;"></textarea>
+                                                            style="border-color:#9ca0a7;" readonly></textarea>
                                                     </div>
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Area/Cluster</span>
                                                         <input type="text" class="form-control form-control-sm"
                                                             type="text" id="cluster" name="cluster"
-                                                            style="border-color:#9ca0a7;">
+                                                            style="border-color:#9ca0a7;" readonly>
                                                     </div>
 
 
@@ -407,13 +448,13 @@
                                                                 <span class="text-xs">FAT Code</span>
                                                                 <input class="form-control form-control-sm" type="text"
                                                                     id="fatCodeShow" name="fatCodeShow"
-                                                                    style="border-color:#9ca0a7;">
+                                                                    style="border-color:#9ca0a7;" readonly>
                                                             </div>
                                                             <div class="col-4 form-group mb-1">
                                                                 <span class="text-xs">Port FAT</span>
                                                                 <input class="form-control form-control-sm" type="text"
                                                                     id="portFatShow" name="portFatShow"
-                                                                    style="border-color:#9ca0a7;">
+                                                                    style="border-color:#9ca0a7;" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -421,7 +462,7 @@
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Remarks</span>
                                                         <textarea class="form-control form-control-sm" type="text" id="remarkStatus" name="remarkStatus"
-                                                            style="border-color:#9ca0a7;"></textarea>
+                                                            style="border-color:#9ca0a7;" readonly></textarea>
                                                     </div>
 
                                                 </div>
@@ -431,7 +472,7 @@
                                                         <span class="text-xs">Branch</span>
                                                         <input class="form-control form-control-sm" type="text"
                                                             id="branchShow" name="branchShow"
-                                                            style="border-color:#9ca0a7;">
+                                                            style="border-color:#9ca0a7;" readonly>
                                                     </div>
 
                                                     <div class="form-group mb-1">
@@ -440,7 +481,7 @@
                                                                 <span class="text-xs">Tanggal Progress</span>
                                                                 <input class="form-control form-control-sm" type="date"
                                                                     value="{{ date('Y-m-d') }}" id="tglProgressShow"
-                                                                    name="tglProgressShow" style="border-color:#9ca0a7;">
+                                                                    name="tglProgressShow" style="border-color:#9ca0a7;" readonly>
                                                             </div>
 
                                                             <div class="col form-group mb-1">
@@ -448,7 +489,7 @@
                                                                 <select class="form-control form-control-sm"
                                                                     type="text" id="sesiShow" name="sesiShow"
                                                                     style="border-color:#9ca0a7;"
-                                                                    placeholder="Isi Callsign Tim">
+                                                                    placeholder="Isi Callsign Tim" readonly>
                                                                     <option value="Regular">Regular</option>
                                                                     <option value="Batch 1">Batch 1</option>
                                                                     <option value="Batch 2">Batch 2</option>
@@ -472,7 +513,7 @@
                                                                 <select class="form-control form-control-sm"
                                                                     type="text" id="slotTimeLeaderShow"
                                                                     name="slotTimeLeaderShow"
-                                                                    style="border-color:#9ca0a7;">
+                                                                    style="border-color:#9ca0a7;" readonly>
                                                                     <option value="">Pilih Slot Time</option>
                                                                     <option value="09:00">09:00</option>
                                                                     <option value="09:30">09:30</option>
@@ -507,7 +548,7 @@
                                                                 <span class="text-xs">Slot Time APK</span>
                                                                 <select class="form-control form-control-sm"
                                                                     type="text" id="slotTimeAPKShow"
-                                                                    name="slotTimeAPKShow" style="border-color:#9ca0a7;">
+                                                                    name="slotTimeAPKShow" style="border-color:#9ca0a7;" readonly>
                                                                     <option value="">Pilih Slot Time</option>
                                                                     <option value="09:00">09:00</option>
                                                                     <option value="09:30">09:30</option>
@@ -542,7 +583,7 @@
 
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">Lead Callsign</span>
-                                                                <select class="form-control form-control-sm" id="LeadCallsignShow" name="LeadCallsignShow" style="border-color:#9ca0a7;">
+                                                                <select class="form-control form-control-sm" id="LeadCallsignShow" name="LeadCallsignShow" style="border-color:#9ca0a7;" readonly>
                                                                     <option value="">Pilih Lead Callsign</option>
                                                                 </select>
                                                             </div>
@@ -563,7 +604,7 @@
 
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">Callsign Tim</span>
-                                                                <select class="form-control form-control-sm" id="callsignTimidShow" name="callsignTimidShow" style="border-color:#9ca0a7;">
+                                                                <select class="form-control form-control-sm" id="callsignTimidShow" name="callsignTimidShow" style="border-color:#9ca0a7;" readonly>
                                                                     <option value="">Pilih Callsign Tim</option>
                                                                 </select>
                                                             </div>
@@ -575,7 +616,7 @@
                                                             <input class="form-control form-control-sm" type="text"
                                                                     id="teknisi1Show"
                                                                     name="teknisi1Show"
-                                                                    style="border-color:#9ca0a7;">
+                                                                    style="border-color:#9ca0a7;" readonly>
                                                         </div>
 
                                                         <div class="form-group mb-1">
@@ -583,7 +624,7 @@
                                                             <input class="form-control form-control-sm" type="text"
                                                                     id="teknisi2Show"
                                                                     name="teknisi2Show"
-                                                                    style="border-color:#9ca0a7;">
+                                                                    style="border-color:#9ca0a7;" readonly>
                                                         </div>
 
                                                         <div class="form-group mb-1">
@@ -591,13 +632,13 @@
                                                             <input class="form-control form-control-sm" type="text"
                                                                     id="teknisi3Show"
                                                                     name="teknisi3Show"
-                                                                    style="border-color:#9ca0a7;">
+                                                                    style="border-color:#9ca0a7;" readonly>
                                                         </div>
 
                                                         <div class="form-group mb-1">
                                                             <span class="text-xs">Teknisi 4</span>
                                                             <select class="form-control form-control-sm" type="text" id="teknisi4Show"
-                                                                name="teknisi4Show" style="border-color:#9ca0a7;">
+                                                                name="teknisi4Show" style="border-color:#9ca0a7;" readonly>
                                                                 <option value="">Teknisi 4</option>
                                                             </select>
                                                         </div>
@@ -805,7 +846,7 @@
                                                             <option value="Checkout">Checkout</option>
                                                             <option value="Done">Done</option>
                                                             <option value="Pending">Pending</option>
-                                                            <option value="Cancel">Cancel</option>
+                                                            <option value="Cancelled">Cancelled</option>
                                                         </select>
                                                     </div>
 
@@ -874,10 +915,17 @@
                                                                     id="alasanCancel" name="alasan_cancel"
                                                                     style="border-color:#9ca0a7;">
                                                             </div>
-                                                            <div class="col form-group mb-1">
-
+                                                            <div class="col form-group mt-4">
+                                                                <div class="form-check">
+                                                                    <input type="hidden" name="is_checked" value="0"> <!-- Default jika tidak dicentang -->
+                                                                    <input class="form-check-input" type="checkbox" name="is_checked" value="1" id="isChecked">
+                                                                    <label class="form-check-label" for="isChecked">
+                                                                        Sudah Dicek
+                                                                    </label>
+                                                                </div>
                                                             </div>
                                                         </div>
+
                                                     </div>
 
                                                 </div>
@@ -1367,6 +1415,27 @@
 
         $('#filAssignTim').trigger("click");
 
+        //Export Excel
+        $(document).on('click', '#exportButton', function(e) {
+            e.preventDefault();
+            var url = '{{ route("ftth-dismantle.export") }}';
+            var params = {
+                filtglProgress: $('#filtglProgress').val(),
+                filnoWo: $('#filnoWo').val(),
+                filcustId: $('#filcustId').val(),
+                filstatusWo: $('#filstatusWo').val(),
+                filarea: $('#filarea').val(),
+                filleaderTim: $('#filleaderTim').val(),
+                filcallsignTimid: $('#filcallsignTimid').val(),
+                filteknisi: $('#filteknisi').val(),
+                filcluster: $('#filcluster').val(),
+                filfatCode: $('#filfatCode').val(),
+                filslotTime: $('#filslotTime').val()
+            };
+
+            window.location.href = url + '?' + $.param(params);
+        });
+
         function get_data_assignTim() {
             var data_assignTim = $('#tableDismantle').DataTable({
                 // dom: 'Bftip',
@@ -1400,7 +1469,7 @@
                         filTgl: $('#filtglProgress').val(),
                         filNoWo: $('#filnoWo').val(),
                         filcustId: $('#filcustId').val(),
-                        filtypeWo: $('#filtypeWo').val(),
+                        filstatusWo: $('#filstatusWo').val(),
                         filarea: $('#filarea').val(),
                         filleaderTim: $('#filleaderTim').val(),
                         filcallsignTimid: $('#filcallsignTimid').val(),
@@ -1470,7 +1539,19 @@
                         data: 'teknisi3'
                     },
                     {
-                        data: 'status_wo'
+                        data: 'status_apk'
+                    },
+                    {
+                        data: 'is_checked',
+                        render: function(data, type, row) {
+                            if (data == 1) {
+                                // Jika sudah dicek, tampilkan badge hijau
+                                return '<span class="badge text-bg-success text-white">Sudah Dicek</span>';
+                            } else {
+                                // Jika belum dicek, tampilkan badge kuning
+                                return '<span class="badge text-bg-warning text-white">Belum Dicek</span>';
+                            }
+                        }
                     },
                     {
                         data: 'action',
@@ -1542,6 +1623,7 @@
                     $('#leaderShow').val(dtDis.leader);
                     $('#slotTimeAPKShow').val(dtDis.slot_time_apk);
                     $('#statusWoApk').val(toTitleCase(dtDis.status_apk || ""));
+                    $('#isChecked').prop('checked', dtDis.is_checked == 1);
                     $('#causeCode').val(dtDis.couse_code);
                     $('#rootCause').val(dtDis.root_couse);
                     $('#actionTaken').val(dtDis.action_taken);

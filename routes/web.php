@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DistribusiToolController;
 use App\Http\Controllers\Import_AbsensiController;
 use App\Http\Controllers\Import_DataWoController;
@@ -213,7 +214,9 @@ Route::get('/getMaterialFtthMt', [MonitFtthMT_Controller::class,'getMaterialFtth
 
 //End Monitoring//
 
-
+Route::get('ftth-mt/export', [MonitFtthMT_Controller::class, 'export'])->name('ftth-mt.export')->middleware('auth');
+Route::get('/ftth-ib/export', [MonitFtthIB_Controller::class, 'export'])->name('ftth-ib.export')->middleware('auth');
+Route::get('/ftth-dismantle/export', [FtthDismantleController::class, 'export'])->name('ftth-dismantle.export')->middleware('auth');
 //Start Monitoring FOTO APK//
 
 Route::get('/monitFotoFtthMT', [MonitFotoFtthMT_Controller::class, 'index'])->name('monitFotoFtthMT')->middleware('auth');
@@ -307,9 +310,7 @@ Route::get('/', function () {
     return redirect('/dashboard');
 })->middleware('auth');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard')->middleware('auth');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
 Route::get('/tables', function () {
     return view('tables');
