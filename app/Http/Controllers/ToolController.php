@@ -77,6 +77,7 @@ class ToolController extends Controller
 
     }
 
+    
     public function getRekapTool(Request $request)
     {
         // $RekapTool = DB::table('v_rekap_tool')->get();
@@ -126,6 +127,7 @@ class ToolController extends Controller
 
         return response()->json($RekapTool);
     }
+
 
     public function getDataTool(Request $request)
     {
@@ -447,7 +449,7 @@ class ToolController extends Controller
 
         $login = Auth::user()->name;
 
-        
+        $dtToolOld = DB::table('tool_ikrs')->where('id', $request->namaToolShowId)->first();
 
         if ($request->hasFile('fotoToolShow')) {
             $fileFoto = $request->file('fotoToolShow');
@@ -455,13 +457,13 @@ class ToolController extends Controller
             $request->file('fotoToolShow')->move(public_path('storage/image-tool'), $file);
 
         } else {
-            $file = 'default-150x150.png';
+            $file = $dtToolOld->foto_barang;
         }
 
         DB::beginTransaction();
         try {
 
-            $dtToolOld = DB::table('tool_ikrs')->where('id', $request->namaToolShowId)->first();
+            // $dtToolOld = DB::table('tool_ikrs')->where('id', $request->namaToolShowId)->first();
             $dtTool = ToolIkr::findOrFail($request->namaToolShowId);
 
             $dtTool->update([
@@ -480,8 +482,10 @@ class ToolController extends Controller
 
             DB::commit();
 
-            if($dtToolOld->foto_barang != 'default-150x150.png'){
-                File::delete(public_path('storage/image-tool/' . $dtToolOld->foto_barang));
+            if($request->hasFile('fotoToolShow')){
+                if($dtToolOld->foto_barang != 'default-150x150.png'){
+                    File::delete(public_path('storage/image-tool/' . $dtToolOld->foto_barang));
+                }
             }
 
             return redirect()->route('dataTool')->with(['success' => 'Data tersimpan.']);

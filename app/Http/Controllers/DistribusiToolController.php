@@ -72,7 +72,7 @@ class DistribusiToolController extends Controller
         // dd($approve);
         $datas = DB::table('data_distribusi_tools as d')
             ->leftJoin('tool_ikrs as t', 'd.barang_id', '=', 't.id')
-            ->select('d.*', 't.tgl_pengadaan', DB::raw('"' . $approve . '" as approve '))
+            ->select('d.*', 't.foto_barang', 't.tgl_pengadaan', DB::raw('"' . $approve . '" as approve '))
             ->where('d.id', $request->filDisId)->first();
 
         return response()->json($datas);
@@ -132,8 +132,9 @@ class DistribusiToolController extends Controller
 
     public function getSelectTool(Request $request)
     {
-        $tool = ToolIkr::where('status_distribusi', 'Not Distributed')->where('kondisi', 'Baik')
+        $tool = ToolIkr::where('status_distribusi', 'Not Distributed')//->where('kondisi', 'Baik')
             ->where('posisi','Supervisor')->where('approve1','Approved')->where('approve2','Approved')
+            ->where('branch_penerima', $request->area)
             ->select('id', 'nama_barang', 'merk_barang', 'satuan', 'spesifikasi', 'tgl_pengadaan', 'kondisi', 'kode_aset', 'kode_ga', 'foto_barang')
             ->orderBy('nama_barang')->get();
 

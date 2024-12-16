@@ -196,7 +196,7 @@
                                         </div>
 
                                         <div class="col form-group mb-1 text-center">
-                                            <span class="text-xs">Foto Pengecekan Tool</span>
+                                            <span class="text-xs">Foto Disposal Tool</span>
                                             <img src="{{ asset('assets/img/default-150x150.png') }}"
                                                 id="showgambarDisposal" alt="Card Image"
                                                 style="width:160px;height: 160px;" />
@@ -338,7 +338,7 @@
                                         </div>
 
                                         <div class="col form-group mb-1 text-center">
-                                            <span class="text-xs">Foto Pengecekan Tool</span>
+                                            <span class="text-xs">Foto Disposal Tool</span>
                                             <img src="{{ asset('assets/img/default-150x150.png') }}"
                                                 id="showgambarDisposalShow" alt="Card Image"
                                                 style="width:160px;height: 160px;" />

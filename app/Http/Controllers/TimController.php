@@ -260,7 +260,7 @@ class TimController extends Controller
         $tim = $tim1->merge($tim2)->merge($tim3)->merge($tim4);
 
         $dtTim = Employee::where('branch_id', $branch_id)->whereNotIn('nik_karyawan', $tim)
-            ->whereIn('posisi', ['Installer', 'Maintenance'])
+            ->whereIn('posisi', ['Installer', 'Maintenance','Teknisi'])
             ->get();
 
         return response()->json(['callLead' => $datas, 'tim1' => $dtTim]);
@@ -283,8 +283,8 @@ class TimController extends Controller
 
 
         $tim = Employee::where('branch_id', $branch_id)->whereNotIn('nik_karyawan', $tim)
-            ->whereIn('posisi', ['Installer', 'Maintenance'])
-            ->where('status_aktive','Aktif')
+            ->whereIn('posisi', ['Installer', 'Maintenance','Teknisi'])
+            ->where('status_active','Aktif')
             ->orderBy('nama_karyawan')
             ->get();
 

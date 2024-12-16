@@ -117,7 +117,7 @@
 
     </head>
 
-    <body class="g-sidenav-show  bg-gray-100">
+    <body class="g-sidenav-show  bg-gray-200">
         @php
             $topSidenavArray = ['wallet', 'profile'];
             $topSidenavTransparent = ['signin', 'signup'];

@@ -298,7 +298,7 @@
                                             <div class="form-group mb-1">
                                                 <span class="text-xs">Kondisi</span>
                                                 <select class="form-control form-control-sm" id="kondisi"
-                                                    name="kondisi" style="border-color:#9ca0a7;">
+                                                    name="kondisi" style="border-color:#9ca0a7;" required>
                                                     <option value="">Pilih Kondisi</option>
                                                     <option value="Baik">Baik</option>
                                                     <option value="Rusak">Rusak</option>
@@ -1174,8 +1174,8 @@
                                             <span class="text-xs">Status</span>
                                             <select class="form-control form-control-sm" type="text"
                                                 id="statusApp1" name="statusApp1" style="border-color:#9ca0a7;" required>
-                                                <option value="">Pilih Status</option>
-                                                <option value="Approved">Approved</option>
+                                                {{-- <option value="">Pilih Status</option> --}}
+                                                <option value="Approved" selected>Approved</option>
                                                 <option value="Reject">Reject</option>
                                             </select>
                                         </div>
@@ -1420,8 +1420,8 @@
                                             <span class="text-xs">Status</span>
                                             <select class="form-control form-control-sm" type="text"
                                                 id="statusApp2" name="statusApp2" style="border-color:#9ca0a7;" required>
-                                                <option value="">Pilih Status</option>
-                                                <option value="Approved">Approved</option>
+                                                {{-- <option value="">Pilih Status</option> --}}
+                                                <option value="Approved" selected>Approved</option>
                                                 <option value="Reject">Reject</option>
                                             </select>
                                         </div>
@@ -1506,7 +1506,7 @@
                         
                     </div>
                     <style>
-                        .tableFixHead          { overflow-y: auto; max-height: 300px; }
+                        .tableFixHead          { overflow-y: auto; max-height: 400px; }
                         .tableFixHead thead th {position: sticky;  top: 0; }
                         .tableFixHead th { background: #495057; }
 
@@ -2655,8 +2655,8 @@
                     $('#kodeGAApp1').val('')
                     $('#showgambarApp1').val('')
                     $('#fotoToolApp1').val('')
-                    $('#tglApp1').val('')
-                    $('#statusApp1').val('')
+                    // $('#tglApp1').val('')
+                    // $('#statusApp1').val('')
                     $('#keteranganApp1').val('')
 
                     $('#namaToolApp1Id').val(respon.id)
@@ -2775,8 +2775,8 @@
                     $('#kodeGAApp2').val('')
                     $('#showgambarApp2').val('')
                     $('#fotoToolApp2').val('')
-                    $('#tglApp2').val('')
-                    $('#statusApp2').val('')
+                    // $('#tglApp2').val('')
+                    // $('#statusApp2').val('')
                     $('#keteranganApp2').val('')
 
                     $('#namaToolApp2Id').val(respon.id)

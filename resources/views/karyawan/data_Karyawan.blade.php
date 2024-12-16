@@ -5,12 +5,12 @@
         <div class="container-fluid py-4 px-5">
             <div class="row">
                 <div class="col-12">
-                    <div class="card card-background card-background-after-none align-items-start mt-2 mb-5">
+                    <div class="card card-background card-background-after-none align-items-start mt-2 mb-3">
                         <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
                         </div>
                         <div class="card-body text-start p-4 w-100">
                             <h3 class="text-white mb-2">Data Karyawan</h3>
-                            <p class="mb-4 font-weight-semibold">
+                            <p class="mb-1 font-weight-semibold">
                                 PT. Mitra Sinergi Telematika.
                             </p>
 
@@ -24,10 +24,109 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card border shadow-xs mb-4">
+                        <div class="card-body px-2 py-2">
+                            <div class="row mb-2">
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Area/Branch</span>
+                                    <select class="form-control form-control-sm" 
+                                        id="filBranch" name="filBranch" style="border-color:#9ca0a7;">
+                                        <option value="ALL">ALL</option>
+                                        @if (isset($area))
+                                            @foreach ($area as $b )
+                                                <option value="{{ $b->nama_branch}}">{{ $b->nama_branch }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Nama Karyawan</span>
+                                    <select class="form-control form-control-sm" 
+                                        id="filNamaKaryawan" name="filNamaKaryawan" style="border-color:#9ca0a7;">
+                                        <option value="ALL">ALL</option>
+                                        @if (isset($kry))
+                                            @foreach ($kry as $n )
+                                                <option value="{{ $n->nama_karyawan}}">{{ $n->nama_karyawan }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Posisi</span>
+                                    <select class="form-control form-control-sm" 
+                                        id="filPosisi" name="filPosisi" style="border-color:#9ca0a7;">                                        
+                                        <option value="ALL">ALL</option>
+                                        @if (isset($posisi))
+                                            @foreach ($posisi as $p )
+                                                <option value="{{ $p->dposisi}}">{{ $p->dposisi }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Divisi</span>
+                                    <select class="form-control form-control-sm" 
+                                        id="filDivisi" name="filDivisi" style="border-color:#9ca0a7;">                                        
+                                        <option value="ALL">ALL</option>
+                                        <option value="IKR Operation">IKR Operation</option>
+                                        <option value="IKR Support">IKR Support</option>
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Departement/Segment</span>
+                                    <select class="form-control form-control-sm" 
+                                        id="filDepartement" name="filDepartement" style="border-color:#9ca0a7;">                                        
+                                        <option value="ALL">ALL</option>
+                                        <option value="FTTH">FTTH</option>
+                                        <option value="FTTX/FTTB">FTTX/FTTB</option>
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Status Seragam</span>
+                                    <select class="form-control form-control-sm" 
+                                        id="filSeragam" name="filSeragam" style="border-color:#9ca0a7;">                                        
+                                        <option value="ALL">ALL</option>
+                                        <option value="Baik">Baik</option>
+                                        <option value="Rusak">Rusak</option>
+                                        <option value="Belum Dapat">Belum Dapat</option>
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Status Aktif</span>
+                                    <select class="form-control form-control-sm" 
+                                        id="filStatusAktif" name="filStatusAktif" style="border-color:#9ca0a7;">
+                                        <option value="ALL">ALL</option>
+                                        <option value="Aktif" selected>Aktif</option>
+                                        <option value="Tidak Aktif">Tidak Aktif</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row text-center">
+                                <div class="col">
+                                    <button type="button"
+                                        class="btn btn-sm btn-dark align-items-center filterData"
+                                        id="filterData">Filter Data</button>
+                                </div>                     
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border shadow-xs mb-4">
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div>
-                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleMonthly"></span></h6>
+                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleMonthly">Rekap Data Karyawan Aktif</span></h6>
                                     {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
                                 </div>
 
@@ -45,20 +144,6 @@
                                         </span>
                                         <span class="btn-inner--text">Tambah Karyawan</span>
                                     </button>
-
-                                    {{-- <button type="button"
-                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"
-                                        data-bs-toggle="modal" data-bs-target="#tambahKelengkapan">
-                                        <span class="btn-inner--icon">
-                                            <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
-                                                <path
-                                                    d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
-                                                </path>
-                                            </svg>
-                                        </span>
-                                        <span class="btn-inner--text">+ Kelengkapan Karyawan</span>
-                                    </button> --}}
                                 </div>
                                 
                             </div>
@@ -67,15 +152,16 @@
                         <div class="card-body px-2 py-2">
 
                             <div class="table-responsive p-0">
-                                <table class="table table-striped table-bordered align-items-center mb-0"
-                                    id="tabelSummaryKaryawan" style="font-size: 12px">
-                                    <thead class="bg-gray-100">
+                                <table class="table table-sm table-striped table-bordered align-items-center mb-0"
+                                    id="tabelSummaryKaryawan" style="font-size: 12px; border-color:#9ca0a7;">
+                                    <thead class="bg-secondary text-white">
                                         <tr id="headSumKaryawan">
-                                            <th class="text-xs font-weight-semibold">#</th>
+                                            <th class="text-center text-xs font-weight-semibold">#</th>
                                             <th class="text-center text-xs font-weight-semibold">Area</th>
-                                            <th class="text-center text-xs font-weight-semibold">Departemen</th>
-
-
+                                            <th class="text-center text-xs font-weight-semibold">Departemen/Segment</th>
+                                            <th class="text-center text-xs font-weight-semibold">Div. IKR Operation</th>
+                                            <th class="text-center text-xs font-weight-semibold">Div. IKR Support</th>
+                                            <th class="text-center text-xs font-weight-semibold">Subtotal</th>
                                         </tr>
                                     </thead>
                                     <tbody id="bodySumKaryawan">
@@ -100,36 +186,6 @@
                                     <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleMonthly">List Data Karyawan</span></h6>
                                     {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
                                 </div>
-
-                                <div class="ms-auto d-flex">
-                                    {{-- <button type="button"
-                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"
-                                        data-bs-toggle="modal" data-bs-target="#tambahData">
-                                        <span class="btn-inner--icon">
-                                            <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
-                                                <path
-                                                    d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
-                                                </path>
-                                            </svg>
-                                        </span>
-                                        <span class="btn-inner--text">Tambah Karyawan</span>
-                                    </button> --}}
-
-                                    {{-- <button type="button"
-                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"
-                                        data-bs-toggle="modal" data-bs-target="#tambahKelengkapan">
-                                        <span class="btn-inner--icon">
-                                            <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
-                                                <path
-                                                    d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
-                                                </path>
-                                            </svg>
-                                        </span>
-                                        <span class="btn-inner--text">+ Kelengkapan Karyawan</span>
-                                    </button> --}}
-                                </div>
                                 
                             </div>
                         </div>
@@ -149,6 +205,8 @@
                                             <th class="text-center text-xs font-weight-semibold">Departemen</th>
                                             <th class="text-center text-xs font-weight-semibold">Posisi</th>
                                             <th class="text-center text-xs font-weight-semibold">Email</th>
+                                            <th class="text-center text-xs font-weight-semibold">Status Active</th>
+                                            <th class="text-center text-xs font-weight-semibold">Status Seragam</th>
                                             <th class="text-center text-xs font-weight-semibold">No Telpon</th>
                                             <th class="text-center text-xs font-weight-semibold">Alamat</th>
                                             <th class="text-center text-xs font-weight-semibold">Tempat Lahir</th>
@@ -157,7 +215,7 @@
                                             <th class="text-center text-xs font-weight-semibold">Agama</th>
                                             <th class="text-center text-xs font-weight-semibold">Tanggal Masuk</th>
                                             <th class="text-center text-xs font-weight-semibold">Status Pegawai</th>
-                                            <th class="text-center text-xs font-weight-semibold">Status Active</th>
+                                            
                                             <th class="text-center text-xs font-weight-semibold">Tanggal Keluar</th>
                                             <th class="text-center text-xs font-weight-semibold">No KTP</th>
                                             <th class="text-center text-xs font-weight-semibold">No NPWP</th>
@@ -329,7 +387,8 @@
                                                         <span class="text-xs">Divisi</span>
                                                         <select class="form-control form-control-sm" id="divisi"
                                                             name="divisi" style="border-color:#9ca0a7;">
-                                                            <option value="IKR">IKR</option>
+                                                            <option value="IKR Operation">IKR Operation</option>
+                                                            <option value="IKR Support">IKR Support</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -341,9 +400,6 @@
                                                             name="departemen" style="border-color:#9ca0a7;">
                                                             <option value="FTTH">FTTH</option>
                                                             <option value="FTTX/FTTB">FTTX/FTTB</option>
-                                                            <option value="Dokumen Kontrol">Dokumen Kontrol</option>
-                                                            <option value="Traffic">Traffic</option>
-                                                            <option value="System IKR">System IKR</option>
                                                         </select>
                                                     </div>
 
@@ -351,17 +407,12 @@
                                                         <span class="text-xs">Posisi</span>
                                                         <select class="form-control form-control-sm" id="posisi"
                                                             name="posisi" style="border-color:#9ca0a7;">
-                                                            <option value="Installer">Installer</option>
-                                                            <option value="Maintenance">Maintenance</option>
-                                                            <option value="Leader Instalasi FTTH">Leader Instalasi FTTH
-                                                            </option>
-                                                            <option value="Leader Maintenance FTTH">Leader Maintenance
-                                                                FTTH
-                                                            </option>
-                                                            <option value="Leader FTTX/FTTB">Leader FTTX/FTTB</option>
-                                                            <option value="Supervisor">Supervisor</option>
-                                                            <option value="Staff">Staff</option>
-                                                            <option value="Ast. Manager">Ast. Manager</option>
+                                                            <option value="">Pilih Posisi</option>
+                                                            @if (isset($posisi))
+                                                                @foreach ($posisi as $p )
+                                                                    <option value="{{ $p->dposisi }}">{{ $p->dposisi }}</option>
+                                                                @endforeach                                                                
+                                                            @endif                                                            
                                                         </select>
                                                     </div>
                                                 </div>
@@ -399,29 +450,90 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group mb-1">
-                                                    <span class="text-xs">Jenis Kelamin</span>
-                                                    <select class="form-control form-control-sm" id="jenisKelamin"
-                                                        name="jenisKelamin" style="border-color:#9ca0a7;">
-                                                        <option value="Laki-laki">Laki-laki</option>
-                                                        <option value="Perempuan">Perempuan</option>
-                                                    </select>
+                                                <div class="row form-group mb-1">
+                                                    
+                                                    <div class="col">
+                                                        <div class="form-group mb-1">
+                                                            <span class="text-xs">Kewarganegaraan</span>
+                                                            <input class="form-control form-control-sm" id="kewarganegaraan"
+                                                                name="kewarganegaraan" style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <span class="text-xs">Jenis Kelamin</span>
+                                                        <select class="form-control form-control-sm" id="jenisKelamin"
+                                                            name="jenisKelamin" style="border-color:#9ca0a7;">
+                                                            <option value="Laki-laki">Laki-laki</option>
+                                                            <option value="Perempuan">Perempuan</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
 
-                                                <div class="form-group mb-1">
-                                                    <span class="text-xs">Kewarganegaraan</span>
-                                                    <input class="form-control form-control-sm" id="kewarganegaraan"
-                                                        name="kewarganegaraan" style="border-color:#9ca0a7;">
+                                                <div class="row form-group mb-1">
+                                                    <div class="col">
+                                                        <label class="text-xs">Seragam 1</label>
+                                                        <div class="col">
+                                                            <input class="form-check-input" type="radio" value="Baik" name="seragam1" id="seragam1_1">
+                                                            <span class="text-xs">Baik</span>
+                                                        </div>
+
+                                                        <div class="col">
+                                                                <input class="form-check-input" type="radio" value="Rusak" name="seragam1" id="seragam1_2">
+                                                                <span class="text-xs">Rusak</span>
+                                                        </div>
+
+                                                        <div class="col">
+                                                              <input class="form-check-input" type="radio" value="Belum Dapat" name="seragam1" id="seragam1_3" checked>
+                                                              <span class="text-xs">Belum Dapat</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col">
+                                                        <label class="text-xs">Seragam 2</label>
+                                                        <div class="col">
+                                                            <input class="form-check-input" type="radio" value="Baik" name="seragam2" id="seragam2_1">
+                                                            <span class="text-xs">Baik</span>
+                                                        </div>
+
+                                                        <div class="col">
+                                                                <input class="form-check-input" type="radio" value="Rusak" name="seragam2" id="seragam2_2">
+                                                                <span class="text-xs">Rusak</span>
+                                                        </div>
+                                                        
+                                                        <div class="col">
+                                                              <input class="form-check-input" type="radio" value="Belum Dapat" name="seragam2" id="seragam2_3" checked>
+                                                              <span class="text-xs">Belum Dapat</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col">
+                                                        <label class="text-xs">Seragam 3</label>
+                                                        <div class="col">
+                                                            <input class="form-check-input" type="radio" value="Baik" name="seragam3" id="seragam3_1">
+                                                            <span class="text-xs">Baik</span>
+                                                        </div>
+
+                                                        <div class="col">
+                                                                <input class="form-check-input" type="radio" value="Rusak" name="seragam3" id="seragam3_2">
+                                                                <span class="text-xs">Rusak</span>
+                                                        </div>
+                                                        
+                                                        <div class="col">
+                                                              <input class="form-check-input" type="radio" value="Belum Dapat" name="seragam3" id="seragam3_3" checked>
+                                                              <span class="text-xs">Belum Dapat</span>
+                                                        </div>
+                                                    </div>                                                    
                                                 </div>
+                                            </div>
+
+                                            <div class="col">                                                
 
                                                 <div class="form-group mb-1">
                                                     <span class="text-xs">No Telepon/Hp</span>
                                                     <input class="form-control form-control-sm" id="noTelpKry"
                                                         name="noTelpKry" style="border-color:#9ca0a7;">
                                                 </div>
-                                            </div>
 
-                                            <div class="col">
                                                 <div class="form-group mb-1">
                                                     <span class="text-xs">Alamat Lengkap</span>
                                                     <textarea class="form-control form-control-sm" id="alamat" name="alamat" style="border-color:#9ca0a7;"></textarea>
@@ -465,33 +577,37 @@
                                                         style="border-color:#9ca0a7;"></textarea>
                                                 </div>
 
-                                                <div class="form-group mb-1">
-                                                    <span class="text-xs">Pendidikan Terakhir</span>
-                                                    <select class="form-control form-control-sm"
-                                                        id="pendidikanTerakhir" name="pendidikanTerakhir"
-                                                        style="border-color:#9ca0a7;">
-                                                        <option value=""></option>
-                                                        <option value="SD">SD</option>
-                                                        <option value="SMP">SMP</option>
-                                                        <option value="SMA">SMA</option>
-                                                        <option value="Diploma">Dimploma 3</option>
-                                                        <option value="Strata 1">Strata 1</option>
-                                                        <option value="Strata 2">Strata 2</option>
-                                                        <option value="Doktor">Doktor</option>
-                                                    </select>
+                                                <div class="row form-group mb-1">
+                                                    <div class="col">
+                                                        <span class="text-xs">Pendidikan Terakhir</span>
+                                                        <select class="form-control form-control-sm"
+                                                            id="pendidikanTerakhir" name="pendidikanTerakhir"
+                                                            style="border-color:#9ca0a7;">
+                                                            <option value=""></option>
+                                                            <option value="SD">SD</option>
+                                                            <option value="SMP">SMP</option>
+                                                            <option value="SMA">SMA</option>
+                                                            <option value="Diploma">Dimploma 3</option>
+                                                            <option value="Strata 1">Strata 1</option>
+                                                            <option value="Strata 2">Strata 2</option>
+                                                            <option value="Doktor">Doktor</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col">
+                                                        <span class="text-xs">Golongan Darah</span>
+                                                        <select class="form-control form-control-sm" id="golonganDarah"
+                                                            name="golonganDarah" style="border-color:#9ca0a7;">
+                                                            <option value=""></option>
+                                                            <option value="O">O</option>
+                                                            <option value="A">A</option>
+                                                            <option value="B">B</option>
+                                                            <option value="AB">AB</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
 
-                                                <div class="form-group mb-1">
-                                                    <span class="text-xs">Golongan Darah</span>
-                                                    <select class="form-control form-control-sm" id="golonganDarah"
-                                                        name="golonganDarah" style="border-color:#9ca0a7;">
-                                                        <option value=""></option>
-                                                        <option value="O">O</option>
-                                                        <option value="A">A</option>
-                                                        <option value="B">B</option>
-                                                        <option value="AB">AB</option>
-                                                    </select>
-                                                </div>
+                                                
                                                 {{-- </dl> --}}
                                             </div>
 
@@ -553,13 +669,13 @@
                                                 {{-- <dl class="dl-horizontal row"> --}}
                                                 <div class="row form-group mb-1">
                                                     <div class="col">
-                                                        <span class="text-xs">Nama</span>
+                                                        <span class="text-xs">Nama Pasangan</span>
                                                         <input class="form-control form-control-sm" id="namaKel"
                                                             name="namaKel" style="border-color:#9ca0a7;">
                                                     </div>
 
                                                     <div class="col">
-                                                        <span class="text-xs">Status</span>
+                                                        <span class="text-xs">Status Pasangan</span>
                                                         <input class="form-control form-control-sm" id="statusKel"
                                                             name="statusKel" style="border-color:#9ca0a7;">
                                                     </div>
@@ -587,25 +703,25 @@
                                             <div class="col">
                                                 {{-- <dl class="dl-horizontal row"> --}}
                                                 <div class="form-group mb-1">
-                                                    <span class="text-xs">Anak 1</span>
+                                                    <span class="text-xs">Nama Anak 1</span>
                                                     <input class="form-control form-control-sm" id="anak1"
                                                         name="anak1" style="border-color:#9ca0a7;">
                                                 </div>
 
                                                 <div class="form-group mb-1">
-                                                    <span class="text-xs">Anak 2</span>
+                                                    <span class="text-xs">Nama Anak 2</span>
                                                     <input class="form-control form-control-sm" id="anak2"
                                                         name="anak2" style="border-color:#9ca0a7;">
                                                 </div>
 
                                                 <div class="form-group mb-1">
-                                                    <span class="text-xs">Anak 3</span>
+                                                    <span class="text-xs">Nama Anak 3</span>
                                                     <input class="form-control form-control-sm" id="anak3"
                                                         name="anak3" style="border-color:#9ca0a7;">
                                                 </div>
 
                                                 <div class="form-group mb-1">
-                                                    <span class="text-xs">Anak 4</span>
+                                                    <span class="text-xs">Nama Anak 4</span>
                                                     <input class="form-control form-control-sm" id="anak4"
                                                         name="anak4" style="border-color:#9ca0a7;">
                                                 </div>
@@ -1013,17 +1129,85 @@
         var firstDate;
         var lastDate;
         akses = $('#akses').val();
-        data_absen()
+        summary_karyawan();
+        data_karyawan()
+
+        $(document).on('click', '#filterData', function(e) {
+            e.preventDefault();
+            summary_karyawan()
+            data_karyawan();
+        })
 
         var sum = {!! $posisi !!};
+        function summary_karyawan() {
+            $('#bodySumKaryawan').find('tr').remove();
+            $.ajax({
+                url: "{{ route('getSummaryKaryawan') }}",
+                type: "get",
+                dataType: "json",
+                data: {
+                        akses: akses,
+                        _token: _token,
+                        filBranch: $('#filBranch').val(),
+                        filNamaKaryawan: $('#filNamaKaryawan').val(),
+                        filPosisi: $('#filPosisi').val(),
+                        filDivisi: $('#filDivisi').val(),
+                        filDepartement: $('#filDepartement').val(),
+                        filSeragam: $('#filSeragam').val(),
+                },
+                success: function(smKry) {
+                    console.log(smKry);
+                    let bdSumKry;
+                    let bdSumKryTot;
+                    let stotal = [];
+                    let tOpr = 0;
+                    let tSupp = 0;
+                    let ttot = 0
 
-        console.log(sum)
+                    for(p=0; p < smKry.length; p++) {
+                        stotal[p] = 0;
+                        stotal[p] = Number(smKry[p].ikr_operation) + Number(smKry[p].ikr_support)
+                        
+                        tOpr += Number(smKry[p].ikr_operation);
+                        tSupp += Number(smKry[p].ikr_support);
+                        ttot += stotal[p];
 
-    
+                        bdSumKry = bdSumKry + `
+                                <tr>
+                                    <td class="text-center" style="font-weight:500">${p + 1}</td>
+                                    <td style="font-weight:500">${smKry[p].nama_branch}</td>
+                                    <td class="text-center" style="font-weight:500"><span id="${smKry[p].nama_branch}" onclick="detRekap_click(this.id)" style="cursor:pointer">${smKry[p].departement}</span></td>
+                                    <td class="text-center" style="font-weight:500"><span id="${smKry[p].nama_branch}" onclick="detRekap_click(this.id)" style="cursor:pointer">${smKry[p].ikr_operation=="0" ? "-" :  smKry[p].ikr_operation.toLocaleString()}</span></td>
+                                    <td class="text-center" style="font-weight:500"><span id="${smKry[p].nama_branch}" onclick="detRekap_click(this.id)" style="cursor:pointer">${smKry[p].ikr_support=="0" ? "-" : smKry[p].ikr_support.toLocaleString()}</span></td>
+                                    <td class="text-center" style="font-weight:500"><span id="${smKry[p].nama_branch}" onclick="detRekap_click(this.id)" style="cursor:pointer">${stotal[p]=="0" ? "-" : stotal[p].toLocaleString()}</span></td>
+                                </tr>`;
+                    }
 
+                    bdSumKryTot = bdSumKryTot + `                        
+                        <tr>
+                            <td style="font-weight:500"></td>
+                            <td class="text-center" style="font-weight:500"></td>
+                            <td class="text-center" style="font-weight:500"></td>
+                            <td class="text-center" style="font-weight:500"></td>
+                            <td class="text-center" style="font-weight:500"></td>
+                            <td class="text-center" style="font-weight:500"></td>
+                        </tr>
 
+                        <tr class="table-dark">
+                            <td class="text-center" style="font-weight:500">Total</td>
+                            <td class="text-center" style="font-weight:500"></td>
+                            <td class="text-center" style="font-weight:500"></td>
+                            <td class="text-center" style="font-weight:500"><span style="cursor:pointer">${tOpr.toLocaleString()}</span></td>
+                            <td class="text-center" style="font-weight:500"><span style="cursor:pointer">${tSupp.toLocaleString()}</span></td>
+                            <td class="text-center" style="font-weight:500"><span style="cursor:pointer">${ttot.toLocaleString()}</span></td>
+                        </tr>`;
 
-        function data_absen() {
+                    $('#bodySumKaryawan').append(bdSumKry + bdSumKryTot);
+                }
+            })            
+        }
+
+        function data_karyawan() {
             $('#tabelDataKaryawan').DataTable({
                 // dom: 'Bftip',
                 layout: {
@@ -1054,7 +1238,14 @@
                     dataType: "json",
                     data: {
                         akses: akses,
-                        _token: _token
+                        _token: _token,
+                        filBranch: $('#filBranch').val(),
+                        filNamaKaryawan: $('#filNamaKaryawan').val(),
+                        filPosisi: $('#filPosisi').val(),
+                        filDivisi: $('#filDivisi').val(),
+                        filDepartement: $('#filDepartement').val(),
+                        filSeragam: $('#filSeragam').val(),
+                        filStatus: $('#filStatusAktif').val(),
                     }
                 },
                 columns: [{
@@ -1089,6 +1280,12 @@
                         data: 'email'
                     },
                     {
+                        data: 'status_active'
+                    },
+                    {
+                        data: 'seragam' 
+                    },
+                    {
                         data: 'no_telp'
                     },
                     {
@@ -1111,9 +1308,6 @@
                     },
                     {
                         data: 'status_pegawai'
-                    },
-                    {
-                        data: 'status_active'
                     },
                     {
                         data: 'tgl_nonactive'
