@@ -110,6 +110,7 @@ class FtthMt extends Model
         'updated_at',
         'wo_type_apk',
         'branch_id',
+        'pic_dispatch',
         'leadcall',
         'tek1_nik',
         'tek2_nik',
@@ -123,5 +124,6 @@ class FtthMt extends Model
         'alasan_pending',
         'alasan_cancel',
         'report_teknisi',
+        'is_checked',
     ];
 }

@@ -117,5 +117,11 @@ class FtthIb extends Model
         'marker',
         'site_penagihan',
         'login',
+        'is_checked'
     ];
+
+    public function material_ib()
+    {
+        return $this->hasMany(FtthIbMaterial::class);
+    }
 }

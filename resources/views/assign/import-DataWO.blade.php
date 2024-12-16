@@ -3,6 +3,20 @@
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
         <div class="container-fluid py-4 px-5">
+
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {!! session('error') !!}
+                </div>
+            @endif
+
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+
             <div class="row">
                 <div class="col-12">
                     <div class="card card-background card-background-after-none align-items-start mt-2 mb-2">

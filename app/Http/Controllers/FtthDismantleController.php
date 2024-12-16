@@ -2,18 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\FtthDismantleExport;
 use App\Models\FtthDismantle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FtthDismantleController extends Controller
 {
     public function index()
     {
-        return view('ftth-dismantle.index');
+        $branches = DB::table('branches')->select('id','nama_branch')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
+
+        $leader = DB::table('v_detail_callsign_tim')->select('leader_id', 'nama_leader', 'nama_branch')
+            ->orderBy('lead_callsign')->orderBy('branch_id')
+            ->groupBy('lead_call_id', 'lead_callsign', 'nama_branch')->get();
+
+        $callTim = DB::table('v_detail_callsign_tim')
+            ->select('callsign_tim_id', 'callsign_tim')->distinct()
+            ->orderBy('callsign_tim')->get();
+
+        $cluster = DB::table('fats')->select('cluster')
+                ->where('cluster', '<>', "")->distinct()->orderBy('cluster')->get();
+
+        return view('ftth-dismantle.index', compact(
+            'branches',
+            'leader',
+            'callTim',
+            'cluster',
+        ));
     }
 
     public function getFtthDismantle(Request $request)
@@ -38,8 +58,8 @@ class FtthDismantleController extends Controller
             if($request->filcustId != null) {
                 $datas = $datas->where('cust_id', $request->filcustId);
             }
-            if($request->filtypeWo != null) {
-                $datas = $datas->where('type_wo', $request->filtypeWo);
+            if($request->filstatusWo != null) {
+                $datas = $datas->where('status_wo', $request->filstatusWo);
             }
             if($request->filarea != null) {
                 $b = explode("|", $request->filarea);
@@ -283,6 +303,7 @@ class FtthDismantleController extends Controller
             'callsign_id' => $request['callsign_id'],
             'alasan_pending' => $request['alasan_pending'],
             'alasan_cancel' => $request['alasan_cancel'],
+            'is_checked' => $request['is_checked'],
             'login_id' => $aksesId,
             'login' => $akses,
         ]);
@@ -314,5 +335,11 @@ class FtthDismantleController extends Controller
                 ->escapeColumns()  //mencegah XSS Attack
                 ->toJson(); //merubah response dalam bentuk Json
         }
+    }
+
+    public function export(Request $request)
+    {
+        $export = new FtthDismantleExport($request);
+        return Excel::download($export, 'FTTH_Dismantle.xlsx');
     }
 }
