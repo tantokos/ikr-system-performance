@@ -2969,7 +2969,7 @@ textarea.form-control-lg {
   height: 1.23em;
   margin-top: 0.135em;
   vertical-align: top;
-  background-color: #fff;
+  background-color: #c4c4c4;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -4548,17 +4548,17 @@ fieldset:disabled .btn {
   --bs-nav-tabs-border-width: 1px;
   --bs-nav-tabs-border-color: #dde0e5;
   --bs-nav-tabs-border-radius: 0.375rem;
-  --bs-nav-tabs-link-hover-border-color: #e9ecef #e9ecef #dde0e5;
+  --bs-nav-tabs-link-hover-border-color: #ff0000 #ff0000 #ff0000;
   --bs-nav-tabs-link-active-color: #495057;
-  --bs-nav-tabs-link-active-bg: #fff;
-  --bs-nav-tabs-link-active-border-color: #dde0e5 #dde0e5 #fff;
+  --bs-nav-tabs-link-active-bg: #c0ff00;
+  --bs-nav-tabs-link-active-border-color: #0060f0 #0060f0 #0060f0;
   border-bottom: var(--bs-nav-tabs-border-width) solid var(--bs-nav-tabs-border-color);
 }
 
 .nav-tabs .nav-link {
   margin-bottom: calc(var(--bs-nav-tabs-border-width) * -1);
   background: none;
-  border: var(--bs-nav-tabs-border-width) solid transparent;
+  border: var(--bs-nav-tabs-border-width) solid #000000;
   border-top-left-radius: var(--bs-nav-tabs-border-radius);
   border-top-right-radius: var(--bs-nav-tabs-border-radius);
 }
@@ -5140,11 +5140,11 @@ fieldset:disabled .btn {
   --bs-card-inner-border-radius: 0.375rem;
   --bs-card-cap-padding-y: 0.5rem;
   --bs-card-cap-padding-x: 1rem;
-  --bs-card-cap-bg: #fff;
+  --bs-card-cap-bg: #f3f3f3;
   --bs-card-cap-color: ;
   --bs-card-height: ;
   --bs-card-color: ;
-  --bs-card-bg: #fff;
+  --bs-card-bg: #f3f3f3;
   --bs-card-img-overlay-padding: 1rem;
   --bs-card-group-margin: 0.75rem;
   position: relative;
@@ -6380,7 +6380,7 @@ fieldset:disabled .btn {
   --bs-modal-padding: 1rem;
   --bs-modal-margin: 0.5rem;
   --bs-modal-color: ;
-  --bs-modal-bg: #fff;
+  --bs-modal-bg: #f3f3f3;
   --bs-modal-border-color: rgba(0, 0, 0, 0.2);
   --bs-modal-border-width: 1px;
   --bs-modal-border-radius: 0.75rem;

@@ -26,28 +26,100 @@ class karyawanController extends Controller
 
         $posisi = DB::table('data_posisi')->get();
 
+        $kry = DB::table('employees')
+                ->select('nama_karyawan','divisi','departement','status_active')
+                ->orderBy('nama_karyawan')
+                ->get();
 
-        return view('karyawan.data_Karyawan', ['area' => $area, 'posisi' => $posisi]);
+
+        return view('karyawan.data_Karyawan', ['area' => $area, 'kry' => $kry,'posisi' => $posisi]);
+    }
+
+    public function getSummaryKaryawan(Request $request)
+    {
+        $sumKry = DB::table('v_karyawan_callsign')
+                ->select(DB::raw('branch_id,nama_branch, departement,
+                                count(if(divisi="IKR Operation",1,null)) as ikr_operation,
+                                count(if(divisi="IKR Support",1,null)) as ikr_support'
+                ))                
+                ->orderBy('branch_id')
+                ->groupBy('branch_id','nama_branch','departement'); //->get();
+
+        if($request->filBranch != "ALL"){
+            $sumKry = $sumKry->where('nama_branch',$request->filBranch);
+        }
+        if($request->filNamaKaryawan != "ALL"){
+            $sumKry = $sumKry->where('nama_karyawan',$request->filNamaKaryawan);
+        }
+        if($request->filPosisi != "ALL"){
+            $sumKry = $sumKry->where('posisi',$request->filPosisi);
+        }
+        if($request->filDivisi != "ALL"){
+            $sumKry = $sumKry->where('divisi',$request->filDivisi);
+        }
+        if($request->filDepartement != "ALL"){
+            $sumKry = $sumKry->where('departement',$request->filDepartement);
+        }
+        if($request->filSeragam != "ALL"){
+            $sumKry = $sumKry->where('seragam', 'like', '%' . $request->filSeragam . '%');
+        }
+        
+
+        $sumKry = $sumKry->get();    
+
+        return response()->json($sumKry);
+
     }
 
     public function getDataKaryawan(Request $request)
     {
         $akses = Auth::user()->name;
 
-
-        if ($request->ajax()) {
-            $datas = DB::table('employees as d')
+        $datas = DB::table('employees as d')
                 ->leftJoin('branches as b', 'd.branch_id', '=', 'b.id')
                 ->select('d.*', 'b.nama_branch')
-                ->orderBy('nama_karyawan')->get();
+                ->orderBy('nama_karyawan'); //->get();
+
+        if($request->filBranch != "ALL"){
+            $datas = $datas->where('b.nama_branch',$request->filBranch);
+        }
+        if($request->filNamaKaryawan != "ALL"){
+            $datas = $datas->where('d.nama_karyawan',$request->filNamaKaryawan);
+        }
+        if($request->filPosisi != "ALL"){
+            $datas = $datas->where('d.posisi',$request->filPosisi);
+        }
+        if($request->filDivisi != "ALL"){
+            $datas = $datas->where('d.divisi',$request->filDivisi);
+        }
+        if($request->filDepartement != "ALL"){
+            $datas = $datas->where('d.departement',$request->filDepartement);
+        }
+        if($request->filStatus != "ALL"){
+            $datas = $datas->where('d.status_active',$request->filStatus);
+        }
+        if($request->filSeragam != "ALL"){
+            $datas = $datas->where('seragam1',$request->filSeragam);
+            $datas = $datas->orWhere('seragam2',$request->filSeragam);
+            $datas = $datas->orWhere('seragam3',$request->filSeragam);
+        }
+
+        $datas = $datas->get();      
+
+        if ($request->ajax()) {
+            
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
+                ->addColumn('seragam', function ($sr) {
+                    $srg = $sr->seragam1 . "-" . $sr->seragam2 . "-" . $sr->seragam3;
+                    return $srg;
+                })
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="/detailKaryawan/' . $row->id . '" class="btn btn-sm btn-primary edit-barang mb-1" >Show Detail</a>';
                     //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
                     return $btn;
                 })
-                ->rawColumns(['action'])   //merender content column dalam bentuk html
+                ->rawColumns(['action','seragam'])   //merender content column dalam bentuk html
                 ->escapeColumns()  //mencegah XSS Attack
                 ->toJson(); //merubah response dalam bentuk Json
             // ->make(true);
@@ -57,92 +129,95 @@ class karyawanController extends Controller
 
     public function simpanKaryawan(Request $request)
     {
-        // dd($request->all());
-
+        
         $akses = Auth::user()->name;
 
-        // $request->validate([
-        //     'nik_karyawan' => ['required', 'unique:Employees,nik_karyawan'],
-        //     'nama_karyawan' => ['required', 'unique:Employees,nama_karyawan'],
-        //     'branch_id' => 'required',
-        //     'divisi' => 'required',
-        //     'departement' => 'required',
-        //     'posisi' => 'required',
-        // ]);
-
         $cekValidasi = $request->validate([
-            'nik' => ['required', 'unique:Employees,nik_karyawan'],
-            'namaKaryawan' => ['required', 'unique:Employees,nama_karyawan'],
+            'nik' => ['required', 'unique:employees,nik_karyawan'],
+            // 'namaKaryawan' => ['required', 'unique:employees,nama_karyawan'],
         ]);
 
-        if ($request->hasFile('foto_karyawan')) {
-            $file = $request->file('foto_karyawan')->getClientOriginalName();
-            $request->file('foto_karyawan')->move(public_path('storage/image-kry'), $file);
-        } else {
-            $file = 'foto-blank.jpg';
-        }
+        DB::beginTransaction();
+        try {
 
-        $simpanKry = Employee::create([
-            'nik_karyawan' => $request->nik,
-            'nama_karyawan' => $request->namaKaryawan,
-            'alamat' => $request->alamat,
-            'tempat_lahir' => $request->tmptLahir,
-            'tgl_lahir' => $request->tglLahir,
-            'jenis_kelamin' => $request->jenisKelamin,
-            'agama' => $request->agama,
-            'no_telp' => $request->noTelpKry,
-            'tgl_gabung' => $request->tglGabung,
-            'status_pegawai' => $request->statusPegawai,
-            'status_active' => $request->statusKaryawan,
-            'tgl_nonactive' => $request->tglKeluar,
-            'branch_id' => $request->area,
-            'divisi' => $request->divisi,
-            'departement' => $request->departemen,
-            'posisi' => $request->posisi,
-            'email' => $request->emailPerusahaan,
-            'no_ktp' => $request->noKTP,
-            'no_npwp' => $request->noNPWP,
-            'no_rek' => $request->noRek,
-            'no_bpjs' => $request->noBpjs,
-            'no_jamsostek' => $request->noJamsostek,
-            'foto_karyawan' => $file,
-            'kewarganegaraan' => $request->kewarganegaraan,
-            'status_pernikahan' => $request->statusPernikahan,
-            'jml_tanggungan' => $request->jmlTanggungan,
-            'email_pribadi' => $request->emailPribadi,
-            'alamat_domisili' => $request->alamatDomisili,
-            'pendidikan_terakhir' => $request->pendidikanTerakhir,
-            'golongan_darah' => $request->golonganDarah,
-            'no_koperasi' => $request->noKoperasi,
-            'nama_kel' => $request->namaKel,
-            'status_kel' => $request->statusKel,
-            'alamat_kel' => $request->alamatKel,
-            'pekerjaan_kel' => $request->pekerjaanKel,
-            'no_telp_kel' => $request->noTelpKel,
-            'anak1' => $request->anak1,
-            'anak2' => $request->anak2,
-            'anak3' => $request->anak3,
-            'anak4' => $request->anak4,
-            'nama_kontak1' => $request->namaKontak1,
-            'status_kontak1' => $request->statusKontak1,
-            'alamat_kontak1' => $request->alamatKontak1,
-            'no_telp_kontak1' => $request->noTelpKontak1,
-            'nama_kontak2' => $request->namaKontak2,
-            'status_kontak2' => $request->statusKontak2,
-            'alamat_kontak2' => $request->alamatKontak2,
-            'no_telp_kontak2' => $request->noTelpKontak2,
-            'input_by' => $akses
-        ]);
+            if ($request->hasFile('foto_karyawan')) {
+                $file = $request->file('foto_karyawan')->getClientOriginalName();
+                // $request->file('foto_karyawan')->move(public_path('storage/image-kry'), $file);
+            } else {
+                $file = 'foto-blank.jpg';
+            }
+    
+            $simpanKry = Employee::create([
+                'nik_karyawan' => $request->nik,
+                'nama_karyawan' => $request->namaKaryawan,
+                'alamat' => $request->alamat,
+                'tempat_lahir' => $request->tmptLahir,
+                'tgl_lahir' => $request->tglLahir,
+                'jenis_kelamin' => $request->jenisKelamin,
+                'agama' => $request->agama,
+                'no_telp' => $request->noTelpKry,
+                'tgl_gabung' => $request->tglGabung,
+                'status_pegawai' => $request->statusPegawai,
+                'status_active' => $request->statusKaryawan,
+                'tgl_nonactive' => $request->tglKeluar,
+                'branch_id' => $request->area,
+                'divisi' => $request->divisi,
+                'departement' => $request->departemen,
+                'posisi' => $request->posisi,
+                'email' => $request->emailPerusahaan,
+                'seragam1' => $request->seragam1,
+                'seragam2' => $request->seragam2,
+                'seragam3' => $request->seragam3,
+                'no_ktp' => $request->noKTP,
+                'no_npwp' => $request->noNPWP,
+                'no_rek' => $request->noRek,
+                'no_bpjs' => $request->noBpjs,
+                'no_jamsostek' => $request->noJamsostek,
+                'foto_karyawan' => $file,
+                'kewarganegaraan' => $request->kewarganegaraan,
+                'status_pernikahan' => $request->statusPernikahan,
+                'jml_tanggungan' => $request->jmlTanggungan,
+                'email_pribadi' => $request->emailPribadi,
+                'alamat_domisili' => $request->alamatDomisili,
+                'pendidikan_terakhir' => $request->pendidikanTerakhir,
+                'golongan_darah' => $request->golonganDarah,
+                'no_koperasi' => $request->noKoperasi,
+                'nama_kel' => $request->namaKel,
+                'status_kel' => $request->statusKel,
+                'alamat_kel' => $request->alamatKel,
+                'pekerjaan_kel' => $request->pekerjaanKel,
+                'no_telp_kel' => $request->noTelpKel,
+                'anak1' => $request->anak1,
+                'anak2' => $request->anak2,
+                'anak3' => $request->anak3,
+                'anak4' => $request->anak4,
+                'nama_kontak1' => $request->namaKontak1,
+                'status_kontak1' => $request->statusKontak1,
+                'alamat_kontak1' => $request->alamatKontak1,
+                'no_telp_kontak1' => $request->noTelpKontak1,
+                'nama_kontak2' => $request->namaKontak2,
+                'status_kontak2' => $request->statusKontak2,
+                'alamat_kontak2' => $request->alamatKontak2,
+                'no_telp_kontak2' => $request->noTelpKontak2,
+                'input_by' => $akses
+            ]);
+    
+            if ($simpanKry) {
+                if ($request->hasFile('foto_karyawan')) {
+                    $request->file('foto_karyawan')->move(public_path('storage/image-kry'), $file);
+                }
+            }
 
-        if ($simpanKry) {
+            DB::commit();
+
             return redirect()->route('dataKaryawan')->with(['success' => 'Data sudah tersimpan.']);
-        } else {
-            return response()->with(['error' => 'Data Tidak tersimpan.']);
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error','Gagal Simpan Data: .'. $e->getMessage());
+
         }
 
-
-        // $request->session()->flash('status', 'Task was successful!');
-        // return redirect()->route('dataKaryawan')->with(['success' => 'Data sudah tersimpan.']);
     }
 
 
@@ -181,8 +256,10 @@ class karyawanController extends Controller
             $file = $fileFoto->hashName();
             $request->file('foto_karyawan')->move(public_path('storage/image-kry'), $file);
 
-            File::delete(public_path('storage/image-kry/' . $karyawan->foto_karyawan));
-
+            if($karyawan->foto_karyawan != "foto-blank.jpg"){
+                File::delete(public_path('storage/image-kry/' . $karyawan->foto_karyawan));
+            }
+            
             $karyawan->update([
                 'nik_karyawan' => $request->nik,
                 'nama_karyawan' => $request->namaKaryawan,
@@ -201,6 +278,9 @@ class karyawanController extends Controller
                 'departement' => $request->departemen,
                 'posisi' => $request->posisi,
                 'email' => $request->emailPerusahaan,
+                'seragam1' => $request->seragam1,
+                'seragam2' => $request->seragam2,
+                'seragam3' => $request->seragam3,
                 'no_ktp' => $request->noKTP,
                 'no_npwp' => $request->noNPWP,
                 'no_rek' => $request->noRek,
@@ -235,7 +315,7 @@ class karyawanController extends Controller
                 'update_by' => $akses
             ]);
         } else {
-            $file = 'foto-blank.jpg';
+            // $file = 'foto-blank.jpg';
 
             $karyawan->update([
                 'nik_karyawan' => $request->nik,
@@ -255,12 +335,15 @@ class karyawanController extends Controller
                 'departement' => $request->departemen,
                 'posisi' => $request->posisi,
                 'email' => $request->emailPerusahaan,
+                'seragam1' => $request->seragam1,
+                'seragam2' => $request->seragam2,
+                'seragam3' => $request->seragam3,
                 'no_ktp' => $request->noKTP,
                 'no_npwp' => $request->noNPWP,
                 'no_rek' => $request->noRek,
                 'no_bpjs' => $request->noBpjs,
                 'no_jamsostek' => $request->noJamsostek,
-                'foto_karyawan' => $file,
+                // 'foto_karyawan' => $file,
                 'kewarganegaraan' => $request->kewarganegaraan,
                 'status_pernikahan' => $request->statusPernikahan,
                 'jml_tanggungan' => $request->jmlTanggungan,
@@ -291,11 +374,6 @@ class karyawanController extends Controller
         }
 
         return redirect()->route('dataKaryawan')->with(['success' => 'Data sudah tersimpan.']);
-    }
-
-    public function kelengkapanKaryawan(Request $request)
-    {
-        return view('karyawan.kelengkapan_karyawan');
     }
 
     /**

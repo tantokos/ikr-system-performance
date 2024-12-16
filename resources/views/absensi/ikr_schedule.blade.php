@@ -5,12 +5,12 @@
         <div class="container-fluid py-4 px-5">
             <div class="row">
                 <div class="col-12">
-                    <div class="card card-background card-background-after-none align-items-start mt-2 mb-3">
+                    <div class="card card-background card-background-after-none align-items-start mt-0 mb-2">
                         <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
                         </div>
                         <div class="card-body text-start p-4 w-100">
                             <h3 class="text-white mb-2">Jadwal Kehadiran Tim IKR</h3>
-                            <p class="mb-2 font-weight-semibold">
+                            <p class="mb-1 font-weight-semibold">
                                 PT. Mitra Sinergi Telematika.
                             </p>
 
@@ -53,119 +53,8 @@
                                 {{-- </div> --}}
                             </div>
 
-                            <div class="row">
-
-                                {{-- <div class="col"> --}}
-                                
-                                {{-- <div class="col form-group mb-1">
-                                    <span class="text-xs">Nama Leader</span>
-                                    <select class="form-control form-control-sm" type="text" id="filleaderTim"
-                                        name="filleaderTim" style="border-color:#9ca0a7;">
-                                        <option value="">Pilih Leader</option>
-                                        @if (isset($leader))
-                                            @foreach ($leader as $ld)
-                                                <option value="{{ $ld->leader_id . '|' . $ld->nama_leader }}">
-                                                    {{ $ld->nama_leader }}
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                    <input type="hidden" id="filleaderid" name="filleaderid" readonly>
-                                </div> --}}
-
-                                {{-- <div class="col form-group mb-1">
-                                    <span class="text-xs">Callsign Tim</span>
-                                    <select class="form-control form-control-sm" type="text" id="filcallsignTimid"
-                                        name="filcallsignTimid" style="border-color:#9ca0a7;"
-                                        placeholder="Isi Callsign Tim">
-                                        <option value="">Pilih Callsign Tim</option>
-                                        @if (isset($callTim))
-                                            @foreach ($callTim as $cTim)
-                                                <option
-                                                    value="{{ $cTim->callsign_tim_id . '|' . $cTim->callsign_tim }}">
-                                                    {{ $cTim->callsign_tim }}
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div> --}}
-
-                                {{-- <div class="col form-group mb-1">
-                                    <span class="text-xs">Teknisi</span>
-                                    <select class="form-control form-control-sm" type="text" id="filteknisi"
-                                        name="filteknisi" style="border-color:#9ca0a7;">
-                                        <option value="">Pilih Teknisi</option>
-                                        @if (isset($tim))
-                                            @foreach ($tim as $tm)
-                                                <option value="{{ $tm->nik_karyawan . '|' . $tm->nama_karyawan }}">
-                                                    {{ $tm->nama_karyawan }}
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div> --}}
-                            </div>
-
-                            <div class="row">
-                                {{-- <div class="col form-group mb-1">
-                                    <span class="text-xs">Cluster</span>
-                                    <select class="form-control form-control-sm" type="text" id="filcluster"
-                                        name="filcluster" style="border-color:#9ca0a7;">
-                                        <option value="">Pilih Cluster</option>
-                                        @if (isset($cluster))
-                                            @foreach ($cluster as $cl)
-                                                <option value="{{ $cl->cluster }}">
-                                                    {{ $cl->cluster }}
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div> --}}
-
-                                {{-- <div class="col form-group mb-1">
-                                    <span class="text-xs">FAT Code</span>
-                                    <input type="text" class="form-control form-control-sm" id="filfatCode"
-                                        name="filfatCode" style="border-color:#9ca0a7;">
-                                </div> --}}
-
-                                {{-- <div class="col form-group mb-1">
-                                    <span class="text-xs">Slot Time</span>
-                                    <select class="form-control form-control-sm" type="text" id="filslotTime"
-                                        name="filslotTime" style="border-color:#9ca0a7;">
-                                        <option value="">Pilih SlotTime</option>
-                                        <option value="09:00">09:00</option>
-                                        <option value="09:30">09:30</option>
-                                        <option value="10:00">10:00</option>
-                                        <option value="10:30">10:30</option>
-                                        <option value="11:00">11:00</option>
-                                        <option value="11:30">11:30</option>
-                                        <option value="12:00">12:00</option>
-                                        <option value="12:30">12:30</option>
-                                        <option value="13:00">13:00</option>
-                                        <option value="13:30">13:30</option>
-                                        <option value="14:00">14:00</option>
-                                        <option value="14:30">14:30</option>
-                                        <option value="15:00">15:00</option>
-                                        <option value="15:30">15:30</option>
-                                        <option value="16:00">16:00</option>
-                                        <option value="16:30">16:30</option>
-                                        <option value="17:00">17:00</option>
-                                        <option value="17:30">17:30</option>
-                                        <option value="18:00">18:00</option>
-                                        <option value="18:30">18:30</option>
-                                        <option value="19:00">19:00</option>
-                                        <option value="19:30">19:30</option>
-                                        <option value="20:00">20:00</option>
-                                    </select>
-                                </div> --}}
-
-                                <div class="col form-group mb-1">
-                                    {{-- <span class="text-xs">Slot Time</span>
-                                        <select class="form-control form-control-sm" type="text" id="filslotTime"
-                                            name="filslotTime" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih SlotTime</option>
-                                        </select> --}}
-                                </div>
-
-                            </div>
                             <hr>
-                            <div class="row text-center mb-1">
+                            <div class="row text-center mb-0">
                                 <div class="col">
                                     <button type="button" class="btn btn-sm btn-dark align-items-center filAssignTim"
                                         id="filAssignTim">Tampilkan</button>
@@ -186,83 +75,350 @@
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div>
-                                    <h6 class="font-weight-semibold text-lg">Rekap Kehadiran IKR</h6>
+                                    <h6 class="font-weight-semibold text-lg">Rekap Jadwal Kehadiran</h6>
                                     {{-- <p class="text-sm">See information about all members</p> --}}
                                 </div>
                             </div>
                         </div>
 
                         <div class="card-body px-2 py-2">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered align-items-center mb-0" id="tabelRekapJadwal"
-                                    style="font-size: 12px; border-color:#9ca0a7;">
-                                    <thead class="bg-gray-200">
-                                        <tr>
-                                            <th class="text-secondary text-xs font-weight-semibold">#</th>
-                                            <th class="text-secondary text-xs font-weight-semibold ps-2">Area</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">Bulan</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold">Tahun</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold">Status</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">01</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">02</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">03</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">04</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">05</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">06</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">07</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">08</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">09</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">10</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">11</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">12</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">13</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">14</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">15</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">16</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">17</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">18</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">19</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">20</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">21</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">22</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">23</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">24</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">25</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">26</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">27</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">28</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">29</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">30</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">31</th>
-                                            <th class="text-center text-xs font-weight-semibold">Total</th>
+                            <div class="nav-wrapper position-relative end-0">
+                                <ul class="nav nav-tabs nav-fill p-1" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab"
+                                            href="#DetailTeknisi" data-id="DetailTeknisi" role="tab" aria-controls="DetailTeknisi"
+                                            aria-selected="true">
+                                            Teknisi
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#DetailStaff"
+                                            role="tab" data-id="DetailStaff" aria-selected="true">
+                                            Staff
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab"
+                                            href="#DetailLeader" data-id="DetailLeader" role="tab" aria-controls="DetailLeader"
+                                            aria-selected="false">
+                                            Leader
+                                        </a>
+                                    </li>
 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    </tbody>
-                                </table>
+                                    <li class="nav-item">
+                                        <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab"
+                                            href="#DetailSpv" data-id="DetailSpv" role="tab" aria-controls="DetaliSpv"
+                                            aria-selected="false">
+                                            Supervisor
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
-                            {{-- <div class="border-top py-3 px-3 d-flex align-items-center">
-                                <p class="font-weight-semibold mb-0 text-dark text-sm">Page 1 of 10</p>
-                                <div class="ms-auto">
-                                    <button class="btn btn-sm btn-white mb-0">Previous</button>
-                                    <button class="btn btn-sm btn-white mb-0">Next</button>
+                        </div>
+
+                        <style>
+                            .fw-500 { font-weight: 500; };
+                            .red ( backgound-color: "red");
+                        </style>
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="DetailTeknisi" role="tabpanel" aria-expanded="true">
+
+                                <div class="card-body px-2 py-2">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered align-items-center mb-0" id="tabelRekapJadwalTeknisi"
+                                            style="font-size: 12px; border-color:#9ca0a7;">
+                                            <thead class="bg-gray-200">
+                                                <tr>
+                                                    <th class="text-secondary text-xs font-weight-semibold">#</th>
+                                                    <th class="text-secondary text-xs font-weight-semibold ps-2">Area</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold ">Bulan</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold">Tahun</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold">Status</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">01</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">02</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">03</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">04</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">05</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">06</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">07</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">08</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">09</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">10</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">11</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">12</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">13</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">14</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">15</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">16</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">17</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">18</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">19</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">20</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">21</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">22</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">23</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">24</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">25</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">26</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">27</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">28</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">29</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">30</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">31</th>
+                                                    <th class="text-center text-xs font-weight-semibold">Total</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody style="font-weigth:700">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {{-- <div class="border-top py-3 px-3 d-flex align-items-center">
+                                        <p class="font-weight-semibold mb-0 text-dark text-sm">Page 1 of 10</p>
+                                        <div class="ms-auto">
+                                            <button class="btn btn-sm btn-white mb-0">Previous</button>
+                                            <button class="btn btn-sm btn-white mb-0">Next</button>
+                                        </div>
+                                    </div> --}}
                                 </div>
-                            </div> --}}
+                            </div>
+                        </div>
+
+                        <div class="tab-content">
+                            <div class="tab-pane" id="DetailStaff" role="tabpanel" aria-expanded="true">
+
+                                <div class="card-body px-2 py-2">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered align-items-center mb-0" id="tabelRekapJadwalStaff"
+                                            style="font-size: 12px; border-color:#9ca0a7;">
+                                            <thead class="bg-gray-200">
+                                                <tr>
+                                                    <th class="text-secondary text-xs font-weight-semibold">#</th>
+                                                    <th class="text-secondary text-xs font-weight-semibold ps-2">Area</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold ">Bulan</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold">Tahun</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold">Status</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">01</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">02</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">03</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">04</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">05</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">06</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">07</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">08</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">09</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">10</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">11</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">12</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">13</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">14</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">15</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">16</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">17</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">18</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">19</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">20</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">21</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">22</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">23</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">24</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">25</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">26</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">27</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">28</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">29</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">30</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">31</th>
+                                                    <th class="text-center text-xs font-weight-semibold">Total</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {{-- <div class="border-top py-3 px-3 d-flex align-items-center">
+                                        <p class="font-weight-semibold mb-0 text-dark text-sm">Page 1 of 10</p>
+                                        <div class="ms-auto">
+                                            <button class="btn btn-sm btn-white mb-0">Previous</button>
+                                            <button class="btn btn-sm btn-white mb-0">Next</button>
+                                        </div>
+                                    </div> --}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-content">
+                            <div class="tab-pane" id="DetailLeader" role="tabpanel" aria-expanded="true">
+
+                                <div class="card-body px-2 py-2">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered align-items-center mb-0" id="tabelRekapJadwalLeader"
+                                            style="font-size: 12px; border-color:#9ca0a7;">
+                                            <thead class="bg-gray-200">
+                                                <tr>
+                                                    <th class="text-secondary text-xs font-weight-semibold">#</th>
+                                                    <th class="text-secondary text-xs font-weight-semibold ps-2">Area</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold ">Bulan</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold">Tahun</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold">Status</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">01</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">02</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">03</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">04</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">05</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">06</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">07</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">08</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">09</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">10</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">11</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">12</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">13</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">14</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">15</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">16</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">17</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">18</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">19</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">20</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">21</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">22</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">23</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">24</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">25</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">26</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">27</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">28</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">29</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">30</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">31</th>
+                                                    <th class="text-center text-xs font-weight-semibold">Total</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {{-- <div class="border-top py-3 px-3 d-flex align-items-center">
+                                        <p class="font-weight-semibold mb-0 text-dark text-sm">Page 1 of 10</p>
+                                        <div class="ms-auto">
+                                            <button class="btn btn-sm btn-white mb-0">Previous</button>
+                                            <button class="btn btn-sm btn-white mb-0">Next</button>
+                                        </div>
+                                    </div> --}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-content">
+                            <div class="tab-pane" id="DetailSpv" role="tabpanel" aria-expanded="true">
+
+                                <div class="card-body px-2 py-2">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered align-items-center mb-0" id="tabelRekapJadwalSpv"
+                                            style="font-size: 12px; border-color:#9ca0a7;">
+                                            <thead class="bg-gray-200">
+                                                <tr>
+                                                    <th class="text-secondary text-xs font-weight-semibold">#</th>
+                                                    <th class="text-secondary text-xs font-weight-semibold ps-2">Area</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold ">Bulan</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold">Tahun</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold">Status</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">01</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">02</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">03</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">04</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">05</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">06</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">07</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">08</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">09</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">10</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">11</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">12</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">13</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">14</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">15</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">16</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">17</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">18</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">19</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">20</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">21</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">22</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">23</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">24</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">25</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">26</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">27</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">28</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">29</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">30</th>
+                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">31</th>
+                                                    <th class="text-center text-xs font-weight-semibold">Total</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {{-- <div class="border-top py-3 px-3 d-flex align-items-center">
+                                        <p class="font-weight-semibold mb-0 text-dark text-sm">Page 1 of 10</p>
+                                        <div class="ms-auto">
+                                            <button class="btn btn-sm btn-white mb-0">Previous</button>
+                                            <button class="btn btn-sm btn-white mb-0">Next</button>
+                                        </div>
+                                    </div> --}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>      
+            </div>
 
             <div class="row">
                 <div class="col-12">
@@ -371,7 +527,7 @@
             {{-- <x-app.footer /> --}}
         </div>
 
-        {{-- Modal Tambah Assign Tim --}}
+        {{-- Modal Edit Keharidan Tim --}}
         <div class="modal fade" id="updateStatusHadir" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false"
             data-bs-backdrop="static">
@@ -390,6 +546,13 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="row">
+                                        <div class="col-6 form-group mb-1">
+                                            <span class="text-xs">Tanggal</span>
+                                                <input class="form-control form-control-sm" type="date"
+                                                    value="{{ date('Y-m-d') }}" id="tglProgress" name="tglProgress"
+                                                    style="border-color:#9ca0a7;" required>
+                                        </div>
+
                                         <div class="col form-group mb-1">
                                             <span class="text-xs">Area</span>
                                             <select class="form-control form-control-sm" type="text" id="branch"
@@ -402,14 +565,7 @@
                                                         @endforeach
                                                     @endif
                                             </select>
-                                        </div>
-
-                                        <div class="col-6 form-group mb-1">
-                                            <span class="text-xs">Tanggal</span>
-                                                <input class="form-control form-control-sm" type="date"
-                                                    value="{{ date('Y-m-d') }}" id="tglProgress" name="tglProgress"
-                                                    style="border-color:#9ca0a7;" required>
-                                        </div>
+                                        </div>                                        
                                     </div>
 
                                     <div class="form-group mb-1">
@@ -447,6 +603,7 @@
                                                     <option value="OFF">OFF</option>
                                                     <option value="Cuti">Cuti</option>
                                                     <option value="Sakit">Sakit</option>
+                                                    <option value="Absen">Absen</option>
                                                 </select>
                                             </div>
 
@@ -481,7 +638,7 @@
 
                                     <div class="form-group mb-1">
                                             <input class="form-control form-control-sm" id="fotoPengajuanGD"
-                                                name="fotoPengajuanGD" type="file" style="border-color:#9ca0a7;" required>
+                                                name="fotoPengajuanGD" type="file" style="border-color:#9ca0a7;">
                                     </div>
                                     
                                 </div>
@@ -505,326 +662,108 @@
                 </div>
             </div>
         </div>
-        {{-- End Modal Tambah Assign Tim --}}
+        {{-- End Modal Edit Kehadiran Tim --}}
 
-        {{-- Modal Show Detail Data Tool --}}
-        <div class="modal fade" id="showAssignTim" tabindex="-1" role="dialog"
+        {{-- Modal Detail Keharidan Tim --}}
+        <div class="modal fade" id="detailStatusHadir" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false"
             data-bs-backdrop="static">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Detail Assign Tim</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Status Kehadiran IKR</h5>
                         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
                             aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('updateSignTim') }}" method="post" enctype="multipart/form-data">
-                            @csrf
+                        {{-- <form action="#" method="post" enctype="multipart/form-data">
+                            @csrf --}}
                             <div class="row">
                                 <div class="col">
                                     <div class="row">
+                                        <div class="col-6 form-group mb-1">
+                                            <span class="text-xs">Tanggal</span>
+                                                <input class="form-control form-control-sm" type="date"
+                                                    value="{{ date('Y-m-d') }}" id="tglProgressShow" name="tglProgressShow"
+                                                    style="border-color:#9ca0a7;" readonly>
+                                        </div>
+
                                         <div class="col form-group mb-1">
-                                            <input type="hidden" id="detId" name="detId">
-                                            <span class="text-xs">WO No</span>
-                                            <input class="form-control form-control-sm" type="text" id="noWoShow"
-                                                name="noWoShow" style="border-color:#9ca0a7;">
-                                        </div>
-
-                                        <div class="col-4 form-group mb-1">
-                                            <span class="text-xs">Ticket No</span>
-                                            <input class="form-control form-control-sm" type="text"
-                                                id="ticketNoShow" name="ticketNoShow" style="border-color:#9ca0a7;">
-                                        </div>
-
-
-                                    </div>
-
-
-
-                                    <div class="form-group mb-1">
-                                        <div class="row">
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">WO Type</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="woTypeShow" name="woTypeShow" style="border-color:#9ca0a7;">
-                                            </div>
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Type</span>
-                                                <select class="form-control form-control-sm" type="text"
-                                                    id="jenisWoShow" name="jenisWoShow"
-                                                    style="border-color:#9ca0a7;">
-                                                    <option value="FTTH New Installation">FTTH New Installation
-                                                    </option>
-                                                    <option value="FTTH Maintenance">FTTH Maintenance</option>
-                                                    <option value="Dismantle">Dismantle</option>
-                                                    <option value="FTTX/B New Installation">FTTX/B New Installation
-                                                    </option>
-                                                    <option value="FTTX/B Maintenance">FTTX/B Maintenance</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">WO Date</span>
-                                        <input class="form-control form-control-sm" type="text" id="WoDateShow"
-                                            name="WoDateShow" style="border-color:#9ca0a7;">
-                                    </div>
-
-
-                                    {{-- </div> --}}
-
-                                    {{-- <div class="col"> --}}
-
-                                    <div class="form-group mb-1">
-                                        <div class="row">
-                                            <div class="col-4 form-group mb-1">
-                                                <span class="text-xs">Cust Id</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="custIdShow" name="custIdShow" style="border-color:#9ca0a7;">
-                                            </div>
-
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Cust Name</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="custNameShow" name="custNameShow"
-                                                    style="border-color:#9ca0a7;">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {{-- <div class="form-group mb-1">
-                                        <div class="row">
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Cust Phone</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="custPhone" name="custPhone" style="border-color:#9ca0a7;">
-                                            </div>
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Cust Mobile</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="custMobile" name="custMobile" style="border-color:#9ca0a7;">
-                                            </div>
-                                        </div>
-                                    </div> --}}
-
-                                    <div class="form-group mb-1">
-                                        <div class="row">
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Cust Phone</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="custPhoneShow" name="custPhoneShow"
-                                                    style="border-color:#9ca0a7;">
-                                            </div>
-
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Cust Mobile</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="custMobileShow" name="custMobileShow"
-                                                    style="border-color:#9ca0a7;">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Address</span>
-                                        <textarea class="form-control form-control-sm" type="text" id="custAddressShow" name="custAddressShow"
-                                            style="border-color:#9ca0a7;"></textarea>
-                                    </div>
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Area/Cluster</span>
-                                        <input type="text" class="form-control form-control-sm" type="text"
-                                            id="areaShow" name="areaShow" style="border-color:#9ca0a7;">
+                                            <span class="text-xs">Area</span>
+                                            <input class="form-control form-control-sm" type="text" id="branchShow"
+                                                name="branchShow" style="border-color:#9ca0a7;" readonly>
+                                                
+                                        </div>                                        
                                     </div>
 
                                     <div class="form-group mb-1">
                                         <div class="row">
                                             <div class="col form-group mb-1">
-                                                <span class="text-xs">FAT Code</span>
+                                                <span class="text-xs">NIK Karyawan</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="fatCodeShow" name="fatCodeShow"
-                                                    style="border-color:#9ca0a7;">
+                                                    id="nikKaryawanShow" name="nikKaryawanShow" style="border-color:#9ca0a7;" readonly>
                                             </div>
-                                            <div class="col-4 form-group mb-1">
-                                                <span class="text-xs">Port FAT</span>
+                                            <div class="col form-group mb-1">
+                                                <span class="text-xs">Nama Karyawan</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="portFatShow" name="portFatShow"
-                                                    style="border-color:#9ca0a7;">
+                                                    id="namaKaryawanShow" name="namaKaryawanShow" style="border-color:#9ca0a7;" readonly>
+                                                    
                                             </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        <div class="row">
+                                            <div class="col form-group mb-1">
+                                                <span class="text-xs">Jadwal Karyawan</span>
+                                                <input class="form-control form-control-sm" type="text" id="jadwalBeforeShow"
+                                                    name="jadwalBeforeShow" style="border-color:#9ca0a7;" readonly>
+                                            </div>
+
+                                            <div class="col form-group mb-1">
+                                                <span class="text-xs">Status Kehadiran</span>
+                                                <input class="form-control form-control-sm" type="text" id="statusKehadiranShow"
+                                                    name="statusKehadiranShow" style="border-color:#9ca0a7;" readonly>
+                                                    
+                                            </div>
+
+                                            
                                         </div>
                                     </div>
 
                                     <div class="form-group mb-1">
                                         <span class="text-xs">Remarks</span>
                                         <textarea class="form-control form-control-sm" type="text" id="remarksShow" name="remarksShow"
-                                            style="border-color:#9ca0a7;"></textarea>
+                                            style="border-color:#9ca0a7;" readonly></textarea>
                                     </div>
+
+                                    
 
                                 </div>
 
                                 <div class="col">
 
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Foto Pengajuan Greatday</span>
+                                        {{-- <textarea class="form-control form-control-sm" type="text" id="remarks" name="remarks"
+                                            style="border-color:#9ca0a7;"></textarea> --}}
+                                    </div>
 
-
-
-                                    <div class="col form-group mb-1">
-                                        <span class="text-xs">Branch</span>
-                                        <select class="form-control form-control-sm" type="text" id="branchShow"
-                                            name="branchShow" style="border-color:#9ca0a7;"
-                                            placeholder="Isi Callsign Tim">
-                                            <option value="">Pilih Branch</option>
-                                            @if (isset($branches))
-                                                @foreach ($branches as $b)
-                                                    <option value="{{ $b->id . '|' . $b->nama_branch }}">
-                                                        {{ $b->nama_branch }}
-                                                @endforeach
-                                            @endif
-                                        </select>
+                                    <div class="form-group mb-1 text-center">
+                                            {{-- <span class="text-xs">Foto Konfirmasi Cst</span> --}}
+                                            <img src="{{ asset('assets/img/default-150x150.png') }}"
+                                                id="showgambarPengajuanShow" alt="Card Image"
+                                                style="width:160px;height: 160px;" />
                                     </div>
 
                                     <div class="form-group mb-1">
-                                        <div class="row">
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Tanggal Progress</span>
-                                                <input class="form-control form-control-sm" type="date"
-                                                    value="{{ date('Y-m-d') }}" id="tglProgressShow"
-                                                    name="tglProgressShow" style="border-color:#9ca0a7;">
-                                            </div>
-
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Sesi</span>
-                                                <select class="form-control form-control-sm" type="text"
-                                                    id="sesiShowAdd" name="sesiShowAdd" style="border-color:#9ca0a7;"
-                                                    placeholder="Isi Callsign Tim">
-                                                    <option value="Regular">Regular</option>
-                                                    <option value="Batch 1">Batch 1</option>
-                                                    <option value="Batch 2">Batch 2</option>
-                                                    <option value="Batch 3">Batch 3</option>
-                                                    <option value="Batch 4">Batch 4</option>
-                                                    <option value="Batch 5">Batch 5</option>
-                                                    <option value="Batch 6">Batch 6</option>
-                                                    <option value="Pendingan">Pendingan</option>
-                                                    <option value="Sameday">Sameday</option>
-
-                                                </select>
-                                            </div>
-
-
-
-                                        </div>
+                                            <input class="form-control form-control-sm" id="fotoPengajuanGDShow"
+                                                name="fotoPengajuanGDShow" type="file" style="border-color:#9ca0a7;" disabled>
                                     </div>
-
-                                    <div class="form-group mb-1">
-                                        <div class="row">
-
-
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Lead Callsign</span>
-                                                <select class="form-control form-control-sm" id="LeadCallsignShow"
-                                                    name="LeadCallsignShow" style="border-color:#9ca0a7;" required>
-                                                    <option value="">Pilih Lead Callsign</option>
-                                                    @if (isset($leadCallsign))
-                                                        @foreach ($leadCallsign as $lead)
-                                                            <option
-                                                                value="{{ $lead->lead_call_id . '|' . $lead->lead_callsign }}">
-                                                                {{ $lead->lead_callsign }}
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                            </div>
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Nama Leader</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="leaderShow" name="leaderShow" style="border-color:#9ca0a7;"
-                                                    readonly>
-                                                <input type="hidden" id="leaderidShow" name="leaderidShow" readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <div class="row">
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Slot Time</span>
-                                                <select class="form-control form-control-sm" type="text"
-                                                    id="slotTimeShow" name="slotTimeShow"
-                                                    style="border-color:#9ca0a7;" placeholder="Isi Callsign Tim">
-                                                    <option value="">Pilih Slot Time</option>
-                                                    <option value="09:00">09:00</option>
-                                                    <option value="09:30">09:30</option>
-                                                    <option value="10:00">10:00</option>
-                                                    <option value="10:30">10:30</option>
-                                                    <option value="11:00">11:00</option>
-                                                    <option value="11:30">11:30</option>
-                                                    <option value="12:00">12:00</option>
-                                                    <option value="12:30">12:30</option>
-                                                    <option value="13:00">13:00</option>
-                                                    <option value="13:30">13:30</option>
-                                                    <option value="14:00">14:00</option>
-                                                    <option value="14:30">14:30</option>
-                                                    <option value="15:00">15:00</option>
-                                                    <option value="15:30">15:30</option>
-                                                    <option value="16:00">16:00</option>
-                                                    <option value="16:30">16:30</option>
-                                                    <option value="17:00">17:00</option>
-                                                    <option value="17:30">17:30</option>
-                                                    <option value="18:00">18:00</option>
-                                                    <option value="18:30">18:30</option>
-                                                    <option value="19:00">19:00</option>
-                                                    <option value="19:30">19:30</option>
-                                                    <option value="20:00">20:00</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col form-group mb-1">
-                                                <span class="text-xs">Callsign Tim</span>
-                                                <select class="form-control form-control-sm" id="callsignTimidShow"
-                                                    name="callsignTimidShow" style="border-color:#9ca0a7;">
-                                                    <option value="">Pilih Callsign Tim</option>
-                                                </select>
-                                                <input type="hidden" id="callsignTimShow" name="callsignTimShow">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group mb-1">
-                                            <span class="text-xs">Teknisi 1</span>
-                                            <select class="form-control form-control-sm" id="teknisi1Show"
-                                                name="teknisi1Show" style="border-color:#9ca0a7;">
-                                                <option value="">Teknisi 1</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group mb-1">
-                                            <span class="text-xs">Teknisi 2</span>
-                                            <select class="form-control form-control-sm" id="teknisi2Show"
-                                                name="teknisi2Show" style="border-color:#9ca0a7;">
-                                                <option value="">Teknisi 2</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group mb-1">
-                                            <span class="text-xs">Teknisi 3</span>
-                                            <select class="form-control form-control-sm" id="teknisi3Show"
-                                                name="teknisi3Show" style="border-color:#9ca0a7;">
-                                                <option value="">Teknisi 3</option>
-                                            </select>
-                                        </div>
-                                        {{-- </div> --}}
-                                        {{-- <div class="col"> --}}
-
-
-                                        <div class="form-group mb-1">
-                                            <span class="text-xs">Teknisi 4</span>
-                                            <select class="form-control form-control-sm" id="teknisi4Show"
-                                                name="teknisi4Show" style="border-color:#9ca0a7;">
-                                                <option value="">Teknisi 4</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                                 <hr>
                             </div>
@@ -832,25 +771,18 @@
                             <div class="row">
                                 <div class="row text-center mb-0">
                                     <div class="col">
-                                        <button type="submit"
-                                            class="btn btn-sm btn-dark align-items-center updateAssign"
-                                            id="updateAssign">Edit Data</button>
                                         <button type="button" value="close"
                                             class="btn btn-sm btn-dark align-items-center"
-                                            data-bs-dismiss="modal">Batalkan</button>
+                                            data-bs-dismiss="modal">Kembali</button>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        {{-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> --}}
-                        {{-- <button type="button" class="btn btn-dark">Save changes</button> --}}
+                        {{-- </form> --}}
                     </div>
                 </div>
             </div>
         </div>
-        {{-- End Modal Show Detail Tool --}}
+        {{-- End Modal Detail Kehadiran Tim --}}
 
     </main>
 
@@ -926,8 +858,9 @@
         var stDate;
         var enDate;
         var dtkrywan;
+        var tableJT;
 
-        akses = $('#akses').val();
+        akses = $('#akses').val();        
 
         function toTitleCase(str) {
             return str.replace(
@@ -935,6 +868,53 @@
                 text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
             );
         }
+
+
+        $('#tabelJadwalTim').on('click', 'td', function(e) {
+            //get the initialization options
+            var columns = tableJT.settings().init().columns;
+            //get the index of the clickec cell
+            var colIndex = tableJT.cell(this).index().column;
+            tglClick = columns[colIndex].name;
+
+            $.ajax({
+                url: "{{ route('getDetailStatus') }}",
+                type: "get",
+                data: {
+                    detail: $(this).data('id'),
+                    tglClick: tglClick,
+                    _token: _token
+                },
+                success: function(dtStatus) {
+
+                    if(Object.keys(dtStatus).length > 0) {
+                        $('#detailStatusHadir').modal('show');
+
+                        $('#tglProgressShow').val('');
+                        $('#branchShow').val('');
+                        $('#nikKaryawanShow').val('');
+                        $('#namaKaryawanShow').val('');
+                        $('#jadwalKaryawanShow').val('');
+                        $('#remarksShow').val('');
+                        $('#showgambarPengajuanShow').attr('src',
+                            `/storage/image-jadwal/default-150x150.png`
+                        );
+
+                        $('#tglProgressShow').val(dtStatus.tgl_jadwal);
+                        $('#branchShow').val(dtStatus.branch);
+                        $('#nikKaryawanShow').val(dtStatus.nik_karyawan);
+                        $('#namaKaryawanShow').val(dtStatus.nama_karyawan);
+                        $('#jadwalBeforeShow').val(dtStatus.jadwal_before);
+                        $('#statusKehadiranShow').val(dtStatus.status_jadwal);
+                        $('#remarksShow').val(dtStatus.keterangan);
+                        $('#showgambarPengajuanShow').attr('src',
+                            `/storage/image-jadwal/${dtStatus.foto_lampiran}`
+                        );
+                    }
+                }
+            })
+
+        })
 
         $('.date-range').daterangepicker({
             startDate: moment(),
@@ -951,7 +931,7 @@
         $('#filAssignTim').trigger("click");
 
         function data_jadwalTim() {
-            $('#tabelJadwalTim').DataTable({
+            tableJT = $('#tabelJadwalTim').DataTable({
                 // dom: 'Bftip',
                 layout: {
                     topStart: {
@@ -1015,16 +995,59 @@
                     {
                         data: 'tahun', className: 'text-center'
                     },
-                    {data: 't01'},{data: 't02'},{data: 't03'},{data: 't04'},{data: 't05'},{data: 't06'},{data: 't07'},{data: 't08'},{data: 't09'},{data: 't10'},
-                    {data: 't11'},{data: 't12'},{data: 't13'},{data: 't14'},{data: 't15'},{data: 't16'},{data: 't17'},{data: 't18'},{data: 't19'},{data: 't20'},
-                    {data: 't21'},{data: 't22'},{data: 't23'},{data: 't24'},{data: 't25'},{data: 't26'},{data: 't27'},{data: 't28'},{data: 't29'},{data: 't30'},
-                    {data: 't31'},
+                    {data: 't01', name:'01'},{data: 't02', name:'02'},{data: 't03', name:'03'},{data: 't04', name:'04'},{data: 't05', name:'05'},{data: 't06', name:'06'},{data: 't07', name:'07'},{data: 't08', name:'08'},{data: 't09', name:'09'},{data: 't10', name:'10'},
+                    {data: 't11', name:'11'},{data: 't12', name:'12'},{data: 't13', name:'13'},{data: 't14', name:'14'},{data: 't15', name:'15'},{data: 't16', name:'16'},{data: 't17', name:'17'},{data: 't18', name:'18'},{data: 't19', name:'19'},{data: 't20', name:'20'},
+                    {data: 't21', name:'21'},{data: 't22', name:'22'},{data: 't23', name:'23'},{data: 't24', name:'24'},{data: 't25', name:'25'},{data: 't26', name:'26'},{data: 't27', name:'27'},{data: 't28', name:'28'},{data: 't29', name:'29'},{data: 't30', name:'30'},
+                    {data: 't31', name:'31'},
+                ],
+                columnDefs: [
+                    { targets: [6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36], 
+                            render: function(data, type, row, col, index) {
+                                var color = 'black';
+
+                                if (data == 'ON') {
+                                    color = 'blue';                                    
+                                } 
+                                if (data == 'OFF') {
+                                    color = 'red';                                    
+                                }
+                                if (data == 'Sakit' || data == 'Cuti' || data == 'Absen') {
+                                    color = 'red';
+
+                                }
+                                return '<span style="cursor:pointer; color:' + color + '">' + data + '</span>';
+                            },
+                            'createdCell': function(td, cellData, rowData, row, col) {
+                                // this will give each cell an ID
+                                $(td).attr('data-id', 'jdwlId-' + rowData.dtid +'|'+ cellData +'|'+ rowData.branch +'|'+ rowData.nik_karyawan +'|'+ rowData.bulan +'|'+ rowData.tahun);
+                            }
+                    },
                 ]
             })
         }
 
+        
+
+        $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function(e) {
+            // console.log($(this).data("id"));
+            if($(this).data("id") === "DetailTeknisi") {
+                rekap_jadwal_ikr();
+            }
+            if($(this).data("id") === "DetailStaff") {
+                rekap_jadwal_staff();
+            }
+            if($(this).data("id") === "DetailLeader") {
+                rekap_jadwal_leader();
+            }
+            if($(this).data("id") === "DetailSpv") {
+                rekap_jadwal_spv();
+            }
+            
+        })
+
+
         function rekap_jadwal_ikr() {
-            $('#tabelRekapJadwal').DataTable({
+            $('#tabelRekapJadwalTeknisi').DataTable({
                 // dom: 'Bftip',
                 // layout: {
                 //     topStart: {
@@ -1049,7 +1072,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('getRekapDataJadwal') }}",
+                    url: "{{ route('getRekapDataJadwalTeknisi') }}",
                     type: "get",
                     dataType: "json",
                     data: {
@@ -1085,6 +1108,196 @@
             })
         }
 
+        function rekap_jadwal_staff() {
+
+            $('#tabelRekapJadwalStaff').DataTable({
+                // dom: 'Bftip',
+                // layout: {
+                //     topStart: {
+                //         buttons: ['excel']
+                //     },
+                // },
+                paging: true,
+                orderClasses: false,
+                fixedColumns: true,
+
+                fixedColumns: {
+                    leftColumns: 5,
+                    rightColumns: 1
+                },
+                deferRender: true,
+                scrollCollapse: true,
+                scrollX: true,
+                pageLength: 10,
+                lengthChange: false,
+                bFilter: true,
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('getRekapDataJadwalStaff') }}",
+                    type: "get",
+                    dataType: "json",
+                    data: {
+                        akses: akses,
+                        _token: _token
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_Row_Index',
+                        "className": "text-center",
+                        // orderable: false,
+                        searchable: false,
+                        "width": '20'
+                    },
+                    {data: 'branch'},
+                    {
+                        data: 'bulanname'
+                    },
+                    {
+                        data: 'tahun'
+                    },                    
+                    {
+                        data: 'status'
+                    },
+                    {data: 't01'},{data: 't02'},{data: 't03'},{data: 't04'},{data: 't05'},{data: 't06'},{data: 't07'},{data: 't08'},{data: 't09'},{data: 't10'},
+                    {data: 't11'},{data: 't12'},{data: 't13'},{data: 't14'},{data: 't15'},{data: 't16'},{data: 't17'},{data: 't18'},{data: 't19'},{data: 't20'},
+                    {data: 't21'},{data: 't22'},{data: 't23'},{data: 't24'},{data: 't25'},{data: 't26'},{data: 't27'},{data: 't28'},{data: 't29'},{data: 't30'},
+                    {data: 't31'},
+                    {data: 'total', render: DataTable.render.number()}
+                    
+                ],
+            })
+        }
+
+        function rekap_jadwal_leader() {
+
+            $('#tabelRekapJadwalLeader').DataTable({
+                // dom: 'Bftip',
+                // layout: {
+                //     topStart: {
+                //         buttons: ['excel']
+                //     },
+                // },
+                paging: true,
+                orderClasses: false,
+                fixedColumns: true,
+
+                fixedColumns: {
+                    leftColumns: 5,
+                    rightColumns: 1
+                },
+                deferRender: true,
+                scrollCollapse: true,
+                scrollX: true,
+                pageLength: 10,
+                lengthChange: false,
+                bFilter: true,
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('getRekapDataJadwalLeader') }}",
+                    type: "get",
+                    dataType: "json",
+                    data: {
+                        akses: akses,
+                        _token: _token
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_Row_Index',
+                        "className": "text-center",
+                        // orderable: false,
+                        searchable: false,
+                        "width": '20'
+                    },
+                    {data: 'branch'},
+                    {
+                        data: 'bulanname'
+                    },
+                    {
+                        data: 'tahun'
+                    },                    
+                    {
+                        data: 'status'
+                    },
+                    {data: 't01'},{data: 't02'},{data: 't03'},{data: 't04'},{data: 't05'},{data: 't06'},{data: 't07'},{data: 't08'},{data: 't09'},{data: 't10'},
+                    {data: 't11'},{data: 't12'},{data: 't13'},{data: 't14'},{data: 't15'},{data: 't16'},{data: 't17'},{data: 't18'},{data: 't19'},{data: 't20'},
+                    {data: 't21'},{data: 't22'},{data: 't23'},{data: 't24'},{data: 't25'},{data: 't26'},{data: 't27'},{data: 't28'},{data: 't29'},{data: 't30'},
+                    {data: 't31'},
+                    {data: 'total', render: DataTable.render.number()}
+                    
+                ],
+            })
+
+        }
+
+        function rekap_jadwal_spv() {
+
+            $('#tabelRekapJadwalSpv').DataTable({
+                // dom: 'Bftip',
+                // layout: {
+                //     topStart: {
+                //         buttons: ['excel']
+                //     },
+                // },
+                paging: true,
+                orderClasses: false,
+                fixedColumns: true,
+
+                fixedColumns: {
+                    leftColumns: 5,
+                    rightColumns: 1
+                },
+                deferRender: true,
+                scrollCollapse: true,
+                scrollX: true,
+                pageLength: 10,
+                lengthChange: false,
+                bFilter: true,
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('getRekapDataJadwalSpv') }}",
+                    type: "get",
+                    dataType: "json",
+                    data: {
+                        akses: akses,
+                        _token: _token
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_Row_Index',
+                        "className": "text-center",
+                        // orderable: false,
+                        searchable: false,
+                        "width": '20'
+                    },
+                    {data: 'branch'},
+                    {
+                        data: 'bulanname'
+                    },
+                    {
+                        data: 'tahun'
+                    },                    
+                    {
+                        data: 'status'
+                    },
+                    {data: 't01'},{data: 't02'},{data: 't03'},{data: 't04'},{data: 't05'},{data: 't06'},{data: 't07'},{data: 't08'},{data: 't09'},{data: 't10'},
+                    {data: 't11'},{data: 't12'},{data: 't13'},{data: 't14'},{data: 't15'},{data: 't16'},{data: 't17'},{data: 't18'},{data: 't19'},{data: 't20'},
+                    {data: 't21'},{data: 't22'},{data: 't23'},{data: 't24'},{data: 't25'},{data: 't26'},{data: 't27'},{data: 't28'},{data: 't29'},{data: 't30'},
+                    {data: 't31'},
+                    {data: 'total', render: DataTable.render.number()}
+                    
+                ],
+            })
+        }
+        
         function showDetail_tool(tool) {
             $('#showTim').DataTable({
                 // dom: 'Bftip',
@@ -1158,7 +1371,7 @@
         $(document).on('change', '#branch', function(e) {
             // e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
-            let branch = $('#branch').val();
+            let branch = $(this).val();
             let tgl = $('#tglProgress').val();
             console.log(tgl);
             $.ajax({
@@ -1190,7 +1403,7 @@
             // t.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
             
-            let day = 't' + new Date($('#tglProgress').val()).getDate();
+            let day = 't' + new Date($('#tglProgress').val()).getDate().toString().padStart(2, "0");
             console.log('dy : ', day)
             let kr = dtkrywan.find(o => o.id === Number($(this).val()));
 

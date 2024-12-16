@@ -291,11 +291,21 @@
                                 {{-- </div> --}}
 
                                 <div class="col">
-                                    <span class="text-xs">Foto Serah Terima Teknisi</span>
-                                    <div class="form-group mb-1 text-center">
-                                        <img src="{{ asset('assets/img/default-150x150.png') }}"
-                                            id="showgambarDistribusi" alt="Card Image"
-                                            style="width:200px;height: 200px;" />
+                                    <div class="row">
+
+                                        <div class="col form-group mb-1 text-center">
+                                            <span class="text-xs">Foto Data Tool</span>
+                                            <img src="{{ asset('assets/img/default-150x150.png') }}"
+                                                id="showgambarTool" alt="Card Image"
+                                                style="width:160px;height: 160px;" />
+                                        </div>
+
+                                        <div class="col form-group mb-1 text-center">
+                                            <span class="text-xs">Foto Serah Terima Teknisi</span>
+                                            <img src="{{ asset('assets/img/default-150x150.png') }}"
+                                                id="showgambarDistribusi" alt="Card Image"
+                                                style="width:160px;height: 160px;" />
+                                        </div>
                                     </div>
 
                                     <div class="form-group mb-1">
@@ -516,17 +526,23 @@
                             {{-- </div> --}}
 
                             <div class="col">
-                                <span class="text-xs">Foto Serah Terima Tool</span>
-                                <div class="form-group mb-1 text-center">
-                                    <img src="{{ asset('assets/img/default-150x150.png') }}"
-                                        id="showgambarDistribusiShow" alt="Card Image"
-                                        style="width:200px;height: 200px;" />
-                                </div>
+                                <div class="row">
 
-                                {{-- <div class="form-group mb-1"> --}}
-                                {{-- <input class="form-control form-control-sm" id="fotoToolDistribusi" --}}
-                                {{-- name="fotoToolDistribusi" type="file" style="border-color:#9ca0a7;"> --}}
-                                {{-- </div> --}}
+                                    <div class="col form-group mb-1 text-center">
+                                        <span class="text-xs">Foto Data Tool</span>
+                                        <img src="{{ asset('assets/img/default-150x150.png') }}"
+                                            id="showgambarToolDetailShow" alt="Card Image"
+                                            style="width:160px;height: 160px;" />
+                                    </div>
+
+                                    
+                                    <div class="col form-group mb-1 text-center">
+                                        <span class="text-xs">Foto Serah Terima Tool</span>
+                                        <img src="{{ asset('assets/img/default-150x150.png') }}"
+                                            id="showgambarDistribusiShow" alt="Card Image"
+                                            style="width:160px;height: 160px;" />
+                                    </div>
+                                </div>
 
                                 <div class="form-group mb-1">
                                     {{-- <label class="form-control-label">Nik Karyawan</label> --}}
@@ -778,6 +794,9 @@
 
                     $('#keteranganShow').val(dtDis.keterangan);
 
+                    $('#showgambarToolDetailShow').attr('src',
+                        `/storage/image-tool/${dtDis.foto_barang}`)
+
                     $('#showgambarDistribusiShow').attr('src',
                         `/storage/image-distribusi/${dtDis.foto_distribusi}`)
 
@@ -1028,7 +1047,8 @@
                 url: "{{ route('getSelectTool') }}",
                 type: "get",
                 data: {
-                    _token: _token
+                    _token: _token,
+                    area: $('#areaTim').val(),
                 },
                 success: function(respon) {
 
@@ -1078,7 +1098,7 @@
             $('#kodeAset').val(pilih[7]);
             $('#kodeGA').val(pilih[8]);
             $('#showgambartool').val(pilih[9]);
-            $('#showgambar').attr('src',
+            $('#showgambarTool').attr('src',
                 `/storage/image-tool/${pilih[9]}`)
 
         })

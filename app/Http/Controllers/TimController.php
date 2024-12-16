@@ -34,7 +34,7 @@ class TimController extends Controller
             //     ->leftJoin('branches as b', 'e.branch_id', '=', 'b.id')
             //     ->select('c.*', 'e.nik_karyawan', 'e.nama_karyawan', 'e.posisi', 'e.branch_id', 'b.nama_branch')
             //     ->orderBy('e.branch_id')->get();
-            $datas = DB::table('v_detail_callsign_tot')->get();
+            $datas = DB::table('v_detail_callsign_tot')->orderBy('branch_id')->get();
 
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
@@ -63,6 +63,7 @@ class TimController extends Controller
 
         if ($request->ajax()) {
             $tims = DB::table('v_detail_callsign_tim')
+                ->whereNotNull('callsign_tim')
                 ->orderBy('branch_id')->orderBy('lead_callsign')->orderBy('callsign_tim')->get();
 
             return DataTables::of($tims)
@@ -98,7 +99,7 @@ class TimController extends Controller
         $akses = Auth::user()->name;
 
         $request->validate([
-            'leadCallsign' => ['required', 'unique:Callsign_Leads,lead_callsign'],
+            'leadCallsign' => ['required', 'unique:callsign_leads,lead_callsign'],
             'area' => 'required',
             'namaLeader' => 'required',
         ]);
@@ -242,7 +243,6 @@ class TimController extends Controller
 
     public function getDataLeadCallsign(Request $request)
     {
-        // dd($request->all());
         $datas = DB::table('callsign_leads as c')
             ->leftJoin('employees as e', 'c.leader_id', '=', 'e.nik_karyawan')
             ->leftJoin('branches as b', 'e.branch_id', '=', 'b.id')
@@ -260,13 +260,13 @@ class TimController extends Controller
         $tim = $tim1->merge($tim2)->merge($tim3)->merge($tim4);
 
         $dtTim = Employee::where('branch_id', $branch_id)->whereNotIn('nik_karyawan', $tim)
-            ->whereIn('posisi', ['Installer', 'Maintenance'])
+            ->whereIn('posisi', ['Installer', 'Maintenance','Teknisi'])
             ->get();
 
         return response()->json(['callLead' => $datas, 'tim1' => $dtTim]);
     }
 
-    public function getTeknisi(Request $request)
+    public function getTeknisiTim(Request $request)
     {
         // dd($request->all());
 
@@ -283,7 +283,8 @@ class TimController extends Controller
 
 
         $tim = Employee::where('branch_id', $branch_id)->whereNotIn('nik_karyawan', $tim)
-            ->whereIn('posisi', ['Installer', 'Maintenance'])
+            ->whereIn('posisi', ['Installer', 'Maintenance','Teknisi'])
+            ->where('status_active','Aktif')
             ->orderBy('nama_karyawan')
             ->get();
 
@@ -295,7 +296,7 @@ class TimController extends Controller
         $akses = Auth::user()->name;
 
         $request->validate([
-            'callsignTim' => ['required', 'unique:Callsign_Tims,callsign_tim'],
+            'callsignTim' => ['required', 'unique:callsign_tims,callsign_tim'],
         ]);
 
         CallsignTim::create([

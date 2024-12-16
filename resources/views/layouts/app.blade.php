@@ -20,7 +20,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         @if (config('app.is_demo'))
             <title itemprop="name">
-                Corporate UI Dashboard Laravel by Creative Tim & UPDIVISION
+                IKR Management System
             </title>
             <meta name="twitter:card" content="summary" />
             <meta name="twitter:card" content="summary_large_image">
@@ -117,7 +117,7 @@
 
     </head>
 
-    <body class="g-sidenav-show  bg-gray-100">
+    <body class="g-sidenav-show  bg-gray-200">
         @php
             $topSidenavArray = ['wallet', 'profile'];
             $topSidenavTransparent = ['signin', 'signup'];

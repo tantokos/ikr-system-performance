@@ -257,6 +257,7 @@
                                                 <select class="form-control form-control-sm namaTool"
                                                     id="namaTool" name="namaTool" style="border-color:#9ca0a7;"
                                                     required>
+                                                    <option value="">Pilih Tool</option>
                                                     @if (isset($namaTool))
                                                         @foreach ($namaTool as $nt )
                                                             <option value="{{ $nt->nama_tool }}">{{ $nt->nama_tool}}</option>
@@ -297,7 +298,7 @@
                                             <div class="form-group mb-1">
                                                 <span class="text-xs">Kondisi</span>
                                                 <select class="form-control form-control-sm" id="kondisi"
-                                                    name="kondisi" style="border-color:#9ca0a7;">
+                                                    name="kondisi" style="border-color:#9ca0a7;" required>
                                                     <option value="">Pilih Kondisi</option>
                                                     <option value="Baik">Baik</option>
                                                     <option value="Rusak">Rusak</option>
@@ -307,14 +308,14 @@
                                             <div class="form-group mb-1">
                                                 <span class="text-xs">Kode Aset</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="kodeAset" name="kodeAset" style="border-color:#9ca0a7;"
+                                                    id="kodeAset" name="kodeAset" style="border-color:#9ca0a7;text-transform:uppercase;"
                                                     required>
                                             </div>
 
                                             <div class="form-group mb-1">
                                                 <span class="text-xs">Kode GA</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="kodeGA" name="kodeGA" style="border-color:#9ca0a7;"
+                                                    id="kodeGA" name="kodeGA" style="border-color:#9ca0a7;text-transform:uppercase;"
                                                     required>
                                             </div>
 
@@ -374,8 +375,6 @@
                                                     name="fotoTool" type="file" style="border-color:#9ca0a7;">
                                             </div>
 
-
-
                                         </div>
                                     </div>
 
@@ -431,6 +430,7 @@
                                                 <span class="text-xs">Nama Tool</span>
                                                 <select class="form-control form-control-sm"
                                                     id="namaToolShow" name="namaToolShow" style="border-color:#9ca0a7;">
+                                                    <option value="">Pilih Tool</option>
                                                     @if (isset($namaTool))
                                                         @foreach ($namaTool as $nt )
                                                             <option value="{{ $nt->nama_tool }}">{{ $nt->nama_tool}}</option>
@@ -482,13 +482,13 @@
                                                 <span class="text-xs">Kode Aset</span>
                                                 <input class="form-control form-control-sm" type="text"
                                                     id="kodeAsetShow" name="kodeAsetShow"
-                                                    style="border-color:#9ca0a7;">
+                                                    style="border-color:#9ca0a7;text-transform:uppercase;">
                                             </div>
 
                                             <div class="form-group mb-1">
                                                 <span class="text-xs">Kode GA</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="kodeGAShow" name="kodeGAShow" style="border-color:#9ca0a7;">
+                                                    id="kodeGAShow" name="kodeGAShow" style="border-color:#9ca0a7;text-transform:uppercase;">
                                             </div>
 
                                         </div>
@@ -764,13 +764,13 @@
                                 <div class="form-group mb-1">
                                     <span class="text-xs">Kode Aset</span>
                                     <input class="form-control form-control-sm" type="text" id="kodeAsetShowDis"
-                                        name="kodeAsetShowDis" style="border-color:#9ca0a7;" readonly>
+                                        name="kodeAsetShowDis" style="border-color:#9ca0a7;text-transform:uppercase;" readonly>
                                 </div>
 
                                 <div class="form-group mb-1">
                                     <span class="text-xs">Kode GA</span>
                                     <input class="form-control form-control-sm" type="text" id="kodeGAShowDis"
-                                        name="kodeGAShowDis" style="border-color:#9ca0a7;" readonly>
+                                        name="kodeGAShowDis" style="border-color:#9ca0a7;text-transform:uppercase;" readonly>
                                 </div>
 
                             </div>
@@ -932,12 +932,12 @@
                                         <div class="col">
                                             <span class="text-xs">Kode Aset</span>
                                             <input class="form-control form-control-sm" type="text" id="kodeAsetGAShow"
-                                                name="kodeAsetGAShow" style="border-color:#9ca0a7;" readonly>
+                                                name="kodeAsetGAShow" style="border-color:#9ca0a7;text-transform:uppercase;" readonly>
                                         </div>
                                         <div class="col">
                                             <span class="text-xs">Kode GA</span>
                                             <input class="form-control form-control-sm" type="text" id="kodeGAGAShow"
-                                                name="kodeGAGAShow" style="border-color:#9ca0a7;" readonly>
+                                                name="kodeGAGAShow" style="border-color:#9ca0a7;text-transform:uppercase;" readonly>
                                         </div>
                                     </div>
 
@@ -1014,8 +1014,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('simpanApproval')}}" method="post" enctype="multipart/form-data">
-                            @csrf
+                        {{-- <form action="#" enctype="multipart/form-data"> --}}
+                            {{-- @csrf --}}
                             <div class="row">
                                 <div class="col">
                                     <div class="row">
@@ -1080,13 +1080,13 @@
                                                 <span class="text-xs">Kode Aset</span>
                                                 <input class="form-control form-control-sm" type="text"
                                                     id="kodeAsetApp1" name="kodeAsetApp1"
-                                                    style="border-color:#9ca0a7;" readonly>
+                                                    style="border-color:#9ca0a7;text-transform:uppercase;" readonly>
                                             </div>
 
                                             <div class="form-group mb-1">
                                                 <span class="text-xs">Kode GA</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="kodeGAApp1" name="kodeGAApp1" style="border-color:#9ca0a7;"
+                                                    id="kodeGAApp1" name="kodeGAApp1" style="border-color:#9ca0a7;text-transform:uppercase;"
                                                     readonly>
                                             </div>
 
@@ -1167,15 +1167,15 @@
                                         </div>
                                         <div class="col">
                                             <span class="text-xs">Tanggal</span>
-                                            <input class="form-control form-control-sm" type="date"
+                                            <input class="form-control form-control-sm" type="date" value="{{ date('Y-m-d') }}"
                                                 id="tglApp1" name="tglApp1" style="border-color:#9ca0a7;" required>
                                         </div>
                                         <div class="col">
                                             <span class="text-xs">Status</span>
                                             <select class="form-control form-control-sm" type="text"
                                                 id="statusApp1" name="statusApp1" style="border-color:#9ca0a7;" required>
-                                                <option value="">Pilih Status</option>
-                                                <option value="Approved">Approved</option>
+                                                {{-- <option value="">Pilih Status</option> --}}
+                                                <option value="Approved" selected>Approved</option>
                                                 <option value="Reject">Reject</option>
                                             </select>
                                         </div>
@@ -1191,14 +1191,14 @@
                                 <div class="col mb-0">
                                     {{-- <button type="submit" class="btn btn-sm btn-dark align-items-center showSimpan"
                                         id="showSimpan">Simpan Data</button> --}}
-                                    {{-- @if ($loginApp1->email == $login->email ) --}}
+                                    @if ($loginApp1->email == $login->email )
                                             
-                                        <button type="submit" class="btn btn-sm btn-dark align-items-center mb-0"
+                                        <button type="button" class="btn btn-sm btn-dark align-items-center mb-0"
                                         id="action1" name="action" value="Approve1">Simpan Persetujuan 1</button>
-                                    {{-- @else --}}
-                                        {{-- <button type="submit" class="btn btn-sm btn-secondary align-items-center" disabled>
-                                        Simpan Approval</button> --}}
-                                    {{-- @endif --}}
+                                    @else
+                                        <button type="button" class="btn btn-sm btn-secondary align-items-center" disabled>
+                                        Simpan Persetujuan 1</button>
+                                    @endif
                                     
                                 </div>
                             </div>
@@ -1236,7 +1236,7 @@
                                         data-bs-dismiss="modal">Kembali</button>
                                 </div>
                             </div>
-                        </form>
+                        {{-- </form> --}}
                     </div>
                     {{-- <div class="modal-footer"> --}}
                     {{-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> --}}
@@ -1260,8 +1260,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('simpanApproval')}}" method="post" enctype="multipart/form-data">
-                            @csrf
+                        {{-- <form action="{{ route('simpanApproval')}}" method="post" enctype="multipart/form-data"> --}}
+                            {{-- @csrf --}}
                             <div class="row">
                                 <div class="col">
                                     <div class="row">
@@ -1326,13 +1326,13 @@
                                                 <span class="text-xs">Kode Aset</span>
                                                 <input class="form-control form-control-sm" type="text"
                                                     id="kodeAsetApp2" name="kodeAsetApp2"
-                                                    style="border-color:#9ca0a7;" readonly>
+                                                    style="border-color:#9ca0a7;text-transform:uppercase;" readonly>
                                             </div>
 
                                             <div class="form-group mb-1">
                                                 <span class="text-xs">Kode GA</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="kodeGAApp2" name="kodeGAApp2" style="border-color:#9ca0a7;"
+                                                    id="kodeGAApp2" name="kodeGAApp2" style="border-color:#9ca0a7;text-transform:uppercase;"
                                                     readonly>
                                             </div>
 
@@ -1413,15 +1413,15 @@
                                         </div>
                                         <div class="col">
                                             <span class="text-xs">Tanggal</span>
-                                            <input class="form-control form-control-sm" type="date"
+                                            <input class="form-control form-control-sm" type="date" value="{{ date('Y-m-d') }}"
                                                 id="tglApp2" name="tglApp2" style="border-color:#9ca0a7;" required>
                                         </div>
                                         <div class="col">
                                             <span class="text-xs">Status</span>
                                             <select class="form-control form-control-sm" type="text"
                                                 id="statusApp2" name="statusApp2" style="border-color:#9ca0a7;" required>
-                                                <option value="">Pilih Status</option>
-                                                <option value="Approved">Approved</option>
+                                                {{-- <option value="">Pilih Status</option> --}}
+                                                <option value="Approved" selected>Approved</option>
                                                 <option value="Reject">Reject</option>
                                             </select>
                                         </div>
@@ -1437,14 +1437,14 @@
                                 <div class="col mb-0">
                                     {{-- <button type="submit" class="btn btn-sm btn-dark align-items-center showSimpan"
                                         id="showSimpan">Simpan Data</button> --}}
-                                    {{-- @if ($loginApp1->email == $login->email ) --}}
+                                    @if ($loginApp2->email == $login->email )
                                             
-                                        <button type="submit" class="btn btn-sm btn-dark align-items-center mb-0"
+                                        <button type="button" class="btn btn-sm btn-dark align-items-center mb-0"
                                         id="action2" name="action" value="Approve2">Simpan Persetujuan 2</button>
-                                    {{-- @else --}}
-                                        {{-- <button type="submit" class="btn btn-sm btn-secondary align-items-center" disabled>
-                                        Simpan Approval</button> --}}
-                                    {{-- @endif --}}
+                                    @else
+                                        <button type="button" class="btn btn-sm btn-secondary align-items-center" disabled>
+                                            Simpan Persetujuan 2</button>
+                                    @endif
                                     
                                 </div>
                             </div>
@@ -1482,7 +1482,7 @@
                                         data-bs-dismiss="modal">Kembali</button>
                                 </div>
                             </div>
-                        </form>
+                        {{-- </form> --}}
                     </div>
                     {{-- <div class="modal-footer"> --}}
                     {{-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> --}}
@@ -1506,7 +1506,7 @@
                         
                     </div>
                     <style>
-                        .tableFixHead          { overflow-y: auto; max-height: 300px; }
+                        .tableFixHead          { overflow-y: auto; max-height: 400px; }
                         .tableFixHead thead th {position: sticky;  top: 0; }
                         .tableFixHead th { background: #495057; }
 
@@ -1701,7 +1701,11 @@
                 listToolData = detailRkp.listTool;
 
                 click = did.split("|");
-                subtit = "Posisi Tool " + click[0] + " - Kondisi " + click[1];
+                if(click[1] === "Subtotal") {
+                    subtit = "Posisi Tool " + click[0];
+                } else {
+                    subtit = "Posisi Tool " + click[0] + " - Kondisi " + click[1];
+                }
 
                 $('#bodyBranchTool').find('tr').remove();
                 $('#bodyToolName').find('tr').remove();
@@ -2052,22 +2056,50 @@
                     trusak = 0;
                     thilang = 0;
                     ttot = 0;
+
+                    bdRekapToolDs = "";
+                    stotalDs = [];
+                    tbaikDs = 0;
+                    trusakDs = 0;
+                    thilangDs = 0;
+                    ttotDs = 0;
+
                     for(p=0; p<dtRekap.length; p++ ){
 
-                        stotal[p] = 0;
-                        stotal[p] = Number(dtRekap[p].baik) + Number(dtRekap[p].rusak) +Number(dtRekap[p].hilang);
-                        tbaik += Number(dtRekap[p].baik); 
-                        trusak += Number(dtRekap[p].rusak);
-                        thilang += Number(dtRekap[p].hilang);  
-                        ttot += stotal[p];
-                        bdRekapTool = bdRekapTool + `
-                            <tr>
-                                <td style="font-weight:500">${dtRekap[p].posisiTool}</td>
-                                <td class="text-center" style="font-weight:500"><span id="${dtRekap[p].posisiTool + "|Baik|" + filterAll}" onclick="detRekap_click(this.id)" style="cursor:pointer">${dtRekap[p].baik.toLocaleString()}</span></td>
-                                <td class="text-center" style="font-weight:500"><span id="${dtRekap[p].posisiTool + "|Rusak|" + filterAll}" onclick="detRekap_click(this.id)" style="cursor:pointer">${dtRekap[p].rusak.toLocaleString()}</span></td>
-                                <td class="text-center" style="font-weight:500"><span id="${dtRekap[p].posisiTool + "|Hilang|" + filterAll}" onclick="detRekap_click(this.id)" style="cursor:pointer">${dtRekap[p].hilang.toLocaleString()}</span></td>
-                                <td class="text-center" style="font-weight:500"><span style="cursor:pointer">${stotal[p].toLocaleString()}</span></td>
-                            </tr>`;
+                        if(dtRekap[p].posisiTool != "Disposal") {
+                            stotal[p] = 0;
+                            stotal[p] = Number(dtRekap[p].baik) + Number(dtRekap[p].rusak) +Number(dtRekap[p].hilang);
+                            tbaik += Number(dtRekap[p].baik); 
+                            trusak += Number(dtRekap[p].rusak);
+                            thilang += Number(dtRekap[p].hilang);  
+                            ttot += stotal[p];
+                            bdRekapTool = bdRekapTool + `
+                                <tr>
+                                    <td style="font-weight:500">${dtRekap[p].posisiTool}</td>
+                                    <td class="text-center" style="font-weight:500"><span id="${dtRekap[p].posisiTool + "|Baik|" + filterAll}" onclick="detRekap_click(this.id)" style="cursor:pointer">${dtRekap[p].baik.toLocaleString()}</span></td>
+                                    <td class="text-center" style="font-weight:500"><span id="${dtRekap[p].posisiTool + "|Rusak|" + filterAll}" onclick="detRekap_click(this.id)" style="cursor:pointer">${dtRekap[p].rusak.toLocaleString()}</span></td>
+                                    <td class="text-center" style="font-weight:500"><span id="${dtRekap[p].posisiTool + "|Hilang|" + filterAll}" onclick="detRekap_click(this.id)" style="cursor:pointer">${dtRekap[p].hilang.toLocaleString()}</span></td>
+                                    <td class="text-center" style="font-weight:500"><span id="${dtRekap[p].posisiTool + "|Subtotal|" + filterAll}" onclick="detRekap_click(this.id)" style="cursor:pointer">${stotal[p].toLocaleString()}</span></td>
+                                </tr>`;
+                        }
+
+                        if(dtRekap[p].posisiTool === "Disposal") {
+                            stotalDs[p] = 0;
+                            stotalDs[p] = Number(dtRekap[p].baik) + Number(dtRekap[p].rusak) +Number(dtRekap[p].hilang);
+                            tbaikDs += Number(dtRekap[p].baik); 
+                            trusakDs += Number(dtRekap[p].rusak);
+                            thilangDs += Number(dtRekap[p].hilang);  
+                            ttotDs += stotal[p];
+                            bdRekapToolDs = bdRekapToolDs + `
+                                <tr class="bg-gray-600">
+                                    <td class="text-white" style="font-weight:500">${dtRekap[p].posisiTool}</td>
+                                    <td class="text-center text-white" style="font-weight:500"><span id="${dtRekap[p].posisiTool + "|Baik|" + filterAll}" onclick="detRekap_click(this.id)" style="cursor:pointer">${dtRekap[p].baik.toLocaleString()}</span></td>
+                                    <td class="text-center text-white" style="font-weight:500"><span id="${dtRekap[p].posisiTool + "|Rusak|" + filterAll}" onclick="detRekap_click(this.id)" style="cursor:pointer">${dtRekap[p].rusak.toLocaleString()}</span></td>
+                                    <td class="text-center text-white" style="font-weight:500"><span id="${dtRekap[p].posisiTool + "|Hilang|" + filterAll}" onclick="detRekap_click(this.id)" style="cursor:pointer">${dtRekap[p].hilang.toLocaleString()}</span></td>
+                                    <td class="text-center text-white" style="font-weight:500"><span id="${dtRekap[p].posisiTool + "|Subtotal|" + filterAll}" onclick="detRekap_click(this.id)" style="cursor:pointer">${stotalDs[p].toLocaleString()}</span></td>
+                                </tr>`;
+                        }
+                        
                     }
 
                     bdRekapTool = bdRekapTool + `
@@ -2085,17 +2117,9 @@
                             <td class="text-center" style="font-weight:500"></td>
                             <td class="text-center" style="font-weight:500"></td>
                             <td class="text-center" style="font-weight:500"></td>
-                        </tr>
-                        
-                        <tr class="bg-gray-600 text-white">
-                            <td style="font-weight:500">Disposal Tool</td>
-                            <td class="text-center" style="font-weight:500"><span style="cursor:pointer">0</span></td>
-                            <td class="text-center" style="font-weight:500"><span style="cursor:pointer">0</span></td>
-                            <td class="text-center" style="font-weight:500"><span style="cursor:pointer">0</span></td>
-                            <td class="text-center" style="font-weight:500"><span style="cursor:pointer">0</span></td>
                         </tr>`;
 
-                    $('#bodyRekapTool').append(bdRekapTool);
+                    $('#bodyRekapTool').append(bdRekapTool + bdRekapToolDs);
 
                     
                 }
@@ -2227,6 +2251,98 @@
                         
                         `);
                     })
+                }
+            })
+        })
+
+        $(document).on('click', '#action1', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: "{{ route('simpanApproval') }}",
+                type: "get",
+                data: {
+                    _token: _token,
+                    action: $(this).val(),
+                    namaToolApp1Id: $('#namaToolApp1Id').val(),
+                    tglApp1: $('#tglApp1').val(),
+                    statusApp1: $('#statusApp1').val(),
+                    keteranganApp1: $('#keteranganApp1').val(),
+                },
+                success: function(resApp1) {
+
+                    if(resApp1=="success"){
+                        $('#ShowApp1').modal('hide');
+
+                        Swal.fire({
+                            icon: "success",
+                            title: "Berhasil",
+                            text: "Berhasil update Persetujuan 1",
+                            showConfirmButton: true,
+                            // timer: 2000
+                        });
+
+                        $('#tabelTool').DataTable().ajax.reload();
+                    } else {
+                        $('#ShowApp1').modal('hide');
+
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal",
+                            text: resApp1,
+                            showConfirmButton: true,
+                            // timer: 2000
+                        });
+
+                        $('#tabelTool').DataTable().ajax.reload();
+                    }
+                    
+                }
+            })
+        })
+
+        $(document).on('click', '#action2', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: "{{ route('simpanApproval') }}",
+                type: "get",
+                data: {
+                    _token: _token,
+                    action: $(this).val(),
+                    namaToolApp2Id: $('#namaToolApp2Id').val(),
+                    tglApp2: $('#tglApp2').val(),
+                    statusApp2: $('#statusApp2').val(),
+                    keteranganApp2: $('#keteranganApp2').val(),
+                },
+                success: function(resApp2) {
+
+                    if(resApp2=="success"){
+                        $('#ShowApp2').modal('hide');
+
+                        Swal.fire({
+                            icon: "success",
+                            title: "Berhasil",
+                            text: "Berhasil update Persetujuan 2",
+                            showConfirmButton: true,
+                            // timer: 2000
+                        });
+
+                        $('#tabelTool').DataTable().ajax.reload();
+                    } else {
+                        $('#ShowApp2').modal('hide');
+
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal",
+                            text: resApp2,
+                            showConfirmButton: true,
+                            // timer: 2000
+                        });
+
+                        $('#tabelTool').DataTable().ajax.reload();
+                    }
+                    
                 }
             })
         })
@@ -2539,8 +2655,8 @@
                     $('#kodeGAApp1').val('')
                     $('#showgambarApp1').val('')
                     $('#fotoToolApp1').val('')
-                    $('#tglApp1').val('')
-                    $('#statusApp1').val('')
+                    // $('#tglApp1').val('')
+                    // $('#statusApp1').val('')
                     $('#keteranganApp1').val('')
 
                     $('#namaToolApp1Id').val(respon.id)
@@ -2659,8 +2775,8 @@
                     $('#kodeGAApp2').val('')
                     $('#showgambarApp2').val('')
                     $('#fotoToolApp2').val('')
-                    $('#tglApp2').val('')
-                    $('#statusApp2').val('')
+                    // $('#tglApp2').val('')
+                    // $('#statusApp2').val('')
                     $('#keteranganApp2').val('')
 
                     $('#namaToolApp2Id').val(respon.id)

@@ -140,6 +140,10 @@
                                         <dd class="col-sm-8">
                                             <small>{{ $karyawan->no_npwp ?: '-' }}</small>
                                         </dd>
+                                        <dt class="col-sm-4"><small> Seragam</small></dt>
+                                        <dd class="col-sm-8">
+                                            <small>{{ $karyawan->seragam1 ? $karyawan->seragam1 . " - " . $karyawan->seragam2 . " - " . $karyawan->seragam3 : '-' }}</small>
+                                        </dd>
                                         <dt class="col-sm-4"><small> Tgl Pencatatan Data</small></dt>
                                         <dd class="col-sm-8">
                                             <small>{{ $karyawan->created_at ?: '-' }}</small>
@@ -316,10 +320,10 @@
                                         <div class="col">
 
                                             <dl class="dl-horizontal row">
-                                                <dt class="col-sm-4  text-sm">Nama</dt>
+                                                <dt class="col-sm-4  text-sm">Nama Pasangan</dt>
                                                 <dd class="col-sm-8 text-sm">{{ $karyawan->nama_kel ?: '-' }}
                                                 </dd>
-                                                <dt class="col-sm-4 text-sm">Status</dt>
+                                                <dt class="col-sm-4 text-sm">Status Pasangan</dt>
                                                 <dd class="col-sm-8 text-sm">{{ $karyawan->status_kel ?: '-' }}
                                                 </dd>
 
@@ -341,18 +345,18 @@
                                         <div class="col">
 
                                             <dl class="dl-horizontal row">
-                                                <dt class="col-sm-4  text-sm">Anak 1</dt>
+                                                <dt class="col-sm-4  text-sm">Nama Anak 1</dt>
                                                 <dd class="col-sm-8 text-sm">{{ $karyawan->anak1 ?: '-' }}
                                                 </dd>
-                                                <dt class="col-sm-4 text-sm">Anak 2</dt>
+                                                <dt class="col-sm-4 text-sm">Nama Anak 2</dt>
                                                 <dd class="col-sm-8 text-sm">{{ $karyawan->anak2 ?: '-' }}
                                                 </dd>
 
-                                                <dt class="col-sm-4 text-sm">Anak 3</dt>
+                                                <dt class="col-sm-4 text-sm">Nama Anak 3</dt>
                                                 <dd class="col-sm-8 text-sm">
                                                     {{ $karyawan->anak3 ?: '-' }}</dd>
 
-                                                <dt class="col-sm-4 text-sm">Anak 4</dt>
+                                                <dt class="col-sm-4 text-sm">Nama Anak 4</dt>
                                                 <dd class="col-sm-8 text-sm">
                                                     {{ $karyawan->anak4 ?: '-' }}</dd>
                                             </dl>
@@ -586,7 +590,8 @@
                                                         <span class="text-xs">Divisi</span>
                                                         <select class="form-control form-control-sm" id="divisi"
                                                             name="divisi" style="border-color:#9ca0a7;">
-                                                            <option value="IKR">IKR</option>
+                                                            <option value="IKR Operation" {{ $karyawan->divisi == 'IKR Operation' ? 'selected' : '' }}>IKR Operation</option>
+                                                            <option value="IKR Support" {{ $karyawan->divisi == 'IKR Support' ? 'selected' : '' }}>IKR Support</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -602,15 +607,6 @@
                                                             <option value="FTTX/FTTB"
                                                                 {{ $karyawan->departement == 'FTTX/FTTB' ? 'selected' : '' }}>
                                                                 FTTX/FTTB</option>
-                                                            <option value="Dokumen Kontrol"
-                                                                {{ $karyawan->departement == 'Dokumen Kontrol' ? 'selected' : '' }}>
-                                                                Dokumen Kontrol</option>
-                                                            <option value="Traffic"
-                                                                {{ $karyawan->departement == 'Traffic' ? 'selected' : '' }}>
-                                                                Traffic</option>
-                                                            <option value="System IKR"
-                                                                {{ $karyawan->departement == 'System IKR' ? 'selected' : '' }}>
-                                                                System IKR</option>
                                                         </select>
                                                     </div>
 
@@ -618,33 +614,40 @@
                                                         <span class="text-xs">Posisi</span>
                                                         <select class="form-control form-control-sm" id="posisi"
                                                             name="posisi" style="border-color:#9ca0a7;">
-                                                            <option value="Installer"
-                                                                {{ $karyawan->posisi == 'Installer' ? 'selected' : '' }}>
-                                                                Installer</option>
-                                                            <option value="Maintenance"
-                                                                {{ $karyawan->posisi == 'Maintenance' ? 'selected' : '' }}>
-                                                                Maintenance</option>
-                                                            <option value="Leader Instalasi FTTH"
-                                                                {{ $karyawan->posisi == 'Leader Instalasi FTTH' ? 'selected' : '' }}>
-                                                                Leader Instalasi FTTH
+                                                            <option value="Operation Manager"
+                                                                {{ $karyawan->posisi == 'Operation Manager' ? 'selected' : '' }}>
+                                                                Operation Manager</option>
+                                                            <option value="IKR Support Manager"
+                                                                {{ $karyawan->posisi == 'IKR Support Manager' ? 'selected' : '' }}>
+                                                                IKR Support Manager</option>
+                                                            <option value="Assistant Manager"
+                                                                {{ $karyawan->posisi == 'Assistant Manager' ? 'selected' : '' }}>
+                                                                Assistant Manager
                                                             </option>
-                                                            <option value="Leader Maintenance FTTH"
-                                                                {{ $karyawan->posisi == 'Leader Maintenance FTTH' ? 'selected' : '' }}>
-                                                                Leader Maintenance
-                                                                FTTH
+                                                            <option value="Supervisor Operation"
+                                                                {{ $karyawan->posisi == 'Supervisor Operation' ? 'selected' : '' }}>
+                                                                Supervisor Operation
                                                             </option>
-                                                            <option value="Leader FTTX/FTTB"
-                                                                {{ $karyawan->posisi == 'Leader FTTX/FTTB' ? 'selected' : '' }}>
-                                                                Leader FTTX/FTTB</option>
-                                                            <option value="Supervisor"
-                                                                {{ $karyawan->posisi == 'Supervisor' ? 'selected' : '' }}>
-                                                                Supervisor</option>
-                                                            <option value="Staff"
-                                                                {{ $karyawan->posisi == 'Staff' ? 'selected' : '' }}>
-                                                                Staff</option>
-                                                            <option value="Ast. Manager"
-                                                                {{ $karyawan->posisi == 'Ast. Manager' ? 'selected' : '' }}>
-                                                                Ast. Manager</option>
+                                                            <option value="Supervisor Operation Regional"
+                                                                {{ $karyawan->posisi == 'Supervisor Operation Regional' ? 'selected' : '' }}>
+                                                                Supervisor Operation Regional</option>
+                                                            <option value="Supervisor Traffic"
+                                                                {{ $karyawan->posisi == 'Supervisor Traffic' ? 'selected' : '' }}>
+                                                                Supervisor Traffic</option>
+                                                            <option value="Supervisor IT Support"
+                                                                {{ $karyawan->posisi == 'Supervisor IT Support' ? 'selected' : '' }}>
+                                                                Supervisor IT Support</option>
+                                                            <option value="Leader"
+                                                                {{ $karyawan->posisi == 'Leader' ? 'selected' : '' }}>Leader</option>
+                                                            <option value="Staff Document Control"
+                                                                {{ $karyawan->posisi == 'Staff Document Control' ? 'selected' : '' }}>
+                                                                Staff Document Control</option>
+                                                            <option value="Staff Traffic"
+                                                                {{ $karyawan->posisi == 'Staff Traffic' ? 'selected' : '' }}>Staff Traffic</option>
+                                                            <option value="Staff IT Support"
+                                                                {{ $karyawan->posisi == 'Staff IT Support' ? 'selected' : '' }}>Staff IT Support</option>
+                                                            <option value="Teknisi"
+                                                                {{ $karyawan->posisi == 'Teknisi' ? 'selected' : '' }}>Teknisi</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -697,34 +700,104 @@
                                                 </div>
 
                                                 <div class="form-group mb-1">
-                                                    <span class="text-xs">Jenis Kelamin</span>
-                                                    <select class="form-control form-control-sm" id="jenisKelamin"
-                                                        name="jenisKelamin" style="border-color:#9ca0a7;">
-                                                        <option value="Laki-laki"
-                                                            {{ $karyawan->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>
-                                                            Laki-laki</option>
-                                                        <option value="Perempuan"
-                                                            {{ $karyawan->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>
-                                                            Perempuan</option>
-                                                    </select>
+                                                    <div class="col">
+                                                        <div class="form-group mb-1">
+                                                            <span class="text-xs">Kewarganegaraan</span>
+                                                            <input class="form-control form-control-sm" id="kewarganegaraan"
+                                                                name="kewarganegaraan" style="border-color:#9ca0a7;"
+                                                                value="{{ $karyawan->kewarganegaraan }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <span class="text-xs">Jenis Kelamin</span>
+                                                        <select class="form-control form-control-sm" id="jenisKelamin"
+                                                            name="jenisKelamin" style="border-color:#9ca0a7;">
+                                                            <option value="Laki-laki"
+                                                                {{ $karyawan->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>
+                                                                Laki-laki</option>
+                                                            <option value="Perempuan"
+                                                                {{ $karyawan->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>
+                                                                Perempuan</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
 
-                                                <div class="form-group mb-1">
-                                                    <span class="text-xs">Kewarganegaraan</span>
-                                                    <input class="form-control form-control-sm" id="kewarganegaraan"
-                                                        name="kewarganegaraan" style="border-color:#9ca0a7;"
-                                                        value="{{ $karyawan->kewarganegaraan }}">
+                                                <div class="row form-group mb-1">
+                                                    <div class="col">
+                                                        <label class="text-xs">Seragam 1</label>
+                                                        <div class="col">
+                                                            <input class="form-check-input" type="radio" value="Baik" name="seragam1" id="seragam1_1"
+                                                            {{ $karyawan->seragam1 == "Baik" ? "checked" : ""}}>
+                                                            <span class="text-xs">Baik</span>
+                                                        </div>
+
+                                                        <div class="col">
+                                                            <input class="form-check-input" type="radio" value="Rusak" name="seragam1" id="seragam1_2"
+                                                            {{ $karyawan->seragam1 == "Rusak" ? "checked" : ""}}>
+                                                            <span class="text-xs">Rusak</span>
+                                                        </div>
+
+                                                        <div class="col">
+                                                            <input class="form-check-input" type="radio" value="Belum Dapat" name="seragam1" id="seragam1_3" 
+                                                            {{ $karyawan->seragam1 == "Belum Dapat" ? "checked" : ""}}>
+                                                            <span class="text-xs">Belum Dapat</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col">
+                                                        <label class="text-xs">Seragam 2</label>
+                                                        <div class="col">
+                                                            <input class="form-check-input" type="radio" value="Baik" name="seragam2" id="seragam2_1"
+                                                            {{ $karyawan->seragam2 == "Baik" ? "checked" : ""}}>
+                                                            <span class="text-xs">Baik</span>
+                                                        </div>
+
+                                                        <div class="col">
+                                                            <input class="form-check-input" type="radio" value="Rusak" name="seragam2" id="seragam2_2"
+                                                            {{ $karyawan->seragam2 == "Rusak" ? "checked" : ""}}>
+                                                            <span class="text-xs">Rusak</span>
+                                                        </div>
+                                                        
+                                                        <div class="col">
+                                                            <input class="form-check-input" type="radio" value="Belum Dapat" name="seragam2" id="seragam2_3"
+                                                            {{ $karyawan->seragam1 == "Belum Dapat" ? "checked" : ""}}>
+                                                            <span class="text-xs">Belum Dapat</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col">
+                                                        <label class="text-xs">Seragam 3</label>
+                                                        <div class="col">
+                                                            <input class="form-check-input" type="radio" value="Baik" name="seragam3" id="seragam3_1"
+                                                            {{ $karyawan->seragam3 == "Baik" ? "checked" : ""}}>
+                                                            <span class="text-xs">Baik</span>
+                                                        </div>
+
+                                                        <div class="col">
+                                                            <input class="form-check-input" type="radio" value="Rusak" name="seragam3" id="seragam3_2"
+                                                            {{ $karyawan->seragam3 == "Rusak" ? "checked" : ""}}>
+                                                            <span class="text-xs">Rusak</span>
+                                                        </div>
+                                                        
+                                                        <div class="col">
+                                                            <input class="form-check-input" type="radio" value="Belum Dapat" name="seragam3" id="seragam3_3"
+                                                            {{ $karyawan->seragam3 == "Belum Dapat" ? "checked" : ""}}>
+                                                            <span class="text-xs">Belum Dapat</span>
+                                                        </div>
+                                                    </div>                                                    
                                                 </div>
 
+                                                
+                                            </div>
+
+                                            <div class="col">
                                                 <div class="form-group mb-1">
                                                     <span class="text-xs">No Telepon/Hp</span>
                                                     <input class="form-control form-control-sm" id="noTelpKry"
                                                         name="noTelpKry" style="border-color:#9ca0a7;"
                                                         value="{{ $karyawan->no_telp }}">
                                                 </div>
-                                            </div>
-
-                                            <div class="col">
+                                                
                                                 <div class="form-group mb-1">
                                                     <span class="text-xs">Alamat Lengkap</span>
                                                     <textarea class="form-control form-control-sm" id="alamat" name="alamat" style="border-color:#9ca0a7;">{{ $karyawan->alamat }}</textarea>
@@ -780,56 +853,57 @@
                                                 </div>
 
                                                 <div class="form-group mb-1">
-                                                    <span class="text-xs">Pendidikan Terakhir</span>
-                                                    <select class="form-control form-control-sm"
-                                                        id="pendidikanTerakhir" name="pendidikanTerakhir"
-                                                        style="border-color:#9ca0a7;">
-                                                        <option value=""></option>
-                                                        <option value="SD"
-                                                            {{ $karyawan->pendidikan_terakhir == 'SD' ? 'selected' : '' }}>
-                                                            SD</option>
-                                                        <option value="SMP"
-                                                            {{ $karyawan->pendidikan_terakhir == 'SMP' ? 'selected' : '' }}>
-                                                            SMP</option>
-                                                        <option value="SMA"
-                                                            {{ $karyawan->pendidikan_terakhir == 'SMA' ? 'selected' : '' }}>
-                                                            SMA</option>
-                                                        <option value="Diploma"
-                                                            {{ $karyawan->pendidikan_terakhir == 'Diploma' ? 'selected' : '' }}>
-                                                            Dimploma 3</option>
-                                                        <option value="Strata 1"
-                                                            {{ $karyawan->pendidikan_terakhir == 'Strata 1' ? 'selected' : '' }}>
-                                                            Strata 1</option>
-                                                        <option value="Strata 2"
-                                                            {{ $karyawan->pendidikan_terakhir == 'Strata 2' ? 'selected' : '' }}>
-                                                            Strata 2</option>
-                                                        <option value="Doktor"
-                                                            {{ $karyawan->pendidikan_terakhir == 'Doktor' ? 'selected' : '' }}>
-                                                            Doktor</option>
-                                                    </select>
-                                                </div>
+                                                    <div class="col">
+                                                        <span class="text-xs">Pendidikan Terakhir</span>
+                                                        <select class="form-control form-control-sm"
+                                                            id="pendidikanTerakhir" name="pendidikanTerakhir"
+                                                            style="border-color:#9ca0a7;">
+                                                            <option value=""></option>
+                                                            <option value="SD"
+                                                                {{ $karyawan->pendidikan_terakhir == 'SD' ? 'selected' : '' }}>
+                                                                SD</option>
+                                                            <option value="SMP"
+                                                                {{ $karyawan->pendidikan_terakhir == 'SMP' ? 'selected' : '' }}>
+                                                                SMP</option>
+                                                            <option value="SMA"
+                                                                {{ $karyawan->pendidikan_terakhir == 'SMA' ? 'selected' : '' }}>
+                                                                SMA</option>
+                                                            <option value="Diploma"
+                                                                {{ $karyawan->pendidikan_terakhir == 'Diploma' ? 'selected' : '' }}>
+                                                                Dimploma 3</option>
+                                                            <option value="Strata 1"
+                                                                {{ $karyawan->pendidikan_terakhir == 'Strata 1' ? 'selected' : '' }}>
+                                                                Strata 1</option>
+                                                            <option value="Strata 2"
+                                                                {{ $karyawan->pendidikan_terakhir == 'Strata 2' ? 'selected' : '' }}>
+                                                                Strata 2</option>
+                                                            <option value="Doktor"
+                                                                {{ $karyawan->pendidikan_terakhir == 'Doktor' ? 'selected' : '' }}>
+                                                                Doktor</option>
+                                                        </select>
+                                                    </div>
 
-                                                <div class="form-group mb-1">
-                                                    <span class="text-xs">Golongan Darah</span>
-                                                    <select class="form-control form-control-sm" id="golonganDarah"
-                                                        name="golonganDarah" style="border-color:#9ca0a7;">
-                                                        <option value=""></option>
-                                                        <option value="O"
-                                                            {{ $karyawan->golongan_darah == 'O' ? 'selected' : '' }}>O
-                                                        </option>
-                                                        <option value="A"
-                                                            {{ $karyawan->golongan_darah == 'A' ? 'selected' : '' }}>A
-                                                        </option>
-                                                        <option value="B"
-                                                            {{ $karyawan->golongan_darah == 'B' ? 'selected' : '' }}>B
-                                                        </option>
-                                                        <option value="AB"
-                                                            {{ $karyawan->golongan_darah == 'AB' ? 'selected' : '' }}>
-                                                            AB
-                                                        </option>
-                                                    </select>
+                                                    <div class="col">
+                                                        <span class="text-xs">Golongan Darah</span>
+                                                        <select class="form-control form-control-sm" id="golonganDarah"
+                                                            name="golonganDarah" style="border-color:#9ca0a7;">
+                                                            <option value=""></option>
+                                                            <option value="O"
+                                                                {{ $karyawan->golongan_darah == 'O' ? 'selected' : '' }}>O
+                                                            </option>
+                                                            <option value="A"
+                                                                {{ $karyawan->golongan_darah == 'A' ? 'selected' : '' }}>A
+                                                            </option>
+                                                            <option value="B"
+                                                                {{ $karyawan->golongan_darah == 'B' ? 'selected' : '' }}>B
+                                                            </option>
+                                                            <option value="AB"
+                                                                {{ $karyawan->golongan_darah == 'AB' ? 'selected' : '' }}>
+                                                                AB
+                                                            </option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                {{-- </dl> --}}
                                             </div>
 
 
@@ -895,14 +969,14 @@
                                                 {{-- <dl class="dl-horizontal row"> --}}
                                                 <div class="row form-group mb-1">
                                                     <div class="col">
-                                                        <span class="text-xs">Nama</span>
+                                                        <span class="text-xs">Nama Pasangan</span>
                                                         <input class="form-control form-control-sm" id="namaKel"
                                                             name="namaKel" style="border-color:#9ca0a7;"
                                                             value="{{ $karyawan->nama_kel }}">
                                                     </div>
 
                                                     <div class="col">
-                                                        <span class="text-xs">Status</span>
+                                                        <span class="text-xs">Status Pasangan</span>
                                                         <input class="form-control form-control-sm" id="statusKel"
                                                             name="statusKel" style="border-color:#9ca0a7;"
                                                             value="{{ $karyawan->status_kel }}">
@@ -933,28 +1007,28 @@
                                             <div class="col">
                                                 {{-- <dl class="dl-horizontal row"> --}}
                                                 <div class="form-group mb-1">
-                                                    <span class="text-xs">Anak 1</span>
+                                                    <span class="text-xs">Nama Anak 1</span>
                                                     <input class="form-control form-control-sm" id="anak1"
                                                         name="anak1" style="border-color:#9ca0a7;"
                                                         value="{{ $karyawan->anak1 }}">
                                                 </div>
 
                                                 <div class="form-group mb-1">
-                                                    <span class="text-xs">Anak 2</span>
+                                                    <span class="text-xs">Nama Anak 2</span>
                                                     <input class="form-control form-control-sm" id="anak2"
                                                         name="anak2" style="border-color:#9ca0a7;"
                                                         value="{{ $karyawan->anak2 }}">
                                                 </div>
 
                                                 <div class="form-group mb-1">
-                                                    <span class="text-xs">Anak 3</span>
+                                                    <span class="text-xs">Nama Anak 3</span>
                                                     <input class="form-control form-control-sm" id="anak3"
                                                         name="anak3" style="border-color:#9ca0a7;"
                                                         value="{{ $karyawan->anak3 }}">
                                                 </div>
 
                                                 <div class="form-group mb-1">
-                                                    <span class="text-xs">Anak 4</span>
+                                                    <span class="text-xs">Nama Anak 4</span>
                                                     <input class="form-control form-control-sm" id="anak4"
                                                         name="anak4" style="border-color:#9ca0a7;"
                                                         value="{{ $karyawan->anak4 }}">
@@ -985,7 +1059,7 @@
                                                         <span class="text-xs">Status</span>
                                                         <input class="form-control form-control-sm" id="statusKontak1"
                                                             name="statusKontak1" style="border-color:#9ca0a7;"
-                                                            value="{{ $karyawan->status_kontak1 }}"">
+                                                            value="{{ $karyawan->status_kontak1 }}">
                                                     </div>
                                                 </div>
 
@@ -1012,7 +1086,7 @@
                                                         <span class="text-xs">Nama Kontak 2</span>
                                                         <input class="form-control form-control-sm" id="namaKontak2"
                                                             name="namaKontak2" style="border-color:#9ca0a7;"
-                                                            value="{{ $karyawan->nama_kontak2 }}"">
+                                                            value="{{ $karyawan->nama_kontak2 }}">
                                                     </div>
 
                                                     <div class="col">
