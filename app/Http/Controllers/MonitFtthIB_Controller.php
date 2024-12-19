@@ -309,6 +309,7 @@ class MonitFtthIB_Controller extends Controller
             'precon_out' => $request['kabelPrecon'],
             'leader_id' => $request['leaderidShow'],
             'callsign_id' => $request['callsign_id'],
+            'nama_dispatch' => $request['picDispatch'],
             'alasan_pending' => $request['alasanPending'],
             'alasan_cancel' => $request['alasanCancel'],
             'is_checked' => $request['is_checked'],

@@ -301,6 +301,7 @@ class FtthDismantleController extends Controller
             'precon_out' => $request['kabelPrecon'],
             'leader_id' => $request['leaderidShow'],
             'callsign_id' => $request['callsign_id'],
+            'pic_dispatch' => $request['picDispatch'],
             'alasan_pending' => $request['alasan_pending'],
             'alasan_cancel' => $request['alasan_cancel'],
             'is_checked' => $request['is_checked'],

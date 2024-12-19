@@ -1727,6 +1727,7 @@
                     $('#alasanCancel').val(dtDis.alasan_cancel);
                     $('#alasanPending').val(dtDis.alasan_pending);
 
+                    $('#picDispatch').val(toTitleCase(dtDis.nama_dispatch || ""));
 
                     $('#leaderShow').val(dtDis.leader);
                     $('#teknisi1Show').val(dtDis.teknisi1);
