@@ -901,7 +901,7 @@
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">PIC Dispatch</span>
                                                                 <input class="form-control form-control-sm" type="text"
-                                                                    id="picDispatch" name="pic_dispatch"
+                                                                    id="picDispatch" name="picDispatch"
                                                                     style="border-color:#9ca0a7;">
                                                             </div>
                                                         </div>

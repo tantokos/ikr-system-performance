@@ -55,6 +55,7 @@ class FtthDismantle extends Model
         'reconsile_date',
         'weather',
         'leader',
+        'pic_dispatch',
         'pic_monitoring',
         'login',
         'is_checked',
