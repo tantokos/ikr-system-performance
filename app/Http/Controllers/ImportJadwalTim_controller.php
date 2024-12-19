@@ -20,12 +20,23 @@ class ImportJadwalTim_controller extends Controller
     public function index()
     {
         $akses = Auth::user()->name;
-        return view('absensi.import-scheduleIkr',['akses' => $akses]);
+
+        $dtImport = ImportJadwalIkr::where('login', Auth::user()->name)
+                            ->select('branch','bulan','tahun')->distinct()->get();
+
+        $dtJadwal="";
+        for($x=0; $x < count($dtImport); $x++) {
+            $dtJadwal = DataJadwalIkr::distinct()->where('branch', $dtImport[$x]->branch)
+                        ->where('bulan', $dtImport[$x]->bulan)
+                        ->where('tahun', $dtImport[$x]->tahun)->count();
+
+        }
+
+        return view('absensi.import-scheduleIkr',['akses' => $akses, 'double' => $dtJadwal]);
     }
 
     public function importProsesJadwalIkr(Request $request)
     {
-
 
         if ($request->hasFile('fileDataJadwal')) {
 
@@ -43,6 +54,18 @@ class ImportJadwalTim_controller extends Controller
             try {
                 Excel::import(new JadwalIkrImport($akses), request()->file('fileDataJadwal'));
 
+                $dtImport = ImportJadwalIkr::where('login', Auth::user()->name)
+                            ->select('branch','bulan','tahun')->distinct()->get();
+
+                
+                for($x=0; $x < count($dtImport); $x++) {
+                    $dtJadwal = DataJadwalIkr::distinct()->where('branch', $dtImport[$x]->branch)
+                                            ->where('bulan', $dtImport[$x]->bulan)
+                                            ->where('tahun', $dtImport[$x]->tahun)->count();
+
+                }
+
+
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
                 // DB::rollBack();
                 // return $e->getMessage();
@@ -58,7 +81,7 @@ class ImportJadwalTim_controller extends Controller
                 }
             }
 
-            return back()->with(['success' => 'Import Jadwal IKR berhasil.']);
+            return back()->with(['success' => 'Import Jadwal IKR berhasil.', 'double' => $dtJadwal]);
         }
     }
 
@@ -262,6 +285,7 @@ class ImportJadwalTim_controller extends Controller
             // ->make(true);
         }
     }
+
     /**
      * Show the form for creating a new resource.
      */

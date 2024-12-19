@@ -28,17 +28,43 @@
                             {{-- <div class="d-sm-flex align-items-center"> --}}
                             <div class="row">
                                 {{-- <div class="col"> --}}
+
                                 <div class="col form-group mb-1">
+                                    <span class="text-xs">Tahun</span>
+                                    <select class="form-control form-control-sm"
+                                        id="filTahun" name="filTahun" style="border-color:#9ca0a7;">
+                                        @if (isset($tahun))
+                                            @foreach ($tahun as $thn)
+                                                <option value="{{ $thn->tahun }}">{{ $thn->tahun}}</option>
+                                            @endforeach                                            
+                                        @endif
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Bulan</span>
+                                    <select class="form-control form-control-sm"
+                                        id="filBulan" name="filBulan" style="border-color:#9ca0a7;">
+                                        {{-- @if (isset($bulan))
+                                            @foreach ($bulan as $bln)
+                                                <option value="{{ $bln->bulan }}">{{ $bln->bulan}}</option>
+                                            @endforeach                                            
+                                        @endif --}}
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1" hidden>
                                     <span class="text-xs">Tanggal</span>
                                     <input class="form-control form-control-sm date-range" type="text"
                                         id="filtglProgress" name="filtglProgress" style="border-color:#9ca0a7;">
                                 </div>
 
+
                                 <div class="col form-group mb-1">
                                     <span class="text-xs">Area</span>
                                     <select class="form-control form-control-sm" type="text" id="filarea"
                                         name="filarea" style="border-color:#9ca0a7;">
-                                        <option value="">Pilih Area</option>
+                                        <option value="All|All">All</option>
                                         @if (isset($branches))
                                             @foreach ($branches as $b)
                                                 <option value="{{ $b->id . '|' . $b->nama_branch }}">
@@ -49,6 +75,33 @@
                                     <input type="hidden" id="filareaId" name="filareaId">
                                 </div>
 
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Nama Karyawan</span>
+                                    <select class="form-control form-control-sm" type="text" id="filNama"
+                                        name="filNama" style="border-color:#9ca0a7;">
+                                        <option value="All|ALl">All</option>
+                                        @if (isset($kry))
+                                            @foreach ($kry as $b)
+                                                <option value="{{ $b->nik_karyawan . '|' . $b->nama_karyawan }}">
+                                                    {{ $b->nama_karyawan }}
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Status Kehadiran</span>
+                                    <select class="form-control form-control-sm" type="text" id="filStatusHadir"
+                                        name="filStatusHadir" style="border-color:#9ca0a7;">
+                                        <option value="All">All</option>
+                                        <option value="ON">ON</option>
+                                        <option value="OFF">OFF</option>
+                                        <option value="Cuti">Cuti</option>
+                                        <option value="Sakit">Sakit</option>
+                                        <option value="Absen">Absen</option>
+                                    </select>
+                                </div>
+
                                 
                                 {{-- </div> --}}
                             </div>
@@ -56,10 +109,10 @@
                             <hr>
                             <div class="row text-center mb-0">
                                 <div class="col">
-                                    <button type="button" class="btn btn-sm btn-dark align-items-center filAssignTim"
-                                        id="filAssignTim">Tampilkan</button>
-                                    <button type="button" value="close"
-                                        class="btn btn-sm btn-dark align-items-center">Reset</button>
+                                    <button type="button" class="btn btn-sm btn-dark align-items-center filKehadiran"
+                                        id="filKehadiran">Tampilkan</button>
+                                    {{-- <button type="button" value="close"
+                                        class="btn btn-sm btn-dark align-items-center">Reset</button> --}}
                                 </div>
                             </div>
                             {{-- </div> --}}
@@ -126,56 +179,56 @@
 
                                 <div class="card-body px-2 py-2">
                                     <div class="table-responsive">
-                                        <table class="table table-striped table-bordered align-items-center mb-0" id="tabelRekapJadwalTeknisi"
+                                        <table class="table table-bordered align-items-center mb-0" id="tabelRekapJadwalTeknisi"
                                             style="font-size: 12px; border-color:#9ca0a7;">
                                             <thead class="bg-gray-200">
                                                 <tr>
-                                                    <th class="text-secondary text-xs font-weight-semibold">#</th>
-                                                    <th class="text-secondary text-xs font-weight-semibold ps-2">Area</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold ">Bulan</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold">Tahun</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold">Status</th>
+                                                    <th class="text-secondary text-xs">#</th>
+                                                    <th class="text-secondary text-xs">Area</th>
+                                                    <th class="text-center text-secondary text-xs">Bulan</th>
+                                                    <th class="text-center text-secondary text-xs">Tahun</th>
+                                                    <th class="text-center text-secondary text-xs">Status</th>
                                                     <th
-                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">01</th>
+                                                        class="text-center text-secondary text-xs">01</th>
                                                     <th
-                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">02</th>
+                                                        class="text-center text-secondary text-xs">02</th>
                                                     <th
-                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">03</th>
+                                                        class="text-center text-secondary text-xs">03</th>
                                                     <th
-                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">04</th>
+                                                        class="text-center text-secondary text-xs">04</th>
                                                     <th
-                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">05</th>
+                                                        class="text-center text-secondary text-xs">05</th>
                                                     <th
-                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">06</th>
+                                                        class="text-center text-secondary text-xs">06</th>
                                                     <th
-                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">07</th>
+                                                        class="text-center text-secondary text-xs">07</th>
                                                     <th
-                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">08</th>
+                                                        class="text-center text-secondary text-xs">08</th>
                                                     <th
-                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">09</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">10</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">11</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">12</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">13</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">14</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">15</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">16</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">17</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">18</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">19</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">20</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">21</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">22</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">23</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">24</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">25</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">26</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">27</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">28</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">29</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">30</th>
-                                                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">31</th>
-                                                    <th class="text-center text-xs font-weight-semibold">Total</th>
+                                                        class="text-center text-secondary text-xs">09</th>
+                                                    <th class="text-center text-secondary text-xs">10</th>
+                                                    <th class="text-center text-secondary text-xs">11</th>
+                                                    <th class="text-center text-secondary text-xs">12</th>
+                                                    <th class="text-center text-secondary text-xs">13</th>
+                                                    <th class="text-center text-secondary text-xs">14</th>
+                                                    <th class="text-center text-secondary text-xs">15</th>
+                                                    <th class="text-center text-secondary text-xs">16</th>
+                                                    <th class="text-center text-secondary text-xs">17</th>
+                                                    <th class="text-center text-secondary text-xs">18</th>
+                                                    <th class="text-center text-secondary text-xs">19</th>
+                                                    <th class="text-center text-secondary text-xs">20</th>
+                                                    <th class="text-center text-secondary text-xs">21</th>
+                                                    <th class="text-center text-secondary text-xs">22</th>
+                                                    <th class="text-center text-secondary text-xs">23</th>
+                                                    <th class="text-center text-secondary text-xs">24</th>
+                                                    <th class="text-center text-secondary text-xs">25</th>
+                                                    <th class="text-center text-secondary text-xs">26</th>
+                                                    <th class="text-center text-secondary text-xs">27</th>
+                                                    <th class="text-center text-secondary text-xs">28</th>
+                                                    <th class="text-center text-secondary text-xs">29</th>
+                                                    <th class="text-center text-secondary text-xs">30</th>
+                                                    <th class="text-center text-secondary text-xs">31</th>
+                                                    <th class="text-center text-xs">Total</th>
 
                                                 </tr>
                                             </thead>
@@ -534,7 +587,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Status Kehadiran IKR</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Status Kehadiran IKR</h5>
                         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
                             aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -595,7 +648,7 @@
                                             </div>
 
                                             <div class="col form-group mb-1">
-                                                <span class="text-xs">Status Kehadiran</span>
+                                                <span class="text-xs">Edit Status Kehadiran</span>
                                                 <select class="form-control form-control-sm" type="text" id="statusKehadiran"
                                                     name="statusKehadiran" style="border-color:#9ca0a7;"
                                                     placeholder="Pilih Status Kehadiran">
@@ -650,7 +703,7 @@
                                     <div class="col">
                                         <button type="submit"
                                             class="btn btn-sm btn-dark align-items-center simpanDistribusi"
-                                            id="simpanEditKehadiran">Simpan Data</button>
+                                            id="simpanEditKehadiran">Update Data</button>
                                         <button type="button" value="close"
                                             class="btn btn-sm btn-dark align-items-center"
                                             data-bs-dismiss="modal">Batalkan</button>
@@ -665,13 +718,13 @@
         {{-- End Modal Edit Kehadiran Tim --}}
 
         {{-- Modal Detail Keharidan Tim --}}
-        <div class="modal fade" id="detailStatusHadir" tabindex="-1" role="dialog"
+        <div class="modal fade" id="detailRekapStatus" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false"
             data-bs-backdrop="static">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Status Kehadiran IKR</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Status Kehadiran IKR</h5>
                         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
                             aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -679,6 +732,61 @@
                     </div>
                     <div class="modal-body">
                         {{-- <form action="#" method="post" enctype="multipart/form-data">
+                            @csrf --}}
+                            <div class="row">
+                                <div class="table-responsive p-0">
+                                    <table class="table table-bordered align-items-center mb-0"
+                                        id="tabelRekapDetailStatus" style="font-size: 12px;border-color:#9ca0a7;">
+                                        <thead class="bg-gray-300">
+                                            <tr id="headRekapDetailStatus">
+                                                <th class="text-xs font-weight-semibold">#</th>
+                                                <th class="text-xs font-weight-semibold">Tanggal</th>
+                                                <th class="text-center text-xs">Area</th>
+                                                <th class="text-center text-xs">Nik Karyawan</th>
+                                                <th class="text-center text-xs">Nama karyawan</th>
+                                                <th class="text-center text-xs">Posisi</th>
+                                                <th class="text-center text-xs">Status</th>
+                                                <th class="text-center text-xs">Keterangan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bodyRekapDetailStatus">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="row text-center mb-0">
+                                    <div class="col">
+                                        <button type="button" value="close"
+                                            class="btn btn-sm btn-dark align-items-center"
+                                            data-bs-dismiss="modal">Kembali</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {{-- </form> --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- End Modal Detail Kehadiran Tim --}}
+
+        {{-- Modal Detail Rekap Status --}}
+        <div class="modal fade" id="detailStatusHadir" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false"
+            data-bs-backdrop="static">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Rekap Status Kehadiran IKR</h5>
+                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{-- <form action="{{ route('simpanEditKehadiran') }}" method="post" enctype="multipart/form-data">
                             @csrf --}}
                             <div class="row">
                                 <div class="col">
@@ -709,7 +817,7 @@
                                                 <span class="text-xs">Nama Karyawan</span>
                                                 <input class="form-control form-control-sm" type="text"
                                                     id="namaKaryawanShow" name="namaKaryawanShow" style="border-color:#9ca0a7;" readonly>
-                                                    
+                                                
                                             </div>
                                         </div>
 
@@ -724,10 +832,9 @@
                                             </div>
 
                                             <div class="col form-group mb-1">
-                                                <span class="text-xs">Status Kehadiran</span>
+                                                <span class="text-xs">Edit Status Kehadiran</span>
                                                 <input class="form-control form-control-sm" type="text" id="statusKehadiranShow"
                                                     name="statusKehadiranShow" style="border-color:#9ca0a7;" readonly>
-                                                    
                                             </div>
 
                                             
@@ -760,8 +867,8 @@
                                     </div>
 
                                     <div class="form-group mb-1">
-                                            <input class="form-control form-control-sm" id="fotoPengajuanGDShow"
-                                                name="fotoPengajuanGDShow" type="file" style="border-color:#9ca0a7;" disabled>
+                                            <input class="form-control form-control-sm" id="fotoPengajuanGD"
+                                                name="fotoPengajuanGD" type="file" style="border-color:#9ca0a7;" disabled>
                                     </div>
                                     
                                 </div>
@@ -771,6 +878,9 @@
                             <div class="row">
                                 <div class="row text-center mb-0">
                                     <div class="col">
+                                        {{-- <button type="submit"
+                                            class="btn btn-sm btn-dark align-items-center simpanDistribusi"
+                                            id="simpanEditKehadiran">Update Data</button> --}}
                                         <button type="button" value="close"
                                             class="btn btn-sm btn-dark align-items-center"
                                             data-bs-dismiss="modal">Kembali</button>
@@ -782,7 +892,7 @@
                 </div>
             </div>
         </div>
-        {{-- End Modal Detail Kehadiran Tim --}}
+        {{-- End Modal Detail Rekap Status --}}
 
     </main>
 
@@ -859,7 +969,7 @@
         var enDate;
         var dtkrywan;
         var tableJT;
-
+        var bln = {!! $bulan !!}
         akses = $('#akses').val();        
 
         function toTitleCase(str) {
@@ -868,15 +978,26 @@
                 text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
             );
         }
+        
 
+        $(document).on('change', '#filTahun', function() {
 
+            $('#filBulan').find('option').remove();
+            dtBln = bln.filter(k=> k.tahun === $(this).val());
+            $.each(dtBln, function(key, bl) {
+                $('#filBulan').append(
+                    `<option value="${bl.bulan}">${bl.bulanname}</option>`
+                )
+            })
+        })
+
+        $('#filTahun').trigger("change");
+        
         $('#tabelJadwalTim').on('click', 'td', function(e) {
-            //get the initialization options
             var columns = tableJT.settings().init().columns;
-            //get the index of the clickec cell
             var colIndex = tableJT.cell(this).index().column;
             tglClick = columns[colIndex].name;
-
+            console.log(tglClick);
             $.ajax({
                 url: "{{ route('getDetailStatus') }}",
                 type: "get",
@@ -917,26 +1038,35 @@
         })
 
         $('.date-range').daterangepicker({
-            startDate: moment(),
+            startDate: moment().startOf("month"),
             endDate: moment(),
+            
         });
 
-        $(document).on('click', '#filAssignTim', function(e) {
+        $(document).on('click', '#filKehadiran', function(e) {
             data_jadwalTim();
             rekap_jadwal_ikr();
+            rekap_jadwal_leader();
+            rekap_jadwal_staff();
+            rekap_jadwal_spv();
             stDate = $('.date-range').data('daterangepicker').startDate.format("DD-MMM-YYYY");
             enDate = $('.date-range').data('daterangepicker').endDate.format("DD-MMM-YYYY");
         })
+        
 
-        $('#filAssignTim').trigger("click");
+        $('#filKehadiran').trigger("click");
 
         function data_jadwalTim() {
             tableJT = $('#tabelJadwalTim').DataTable({
                 // dom: 'Bftip',
                 layout: {
                     topStart: {
-                        buttons: ['excel']
+                        pageLength: {
+                            menu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                        } ,
+                        buttons: ['excel'],
                     },
+                    
                 },
                 paging: true,
                 orderClasses: false,
@@ -949,7 +1079,7 @@
                 scrollCollapse: true,
                 scrollX: true,
                 pageLength: 10,
-                lengthChange: false,
+                lengthChange: true,
                 bFilter: true,
                 destroy: true,
                 processing: true,
@@ -960,16 +1090,11 @@
                     dataType: "json",
                     data: {
                         filTgl: $('#filtglProgress').val(),
-                        filNoWo: $('#filnoWo').val(),
-                        filcustId: $('#filcustId').val(),
-                        filtypeWo: $('#filtypeWo').val(),
+                        filTahun: $('#filTahun').val(),
+                        filBulan: $('#filBulan').val(),
                         filarea: $('#filarea').val(),
-                        filleaderTim: $('#filleaderTim').val(),
-                        filcallsignTimid: $('#filcallsignTimid').val(),
-                        filteknisi: $('#filteknisi').val(),
-                        filcluster: $('#filcluster').val(),
-                        filfatCode: $('#filfatCode').val(),
-                        filslotTime: $('#filslotTime').val(),
+                        filNama: $('#filNama').val(),
+                        filStatusHadir: $('#filStatusHadir').val(),
                         _token: _token
                     }
                 },
@@ -1024,36 +1149,133 @@
                     },
                 ]
             })
-        }
-
-        
+        }        
 
         $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function(e) {
             // console.log($(this).data("id"));
             if($(this).data("id") === "DetailTeknisi") {
-                rekap_jadwal_ikr();
+                // rekap_jadwal_ikr();
+                $('#tabelRekapJadwalTeknisi').DataTable().columns.adjust().draw();
             }
             if($(this).data("id") === "DetailStaff") {
-                rekap_jadwal_staff();
+                // rekap_jadwal_staff();
+                $('#tabelRekapJadwalStaff').DataTable().columns.adjust().draw();
             }
             if($(this).data("id") === "DetailLeader") {
-                rekap_jadwal_leader();
+                // rekap_jadwal_leader();
+                $('#tabelRekapJadwalLeader').DataTable().columns.adjust().draw();
             }
             if($(this).data("id") === "DetailSpv") {
-                rekap_jadwal_spv();
+                // rekap_jadwal_spv();
+                $('#tabelRekapJadwalSpv').DataTable().columns.adjust().draw();
             }
             
         })
 
+        //klik tabel rekap
+        $(document).on('click', '.det-rekap', function(e) {
+            e.preventDefault();
+            klik = $(this).data('id').split('|');
+            tbl = klik[0];
+            isi = klik[7];            
+
+            if(tbl == "Teknisi" && isi != "0") {
+                columns = tableTk.settings().init().columns;
+                colIndex = tableTk.cell(this).index().column;
+                tglClick = columns[colIndex].name;
+            }
+            if(tbl == "Staff" && isi != "0") {
+                columns = tableSt.settings().init().columns;
+                colIndex = tableSt.cell(this).index().column;
+                tglClick = columns[colIndex].name;
+            }
+            if(tbl == "Leader" && isi != "0") {
+                columns = tableLead.settings().init().columns;
+                colIndex = tableLead.cell(this).index().column;
+                tglClick = columns[colIndex].name;
+            }
+            if(tbl == "Supervisor" && isi != "0") {
+                columns = tableSpv.settings().init().columns;
+                colIndex = tableSpv.cell(this).index().column;
+                tglClick = columns[colIndex].name;
+            }
+
+            if(isi != "0") {
+
+                $('#detailRekapStatus').modal('show');
+
+                tableDetRekap = 
+                $('#tabelRekapDetailStatus').DataTable({
+                        layout: {
+                            topStart: {
+                                pageLength: {
+                                    menu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                                } ,
+                            buttons: ['excel'],
+                            },
+                        },
+                        paging: true,
+                        orderClasses: false,
+                        fixedColumns: false,
+
+                        // fixedColumns: {
+                        //     leftColumns: 5,
+                        //     rightColumns: 1
+                        // },
+                        deferRender: true,
+                        scrollCollapse: true,
+                        scrollX: true,
+                        pageLength: 10,
+                        lengthChange: true,
+                        bFilter: true,
+                        destroy: true,
+                        processing: true,
+                        serverSide: true,
+                        ajax: {
+                            url: "{{ route('getDetailRekapStatus') }}",
+                            type: "get",
+                            dataType: "json",
+                            data: {
+                                detail: $(this).data('id'),
+                                tglClick: tglClick,
+                                akses: akses,
+                                _token: _token
+                            }
+                         },
+                        columns: [{
+                            data: 'DT_RowIndex',
+                            name: 'DT_Row_Index',
+                            "className": "text-center",
+                            // orderable: false,
+                            searchable: false,
+                            "width": '20'
+                            },
+                            {data: 'tgl'},
+                            {data: 'branch'},
+                            {data: 'nik_karyawan'},
+                            {data: 'nama_karyawan'},                    
+                            {data: 'posisi'},
+                            {data: 'status'},
+                            {data: 'keterangan'},
+                                
+                        ],
+                        
+                    })
+
+            }
+        })
 
         function rekap_jadwal_ikr() {
-            $('#tabelRekapJadwalTeknisi').DataTable({
+            tableTk = $('#tabelRekapJadwalTeknisi').DataTable({
                 // dom: 'Bftip',
-                // layout: {
-                //     topStart: {
-                //         buttons: ['excel']
-                //     },
-                // },
+                layout: {
+                    topStart: {
+                        pageLength: {
+                            menu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                        } ,
+                        buttons: ['excel'],
+                    },
+                },
                 paging: true,
                 orderClasses: false,
                 fixedColumns: true,
@@ -1066,7 +1288,7 @@
                 scrollCollapse: true,
                 scrollX: true,
                 pageLength: 10,
-                lengthChange: false,
+                lengthChange: true,
                 bFilter: true,
                 destroy: true,
                 processing: true,
@@ -1076,6 +1298,12 @@
                     type: "get",
                     dataType: "json",
                     data: {
+                        filTgl: $('#filtglProgress').val(),
+                        filTahun: $('#filTahun').val(),
+                        filBulan: $('#filBulan').val(),
+                        filarea: $('#filarea').val(),
+                        filNama: $('#filNama').val(),
+                        filStatusHadir: $('#filStatusHadir').val(),
                         akses: akses,
                         _token: _token
                     }
@@ -1098,25 +1326,49 @@
                     {
                         data: 'status'
                     },
-                    {data: 't01'},{data: 't02'},{data: 't03'},{data: 't04'},{data: 't05'},{data: 't06'},{data: 't07'},{data: 't08'},{data: 't09'},{data: 't10'},
-                    {data: 't11'},{data: 't12'},{data: 't13'},{data: 't14'},{data: 't15'},{data: 't16'},{data: 't17'},{data: 't18'},{data: 't19'},{data: 't20'},
-                    {data: 't21'},{data: 't22'},{data: 't23'},{data: 't24'},{data: 't25'},{data: 't26'},{data: 't27'},{data: 't28'},{data: 't29'},{data: 't30'},
-                    {data: 't31'},
-                    {data: 'total', render: DataTable.render.number()}
+                    {data: 't01', name:'01'},{data: 't02', name:'02'},{data: 't03', name:'03'},{data: 't04', name:'04'},{data: 't05', name:'05'},{data: 't06', name:'06'},{data: 't07', name:'07'},{data: 't08', name:'08'},{data: 't09', name:'09'},{data: 't10', name:'10'},
+                    {data: 't11', name:'11'},{data: 't12', name:'12'},{data: 't13', name:'13'},{data: 't14', name:'14'},{data: 't15', name:'15'},{data: 't16', name:'16'},{data: 't17', name:'17'},{data: 't18', name:'18'},{data: 't19', name:'19'},{data: 't20', name:'20'},
+                    {data: 't21', name:'21'},{data: 't22', name:'22'},{data: 't23', name:'23'},{data: 't24', name:'24'},{data: 't25', name:'25'},{data: 't26', name:'26'},{data: 't27', name:'27'},{data: 't28', name:'28'},{data: 't29', name:'29'},{data: 't30', name:'30'},
+                    {data: 't31', name:'31'},
+                    {data: 'total', name:'total', "className": "text-center", render: DataTable.render.number()}
                     
                 ],
+                columnDefs: [
+                    { targets: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36], 
+                            render: function(data, type, row, col, index) {
+                                var color = 'black';
+                                var v;
+
+                                if (data == '0') {
+                                    v = ''; 
+                                } 
+                                if (data > '0') {
+                                    v = '<span style="cursor:pointer; color:' + color + '">' + data + '</span>';                                    
+                                }
+                                return v;
+                            },
+                            'createdCell': function(td, cellData, rowData, row, col) {
+                                // this will give each cell an ID
+                                $(td).attr('data-id',rowData.dtid + "|" + $('#filNama').val() + "|" + cellData);
+                                $(td).attr('class', 'det-rekap');
+                            }
+                    },
+                ]
             })
         }
 
         function rekap_jadwal_staff() {
 
-            $('#tabelRekapJadwalStaff').DataTable({
+            tableSt =$('#tabelRekapJadwalStaff').DataTable({
                 // dom: 'Bftip',
-                // layout: {
-                //     topStart: {
-                //         buttons: ['excel']
-                //     },
-                // },
+                layout: {
+                    topStart: {
+                        pageLength: {
+                            menu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                        } ,
+                        buttons: ['excel'],
+                    },
+                },
                 paging: true,
                 orderClasses: false,
                 fixedColumns: true,
@@ -1129,7 +1381,7 @@
                 scrollCollapse: true,
                 scrollX: true,
                 pageLength: 10,
-                lengthChange: false,
+                lengthChange: true,
                 bFilter: true,
                 destroy: true,
                 processing: true,
@@ -1139,6 +1391,12 @@
                     type: "get",
                     dataType: "json",
                     data: {
+                        filTgl: $('#filtglProgress').val(),
+                        filTahun: $('#filTahun').val(),
+                        filBulan: $('#filBulan').val(),
+                        filarea: $('#filarea').val(),
+                        filNama: $('#filNama').val(),
+                        filStatusHadir: $('#filStatusHadir').val(),
                         akses: akses,
                         _token: _token
                     }
@@ -1161,25 +1419,49 @@
                     {
                         data: 'status'
                     },
-                    {data: 't01'},{data: 't02'},{data: 't03'},{data: 't04'},{data: 't05'},{data: 't06'},{data: 't07'},{data: 't08'},{data: 't09'},{data: 't10'},
-                    {data: 't11'},{data: 't12'},{data: 't13'},{data: 't14'},{data: 't15'},{data: 't16'},{data: 't17'},{data: 't18'},{data: 't19'},{data: 't20'},
-                    {data: 't21'},{data: 't22'},{data: 't23'},{data: 't24'},{data: 't25'},{data: 't26'},{data: 't27'},{data: 't28'},{data: 't29'},{data: 't30'},
-                    {data: 't31'},
-                    {data: 'total', render: DataTable.render.number()}
+                    {data: 't01', name:'01'},{data: 't02', name:'02'},{data: 't03', name:'03'},{data: 't04', name:'04'},{data: 't05', name:'05'},{data: 't06', name:'06'},{data: 't07', name:'07'},{data: 't08', name:'08'},{data: 't09', name:'09'},{data: 't10', name:'10'},
+                    {data: 't11', name:'11'},{data: 't12', name:'12'},{data: 't13', name:'13'},{data: 't14', name:'14'},{data: 't15', name:'15'},{data: 't16', name:'16'},{data: 't17', name:'17'},{data: 't18', name:'18'},{data: 't19', name:'19'},{data: 't20', name:'20'},
+                    {data: 't21', name:'21'},{data: 't22', name:'22'},{data: 't23', name:'23'},{data: 't24', name:'24'},{data: 't25', name:'25'},{data: 't26', name:'26'},{data: 't27', name:'27'},{data: 't28', name:'28'},{data: 't29', name:'29'},{data: 't30', name:'30'},
+                    {data: 't31', name:'31'},
+                    {data: 'total', name:'total', "className": "text-center", render: DataTable.render.number()}
                     
                 ],
+                columnDefs: [
+                    { targets: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36], 
+                            render: function(data, type, row, col, index) {
+                                var color = 'black';
+                                var v;
+
+                                if (data == '0') {
+                                    v = ''; 
+                                } 
+                                if (data > '0') {
+                                    v = '<span style="cursor:pointer; color:' + color + '">' + data + '</span>';                                    
+                                }
+                                return v;
+                            },
+                            'createdCell': function(td, cellData, rowData, row, col) {
+                                // this will give each cell an ID
+                                $(td).attr('data-id',rowData.dtid + "|" + $('#filNama').val() + "|" + cellData);
+                                $(td).attr('class', 'det-rekap');
+                            }
+                    },
+                ]
             })
         }
 
         function rekap_jadwal_leader() {
 
-            $('#tabelRekapJadwalLeader').DataTable({
+            tableLead = $('#tabelRekapJadwalLeader').DataTable({
                 // dom: 'Bftip',
-                // layout: {
-                //     topStart: {
-                //         buttons: ['excel']
-                //     },
-                // },
+                layout: {
+                    topStart: {
+                        pageLength: {
+                            menu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                        } ,
+                        buttons: ['excel'],
+                    },
+                },
                 paging: true,
                 orderClasses: false,
                 fixedColumns: true,
@@ -1192,7 +1474,7 @@
                 scrollCollapse: true,
                 scrollX: true,
                 pageLength: 10,
-                lengthChange: false,
+                lengthChange: true,
                 bFilter: true,
                 destroy: true,
                 processing: true,
@@ -1202,6 +1484,12 @@
                     type: "get",
                     dataType: "json",
                     data: {
+                        filTgl: $('#filtglProgress').val(),
+                        filTahun: $('#filTahun').val(),
+                        filBulan: $('#filBulan').val(),
+                        filarea: $('#filarea').val(),
+                        filNama: $('#filNama').val(),
+                        filStatusHadir: $('#filStatusHadir').val(),
                         akses: akses,
                         _token: _token
                     }
@@ -1224,26 +1512,50 @@
                     {
                         data: 'status'
                     },
-                    {data: 't01'},{data: 't02'},{data: 't03'},{data: 't04'},{data: 't05'},{data: 't06'},{data: 't07'},{data: 't08'},{data: 't09'},{data: 't10'},
-                    {data: 't11'},{data: 't12'},{data: 't13'},{data: 't14'},{data: 't15'},{data: 't16'},{data: 't17'},{data: 't18'},{data: 't19'},{data: 't20'},
-                    {data: 't21'},{data: 't22'},{data: 't23'},{data: 't24'},{data: 't25'},{data: 't26'},{data: 't27'},{data: 't28'},{data: 't29'},{data: 't30'},
-                    {data: 't31'},
-                    {data: 'total', render: DataTable.render.number()}
+                    {data: 't01', name:'01'},{data: 't02', name:'02'},{data: 't03', name:'03'},{data: 't04', name:'04'},{data: 't05', name:'05'},{data: 't06', name:'06'},{data: 't07', name:'07'},{data: 't08', name:'08'},{data: 't09', name:'09'},{data: 't10', name:'10'},
+                    {data: 't11', name:'11'},{data: 't12', name:'12'},{data: 't13', name:'13'},{data: 't14', name:'14'},{data: 't15', name:'15'},{data: 't16', name:'16'},{data: 't17', name:'17'},{data: 't18', name:'18'},{data: 't19', name:'19'},{data: 't20', name:'20'},
+                    {data: 't21', name:'21'},{data: 't22', name:'22'},{data: 't23', name:'23'},{data: 't24', name:'24'},{data: 't25', name:'25'},{data: 't26', name:'26'},{data: 't27', name:'27'},{data: 't28', name:'28'},{data: 't29', name:'29'},{data: 't30', name:'30'},
+                    {data: 't31', name:'31'},
+                    {data: 'total', name:'total', "className": "text-center", render: DataTable.render.number()}
                     
                 ],
+                columnDefs: [
+                    { targets: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36], 
+                            render: function(data, type, row, col, index) {
+                                var color = 'black';
+                                var v;
+
+                                if (data == '0') {
+                                    v = ''; 
+                                } 
+                                if (data > '0') {
+                                    v = '<span style="cursor:pointer; color:' + color + '">' + data + '</span>';                                    
+                                }
+                                return v;
+                            },
+                            'createdCell': function(td, cellData, rowData, row, col) {
+                                // this will give each cell an ID
+                                $(td).attr('data-id',rowData.dtid + "|" + $('#filNama').val() + "|" + cellData);
+                                $(td).attr('class', 'det-rekap');
+                            }
+                    },
+                ]
             })
 
         }
 
         function rekap_jadwal_spv() {
 
-            $('#tabelRekapJadwalSpv').DataTable({
+            tableSpv =$('#tabelRekapJadwalSpv').DataTable({
                 // dom: 'Bftip',
-                // layout: {
-                //     topStart: {
-                //         buttons: ['excel']
-                //     },
-                // },
+                layout: {
+                    topStart: {
+                        pageLength: {
+                            menu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                        } ,
+                        buttons: ['excel'],
+                    },
+                },
                 paging: true,
                 orderClasses: false,
                 fixedColumns: true,
@@ -1256,7 +1568,7 @@
                 scrollCollapse: true,
                 scrollX: true,
                 pageLength: 10,
-                lengthChange: false,
+                lengthChange: true,
                 bFilter: true,
                 destroy: true,
                 processing: true,
@@ -1266,6 +1578,12 @@
                     type: "get",
                     dataType: "json",
                     data: {
+                        filTgl: $('#filtglProgress').val(),
+                        filTahun: $('#filTahun').val(),
+                        filBulan: $('#filBulan').val(),
+                        filarea: $('#filarea').val(),
+                        filNama: $('#filNama').val(),
+                        filStatusHadir: $('#filStatusHadir').val(),
                         akses: akses,
                         _token: _token
                     }
@@ -1288,81 +1606,38 @@
                     {
                         data: 'status'
                     },
-                    {data: 't01'},{data: 't02'},{data: 't03'},{data: 't04'},{data: 't05'},{data: 't06'},{data: 't07'},{data: 't08'},{data: 't09'},{data: 't10'},
-                    {data: 't11'},{data: 't12'},{data: 't13'},{data: 't14'},{data: 't15'},{data: 't16'},{data: 't17'},{data: 't18'},{data: 't19'},{data: 't20'},
-                    {data: 't21'},{data: 't22'},{data: 't23'},{data: 't24'},{data: 't25'},{data: 't26'},{data: 't27'},{data: 't28'},{data: 't29'},{data: 't30'},
-                    {data: 't31'},
-                    {data: 'total', render: DataTable.render.number()}
+                    {data: 't01', name:'01'},{data: 't02', name:'02'},{data: 't03', name:'03'},{data: 't04', name:'04'},{data: 't05', name:'05'},{data: 't06', name:'06'},{data: 't07', name:'07'},{data: 't08', name:'08'},{data: 't09', name:'09'},{data: 't10', name:'10'},
+                    {data: 't11', name:'11'},{data: 't12', name:'12'},{data: 't13', name:'13'},{data: 't14', name:'14'},{data: 't15', name:'15'},{data: 't16', name:'16'},{data: 't17', name:'17'},{data: 't18', name:'18'},{data: 't19', name:'19'},{data: 't20', name:'20'},
+                    {data: 't21', name:'21'},{data: 't22', name:'22'},{data: 't23', name:'23'},{data: 't24', name:'24'},{data: 't25', name:'25'},{data: 't26', name:'26'},{data: 't27', name:'27'},{data: 't28', name:'28'},{data: 't29', name:'29'},{data: 't30', name:'30'},
+                    {data: 't31', name:'31'},
+                    {data: 'total', name:'total', "className": "text-center", render: DataTable.render.number()}
                     
                 ],
-            })
-        }
-        
-        function showDetail_tool(tool) {
-            $('#showTim').DataTable({
-                // dom: 'Bftip',
-                layout: {
-                    topStart: {
-                        buttons: ['excel']
-                    },
-                },
-                paging: true,
-                orderClasses: false,
-                // fixedColumns: true,
+                columnDefs: [
+                    { targets: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36], 
+                            render: function(data, type, row, col, index) {
+                                var color = 'black';
+                                var v;
 
-                // fixedColumns: {
-                //     leftColumns: 3,
-                //     // rightColumns: 1
-                // },
-                deferRender: true,
-                scrollCollapse: true,
-                scrollX: true,
-                pageLength: 10,
-                lengthChange: false,
-                bFilter: true,
-                destroy: true,
-                processing: true,
-                serverSide: false,
-                ajax: {
-                    url: "{{ route('getDataShowTool') }}",
-                    type: "get",
-                    dataType: "json",
-                    data: {
-                        tool: tool,
-                        // akses: akses,
-                        _token: _token
-                    }
-                },
-                columns: [{
-                        data: 'DT_RowIndex',
-                        name: 'DT_Row_Index',
-                        "className": "text-center",
-                        // orderable: false,
-                        searchable: false,
-                        "width": '20'
+                                if (data == '0') {
+                                    v = ''; 
+                                } 
+                                if (data > '0') {
+                                    v = '<span style="cursor:pointer; color:' + color + '">' + data + '</span>';                                    
+                                }
+                                return v;
+                            },
+                            'createdCell': function(td, cellData, rowData, row, col) {
+                                // this will give each cell an ID
+                                $(td).attr('data-id',rowData.dtid + "|" + $('#filNama').val() + "|" + cellData);
+                                $(td).attr('class', 'det-rekap');
+                            }
                     },
-                    {
-                        data: 'callsign_tim'
-                    },
-                    {
-                        data: 'teknisi1'
-                    },
-                    {
-                        data: 'teknisi2'
-                    },
-                    {
-                        data: 'teknisi3'
-                    },
-                    {
-                        data: 'teknisi4'
-                    },
-                    // {
-                    //     data: 'action',
-                    //     "className": "text-center",
-                    // },
                 ]
             })
         }
+        
+        
 
         // {{-- Start Part Callsign Tim  --}}
         let area;
@@ -1373,6 +1648,36 @@
             var _token = $('meta[name=csrf-token]').attr('content');
             let branch = $(this).val();
             let tgl = $('#tglProgress').val();
+            console.log(tgl);
+            $.ajax({
+                url: "{{ route('getKaryawan') }}",
+                type: "get",
+                data: {
+                    branch: branch,
+                    tgl: tgl,
+                    _token: _token
+                },
+                success: function(dtKry) {
+                    dtkrywan = dtKry;
+                    $('#namaKaryawan').find('option').remove();
+                    $('#namaKaryawan').append(
+                        `<option value="">Pilih Karyawan</option>`);
+
+                    $.each(dtKry, function(key, kry) {
+                        $('#namaKaryawan').append(
+                            `<option value="${kry.id}">${kry.nama_karyawan}</option>`
+                        )
+                    })
+
+                }
+            })
+        })
+
+        $(document).on('change', '#tglProgress', function(e) {
+            // e.preventDefault();
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let branch = $('#branch').val();
+            let tgl = $(this).val();
             console.log(tgl);
             $.ajax({
                 url: "{{ route('getKaryawan') }}",
@@ -1409,7 +1714,6 @@
 
             $('#nikKaryawan').val(kr.nik_karyawan)
             $('#jadwalKaryawan').val(kr[day])
-            console.log($(this).val(),kr);
 
 
             

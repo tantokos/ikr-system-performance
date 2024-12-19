@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DataJadwalIkr;
 use App\Models\DataJadwalIkrEdit;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,9 +21,18 @@ class JadwalTim_controller extends Controller
         $akses = Auth::user()->name;
 
         $branches = DB::table('branches')->select('id','nama_branch')->whereNotIn('nama_branch',['Apartemen', 'Underground'])->get();
+        $kry = DB::table('employees as e')
+            ->leftJoin('branches as b','e.branch_id','=','b.id')
+            ->select('e.nik_karyawan', 'e.nama_karyawan', 'b.nama_branch')->orderBy('e.nama_karyawan')->get();
 
+        $tahun = DB::table('data_jadwal_ikrs')->select('tahun')->distinct()->orderBy('tahun','DESC')->get();
+        $bln = DB::table('data_jadwal_ikrs')
+                ->select('tahun','bulan', DB::raw('monthname(DATE(CONCAT_WS("-", tahun, bulan, 1))) as bulanname'))
+                ->distinct()->orderBy('bulan', 'DESC')->get();
 
-        return view('absensi.ikr_schedule', ['akses' => $akses, 'branches' => $branches]);
+        return view('absensi.ikr_schedule', 
+                ['akses' => $akses, 'branches' => $branches, 'kry' => $kry,
+                'tahun' => $tahun, 'bulan' => $bln]);
     }
 
     public function getKaryawan(Request $request)
@@ -48,12 +58,37 @@ class JadwalTim_controller extends Controller
 
     public function getdataJadwalIkr(Request $request)
     {
+        // dd($request->all());
+        // dd($request->filStDate, $request->filEndDate);        
+        
+        $area = explode("|",$request->filarea);
+        $areaId = $area[0];
+        $areaNm = $area[1];
+
+        $kry = explode("|", $request->filNama);
+        $kryId = $kry[0];
+        $kryNm = $kry[1];
+
         $akses = Auth::user()->name;
 
         $datas = DB::table('data_jadwal_ikrs')
+                ->where('tahun', $request->filTahun)
+                ->where('bulan', $request->filBulan)
                 ->select(DB::raw('*, monthname(DATE(CONCAT_WS("-", tahun, bulan, 1))) as bulanname'))
-                ->orderBy('nama_karyawan')->get();
+                ->orderBy('nama_karyawan'); //->get();
 
+        if ($areaNm != "All") {
+            $datas = $datas->where('branch', $areaNm);
+        }
+        if ($kryId != "All") {
+            $datas = $datas->where('nik_karyawan', $kryId);
+        }
+        if ($request->filStatusHadir != "All") {
+            $datas = $datas->where(DB::raw('concat_ws("_",t01,t02,t03,t04,t05,t06,t07,t08,t09,t10,t11,t12,t13,t14,t15,t16,t17,t18,t19,t20,t21,t22,t23,t24,t25,t26,t27,t28,t29,t30,t31)'), 'like', '%'.$request->filStatusHadir.'%');
+        }
+
+        $datas = $datas->get();
+        
         if ($request->ajax()) {
 
             return DataTables::of($datas)
@@ -81,12 +116,39 @@ class JadwalTim_controller extends Controller
 
     public function getRekapDataJadwalTeknisi(Request $request)
     {
+
+        $area = explode("|",$request->filarea);
+        $areaId = $area[0];
+        $areaNm = $area[1];
+
+        $kry = explode("|", $request->filNama);
+        $kryId = $kry[0];
+        $kryNm = $kry[1];
+
         $akses = Auth::user()->name;
 
-        $datas = DB::table('v_rekap_jadwal')
+        if($kryId != "All") {
+            $datas = DB::table('v_rekap_jadwal_karyawan')
+                ->where('tahun', $request->filTahun)
+                ->where('bulan', $request->filBulan)
                 ->where('posisiNew', 'LIKE', "%teknisi%")
-                ->get();
+                ->where('nik_karyawan',$kryId);
+                // ->get();
+        } else {
+            $datas = DB::table('v_rekap_jadwal')
+                ->where('tahun', $request->filTahun)
+                ->where('bulan', $request->filBulan)
+                ->where('posisiNew', 'LIKE', "%teknisi%");
+                // ->get();
                 // ->orWhere('posisi','LIKE','%staff%')->get();
+        }
+
+        if ($areaNm != "All") {
+            $datas = $datas->where('branch', $areaNm);
+        }
+
+        $datas = $datas->get();
+        
 
         if ($request->ajax()) {
 
@@ -95,6 +157,10 @@ class JadwalTim_controller extends Controller
                 // ->editColumn('nama_karyawan', function ($nm) {
                 //     return Str::title($nm->nama_karyawan);
                 // })
+                ->addColumn('dtid', function ($rw) {
+                    $rwid = 'Teknisi|' . $rw->tahun .'|'. $rw->bulan .'|'. $rw->branch .'|'. $rw->status;
+                    return $rwid;
+                }) 
                 
                 // ->addColumn('action', function ($row) {
                 //     $btn = '
@@ -103,7 +169,7 @@ class JadwalTim_controller extends Controller
                 //     //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
                 //     return $btn;
                 // })
-                ->rawColumns(['action'])   //merender content column dalam bentuk html
+                ->rawColumns(['dtid'])   //merender content column dalam bentuk html
                 ->escapeColumns()  //mencegah XSS Attack
                 ->toJson(); //merubah response dalam bentuk Json
             // ->make(true);
@@ -112,12 +178,38 @@ class JadwalTim_controller extends Controller
 
     public function getRekapDataJadwalStaff(Request $request)
     {
+        $area = explode("|",$request->filarea);
+        $areaId = $area[0];
+        $areaNm = $area[1];
+
+        $kry = explode("|", $request->filNama);
+        $kryId = $kry[0];
+        $kryNm = $kry[1];
+
         $akses = Auth::user()->name;
 
-        $datas = DB::table('v_rekap_jadwal')
+        if($kryId != "All") {
+            $datas = DB::table('v_rekap_jadwal_karyawan')
+                ->where('tahun', $request->filTahun)
+                ->where('bulan', $request->filBulan)
                 ->where('posisiNew', 'LIKE', "%staff%")
-                ->get();
+                ->where('nik_karyawan',$kryId);
+                // ->get();
+        } else {
+            $datas = DB::table('v_rekap_jadwal')
+                ->where('tahun', $request->filTahun)
+                ->where('bulan', $request->filBulan)
+                ->where('posisiNew', 'LIKE', "%staff%");
+                // ->get();
                 // ->orWhere('posisi','LIKE','%staff%')->get();
+        }
+
+        if ($areaNm != "All") {
+            $datas = $datas->where('branch', $areaNm);
+        }
+
+        $datas = $datas->get();
+        
 
         if ($request->ajax()) {
 
@@ -126,6 +218,10 @@ class JadwalTim_controller extends Controller
                 // ->editColumn('nama_karyawan', function ($nm) {
                 //     return Str::title($nm->nama_karyawan);
                 // })
+                ->addColumn('dtid', function ($rw) {
+                    $rwid = 'Staff|' . $rw->tahun .'|'. $rw->bulan .'|'. $rw->branch .'|'. $rw->status;
+                    return $rwid;
+                }) 
                 
                 // ->addColumn('action', function ($row) {
                 //     $btn = '
@@ -134,7 +230,7 @@ class JadwalTim_controller extends Controller
                 //     //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
                 //     return $btn;
                 // })
-                ->rawColumns(['action'])   //merender content column dalam bentuk html
+                ->rawColumns(['dtid'])   //merender content column dalam bentuk html
                 ->escapeColumns()  //mencegah XSS Attack
                 ->toJson(); //merubah response dalam bentuk Json
             // ->make(true);
@@ -143,12 +239,38 @@ class JadwalTim_controller extends Controller
 
     public function getRekapDataJadwalLeader(Request $request)
     {
+        $area = explode("|",$request->filarea);
+        $areaId = $area[0];
+        $areaNm = $area[1];
+
+        $kry = explode("|", $request->filNama);
+        $kryId = $kry[0];
+        $kryNm = $kry[1];
+
         $akses = Auth::user()->name;
 
-        $datas = DB::table('v_rekap_jadwal')
+        if($kryId != "All") {
+            $datas = DB::table('v_rekap_jadwal_karyawan')
+                ->where('tahun', $request->filTahun)
+                ->where('bulan', $request->filBulan)
                 ->where('posisiNew', 'LIKE', "%leader%")
-                ->get();
+                ->where('nik_karyawan',$kryId);
+                // ->get();
+        } else {
+            $datas = DB::table('v_rekap_jadwal')
+                ->where('tahun', $request->filTahun)
+                ->where('bulan', $request->filBulan)
+                ->where('posisiNew', 'LIKE', "%leader%");
+                // ->get();
                 // ->orWhere('posisi','LIKE','%staff%')->get();
+        }
+
+        if ($areaNm != "All") {
+            $datas = $datas->where('branch', $areaNm);
+        }
+
+        $datas = $datas->get();
+        
 
         if ($request->ajax()) {
 
@@ -157,6 +279,10 @@ class JadwalTim_controller extends Controller
                 // ->editColumn('nama_karyawan', function ($nm) {
                 //     return Str::title($nm->nama_karyawan);
                 // })
+                ->addColumn('dtid', function ($rw) {
+                    $rwid = 'Leader|' . $rw->tahun .'|'. $rw->bulan .'|'. $rw->branch .'|'. $rw->status;
+                    return $rwid;
+                }) 
                 
                 // ->addColumn('action', function ($row) {
                 //     $btn = '
@@ -165,7 +291,7 @@ class JadwalTim_controller extends Controller
                 //     //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
                 //     return $btn;
                 // })
-                ->rawColumns(['action'])   //merender content column dalam bentuk html
+                ->rawColumns(['dtid'])   //merender content column dalam bentuk html
                 ->escapeColumns()  //mencegah XSS Attack
                 ->toJson(); //merubah response dalam bentuk Json
             // ->make(true);
@@ -174,12 +300,38 @@ class JadwalTim_controller extends Controller
 
     public function getRekapDataJadwalSpv(Request $request)
     {
+        $area = explode("|",$request->filarea);
+        $areaId = $area[0];
+        $areaNm = $area[1];
+
+        $kry = explode("|", $request->filNama);
+        $kryId = $kry[0];
+        $kryNm = $kry[1];
+
         $akses = Auth::user()->name;
 
-        $datas = DB::table('v_rekap_jadwal')
+        if($kryId != "All") {
+            $datas = DB::table('v_rekap_jadwal_karyawan')
+                ->where('tahun', $request->filTahun)
+                ->where('bulan', $request->filBulan)
                 ->where('posisiNew', 'LIKE', "%Supervisor%")
-                ->get();
+                ->where('nik_karyawan',$kryId);
+                // ->get();
+        } else {
+            $datas = DB::table('v_rekap_jadwal')
+                ->where('tahun', $request->filTahun)
+                ->where('bulan', $request->filBulan)
+                ->where('posisiNew', 'LIKE', "%Supervisor%");
+                // ->get();
                 // ->orWhere('posisi','LIKE','%staff%')->get();
+        }
+
+        if ($areaNm != "All") {
+            $datas = $datas->where('branch', $areaNm);
+        }
+
+        $datas = $datas->get();
+        
 
         if ($request->ajax()) {
 
@@ -188,6 +340,10 @@ class JadwalTim_controller extends Controller
                 // ->editColumn('nama_karyawan', function ($nm) {
                 //     return Str::title($nm->nama_karyawan);
                 // })
+                ->addColumn('dtid', function ($rw) {
+                    $rwid = 'Supervisor|' . $rw->tahun .'|'. $rw->bulan .'|'. $rw->branch .'|'. $rw->status;
+                    return $rwid;
+                }) 
                 
                 // ->addColumn('action', function ($row) {
                 //     $btn = '
@@ -196,7 +352,7 @@ class JadwalTim_controller extends Controller
                 //     //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
                 //     return $btn;
                 // })
-                ->rawColumns(['action'])   //merender content column dalam bentuk html
+                ->rawColumns(['dtid'])   //merender content column dalam bentuk html
                 ->escapeColumns()  //mencegah XSS Attack
                 ->toJson(); //merubah response dalam bentuk Json
             // ->make(true);
@@ -319,6 +475,74 @@ class JadwalTim_controller extends Controller
 
         return response()->json($data);
 
+    }
+
+    public function getDetailRekapStatus(Request $request)
+    {
+        // dd($request->all());
+        
+        $detail = explode("|", $request->detail);
+        $tbl = $detail[0];
+        $thn = $detail[1];
+        $bln = $detail[2];
+        $day = "t".$request->tglClick;
+        $branch = $detail[3];
+        $status = $detail[4];
+        $kryId = $detail[5];
+        $kryNm = $detail[6];
+
+        $tglStatus = implode("-",[$thn, $bln, $request->tglClick]);
+
+        if($day == "ttotal"){
+            $datas= DB::table('v_rekap_jadwal_data as vd')
+                    ->leftJoin('employees as e', 'vd.nik_karyawan','=','e.nik_karyawan')                    
+                    ->where('vd.branch', $branch)->where('vd.tahun', $thn)->where('vd.bulan', $bln)
+                    ->where('e.status_active', 'Aktif')
+                    ->where('vd.status', $status)
+                    ->where('e.posisi', 'like','%'. $tbl.'%')
+                    ->select(DB::raw('vd.branch_id, vd.branch, vd.nik_karyawan, vd.nama_karyawan, e.posisi, tgl, status, vd.keterangan'))
+                    ->orderBy('vd.tgl')
+                    ->orderBy('vd.nama_karyawan')
+                    ->orderBy('vd.branch_id')
+                    ->get();
+
+            
+        } else {
+            $datas= DB::table('v_rekap_jadwal_data as vd')
+                    ->leftJoin('employees as e', 'vd.nik_karyawan','=','e.nik_karyawan')                    
+                    ->where('vd.branch', $branch)->where('vd.tahun', $thn)->where('vd.bulan', $bln)
+                    ->where('e.status_active', 'Aktif')
+                    ->where('vd.status', $status)
+                    ->where('vd.tgl', $tglStatus)
+                    ->where('e.posisi', 'like','%'. $tbl.'%')
+                    ->select(DB::raw('vd.branch_id, vd.branch, vd.nik_karyawan, vd.nama_karyawan, e.posisi, tgl, status, vd.keterangan'))
+                    ->orderBy('vd.tgl')
+                    ->orderBy('vd.nama_karyawan')
+                    ->orderBy('vd.branch_id')
+                    ->get();
+        }
+        
+
+        if ($request->ajax()) {
+
+            return DataTables::of($datas)
+                ->addIndexColumn() //memberikan penomoran
+                // ->editColumn('nama_karyawan', function ($nm) {
+                //     return Str::title($nm->nama_karyawan);
+                // })
+                            
+                // ->addColumn('action', function ($row) {
+                //     $btn = '
+                //     <a href="javascript:void(0)" id="detail-assign" data-id="' . $row->id . '" class="btn btn-sm btn-primary detail-assign mb-0" >Detail</a>';
+                //     // <a href="javascript:void(0)" id="detail-lead" data-id="' . $row->lead_call_id . "|" . $row->branch_id . "|" . $row->leader_id . '" class="btn btn-sm btn-primary detil-lead mb-0" >Edit</a>';
+                //     //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
+                //     return $btn;
+                // })
+                ->rawColumns(['action'])   //merender content column dalam bentuk html
+                ->escapeColumns()  //mencegah XSS Attack
+                ->toJson(); //merubah response dalam bentuk Json
+                // ->make(true);
+        }
     }
 
 }
