@@ -120,6 +120,7 @@ Route::get('/getRekapDataJadwalSpv', [JadwalTim_controller::class,'getRekapDataJ
 Route::get('/getKaryawan', [JadwalTim_controller::class,'getKaryawan'])->name('getKaryawan')->middleware('auth');
 Route::post('/simpanEditKehadiran', [JadwalTim_controller::class, 'simpanEditKehadiran'])->name('simpanEditKehadiran')->middleware('auth');
 Route::get('/getDetailStatus', [JadwalTim_controller::class, 'getDetailStatus'])->name('getDetailStatus')->middleware('auth');
+Route::get('/getDetailRekapStatus', [JadwalTim_controller::class, 'getDetailRekapStatus'])->name('getDetailRekapStatus')->middleware('auth');
 
 Route::get('/importScheduleIkr', [ImportJadwalTim_controller::class, 'index'])->name('importJadwalTim')->middleware('auth');
 Route::get('/getdataImportJadwal', [ImportJadwalTim_controller::class, 'getdataImportJadwal'])->name('getdataImportJadwal')->middleware('auth');

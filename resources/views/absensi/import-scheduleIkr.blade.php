@@ -100,6 +100,21 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    {{-- <div class="form-group"> --}}
+                                        <label class="col form-control-sm">Information of Data Import :</label>
+                                            <div class="form-group">
+                                                @if (isset($double))
+                                                    @if ($double > 0)
+                                                        <span class="error" style="color: red;">Data sudah pernah di import</span>
+                                                    @else
+                                                        <span class="error">-</span>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                    {{-- </div> --}}
+                                </div>
+
                                 {{-- <div class="row">
                                     <label class="col-sm-3 col-form-label form-control-sm">Branch</label>
                                     <div class="col form-group">
@@ -137,13 +152,15 @@
                     <div class="col text-end">
                         {{-- <button type="button" class="btn btn-sm btn-dark align-items-center" data-bs-toggle="modal"
                             data-bs-target="#previewModal">Show Preview</button> --}}
-                        <button onclick="return confirm('Simpan hasil import?')" type="submit" name="action"
-                            value="simpan" class="btn btn-sm btn-dark align-items-center">Save Import
-                            WO</button>
-                        <button onclick="return confirm('Hapus hasil import Jadwal IKR?')"
-                            onsubmit="this.disabled = true;" type="submit" name="action" value="batal"
-                            class="btn btn-sm btn-dark align-items-center">Cancel Import
-                            Data</button>
+                        
+
+                            <button onclick="return confirm('Simpan hasil import?')" type="submit" name="action"
+                                value="simpan" class="btn btn-sm btn-dark align-items-center">Save Import
+                                WO</button>
+                            <button onclick="return confirm('Hapus hasil import Jadwal IKR?')"
+                                onsubmit="this.disabled = true;" type="submit" name="action" value="batal"
+                                class="btn btn-sm btn-dark align-items-center">Cancel Import
+                                Data</button>
                     </div>
                     </form>
                 </div>
@@ -163,7 +180,7 @@
 
                         <div class="card-body px-2 py-2">
                             <div class="table-responsive">
-                                <table class="table align-items-center mb-0" id="tabelKaryawanTidakTerdaftar"
+                                <table class="table table-bordered align-items-center mb-0" id="tabelKaryawanTidakTerdaftar"
                                     style="font-size: 12px; border-color:#9ca0a7;">
                                     <thead class="bg-gray-400">
                                         <tr>
@@ -904,7 +921,7 @@
                         "className": "text-center",
                         // orderable: false,
                         searchable: false,
-                        "width": '20'
+                        "width": '10'
                     },
                     // {data: 'nik_karyawan'},
                     {data: 'nama_karyawan', "classNmae": "text-center",
@@ -912,7 +929,6 @@
                 ],
             })
         }
-
 
         $(document).on('click', '#detail-importWo', function(e) {
             // e.preventDefault();

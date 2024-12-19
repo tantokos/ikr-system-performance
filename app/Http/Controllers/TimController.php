@@ -19,7 +19,7 @@ class TimController extends Controller
     {
         $area = DB::table('branches')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
         $leaderName = DB::table('employees')->where('posisi', 'like', 'Leader%')->get();
-        $dtLeadCallsign = DB::table('callsign_leads')->get();
+        $dtLeadCallsign = DB::table('callsign_leads')->orderBy('lead_callsign')->get();
 
         return view('tim.data_Tim', ['area' => $area, 'namaLeader' => $leaderName, 'dtLeadCallsign' => $dtLeadCallsign]);
     }
