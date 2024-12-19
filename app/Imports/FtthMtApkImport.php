@@ -43,9 +43,9 @@ class FtthMtApkImport implements ToModel, WithHeadingRow, WithChunkReading, With
             'address' => Str::title($row['address']),
             'area' => Str::title($row['area']),
             'wo_type' => $row['wo_type'],
-            'cause_code' => $row['cause_code'],
-            'root_cause' => $row['root_cause'],
-            'action_taken' => $row['action_taken'],
+            'cause_code' => trim($row['cause_code']),
+            'root_cause' => trim($row['root_cause']),
+            'action_taken' => trim($row['action_taken']),
             'fat_code' => $row['fat_code'],
             'fat_port' => $row['fat_port'],
             'remarks' => $row['remarks'] ?? '',
@@ -77,17 +77,21 @@ class FtthMtApkImport implements ToModel, WithHeadingRow, WithChunkReading, With
     public function rules(): array
     {
         return [
-            'wo_no' => Rule::unique('import_ftth_mt_apks', 'wo_no'), // Sesuaikan nama tabel dan kolom
+            '*.wo_no' => ['required', Rule::unique('import_ftth_ib_apks', 'wo_no')],
+            '*.wo_date' => ['required'],
+            // '*.ticket_no' => ['required'],
+            '*.installation_date' => ['required'],
         ];
     }
 
-    /**
-     * Pesan khusus untuk validasi.
-     */
     public function customValidationMessages()
     {
         return [
-            'wo_no.unique' => 'WO number already exists.',
+            '*.wo_no.unique' => 'No WO sudah ada di database',
+            '*.wo_no.required' => 'No WO harus diisi',
+            // '*.ticket_no.required' => 'Ticket No harus diisi',
+            '*.wo_date.required' => 'WO Date harus diisi',
+            '*.installation_date.required' => 'Periksa kembali file yang diunggah, pastikan formatnya benar',
         ];
     }
 }

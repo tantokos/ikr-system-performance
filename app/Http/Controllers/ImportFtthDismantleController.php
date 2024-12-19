@@ -138,7 +138,9 @@ class ImportFtthDismantleController extends Controller
                         DB::table('data_ftth_dismantle_oris')
                             ->where('no_wo', $data->wo_no)
                             ->where('visit_date', $data->installation_date) // Menambahkan syarat
+                            ->where('is_checked', 0)
                             ->update([
+                                'slot_time_apk' => $data->time,
                                 'status_wo' => $data->status,
                                 'status_apk' => $data->status,
                                 'checkin_apk' => $data->check_in,

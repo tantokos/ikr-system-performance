@@ -48,10 +48,16 @@
                                     </div>
 
                                     <div class="form-group mb-1">
-                                        <span class="text-xs">Type WO</span>
-                                        <select class="form-control form-control-sm" type="text" id="filtypeWo"
-                                            name="filtypeWo" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Type WO</option>
+                                        <span class="text-xs">Status WO</span>
+                                        <select class="form-control form-control-sm" type="text" id="filstatusWo"
+                                            name="filstatusWo" style="border-color:#9ca0a7;">
+                                            <option value="" disabled selected>Pilih Status WO</option>
+                                            <option value="Requested">Requested</option>
+                                            <option value="Checkin">Checkin</option>
+                                            <option value="Checkout">Checkout</option>
+                                            <option value="Done">Done</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="Cancelled">Cancelled</option>
                                         </select>
                                     </div>
                                 </div>
@@ -62,6 +68,12 @@
                                         <select class="form-control form-control-sm" type="text" id="filarea"
                                             name="filarea" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Area</option>
+                                            @if (isset($branches))
+                                                @foreach ($branches as $b)
+                                                    <option value="{{ $b->id . '|' . $b->nama_branch }}">
+                                                        {{ $b->nama_branch }}
+                                                @endforeach
+                                            @endif
                                         </select>
                                         <input type="hidden" id="filareaId" name="filareaId">
                                     </div>
@@ -71,16 +83,29 @@
                                         <select class="form-control form-control-sm" type="text" id="filleaderTim"
                                             name="filleaderTim" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Leader</option>
+                                            @if (isset($leader))
+                                                @foreach ($leader as $ld)
+                                                    <option value="{{ $ld->leader_id . '|' . $ld->nama_leader }}">
+                                                        {{ $ld->nama_leader }}
+                                                @endforeach
+                                            @endif
                                         </select>
                                         <input type="hidden" id="filleaderid" name="filleaderid" readonly>
                                     </div>
 
                                     <div class="form-group mb-1">
                                         <span class="text-xs">Callsign Tim</span>
-                                        <select class="form-control form-control-sm" type="text"
-                                            id="filcallsignTimid" name="filcallsignTimid" style="border-color:#9ca0a7;"
+                                        <select class="form-control form-control-sm" type="text" id="filcallsignTimid"
+                                            name="filcallsignTimid" style="border-color:#9ca0a7;"
                                             placeholder="Isi Callsign Tim">
                                             <option value="">Pilih Callsign Tim</option>
+                                            @if (isset($callTim))
+                                                @foreach ($callTim as $cTim)
+                                                    <option
+                                                        value="{{ $cTim->callsign_tim_id . '|' . $cTim->callsign_tim }}">
+                                                        {{ $cTim->callsign_tim }}
+                                                @endforeach
+                                            @endif
                                         </select>
                                     </div>
 
@@ -101,6 +126,12 @@
                                         <select class="form-control form-control-sm" type="text" id="filcluster"
                                             name="filcluster" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Cluster</option>
+                                            @if (isset($cluster))
+                                                @foreach ($cluster as $cl)
+                                                    <option value="{{ $cl->cluster }}">
+                                                        {{ $cl->cluster }}
+                                                @endforeach
+                                            @endif
                                         </select>
                                     </div>
 
@@ -113,8 +144,31 @@
                                     <div class="form-group mb-1">
                                         <span class="text-xs">Slot Time</span>
                                         <select class="form-control form-control-sm" type="text" id="filslotTime"
-                                            name="filslotTime" style="border-color:#9ca0a7;">
+                                            name="filslotTime" style="border-color:#9ca0a7;" disabled>
                                             <option value="">Pilih SlotTime</option>
+                                            <option value="09:00">09:00</option>
+                                            <option value="09:30">09:30</option>
+                                            <option value="10:00">10:00</option>
+                                            <option value="10:30">10:30</option>
+                                            <option value="11:00">11:00</option>
+                                            <option value="11:30">11:30</option>
+                                            <option value="12:00">12:00</option>
+                                            <option value="12:30">12:30</option>
+                                            <option value="13:00">13:00</option>
+                                            <option value="13:30">13:30</option>
+                                            <option value="14:00">14:00</option>
+                                            <option value="14:30">14:30</option>
+                                            <option value="15:00">15:00</option>
+                                            <option value="15:30">15:30</option>
+                                            <option value="16:00">16:00</option>
+                                            <option value="16:30">16:30</option>
+                                            <option value="17:00">17:00</option>
+                                            <option value="17:30">17:30</option>
+                                            <option value="18:00">18:00</option>
+                                            <option value="18:30">18:30</option>
+                                            <option value="19:00">19:00</option>
+                                            <option value="19:30">19:30</option>
+                                            <option value="20:00">20:00</option>
                                         </select>
                                     </div>
 
@@ -146,6 +200,17 @@
                                     <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data FTTH New Installation</span></h6>
                                 </div>
                                 <div class="ms-auto d-flex">
+                                    <a href="#" id="exportButton">
+                                        <button type="button"
+                                            class="btn btn-sm btn-icon d-flex align-items-center me-2"
+                                            style="background-color: #1abd64; border-color: #1abd64; color: white; padding: 5px 12px;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50" style="margin-right: 8px;">
+                                                <path fill="white" d="M 28.875 0 C 28.855469 0.0078125 28.832031 0.0195313 28.8125 0.03125 L 0.8125 5.34375 C 0.335938 5.433594 -0.0078125 5.855469 0 6.34375 L 0 43.65625 C -0.0078125 44.144531 0.335938 44.566406 0.8125 44.65625 L 28.8125 49.96875 C 29.101563 50.023438 29.402344 49.949219 29.632813 49.761719 C 29.859375 49.574219 29.996094 49.296875 30 49 L 30 44 L 47 44 C 48.09375 44 49 43.09375 49 42 L 49 8 C 49 6.90625 48.09375 6 47 6 L 30 6 L 30 1 C 30.003906 0.710938 29.878906 0.4375 29.664063 0.246094 C 29.449219 0.0546875 29.160156 -0.0351563 28.875 0 Z M 28 2.1875 L 28 6.53125 C 27.867188 6.808594 27.867188 7.128906 28 7.40625 L 28 42.8125 C 27.972656 42.945313 27.972656 43.085938 28 43.21875 L 28 47.8125 L 2 42.84375 L 2 7.15625 Z M 30 8 L 47 8 L 47 42 L 30 42 L 30 37 L 34 37 L 34 35 L 30 35 L 30 29 L 34 29 L 34 27 L 30 27 L 30 22 L 34 22 L 34 20 L 30 20 L 30 15 L 34 15 L 34 13 L 30 13 Z M 36 13 L 36 15 L 44 15 L 44 13 Z M 6.6875 15.6875 L 12.15625 25.03125 L 6.1875 34.375 L 11.1875 34.375 L 14.4375 28.34375 C 14.664063 27.761719 14.8125 27.316406 14.875 27.03125 L 14.90625 27.03125 C 15.035156 27.640625 15.160156 28.054688 15.28125 28.28125 L 18.53125 34.375 L 23.5 34.375 L 17.75 24.9375 L 23.34375 15.6875 L 18.65625 15.6875 L 15.6875 21.21875 C 15.402344 21.941406 15.199219 22.511719 15.09375 22.875 L 15.0625 22.875 C 14.898438 22.265625 14.710938 21.722656 14.5 21.28125 L 11.8125 15.6875 Z M 36 20 L 36 22 L 44 22 L 44 20 Z M 36 27 L 36 29 L 44 29 L 44 27 Z M 36 35 L 36 37 L 44 37 L 44 35 Z"></path>
+                                            </svg>
+                                            <span class="btn-inner--text">Export</span>
+                                        </button>
+                                    </a>
+
                                     <a href="{{ route('importDataFtthIbApk') }}">
                                         <button type="button"
                                             class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
@@ -204,6 +269,7 @@
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 3</th>
                                             {{-- <th class="text-center text-xs font-weight-semibold">Teknisi 4</th> --}}
                                             <th class="text-center text-xs font-weight-semibold">Status WO</th>
+                                            <th class="text-center text-xs font-weight-semibold">Status Check</th>
 
                                             <th class="text-center text-xs font-weight-semibold">#</th>
 
@@ -437,17 +503,9 @@
                                             <div class="col">
                                                 <div class="col form-group mb-1">
                                                     <span class="text-xs">Branch</span>
-                                                    <select class="form-control form-control-sm" type="text"
+                                                    <input class="form-control form-control-sm" type="text"
                                                         id="branchShow" name="branchShow"
                                                         style="border-color:#9ca0a7;" readonly>
-                                                        <option value="">Pilih Branch</option>
-                                                        @if (isset($branches))
-                                                            @foreach ($branches as $b)
-                                                                <option value="{{ $b->id . '|' . $b->nama_branch }}">
-                                                                    {{ $b->nama_branch }}
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
                                                 </div>
 
                                                 <div class="form-group mb-1">
@@ -723,6 +781,7 @@
                                                     <select class="form-control form-control-sm"
                                                         type="text" id="penagihanShow"
                                                         name="penagihanShow" style="border-color:#9ca0a7;">
+                                                        <option value="" disabled selected>--Pilih Penagihan--</option>
                                                         <option value="Migrasi Dw To Precon">Migrasi Dw To Precon</option>
                                                         <option value="Replace Precon To Precon">Replace Precon To Precon</option>
                                                         <option value="No Customer">No Customer</option>
@@ -743,6 +802,7 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="weatherShow" name="weatherShow"
                                                                 style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Kondisi Cuaca--</option>
                                                                 <option value="Cerah">Cerah</option>
                                                                 <option value="Hujan">Hujan</option>
                                                             </select>
@@ -764,7 +824,7 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="jamReschedule"
                                                                 name="jamReschedule" style="border-color:#9ca0a7;">
-                                                                <option value="">Pilih Slot Time</option>
+                                                                <option value="" disabled selected>--Pilih Slot Time--</option>
                                                                 <option value="09:00">09:00</option>
                                                                 <option value="09:30">09:30</option>
                                                                 <option value="10:00">10:00</option>
@@ -907,6 +967,16 @@
                                                                 id="picDispatch" name="picDispatch"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mt-4">
+                                                    <div class="form-check">
+                                                        <input type="hidden" name="is_checked" value="0"> <!-- Default jika tidak dicentang -->
+                                                        <input class="form-check-input" type="checkbox" name="is_checked" value="1" id="isChecked">
+                                                        <label class="form-check-label" for="isChecked">
+                                                            Sudah Dicek
+                                                        </label>
                                                     </div>
                                                 </div>
 
@@ -1425,14 +1495,26 @@
 
         $('#filAssignTim').trigger("click");
 
-        // $.ajax({
-        //     url: "{{ route('getDataMTOris') }}",
-        //     type: "get",
-        //     dataType: "json",
-        //     success: function(dtRes) {
-        //         console.log(dtRes);
-        //     }
-        // })
+        //Export Excel
+        $(document).on('click', '#exportButton', function(e) {
+            e.preventDefault();
+            var url = '{{ route("ftth-ib.export") }}';
+            var params = {
+                filtglProgress: $('#filtglProgress').val(),
+                filnoWo: $('#filnoWo').val(),
+                filcustId: $('#filcustId').val(),
+                filstatusWo: $('#filstatusWo').val(),
+                filarea: $('#filarea').val(),
+                filleaderTim: $('#filleaderTim').val(),
+                filcallsignTimid: $('#filcallsignTimid').val(),
+                filteknisi: $('#filteknisi').val(),
+                filcluster: $('#filcluster').val(),
+                filfatCode: $('#filfatCode').val(),
+                filslotTime: $('#filslotTime').val()
+            };
+
+            window.location.href = url + '?' + $.param(params);
+        });
 
         function get_data_assignTim_ib() {
             var data_assignTim = $('#tabelAssignTim').DataTable({
@@ -1467,7 +1549,7 @@
                         filTgl: $('#filtglProgress').val(),
                         filNoWo: $('#filnoWo').val(),
                         filcustId: $('#filcustId').val(),
-                        filtypeWo: $('#filtypeWo').val(),
+                        filstatusWo: $('#filstatusWo').val(),
                         filarea: $('#filarea').val(),
                         filleaderTim: $('#filleaderTim').val(),
                         filcallsignTimid: $('#filcallsignTimid').val(),
@@ -1537,7 +1619,19 @@
                         data: 'teknisi3'
                     },
                     {
-                        data: 'status_wo'
+                        data: 'status_apk'
+                    },
+                    {
+                        data: 'is_checked',
+                        render: function(data, type, row) {
+                            if (data == 1) {
+                                // Jika sudah dicek, tampilkan badge hijau
+                                return '<span class="badge text-bg-success text-white">Sudah Dicek</span>';
+                            } else {
+                                // Jika belum dicek, tampilkan badge kuning
+                                return '<span class="badge text-bg-warning text-white">Belum Dicek</span>';
+                            }
+                        }
                     },
                     {
                         data: 'action',
@@ -1610,12 +1704,12 @@
                     $('#portFatShow').val(dtDis.port_fat);
                     $('#remarksShow').val(toTitleCase(dtDis.type_maintenance || "" ));
 
-                    $('#branchShow').val(dtDis.branch_id + '|' + dtDis.branch);
+                    $('#branchShow').val(dtDis.branch);
                     $('#tglProgressShow').val(dtDis.tgl_ikr);
                     $('#tglProgressStatusShow').val(dtDis.tgl_ikr);
                     $('#tglProgressAPKShow').val(dtDis.tgl_ikr);
 
-                    $('#sesiShow').val(dtDis.sesi);
+                    $('#sesiShow').val(toTitleCase(dtDis.sesi || ""));
                     $('#slotTimeLeaderShow').val(dtDis.slot_time_leader);
                     $('#slotTimeAPKShow').val(dtDis.slot_time_apk);
 
@@ -1633,6 +1727,7 @@
                     $('#alasanCancel').val(dtDis.alasan_cancel);
                     $('#alasanPending').val(dtDis.alasan_pending);
 
+                    $('#picDispatch').val(toTitleCase(dtDis.nama_dispatch || ""));
 
                     $('#leaderShow').val(dtDis.leader);
                     $('#teknisi1Show').val(dtDis.teknisi1);
@@ -1642,6 +1737,8 @@
 
                     $('#statusWo').val(toTitleCase(dtDis.status_wo || ""));
                     $('#statusWoApk').val(toTitleCase(dtDis.status_apk || ""));
+                    $('#isChecked').prop('checked', dtDis.is_checked == 1);
+
 
                     $('#causeCode').val(dtDis.couse_code);
                     $('#rootCause').val(dtDis.root_couse);

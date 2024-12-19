@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\FtthIbExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,6 +12,7 @@ use App\Models\FtthIb;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MonitFtthIB_Controller extends Controller
 {
@@ -19,7 +21,25 @@ class MonitFtthIB_Controller extends Controller
      */
     public function index()
     {
-        return view('monitoringWo.monit_ftth_ib');
+        $branches = DB::table('branches')->select('id','nama_branch')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
+
+        $leader = DB::table('v_detail_callsign_tim')->select('leader_id', 'nama_leader', 'nama_branch')
+            ->orderBy('lead_callsign')->orderBy('branch_id')
+            ->groupBy('lead_call_id', 'lead_callsign', 'nama_branch')->get();
+
+        $callTim = DB::table('v_detail_callsign_tim')
+            ->select('callsign_tim_id', 'callsign_tim')->distinct()
+            ->orderBy('callsign_tim')->get();
+
+        $cluster = DB::table('fats')->select('cluster')
+                ->where('cluster', '<>', "")->distinct()->orderBy('cluster')->get();
+
+        return view('monitoringWo.monit_ftth_ib', compact(
+            'branches',
+            'leader',
+            'callTim',
+            'cluster'
+        ));
     }
 
     public function getDataIBOris(Request $request)
@@ -44,8 +64,8 @@ class MonitFtthIB_Controller extends Controller
             if($request->filcustId != null) {
                 $datas = $datas->where('cust_id', $request->filcustId);
             }
-            if($request->filtypeWo != null) {
-                $datas = $datas->where('type_wo', $request->filtypeWo);
+            if($request->filstatusWo != null) {
+                $datas = $datas->where('status_wo', $request->filstatusWo);
             }
             if($request->filarea != null) {
                 $b = explode("|", $request->filarea);
@@ -83,8 +103,6 @@ class MonitFtthIB_Controller extends Controller
             $datas = $datas->get();
 
         if ($request->ajax()) {
-
-
 
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
@@ -291,8 +309,10 @@ class MonitFtthIB_Controller extends Controller
             'precon_out' => $request['kabelPrecon'],
             'leader_id' => $request['leaderidShow'],
             'callsign_id' => $request['callsign_id'],
+            'nama_dispatch' => $request['picDispatch'],
             'alasan_pending' => $request['alasanPending'],
             'alasan_cancel' => $request['alasanCancel'],
+            'is_checked' => $request['is_checked'],
             'login_id' => $aksesId,
             'login' => $akses,
         ]);
@@ -326,43 +346,9 @@ class MonitFtthIB_Controller extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function export(Request $request)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $export = new FtthIbExport($request);
+        return Excel::download($export, 'FTTH_IB.xlsx');
     }
 }
