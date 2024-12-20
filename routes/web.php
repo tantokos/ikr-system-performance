@@ -229,6 +229,9 @@ Route::post('/saveValidasi', [MonitFotoFtthMT_Controller::class, 'saveValidasi']
 
 //End Monitoring FOTO APK//
 
+//Chart Endpoint
+Route::get('/getFtthData', [DashboardController::class, 'getFtthData'])->name('getFtthData')->middleware('auth');
+
 //Start Tools//
 Route::get('/dataTool', [ToolController::class, 'index'])->name('dataTool')->middleware('auth');
 Route::get('/getRekapTool', [ToolController::class, 'getRekapTool'])->name('getRekapTool')->middleware('auth');
