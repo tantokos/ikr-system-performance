@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\ImportAssignTim;
+use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
@@ -45,6 +46,23 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             return null;
         }
 
+        // Tangani nilai non-numerik pada 'ikr_date'
+        $ikrDate = $row['ikr_date'];
+        if (is_numeric($ikrDate)) {
+            $formattedDate = Date::excelToDateTimeObject($ikrDate)->format("Y-m-d");
+        } else {
+            $parsedDate = \DateTime::createFromFormat('d/m/Y', $ikrDate)
+                ?: \DateTime::createFromFormat('d-m-Y', $ikrDate)
+                ?: \DateTime::createFromFormat('Y-m-d', $ikrDate);
+
+            if ($parsedDate) {
+                $formattedDate = $parsedDate->format('Y-m-d');
+            } else {
+                throw new \Exception("Format tanggal IKR tidak valid: " . $ikrDate);
+            }
+        }
+
+
         $tm = intval($row['time']);
 
         return new ImportAssignTim([
@@ -72,7 +90,8 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             // 'ikr_date_apk' => Date::excelToDateTimeObject($row['ikr_date'])->format("Y-m-d"),
             // 'time_apk' => Date::excelToDateTimeObject($row['time'])->format("H:i"),
 
-            'tgl_ikr' => Date::excelToDateTimeObject($row['ikr_date'])->format("Y-m-d"),
+            'tgl_ikr' => $formattedDate,
+            // 'tgl_ikr' => Date::excelToDateTimeObject($row['ikr_date'])->format("Y-m-d"),
             'slot_time' => is_string($row['time']) ? \Carbon\Carbon::createFromFormat('H:i', $row['time'])->format('H:i') : Date::excelToDateTimeObject($row['time'])->format("H:i"),
             'time_apk' => is_string($row['time']) ? \Carbon\Carbon::createFromFormat('H:i', $row['time'])->format('H:i') : Date::excelToDateTimeObject($row['time'])->format("H:i"),
 
@@ -106,7 +125,42 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             '*.wo_no' => ['required', Rule::unique('import_assign_tims', 'no_wo_apk')],
             '*.branch' => ['required'],
             '*.callsign' => ['required'],
-            // 'wo_no' => Rule::unique('import_assign_tims', 'wo_no')->where(fn (Builder $query) => $query->where('tgk_ikr', 'satu'))
+            '*.ikr_date' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    try {
+                        $date = null;
+
+                        // Jika nilai berupa angka (Excel datetime)
+                        if (is_numeric($value)) {
+                            $date = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($value)->format('Y-m-d');
+                        } else {
+                            // Jika nilai berupa string, coba parsing dengan berbagai format
+                            $formats = ['d/m/Y', 'd-m-Y', 'Y-m-d'];
+                            foreach ($formats as $format) {
+                                $parsedDate = \DateTime::createFromFormat($format, $value);
+                                if ($parsedDate !== false) {
+                                    $date = $parsedDate->format('Y-m-d');
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Jika konversi gagal
+                        if (!$date) {
+                            $fail("Format tanggal $attribute tidak valid. Gunakan format d/m/Y, d-m-Y, Y-m-d, atau Excel date.");
+                            return;
+                        }
+
+                        // Validasi tanggal tidak boleh di masa lalu
+                        if (\Carbon\Carbon::parse($date)->isBefore(\Carbon\Carbon::today())) {
+                            $fail("Tanggal $attribute tidak boleh di masa lalu.");
+                        }
+                    } catch (\Exception $e) {
+                        $fail("Format tanggal $attribute tidak valid.");
+                    }
+                }
+            ],
         ];
     }
 
@@ -117,8 +171,10 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             '*.wo_no.required' => 'No WO harus diisi',
             '*.branch.required' => 'Branch harus diisi',
             '*.callsign.required' => 'Callsign harus diisi',
+            '*.ikr_date.required' => 'Tanggal IKR harus diisi',
         ];
     }
+
 
     public function chunkSize(): int
     {

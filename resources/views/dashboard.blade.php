@@ -67,12 +67,6 @@
                                     <div class="w-100">
                                         <p class="text-sm text-secondary mb-1">FTTH New Installation</p>
                                         <h4 class="mb-2 font-weight-bold">{{ $ftth_ib }}</h4>
-                                        <div class="d-flex align-items-center">
-                                            <span class="text-sm text-success font-weight-bolder">
-                                                <i class="fa fa-chevron-up text-xs me-1"></i>10.5%
-                                            </span>
-                                            <span class="text-sm ms-1">from $89,740.00</span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -98,12 +92,6 @@
                                     <div class="w-100">
                                         <p class="text-sm text-secondary mb-1">FTTH Maintenance</p>
                                         <h4 class="mb-2 font-weight-bold">{{ $ftth_mt }}</h4>
-                                        <div class="d-flex align-items-center">
-                                            <span class="text-sm text-success font-weight-bolder">
-                                                <i class="fa fa-chevron-up text-xs me-1"></i>55%
-                                            </span>
-                                            <span class="text-sm ms-1">from 243</span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -127,12 +115,6 @@
                                     <div class="w-100">
                                         <p class="text-sm text-secondary mb-1">FTTH Dismantle</p>
                                         <h4 class="mb-2 font-weight-bold">{{ $ftth_dismantle }}</h4>
-                                        <div class="d-flex align-items-center">
-                                            <span class="text-sm text-success font-weight-bolder">
-                                                <i class="fa fa-chevron-up text-xs me-1"></i>22%
-                                            </span>
-                                            <span class="text-sm ms-1">from $369.30</span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -155,13 +137,7 @@
                                 <div class="col-12">
                                     <div class="w-100">
                                         <p class="text-sm text-secondary mb-1">FTTX</p>
-                                        <h4 class="mb-2 font-weight-bold">10</h4>
-                                        <div class="d-flex align-items-center">
-                                            <span class="text-sm text-success font-weight-bolder">
-                                                <i class="fa fa-chevron-up text-xs me-1"></i>18%
-                                            </span>
-                                            <span class="text-sm ms-1">from $19,800.40</span>
-                                        </div>
+                                        <h4 class="mb-2 font-weight-bold">0</h4>
                                     </div>
                                 </div>
                             </div>
@@ -173,10 +149,9 @@
                 <div class="col-lg-12">
                     <div class="card shadow-xs border">
                         <div class="card-header pb-0">
-                            <div class="d-sm-flex align-items-center mb-3">
+                            <div class="d-sm-flex align-items-center mb-4">
                                 <div>
-                                    <h6 class="font-weight-semibold text-lg mb-0">Overview balance</h6>
-                                    <p class="text-sm mb-sm-0 mb-2">Here you have details about the balance.</p>
+                                    <h6 class="font-weight-semibold text-lg mb-0">Grafik FTTH</h6>
                                 </div>
                                 <div class="ms-auto d-flex">
                                     <button type="button" class="btn btn-sm btn-white mb-0 me-2">
@@ -184,21 +159,9 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="d-sm-flex align-items-center">
-                                <h3 class="mb-0 font-weight-semibold">$87,982.80</h3>
-                                <span
-                                    class="badge badge-sm border border-success text-success bg-success border-radius-sm ms-sm-3 px-2">
-                                    <svg width="9" height="9" viewBox="0 0 10 9" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M0.46967 4.46967C0.176777 4.76256 0.176777 5.23744 0.46967 5.53033C0.762563 5.82322 1.23744 5.82322 1.53033 5.53033L0.46967 4.46967ZM5.53033 1.53033C5.82322 1.23744 5.82322 0.762563 5.53033 0.46967C5.23744 0.176777 4.76256 0.176777 4.46967 0.46967L5.53033 1.53033ZM5.53033 0.46967C5.23744 0.176777 4.76256 0.176777 4.46967 0.46967C4.17678 0.762563 4.17678 1.23744 4.46967 1.53033L5.53033 0.46967ZM8.46967 5.53033C8.76256 5.82322 9.23744 5.82322 9.53033 5.53033C9.82322 5.23744 9.82322 4.76256 9.53033 4.46967L8.46967 5.53033ZM1.53033 5.53033L5.53033 1.53033L4.46967 0.46967L0.46967 4.46967L1.53033 5.53033ZM4.46967 1.53033L8.46967 5.53033L9.53033 4.46967L5.53033 0.46967L4.46967 1.53033Z"
-                                            fill="#67C23A"></path>
-                                    </svg>
-                                    10.5%
-                                </span>
-                            </div>
+
                         </div>
-                        <div class="card-body p-3">
+                        <div class="card-body p-3 mt-4">
                             <div class="chart mt-n6">
                                 <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
                             </div>
@@ -209,5 +172,159 @@
             <x-app.footer />
         </div>
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let filter = "daily"; // Default filter
+
+            // Fungsi untuk mengambil data dari API
+            async function fetchFtthData() {
+                try {
+                    const response = await fetch(`{{ route('getFtthData') }}?filter=${filter}`);
+                    const data = await response.json();
+
+                    if (data.status) {
+                        updateChart(data.results);
+                    } else {
+                        console.error('Error fetching data:', data.message || 'Unknown error');
+                    }
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            }
+
+            // Fungsi untuk memperbarui dataset pada chart
+            function updateChart(results) {
+                // Gabungkan semua tanggal unik dari semua dataset
+                const allDates = [...new Set([
+                    ...results.ftth_ib.map(item => item.dateKey),
+                    ...results.ftth_mt.map(item => item.dateKey),
+                    ...results.ftth_dismantle.map(item => item.dateKey)
+                ])].filter(date => date !== null).sort();
+
+                // Fungsi untuk mengambil total data berdasarkan tanggal
+                const getDataByDate = (data, dates) => {
+                    return dates.map(date => {
+                        const record = data.find(item => item.dateKey === date);
+                        return record ? record.total : 0;
+                    });
+                };
+
+                // Update data chart berdasarkan tanggal yang unik
+                chart.data.labels = allDates;
+                chart.data.datasets[0].data = getDataByDate(results.ftth_ib, allDates);
+                chart.data.datasets[1].data = getDataByDate(results.ftth_mt, allDates);
+                chart.data.datasets[2].data = getDataByDate(results.ftth_dismantle, allDates);
+
+                chart.update();
+            }
+
+            // Fungsi untuk memperbarui filter dan mengambil data baru
+            window.updateFilter = function () {
+                const filterDropdown = document.getElementById("filter");
+                filter = filterDropdown.value; // Perbarui filter
+                fetchFtthData(); // Ambil data baru
+            };
+
+            var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+            // Membuat chart dengan dataset awal kosong
+            var chart = new Chart(ctx2, {
+                type: "line",
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: "FTTH New Installation",
+                            tension: 0.4,
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            borderColor: "#2ca8ff",
+                            backgroundColor: "rgba(45,168,255,0.2)",
+                            fill: true,
+                            data: [],
+                        },
+                        {
+                            label: "FTTH Maintenance",
+                            tension: 0.4,
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            borderColor: "#ffc000",
+                            backgroundColor: "rgba(119,77,211,0.4)",
+                            fill: true,
+                            data: [],
+                        },
+                        {
+                            label: "FTTH Dismantle",
+                            tension: 0.4,
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            borderColor: "#eb1414",
+                            backgroundColor: "rgba(119,77,211,0.4)",
+                            fill: true,
+                            data: [],
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: "top",
+                            align: 'end',
+                            labels: {
+                                boxWidth: 6,
+                                boxHeight: 6,
+                                padding: 20,
+                                pointStyle: 'circle',
+                                borderRadius: 50,
+                                usePointStyle: true,
+                                font: {
+                                    size: 12,
+                                    family: "Noto Sans",
+                                },
+                            },
+                        },
+                        tooltip: {
+                        backgroundColor: '#fff',
+                        titleColor: '#1e293b',
+                        bodyColor: '#1e293b',
+                        borderColor: '#e9ecef',
+                        borderWidth: 1,
+                        pointRadius: 2,
+                        usePointStyle: true,
+                        boxWidth: 8,
+                    }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: "index",
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                drawBorder: false,
+                                borderDash: [4, 4],
+                            },
+                            ticks: {
+                                callback: (value) => value.toLocaleString(),
+                            },
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                            },
+                        },
+                    },
+                },
+            });
+
+            // Ambil data API dan perbarui chart saat halaman dimuat
+            fetchFtthData();
+        });
+
+    </script>
 
 </x-app-layout>
