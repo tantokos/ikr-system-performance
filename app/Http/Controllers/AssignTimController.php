@@ -34,7 +34,7 @@ class AssignTimController extends Controller
             ->select('callsign_tim_id', 'callsign_tim')->distinct()
             ->orderBy('callsign_tim')->get();
 
-        $tim = Employee::whereIn('posisi', ['Installer', 'Maintenance'])
+        $tim = Employee::whereIn('posisi', ['Installer', 'Maintenance', 'Teknisi'])
             ->select('nik_karyawan', 'nama_karyawan')
             ->orderBy('nama_karyawan')
             ->get();
@@ -144,7 +144,7 @@ class AssignTimController extends Controller
         $datas = DB::table('data_assign_tims as d')
             ->where('d.id', $assignId)->first();
 
-        $tim = Employee::whereIn('posisi', ['Installer', 'Maintenance'])
+        $tim = Employee::whereIn('posisi', ['Installer', 'Maintenance', 'Teknisi'])
             ->select('nik_karyawan', 'nama_karyawan')
             ->orderBy('nama_karyawan')
             ->get();
@@ -181,7 +181,7 @@ class AssignTimController extends Controller
 
         $branch_id = $request->area;
 
-        $tim = Employee::whereIn('posisi', ['Installer', 'Maintenance'])
+        $tim = Employee::whereIn('posisi', ['Installer', 'Maintenance', 'Teknisi'])
             ->select('nik_karyawan', 'nama_karyawan')
             ->orderBy('nama_karyawan')
             ->get();

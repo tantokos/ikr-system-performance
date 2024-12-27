@@ -238,7 +238,7 @@
                                                     </path>
                                                 </svg>
                                             </span>
-                                            <span class="btn-inner--text">Import Data WO</span>
+                                            <span class="btn-inner--text">Import Data Assign Tim</span>
                                         </button>
                                     </a>
                                 </div>
@@ -1100,7 +1100,7 @@
                 paging: true,
                 orderClasses: false,
                 fixedColumns: {
-                    leftColumns: 6,
+                    leftColumns: 3,
                 },
                 deferRender: true,
                 scrollCollapse: true,
@@ -1168,8 +1168,120 @@
                 }
             });
         }
+        
+
+        $(document).on('click', '#detail-assign', function(e) {
+            // e.preventDefault();
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let assign_id = $(this).data('id');
+
+            $.ajax({
+                url: "{{ route('getDetailAssign') }}",
+                type: "get",
+                data: {
+                    filAssignId: assign_id,
+                    _token: _token
+                },
+                success: function(dtDis) {
+                    console.log(dtDis);
+                    $('#detId').val(dtDis.data.id)
+                    $('#noWoShow').val(dtDis.data.no_wo_apk)
+                    $('#ticketNoShow').val(dtDis.data.no_ticket_apk)
+                    $('#woTypeShow').val(toTitleCase(dtDis.data.wo_type_apk))
+                    $('#jenisWoShow').val(dtDis.data.type_wo)
+                    $('#WoDateShow').val(dtDis.data.wo_date_apk)
+                    $('#custIdShow').val(dtDis.data.cust_id_apk)
+                    $('#custNameShow').val(toTitleCase(dtDis.data.name_cust_apk))
+                    $('#custPhoneShow').val(dtDis.data.cust_phone_apk)
+
+                    $('#custMobileShow').val(dtDis.data.cust_mobile_apk);
+                    $('#custAddressShow').val(toTitleCase(dtDis.data.address_apk));
+                    $('#areaShow').val(toTitleCase(dtDis.data.area_cluster_apk));
+                    $('#ikrDateApkShow').val(dtDis.data.ikr_date_apk);
+                    $('#timeApkShow').val(dtDis.data.time_apk);
+                    $('#fatCodeShow').val(dtDis.data.fat_code_apk);
+                    $('#portFatShow').val(dtDis.data.fat_port_apk);
+                    $('#remarksShow').val(toTitleCase(dtDis.data.remarks_apk || ""));
+
+                    $('#branchShow').val(dtDis.data.branch_id + '|' + dtDis.data.branch);
+                    $('#tglProgressShow').val(dtDis.data.tgl_ikr);
+
+                    $('#sesiShowAdd').val(toTitleCase(dtDis.data.batch_wo || ""));
+                    $('#sesiShow').val(toTitleCase(dtDis.data.batch_wo || ""));
+                    console.log(dtDis.data.batch_wo);
 
 
+                    leadCallsignDet = dtDis.data.leadcall_id + '|' + dtDis.data.leadcall
+                    // document.getElementById("LeadCallsignShow").value = leadCallsignDet;
+                    $('#LeadCallsignShow').val(leadCallsignDet);
+                    // $('#LeadCallsignShow').trigger('change');
+
+                    $('#leaderShow').val(dtDis.data.leader);
+                    $('#leaderidShow').val(dtDis.data.leader_id);
+                    $('#slotTimeShow').val(dtDis.data.slot_time);
+
+                    $('#callsignTimidShow').find('option').remove();
+                    $('#callsignTimidShow').append(
+                        `<option value="">Pilih Callsign Tim</option>`);
+
+                    $.each(dtDis.callTim, function(key, tim) {
+                        $('#callsignTimidShow').append(
+                            `<option value="${tim.callsign_tim_id+'|'+tim.callsign_tim}">${tim.callsign_tim}</option>`
+                        )
+                    })
+
+                    callsignTImidDet = dtDis.data.callsign_id + '|' + dtDis.data.callsign;
+                    $('#callsignTimidShow').val(callsignTImidDet);
+                    // $('#callsignTimidShow').trigger('change');
+                    $('#callsignTimShow').val(dtDis.data.callsign);
+
+                    $('#teknisi1Show').find('option').remove();
+                    $('#teknisi1Show').append(
+                        `<option value="">Pilih Teknisi 1</option>`);
+
+                    $('#teknisi2Show').find('option').remove();
+                    $('#teknisi2Show').append(
+                        `<option value="">Pilih Teknisi 2</option>`);
+
+                    $('#teknisi3Show').find('option').remove();
+                    $('#teknisi3Show').append(
+                        `<option value="">Pilih Teknisi 3</option>`);
+
+                    $('#teknisi4Show').find('option').remove();
+                    $('#teknisi4Show').append(
+                        `<option value="">Pilih Teknisi 4</option>`);
+
+
+                    $.each(dtDis.tim, function(key, t1) {
+                        $('#teknisi1Show').append(
+                            `<option value="${t1.nik_karyawan+'|'+t1.nama_karyawan}">${t1.nama_karyawan}</option>`
+                        )
+                    })
+                    $.each(dtDis.tim, function(key, t2) {
+                        $('#teknisi2Show').append(
+                            `<option value="${t2.nik_karyawan+'|'+t2.nama_karyawan}">${t2.nama_karyawan}</option>`
+                        )
+                    })
+                    $.each(dtDis.tim, function(key, t3) {
+                        $('#teknisi3Show').append(
+                            `<option value="${t3.nik_karyawan+'|'+t3.nama_karyawan}">${t3.nama_karyawan}</option>`
+                        )
+                    })
+                    $.each(dtDis.tim, function(key, t4) {
+                        $('#teknisi4Show').append(
+                            `<option value="${t4.nik_karyawan+'|'+t4.nama_karyawan}">${t4.nama_karyawan}</option>`
+                        )
+                    })
+                    // $('#callsignTimShow').val(dtDis.callsign);
+                    $('#teknisi1Show').val(dtDis.data.tek1_nik + '|' + dtDis.data.teknisi1);
+                    $('#teknisi2Show').val(dtDis.data.tek2_nik + '|' + dtDis.data.teknisi2);
+                    $('#teknisi3Show').val(dtDis.data.tek3_nik + '|' + dtDis.data.teknisi3);
+                    $('#teknisi4Show').val(dtDis.data.tek4_nik + '|' + dtDis.data.teknisi4);
+
+                    $('#showAssignTim').modal('show');
+                }
+            })
+        })
 
         function showDetail_tool(tool) {
             $('#showTim').DataTable({
@@ -1437,122 +1549,6 @@
                 }
             })
         })
-
-
-
-        $(document).on('click', '#detail-assign', function(e) {
-            // e.preventDefault();
-            var _token = $('meta[name=csrf-token]').attr('content');
-            let assign_id = $(this).data('id');
-
-            $.ajax({
-                url: "{{ route('getDetailAssign') }}",
-                type: "get",
-                data: {
-                    filAssignId: assign_id,
-                    _token: _token
-                },
-                success: function(dtDis) {
-                    console.log(dtDis);
-                    $('#detId').val(dtDis.data.id)
-                    $('#noWoShow').val(dtDis.data.no_wo_apk)
-                    $('#ticketNoShow').val(dtDis.data.no_ticket_apk)
-                    $('#woTypeShow').val(toTitleCase(dtDis.data.wo_type_apk))
-                    $('#jenisWoShow').val(dtDis.data.type_wo)
-                    $('#WoDateShow').val(dtDis.data.wo_date_apk)
-                    $('#custIdShow').val(dtDis.data.cust_id_apk)
-                    $('#custNameShow').val(toTitleCase(dtDis.data.name_cust_apk))
-                    $('#custPhoneShow').val(dtDis.data.cust_phone_apk)
-
-                    $('#custMobileShow').val(dtDis.data.cust_mobile_apk);
-                    $('#custAddressShow').val(toTitleCase(dtDis.data.address_apk));
-                    $('#areaShow').val(toTitleCase(dtDis.data.area_cluster_apk));
-                    $('#ikrDateApkShow').val(dtDis.data.ikr_date_apk);
-                    $('#timeApkShow').val(dtDis.data.time_apk);
-                    $('#fatCodeShow').val(dtDis.data.fat_code_apk);
-                    $('#portFatShow').val(dtDis.data.fat_port_apk);
-                    $('#remarksShow').val(toTitleCase(dtDis.data.remarks_apk || ""));
-
-                    $('#branchShow').val(dtDis.data.branch_id + '|' + dtDis.data.branch);
-                    $('#tglProgressShow').val(dtDis.data.tgl_ikr);
-
-                    $('#sesiShowAdd').val(toTitleCase(dtDis.data.batch_wo || ""));
-                    $('#sesiShow').val(toTitleCase(dtDis.data.batch_wo || ""));
-                    console.log(dtDis.data.batch_wo);
-
-
-                    leadCallsignDet = dtDis.data.leadcall_id + '|' + dtDis.data.leadcall
-                    // document.getElementById("LeadCallsignShow").value = leadCallsignDet;
-                    $('#LeadCallsignShow').val(leadCallsignDet);
-                    // $('#LeadCallsignShow').trigger('change');
-
-                    $('#leaderShow').val(dtDis.data.leader);
-                    $('#leaderidShow').val(dtDis.data.leader_id);
-                    $('#slotTimeShow').val(dtDis.data.slot_time);
-
-                    $('#callsignTimidShow').find('option').remove();
-                    $('#callsignTimidShow').append(
-                        `<option value="">Pilih Callsign Tim</option>`);
-
-                    $.each(dtDis.callTim, function(key, tim) {
-                        $('#callsignTimidShow').append(
-                            `<option value="${tim.callsign_tim_id+'|'+tim.callsign_tim}">${tim.callsign_tim}</option>`
-                        )
-                    })
-
-                    callsignTImidDet = dtDis.data.callsign_id + '|' + dtDis.data.callsign;
-                    $('#callsignTimidShow').val(callsignTImidDet);
-                    // $('#callsignTimidShow').trigger('change');
-                    $('#callsignTimShow').val(dtDis.data.callsign);
-
-                    $('#teknisi1Show').find('option').remove();
-                    $('#teknisi1Show').append(
-                        `<option value="">Pilih Teknisi 1</option>`);
-
-                    $('#teknisi2Show').find('option').remove();
-                    $('#teknisi2Show').append(
-                        `<option value="">Pilih Teknisi 2</option>`);
-
-                    $('#teknisi3Show').find('option').remove();
-                    $('#teknisi3Show').append(
-                        `<option value="">Pilih Teknisi 3</option>`);
-
-                    $('#teknisi4Show').find('option').remove();
-                    $('#teknisi4Show').append(
-                        `<option value="">Pilih Teknisi 4</option>`);
-
-
-                    $.each(dtDis.tim, function(key, t1) {
-                        $('#teknisi1Show').append(
-                            `<option value="${t1.nik_karyawan+'|'+t1.nama_karyawan}">${t1.nama_karyawan}</option>`
-                        )
-                    })
-                    $.each(dtDis.tim, function(key, t2) {
-                        $('#teknisi2Show').append(
-                            `<option value="${t2.nik_karyawan+'|'+t2.nama_karyawan}">${t2.nama_karyawan}</option>`
-                        )
-                    })
-                    $.each(dtDis.tim, function(key, t3) {
-                        $('#teknisi3Show').append(
-                            `<option value="${t3.nik_karyawan+'|'+t3.nama_karyawan}">${t3.nama_karyawan}</option>`
-                        )
-                    })
-                    $.each(dtDis.tim, function(key, t4) {
-                        $('#teknisi4Show').append(
-                            `<option value="${t4.nik_karyawan+'|'+t4.nama_karyawan}">${t4.nama_karyawan}</option>`
-                        )
-                    })
-                    // $('#callsignTimShow').val(dtDis.callsign);
-                    $('#teknisi1Show').val(dtDis.data.tek1_nik + '|' + dtDis.data.teknisi1);
-                    $('#teknisi2Show').val(dtDis.data.tek2_nik + '|' + dtDis.data.teknisi2);
-                    $('#teknisi3Show').val(dtDis.data.tek3_nik + '|' + dtDis.data.teknisi3);
-                    $('#teknisi4Show').val(dtDis.data.tek4_nik + '|' + dtDis.data.teknisi4);
-
-                    $('#showAssignTim').modal('show');
-                }
-            })
-        })
-
 
     })
 </script>

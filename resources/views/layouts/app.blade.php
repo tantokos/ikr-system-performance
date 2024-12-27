@@ -105,7 +105,7 @@
         <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
         <!-- Font Awesome Icons -->
-        <script src="https://kit.fontawesome.com/349ee9c857.js" crossorigin="anonymous"></script>
+        {{-- <script src="https://kit.fontawesome.com/349ee9c857.js" crossorigin="anonymous"></script> --}}
         <script src="{{ asset('assets/js/kit-fontawesom-com-349ee9c857.js') }}"></script>
         <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
         <!-- CSS Files -->
@@ -217,7 +217,7 @@
         <!--   Core JS Files   -->
         <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
         <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+        {{-- <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script> --}}
         <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
 

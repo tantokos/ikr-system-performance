@@ -470,7 +470,7 @@ class JadwalTim_controller extends Controller
 
         $tglStatus = implode("-",[$tahun, $bulan, $day]);
 
-        $data = DataJadwalIkrEdit::where('jadwal_id', $jadwalId)->where('tgl_jadwal', $tglStatus)
+        $data = DataJadwalIkrEdit::where('nik_karyawan', $nik)->where('tgl_jadwal', $tglStatus)
                                     ->where('status_jadwal', $status)->first();
 
         return response()->json($data);

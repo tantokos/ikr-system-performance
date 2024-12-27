@@ -274,7 +274,7 @@
                 </a>
             </li>
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a
                     class="nav-link  {{ is_current_route('dataSeragam') || is_current_route('distribusiSeragam') || is_current_route('penerimaanSeragam')  ? 'active' : '' }}">
                     <div
@@ -303,35 +303,35 @@
                     </div>
                     <span class="nav-link-text ms-1">Seragam IKR</span>
                 </a>
-            </li>
+            </li> --}}
             
-            <li class="nav-item border-start my-0 pt-2">
+            {{-- <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('dataSeragam') ? 'active' : '' }}"
                     href="{{ route('dataSeragam') }}">
                     <span class="nav-link-text ms-1">Data Seragam</span>
                 </a>
-            </li>
+            </li> --}}
 
-            <li class="nav-item border-start my-0 pt-2">
+            {{-- <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('penerimaanSeragam') ? 'active' : '' }}"
                     href="{{ route('penerimaanSeragam') }}">
                     <span class="nav-link-text ms-1">Penerimaan Seragam</span>
                 </a>
-            </li>
+            </li> --}}
 
-            <li class="nav-item border-start my-0 pt-2">
+            {{-- <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('distribusiSeragam') ? 'active' : '' }}"
                     href="{{ route('distribusiSeragam') }}">
                     <span class="nav-link-text ms-1">Distribusi Seragam</span>
                 </a>
-            </li>
+            </li> --}}
 
-            <li class="nav-item border-start my-0 pt-2">
+            {{-- <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('updateSeragam') ? 'active' : '' }}"
                     href="{{ route('updateSeragam') }}">
                     <span class="nav-link-text ms-1">Update Seragam IKR</span>
                 </a>
-            </li>
+            </li> --}}
 
 
             <li class="nav-item">
