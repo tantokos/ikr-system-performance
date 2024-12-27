@@ -435,7 +435,6 @@ class AssignTimController extends Controller
     public function updateSignTim(Request $request)
     {
         // dd($request->all());
-
         $aksesId = Auth::user()->id;
         $akses = Auth::user()->name;
         $sin_id = $request->detId;
@@ -498,56 +497,237 @@ class AssignTimController extends Controller
         } else {
             $callsignId = $request->callsignTimidShow;
             $callsign = $request->callsignTimidShow;
-        }
+        }      
 
-        $dataAssign = DataAssignTim::findOrFail($sin_id);
+        DB::beginTransaction();
 
-        $updateAssignTim = $dataAssign->update([
-            'batch_wo' => $request['sesiShow'],
-            'tgl_ikr' => $request['tglProgressShow'],
-            'slot_time' => $request['slotTimeShow'],
-            'type_wo' => $request['jenisWoShow'],
-            'no_wo_apk' => $request['noWoShow'],
-            'no_ticket_apk' => $request['ticketNoShow'],
-            'wo_date_apk' => $request['WoDateShow'],
-            'cust_id_apk' => $request['custIdShow'],
-            'name_cust_apk' => $request['custNameShow'],
-            'cust_phone_apk' => $request['custPhoneShow'],
-            'cust_mobile_apk' => $request['custMobileShow'],
-            'address_apk' => $request['custAddressShow'],
-            'area_cluster_apk' => $request['areaShow'],
-            'wo_type_apk' => $request['woTypeShow'],
-            'fat_code_apk' => $request['fatCodeShow'],
-            'fat_port_apk' => $request['portFatShow'],
-            'remarks_apk' => $request['remarksShow'],
-            // 'vendor_installer' => "MisitelShow",
-            'ikr_date_apk' => $request['ikrDateApkShow'],
-            'time_apk' => $request['timeApkShow'],
-            'branch_id' => $branchId,
-            'branch' => $branchNm,
-            'leadcall_id' => $leadCallId,
-            'leadcall' => $leadCall,
-            'leader_id' => $request['leaderidShow'],
-            'leader' => $request['leaderShow'],
-            'callsign_id' => $callsignId,
-            'callsign' => $callsign,
-            'tek1_nik' => $tek1Nk,
-            'teknisi1' => $tek1,
-            'tek2_nik' => $tek2Nk,
-            'teknisi2' => $tek2,
-            'tek3_nik' => $tek3Nk,
-            'teknisi3' => $tek3,
-            'tek4_nik' => $tek4Nk,
-            'teknisi4' => $tek4,
-            'login_id' => $aksesId,
-            'login' => $akses
-        ]);
+        try {
+            $dataAssign = DataAssignTim::findOrFail($sin_id);
 
-        if ($updateAssignTim) {
+            $updateAssignTim = $dataAssign->update([
+                'batch_wo' => $request['sesiShow'],
+                'tgl_ikr' => $request['tglProgressShow'],
+                'slot_time' => $request['slotTimeShow'],
+                'type_wo' => $request['jenisWoShow'],
+                'no_wo_apk' => $request['noWoShow'],
+                'no_ticket_apk' => $request['ticketNoShow'],
+                'wo_date_apk' => $request['WoDateShow'],
+                'cust_id_apk' => $request['custIdShow'],
+                'name_cust_apk' => $request['custNameShow'],
+                'cust_phone_apk' => $request['custPhoneShow'],
+                'cust_mobile_apk' => $request['custMobileShow'],
+                'address_apk' => $request['custAddressShow'],
+                'area_cluster_apk' => $request['areaShow'],
+                'wo_type_apk' => $request['woTypeShow'],
+                'fat_code_apk' => $request['fatCodeShow'],
+                'fat_port_apk' => $request['portFatShow'],
+                'remarks_apk' => $request['remarksShow'],
+                // 'vendor_installer' => "MisitelShow",
+                'ikr_date_apk' => $request['ikrDateApkShow'],
+                'time_apk' => $request['timeApkShow'],
+                'branch_id' => $branchId,
+                'branch' => $branchNm,
+                'leadcall_id' => $leadCallId,
+                'leadcall' => $leadCall,
+                'leader_id' => $request['leaderidShow'],
+                'leader' => $request['leaderShow'],
+                'callsign_id' => $callsignId,
+                'callsign' => $callsign,
+                'tek1_nik' => $tek1Nk,
+                'teknisi1' => $tek1,
+                'tek2_nik' => $tek2Nk,
+                'teknisi2' => $tek2,
+                'tek3_nik' => $tek3Nk,
+                'teknisi3' => $tek3,
+                'tek4_nik' => $tek4Nk,
+                'teknisi4' => $tek4,
+                'login_id' => $aksesId,
+                'login' => $akses
+            ]);
+
+            if ($request['jenisWoShow'] == "FTTH Maintenance") {
+                $updateFtthMT = DB::table('data_ftth_mt_oris')
+                    ->where('no_wo', $request['noWoShow'])
+                    ->where('tgl_ikr', $request['tglProgressShow'])
+                    ->where('cust_id',$request['custIdShow'])
+                    ->update([
+                    // 'type_wo' => $data['type_wo'],
+                    // 'no_wo' => $data['no_wo_apk'],
+                    // 'no_ticket' => $data['no_ticket_apk'],
+                    // 'cust_id' => $data['cust_id_apk'],
+                    // 'nama_cust' => $data['name_cust_apk'],
+                    // 'cust_address1' => $data['address_apk'],
+                    // 'cust_address2' => $data['address_apk'],
+                    'type_maintenance' => $request['remarksShow'],
+                    // 'kode_fat' => $data['fat_code_apk'],
+                    // 'kode_wilayah' => $kdArea,
+                    // 'cluster' => $data['area_cluster_apk'],
+                    // 'kotamadya' => $areaSegmen->kotamadya,
+                    // 'kotamadya_penagihan' => $areaSegmen->kotamadya_penagihan,
+                    'branch_id' => $branchId,
+                    'branch' => $branchNm,
+                    'tgl_ikr' => $request['tglProgressShow'],
+                    'slot_time_leader' => $request['slotTimeShow'],
+                    'slot_time_apk' => $request['slotTimeShow'],
+                    'sesi' => $request['sesiShow'],
+                    // 'remark_traffic'
+                    'callsign' => $callsign,
+                    'leader' => $request['leaderShow'],
+                    'teknisi1' => $tek1,
+                    'teknisi2' => $tek2,
+                    'teknisi3' => $tek3,
+                    // 'status_wo' => "Requested",
+                    //couse_code
+                    //root_couse
+                    //penagihan
+                    //alasan_tag_alarm
+                    //tgl_jam_reschedule
+                    //alasan_cancel
+                    //alasan_pending
+                    //dispatch
+                    //tgl_jam_fat_on
+                    //action_taken
+                    //panjang_kabel
+                    //weather
+                    //remark_status
+                    //action_status
+                    //visit_novisit
+                    //start_ikr_wa
+                    //end_ikr_wa
+                    //validasi_start
+                    //validasi_end
+                    //checkin_apk
+                    //checkout_apk
+                    // 'status_apk' => "Requested",
+                    //keterangan
+                    // 'ms_regular' => $areaSegmen->status_ms,
+                    // 'wo_date_apk' => $data['wo_date_apk'],
+                    // 'wo_date_mail_reschedule' => $woDateEmailReschedule,
+                    // 'wo_date_slot_time_apk' => is_null($woDateEmailReschedule) ? $data['wo_date_apk'] : $woDateEmailReschedule,
+                    // 'actual_sla_wo_minute_apk'
+                    // 'actual_sla_wo_jam_apk'
+                    // 'mttr_over_apk_minute'
+                    // 'mttr_over_apk_jam'
+                    // 'mttr_over_apk_persen'
+                    // 'status_sla'
+                    // 'root_couse_before'
+                    'slot_time_assign_apk' => implode(" ", [$request['tglProgressShow'], $request['slotTimeShow']]),
+                    // 'slot_time_apk_delay'
+                    // 'status_slot_time_apk_delay'
+                    // 'ket_delay_slot_time'
+                    // 'konfirmasi_customer'        
+                    // 'port_fat' => $data['fat_port_apk'],
+                    // 'site_penagihan' => $areaSegmen->site,
+                    // 'wo_type_apk' => $data['wo_type_apk'],                                    
+                    
+                    'leadcall_id' => $leadCallId,
+                    'leadcall' => $leadCall,
+                    'leader_id' => $request['leaderidShow'],                                    
+                    'callsign_id' => $callsignId,                                    
+                    'tek1_nik' => $tek1Nk,                                    
+                    'tek2_nik' => $tek2Nk,
+                    'tek3_nik' => $tek3Nk,
+                    'tek4_nik' => $tek4Nk,
+                    'teknisi4' => $tek4,
+                    // 'is_checked' => 0,
+                    'login' => $akses
+                ]);
+            } elseif ($request['jenisWoShow'] === 'FTTH New Installation') {
+                $updateFtthIB = DB::table('data_ftth_ib_oris')->where('no_wo', $request['noWoShow'])
+                    ->where('tgl_ikr', $request['tglProgressShow'])
+                    ->where('cust_id',$request['custIdShow'])
+                    ->update([
+                    // 'site' => $areaSegmen->site,
+                    // 'type_wo' => $data['type_wo'],
+                    // 'wo_type_apk' => $data['wo_type_apk'],
+                    // 'no_wo' => $data['no_wo_apk'],
+                    // 'no_ticket' => $data['no_ticket_apk'],
+                    // 'cust_id' => $data['cust_id_apk'],
+                    // 'nama_cust' => $data['name_cust_apk'],
+                    // 'cust_address1' => $data['address_apk'],
+                    'type_maintenance' => $request['remarksShow'],
+                    // 'kode_fat' => $data['fat_code_apk'],
+                    // 'kode_wilayah' => $kdArea,
+                    // 'cluster' => $data['area_cluster_apk'],
+                    // 'kotamadya' => $areaSegmen->kotamadya,
+                    // 'kotamadya_penagihan' => $areaSegmen->kotamadya_penagihan,
+                    'branch_id' => $branchId,
+                    'branch' => $branchNm,
+                    'leadcall_id' => $leadCallId,
+                    'leadcall' => $leadCall,
+                    'tgl_ikr' => $request['tglProgressShow'],
+                    'slot_time_leader' => $request['slotTimeShow'],
+                    'slot_time_apk' => $request['slotTimeShow'],                                 
+                    'sesi' => $request['sesiShow'],
+                    'callsign' => $callsign,
+                    'callsign_id' => $callsignId,
+                    'leader_id' => $request['leaderidShow'],
+                    'leader' => $request['leaderShow'],
+                    'tek1_nik' => $tek1Nk,                                    
+                    'tek2_nik' => $tek2Nk,
+                    'tek3_nik' => $tek3Nk,
+                    'tek4_nik' => $tek4Nk,
+                    'teknisi1' => $tek1,
+                    'teknisi2' => $tek2,
+                    'teknisi3' => $tek3,
+                    'teknisi4' => $tek4,
+                    // 'wo_date_apk' => $data['wo_date_apk'],
+                    // 'port_fat' => $data['fat_port_apk'],
+                    // 'status_wo' => "Requested",
+                    // 'status_apk' => "Requested",
+                    // 'is_checked' => 0,
+                    'login' => $akses
+                ]);
+            } elseif ($request['jenisWoShow'] == 'FTTH Dismantle') {
+                DB::table('data_ftth_dismantle_oris')->where('no_wo', $request['noWoShow'])
+                    ->where('visit_date', $request['tglProgressShow'])
+                    ->where('cust_id',$request['custIdShow'])
+                    ->update([
+                    // 'sesi' => $data['batch_wo'],
+                    // 'visit_date' => $data['tgl_ikr'],
+                    // 'type_wo' => $data['type_wo'],
+                    // 'no_wo' => $data['no_wo_apk'],
+                    // 'no_ticket' => $data['no_ticket_apk'],
+                    // 'wo_date' => $data['wo_date_apk'],
+                    // 'cust_id' => $data['cust_id_apk'],
+                    // 'nama_cust' => $data['name_cust_apk'],
+                    // 'cust_address1' => $data['address_apk'],
+                    // 'cluster' => $data['area_cluster_apk'],
+                    // 'wo_type_apk' => $data['wo_type_apk'],
+                    // 'kode_fat' => $data['fat_code_apk'],
+                    // 'port_fat' => $data['fat_port_apk'],
+                    'slot_time_leader' => $request['slotTimeShow'],
+                    'slot_time_apk' => $request['slotTimeShow'],
+                    // 'status_apk' => "Requested",
+                    'branch_id' => $branchId,
+                    'branch' => $branchNm,
+                    'leadcall_id' => $leadCallId,
+                    'leadcall' => $leadCall,
+                    'leader_id' => $request['leaderidShow'],
+                    'leader' => $request['leaderShow'],
+                    'callsign_id' => $callsignId,
+                    'callsign' => $callsign,
+                    'tek1_nik' => $tek1Nk,
+                    'teknisi1' => $tek1,
+                    'tek2_nik' => $tek2Nk,
+                    'teknisi2' => $tek2,
+                    'tek3_nik' => $tek3Nk,
+                    'teknisi3' => $tek3,
+                    // 'tek4_nik' => $tek4Nk,
+                    // 'teknisi4' => $tek4,
+                    // 'login_id' => $aksesId,
+                    'login' => $akses
+                ]);
+            }
+
+            DB::commit();
             return redirect()->route('assignTim')->with(['success' => 'Data tersimpan.']);
-        } else {
-            return redirect()->route('assignTim')->with(['error' => 'Gagal Simpan Data.']);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('assignTim')->with(['error' => 'Gagal Simpan Data.'. $e->getMessage()]);
         }
+
     }
 
     /**

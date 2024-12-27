@@ -347,56 +347,19 @@ class Import_DataWoController extends Controller
                                     'slot_time_leader' => $data['slot_time'],
                                     'slot_time_apk' => $data['time_apk'],
                                     'sesi' => $data['batch_wo'],
-                                    // 'remark_traffic'
                                     'callsign' => $data['callsign'],
                                     'leader' => $data['leader'],
                                     'teknisi1' => $data['teknisi1'],
                                     'teknisi2' => $data['teknisi2'],
                                     'teknisi3' => $data['teknisi3'],
                                     'status_wo' => "Requested",
-                                    //couse_code
-                                    //root_couse
-                                    //penagihan
-                                    //alasan_tag_alarm
-                                    //tgl_jam_reschedule
-                                    //alasan_cancel
-                                    //alasan_pending
-                                    //dispatch
-                                    //tgl_jam_fat_on
-                                    //action_taken
-                                    //panjang_kabel
-                                    //weather
-                                    //remark_status
-                                    //action_status
-                                    //visit_novisit
-                                    //start_ikr_wa
-                                    //end_ikr_wa
-                                    //validasi_start
-                                    //validasi_end
-                                    //checkin_apk
-                                    //checkout_apk
                                     'status_apk' => "Requested",
-                                    //keterangan
                                     'ms_regular' => $areaSegmen->status_ms,                                    
                                     'wo_date_apk' => $data['wo_date_apk'],
-                                    // 'wo_date_mail_reschedule' => $woDateEmailReschedule,
-                                    // 'wo_date_slot_time_apk' => is_null($woDateEmailReschedule) ? $data['wo_date_apk'] : $woDateEmailReschedule,
-                                    // 'actual_sla_wo_minute_apk'
-                                    // 'actual_sla_wo_jam_apk'
-                                    // 'mttr_over_apk_minute'
-                                    // 'mttr_over_apk_jam'
-                                    // 'mttr_over_apk_persen'
-                                    // 'status_sla'
-                                    // 'root_couse_before'
-                                    'slot_time_assign_apk' => implode(" ", [$data['tgl_ikr'], $data['time_apk']]),
-                                    // 'slot_time_apk_delay'
-                                    // 'status_slot_time_apk_delay'
-                                    // 'ket_delay_slot_time'
-                                    // 'konfirmasi_customer'        
+                                    'slot_time_assign_apk' => implode(" ", [$data['tgl_ikr'], $data['time_apk']]),    
                                     'port_fat' => $data['fat_port_apk'],
                                     'site_penagihan' => $areaSegmen->site,
-                                    'wo_type_apk' => $data['wo_type_apk'],                                    
-                                    
+                                    'wo_type_apk' => $data['wo_type_apk'],
                                     'leadcall_id' => $data['leadcall_id'],
                                     'leadcall' => $data['leadcall'],
                                     'leader_id' => $data['leader_id'],                                    
@@ -411,37 +374,44 @@ class Import_DataWoController extends Controller
                                 ]);
                             } elseif ($data['type_wo'] === 'FTTH New Installation') {
                                 DB::table('data_ftth_ib_oris')->insert([
-                                    'sesi' => $data['batch_wo'],
-                                    'tgl_ikr' => $data['tgl_ikr'],
+                                    'site' => $areaSegmen->site,
                                     'type_wo' => $data['type_wo'],
+                                    'wo_type_apk' => $data['wo_type_apk'],
                                     'no_wo' => $data['no_wo_apk'],
                                     'no_ticket' => $data['no_ticket_apk'],
-                                    'wo_date_apk' => $data['wo_date_apk'],
                                     'cust_id' => $data['cust_id_apk'],
                                     'nama_cust' => $data['name_cust_apk'],
                                     'cust_address1' => $data['address_apk'],
-                                    'cluster' => $data['area_cluster_apk'],
-                                    'wo_type_apk' => $data['wo_type_apk'],
-                                    'kode_fat' => $data['fat_code_apk'],
-                                    'port_fat' => $data['fat_port_apk'],
                                     'type_maintenance' => $data['remarks_apk'],
-                                    'slot_time_leader' => $data['slot_time'],
-                                    'slot_time_apk' => $data['time_apk'],
-                                    'status_apk' => "Requested",
+                                    'kode_fat' => $data['fat_code_apk'],
+                                    'kode_wilayah' => $kdArea,
+                                    'cluster' => $data['area_cluster_apk'],
+                                    'kotamadya' => $areaSegmen->kotamadya,
+                                    'kotamadya_penagihan' => $areaSegmen->kotamadya_penagihan,
                                     'branch_id' => $data['branch_id'],
                                     'branch' => $data['branch'],
                                     'leadcall_id' => $data['leadcall_id'],
                                     'leadcall' => $data['leadcall'],
+                                    'tgl_ikr' => $data['tgl_ikr'],
+                                    'slot_time_leader' => $data['slot_time'],
+                                    'slot_time_apk' => $data['time_apk'],                                    
+                                    'sesi' => $data['batch_wo'],
+                                    'callsign' => $data['callsign'],
+                                    'callsign_id' => $data['callsign_id'],
                                     'leader_id' => $data['leader_id'],
                                     'leader' => $data['leader'],
-                                    'callsign_id' => $data['callsign_id'],
-                                    'callsign' => $data['callsign'],
                                     'tek1_nik' => $data['tek1_nik'],
-                                    'teknisi1' => $data['teknisi1'],
                                     'tek2_nik' => $data['tek2_nik'],
-                                    'teknisi2' => $data['teknisi2'],
                                     'tek3_nik' => $data['tek3_nik'],
+                                    'tek4_nik' => $data['tek4_nik'],
+                                    'teknisi1' => $data['teknisi1'],                                    
+                                    'teknisi2' => $data['teknisi2'],                                    
                                     'teknisi3' => $data['teknisi3'],
+                                    'teknisi4' => $data['teknisi4'],
+                                    'wo_date_apk' => $data['wo_date_apk'],
+                                    'port_fat' => $data['fat_port_apk'],
+                                    'status_wo' => "Requested",
+                                    'status_apk' => "Requested",
                                     'is_checked' => 0,
                                     'login' => $data['login']
                                 ]);
