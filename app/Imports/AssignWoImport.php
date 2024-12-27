@@ -14,6 +14,7 @@ use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rules\ExcludeIf;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 
 class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithValidation, SkipsEmptyRows
@@ -63,28 +64,28 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
         }
 
 
-        $tm = intval($row['time']);
+        $tm = intval($row['time']);        
 
         return new ImportAssignTim([
 
 
-            'batch_wo' => $row['sesi'],
+            'batch_wo' => Str::trim($row['sesi']),
             // 'tgl_ikr' => ,
-            'no_wo_apk' => $row['wo_no'],
-            'no_ticket_apk' => $row['ticket_no'],
+            'no_wo_apk' => Str::trim($row['wo_no']),
+            'no_ticket_apk' => Str::trim($row['ticket_no']),
             'wo_type_apk' => Str::title($row['wo_type']),
 
-            'type_wo' => Str::upper($row['wo_type'])=="MAINTENANCE" || Str::upper($row['wo_type'])=="REMOVE DEVICE" || Str::upper($row['wo_type'])=="ADD DEVICE" || Str::upper($row['wo_type'])=="ADD / REMOVE DEVICE" || Str::upper($row['wo_type'])=="PENDING DEVICE" ? "FTTH Maintenance" : (Str::upper($row['wo_type'])=="NEW INSTALLATION" || Str::upper($row['wo_type'])=="RELOCATION" ? "FTTH New Installation" : (Str::upper($row['wo_type'])=="DISMANTLE" ? "FTTH Dismantle" : "-")),
+            'type_wo' => $this->get_data_id("type_wo", Str::trim($row['wo_type'])), // Str::upper($row['wo_type'])=="MAINTENANCE" || Str::upper($row['wo_type'])=="REMOVE DEVICE" || Str::upper($row['wo_type'])=="ADD DEVICE" || Str::upper($row['wo_type'])=="ADD / REMOVE DEVICE" || Str::upper($row['wo_type'])=="PENDING DEVICE" ? "FTTH Maintenance" : (Str::upper($row['wo_type'])=="NEW INSTALLATION" || Str::upper($row['wo_type'])=="RELOCATION" ? "FTTH New Installation" : (Str::upper($row['wo_type'])=="DISMANTLE" ? "FTTH Dismantle" : "-")),
 
-            'wo_date_apk' => $row['wo_date'],
-            'cust_id_apk' => $row['cust_id'],
+            'wo_date_apk' => Str::trim($row['wo_date']),
+            'cust_id_apk' => Str::trim($row['cust_id']),
             'name_cust_apk' => Str::title($row['name']),
-            'cust_phone_apk' => $row['cust_phone'],
-            'cust_mobile_apk' => $row['cust_mobile'],
+            'cust_phone_apk' => Str::trim($row['cust_phone']),
+            'cust_mobile_apk' => Str::trim($row['cust_mobile']),
             'address_apk' => Str::title($row['address']),
             'area_cluster_apk' => Str::title($row['area']),
-            'fat_code_apk' => $row['fat_code'],
-            'fat_port_apk' => $row['fat_port'],
+            'fat_code_apk' => Str::trim($row['fat_code']),
+            'fat_port_apk' => Str::trim($row['fat_port']),
             'remarks_apk' => Str::title($row['remarks']),
             'vendor_installer_apk' => Str::title($row['vendor_installer']),
             // 'ikr_date_apk' => Date::excelToDateTimeObject($row['ikr_date'])->format("Y-m-d"),
@@ -95,20 +96,22 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             'slot_time' => is_string($row['time']) ? \Carbon\Carbon::createFromFormat('H:i', $row['time'])->format('H:i') : Date::excelToDateTimeObject($row['time'])->format("H:i"),
             'time_apk' => is_string($row['time']) ? \Carbon\Carbon::createFromFormat('H:i', $row['time'])->format('H:i') : Date::excelToDateTimeObject($row['time'])->format("H:i"),
 
-            'branch_id' => $this->get_data_id("branch_id", $row['branch']),
-            'branch' => $this->get_data_id("branch", $row['branch']),
-            'leadcall_id' => $this->get_data_id("leadcall_id", $row['leader']),
-            'leadcall' => $this->get_data_id("leadcall", $row['leader']),
-            'leader_id' => $this->get_data_id("leader_id", $row['leader']),
-            'leader' => $row['leader'],
-            'callsign_id' => $this->get_data_id("callsign_id", $row['callsign']),
-            'callsign' => $row['callsign'],
-            'tek1_nik' => $this->get_data_id("tek1_nik", $row['tim_1']),
-            'teknisi1' => $this->get_data_id("tek1_nik", $row['tim_1']) == "-" ? "-" : $row['tim_1'],
-            'tek2_nik'=> $this->get_data_id("tek2_nik", $row['tim_2']),
-            'teknisi2' => $this->get_data_id("tek2_nik", $row['tim_2']) == "-" ? "-" : $row['tim_2'],
-            'tek3_nik' => $this->get_data_id("tek3_nik", $row['tim3']),
-            'teknisi3' => $this->get_data_id("tek3_nik", $row['tim3']) == "-" ? "-" : $row['tim3'],
+            'branch_id' => $this->get_data_id("branch_id", Str::trim($row['branch'])),
+            'branch' => $this->get_data_id("branch", Str::trim($row['branch'])),
+            'leadcall_id' => $this->get_data_id("leadcall_id", Str::trim($row['leader'])),
+            'leadcall' => $this->get_data_id("leadcall", Str::trim($row['leader'])),
+            'leader_id' => $this->get_data_id("leader_id", Str::trim($row['leader'])),
+            'leader' => Str::trim($row['leader']),
+            'callsign_id' => $this->get_data_id("callsign_id", Str::trim($row['callsign'])),
+            'callsign' => Str::trim($row['callsign']),
+            'tek1_nik' => $this->get_data_id("tek1_nik", Str::trim($row['tim_1'])),
+            'teknisi1' => $this->get_data_id("tek1_nik", $row['tim_1']) == null ? null : Str::trim($row['tim_1']),
+            'tek2_nik'=> $this->get_data_id("tek2_nik", Str::trim($row['tim_2'])),
+            'teknisi2' => $this->get_data_id("tek2_nik", $row['tim_2']) == null ? null : Str::trim($row['tim_2']),
+            'tek3_nik' => $this->get_data_id("tek3_nik", Str::trim($row['tim3'])),
+            'teknisi3' => $this->get_data_id("tek3_nik", $row['tim3']) == null ? null : Str::trim($row['tim3']),
+            'tek4_nik' => $this->get_data_id("tek4_nik", Str::trim($row['tim4'])),
+            'teknisi4' => $this->get_data_id("tek4_nik", $row['tim4']) == null ? null : Str::trim($row['tim4']),
             'login_id' => $this->logId,
             'login' => $this->logNm
         ]);
@@ -123,7 +126,13 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
     {
         return [
             '*.wo_no' => ['required', Rule::unique('import_assign_tims', 'no_wo_apk')],
-            '*.branch' => ['required'],
+            '*.wo_type' => ['required', Rule::exists('type_wo','type_wo_apk')],
+            '*.branch' => ['required', Rule::exists('branches', 'nama_branch')],
+            '*.leader' => ['required', Rule::exists('v_detail_callsign_tim','nama_leader')],
+            '*.tim_1' => [Rule::exists('employees','nama_karyawan')],
+            '*.tim_2' => ['nullable', Rule::exists('employees','nama_karyawan')],
+            '*.tim3' => ['nullable', Rule::exists('employees','nama_karyawan')],
+            '*.tim4' => ['nullable', Rule::exists('employees','nama_karyawan')],
             '*.callsign' => ['required'],
             '*.ikr_date' => [
                 'required',
@@ -168,6 +177,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
     {
         return [
             '*.wo_no.unique' => 'No WO sudah ada di database',
+            '*.leader' => 'Nama Leader tidak terdaftar',
             '*.wo_no.required' => 'No WO harus diisi',
             '*.branch.required' => 'Branch harus diisi',
             '*.callsign.required' => 'Callsign harus diisi',
@@ -190,56 +200,67 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             switch ($kolom) {
                 case "branch_id":
                     $branchID = DB::table('branches')->select('id')->where('nama_branch', $data)->first();
-                    return is_null($branchID) ? "-" : $branchID->id;
+                    return is_null($branchID) ? null : $branchID->id;
                     break;
 
                 case "branch":
                     $branch = DB::table('branches')->select('nama_branch')->where('nama_branch', $data)->first();
-                    return is_null($branch) ? "-" : $branch->nama_branch;
+                    return is_null($branch) ? null : $branch->nama_branch;
                     break;
 
                 case "leadcall_id":
                     $leadcall_id = DB::table('v_detail_callsign_tim')->select('lead_call_id')->where('nama_leader', $data)->first();
-                    $leadCallID= is_null($leadcall_id) ? "-" : $leadcall_id->lead_call_id;
+                    $leadCallID= is_null($leadcall_id) ? null : $leadcall_id->lead_call_id;
                     return $leadCallID;
                     break;
 
                 case "leadcall":
                     $leadcall = DB::table('v_detail_callsign_tim')->select('lead_callsign')->where('nama_leader', $data)->first();
-                    $leadCallsign =  is_null($leadcall) ? "-" : $leadcall->lead_callsign;
+                    $leadCallsign =  is_null($leadcall) ? null : $leadcall->lead_callsign;
                     return $leadCallsign;
                     break;
 
                 case "leader_id":
                     $leader_id = DB::table('v_detail_callsign_tim')->select('leader_id')->where('nama_leader', $data)->first();
-                    $leaderID= is_null($leader_id) ? "-" : $leader_id->leader_id;
+                    $leaderID= is_null($leader_id) ? null : $leader_id->leader_id;
                     return $leaderID;
                     break;
 
                 case "callsign_id":
                     $callsign_id = DB::table('v_detail_callsign_tim')->select('callsign_tim_id')->where('callsign_tim', $data)->first();
                     // $leaderID= is_null($leader_id) ? "-" : $leader_id->leader_id;
-                    return is_null($callsign_id) ?  "-" : $callsign_id->callsign_tim_id;
+                    return is_null($callsign_id) ?  null : $callsign_id->callsign_tim_id;
                     break;
 
                 case "tek1_nik":
                     $tek1_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->first();
                     // dd(is_null($tek1_nik));
-                    $tek1Nik = is_null($tek1_nik) ? "-" : $tek1_nik->nik_karyawan;
+                    $tek1Nik = is_null($tek1_nik) ? null : $tek1_nik->nik_karyawan;
                     return $tek1Nik;
 
                     break;
 
                 case "tek2_nik":
                     $tek2_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->first();
-                    $tek2Nik = is_null($tek2_nik) ? "-" : $tek2_nik->nik_karyawan;
+                    $tek2Nik = is_null($tek2_nik) ? null : $tek2_nik->nik_karyawan;
                     return $tek2Nik;
                     break;
 
                 case "tek3_nik":
                     $tek3_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->first();
-                    $tek3Nik = is_null($tek3_nik) ? "-" : $tek3_nik->nik_karyawan;
+                    $tek3Nik = is_null($tek3_nik) ? null : $tek3_nik->nik_karyawan;
                     return $tek3Nik;
+                    break;
+
+                case "tek4_nik":
+                    $tek4_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->first();
+                    $tek4Nik = is_null($tek4_nik) ? null : $tek4_nik->nik_karyawan;
+                    return $tek4Nik;
+                    break;
+                case "type_wo":
+                    $tp_wo = DB::table('type_wo')->select('type_wo')->where('type_wo_apk', $data)->first();
+                    $typeWo = is_null($tp_wo) ? null : $tp_wo->type_wo;
+                    return $typeWo;
                     break;
 
                     // dd($branch);

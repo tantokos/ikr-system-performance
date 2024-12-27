@@ -176,38 +176,64 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 mt-3 mb-3">
-                <div class="table-responsive p-0">
-                    <table id="summaryAssignTeam" class="table table-striped table-bordered align-items-center mb-0">
-                        <thead class="bg-gray-600">
-                            <tr id="headStatusProgresWo">
-                                <th class="text-sm font-weight-semibold">No</th>
-                                <th class="text-sm font-weight-semibold">Area</th>
-                                <th class="text-sm font-weight-semibold">Callsign Tim</th>
-                                <th class="text-white text-sm font-weight-semibold">FTTH New Installation</th>
-                                <th class="text-white text-sm font-weight-semibold">FTTH Maintenance</th>
-                                <th class="text-white text-sm font-weight-semibold">FTTH Dismantle</th>
-                                <th class="text-white text-sm font-weight-semibold">FTTX New Installation</th>
-                                <th class="text-white text-sm font-weight-semibold">FTTX Maintenance</th>
-                                <th class="text-white text-sm font-weight-semibold">Total WO</th>
-                            </tr>
-                        </thead>
-                        <tbody id="bodyStatusProgresWo">
-                            @foreach ($pivotData as $index => $data)
-                            <tr>
-                                <td class="text-sm">{{ $loop->iteration }}</td>
-                                <td class="text-sm">{{ $data['area'] }}</td>
-                                <td class="text-sm">{{ $data['callsign'] }}</td>
-                                <td class="text-sm">{{ $data['FTTH New Installation'] }}</td>
-                                <td class="text-sm">{{ $data['FTTH Maintenance'] }}</td>
-                                <td class="text-sm">{{ $data['FTTH Dismantle'] }}</td>
-                                <td class="text-sm">{{ $data['FTTX New Installation'] }}</td>
-                                <td class="text-sm">{{ $data['FTTX Maintenance'] }}</td>
-                                <td class="text-sm">{{ $data['Total WO'] }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+            <div class="row">
+                <div class="col-sm-12 mt-3 mb-3">
+                    <div class="card border shadow-xs mb-4">
+                        <div class="card-header border-bottom pb-0">
+                            <div class="d-sm-flex align-items-center">
+                                <div>
+                                    <h6 class="font-weight-semibold text-lg">Rekap Import Assign WO</h6>
+                                    {{-- <p class="text-sm">See information about all members</p> --}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body px-2 py-2">
+                            <div class="table-responsive p-0">
+                                <table id="summaryAssignTeam" class="table table-striped table-bordered align-items-center mb-0" style="font-size: 12px">
+                                    <thead class="bg-gray-600">
+                                        <tr id="headStatusProgresWo">
+                                            <th class="text-xs font-weight-semibold">No</th>
+                                            <th class="text-xs font-weight-semibold">Area</th>
+                                            <th class="text-xs font-weight-semibold">Callsign Tim</th>
+                                            <th class="text-white text-xs font-weight-semibold">FTTH New Installation</th>
+                                            <th class="text-white text-xs font-weight-semibold">FTTH Maintenance</th>
+                                            <th class="text-white text-xs font-weight-semibold">FTTH Dismantle</th>
+                                            <th class="text-white text-xs font-weight-semibold">FTTX New Installation</th>
+                                            <th class="text-white text-xs font-weight-semibold">FTTX Maintenance</th>
+                                            <th class="text-white text-xs font-weight-semibold">Total WO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bodyStatusProgresWo">
+                                        @foreach ($pivotData as $index => $data)
+                                        <tr>
+                                            <td class="text-xs text-center">{{ $loop->iteration }}</td>
+                                            <td class="text-xs">{{ $data['area'] }}</td>
+                                            <td class="text-xs">{{ $data['callsign'] }}</td>
+                                            <td class="text-xs text-center">{{ $data['FTTH New Installation'] == "0" ? null : $data['FTTH New Installation'] }}</td>
+                                            <td class="text-xs text-center">{{ $data['FTTH Maintenance'] == "0" ? null : $data['FTTH Maintenance'] }}</td>
+                                            <td class="text-xs text-center">{{ $data['FTTH Dismantle'] == "0" ? null : $data['FTTH Dismantle'] }}</td>
+                                            <td class="text-xs text-center">{{ $data['FTTX New Installation'] == "0" ? null : $data['FTTX New Installation'] }}</td>
+                                            <td class="text-xs text-center">{{ $data['FTTX Maintenance'] == "0" ? null : $data['FTTX Maintenance'] }}</td>
+                                            <td class="text-xs text-center">{{ $data['Total WO'] }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="3" style="text-align:right">Total WO:</th>
+                                            <th style="text-align:center"></th>
+                                            <th style="text-align:center"></th>
+                                            <th style="text-align:center"></th>
+                                            <th style="text-align:center"></th>
+                                            <th style="text-align:center"></th>
+                                            <th style="text-align:center"></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -225,23 +251,22 @@
 
                         <div class="card-body px-2 py-2">
                             <div class="table-responsive">
-                                <table class="table align-items-center mb-0" id="tabelDataWoImport"
-                                    style="font-size: 12px">
+                                <table class="table table-striped table-bordered align-items-center mb-0" id="tabelDataWoImport" style="font-size: 12px">
                                     <thead class="bg-gray-100">
                                         <tr>
-                                            <th class="text-secondary text-xs font-weight-semibold">#</th>
-                                            <th class="text-secondary text-xs font-weight-semibold ps-2">WO No</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">WO
+                                            <th class="text-secondary text-xs">#</th>
+                                            <th class="text-secondary text-xs ps-2">WO No</th>
+                                            <th class="text-center text-secondary text-xs">WO
                                                 Date
                                             </th>
                                             <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                class="text-center text-secondary text-xs">
                                                 Cust Id</th>
                                             <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                class="text-center text-secondary text-xs">
                                                 Cust Name</th>
                                             <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                class="text-center text-secondary text-xs">
                                                 WO Type</th>
                                             {{-- <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
@@ -257,16 +282,16 @@
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Address</th> --}}
                                             <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                class="text-center text-secondary text-xs">
                                                 FAT Code</th>
                                             <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                class="text-center text-secondary text-xs">
                                                 Branch</th>
                                             {{-- <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 kotamadya</th> --}}
                                             <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                class="text-center text-secondary text-xs">
                                                 Area Cluster</th>
 
 
@@ -283,35 +308,35 @@
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Time APK</th> --}}
                                             <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                class="text-center text-secondary text-xs">
                                                 Lead Callsign</th>
                                             <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                class="text-center text-secondary text-xs">
                                                 Leader</th>
                                             <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                class="text-center text-secondary text-xs">
                                                 Callsign Tim</th>
                                             <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                class="text-center text-secondary text-xs">
                                                 Teknisi 1</th>
                                             <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                class="text-center text-secondary text-xs">
                                                 Teknisi 2</th>
                                             <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                class="text-center text-secondary text-xs">
                                                 Teknisi 3</th>
                                             <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                class="text-center text-secondary text-xs">
                                                 Teknisi 4</th>
                                             <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                class="text-center text-secondary text-xs">
                                                 Installation Date</th>
                                             <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                class="text-center text-secondary text-xs">
                                                 Slot Time</th>
 
                                             <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                class="text-center text-secondary text-xs">
                                                 #</th>
                                         </tr>
                                     </thead>
@@ -656,6 +681,9 @@
 
 
 {{-- <link href="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-html5-3.1.0/b-print-3.1.0/fc-5.0.1/r-3.0.2/sr-1.4.1/datatables.min.css" rel="stylesheet"> --}}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script
     src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-html5-3.1.0/fc-5.0.1/r-3.0.2/datatables.min.js">
@@ -675,7 +703,7 @@
         Swal.fire({
             icon: "error",
             title: "Gagal!",
-            text: "{{ session('error') }}",
+            html: "{{ session('error') }}",
             showConfirmButton: true,
             // timer: 2000
         });
@@ -685,7 +713,7 @@
         Swal.fire({
             icon: "error",
             title: "Gagal!",
-            text: "{{ session()->get('errors')->first() }}",
+            html: "{{ session()->get('errors')->first() }}",
             showConfirmButton: true,
             // timer: 2000
         });
@@ -695,10 +723,61 @@
 <script>
     $(document).ready(function() {
         $('#summaryAssignTeam').DataTable({
+            layout: {
+                topStart: {
+                    pageLength: {
+                        menu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                    } ,
+                    buttons: ['excel'],
+                },                    
+            },
+            paging: true,
+            orderClasses: false,
             scrollX: true, // Aktifkan scroll horizontal
+            pageLength: 10,
+            lengthChange: true,
+            bFilter: true,
+            destroy: true,
+            processing: true,
+            serverSide: false,
             fixedColumns: {
                 leftColumns: 3 // Jumlah kolom di sebelah kiri yang di-"fix"
             },
+            footerCallback: function (row, data, start, end, display) {
+                var api = this.api();
+ 
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return typeof i === 'string'
+                        ? i.replace(/[\$,]/g, '') * 1
+                        : typeof i === 'number'
+                        ? i
+                        : 0;
+                };
+                
+                for(x=3;x<9;x++){
+                    // Total over all pages
+                    totalIb = api
+                        .column(x)
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+    
+                    // Total over this page
+                    pageTotalIb = api
+                        .column(x, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+    
+                    // Update footer
+                    $(api.column(x).footer()).html(
+                        pageTotalIb + ' - ( ' + totalIb + ' total)'
+                    );
+                }
+            }
         });
     });
 </script>

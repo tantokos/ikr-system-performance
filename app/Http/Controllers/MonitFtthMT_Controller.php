@@ -57,6 +57,26 @@ class MonitFtthMT_Controller extends Controller
             ->limit(5)
             ->get();
 
+        $dtCouseCode = DB::table('root_couses')
+                ->select('status_wo','couse_code')
+                ->groupBy('status_wo','couse_code')
+                ->orderBy('couse_code')->get();
+
+        $dtRootCouse = DB::table('root_couses')
+                ->select('couse_code', 'root_couse')
+                ->groupBy('couse_code', 'root_couse')
+                ->orderBy('root_couse')->get();
+
+        $dtActionTaken = DB::table('root_couses')
+                ->select('root_couse', 'action_taken')
+                ->groupBy('root_couse', 'action_taken')
+                ->orderBy('action_taken')->get();
+
+        $dtPenagihan = DB::table('root_couses')
+                ->select('status_wo','couse_code', 'root_couse', 'action_taken','rootcouse_penagihan')
+                ->groupBy('status_wo','couse_code', 'root_couse', 'action_taken','rootcouse_penagihan')
+                ->orderBy('rootcouse_penagihan')->get();
+
         return view('monitoringWo.monit_ftth_mt', compact(
             'mostCauseCode',
             'mostRootCause',
@@ -65,6 +85,7 @@ class MonitFtthMT_Controller extends Controller
             'leader',
             'callTim',
             'cluster',
+            'dtCouseCode','dtRootCouse','dtActionTaken','dtPenagihan'
         ));
     }
 
@@ -334,127 +355,136 @@ class MonitFtthMT_Controller extends Controller
 
         $ftthMt = FtthMt::findOrFail($id);
 
-        $updateFtthMt = $ftthMt->update([
-            // 'pic_monitoring' => $request[''],
-            // 'type_wo' => $request['jenisWoShow'],
-            'no_wo' => $request['noWoShow'],
-            'no_ticket' => $request['ticketNoShow'],
-            'cust_id' => $request['custIdShow'],
-            'nama_cust' => $request['custNameShow'],
-            'cust_address1' => $request['custAddressShow'],
-            // 'cust_address2' => $request[''],
-            // 'type_maintenance' => $request[''],
-            'kode_fat' => $request['fatCodeShow'],
-            // 'kode_wilayah' => $request[''],
-            'cluster' => $request['cluster'],
-            // 'kotamadya' => $request[''],
-            // 'kotamadya_penagihan' => $request[''],
-            'branch' => $request['branchShow'],
-            'tgl_ikr' => $request['tglProgressShow'],
-            'slot_time_leader' => $request['slotTimeLeaderShow'],
-            'slot_time_apk' => $request['slotTimeAPKShow'],
-            'sesi' => $request['sesiShow'],
-            // 'remark_traffic' => $request[''],
-            // 'callsign' => $request[''],
-            'leader' => $request['leaderShow'],
-            'teknisi1' => $request['teknisi1Show'],
-            'teknisi2' => $request['teknisi2Show'],
-            'teknisi3' => $request['teknisi3Show'],
-            'status_wo' => $request['statusWo'],
-            'couse_code' => $request['causeCode'],
-            'root_couse' => $request['rootCause'],
-            'action_taken' => $request['actionTaken'],
-            'penagihan' => $request['penagihanShow'],
-            // 'alasan_tag_alarm' => $request[''],
-            'tgl_reschedule' => $request['tglReschedule'],
-            'tgl_jam_reschedule' => $request['tglJamReschedule'],
-            // 'tgl_jam_fat_on' => $request[''],
-            // 'panjang_kabel' => $request[''],
-            'weather' => $request['weatherShow'],
-            'remark_status' => $request['remarkStatus'],
-            // 'action_status' => $request[''],
-            // 'visit_novisit' => $request[''],
-            // 'start_ikr_wa' => $request[''],
-            // 'end_ikr_wa' => $request[''],
-            // 'validasi_start' => $request[''],
-            // 'validasi_end' => $request[''],
-            'checkin_apk' => $request['tglCheckinApk'],
-            'checkout_apk' => $request['checkout_apk'],
-            'status_apk' => $request['statusWoApk'],
-            // 'keterangan' => $request[''],
-            // 'ms_regular' => $request[''],
-            'wo_date_apk' => $request['WoDateShow'],
-            // 'wo_date_mail_reschedule' => $request[''],
-            // 'wo_date_slot_time_apk' => $request[''],
-            // 'actual_sla_wo_minute_apk' => $request[''],
-            // 'actual_sla_wo_jam_apk' => $request[''],
-            // 'mttr_over_apk_minute' => $request[''],
-            // 'mttr_over_apk_jam' => $request[''],
-            // 'mttr_over_apk_persen' => $request[''],
-            // 'status_sla' => $request[''],
-            // 'root_couse_before' => $request[''],
-            // 'slot_time_assign_apk' => $request[''],
-            // 'slot_time_apk_delay' => $request[''],
-            // 'ket_delay_slot_time' => $request[''],
-            // 'konfirmasi_customer' => $request[''],
-            'ont_merk_out' => $request['ont_merk_out'],
-            'ont_sn_out' => $request['snOntOut'],
-            // 'ont_mac_out' => $request[''],
-            'ont_merk_in' => $request['merkOntIn'],
-            // 'ont_sn_in' => $request[''],
-            'ont_mac_in' => $request['macOntIn'],
-            // 'router_merk_out' => $request[''],
-            'router_sn_out' => $request['snRouterOut'],
-            'router_mac_out' => $request['macRouterOut'],
-            'router_merk_in' => $request['merkRouterIn'],
-            'router_sn_in' => $request['snRouterIn'],
-            'router_mac_in' => $request['macRouterIn'],
-            'stb_merk_out' => $request['merkStbOut'],
-            'stb_sn_out' => $request['snStbOut'],
-            'stb_mac_out' => $request['macStbOut'],
-            'stb_merk_in' => $request['merkStbIn'],
-            'stb_sn_in' => $request['snStbIn'],
-            'stb_mac_in' => $request['macStbIn'],
-            // 'dw_out' => $request[''],
-            'precon_out' => $request['kabelPrecon'],
-            // 'bad_precon' => $request[''],
-            // 'fast_connector' => $request[''],
-            // 'patchcord' => $request[''],
-            // 'terminal_box' => $request[''],
-            // 'remote_fiberhome' => $request[''],
-            // 'remote_extrem' => $request[''],
-            // 'port_fat' => $request[''],
-            // 'site_penagihan' => $request[''],
-            // 'konfirmasi_penjadwalan' => $request[''],
-            // 'konfirmasi_cst' => $request[''],
-            // 'konfirmasi_dispatch' => $request[''],
-            // 'remark_status2' => $request[''],
-            // 'wo_type_apk' => $request[''],
-            // 'branch_id' => $request[''],
-            // 'leadcall' => $request[''],
-            // 'tek1_nik' => $request[''],
-            // 'tek2_nik' => $request[''],
-            // 'tek3_nik' => $request[''],
-            // 'tek4_nik' => $request[''],
-            // 'leadcall_id' => $request[''],
-            'pic_dispatch' => $request['picDispatch'],
-            'leader_id' => $request['leaderidShow'],
-            'callsign_id' => $request['callsign_id'],
-            'alasan_tidak_ganti_precon' => $request['alasan_tidak_ganti_precon'],
-            'alasan_pending' => $request['alasan_pending'],
-            'alasan_cancel' => $request['alasan_cancel'],
-            'keterangan' => $request['report_teknisi'],
-            'is_checked' => $request['is_checked'],
-            'teknisi4' => $request[''],
-            'login_id' => $aksesId,
-            'login' => $akses,
-        ]);
+        DB::beginTransaction();
+        try {
+            $updateFtthMt = $ftthMt->update([
+                'pic_monitoring' => $akses,
+                // 'type_wo' => $request['jenisWoShow'],
+                'no_wo' => $request['noWoShow'],
+                'no_ticket' => $request['ticketNoShow'],
+                'cust_id' => $request['custIdShow'],
+                'nama_cust' => $request['custNameShow'],
+                'cust_address1' => $request['custAddressShow'],
+                // 'cust_address2' => $request[''],
+                // 'type_maintenance' => $request[''],
+                'kode_fat' => $request['fatCodeShow'],
+                // 'kode_wilayah' => $request[''],
+                'cluster' => $request['cluster'],
+                // 'kotamadya' => $request[''],
+                // 'kotamadya_penagihan' => $request[''],
+                'branch' => $request['branchShow'],
+                'tgl_ikr' => $request['tglProgressShow'],
+                'slot_time_leader' => $request['slotTimeLeaderShow'],
+                'slot_time_apk' => $request['slotTimeAPKShow'],
+                'sesi' => $request['sesiShow'],
+                // 'remark_traffic' => $request[''],
+                // 'callsign' => $request[''],
+                'leader' => $request['leaderShow'],
+                'teknisi1' => $request['teknisi1Show'],
+                'teknisi2' => $request['teknisi2Show'],
+                'teknisi3' => $request['teknisi3Show'],
+                'status_wo' => $request['statusWo'],
+                'couse_code' => $request['causeCode'],
+                'root_couse' => $request['rootCause'],
+                'action_taken' => $request['actionTaken'],
+                'penagihan' => $request['penagihanShow'],
+                // 'alasan_tag_alarm' => $request[''],
+                'tgl_reschedule' => $request['tglReschedule'],
+                'tgl_jam_reschedule' => $request['tglJamReschedule'],
+                // 'tgl_jam_fat_on' => $request[''],
+                // 'panjang_kabel' => $request[''],
+                'weather' => $request['weatherShow'],
+                'remark_status' => $request['remarkStatus'],
+                // 'action_status' => $request[''],
+                // 'visit_novisit' => $request[''],
+                // 'start_ikr_wa' => $request[''],
+                // 'end_ikr_wa' => $request[''],
+                // 'validasi_start' => $request[''],
+                // 'validasi_end' => $request[''],
+                'checkin_apk' => $request['tglCheckinApk'],
+                'checkout_apk' => $request['checkout_apk'],
+                'status_apk' => $request['statusWoApk'],
+                // 'keterangan' => $request[''],
+                // 'ms_regular' => $request[''],
+                'wo_date_apk' => $request['WoDateShow'],
+                // 'wo_date_mail_reschedule' => $request[''],
+                // 'wo_date_slot_time_apk' => $request[''],
+                // 'actual_sla_wo_minute_apk' => $request[''],
+                // 'actual_sla_wo_jam_apk' => $request[''],
+                // 'mttr_over_apk_minute' => $request[''],
+                // 'mttr_over_apk_jam' => $request[''],
+                // 'mttr_over_apk_persen' => $request[''],
+                // 'status_sla' => $request[''],
+                // 'root_couse_before' => $request[''],
+                // 'slot_time_assign_apk' => $request[''],
+                // 'slot_time_apk_delay' => $request[''],
+                // 'ket_delay_slot_time' => $request[''],
+                // 'konfirmasi_customer' => $request[''],
+                'ont_merk_out' => $request['ont_merk_out'],
+                'ont_sn_out' => $request['snOntOut'],
+                // 'ont_mac_out' => $request[''],
+                'ont_merk_in' => $request['merkOntIn'],
+                // 'ont_sn_in' => $request[''],
+                'ont_mac_in' => $request['macOntIn'],
+                // 'router_merk_out' => $request[''],
+                'router_sn_out' => $request['snRouterOut'],
+                'router_mac_out' => $request['macRouterOut'],
+                'router_merk_in' => $request['merkRouterIn'],
+                'router_sn_in' => $request['snRouterIn'],
+                'router_mac_in' => $request['macRouterIn'],
+                'stb_merk_out' => $request['merkStbOut'],
+                'stb_sn_out' => $request['snStbOut'],
+                'stb_mac_out' => $request['macStbOut'],
+                'stb_merk_in' => $request['merkStbIn'],
+                'stb_sn_in' => $request['snStbIn'],
+                'stb_mac_in' => $request['macStbIn'],
+                // 'dw_out' => $request[''],
+                'precon_out' => $request['kabelPrecon'],
+                // 'bad_precon' => $request[''],
+                // 'fast_connector' => $request[''],
+                // 'patchcord' => $request[''],
+                // 'terminal_box' => $request[''],
+                // 'remote_fiberhome' => $request[''],
+                // 'remote_extrem' => $request[''],
+                // 'port_fat' => $request[''],
+                // 'site_penagihan' => $request[''],
+                // 'konfirmasi_penjadwalan' => $request[''],
+                // 'konfirmasi_cst' => $request[''],
+                // 'konfirmasi_dispatch' => $request[''],
+                // 'remark_status2' => $request[''],
+                // 'wo_type_apk' => $request[''],
+                // 'branch_id' => $request[''],
+                // 'leadcall' => $request[''],
+                // 'tek1_nik' => $request[''],
+                // 'tek2_nik' => $request[''],
+                // 'tek3_nik' => $request[''],
+                // 'tek4_nik' => $request[''],
+                // 'leadcall_id' => $request[''],
+                'dispatch' => $request['picDispatch'],
+                'leader_id' => $request['leaderidShow'],
+                'callsign_id' => $request['callsign_id'],
+                'alasan_tidak_ganti_precon' => $request['alasan_tidak_ganti_precon'],
+                'alasan_pending' => $request['alasan_pending'],
+                'alasan_cancel' => $request['alasan_cancel'],
+                'keterangan' => $request['report_teknisi'],
+                'is_checked' => $request['is_checked'],
+                'teknisi4' => $request[''],
+                'login_id' => $aksesId,
+                'login' => $akses,
+            ]);
 
-        if ($updateFtthMt) {
-            return redirect()->route('monitFtthMT')->with(['success' => 'Data tersimpan.']);
-        } else {
+            DB::commit();
+    
+            if ($updateFtthMt) {
+                return redirect()->route('monitFtthMT')->with(['success' => 'Data tersimpan.']);
+            } 
+        } catch (\Exception $e) {
+            DB::rollBack();
             return redirect()->route('monitFtthMT')->with(['error' => 'Gagal Simpan Data.']);
+
         }
+
+        
     }
 
     // public function update(Request $request)

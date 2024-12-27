@@ -154,13 +154,26 @@ class ImportDataWoApkController extends Controller
                 try {
                     // Update status_wo pada data_ftth_mt_oris berdasarkan wo_no dan tgl_ikr
                     foreach ($importedData as $data) {
+                        
+                        if($data->status == "DONE" || $data->status == "CHECKOUT") {
+                            $statWo = "Done";   
+                        }
+                        if($data->status == "PENDING") {
+                            $statWo = "Pending";   
+                        }
+                        if($data->status == "CANCELLED") {
+                            $statWo = "Cancel";
+                        }else {
+                            $statWo = $data->status;
+                        }
+
                         DB::table('data_ftth_mt_oris')
                             ->where('no_wo', $data->wo_no)
                             ->where('tgl_ikr', $data->installation_date) // Menambahkan syarat
                             ->where('is_checked', 0)
                             ->update([
                                 'slot_time_apk' => $data->time,
-                                'status_wo' => $data->status,
+                                'status_wo' => $statWo,
                                 'couse_code' => $data->cause_code,
                                 'root_couse' => $data->root_cause,
                                 'action_taken' => $data->action_taken,
@@ -198,6 +211,7 @@ class ImportDataWoApkController extends Controller
         }
 
     }
+    
     public function updateFtthMtApk()
     {
         ini_set('max_execution_time', 1900);

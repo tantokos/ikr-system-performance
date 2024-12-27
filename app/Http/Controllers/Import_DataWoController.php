@@ -27,8 +27,10 @@ class Import_DataWoController extends Controller
         $jmlData = DB::table('import_assign_tims')->where('login', '=', $akses)->count('login');
 
         $callsigns = DB::table('import_assign_tims')
-        ->select('callsign', 'branch', 'type_wo', DB::raw('count(*) as total_wo'))
-        ->groupBy('callsign', 'type_wo', 'branch')
+        ->select('callsign', 'branch_id','branch', 'type_wo', DB::raw('count(*) as total_wo'))
+        ->groupBy('callsign', 'type_wo','branch_id', 'branch')
+        ->orderBy('branch_id')
+        ->orderBy('callsign')
         ->get();
 
 
@@ -118,13 +120,14 @@ class Import_DataWoController extends Controller
                 return back()->with(['success' => 'Import Work Order berhasil.']);
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
                 $failures = $e->failures();
-
+                
                 $errorMessages = [];
                 foreach ($failures as $failure) {
-                    $errorMessages[] = "Baris " . $failure->row() . " (" . $failure->attribute() . "): " . implode(', ', $failure->errors());
+                    // dd($failure->values()[$failure->attribute()]);
+                    $errorMessages[] = "Baris " . $failure->row() . " (" . $failure->attribute() . ") = " . "'" . $failure->values()[$failure->attribute()] . "'. ". implode(', ', $failure->errors());
                 }
 
-                return back()->with(['error' => 'Kesalahan validasi: <br>' . implode('<br>', $errorMessages)]);
+                return back()->with(['error' => 'Kesalahan validasi: ' . implode('<br>', $errorMessages)]);
             } catch (\Exception $e) {
                 return back()->with(['error' => 'Kesalahan: ' . $e->getMessage()]);
             }
@@ -306,39 +309,101 @@ class Import_DataWoController extends Controller
 
                         // Proses penyimpanan ke tabel sesuai type_wo
                         foreach ($dtImportAssign2 as $data) {
+
+                            $kdArea = substr($data['fat_code_apk'],4,3);
+                            $areaSegmen = DB::table('list_fat')->where('branch', $data['branch'])
+                                        ->where('kode_area', $kdArea)->first();
+
+                            // $cekStatWOBefore = DB::table('data_ftth_mt_oris')->where('no_wo',$data['no_wo_apk']) 
+                            //             ->where('status_wo','<>',"Done")
+                            //             ->where('tgl_ikr','<',$data['tgl_ikr'])
+                            //             ->orderBy('tgl_ikr','DESC')
+                            //             ->first();
+
+                            // if(is_null($cekStatWOBefore)) {
+                            //     $woDateEmailReschedule = $cekStatWOBefore;
+                            // }else{
+                            //     $woDateEmailReschedule = implode(" ", [$data['tgl_ikr'],$data['time_apk']]);
+                            // }
+
                             if ($data['type_wo'] == "FTTH Maintenance") {
                                 DB::table('data_ftth_mt_oris')->insert([
-                                    'sesi' => $data['batch_wo'],
-                                    'tgl_ikr' => $data['tgl_ikr'],
                                     'type_wo' => $data['type_wo'],
                                     'no_wo' => $data['no_wo_apk'],
                                     'no_ticket' => $data['no_ticket_apk'],
-                                    'wo_date_apk' => $data['wo_date_apk'],
                                     'cust_id' => $data['cust_id_apk'],
                                     'nama_cust' => $data['name_cust_apk'],
                                     'cust_address1' => $data['address_apk'],
-                                    'cluster' => $data['area_cluster_apk'],
-                                    'wo_type_apk' => $data['wo_type_apk'],
-                                    'kode_fat' => $data['fat_code_apk'],
-                                    'port_fat' => $data['fat_port_apk'],
+                                    'cust_address2' => $data['address_apk'],
                                     'type_maintenance' => $data['remarks_apk'],
-                                    'slot_time_leader' => $data['slot_time'],
-                                    'slot_time_apk' => $data['time_apk'],
-                                    'status_apk' => "Requested",
+                                    'kode_fat' => $data['fat_code_apk'],
+                                    'kode_wilayah' => $kdArea,
+                                    'cluster' => $data['area_cluster_apk'],
+                                    'kotamadya' => $areaSegmen->kotamadya,
+                                    'kotamadya_penagihan' => $areaSegmen->kotamadya_penagihan,
                                     'branch_id' => $data['branch_id'],
                                     'branch' => $data['branch'],
+                                    'tgl_ikr' => $data['tgl_ikr'],
+                                    'slot_time_leader' => $data['slot_time'],
+                                    'slot_time_apk' => $data['time_apk'],
+                                    'sesi' => $data['batch_wo'],
+                                    // 'remark_traffic'
+                                    'callsign' => $data['callsign'],
+                                    'leader' => $data['leader'],
+                                    'teknisi1' => $data['teknisi1'],
+                                    'teknisi2' => $data['teknisi2'],
+                                    'teknisi3' => $data['teknisi3'],
+                                    'status_wo' => "Requested",
+                                    //couse_code
+                                    //root_couse
+                                    //penagihan
+                                    //alasan_tag_alarm
+                                    //tgl_jam_reschedule
+                                    //alasan_cancel
+                                    //alasan_pending
+                                    //dispatch
+                                    //tgl_jam_fat_on
+                                    //action_taken
+                                    //panjang_kabel
+                                    //weather
+                                    //remark_status
+                                    //action_status
+                                    //visit_novisit
+                                    //start_ikr_wa
+                                    //end_ikr_wa
+                                    //validasi_start
+                                    //validasi_end
+                                    //checkin_apk
+                                    //checkout_apk
+                                    'status_apk' => "Requested",
+                                    //keterangan
+                                    'ms_regular' => $areaSegmen->status_ms,                                    
+                                    'wo_date_apk' => $data['wo_date_apk'],
+                                    // 'wo_date_mail_reschedule' => $woDateEmailReschedule,
+                                    // 'wo_date_slot_time_apk' => is_null($woDateEmailReschedule) ? $data['wo_date_apk'] : $woDateEmailReschedule,
+                                    // 'actual_sla_wo_minute_apk'
+                                    // 'actual_sla_wo_jam_apk'
+                                    // 'mttr_over_apk_minute'
+                                    // 'mttr_over_apk_jam'
+                                    // 'mttr_over_apk_persen'
+                                    // 'status_sla'
+                                    // 'root_couse_before'
+                                    'slot_time_assign_apk' => implode(" ", [$data['tgl_ikr'], $data['time_apk']]),
+                                    // 'slot_time_apk_delay'
+                                    // 'status_slot_time_apk_delay'
+                                    // 'ket_delay_slot_time'
+                                    // 'konfirmasi_customer'        
+                                    'port_fat' => $data['fat_port_apk'],
+                                    'site_penagihan' => $areaSegmen->site,
+                                    'wo_type_apk' => $data['wo_type_apk'],                                    
+                                    
                                     'leadcall_id' => $data['leadcall_id'],
                                     'leadcall' => $data['leadcall'],
-                                    'leader_id' => $data['leader_id'],
-                                    'leader' => $data['leader'],
-                                    'callsign_id' => $data['callsign_id'],
-                                    'callsign' => $data['callsign'],
-                                    'tek1_nik' => $data['tek1_nik'],
-                                    'teknisi1' => $data['teknisi1'],
-                                    'tek2_nik' => $data['tek2_nik'],
-                                    'teknisi2' => $data['teknisi2'],
-                                    'tek3_nik' => $data['tek3_nik'],
-                                    'teknisi3' => $data['teknisi3'],
+                                    'leader_id' => $data['leader_id'],                                    
+                                    'callsign_id' => $data['callsign_id'],                                    
+                                    'tek1_nik' => $data['tek1_nik'],                                    
+                                    'tek2_nik' => $data['tek2_nik'],                                    
+                                    'tek3_nik' => $data['tek3_nik'],                                    
                                     'tek4_nik' => $data['tek4_nik'],
                                     'teknisi4' => $data['teknisi4'],
                                     'is_checked' => 0,

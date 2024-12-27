@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\JadwalIkrImport;
 use App\Models\DataJadwalIkr;
+use App\Models\DataJadwalIkrEdit;
 use App\Models\ImportJadwalIkr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -92,14 +93,15 @@ class ImportJadwalTim_controller extends Controller
         switch ($request->input('action')) {
             case 'simpan':
 
-                if ($request->branchShow) {
-                    $branchRq = explode('|', $request->branchShow);
-                    $branchId = $branchRq[0];
-                    $branch = $branchRq[1];
-                } else {
-                    $branch = "";
-                }
+                // if ($request->branchShow) {
+                //     $branchRq = explode('|', $request->branchShow);
+                //     $branchId = $branchRq[0];
+                //     $branch = $branchRq[1];
+                // } else {
+                //     $branch = "";
+                // }
 
+                //cek & get data nik karyawan yang null/ karyawan belum terdaftar
                 $dtImportNull = ImportJadwalIkr::whereNull('nik_karyawan')
                     ->where('login', $akses)
                     ->get()->toArray();
@@ -109,6 +111,7 @@ class ImportJadwalTim_controller extends Controller
                         ->with(['error' => 'Cek data karyawan yang belum terdaftar di Database']);
                 }
 
+                //get data jadwal ikr, yang sudah terdaftar di data karyawan
                 $dtImport = ImportJadwalIkr::whereNotNull('nik_karyawan')
                     ->select(
                         'branch_id',
@@ -125,21 +128,22 @@ class ImportJadwalTim_controller extends Controller
                     ->where('login', $akses)
                     ->get()->toArray();
 
-
                 if (count($dtImport) > 0) 
-                {
+                {                    
                     $doubleAssign = [];
 
+                    //cek data double pada data import dengan data jadwal ikr
                     foreach ($dtImport as $data) {
                         $cekDoubleImport = DB::table('data_jadwal_ikrs')->where('nik_karyawan', $data['nik_karyawan'])
                             ->where('bulan', $data['bulan'])->where('tahun', $data['tahun'])
                             ->first();
 
                         if ($cekDoubleImport) {
-                            array_push($doubleAssign, $cekDoubleImport->nama_karyawan);
+                            array_push($doubleAssign, $cekDoubleImport->nik_karyawan);
                         }
                     }
 
+                    //get data import yang tidak double,
                     $dtImport2 = ImportJadwalIkr::whereNotIn('nik_karyawan', $doubleAssign)
                     ->select(
                         'branch_id',
@@ -157,29 +161,67 @@ class ImportJadwalTim_controller extends Controller
                         ->where('login', $akses)
                         ->get()
                         ->toArray();
+
                     // dd($dtImport2);
                     DB::beginTransaction();
 
                     try {
-                        // Insert ke data_assign_tims
+
+                        //update data yang sudah ada di data jadwal ikr dengan data import
+                        foreach ($dtImport as $data) {
+                            $updateDoubleImport = DB::table('data_jadwal_ikrs')
+                                ->where('nik_karyawan', $data['nik_karyawan'])
+                                ->where('bulan', $data['bulan'])->where('tahun', $data['tahun'])
+                                ->update([
+                                    'branch_id' => $data['branch_id'],
+                                    'branch' => $data['branch'],
+                                    't01' => $data['t01'],'t02' => $data['t02'],'t03' => $data['t03'],'t04' => $data['t04'],'t05' => $data['t05'],'t06' => $data['t06'],'t07' => $data['t07'],'t08' => $data['t08'],'t09' => $data['t09'],'t10' => $data['t10'],
+                                    't11' => $data['t11'],'t12' => $data['t12'],'t13' => $data['t13'],'t14' => $data['t14'],'t15' => $data['t15'],'t16' => $data['t16'],'t17' => $data['t17'],'t18' => $data['t18'],'t19' => $data['t19'],'t20' => $data['t20'],
+                                    't21' => $data['t21'],'t22' => $data['t22'],'t23' => $data['t23'],'t24' => $data['t24'],'t25' => $data['t25'],'t26' => $data['t26'],'t27' => $data['t27'],'t28' => $data['t28'],'t29' => $data['t29'],'t30' => $data['t30'],'t31' => $data['t31'],
+                                    'login_id' => $data['login_id'],'login' => $data['login']]);
+                            
+                            //update data status jadwal ikr, jika ada perubahan di tabel jadwal ikr edit
+                            $dataJadwalEdit = DB::table('data_jadwal_ikr_edits')
+                                ->where('bulan', $data['bulan'])->where('tahun', $data['tahun'])
+                                ->where('nik_karyawan', $data['nik_karyawan'])
+                                ->select(DB::raw('date_format(tgl_jadwal, "t%d") as tgl, nik_karyawan, bulan, tahun, jadwal_before, status_jadwal'))
+                                ->get();
+
+                            if(count($dataJadwalEdit) > 0) {
+                                    
+                                foreach($dataJadwalEdit as $dtEdit) {
+                                    $updateStatusJadwal = DB::table('data_jadwal_ikrs')
+                                            ->where('nik_karyawan', $dtEdit->nik_karyawan)
+                                            ->where('bulan', $dtEdit->bulan)->where('tahun', $dtEdit->tahun)
+                                            ->update([
+                                                $dtEdit->tgl => $dtEdit->status_jadwal]);
+                                }
+                            }
+                        }
+
+                        // Insert ke data_assign_tims, dari variable data yang tidak double
                         DataJadwalIkr::insert($dtImport2);
 
                         // Hapus data dari ImportAssignTim
-                        ImportJadwalIkr::whereNotIn('nik_karyawan', $doubleAssign)
-                            ->where('login', $akses)
+                        ImportJadwalIkr::where('login', $akses)
                             ->delete();
-
-                        DB::commit();
-
-                        if (count($doubleAssign) > 0) {
-                            return redirect()->route('importJadwalTim')
-                                ->with(['success' => 'Sebagian Data tersimpan. Cek data karyawan yang sama']);
                         
-                        } else {
-                            ImportJadwalIkr::where('login', $akses)->delete();
-                            return redirect()->route('jadwalTim')
+                        DB::commit();                        
+
+                        ImportJadwalIkr::where('login', $akses)->delete();
+                        return redirect()->route('jadwalTim')
                                 ->with(['success' => 'Data tersimpan.']);
-                        }
+
+                        // if (count($doubleAssign) > 0) {
+                        //     return redirect()->route('importJadwalTim')
+                        //         ->with(['success' => 'Sebagian Data tersimpan. Cek data karyawan yang sama']);
+                        
+                        // } else {
+                        //     ImportJadwalIkr::where('login', $akses)->delete();
+                        //     return redirect()->route('jadwalTim')
+                        //         ->with(['success' => 'Data tersimpan.']);
+                        // }
+
                     } catch (\Exception $e) {
                         DB::rollBack();
                         return $e->getMessage();
