@@ -524,12 +524,6 @@
                                                     <textarea class="form-control form-control-sm" type="text" id="custAddressShow" name="custAddressShow"
                                                         style="border-color:#9ca0a7;" readonly></textarea>
                                                 </div>
-                                                <div class="form-group mb-1">
-                                                    <span class="text-xs">Area/Cluster</span>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        type="text" id="cluster" name="cluster"
-                                                        style="border-color:#9ca0a7;" readonly>
-                                                </div>
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
@@ -549,6 +543,15 @@
                                                 </div>
 
                                                 <div class="form-group mb-1">
+                                                    <span class="text-xs">Area/Cluster</span>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        type="text" id="cluster" name="cluster"
+                                                        style="border-color:#9ca0a7;" readonly>
+                                                </div>
+
+                                                
+
+                                                <div class="form-group mb-1">
                                                     <span class="text-xs">Remarks</span>
                                                     <textarea class="form-control form-control-sm" type="text" id="remarkStatus" name="remarkStatus"
                                                         style="border-color:#9ca0a7;" readonly></textarea>
@@ -557,12 +560,22 @@
                                             </div>
 
                                             <div class="col">
-                                                <div class="col form-group mb-1">
-                                                    <span class="text-xs">Branch</span>
-                                                    <input class="form-control form-control-sm" type="text"
-                                                        id="branchShow" name="branchShow"
-                                                        style="border-color:#9ca0a7;" readonly>
-                                                </div>
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Branch</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="branchShow" name="branchShow"
+                                                                style="border-color:#9ca0a7;" readonly>
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Kotamadya</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="kotamadyaShow" name="kotamadyaShow"
+                                                                style="border-color:#9ca0a7;" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>                                                
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
@@ -1937,6 +1950,7 @@
                     $('#portFatShow').val(dtDis.port_fat);
                     $('#remarkStatus').val(toTitleCase(dtDis.type_maintenance || ""));
                     $('#branchShow').val(dtDis.branch);
+                    $('#kotamadyaShow').val(dtDis.kotamadya);
                     $('#tglProgressShow').val(dtDis.tgl_ikr);
                     $('#sesiShow').val(toTitleCase(dtDis.sesi || ""));
                     $('#slotTimeLeaderShow').val(dtDis.slot_time_leader);
