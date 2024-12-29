@@ -782,6 +782,40 @@
                                                     </div>
 
                                                     <div class="form-group mb-1">
+                                                        <div class="row">
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">Start</span>
+                                                                <input class="form-control form-control-sm" type="text"
+                                                                    id="start" name="start"
+                                                                    style="border-color:#9ca0a7;">
+                                                            </div>
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">Finish</span>
+                                                                <input class="form-control form-control-sm" type="text"
+                                                                    id="finish" name="finish"
+                                                                    style="border-color:#9ca0a7;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group mb-1">
+                                                        <div class="row">
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">MS Reguler</span>
+                                                                <input class="form-control form-control-sm" type="text"
+                                                                    id="ms_regular" name="ms_regular"
+                                                                    style="border-color:#9ca0a7;">
+                                                            </div>
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">Tarik Kabel DW</span>
+                                                                <input class="form-control form-control-sm" type="text"
+                                                                    id="tarik_cable" name="tarik_cable"
+                                                                    style="border-color:#9ca0a7;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group mb-1">
                                                         <span class="text-xs">Report Teknisi</span>
                                                         <textarea class="form-control form-control-sm" type="text" id="reportTeknisi" name="report_teknisi"
                                                             style="border-color:#9ca0a7;"></textarea>
@@ -915,17 +949,27 @@
                                                                     id="alasanCancel" name="alasan_cancel"
                                                                     style="border-color:#9ca0a7;">
                                                             </div>
-                                                            <div class="col form-group mt-4">
-                                                                <div class="form-check">
-                                                                    <input type="hidden" name="is_checked" value="0"> <!-- Default jika tidak dicentang -->
-                                                                    <input class="form-check-input" type="checkbox" name="is_checked" value="1" id="isChecked">
-                                                                    <label class="form-check-label" for="isChecked">
-                                                                        Sudah Dicek
-                                                                    </label>
-                                                                </div>
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">Takeout/No Takeout</span>
+                                                                <input class="form-control form-control-sm" type="text"
+                                                                    id="takeout_notakeout" name="takeout_notakeout"
+                                                                    style="border-color:#9ca0a7;">
                                                             </div>
                                                         </div>
+                                                    </div>
 
+                                                    <div class="form-group mt-4 float-end">
+                                                        <div class="form-check">
+                                                            <input type="hidden" name="is_checked" value="0"> <!-- Default jika tidak dicentang -->
+                                                            <input class="form-check-input" type="checkbox" name="is_checked" value="1" id="isChecked">
+                                                            <label class="form-check-label" for="isChecked">
+                                                                Sudah Dicek
+                                                            </label>
+                                                        </div>
+
+                                                        <span class="text-xs text-bold">
+                                                            ( {{Auth::user()->name}} )
+                                                        </span>
                                                     </div>
 
                                                 </div>
@@ -1643,6 +1687,11 @@
                     $('#kabelPreconBad').val(dtDis.bad_precon);
                     $('#cluster').val(dtDis.cluster);
 
+                    $('#start').val(dtDis.start);
+                    $('#finish').val(dtDis.finish);
+                    $('#tarik_cable').val(dtDis.tarik_cable);
+                    $('#ms_regular').val(dtDis.ms_regular);
+
                     $('#snOntOut').val(material.sn_ont_out);
                     $('#macOntOut').val(material.mac_ont_out);
                     $('#macOntIn').val(material.mac_ont_in);
@@ -1656,6 +1705,8 @@
                     $('#alasanTidakGantiPrecon').val(toTitleCase(dtDis.alasan_tidak_ganti_precon || ""));
                     $('#alasanPending').val(toTitleCase(dtDis.alasan_pending || ""));
                     $('#alasanCancel').val(toTitleCase(dtDis.alasan_cancel || ""));
+
+                    $('#takeout_notakeout').val(toTitleCase(dtDis.takeout_notakeout || ""));
                     $('#reportTeknisi').val(toTitleCase(dtDis.report_teknisi || ""));
 
                     $('#picDispatch').val(toTitleCase(dtDis.pic_dispatch || ""));
