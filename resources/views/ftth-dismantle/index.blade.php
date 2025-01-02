@@ -722,6 +722,7 @@
                                                                 <select class="form-control form-control-sm"
                                                                     type="text" id="penagihanShow"
                                                                     name="penagihanShow" style="border-color:#9ca0a7;">
+                                                                    <option value="" disabled selected>Pilih Penagihan</option>
                                                                     <option value="Migrasi Dw To Precon">Migrasi Dw To Precon</option>
                                                                     <option value="Replace Precon To Precon">Replace Precon To Precon</option>
                                                                     <option value="No Customer">No Customer</option>
@@ -802,15 +803,23 @@
                                                         <div class="row">
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">MS Reguler</span>
-                                                                <input class="form-control form-control-sm" type="text"
-                                                                    id="ms_regular" name="ms_regular"
+                                                                <select class="form-control form-control-sm"
+                                                                    type="text" id="ms_regular" name="ms_regular"
                                                                     style="border-color:#9ca0a7;">
+                                                                    <option value="" disabled selected>Pilih MS Reguler</option>
+                                                                    <option value="Manage Service">Manage Service</option>
+                                                                    <option value="Non Manage Service">Non Manage Service</option>
+                                                                </select>
                                                             </div>
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">Tarik Kabel DW</span>
-                                                                <input class="form-control form-control-sm" type="text"
-                                                                    id="tarik_cable" name="tarik_cable"
+                                                                <select class="form-control form-control-sm"
+                                                                    type="text" id="tarik_cable" name="tarik_cable"
                                                                     style="border-color:#9ca0a7;">
+                                                                    <option value="" disabled selected>Pilih Tarik Kabel DW</option>
+                                                                    <option value="Ditarik">Ditarik</option>
+                                                                    <option value="Tidak Ditarik">Tidak Ditarik</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -907,9 +916,9 @@
                                                     <div class="form-group mb-1">
                                                         <div class="row">
                                                             <div class="col form-group mb-1">
-                                                                <span class="text-xs">Alasan Tidak Ganti Precon</span>
+                                                                <span class="text-xs">Alasan Tidak Rollback</span>
                                                                 <input class="form-control form-control-sm" type="text"
-                                                                    id="alasanTidakGantiPrecon" name="alasan_tidak_ganti_precon"
+                                                                    id="alasan_no_rollback" name="alasan_no_rollback"
                                                                     style="border-color:#9ca0a7;">
                                                             </div>
                                                             <div class="col form-group mb-1">
@@ -917,6 +926,7 @@
                                                                 <select class="form-control form-control-sm"
                                                                     type="text" id="weatherShow" name="weatherShow"
                                                                     style="border-color:#9ca0a7;">
+                                                                    <option value="" disabled selected>Pilih Cuaca</option>
                                                                     <option value="Cerah">Cerah</option>
                                                                     <option value="Hujan">Hujan</option>
                                                                 </select>
@@ -951,9 +961,13 @@
                                                             </div>
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">Takeout/No Takeout</span>
-                                                                <input class="form-control form-control-sm" type="text"
-                                                                    id="takeout_notakeout" name="takeout_notakeout"
+                                                                <select class="form-control form-control-sm"
+                                                                    type="text" id="takeout_notakeout" name="takeout_notakeout"
                                                                     style="border-color:#9ca0a7;">
+                                                                    <option value="" disabled selected>Pilih Takeout/No Takeout</option>
+                                                                    <option value="Takeout">Takeout</option>
+                                                                    <option value="No Takeout">No Takeout</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1686,6 +1700,9 @@
                     $('#kabelPrecon').val(dtDis.precon_out);
                     $('#kabelPreconBad').val(dtDis.bad_precon);
                     $('#cluster').val(dtDis.cluster);
+
+                    $('#alasan_no_rollback').val(toTitleCase(dtDis.alasan_no_rollback || ""));
+                    $('#weatherShow').val(dtDis.weather);
 
                     $('#start').val(dtDis.start);
                     $('#finish').val(dtDis.finish);

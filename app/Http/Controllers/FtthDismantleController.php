@@ -308,6 +308,7 @@ class FtthDismantleController extends Controller
             'pic_dispatch' => $request['picDispatch'],
             'alasan_pending' => $request['alasan_pending'],
             'alasan_cancel' => $request['alasan_cancel'],
+            'alasan_no_rollback' => $request['alasan_no_rollback'],
             'takeout_notakeout' => $request['takeout_notakeout'],
             'is_checked' => $request['is_checked'],
             'login_id' => $aksesId,
