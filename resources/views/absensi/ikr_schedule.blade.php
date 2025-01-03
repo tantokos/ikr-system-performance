@@ -131,7 +131,41 @@
                                     <h6 class="font-weight-semibold text-lg">Rekap Jadwal Kehadiran</h6>
                                     {{-- <p class="text-sm">See information about all members</p> --}}
                                 </div>
+
+                                <div class="ms-auto d-flex">
+                                    <button type="button" id="editStatusHadir"
+                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
+                                        {{-- data-bs-toggle="modal" data-bs-target="#updateStatusHadir"> --}}
+                                        <span class="btn-inner--icon">
+                                            <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
+                                                <path
+                                                    d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
+                                                </path>
+                                            </svg>
+                                        </span>
+                                        <span class="btn-inner--text">Edit Status Kehadiran</span>
+                                    </button>
+    
+                                    <a href="{{ route('importJadwalTim') }}">
+                                        <button type="button"
+                                            class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
+                                            <span class="btn-inner--icon">
+                                                <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
+                                                    <path
+                                                        d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
+                                                    </path>
+                                                </svg>
+                                            </span>
+                                            <span class="btn-inner--text">Import Jadwal IKR</span>
+                                        </button>
+                                    </a>
+                                </div>
+
                             </div>
+
+                            
                         </div>
 
                         <div class="card-body px-2 py-2">
@@ -185,6 +219,7 @@
                                                 <tr>
                                                     <th class="text-secondary text-xs">#</th>
                                                     <th class="text-secondary text-xs">Area</th>
+                                                    <th class="text-secondary text-xs">Departement</th>
                                                     <th class="text-center text-secondary text-xs">Bulan</th>
                                                     <th class="text-center text-secondary text-xs">Tahun</th>
                                                     <th class="text-center text-secondary text-xs">Status</th>
@@ -259,6 +294,7 @@
                                                 <tr>
                                                     <th class="text-secondary text-xs font-weight-semibold">#</th>
                                                     <th class="text-secondary text-xs font-weight-semibold ps-2">Area</th>
+                                                    <th class="text-secondary text-xs">Departement</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold ">Bulan</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold">Tahun</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold">Status</th>
@@ -333,6 +369,7 @@
                                                 <tr>
                                                     <th class="text-secondary text-xs font-weight-semibold">#</th>
                                                     <th class="text-secondary text-xs font-weight-semibold ps-2">Area</th>
+                                                    <th class="text-secondary text-xs">Departement</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold ">Bulan</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold">Tahun</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold">Status</th>
@@ -407,6 +444,7 @@
                                                 <tr>
                                                     <th class="text-secondary text-xs font-weight-semibold">#</th>
                                                     <th class="text-secondary text-xs font-weight-semibold ps-2">Area</th>
+                                                    <th class="text-secondary text-xs">Departement</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold ">Bulan</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold">Tahun</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold">Status</th>
@@ -485,9 +523,9 @@
                                 </div>
 
                                 <div class="ms-auto d-flex">
-                                    <button type="button"
-                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"
-                                        data-bs-toggle="modal" data-bs-target="#updateStatusHadir">
+                                    <button type="button" id="editStatusHadir"
+                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
+                                        {{-- data-bs-toggle="modal" data-bs-target="#updateStatusHadir"> --}}
                                         <span class="btn-inner--icon">
                                             <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
@@ -525,6 +563,7 @@
                                         <tr id="headTool">
                                             <th class="text-xs font-weight-semibold">#</th>
                                             <th class="text-center text-xs font-weight-semibold">Area</th>
+                                            <th class="text-secondary text-xs">Departement</th>
                                             <th class="text-center text-xs font-weight-semibold">NIK Karyawan</th>
                                             <th class="text-center text-xs font-weight-semibold">Nama Karyawan</th>
                                             <th class="text-center text-xs font-weight-semibold">Bulan</th>
@@ -654,6 +693,7 @@
                                                     placeholder="Pilih Status Kehadiran">
                                                     <option value="ON">ON</option>
                                                     <option value="OFF">OFF</option>
+                                                    <option value="OD">OD</option>
                                                     <option value="Cuti">Cuti</option>
                                                     <option value="Sakit">Sakit</option>
                                                     <option value="Absen">Absen</option>
@@ -1107,6 +1147,7 @@
                         "width": '20'
                     },
                     {data: 'branch'},
+                    {data: 'departement'},
                     {
                         data: 'nik_karyawan',
                         className: 'text-center'
@@ -1295,9 +1336,10 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ route('getRekapDataJadwalTeknisi') }}",
-                    type: "get",
+                    type: "POST",
                     dataType: "json",
                     data: {
+                        _token: '{!! csrf_token() !!}',
                         filTgl: $('#filtglProgress').val(),
                         filTahun: $('#filTahun').val(),
                         filBulan: $('#filBulan').val(),
@@ -1305,7 +1347,6 @@
                         filNama: $('#filNama').val(),
                         filStatusHadir: $('#filStatusHadir').val(),
                         akses: akses,
-                        _token: _token
                     }
                 },
                 columns: [{
@@ -1317,6 +1358,7 @@
                         "width": '20'
                     },
                     {data: 'branch'},
+                    {data: 'departement'},
                     {
                         data: 'bulanname'
                     },
@@ -1349,7 +1391,7 @@
                             },
                             'createdCell': function(td, cellData, rowData, row, col) {
                                 // this will give each cell an ID
-                                $(td).attr('data-id',rowData.dtid + "|" + $('#filNama').val() + "|" + cellData);
+                                $(td).attr('data-id',rowData.dtid + "|" + $('#filNama').val() + "|" + cellData + "|" + rowData.departement);
                                 $(td).attr('class', 'det-rekap');
                             }
                     },
@@ -1388,9 +1430,10 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ route('getRekapDataJadwalStaff') }}",
-                    type: "get",
+                    type: "post",
                     dataType: "json",
                     data: {
+                        _token: '{!! csrf_token() !!}',
                         filTgl: $('#filtglProgress').val(),
                         filTahun: $('#filTahun').val(),
                         filBulan: $('#filBulan').val(),
@@ -1398,7 +1441,6 @@
                         filNama: $('#filNama').val(),
                         filStatusHadir: $('#filStatusHadir').val(),
                         akses: akses,
-                        _token: _token
                     }
                 },
                 columns: [{
@@ -1410,6 +1452,7 @@
                         "width": '20'
                     },
                     {data: 'branch'},
+                    {data: 'departement'},
                     {
                         data: 'bulanname'
                     },
@@ -1442,7 +1485,7 @@
                             },
                             'createdCell': function(td, cellData, rowData, row, col) {
                                 // this will give each cell an ID
-                                $(td).attr('data-id',rowData.dtid + "|" + $('#filNama').val() + "|" + cellData);
+                                $(td).attr('data-id',rowData.dtid + "|" + $('#filNama').val() + "|" + cellData + "|" + rowData.departement);
                                 $(td).attr('class', 'det-rekap');
                             }
                     },
@@ -1481,9 +1524,10 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ route('getRekapDataJadwalLeader') }}",
-                    type: "get",
+                    type: "post",
                     dataType: "json",
                     data: {
+                        _token: '{!! csrf_token() !!}',
                         filTgl: $('#filtglProgress').val(),
                         filTahun: $('#filTahun').val(),
                         filBulan: $('#filBulan').val(),
@@ -1491,7 +1535,6 @@
                         filNama: $('#filNama').val(),
                         filStatusHadir: $('#filStatusHadir').val(),
                         akses: akses,
-                        _token: _token
                     }
                 },
                 columns: [{
@@ -1503,6 +1546,7 @@
                         "width": '20'
                     },
                     {data: 'branch'},
+                    {data: 'departement'},
                     {
                         data: 'bulanname'
                     },
@@ -1535,7 +1579,7 @@
                             },
                             'createdCell': function(td, cellData, rowData, row, col) {
                                 // this will give each cell an ID
-                                $(td).attr('data-id',rowData.dtid + "|" + $('#filNama').val() + "|" + cellData);
+                                $(td).attr('data-id',rowData.dtid + "|" + $('#filNama').val() + "|" + cellData + "|" + rowData.departement);
                                 $(td).attr('class', 'det-rekap');
                             }
                     },
@@ -1575,9 +1619,10 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ route('getRekapDataJadwalSpv') }}",
-                    type: "get",
+                    type: "post",
                     dataType: "json",
                     data: {
+                        _token: '{!! csrf_token() !!}',
                         filTgl: $('#filtglProgress').val(),
                         filTahun: $('#filTahun').val(),
                         filBulan: $('#filBulan').val(),
@@ -1585,7 +1630,6 @@
                         filNama: $('#filNama').val(),
                         filStatusHadir: $('#filStatusHadir').val(),
                         akses: akses,
-                        _token: _token
                     }
                 },
                 columns: [{
@@ -1597,6 +1641,7 @@
                         "width": '20'
                     },
                     {data: 'branch'},
+                    {data: 'departement'},
                     {
                         data: 'bulanname'
                     },
@@ -1629,26 +1674,42 @@
                             },
                             'createdCell': function(td, cellData, rowData, row, col) {
                                 // this will give each cell an ID
-                                $(td).attr('data-id',rowData.dtid + "|" + $('#filNama').val() + "|" + cellData);
+                                $(td).attr('data-id',rowData.dtid + "|" + $('#filNama').val() + "|" + cellData + "|" + rowData.departement);
                                 $(td).attr('class', 'det-rekap');
                             }
                     },
                 ]
             })
         }
-        
-        
 
         // {{-- Start Part Callsign Tim  --}}
         let area;
         let leader;
+
+        function get_stat_jadwal(){
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let branch = $('#branch').val();
+            let tgl = $('#tglProgress').val();
+
+        }
+
+        $(document).on('click', '#editStatusHadir', function(e) {
+            $('#updateStatusHadir').modal('show');
+            $('#branch').val('');
+            // $('#tglProgress').val('');
+            $('#namaKaryawan').val('');
+            $('#nikKaryawan').val('');
+            $('#jadwalKaryawan').val('');
+            $('#showgambarPengajuan').attr('src',
+                `assets/img/default-150x150.png`
+            );
+        })
 
         $(document).on('change', '#branch', function(e) {
             // e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
             let branch = $(this).val();
             let tgl = $('#tglProgress').val();
-            console.log(tgl);
             $.ajax({
                 url: "{{ route('getKaryawan') }}",
                 type: "get",
@@ -1659,6 +1720,9 @@
                 },
                 success: function(dtKry) {
                     dtkrywan = dtKry;
+                    // $('#namaKaryawan').val('');
+                    $('#nikKaryawan').val('');
+                    $('#jadwalKaryawan').val('');
                     $('#namaKaryawan').find('option').remove();
                     $('#namaKaryawan').append(
                         `<option value="">Pilih Karyawan</option>`);
@@ -1671,38 +1735,7 @@
 
                 }
             })
-        })
-
-        $(document).on('change', '#tglProgress', function(e) {
-            // e.preventDefault();
-            var _token = $('meta[name=csrf-token]').attr('content');
-            let branch = $('#branch').val();
-            let tgl = $(this).val();
-            console.log(tgl);
-            $.ajax({
-                url: "{{ route('getKaryawan') }}",
-                type: "get",
-                data: {
-                    branch: branch,
-                    tgl: tgl,
-                    _token: _token
-                },
-                success: function(dtKry) {
-                    dtkrywan = dtKry;
-                    $('#namaKaryawan').find('option').remove();
-                    $('#namaKaryawan').append(
-                        `<option value="">Pilih Karyawan</option>`);
-
-                    $.each(dtKry, function(key, kry) {
-                        $('#namaKaryawan').append(
-                            `<option value="${kry.id}">${kry.nama_karyawan}</option>`
-                        )
-                    })
-
-                }
-            })
-        })
-
+        })        
 
         $(document).on('change', '#namaKaryawan', function(t) {
             // t.preventDefault();
@@ -1712,11 +1745,44 @@
             console.log('dy : ', day)
             let kr = dtkrywan.find(o => o.id === Number($(this).val()));
 
+            console.log('kr.length : ', kr==null);
             $('#nikKaryawan').val(kr.nik_karyawan)
             $('#jadwalKaryawan').val(kr[day])
 
+        })
 
-            
+        $(document).on('change', '#tglProgress', function(e) {
+            // e.preventDefault();
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let branch = $('#branch').val();
+            let tgl = $(this).val();
+            $.ajax({
+                url: "{{ route('getKaryawan') }}",
+                type: "get",
+                data: {
+                    branch: branch,
+                    tgl: tgl,
+                    _token: _token
+                },
+                success: function(dtKry) {
+                    dtkrywan = dtKry;
+
+                    $('#nikKaryawan').val('');
+                    $('#jadwalKaryawan').val('');
+                    $('#namaKaryawan').find('option').remove();
+                    $('#namaKaryawan').append(
+                        `<option value="">Pilih Karyawan</option>`);
+
+                    $.each(dtKry, function(key, kry) {
+                        $('#namaKaryawan').append(
+                            `<option value="${kry.id}">${kry.nama_karyawan}</option>`
+                        )
+                    })
+
+                    $('#namaKaryawan').trigger('change');
+
+                }
+            })
         })
 
         $(document).on('change', '#LeadCallsignShow', function(e) {

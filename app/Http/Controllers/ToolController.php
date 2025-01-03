@@ -230,20 +230,20 @@ class ToolController extends Controller
         $filApprove2 = $click[6];
 
         if($clickKondisi == "Subtotal"){
-            $branchList = DB::table('tool_ikrs')->select(DB::raw('branch_penerima, count(*) as jml'))
+            $branchList = DB::table('tool_ikrs')->select(DB::raw('branch_penerima, departement, count(*) as jml'))
                     // ->where('posisi', $clickPosisi)
                     // ->where('kondisi', $clickKondisi)
-                    ->groupBy('branch_penerima')->orderBy('jml','DESC');
+                    ->groupBy('branch_penerima','departement')->orderBy('jml','DESC');
 
             $RekapTool = DB::table('tool_ikrs')->select(DB::raw('nama_barang, count(*) as jml'))
                 // ->where('posisi', $clickPosisi)
                 // ->where('kondisi', $clickKondisi)
                 ->groupBy('nama_barang')->orderBy('jml','DESC'); //->get();
         
-            $RekapToolBranch = DB::table('tool_ikrs')->select(DB::raw('branch_penerima, nama_barang, count(*) as jml'))
+            $RekapToolBranch = DB::table('tool_ikrs')->select(DB::raw('branch_penerima, departement, nama_barang, count(*) as jml'))
                 // ->where('posisi', $clickPosisi)
                 // ->where('kondisi', $clickKondisi)
-                ->groupBy('branch_penerima', 'nama_barang')->orderBy('jml','DESC'); //->get();
+                ->groupBy('branch_penerima', 'departement', 'nama_barang')->orderBy('jml','DESC'); //->get();
 
             $listTool = DB::table('tool_ikrs');
                 // ->where('posisi', $clickPosisi)
@@ -251,20 +251,20 @@ class ToolController extends Controller
                 // ->groupBy('nama_barang'); //->get();
         } else {
 
-            $branchList = DB::table('tool_ikrs')->select(DB::raw('branch_penerima, count(*) as jml'))
+            $branchList = DB::table('tool_ikrs')->select(DB::raw('branch_penerima, departement, count(*) as jml'))
                     // ->where('posisi', $clickPosisi)
                     ->where('kondisi', $clickKondisi)
-                    ->groupBy('branch_penerima')->orderBy('jml','DESC');
+                    ->groupBy('branch_penerima','departement')->orderBy('jml','DESC');
 
             $RekapTool = DB::table('tool_ikrs')->select(DB::raw('nama_barang, count(*) as jml'))
                 // ->where('posisi', $clickPosisi)
                 ->where('kondisi', $clickKondisi)
                 ->groupBy('nama_barang')->orderBy('jml','DESC'); //->get();
         
-            $RekapToolBranch = DB::table('tool_ikrs')->select(DB::raw('branch_penerima, nama_barang, count(*) as jml'))
+            $RekapToolBranch = DB::table('tool_ikrs')->select(DB::raw('branch_penerima, departement, nama_barang, count(*) as jml'))
                 // ->where('posisi', $clickPosisi)
                 ->where('kondisi', $clickKondisi)
-                ->groupBy('branch_penerima', 'nama_barang')->orderBy('jml','DESC'); //->get();
+                ->groupBy('branch_penerima','departement', 'nama_barang')->orderBy('jml','DESC'); //->get();
 
             $listTool = DB::table('tool_ikrs')
                 // ->where('posisi', $clickPosisi)
@@ -404,6 +404,7 @@ class ToolController extends Controller
                 'nik_penerima' => $request['nikpenerima'],
                 'nama_penerima' => $request['namapenerima'],
                 'branch_penerima' => $request['namaBranch'],
+                'departement' => $request['departemen'],
                 'approve1' => 'Submited',
                 'approve2' => 'Submited',
                 'posisi' => "Supervisor",

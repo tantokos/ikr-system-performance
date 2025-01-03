@@ -110,13 +110,21 @@
                             WO</button>
                         <button onclick="return confirm('Hapus hasil import Data Work Order?')"
                             onsubmit="this.disabled = true;" type="submit" name="action" value="batal"
-                            class="btn btn-sm btn-dark align-items-center">Cancel Import
+                            class="btn btn-sm btn-danger align-items-center">Cancel Import
                             Data</button>
                     </div>
                     </form>
                 </div>
             </div>
 
+            <style>
+                .dttable-wrap { 
+                    min-width: 300px; 
+                    word-break: break-word;
+                    vertical-align: top;
+                    white-space: normal !important;
+                }
+            </style>
             <div class="row">
                 <div class="col-12">
                     <div class="card border shadow-xs mb-4">
@@ -131,7 +139,7 @@
 
                         <div class="card-body px-2 py-2">
                             <div class="table-responsive">
-                                <table class="table align-items-center mb-0" id="tabelDataWoImportApk" name="tabelDataWoImportApk"
+                                <table class="table table-bordered align-items-center mb-0 display" id="tabelDataWoImportApk" name="tabelDataWoImportApk"
                                     style="font-size: 12px">
                                     <thead class="bg-gray-100">
                                         <tr>
@@ -714,7 +722,9 @@
                         data: 'cust_mobile',
                     },
                     {
-                        data: 'address',
+                        data: 'address',                        
+                        "className": "dttable-wrap",
+                        
                     },
                     {
                         data: 'area',
@@ -739,6 +749,7 @@
                     },
                     {
                         data: 'remarks',
+                        "className": "dttable-wrap",
                     },
                     {
                         data: 'status',

@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
+use Illuminate\Support\Facades\DB;
 
 class MaterialImport implements ToModel, WithHeadingRow, WithChunkReading, WithValidation
 {
@@ -45,6 +46,7 @@ class MaterialImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             'sn' => $row['sn'],
             'mac_address' => $row['mac_address'],
             'material_condition' => $row['material_condition'],
+            'kategori_material' => $this->get_kategori($row['description']),
             'login_id' => $this->logId,
             'login' => $this->logNm,
         ]);
@@ -62,6 +64,14 @@ class MaterialImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
         return [
             'wo_no.unique' => 'WO number sudah diimport.',
         ];
+    }
+
+    public function get_kategori($data)
+    {   
+        $kategori = DB::table('list_material')->select('kategori_material')->where('merk_material', $data)->first();
+        // dd($kategori->kategori_material);
+        return is_null($kategori) ? null : $kategori->kategori_material;
+
     }
 
     public function chunkSize(): int

@@ -89,13 +89,47 @@ class MonitFtthMT_Controller extends Controller
         ));
     }
 
+    public function getSummaryWO(Request $request) 
+    {
+        $datas = DB::table('data_ftth_mt_oris');
+
+        if($request->filTgl != null) {
+            $dateRange = explode("-", $request->filTgl);
+            $startDt = \Carbon\Carbon::parse($dateRange[0]);
+            $endDt = \Carbon\Carbon::parse($dateRange[1]);
+
+            $datas = $datas->whereBetween('tgl_ikr',[$startDt, $endDt]);
+        }
+
+        $datas = $datas->select(
+                    DB::raw('
+                    count(*) as total,
+                    count(if((status_wo="Done") || (status_wo="Checkout"),1,null)) as done,
+                    count(if(status_wo="Pending",1,null)) as pending,
+                    count(if(status_wo="Cancel",1,null)) as cancel,
+                    count(if(status_wo="Checkin",1,null)) as checkin,
+                    count(if(status_wo="Requested",1,null)) as requested ')
+                )->get();
+
+        return response()->json($datas);
+    }
+
     public function getDataMTOris(Request $request)
     {
         ini_set('max_execution_time', 1900);
         ini_set('memory_limit', '8192M');
         $akses = Auth::user()->name;
 
-        $datas = DB::table('data_ftth_mt_oris')->orderBy('tgl_ikr', 'DESC');
+        $datas = DB::table('data_ftth_mt_oris')->orderBy('tgl_ikr', 'DESC')
+                ->orderBy('is_checked')
+                ->orderByRaw('case when status_apk="CHECKOUT" then 1
+                                when status_apk="DONE" then 2
+                                when status_apk="PENDING" then 3
+                                when status_apk="CANCELLED" then 4
+                                when status_apk="CHECKIN" then 5
+                                when status_apk="REQUESTED" then 6
+                                else 7 End'
+                            );
 
             if($request->filTgl != null) {
                 $dateRange = explode("-", $request->filTgl);
@@ -167,18 +201,20 @@ class MonitFtthMT_Controller extends Controller
                 // })
                 ->addColumn('action', function ($row) {
                     $btn = '
-                        <a href="javascript:void(0)"
+                    <a href="javascript:void(0)"
                         id="detail-assign"
                         data-id="' . $row->id . '"
-                        class="btn btn-sm btn-primary detail-assign mb-0">
-                        Detail
-                        </a>
-                        <a href="javascript:void(0)"
+                        class="btn btn-sm btn-primary detail-assign mb-0 tooltip-info" data-rel="tooltip" title="Detail WO">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
+                        </svg>
+                    </a>
+                    <a href="javascript:void(0)"
                         id="detail-material"
                         data-id="' . $row->id . '"
-                        class="btn btn-sm btn-secondary detail-material mb-0">
-                        Material
-                        </a>';
+                        class="btn btn-sm btn-secondary detail-material mb-0 tooltip-info" data-rel="tooltip" title="Detail Material">
+                        <svg width="18" height="18" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>Detail Material</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-102.000000, -777.000000)" fill="#ffffff"> <path d="M119,797 L130,797 L130,799 L119,799 L119,807 L117,807 L117,799 L106,799 L106,797 L117,797 L117,789 L104,789 L104,805 C104,807.209 105.791,809 108,809 L128,809 C130.209,809 132,807.209 132,805 L132,789 L119,789 L119,797 L119,797 Z M121,783 C119.896,783 119,782.104 119,781 C119,779.896 119.896,779 121,779 C122.104,779 123,779.896 123,781 C123,782.104 122.104,783 121,783 L121,783 Z M115,783 C113.896,783 113,782.104 113,781 C113,779.896 113.896,779 115,779 C116.104,779 117,779.896 117,781 C117,782.104 116.104,783 115,783 L115,783 Z M132,783 L124.445,783 C124.789,782.41 125,781.732 125,781 C125,778.791 123.209,777 121,777 C119.798,777 118.733,777.541 118,778.38 C117.267,777.541 116.202,777 115,777 C112.791,777 111,778.791 111,781 C111,781.732 111.211,782.41 111.555,783 L104,783 C102.896,783 102,783.896 102,785 L102,787 L134,787 L134,785 C134,783.896 133.104,783 132,783 L132,783 Z" id="present" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
+                    </a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])   //merender content column dalam bentuk html
@@ -199,26 +235,51 @@ class MonitFtthMT_Controller extends Controller
         $callsign_tims = DB::table('callsign_tims')->get();
         $callsign_leads = DB::table('callsign_leads')->get();
 
-
-        $wo_no = DB::table('data_ftth_mt_oris')->where('id', $assignId)->value('no_wo'); // contoh WO No
+        // $wo_no = DB::table('data_ftth_mt_oris')->where('id', $assignId)->value('no_wo'); // contoh WO No
 
         // Mendapatkan data dari database seperti biasa
         $ftth_material = DB::table('ftth_materials')
+            ->where('wo_no', $datas->no_wo)
             ->select(
                 'wo_no',
                 'installation_date',
                 'status_item',
-                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%ONT%" THEN description END AS merk_ont_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%ONT%" THEN sn END AS sn_ont_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%ONT%" THEN mac_address END AS mac_ont_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%STB%" THEN description END AS stb_merk_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%PRECON%" THEN description END AS precon_out'),
-                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%STB%" THEN description END AS stb_merk_in'),
-                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%ONT%" THEN description END AS merk_ont_in'),
-                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%ONT%" THEN sn END AS sn_ont_in'),
-                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%ONT%" THEN mac_address END AS mac_ont_in')
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "ONT" THEN description END AS merk_ont_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "ONT" THEN sn END AS sn_ont_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "ONT" THEN mac_address END AS mac_ont_out'),
+                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "ONT" THEN description END AS merk_ont_in'),
+                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "ONT" THEN sn END AS sn_ont_in'),
+                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "ONT" THEN mac_address END AS mac_ont_in'),
+
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "STB" THEN description END AS merk_stb_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "STB" THEN sn END AS sn_stb_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "STB" THEN mac_address END AS mac_stb_out'),
+                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "STB" THEN description END AS merk_stb_in'),
+                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "STB" THEN sn END AS sn_stb_in'),
+                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "STB" THEN mac_address END AS mac_stb_in'),
+
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Router" THEN description END AS merk_router_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Router" THEN sn END AS sn_router_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Router" THEN mac_address END AS mac_router_out'),
+                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "Router" THEN description END AS merk_router_in'),
+                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "Router" THEN sn END AS sn_router_in'),
+                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "Router" THEN mac_address END AS mac_router_in'),
+
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Remote" THEN description END AS remote_out'),
+                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "Remote" THEN description END AS remote_in'),
+
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "DW" THEN qty END AS dw_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Precon" THEN description END AS precon_out'),
+
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Fast Connector" THEN qty END AS fastcon_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Patchcord" THEN qty END AS patchcord_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Terminal Box" THEN qty END AS tb_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "PVC Pipe" THEN qty END AS pvc_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Socket Pipe" THEN qty END AS socket_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "UTP" THEN qty END AS utp_out'),
+                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "RJ45" THEN qty END AS rj45_out'),
+                
             )
-            ->where('wo_no', $wo_no)
             ->get()
             ->toArray(); // Konversi hasil query ke array
 
@@ -241,6 +302,7 @@ class MonitFtthMT_Controller extends Controller
         // Gabungkan data ftth_material menjadi satu array
         $mergedMaterial = mergeFtthMaterials($ftth_material);
 
+        // dd($datas);
         // Mengirimkan response JSON
         return response()->json([
             'data' => $datas,
@@ -396,11 +458,11 @@ class MonitFtthMT_Controller extends Controller
                 'weather' => $request['weatherShow'],
                 'remark_status' => $request['remarkStatus'],
                 // 'action_status' => $request[''],
-                // 'visit_novisit' => $request[''],
+                'visit_novisit' => $request['statusVisit'],
                 // 'start_ikr_wa' => $request[''],
                 // 'end_ikr_wa' => $request[''],
-                // 'validasi_start' => $request[''],
-                // 'validasi_end' => $request[''],
+                'validasi_start' => $request['validasiStart'],
+                'validasi_end' => $request['validasiEnd'],
                 'checkin_apk' => $request['tglCheckinApk'],
                 'checkout_apk' => $request['checkout_apk'],
                 'status_apk' => $request['statusWoApk'],
@@ -476,11 +538,13 @@ class MonitFtthMT_Controller extends Controller
             DB::commit();
     
             if ($updateFtthMt) {
-                return redirect()->route('monitFtthMT')->with(['success' => 'Data tersimpan.']);
+                // return redirect()->route('monitFtthMT')->with(['success' => 'Data tersimpan.']);
+                return response()->json('success');
             } 
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('monitFtthMT')->with(['error' => 'Gagal Simpan Data.']);
+            // return redirect()->route('monitFtthMT')->with(['error' => 'Gagal Simpan Data.']);
+            return response()->json($e->getMessage());
 
         }
 

@@ -120,7 +120,7 @@ class Import_DataWoController extends Controller
                 return back()->with(['success' => 'Import Work Order berhasil.']);
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
                 $failures = $e->failures();
-                
+                // dd($failures);
                 $errorMessages = [];
                 foreach ($failures as $failure) {
                     // dd($failure->values()[$failure->attribute()]);
@@ -129,6 +129,7 @@ class Import_DataWoController extends Controller
 
                 return back()->with(['error' => 'Kesalahan validasi: ' . implode('<br>', $errorMessages)]);
             } catch (\Exception $e) {
+                
                 return back()->with(['error' => 'Kesalahan: ' . $e->getMessage()]);
             }
         }
@@ -167,7 +168,7 @@ class Import_DataWoController extends Controller
         $datas = DB::table('import_assign_tims as d')
             ->where('d.id', $wo_id)->first();
 
-        $tim = Employee::whereIn('posisi', ['Installer', 'Maintenance'])
+        $tim = Employee::whereIn('posisi', ['Installer', 'Maintenance','Teknisi'])
             ->select('nik_karyawan', 'nama_karyawan')
             ->orderBy('nama_karyawan')
             ->get();
@@ -311,7 +312,10 @@ class Import_DataWoController extends Controller
                         foreach ($dtImportAssign2 as $data) {
 
                             $kdArea = substr($data['fat_code_apk'],4,3);
-                            $areaSegmen = DB::table('list_fat')->where('branch', $data['branch'])
+                            $kategori_area = DB::table('list_fat')->where('branch', $data['branch'])
+                                            ->select('kategori_area')->distinct()->first();
+
+                            $areaSegmen = DB::table('list_fat')->where('kategori_area', $kategori_area->kategori_area)
                                         ->where('kode_area', $kdArea)->first();
 
                             // $cekStatWOBefore = DB::table('data_ftth_mt_oris')->where('no_wo',$data['no_wo_apk']) 
@@ -337,10 +341,10 @@ class Import_DataWoController extends Controller
                                     'cust_address2' => $data['address_apk'],
                                     'type_maintenance' => $data['remarks_apk'],
                                     'kode_fat' => $data['fat_code_apk'],
-                                    'kode_wilayah' => $kdArea,
-                                    'cluster' => $data['area_cluster_apk'],
-                                    'kotamadya' => $areaSegmen->kotamadya,
-                                    'kotamadya_penagihan' => $areaSegmen->kotamadya_penagihan,
+                                    'kode_wilayah' => isset($kdArea) ? $kdArea: null,
+                                    'cluster' => isset($data['area_cluster_apk']) ? $data['area_cluster_apk'] : $areaSegmen->cluster,
+                                    'kotamadya' => isset($areaSegmen->kotamadya) ? $areaSegmen->kotamadya : null,
+                                    'kotamadya_penagihan' => isset($areaSegmen->kotamadya_penagihan) ? $areaSegmen->kotamadya_penagihan: null,
                                     'branch_id' => $data['branch_id'],
                                     'branch' => $data['branch'],
                                     'tgl_ikr' => $data['tgl_ikr'],
@@ -354,11 +358,11 @@ class Import_DataWoController extends Controller
                                     'teknisi3' => $data['teknisi3'],
                                     'status_wo' => "Requested",
                                     'status_apk' => "Requested",
-                                    'ms_regular' => $areaSegmen->status_ms,                                    
+                                    'ms_regular' => isset($areaSegmen->status_ms) ? $areaSegmen->status_ms : null,                                    
                                     'wo_date_apk' => $data['wo_date_apk'],
                                     'slot_time_assign_apk' => implode(" ", [$data['tgl_ikr'], $data['time_apk']]),    
                                     'port_fat' => $data['fat_port_apk'],
-                                    'site_penagihan' => $areaSegmen->site,
+                                    'site_penagihan' => isset($areaSegmen->site) ? $areaSegmen->site : null,
                                     'wo_type_apk' => $data['wo_type_apk'],
                                     'leadcall_id' => $data['leadcall_id'],
                                     'leadcall' => $data['leadcall'],
@@ -374,7 +378,7 @@ class Import_DataWoController extends Controller
                                 ]);
                             } elseif ($data['type_wo'] === 'FTTH New Installation') {
                                 DB::table('data_ftth_ib_oris')->insert([
-                                    'site' => $areaSegmen->site,
+                                    'site' => isset($areaSegmen->site) ? $areaSegmen->site : null,
                                     'type_wo' => $data['type_wo'],
                                     'wo_type_apk' => $data['wo_type_apk'],
                                     'no_wo' => $data['no_wo_apk'],
@@ -384,10 +388,12 @@ class Import_DataWoController extends Controller
                                     'cust_address1' => $data['address_apk'],
                                     'type_maintenance' => $data['remarks_apk'],
                                     'kode_fat' => $data['fat_code_apk'],
-                                    'kode_wilayah' => $kdArea,
-                                    'cluster' => $data['area_cluster_apk'],
-                                    'kotamadya' => $areaSegmen->kotamadya,
-                                    'kotamadya_penagihan' => $areaSegmen->kotamadya_penagihan,
+
+                                    'kode_wilayah' => isset($kdArea) ? $kdArea: null,
+                                    'cluster' => isset($data['area_cluster_apk']) ? $data['area_cluster_apk'] : $areaSegmen->cluster,
+                                    'kotamadya' => isset($areaSegmen->kotamadya) ? $areaSegmen->kotamadya : null,
+                                    'kotamadya_penagihan' => isset($areaSegmen->kotamadya_penagihan) ? $areaSegmen->kotamadya_penagihan: null,
+
                                     'branch_id' => $data['branch_id'],
                                     'branch' => $data['branch'],
                                     'leadcall_id' => $data['leadcall_id'],
@@ -434,7 +440,7 @@ class Import_DataWoController extends Controller
                                     'slot_time_apk' => $data['time_apk'],
                                     'status_apk' => "Requested",
                                     'branch_id' => $data['branch_id'],
-                                    'branch' => $data['branch'],
+                                    'main_branch' => $data['branch'],
                                     'leadcall_id' => $data['leadcall_id'],
                                     'leadcall' => $data['leadcall'],
                                     'leader_id' => $data['leader_id'],
@@ -470,7 +476,9 @@ class Import_DataWoController extends Controller
                                 ->with(['success' => 'Data tersimpan.']);
                         }
                     } catch (\Exception $e) {
+                        
                         DB::rollBack();
+                        // dd($kdArea);
                         return redirect()->route('importDataWo')
                             ->with(['error' => 'Gagal Simpan Data: ' . $e->getMessage()]);
                     }

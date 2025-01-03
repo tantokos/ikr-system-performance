@@ -30,6 +30,7 @@ class ImportFtthMaterial extends Model
         'qty',
         'sn',
         'mac_address',
-        'material_condition'
+        'material_condition',
+        'kategori_material'
     ];
 }

@@ -28,6 +28,7 @@ class ToolIkr extends Model
         'nik_penerima',
         'nama_penerima',
         'branch_penerima',
+        'departement',
         'posisi',
         'approve1',
         'approve2',

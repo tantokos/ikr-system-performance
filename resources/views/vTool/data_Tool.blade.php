@@ -208,6 +208,7 @@
                                             <th class="text-center text-xs font-weight-semibold">Kode Aset</th>
                                             <th class="text-center text-xs font-weight-semibold">Kode GA</th>
                                             <th class="text-center text-xs font-weight-semibold">Branch</th>
+                                            <th class="text-center text-xs font-weight-semibold">Departemen</th>
                                             <th class="text-center text-xs font-weight-semibold">Kondisi</th>
                                             <th class="text-center text-xs font-weight-semibold">Status</th>
                                             <th class="text-center text-xs font-weight-semibold">Posisi</th>
@@ -2200,6 +2201,9 @@
                     },
                     {
                         data: 'branch_penerima'
+                    },
+                    {
+                        data: 'departement'
                     },
                     {
                         data: 'kondisi'

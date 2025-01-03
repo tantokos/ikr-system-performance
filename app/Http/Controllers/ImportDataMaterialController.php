@@ -123,7 +123,6 @@ class ImportDataMaterialController extends Controller
                     foreach ($importedData as $data) {
                         // Cek apakah data dengan wo_no dan installation_date yang sama sudah ada
 
-
                         // Insert data baru jika tidak ada duplikat
                         DB::table('ftth_materials')->insert([
                             'wo_no' => $data->wo_no,
@@ -145,6 +144,7 @@ class ImportDataMaterialController extends Controller
                             'sn' => $data->sn,
                             'mac_address' => $data->mac_address,
                             'material_condition' => $data->material_condition,
+                            'kategori_material' => $data->kategori_material,
                             'login' => $akses,
                         ]);
                     }

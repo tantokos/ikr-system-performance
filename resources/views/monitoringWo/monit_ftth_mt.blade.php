@@ -217,6 +217,93 @@
             </div>
 
             <div class="row">
+                <div class="col-xl-2 col-sm-2">
+                    <div class="card border shadow-lg mb-2">
+                        <div class="card-body text-start p-3 w-100">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="w-100 text-center">
+                                        <p class="text-sm text-secondary mb-1">Total WO MT</p>
+                                        <h4 class="mb-2 font-weight-bold" id="totTotal"></h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-sm-2">
+                    <div class="card border shadow-lg mb-2">
+                        <div class="card-body text-start p-3 w-100">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="w-100 text-center">
+                                        <p class="text-sm text-secondary mb-1">Checkout/Done</p>
+                                        <h4 class="mb-2 font-weight-bold" id="totDone"></h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-sm-2">
+                    <div class="card border shadow-lg mb-2">
+                        <div class="card-body text-start p-3 w-100">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="w-100 text-center">
+                                        <p class="text-sm text-secondary mb-1">Pending</p>
+                                        <h4 class="mb-2 font-weight-bold" id="totPending"></h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-sm-2">
+                    <div class="card border shadow-lg mb-2">
+                        <div class="card-body text-start p-3 w-100">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="w-100 text-center">
+                                        <p class="text-sm text-secondary mb-1">Cancel</p>
+                                        <h4 class="mb-2 font-weight-bold" id="totCancel"></h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-sm-2">
+                    <div class="card border shadow-lg mb-2">
+                        <div class="card-body text-start p-3 w-100">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="w-100 text-center">
+                                        <p class="text-sm text-secondary mb-1">Checkin</p>
+                                        <h4 class="mb-2 font-weight-bold" id="totCheckin"></h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-sm-2">
+                    <div class="card border shadow-lg mb-2">
+                        <div class="card-body text-start p-3 w-100">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="w-100 text-center">
+                                        <p class="text-sm text-secondary mb-1">Requested</p>
+                                        <h4 class="mb-2 font-weight-bold" id="totRequested"></h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-12">
                     <div class="card border shadow-xs mb-4">
                         <div class="card-header border-bottom pb-0">
@@ -409,7 +496,8 @@
                     </div>
                     <div class="modal-body">
                         {{-- <form action="{{ route('updateSignTim') }}" method="post" enctype="multipart/form-data"> --}}
-                        <form action="{{ route('updateFtthMt') }}" method="post" enctype="multipart/form-data">
+                        {{-- <form action="{{ route('updateFtthMt') }}" method="post" enctype="multipart/form-data"> --}}
+                        <form class="updateFtthMt" method="post" enctype="multipart/form-data">
 
                             @method('PUT')
                             @csrf
@@ -739,10 +827,8 @@
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 4</span>
-                                                        <select class="form-control form-control-sm" type="text" id="teknisi4Show"
+                                                        <input class="form-control form-control-sm" type="text" id="teknisi4Show"
                                                             name="teknisi4Show" style="border-color:#9ca0a7;" readonly>
-                                                            <option value="">Teknisi 4</option>
-                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1001,9 +1087,9 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Alasan Tidak Ganti Precon</span>
-                                                            <input class="form-control form-control-sm" type="text"
+                                                            <textarea class="form-control form-control-sm" type="text"
                                                                 id="alasanTidakGantiPrecon" name="alasan_tidak_ganti_precon"
-                                                                style="border-color:#9ca0a7;">
+                                                                style="border-color:#9ca0a7;"></textarea>
                                                         </div>
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Kondisi Cuaca</span>
@@ -1022,9 +1108,9 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Alasan Pending</span>
-                                                            <input class="form-control form-control-sm" type="text"
+                                                            <textarea class="form-control form-control-sm" type="text"
                                                                 id="alasanPending" name="alasan_pending"
-                                                                style="border-color:#9ca0a7;">
+                                                                style="border-color:#9ca0a7;"></textarea>
                                                         </div>
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">PIC Dispatch</span>
@@ -1039,22 +1125,102 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Alasan Cancel</span>
-                                                            <input class="form-control form-control-sm" type="text"
+                                                            <textarea class="form-control form-control-sm" type="text"
                                                                 id="alasanCancel" name="alasan_cancel"
-                                                                style="border-color:#9ca0a7;">
+                                                                style="border-color:#9ca0a7;"></textarea>
                                                         </div>
-                                                        <div class="col form-group mt-4">
+                                                        
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col">
+                                                <div class="col form-group mb-1">
+                                                    <span class="text-xs">Status Visit</span>
+                                                    <select class="form-control form-control-sm" type="text"
+                                                        id="statusVisit" name="statusVisit" style="border-color:#9ca0a7;">
+                                                        <option value="Team Visit">Team Visit</option>
+                                                        <option value="No VIsit">No Visit</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Validasi Start</span>
+                                                            <input class="form-control form-control-sm" type="time"
+                                                                value="{{ date('H:i') }}" id="validasiStart"
+                                                                name="validasiStart" style="border-color:#9ca0a7;">
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Validasi End</span>
+                                                            <input class="form-control form-control-sm" type="time"
+                                                                value="{{ date('H:i') }}" id="validasiEnd"
+                                                                name="validasiEnd" style="border-color:#9ca0a7;">
+                                                        </div>                                                        
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Status Checkin Slot Time</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                value="" id="statusCheckin"
+                                                                name="statusCheckin" style="border-color:#9ca0a7;" readonly>
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Penggunaan Material</span>
+                                                            <select class="form-control form-control-sm" type="text"
+                                                                value="" id="statusMaterial"
+                                                                name="statusMaterial" style="border-color:#9ca0a7;">
+                                                                <option value=""></option>
+                                                                <option value="Ada">Ada</option>
+                                                                <option value="Tidak Ada">Tidak Ada</option>
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+                                                </div>          
+                                                
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Site Penagihan</span>
+                                                            <select class="form-control form-control-sm" type="text"
+                                                                value="" id="sitePenagihan"
+                                                                name="sitePenagihan" style="border-color:#9ca0a7;">
+                                                                <option value=""></option>
+                                                                <option value="Retail">Retail</option>
+                                                                <option value="Apartemen">Apartemen</option>
+                                                                <option value="Underground">Underground</option>
+                                                                <option value="Retail / Underground">Retail / Underground</option>
+                                                            </select>
+                                                        </div>
+
+                                                        {{-- <div class="col form-group mb-1">
+                                                            <span class="text-xs">Status Penggunaan Material</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                value="" id="statusMaterial"
+                                                                name="statusMaterial" style="border-color:#9ca0a7;" readonly>
+                                                        </div> --}}
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group">
                                                             <div class="form-check">
                                                                 <input type="hidden" name="is_checked" value="0"> <!-- Default jika tidak dicentang -->
                                                                 <input class="form-check-input" type="checkbox" name="is_checked" value="1" id="isChecked">
                                                                 <label class="text-xs" for="isChecked">
-                                                                    Sudah Dicek
+                                                                    Sudah Dicek (PIC. {{Auth::user()->name}} )
                                                                 </label>
                                                                 
                                                             </div>
-                                                            <label class="text-xs">
-                                                                ( {{Auth::user()->name}} )
-                                                            </label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1229,6 +1395,20 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
+                                                            <span class="text-xs">Remote Terpasang</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                value="" id="remoteOut"
+                                                                name="remoteOut" style="border-color:#9ca0a7;">
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Remote Terambil</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                value="" id="remoteTerambil" name="remoteTerambil"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
                                                             <span class="text-xs">Kabel Drop Wire</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 value="" id="kabelDw" name="kabelDw"
@@ -1280,18 +1460,34 @@
                                                         </div>
 
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Remote Fiberhome</span>
+                                                            <span class="text-xs">PVC Pipe</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                value="" id="remoteFiberhome"
-                                                                name="remoteFiberhome" style="border-color:#9ca0a7;">
+                                                                value="" id="pvcPipe" name="pvcPipe"
+                                                                style="border-color:#9ca0a7;">
                                                         </div>
 
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Remote Extrem</span>
+                                                            <span class="text-xs">Socket Pipe</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                value="" id="remoteExtrem" name="remoteExtrem"
+                                                                value="" id="socketPipe" name="socketPipe"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Kabel UTP</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                value="" id="kabelUtp" name="kabelUtp"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">RJ-45</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                value="" id="rj45" name="rj45"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -1649,6 +1845,42 @@
             )
         })
 
+        $(document).on('change', '#tglProgressAPKShow', function(e) {
+            tgl = $('#tglProgressAPKShow').val();
+            jm = $('#slotTimeAPKStatusShow').val();
+
+            tglJmCheckin = new Date($('#tglCheckinApk').val());
+            tglJmSlotTime = new Date(tgl.concat(" ", jm));
+
+            const timeDistance = (date1, date2) => {
+                let distance = Math.abs(date1 - date2);
+                const hours = Math.floor(distance / 3600000);
+                distance -= hours * 3600000;
+                const minutes = Math.floor(distance / 60000);
+                distance -= minutes * 60000;
+                const seconds = Math.floor(distance / 1000);
+                return `${hours}:${('0' + minutes).slice(-2)}:${('0' + seconds).slice(-2)}`;
+            };
+
+            console.log('timeDistance : ', timeDistance(tglJmCheckin, tglJmSlotTime));
+
+            stat=(tglJmCheckin-tglJmSlotTime)/60000;           
+            
+            if(stat < -15){
+                status="Lebih Awal"
+            }else if(stat <= -1 && stat >= -15) {
+                status="On Time"
+            } else if(stat>0) {
+                status="Terlambat"
+            }
+            $('#statusCheckin').val(status);
+            
+        })
+
+        $(document).on('change', '#tglCheckinApk', function(e) {
+            $('#tglProgressAPKShow').trigger('change');
+        })
+
 
         $('.date-range').daterangepicker({
             startDate: moment(),
@@ -1657,6 +1889,7 @@
 
         $(document).on('click', '#filAssignTim', function(e) {
             get_data_assignTim();
+            get_summary();
             stDate = $('.date-range').data('daterangepicker').startDate.format("DD-MMM-YYYY");
             enDate = $('.date-range').data('daterangepicker').endDate.format("DD-MMM-YYYY");
         })
@@ -1769,6 +2002,40 @@
 
             window.location.href = url + '?' + $.param(params);
         });
+
+        function get_summary() {
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let typeSum = "Ftth MT"
+
+            $.ajax({
+                url: "{{ route('getSummaryWO') }}",
+                type: "get",
+                data: {
+                    filTgl: $('#filtglProgress').val(),
+                    filtype: typeSum,
+                    _token: _token
+                },
+                success: function(response) {
+                    console.log(response);
+                    console.log(response.length);
+
+                    $.each(response, function(k,sum) {
+                        $('#totTotal').html(sum.total);
+                        $('#totDone').html(sum.done);
+                        $('#totPending').html(sum.pending);
+                        $('#totCancel').html(sum.cancel);
+                        $('#totCheckin').html(sum.checkin);
+                        $('#totRequested').html(sum.requested);
+                    })
+                    // $('#totTotal').text(response.total);
+
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('Failed to fetch data. Please try again.');
+                }
+            });
+        }
 
         function get_data_assignTim() {
             var data_assignTim = $('#tabelAssignTim').DataTable({
@@ -1909,19 +2176,40 @@
                 success: function (response) {
                     console.log('Respons dari API:', response);
 
+                    console.log('Respons Material length:', response.ftth_material.count);
                     let dtDis = response.data;
                     let material = response.ftth_material;
                     let callsignTims = response.callsign_tims;
-                    let callsignLeads = response.callsign_leads;
+                    let callsignLeads = response.callsign_leads;    
+                    
+                    if(response.ftth_material.length > 0) {
+                        statMaterial = "Ada"
+                    } else {
+                        statMaterial = "Tidak Ada"
+                    };
+                    console.log('statMaterial : ', statMaterial)
 
-                    // Populasi dropdown Callsign Tim
-                    let selectTim = $('#callsignTimidShow');
-                    selectTim.empty().append('<option value="">Pilih Callsign Tim</option>');
-                    callsignTims.forEach(item => {
-                        selectTim.append(`<option value="${item.id}">${item.callsign_tim}</option>`);
-                    });
-                    selectTim.val(dtDis.callsign_id);
-
+                    //Tab Detail WO/////////////////////////////
+                    $('#detId').val(dtDis.id);
+                    $('#noWoShow').val(dtDis.no_wo);
+                    $('#ticketNoShow').val(dtDis.no_ticket);
+                    $('#custIdShow').val(dtDis.cust_id);
+                    $('#custNameShow').val(toTitleCase(dtDis.nama_cust || ""));
+                    $('#woTypeShow').val(toTitleCase(dtDis.wo_type_apk || ""));
+                    $('#jenisWoShow').val(dtDis.type_wo);
+                    $('#WoDateShow').val(dtDis.wo_date_apk);                   
+                    $('#custAddressShow').val(toTitleCase(dtDis.cust_address1 || ""));
+                    $('#fatCodeShow').val(dtDis.kode_fat);
+                    $('#portFatShow').val(dtDis.port_fat);
+                    $('#cluster').val(dtDis.cluster);
+                    $('#remarkStatus').val(toTitleCase(dtDis.type_maintenance || ""));
+                    $('#branchShow').val(dtDis.branch);
+                    $('#kotamadyaShow').val(dtDis.kotamadya);
+                    $('#tglProgressShow').val(dtDis.tgl_ikr);
+                    $('#sesiShow').val(toTitleCase(dtDis.sesi || ""));
+                    $('#slotTimeLeaderShow').val(dtDis.slot_time_leader);
+                    $('#slotTimeAPKShow').val(dtDis.slot_time_apk);                    
+                    
                     // Populasi dropdown Lead Callsign
                     let selectLead = $('#LeadCallsignShow');
                     selectLead.empty().append('<option value="">Pilih Lead Callsign</option>');
@@ -1934,32 +2222,25 @@
                         selectLead.val(dtDis.leadcall_id);
                     }
 
-                    $('#detId').val(dtDis.id);
-                    $('#id_material').val(dtDis.id_material);
-                    $('#noWoShow').val(dtDis.no_wo);
-                    $('#statusWo').val(toTitleCase(dtDis.status_wo || ""));
-                    $('#ticketNoShow').val(dtDis.no_ticket);
-                    $('#woTypeShow').val(toTitleCase(dtDis.wo_type_apk || ""));
-                    $('#jenisWoShow').val(dtDis.type_wo);
-                    $('#WoDateShow').val(dtDis.wo_date_apk);
-                    $('#custIdShow').val(dtDis.cust_id);
-                    $('#custNameShow').val(toTitleCase(dtDis.nama_cust || ""));
-                    $('#custAddressShow').val(toTitleCase(dtDis.cust_address1 || ""));
-                    $('#timeApkShow').val(dtDis.time);
-                    $('#fatCodeShow').val(dtDis.kode_fat);
-                    $('#portFatShow').val(dtDis.port_fat);
-                    $('#remarkStatus').val(toTitleCase(dtDis.type_maintenance || ""));
-                    $('#branchShow').val(dtDis.branch);
-                    $('#kotamadyaShow').val(dtDis.kotamadya);
-                    $('#tglProgressShow').val(dtDis.tgl_ikr);
-                    $('#sesiShow').val(toTitleCase(dtDis.sesi || ""));
-                    $('#slotTimeLeaderShow').val(dtDis.slot_time_leader);
-                    $('#slotTimeLeaderStatusShow').val(dtDis.slot_time_leader);
                     $('#leaderShow').val(dtDis.leader);
-                    $('#slotTimeAPKShow').val(dtDis.slot_time_apk);
-                    $('#statusWoApk').val(toTitleCase(dtDis.status_apk || ""));
-                    $('#isChecked').prop('checked', dtDis.is_checked == 1);
+                    // Populasi dropdown Callsign Tim
+                    let selectTim = $('#callsignTimidShow');
+                    selectTim.empty().append('<option value="">Pilih Callsign Tim</option>');
+                    callsignTims.forEach(item => {
+                        selectTim.append(`<option value="${item.id}">${item.callsign_tim}</option>`);
+                    });
+                    selectTim.val(dtDis.callsign_id);
 
+                    $('#teknisi1Show').val(toTitleCase(dtDis.teknisi1 || ""));
+                    $('#teknisi2Show').val(toTitleCase(dtDis.teknisi2 || ""));
+                    $('#teknisi3Show').val(toTitleCase(dtDis.teknisi3 || ""));
+                    $('#teknisi4Show').val(toTitleCase(dtDis.teknisi4 || ""));
+                    //End Tab Detail WO//////////////////////////////
+
+                    //Tab Status Progress
+                    $('#tglProgressStatusShow').val(dtDis.tgl_ikr);
+                    $('#slotTimeLeaderStatusShow').val(dtDis.slot_time_leader);
+                    $('#statusWo').val(toTitleCase(dtDis.status_wo || ""));
                     $('#statusWo').trigger("change");
 
                     $('#causeCode').val(dtDis.couse_code);
@@ -1972,43 +2253,69 @@
                     $('#actionTaken').trigger("change");
 
                     $('#penagihanShow').val(dtDis.penagihan);
-                    $('#tglCheckinApk').val(dtDis.checkin_apk);
-                    $('#tglCheckoutApk').val(dtDis.checkout_apk);
                     $('#tglReschedule').val(dtDis.tgl_reschedule);
                     $('#tglJamReschedule').val(dtDis.tgl_jam_reschedule);
-
-                    $('#teknisi1Show').val(toTitleCase(dtDis.teknisi1 || ""));
-                    $('#teknisi2Show').val(toTitleCase(dtDis.teknisi2 || ""));
-                    $('#teknisi3Show').val(toTitleCase(dtDis.teknisi3 || ""));
-                    $('#teknisi4Show').val(toTitleCase(dtDis.teknisi4 || ""));
-                    $('#merkStbIn').val(dtDis.stb_merk_in);
-                    $('#merkStbOut').val(dtDis.stb_merk_out);
-                    $('#merkOntOut').val(dtDis.ont_merk_out);
-                    $('#snStbIn').val(dtDis.stb_sn_in);
-                    $('#snStbOut').val(dtDis.stb_sn_out);
-                    $('#kabelPrecon').val(dtDis.precon_out);
-                    $('#kabelPreconBad').val(dtDis.bad_precon);
-                    $('#cluster').val(dtDis.cluster);
-
-                    $('#snOntOut').val(material.sn_ont_out);
-                    $('#macOntOut').val(material.mac_ont_out);
-                    $('#macOntIn').val(material.mac_ont_in);
-                    $('#merkOntIn').val(material.merk_ont_in);
-                    $('#merkStbOut').val(material.stb_merk_out);
-                    $('#merkStbIn').val(material.stb_merk_in);
-                    $('#kabelPrecon').val(material.precon_out);
-                    $('#snOntIn').val(material.sn_ont_in);
-                    $('#slotTimeAPKStatusShow').val(dtDis.slot_time_apk);
-
-                    $('#weatherShow').val(dtDis.weather);
-
-                    $('#alasanTidakGantiPrecon').val(toTitleCase(dtDis.alasan_tidak_ganti_precon || ""));
-                    $('#alasanPending').val(toTitleCase(dtDis.alasan_pending || ""));
-                    $('#alasanCancel').val(toTitleCase(dtDis.alasan_cancel || ""));
                     $('#reportTeknisi').val(toTitleCase(dtDis.keterangan || ""));
 
+                    $('#tglProgressAPKShow').val(dtDis.tgl_ikr);
+                    $('#slotTimeAPKStatusShow').val(dtDis.slot_time_apk);
+                    $('#statusWoApk').val(toTitleCase(dtDis.status_apk || ""));
+                    $('#tglCheckinApk').val(dtDis.checkin_apk);
+                    $('#tglCheckoutApk').val(dtDis.checkout_apk);
+                    $('#alasanTidakGantiPrecon').val(toTitleCase(dtDis.alasan_tidak_ganti_precon || ""));
+                    $('#weatherShow').val(dtDis.weather);
+                    $('#alasanPending').val(toTitleCase(dtDis.alasan_pending || ""));                    
                     $('#picDispatch').val(toTitleCase(dtDis.pic_dispatch || ""));
+                    $('#alasanCancel').val(toTitleCase(dtDis.alasan_cancel || ""));
 
+                    $('#statusVisit').val(dtDis.visit_novisit);
+                    $('#validasiStart').val(dtDis.validasi_start);
+                    $('#validasiEnd').val(dtDis.validasi_end);
+                    $('#statusMaterial').val(statMaterial);
+                    $('#sitePenagihan').val(dtDis.site_penagihan);
+
+                    $('#isChecked').prop('checked', dtDis.is_checked == 1);
+                    //End Tab Status Progress
+
+                    //Start Tab Material
+                    $('#id_material').val(dtDis.id_material);
+                    $('#merkOntOut').val(material.merk_ont_out);
+                    $('#snOntOut').val(material.sn_ont_out);
+                    $('#macOntOut').val(material.mac_ont_out);
+                    $('#merkOntIn').val(material.merk_ont_in);
+                    $('#snOntIn').val(material.sn_ont_in);
+                    $('#macOntIn').val(material.mac_ont_in);
+
+                    $('#merkStbOut').val(material.merk_stb_out);
+                    $('#snStbOut').val(material.sn_stb_out);
+                    $('#macStbOut').val(material.mac_stb_out);
+                    $('#merkStbIn').val(material.merk_stb_in);
+                    $('#snStbIn').val(material.sn_stb_in);
+                    $('#macStbIn').val(material.mac_stb_in);
+
+                    $('merkRouterOut').val(material.merk_router_out);
+                    $('snRouterOut').val(material.sn_router_out);
+                    $('macRouterOut').val(material.mac_router_out);
+                    $('merkRouterIn').val(material.merk_router_in);
+                    $('snRouterIn').val(material.sn_router_in);
+                    $('macRouterIn').val(material.mac_router_in);
+
+                    $('#remoteOut').val(material.remote_out);
+                    $('#remoteIn').val(material.remote_in);
+                    $('#kabelDw').val(material.dw_out);
+                    $('#kabelPrecon').val(material.precon_out);
+                    $('#kabelPreconBad').val(material.bad_precon);
+
+                    $('#fastConnector').val(material.fastcon_out);
+                    $('#patchCord').val(material.patchcord_out);
+                    $('#terminalBox').val(material.tb_out);
+                    $('#pvcPipe').val(material.pvc_out);
+                    $('#socketPipe').val(material.socket_out);
+                    $('#kabelUtp').val(material.utp_out);
+                    $('#rj45').val(material.rj45_out);
+
+
+                    $('#tglProgressAPKShow').trigger('change');
                     $('#showDetail').modal('show');
                 },
                 error: function (xhr, status, error) {
@@ -2083,6 +2390,43 @@
 
         });
 
-    })
+        $('.updateFtthMt').submit(function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: "{{ route('updateFtthMt') }}",
+                type: "post",
+                data: $(this).serialize(),
+                success: function(obj) {
+                    if(obj=="success"){
+                        $('#showDetail').modal('hide');
+
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success",
+                            text: "Berhasil update Data Monitoring",
+                            showConfirmButton: true,
+                            // timer: 2000
+                        });
+
+                        $('#tabelAssignTim').DataTable().ajax.reload();
+                    } else {
+                        $('#showDetail').modal('hide');
+
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal",
+                            text: obj,
+                            showConfirmButton: true,
+                            // timer: 2000
+                        });
+
+                        $('#tabelAssignTim').DataTable().ajax.reload();
+                    }
+                }
+            });
+        });
+
+    });
 </script>
 
