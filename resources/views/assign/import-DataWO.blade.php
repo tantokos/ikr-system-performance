@@ -23,7 +23,7 @@
                         <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
                         </div>
                         <div class="card-body text-start p-4 w-100">
-                            <h3 class="text-white mb-2">Import Data WO</h3>
+                            <h3 class="text-white mb-2">Import Data Assign Tim WO</h3>
                             <p class="mb-2 font-weight-semibold">
                                 {{-- Check all the advantages and choose the best. --}}
                             </p>
@@ -101,16 +101,16 @@
                                 </div> --}}
                         </div>
                     </div>
-                    <hr>
+                    <hr class="mt-1 mb-1">
                     <div class="col text-end">
                         {{-- <button type="button" class="btn btn-sm btn-dark align-items-center" data-bs-toggle="modal"
                             data-bs-target="#previewModal">Show Preview</button> --}}
                         <button onclick="return confirm('Simpan hasil import WO?')" type="submit" name="action"
-                            value="simpan" class="btn btn-sm btn-dark align-items-center">Save Import
+                            value="simpan" class="btn btn-sm btn-dark align-items-center mb-1">Save Import
                             WO</button>
                         <button onclick="return confirm('Hapus hasil import Data Work Order?')"
                             onsubmit="this.disabled = true;" type="submit" name="action" value="batal"
-                            class="btn btn-sm btn-dark align-items-center">Cancel Import
+                            class="btn btn-sm btn-danger align-items-center mb-1">Cancel Import
                             Data</button>
                     </div>
                     </form>
@@ -119,7 +119,7 @@
 
             <div class="row mt-3">
                 <div class="col-xl-3 col-sm-6">
-                    <div class="card border shadow-xs mb-4">
+                    <div class="card border shadow-lg mb-1">
                         <div class="card-body text-start p-3 w-100">
                             <div class="row">
                                 <div class="col-12">
@@ -133,7 +133,7 @@
                     </div>
                 </div>
                 <div class="col-xl-3 col-sm-6">
-                    <div class="card border shadow-xs mb-4">
+                    <div class="card border shadow-lg mb-1">
                         <div class="card-body text-start p-3 w-100">
                             <div class="row">
                                 <div class="col-12">
@@ -147,7 +147,7 @@
                     </div>
                 </div>
                 <div class="col-xl-3 col-sm-6">
-                    <div class="card border shadow-xs mb-4">
+                    <div class="card border shadow-lg mb-1">
                         <div class="card-body text-start p-3 w-100">
                             <div class="row">
                                 <div class="col-12">
@@ -161,7 +161,7 @@
                     </div>
                 </div>
                 <div class="col-xl-3 col-sm-6">
-                    <div class="card border shadow-xs mb-4">
+                    <div class="card border shadow-lg mb-1">
                         <div class="card-body text-start p-3 w-100">
                             <div class="row">
                                 <div class="col-12">
@@ -177,7 +177,7 @@
             </div>
 
             <div class="row">
-                <div class="col-sm-12 mt-3 mb-3">
+                <div class="col-sm-12 mt-2 mb-2">
                     <div class="card border shadow-xs mb-4">
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
@@ -953,6 +953,7 @@
                     _token: _token
                 },
                 success: function(dtDis) {
+                    console.log('dtDis : ', dtDis);
                     $('#detId').val(dtDis.data.id)
                     $('#noWoShow').val(dtDis.data.no_wo_apk)
                     $('#ticketNoShow').val(dtDis.data.no_ticket_apk)

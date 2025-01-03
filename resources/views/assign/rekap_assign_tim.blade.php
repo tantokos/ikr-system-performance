@@ -95,6 +95,63 @@
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div>
+                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Rekap Monitoring Tim </span></h6>
+                                    {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
+                                </div>
+
+                                {{-- <div class="ms-auto d-flex">
+                                    <span class="text-xs">Periode : -</span>
+                                </div> --}}
+                            </div>
+                        </div>
+
+                        <div class="card-body px-2 py-2">
+                            <div class="table-responsive p-0">
+                                <table class="table table-striped table-bordered align-items-center mb-0"
+                                    id="rekapTim" style="font-size: 12px; border-color:#9ca0a7;">
+                                    <thead class="bg-gray-100">
+                                        <tr id="headTool">
+                                            <th class="text-xs">#</th>
+                                            <th class="text-xs text-secondary">Area</th>
+                                            <th class="text-xs text-secondary">Dept</th>
+                                            {{-- <th class="text-center text-xs font-weight-semibold">PIC Assign Tim</th> --}}
+                                            <th class="text-center text-xs text-secondary">Jml Tim</th>
+                                            <th class="text-center text-xs text-secondary">Jml Assign Tim</th>
+                                            <th class="text-center text-xs text-secondary">Jml Assign Teknisi</th>
+                                            <th class="text-center text-xs text-secondary">Standby</th>
+                                            <th class="text-center text-xs text-secondary">ON</th>
+                                            <th class="text-center text-xs text-secondary">OFF</th>
+                                            <th class="text-center text-xs text-secondary">Cuti</th>
+                                            <th class="text-center text-xs text-secondary">Sakit</th>
+                                            <th class="text-center text-xs text-secondary">ABS</th>
+                                            <th class="text-center text-xs text-secondary">Total Teknisi</th>
+                                            {{-- <th class="text-center text-xs">FTTH Maintenance</th>
+                                            <th class="text-center text-xs">Dismantle</th>
+                                            <th class="text-center text-xs">FTTX New Installation</th>
+                                            <th class="text-center text-xs">FTTX Maintenance</th> --}}
+                                            {{-- <th class="text-center text-xs">#</th> --}}
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bodyTool" style="font-weight: bold">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="border-top py-3 px-3 d-flex align-items-center">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border shadow-xs mb-4">
+                        <div class="card-header border-bottom pb-0">
+                            <div class="d-sm-flex align-items-center">
+                                <div>
                                     <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Rekap Data
                                             Assign Tim </span><span id="periode"></span></h6>
                                     {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
@@ -109,12 +166,12 @@
                         <div class="card-body px-2 py-2">
                             <div class="table-responsive p-0">
                                 <table class="table table-striped table-bordered align-items-center mb-0"
-                                    id="rekapAssignTim" style="font-size: 12px">
+                                    id="rekapAssignTim" style="font-size: 12px; border-color:#9ca0a7;">
                                     <thead class="bg-gray-100">
                                         <tr id="headTool">
                                             <th class="text-xs font-weight-semibold">#</th>
                                             <th class="text-center text-xs font-weight-semibold">Area</th>
-                                            <th class="text-center text-xs font-weight-semibold">PIC Assign Tim</th>
+                                            {{-- <th class="text-center text-xs font-weight-semibold">PIC Assign Tim</th> --}}
                                             <th class="text-center text-xs font-weight-semibold">FTTH New Installation</th>
                                             <th class="text-center text-xs font-weight-semibold">FTTH Maintenance</th>
                                             <th class="text-center text-xs font-weight-semibold">Dismantle</th>
@@ -308,6 +365,7 @@
         });
 
         $(document).on('click', '#filAssignTim', function(e) {
+            rekap_assignTim();
             data_assignTim();
             stDate = $('.date-range').data('daterangepicker').startDate.format("DD-MMM-YYYY");
             enDate = $('.date-range').data('daterangepicker').endDate.format("DD-MMM-YYYY");
@@ -327,10 +385,10 @@
                 paging: true,
                 orderClasses: false,
                 // fixedColumns: true,
-                fixedColumns: {
-                    leftColumns: 6,
-                    // rightColumns: 1
-                },
+                // fixedColumns: {
+                //     leftColumns: 6,
+                //     // rightColumns: 1
+                // },
                 deferRender: true,
                 scrollCollapse: true,
                 scrollX: true,
@@ -371,9 +429,9 @@
                         data: 'branch',
                         // width: '90'
                     },
-                    {
-                        data: 'login'
-                    },
+                    // {
+                    //     data: 'login'
+                    // },
                     {
                         data: 'ftth_ib',
                         "className": "text-center",
@@ -402,6 +460,121 @@
             })
         }
 
+        function rekap_assignTim() {
+            $('#rekapTim').DataTable({
+                // dom: 'Bftip',
+                layout: {
+                    topStart: {
+                        pageLength: {
+                            menu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                        } ,
+                        buttons: ['excel'],
+                    },
+                    
+                },
+                paging: true,
+                orderClasses: false,
+                // fixedColumns: true,
+                // fixedColumns: {
+                //     leftColumns: 6,
+                //     // rightColumns: 1
+                // },
+                deferRender: true,
+                scrollCollapse: true,
+                scrollX: true,
+                pageLength: 10,
+                lengthChange: true,
+                bFilter: true,
+                destroy: true,
+                processing: true,
+                serverSide: false,
+                ajax: {
+                    url: "{{ route('getTabelRekapAssignTim') }}",
+                    type: "get",
+                    dataType: "json",
+                    data: {
+                        filTgl: $('#filtglProgress').val(),
+                        filNoWo: $('#filnoWo').val(),
+                        filcustId: $('#filcustId').val(),
+                        filtypeWo: $('#filtypeWo').val(),
+                        filarea: $('#filarea').val(),
+                        filleaderTim: $('#filleaderTim').val(),
+                        filcallsignTimid: $('#filcallsignTimid').val(),
+                        filteknisi: $('#filteknisi').val(),
+                        filcluster: $('#filcluster').val(),
+                        filfatCode: $('#filfatCode').val(),
+                        filslotTime: $('#filslotTime').val(),
+                        _token: _token
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_Row_Index',
+                        "className": "text-center",
+                        // orderable: false,
+                        searchable: false,
+                        "width": '10'
+                    },
+                    {
+                        data: 'branch',
+                        // width: '90'
+                    },
+                    {
+                        data: 'departement',
+                        // width: '90'
+                    },
+                    {
+                        data: 'j_tim',
+                        "className": "text-center",
+                    },
+                    {
+                        data: 'j_assign',
+                        "className": "text-center",
+                    },
+                    {
+                        data: 'j_teknisi',
+                        "className": "text-center",
+                    },
+                    {
+                        data: null,
+                        "render": function(data,type,row) { return (Number(data["j_on"]) - Number(data["j_teknisi"]))},
+                        "className": "text-center",
+                    },
+                    {
+                        data: 'j_on',
+                        "className": "text-center",
+                    },
+                    {
+                        data: 'j_off',
+                        "className": "text-center",
+                    },
+                    {
+                        data: 'j_cuti',
+                        "className": "text-center",
+                    },
+                    {
+                        data: 'j_sakit',
+                        "className": "text-center",
+                    },
+                    {
+                        data: 'j_abs',
+                        "className": "text-center",
+                    },                    
+                    {
+                        data: null,
+                        "render": function(data,type,row) { return (Number(data["j_on"]) + Number(data["j_off"]) + Number(data["j_cuti"]) + Number(data["j_sakit"]) + Number(data["j_abs"]))},
+                        "className": "text-center",
+                    },
+                    // {
+                    //     data: 'action',
+                    //     "className": "text-center",
+                    // },
+                    
+                    
+                ]
+            })
+        }
+
         $(document).on('click', '#showDetAssignTim', function(e) {
             e.preventDefault();
             $('#modalDataAssignTim').modal('show');
@@ -416,8 +589,12 @@
                 // dom: 'Bftip',
                 layout: {
                     topStart: {
-                        buttons: ['excel']
+                        pageLength: {
+                            menu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                        } ,
+                        buttons: ['excel'],
                     },
+                    
                 },
                 paging: true,
                 orderClasses: false,
@@ -430,7 +607,7 @@
                 scrollCollapse: true,
                 scrollX: true,
                 pageLength: 10,
-                lengthChange: false,
+                lengthChange: true,
                 bFilter: true,
                 destroy: true,
                 processing: true,

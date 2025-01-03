@@ -145,9 +145,9 @@
                                             <th class="text-center text-secondary text-xs font-weight-semibold ">
                                                 Type WO
                                             </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
+                                            {{-- <th class="text-center text-secondary text-xs font-weight-semibold ">
                                                 Remarks
-                                            </th>
+                                            </th> --}}
                                             <th class="text-center text-secondary text-xs font-weight-semibold ">
                                                 Status
                                             </th>
@@ -658,9 +658,9 @@
                     {
                         data: 'wo_type'
                     },
-                    {
-                        data: 'remarks'
-                    },
+                    // {
+                    //     data: 'remarks'
+                    // },
                     {
                         data: 'status'
                     },

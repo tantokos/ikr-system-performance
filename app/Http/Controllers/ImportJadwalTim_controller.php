@@ -50,9 +50,13 @@ class ImportJadwalTim_controller extends Controller
 
             $akses = Auth::user()->id . "|" . Auth::user()->name . "|" . $bulan . "|" . $tahun;
 
-            // $headings = (new HeadingRowImport)->toArray($request->fileDataWO);
-            // dd($headings);
+            // hapus data di table import jadwal jika ada datanya.
+            ImportJadwalIkr::where('login', Auth::user()->name)->delete();
+
+            DB::beginTransaction();
             try {
+
+
                 Excel::import(new JadwalIkrImport($akses), request()->file('fileDataJadwal'));
 
                 $dtImport = ImportJadwalIkr::where('login', Auth::user()->name)
@@ -66,9 +70,9 @@ class ImportJadwalTim_controller extends Controller
 
                 }
 
-
+                DB::commit();
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-                // DB::rollBack();
+                DB::rollBack();
                 // return $e->getMessage();
                 //return redirect()->route('importDataWo')
                 //->with(['error' => 'Gagal Import Assign Tim: ' . $e->getMessage()]);

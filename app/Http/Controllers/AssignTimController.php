@@ -259,176 +259,187 @@ class AssignTimController extends Controller
             $callsign = $request->callsignTimid;
         }
 
-        $simpanAssignTim = DataAssignTim::create([
-            'batch_wo' => $request['sesiShowAdd'],
-            'tgl_ikr' => $request['tglProgress'],
-            'slot_time' => $request['slotTime'],
-            'type_wo' => $request['jenisWo'],
-            'no_wo_apk' => $request['noWo'],
-            'no_ticket_apk' => $request['ticketNo'],
-            'wo_date_apk' => $request['WoDate'],
-            'cust_id_apk' => $request['custId'],
-            'name_cust_apk' => $request['custName'],
-            'cust_phone_apk' => $request['custPhone'],
-            'cust_mobile_apk' => $request['custMobile'],
-            'address_apk' => $request['custAddress'],
-            'area_cluster_apk' => $request['area'],
-            'wo_type_apk' => $request['woType'],
-            'fat_code_apk' => $request['fatCode'],
-            'fat_port_apk' => $request['portFat'],
-            'remarks_apk' => $request['remarks'],
-            'vendor_installer_apk' => "Misitel",
-            'ikr_date_apk' => $request['ikrDateApk'],
-            'time_apk' => $request['timeApk'],
-            'branch_id' => $branchId,
-            'branch' => $branchNm,
-            'leadcall_id' => $leadCallId,
-            'leadcall' => $leadCall,
-            'leader_id' => $request['leaderid'],
-            'leader' => $request['leader'],
-            'callsign_id' => $callsignId,
-            'callsign' => $callsign,
-            'tek1_nik' => $tek1Nk,
-            'teknisi1' => $tek1,
-            'tek2_nik' => $tek2Nk,
-            'teknisi2' => $tek2,
-            'tek3_nik' => $tek3Nk,
-            'teknisi3' => $tek3,
-            'tek4_nik' => $tek4Nk,
-            'teknisi4' => $tek4,
-            'login_id' => $aksesId,
-            'login' => $akses
-        ]);
+        DB::beginTransaction();
 
-        if ($simpanAssignTim) {
-            $dataForFtth = $simpanAssignTim->toArray();
+        try {
 
-            // Tentukan tabel tujuan berdasarkan type_wo
-            switch ($request['jenisWo']) {
-                case 'FTTH New Installation':
-                    DB::table('data_ftth_ib_oris')->insert([
-                        'sesi' => $dataForFtth['batch_wo'],
-                        'tgl_ikr' => $dataForFtth['tgl_ikr'],
-                        'type_wo' => $dataForFtth['type_wo'],
-                        'no_wo' => $dataForFtth['no_wo_apk'],
-                        'no_ticket' => $dataForFtth['no_ticket_apk'],
-                        'wo_date_apk' => $dataForFtth['wo_date_apk'],
-                        'cust_id' => $dataForFtth['cust_id_apk'],
-                        'nama_cust' => $dataForFtth['name_cust_apk'],
-                        'cust_address1' => $dataForFtth['address_apk'],
-                        'cluster' => $dataForFtth['area_cluster_apk'],
-                        'wo_type_apk' => $dataForFtth['wo_type_apk'],
-                        'kode_fat' => $dataForFtth['fat_code_apk'],
-                        'port_fat' => $dataForFtth['fat_port_apk'],
-                        'type_maintenance' => $dataForFtth['remarks_apk'],
-                        'slot_time_leader' => $dataForFtth['slot_time'],
-                        'slot_time_apk' => $dataForFtth['time_apk'],
-                        'status_apk' => "Requested",
-                        'branch_id' => $dataForFtth['branch_id'],
-                        'branch' => $dataForFtth['branch'],
-                        'leadcall_id' => $dataForFtth['leadcall_id'],
-                        'leadcall' => $dataForFtth['leadcall'],
-                        'leader_id' => $dataForFtth['leader_id'],
-                        'leader' => $dataForFtth['leader'],
-                        'callsign_id' => $dataForFtth['callsign_id'],
-                        'callsign' => $dataForFtth['callsign'],
-                        'tek1_nik' => $dataForFtth['tek1_nik'],
-                        'teknisi1' => $dataForFtth['teknisi1'],
-                        'tek2_nik' => $dataForFtth['tek2_nik'],
-                        'teknisi2' => $dataForFtth['teknisi2'],
-                        'tek3_nik' => $dataForFtth['tek3_nik'],
-                        'teknisi3' => $dataForFtth['teknisi3'],
-                        'is_checked' => 0,
-                        'login' => $dataForFtth['login']
-                    ]);
-                    break;
+            $simpanAssignTim = DataAssignTim::create([
+                'batch_wo' => $request['sesiShowAdd'],
+                'tgl_ikr' => $request['tglProgress'],
+                'slot_time' => $request['slotTime'],
+                'type_wo' => $request['jenisWo'],
+                'no_wo_apk' => $request['noWo'],
+                'no_ticket_apk' => $request['ticketNo'],
+                'wo_date_apk' => $request['WoDate'],
+                'cust_id_apk' => $request['custId'],
+                'name_cust_apk' => $request['custName'],
+                'cust_phone_apk' => $request['custPhone'],
+                'cust_mobile_apk' => $request['custMobile'],
+                'address_apk' => $request['custAddress'],
+                'area_cluster_apk' => $request['area'],
+                'wo_type_apk' => $request['woType'],
+                'fat_code_apk' => $request['fatCode'],
+                'fat_port_apk' => $request['portFat'],
+                'remarks_apk' => $request['remarks'],
+                'vendor_installer_apk' => "Misitel",
+                'ikr_date_apk' => $request['ikrDateApk'],
+                'time_apk' => $request['timeApk'],
+                'branch_id' => $branchId,
+                'branch' => $branchNm,
+                'leadcall_id' => $leadCallId,
+                'leadcall' => $leadCall,
+                'leader_id' => $request['leaderid'],
+                'leader' => $request['leader'],
+                'callsign_id' => $callsignId,
+                'callsign' => $callsign,
+                'tek1_nik' => $tek1Nk,
+                'teknisi1' => $tek1,
+                'tek2_nik' => $tek2Nk,
+                'teknisi2' => $tek2,
+                'tek3_nik' => $tek3Nk,
+                'teknisi3' => $tek3,
+                'tek4_nik' => $tek4Nk,
+                'teknisi4' => $tek4,
+                'login_id' => $aksesId,
+                'login' => $akses
+            ]);
+    
+            if ($simpanAssignTim) {
+                $dataForFtth = $simpanAssignTim->toArray();
+    
+                // Tentukan tabel tujuan berdasarkan type_wo
+                switch ($request['jenisWo']) {
+                    case 'FTTH New Installation':
+                        DB::table('data_ftth_ib_oris')->insert([
+                            'sesi' => $dataForFtth['batch_wo'],
+                            'tgl_ikr' => $dataForFtth['tgl_ikr'],
+                            'type_wo' => $dataForFtth['type_wo'],
+                            'no_wo' => $dataForFtth['no_wo_apk'],
+                            'no_ticket' => $dataForFtth['no_ticket_apk'],
+                            'wo_date_apk' => $dataForFtth['wo_date_apk'],
+                            'cust_id' => $dataForFtth['cust_id_apk'],
+                            'nama_cust' => $dataForFtth['name_cust_apk'],
+                            'cust_address1' => $dataForFtth['address_apk'],
+                            'cluster' => $dataForFtth['area_cluster_apk'],
+                            'wo_type_apk' => $dataForFtth['wo_type_apk'],
+                            'kode_fat' => $dataForFtth['fat_code_apk'],
+                            'port_fat' => $dataForFtth['fat_port_apk'],
+                            'type_maintenance' => $dataForFtth['remarks_apk'],
+                            'slot_time_leader' => $dataForFtth['slot_time'],
+                            'slot_time_apk' => $dataForFtth['time_apk'],
+                            'status_apk' => "Requested",
+                            'branch_id' => $dataForFtth['branch_id'],
+                            'branch' => $dataForFtth['branch'],
+                            'leadcall_id' => $dataForFtth['leadcall_id'],
+                            'leadcall' => $dataForFtth['leadcall'],
+                            'leader_id' => $dataForFtth['leader_id'],
+                            'leader' => $dataForFtth['leader'],
+                            'callsign_id' => $dataForFtth['callsign_id'],
+                            'callsign' => $dataForFtth['callsign'],
+                            'tek1_nik' => $dataForFtth['tek1_nik'],
+                            'teknisi1' => $dataForFtth['teknisi1'],
+                            'tek2_nik' => $dataForFtth['tek2_nik'],
+                            'teknisi2' => $dataForFtth['teknisi2'],
+                            'tek3_nik' => $dataForFtth['tek3_nik'],
+                            'teknisi3' => $dataForFtth['teknisi3'],
+                            'is_checked' => 0,
+                            'login' => $dataForFtth['login']
+                        ]);
+                        break;
+    
+                    case 'FTTH Maintenance':
+                        DB::table('data_ftth_mt_oris')->insert([
+                            'sesi' => $dataForFtth['batch_wo'],
+                            'tgl_ikr' => $dataForFtth['tgl_ikr'],
+                            'type_wo' => $dataForFtth['type_wo'],
+                            'no_wo' => $dataForFtth['no_wo_apk'],
+                            'no_ticket' => $dataForFtth['no_ticket_apk'],
+                            'wo_date_apk' => $dataForFtth['wo_date_apk'],
+                            'cust_id' => $dataForFtth['cust_id_apk'],
+                            'nama_cust' => $dataForFtth['name_cust_apk'],
+                            'cust_address1' => $dataForFtth['address_apk'],
+                            'cluster' => $dataForFtth['area_cluster_apk'],
+                            'wo_type_apk' => $dataForFtth['wo_type_apk'],
+                            'kode_fat' => $dataForFtth['fat_code_apk'],
+                            'port_fat' => $dataForFtth['fat_port_apk'],
+                            'type_maintenance' => $dataForFtth['remarks_apk'],
+                            'slot_time_leader' => $dataForFtth['slot_time'],
+                            'slot_time_apk' => $dataForFtth['time_apk'],
+                            'status_apk' => "Requested",
+                            'branch_id' => $dataForFtth['branch_id'],
+                            'branch' => $dataForFtth['branch'],
+                            'leadcall_id' => $dataForFtth['leadcall_id'],
+                            'leadcall' => $dataForFtth['leadcall'],
+                            'leader_id' => $dataForFtth['leader_id'],
+                            'leader' => $dataForFtth['leader'],
+                            'callsign_id' => $dataForFtth['callsign_id'],
+                            'callsign' => $dataForFtth['callsign'],
+                            'tek1_nik' => $dataForFtth['tek1_nik'],
+                            'teknisi1' => $dataForFtth['teknisi1'],
+                            'tek2_nik' => $dataForFtth['tek2_nik'],
+                            'teknisi2' => $dataForFtth['teknisi2'],
+                            'tek3_nik' => $dataForFtth['tek3_nik'],
+                            'teknisi3' => $dataForFtth['teknisi3'],
+                            'tek4_nik' => $dataForFtth['tek4_nik'],
+                            'teknisi4' => $dataForFtth['teknisi4'],
+                            'is_checked' => 0,
+                            'login' => $dataForFtth['login']
+                        ]);
+                        break;
+    
+                    case 'FTTH Dismantle':
+                        DB::table('data_ftth_dismantle_oris')->insert([
+                            'sesi' => $dataForFtth['batch_wo'],
+                            'visit_date' => $dataForFtth['tgl_ikr'],
+                            'type_wo' => $dataForFtth['type_wo'],
+                            'no_wo' => $dataForFtth['no_wo_apk'],
+                            'no_ticket' => $dataForFtth['no_ticket_apk'],
+                            'wo_date' => $dataForFtth['wo_date_apk'],
+                            'cust_id' => $dataForFtth['cust_id_apk'],
+                            'nama_cust' => $dataForFtth['name_cust_apk'],
+                            'cust_address1' => $dataForFtth['address_apk'],
+                            'cluster' => $dataForFtth['area_cluster_apk'],
+                            'wo_type_apk' => $dataForFtth['wo_type_apk'],
+                            'kode_fat' => $dataForFtth['fat_code_apk'],
+                            'port_fat' => $dataForFtth['fat_port_apk'],
+                            'slot_time_leader' => $dataForFtth['slot_time'],
+                            'slot_time_apk' => $dataForFtth['time_apk'],
+                            'status_apk' => "Requested",
+                            'branch_id' => $dataForFtth['branch_id'],
+                            'branch' => $dataForFtth['branch'],
+                            'leadcall_id' => $dataForFtth['leadcall_id'],
+                            'leadcall' => $dataForFtth['leadcall'],
+                            'leader_id' => $dataForFtth['leader_id'],
+                            'leader' => $dataForFtth['leader'],
+                            'callsign_id' => $dataForFtth['callsign_id'],
+                            'callsign' => $dataForFtth['callsign'],
+                            'tek1_nik' => $dataForFtth['tek1_nik'],
+                            'teknisi1' => $dataForFtth['teknisi1'],
+                            'tek2_nik' => $dataForFtth['tek2_nik'],
+                            'teknisi2' => $dataForFtth['teknisi2'],
+                            'tek3_nik' => $dataForFtth['tek3_nik'],
+                            'teknisi3' => $dataForFtth['teknisi3'],
+                            'is_checked' => 0,
+                            'login' => $dataForFtth['login']
+                        ]);
+                        break;
+    
+                    default:
+                        // Logika lain jika type_wo tidak dikenali
+                        break;
+                }
 
-                case 'FTTH Maintenance':
-                    DB::table('data_ftth_mt_oris')->insert([
-                        'sesi' => $dataForFtth['batch_wo'],
-                        'tgl_ikr' => $dataForFtth['tgl_ikr'],
-                        'type_wo' => $dataForFtth['type_wo'],
-                        'no_wo' => $dataForFtth['no_wo_apk'],
-                        'no_ticket' => $dataForFtth['no_ticket_apk'],
-                        'wo_date_apk' => $dataForFtth['wo_date_apk'],
-                        'cust_id' => $dataForFtth['cust_id_apk'],
-                        'nama_cust' => $dataForFtth['name_cust_apk'],
-                        'cust_address1' => $dataForFtth['address_apk'],
-                        'cluster' => $dataForFtth['area_cluster_apk'],
-                        'wo_type_apk' => $dataForFtth['wo_type_apk'],
-                        'kode_fat' => $dataForFtth['fat_code_apk'],
-                        'port_fat' => $dataForFtth['fat_port_apk'],
-                        'type_maintenance' => $dataForFtth['remarks_apk'],
-                        'slot_time_leader' => $dataForFtth['slot_time'],
-                        'slot_time_apk' => $dataForFtth['time_apk'],
-                        'status_apk' => "Requested",
-                        'branch_id' => $dataForFtth['branch_id'],
-                        'branch' => $dataForFtth['branch'],
-                        'leadcall_id' => $dataForFtth['leadcall_id'],
-                        'leadcall' => $dataForFtth['leadcall'],
-                        'leader_id' => $dataForFtth['leader_id'],
-                        'leader' => $dataForFtth['leader'],
-                        'callsign_id' => $dataForFtth['callsign_id'],
-                        'callsign' => $dataForFtth['callsign'],
-                        'tek1_nik' => $dataForFtth['tek1_nik'],
-                        'teknisi1' => $dataForFtth['teknisi1'],
-                        'tek2_nik' => $dataForFtth['tek2_nik'],
-                        'teknisi2' => $dataForFtth['teknisi2'],
-                        'tek3_nik' => $dataForFtth['tek3_nik'],
-                        'teknisi3' => $dataForFtth['teknisi3'],
-                        'tek4_nik' => $dataForFtth['tek4_nik'],
-                        'teknisi4' => $dataForFtth['teknisi4'],
-                        'is_checked' => 0,
-                        'login' => $dataForFtth['login']
-                    ]);
-                    break;
-
-                case 'FTTH Dismantle':
-                    DB::table('data_ftth_dismantle_oris')->insert([
-                        'sesi' => $dataForFtth['batch_wo'],
-                        'visit_date' => $dataForFtth['tgl_ikr'],
-                        'type_wo' => $dataForFtth['type_wo'],
-                        'no_wo' => $dataForFtth['no_wo_apk'],
-                        'no_ticket' => $dataForFtth['no_ticket_apk'],
-                        'wo_date' => $dataForFtth['wo_date_apk'],
-                        'cust_id' => $dataForFtth['cust_id_apk'],
-                        'nama_cust' => $dataForFtth['name_cust_apk'],
-                        'cust_address1' => $dataForFtth['address_apk'],
-                        'cluster' => $dataForFtth['area_cluster_apk'],
-                        'wo_type_apk' => $dataForFtth['wo_type_apk'],
-                        'kode_fat' => $dataForFtth['fat_code_apk'],
-                        'port_fat' => $dataForFtth['fat_port_apk'],
-                        'slot_time_leader' => $dataForFtth['slot_time'],
-                        'slot_time_apk' => $dataForFtth['time_apk'],
-                        'status_apk' => "Requested",
-                        'branch_id' => $dataForFtth['branch_id'],
-                        'branch' => $dataForFtth['branch'],
-                        'leadcall_id' => $dataForFtth['leadcall_id'],
-                        'leadcall' => $dataForFtth['leadcall'],
-                        'leader_id' => $dataForFtth['leader_id'],
-                        'leader' => $dataForFtth['leader'],
-                        'callsign_id' => $dataForFtth['callsign_id'],
-                        'callsign' => $dataForFtth['callsign'],
-                        'tek1_nik' => $dataForFtth['tek1_nik'],
-                        'teknisi1' => $dataForFtth['teknisi1'],
-                        'tek2_nik' => $dataForFtth['tek2_nik'],
-                        'teknisi2' => $dataForFtth['teknisi2'],
-                        'tek3_nik' => $dataForFtth['tek3_nik'],
-                        'teknisi3' => $dataForFtth['teknisi3'],
-                        'is_checked' => 0,
-                        'login' => $dataForFtth['login']
-                    ]);
-                    break;
-
-                default:
-                    // Logika lain jika type_wo tidak dikenali
-                    break;
+                DB::commit();
+    
+                return redirect()->route('assignTim')->with(['success' => 'Data tersimpan.']);
+            } else {
+                return redirect()->route('assignTim')->withInput()->with(['error' => 'Gagal Simpan Data.']);
             }
 
-            return redirect()->route('assignTim')->with(['success' => 'Data tersimpan.']);
-        } else {
-            return redirect()->route('assignTim')->withInput()->with(['error' => 'Gagal Simpan Data.']);
-        }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('assignTim')->with(['error' => 'Gagal Simpan Data.'. $e->getMessage()]);
+        }       
 
     }
 

@@ -114,10 +114,10 @@ Route::get('/updateTim/{id}', [TimController::class, 'updateTim'])->name('update
 
 Route::get('/jadwalTim', [JadwalTim_controller::class,'index'])->name('jadwalTim')->middleware('auth');
 Route::get('/getdataJadwalIkr', [JadwalTim_controller::class,'getdataJadwalIkr'])->name('getdataJadwalIkr')->middleware('auth');
-Route::get('/getRekapDataJadwalTeknisi', [JadwalTim_controller::class,'getRekapDataJadwalTeknisi'])->name('getRekapDataJadwalTeknisi')->middleware('auth');
-Route::get('/getRekapDataJadwalStaff', [JadwalTim_controller::class,'getRekapDataJadwalStaff'])->name('getRekapDataJadwalStaff')->middleware('auth');
-Route::get('/getRekapDataJadwalLeader', [JadwalTim_controller::class,'getRekapDataJadwalLeader'])->name('getRekapDataJadwalLeader')->middleware('auth');
-Route::get('/getRekapDataJadwalSpv', [JadwalTim_controller::class,'getRekapDataJadwalSpv'])->name('getRekapDataJadwalSpv')->middleware('auth');
+Route::post('/getRekapDataJadwalTeknisi', [JadwalTim_controller::class,'getRekapDataJadwalTeknisi'])->name('getRekapDataJadwalTeknisi')->middleware('auth');
+Route::post('/getRekapDataJadwalStaff', [JadwalTim_controller::class,'getRekapDataJadwalStaff'])->name('getRekapDataJadwalStaff')->middleware('auth');
+Route::post('/getRekapDataJadwalLeader', [JadwalTim_controller::class,'getRekapDataJadwalLeader'])->name('getRekapDataJadwalLeader')->middleware('auth');
+Route::post('/getRekapDataJadwalSpv', [JadwalTim_controller::class,'getRekapDataJadwalSpv'])->name('getRekapDataJadwalSpv')->middleware('auth');
 Route::get('/getKaryawan', [JadwalTim_controller::class,'getKaryawan'])->name('getKaryawan')->middleware('auth');
 Route::post('/simpanEditKehadiran', [JadwalTim_controller::class, 'simpanEditKehadiran'])->name('simpanEditKehadiran')->middleware('auth');
 Route::get('/getDetailStatus', [JadwalTim_controller::class, 'getDetailStatus'])->name('getDetailStatus')->middleware('auth');
@@ -140,6 +140,7 @@ Route::get('/analisaWo', [analisa_woController::class, 'index'])->name('analisaW
 
 Route::get('/rekapAssignTim', [RekapAssignTimController::class, 'index'])->name('rekapAssignTim')->middleware('auth');
 Route::get('/getTabelLeadAssignTim', [RekapAssignTimController::class, 'getTabelLeadAssignTim'])->name('getTabelLeadAssignTim')->middleware('auth');
+Route::get('/getTabelRekapAssignTim', [RekapAssignTimController::class, 'getTabelRekapAssignTim'])->name('getTabelRekapAssignTim')->middleware('auth');
 Route::get('/getDetailLeadAssignTim', [RekapAssignTimController::class, 'getDetailLeadAssignTim'])->name('getDetailLeadAssignTim')->middleware('auth');
 
 Route::get('/assignTim', [AssignTimController::class, 'index'])->name('assignTim')->middleware('auth');
@@ -217,6 +218,8 @@ Route::get('/getDataIBOris', [MonitFtthIB_Controller::class, 'getDataIBOris'])->
 Route::get('/getDetailWOFtthMT', [MonitFtthMT_Controller::class, 'getDetailWOFtthMT'])->name('getDetailWOFtthMT')->middleware('auth');
 Route::get('/getDetailWOFtthIB', [MonitFtthIB_Controller::class, 'getDetailWOFtthIB'])->name('getDetailWOFtthIB')->middleware('auth');
 Route::put('/updateFtthIb', [MonitFtthIB_Controller::class, 'updateFtthIb'])->name('updateFtthIb')->middleware('auth');
+
+Route::get('/getSummaryWO', [MonitFtthMT_Controller::class, 'getSummaryWO'])->name('getSummaryWO')->middleware('auth');
 
 Route::get('/getMaterialFtthMt', [MonitFtthMT_Controller::class,'getMaterialFtthMt'])->name('getMaterialFtthMt')->middleware('auth');
 // Route::get('/getTabelAssignMT', [MonitFTTH_MTController::class, 'getTabelAssignMT'])->name('getTabelAssignMT')->middleware('auth');

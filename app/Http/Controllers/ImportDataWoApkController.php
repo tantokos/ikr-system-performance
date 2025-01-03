@@ -155,17 +155,16 @@ class ImportDataWoApkController extends Controller
                     // Update status_wo pada data_ftth_mt_oris berdasarkan wo_no dan tgl_ikr
                     foreach ($importedData as $data) {
                         
-                        if($data->status == "DONE" || $data->status == "CHECKOUT") {
-                            $statWo = "Done";   
-                        }
-                        if($data->status == "PENDING") {
+                        
+                        if(Str::upper($data->status == "DONE") || Str::upper($data->status == "CHECKOUT")) {
+                            $statWo = "Done";
+                        }else if(Str::upper($data->status) == "PENDING") {
                             $statWo = "Pending";   
-                        }
-                        if($data->status == "CANCELLED") {
+                        }else if(Str::upper($data->status) == "CANCELLED") {
                             $statWo = "Cancel";
                         }else {
-                            $statWo = $data->status;
-                        }
+                            $statWo = Str::title($data->status);
+                        }                        
 
                         DB::table('data_ftth_mt_oris')
                             ->where('no_wo', $data->wo_no)
@@ -192,7 +191,7 @@ class ImportDataWoApkController extends Controller
                     // Rollback jika ada kesalahan
                     DB::rollback();
                     // return $e;
-                    return redirect()->route('monitFtthMT')->with(['error' => 'Gagal mengupdate status.']);
+                    return redirect()->route('monitFtthMT')->with(['error' => 'Gagal mengupdate status.' . $e->getMessage()]);
                 }
 
         break;
@@ -212,7 +211,7 @@ class ImportDataWoApkController extends Controller
 
     }
     
-    public function updateFtthMtApk()
+    public function updateFtthMtApk_()
     {
         ini_set('max_execution_time', 1900);
         ini_set('memory_limit', '8192M');

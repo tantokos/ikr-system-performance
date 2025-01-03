@@ -36,6 +36,7 @@
                                                 name="tahun" style="border-color:#9ca0a7;" required>
                                                 <option value="">Pilih Tahun</option>
                                                 <option value="2024">2024</option>
+                                                <option value="2025">2025</option>
 
                                             </select>
                                         </div>

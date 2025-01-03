@@ -28,7 +28,7 @@ class JadwalTim_controller extends Controller
         $tahun = DB::table('data_jadwal_ikrs')->select('tahun')->distinct()->orderBy('tahun','DESC')->get();
         $bln = DB::table('data_jadwal_ikrs')
                 ->select('tahun','bulan', DB::raw('monthname(DATE(CONCAT_WS("-", tahun, bulan, 1))) as bulanname'))
-                ->distinct()->orderBy('bulan', 'DESC')->get();
+                ->distinct()->orderBy('bulan')->get();
 
         return view('absensi.ikr_schedule', 
                 ['akses' => $akses, 'branches' => $branches, 'kry' => $kry,
@@ -71,11 +71,13 @@ class JadwalTim_controller extends Controller
 
         $akses = Auth::user()->name;
 
-        $datas = DB::table('data_jadwal_ikrs')
-                ->where('tahun', $request->filTahun)
-                ->where('bulan', $request->filBulan)
-                ->select(DB::raw('*, monthname(DATE(CONCAT_WS("-", tahun, bulan, 1))) as bulanname'))
-                ->orderBy('nama_karyawan'); //->get();
+        $datas = DB::table('data_jadwal_ikrs as d')
+                ->leftJoin('employees as e', 'd.nik_karyawan','=','e.nik_karyawan')
+                ->where('d.tahun', $request->filTahun)
+                ->where('d.bulan', $request->filBulan)
+                ->select(DB::raw('d.*, e.departement, monthname(DATE(CONCAT_WS("-", d.tahun, d.bulan, 1))) as bulanname'))
+                ->orderBy('d.branch_id')
+                ->orderBy('d.nama_karyawan'); //->get();
 
         if ($areaNm != "All") {
             $datas = $datas->where('branch', $areaNm);
@@ -132,13 +134,29 @@ class JadwalTim_controller extends Controller
                 ->where('tahun', $request->filTahun)
                 ->where('bulan', $request->filBulan)
                 ->where('posisiNew', 'LIKE', "%teknisi%")
-                ->where('nik_karyawan',$kryId);
+                ->where('nik_karyawan',$kryId)
+                ->orderBy('branch_id')
+                ->orderBy('nama_karyawan')
+                ->orderBy(DB::raw('case when status="ON" then 1
+                            when status="OD" then 2
+                            when status="OFF" then 3
+                            when status="Cuti" then 4
+                            when status="Sakit" then 5
+                            when status="Absen" then 6 end'));
                 // ->get();
         } else {
             $datas = DB::table('v_rekap_jadwal')
                 ->where('tahun', $request->filTahun)
                 ->where('bulan', $request->filBulan)
-                ->where('posisiNew', 'LIKE', "%teknisi%");
+                ->where('posisiNew', 'LIKE', "%teknisi%")
+                ->orderBy('branch_id')
+                ->orderBy('departement')
+                ->orderBy(DB::raw('case when status="ON" then 1
+                            when status="OD" then 2
+                            when status="OFF" then 3
+                            when status="Cuti" then 4
+                            when status="Sakit" then 5
+                            when status="Absen" then 6 end'));
                 // ->get();
                 // ->orWhere('posisi','LIKE','%staff%')->get();
         }
@@ -193,13 +211,29 @@ class JadwalTim_controller extends Controller
                 ->where('tahun', $request->filTahun)
                 ->where('bulan', $request->filBulan)
                 ->where('posisiNew', 'LIKE', "%staff%")
-                ->where('nik_karyawan',$kryId);
+                ->where('nik_karyawan',$kryId)
+                ->orderBy('branch_id')
+                ->orderBy('nama_karyawan')
+                ->orderBy(DB::raw('case when status="ON" then 1
+                            when status="OD" then 2
+                            when status="OFF" then 3
+                            when status="Cuti" then 4
+                            when status="Sakit" then 5
+                            when status="Absen" then 6 end'));
                 // ->get();
         } else {
             $datas = DB::table('v_rekap_jadwal')
                 ->where('tahun', $request->filTahun)
                 ->where('bulan', $request->filBulan)
-                ->where('posisiNew', 'LIKE', "%staff%");
+                ->where('posisiNew', 'LIKE', "%staff%")
+                ->orderBy('branch_id')
+                ->orderBy('departement')
+                ->orderBy(DB::raw('case when status="ON" then 1
+                            when status="OD" then 2
+                            when status="OFF" then 3
+                            when status="Cuti" then 4
+                            when status="Sakit" then 5
+                            when status="Absen" then 6 end'));
                 // ->get();
                 // ->orWhere('posisi','LIKE','%staff%')->get();
         }
@@ -254,13 +288,29 @@ class JadwalTim_controller extends Controller
                 ->where('tahun', $request->filTahun)
                 ->where('bulan', $request->filBulan)
                 ->where('posisiNew', 'LIKE', "%leader%")
-                ->where('nik_karyawan',$kryId);
+                ->where('nik_karyawan',$kryId)
+                ->orderBy('branch_id')
+                ->orderBy('nama_karyawan')
+                ->orderBy(DB::raw('case when status="ON" then 1
+                            when status="OD" then 2
+                            when status="OFF" then 3
+                            when status="Cuti" then 4
+                            when status="Sakit" then 5
+                            when status="Absen" then 6 end'));
                 // ->get();
         } else {
             $datas = DB::table('v_rekap_jadwal')
                 ->where('tahun', $request->filTahun)
                 ->where('bulan', $request->filBulan)
-                ->where('posisiNew', 'LIKE', "%leader%");
+                ->where('posisiNew', 'LIKE', "%leader%")
+                ->orderBy('branch_id')
+                ->orderBy('departement')
+                ->orderBy(DB::raw('case when status="ON" then 1
+                            when status="OD" then 2
+                            when status="OFF" then 3
+                            when status="Cuti" then 4
+                            when status="Sakit" then 5
+                            when status="Absen" then 6 end'));
                 // ->get();
                 // ->orWhere('posisi','LIKE','%staff%')->get();
         }
@@ -315,13 +365,29 @@ class JadwalTim_controller extends Controller
                 ->where('tahun', $request->filTahun)
                 ->where('bulan', $request->filBulan)
                 ->where('posisiNew', 'LIKE', "%Supervisor%")
-                ->where('nik_karyawan',$kryId);
+                ->where('nik_karyawan',$kryId)
+                ->orderBy('branch_id')
+                ->orderBy('nama_karyawan')
+                ->orderBy(DB::raw('case when status="ON" then 1
+                            when status="OD" then 2
+                            when status="OFF" then 3
+                            when status="Cuti" then 4
+                            when status="Sakit" then 5
+                            when status="Absen" then 6 end'));
                 // ->get();
         } else {
             $datas = DB::table('v_rekap_jadwal')
                 ->where('tahun', $request->filTahun)
                 ->where('bulan', $request->filBulan)
-                ->where('posisiNew', 'LIKE', "%Supervisor%");
+                ->where('posisiNew', 'LIKE', "%Supervisor%")
+                ->orderBy('branch_id')
+                ->orderBy('departement')
+                ->orderBy(DB::raw('case when status="ON" then 1
+                            when status="OD" then 2
+                            when status="OFF" then 3
+                            when status="Cuti" then 4
+                            when status="Sakit" then 5
+                            when status="Absen" then 6 end'));
                 // ->get();
                 // ->orWhere('posisi','LIKE','%staff%')->get();
         }
@@ -490,6 +556,7 @@ class JadwalTim_controller extends Controller
         $status = $detail[4];
         $kryId = $detail[5];
         $kryNm = $detail[6];
+        $dept=$detail[8];
 
         $tglStatus = implode("-",[$thn, $bln, $request->tglClick]);
 
@@ -500,10 +567,12 @@ class JadwalTim_controller extends Controller
                     ->where('e.status_active', 'Aktif')
                     ->where('vd.status', $status)
                     ->where('e.posisi', 'like','%'. $tbl.'%')
+                    ->where('vd.departement','=', $dept)
                     ->select(DB::raw('vd.branch_id, vd.branch, vd.nik_karyawan, vd.nama_karyawan, e.posisi, tgl, status, vd.keterangan'))
                     ->orderBy('vd.tgl')
                     ->orderBy('vd.nama_karyawan')
                     ->orderBy('vd.branch_id')
+                    ->orderBy('vd.departement')
                     ->get();
 
             
@@ -515,10 +584,12 @@ class JadwalTim_controller extends Controller
                     ->where('vd.status', $status)
                     ->where('vd.tgl', $tglStatus)
                     ->where('e.posisi', 'like','%'. $tbl.'%')
+                    ->where('vd.departement','=', $dept)
                     ->select(DB::raw('vd.branch_id, vd.branch, vd.nik_karyawan, vd.nama_karyawan, e.posisi, tgl, status, vd.keterangan'))
                     ->orderBy('vd.tgl')
                     ->orderBy('vd.nama_karyawan')
                     ->orderBy('vd.branch_id')
+                    ->orderBy('vd.departement')
                     ->get();
         }
         

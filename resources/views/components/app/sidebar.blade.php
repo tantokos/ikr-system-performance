@@ -99,12 +99,15 @@
                 </a>
             </li>
 
-            <li class="nav-item border-start my-0 pt-2">
-                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('jadwalTim') ? 'active' : '' }}"
-                    href="{{ route('jadwalTim') }}">
-                    <span class="nav-link-text ms-1">Jadwal Tim</span>
-                </a>
-            </li>
+            @if (Auth::user()->name == "Tanto")
+                <li class="nav-item border-start my-0 pt-2">
+                    <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('jadwalTim') ? 'active' : '' }}"
+                        href="{{ route('jadwalTim') }}">
+                        <span class="nav-link-text ms-1">Jadwal Tim</span>
+                    </a>
+                </li>
+            @endif
+            
 
             <li class="nav-item">
                 <a
@@ -133,7 +136,7 @@
                             </g>
                         </svg>
                     </div>
-                    <span class="nav-link-text ms-1">Leader</span>
+                    <span class="nav-link-text ms-1">Monitoring Tim</span>
                 </a>
             </li>
 
@@ -143,6 +146,8 @@
                     <span class="nav-link-text ms-1">Analisa WO</span>
                 </a>
             </li>
+
+            @if (Auth::user()->name == "Tanto")
 
             <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('rekapAssignTim') ? 'active' : '' }}"
@@ -157,6 +162,8 @@
                     <span class="nav-link-text ms-1">Assign Tim</span>
                 </a>
             </li>
+
+            @endif            
 
             <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('rescheduleWO') ? 'active' : '' }}"

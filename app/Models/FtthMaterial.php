@@ -30,7 +30,8 @@ class FtthMaterial extends Model
         'qty',
         'sn',
         'mac_address',
-        'material_condition'
+        'material_condition',
+        'kategori_material'
     ];
 
     public function FtthIb()
