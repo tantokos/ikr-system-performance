@@ -763,36 +763,6 @@
                                                         <span class="text-xs">Reason Status</span>
                                                         <input type="text" class="form-control form-control-sm" id="reasonStatus" name="reasonStatus">
                                                     </div>
-                                                    {{-- <div class="form-group mb-1">
-                                                        <div class="row">
-                                                            <div class="col form-group mb-1">
-                                                                <div class="form-group mb-1">
-                                                                    <span class="text-xs">Reason Status</span>
-                                                                    <textarea class="form-control form-control-sm" type="text" id="reasonStatus" name="reasonStatus"
-                                                                        style="border-color:#9ca0a7;"></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div> --}}
-                                                </div>
-
-                                                <div class="col form-group mb-1">
-                                                    <span class="text-xs">Penagihan</span>
-                                                    <select class="form-control form-control-sm"
-                                                        type="text" id="penagihanShow"
-                                                        name="penagihanShow" style="border-color:#9ca0a7;">
-                                                        <option value="" disabled selected>--Pilih Penagihan--</option>
-                                                        <option value="Migrasi Dw To Precon">Migrasi Dw To Precon</option>
-                                                        <option value="Replace Precon To Precon">Replace Precon To Precon</option>
-                                                        <option value="No Customer">No Customer</option>
-                                                        <option value="Connector">Connector</option>
-                                                        <option value="Cancel by Dispatcher">Cancel by Dispatcher</option>
-                                                        <option value="Reconfig">Reconfig</option>
-                                                        <option value="ONT">ONT</option>
-                                                        <option value="Bad Cable Splice">Bad Cable Splice</option>
-                                                        <option value="Reschedule">Reschedule</option>
-                                                        <option value="STB">STB</option>
-                                                    </select>
                                                 </div>
 
                                                 <div class="form-group mb-1">
@@ -805,6 +775,25 @@
                                                                 <option value="" disabled selected>--Pilih Kondisi Cuaca--</option>
                                                                 <option value="Cerah">Cerah</option>
                                                                 <option value="Hujan">Hujan</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Penagihan</span>
+                                                            <select class="form-control form-control-sm"
+                                                                type="text" id="penagihanShow"
+                                                                name="penagihanShow" style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Penagihan--</option>
+                                                                <option value="Migrasi Dw To Precon">Migrasi Dw To Precon</option>
+                                                                <option value="Replace Precon To Precon">Replace Precon To Precon</option>
+                                                                <option value="No Customer">No Customer</option>
+                                                                <option value="Connector">Connector</option>
+                                                                <option value="Cancel by Dispatcher">Cancel by Dispatcher</option>
+                                                                <option value="Reconfig">Reconfig</option>
+                                                                <option value="ONT">ONT</option>
+                                                                <option value="Bad Cable Splice">Bad Cable Splice</option>
+                                                                <option value="Reschedule">Reschedule</option>
+                                                                <option value="STB">STB</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -824,7 +813,7 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="jamReschedule"
                                                                 name="jamReschedule" style="border-color:#9ca0a7;">
-                                                                <option value="" disabled selected>--Pilih Slot Time--</option>
+                                                                <option value="" disabled selected>--Pilih Jam--</option>
                                                                 <option value="09:00">09:00</option>
                                                                 <option value="09:30">09:30</option>
                                                                 <option value="10:00">10:00</option>
@@ -849,6 +838,64 @@
                                                                 <option value="19:30">19:30</option>
                                                                 <option value="20:00">20:00</option>
                                                             </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Respon Konfirmasi Customer</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="respon_konf_cst" name="respon_konf_cst"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jawaban Konfirmasi Customer</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="jawaban_konf_cst" name="jawaban_konf_cst"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <span class="text-xs">Permintaan Reschedule</span>
+                                                    <input class="form-control form-control-sm" type="text"
+                                                                id="permintaan_reschedule" name="permintaan_reschedule"
+                                                                style="border-color:#9ca0a7;">
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Start IKR (WA)</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="start_ikr_wa" name="start_ikr_wa"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">End IKR (WA)</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="end_ikr_wa" name="end_ikr_wa"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">OTP Start</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="otp_start" name="otp_start"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">OTP End</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="otp_end" name="otp_end"
+                                                                style="border-color:#9ca0a7;">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -950,15 +997,21 @@
                                                                 id="alasanCancel" name="alasanCancel"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Alasan Pending</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="alasanPending" name="alasanPending"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Alasan Pending</span>
+                                                            <span class="text-xs">Telp Dispatch</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                id="alasanPending" name="alasanPending"
+                                                                id="telp_dispatch" name="telp_dispatch"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
                                                         <div class="col form-group mb-1">
@@ -970,7 +1023,58 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group mt-4">
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Validasi Start</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="validasi_start" name="validasi_start"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Validasi End</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="validasi_end" name="validasi_end"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jam Teknisi Aktivasi Perangkat</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="jam_teknisi_aktifasi_perangkat" name="jam_teknisi_aktifasi_perangkat"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jam Dispatch Respon Aktivasi Perangkat</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="jam_dispatch_respon_aktifasi_perangkat" name="jam_dispatch_respon_aktifasi_perangkat"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jam Teknisi Foto Rumah</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="jam_tek_foto_rmh" name="jam_tek_foto_rmh"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jam Dispatch Respon Foto Rumah</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="jam_dispatch_respon_foto" name="jam_dispatch_respon_foto"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mt-4 float-end">
                                                     <div class="form-check">
                                                         <input type="hidden" name="is_checked" value="0"> <!-- Default jika tidak dicentang -->
                                                         <input class="form-check-input" type="checkbox" name="is_checked" value="1" id="isChecked">
@@ -978,6 +1082,10 @@
                                                             Sudah Dicek
                                                         </label>
                                                     </div>
+
+                                                    <span class="text-xs text-bold">
+                                                        ( {{Auth::user()->name}} )
+                                                    </span>
                                                 </div>
 
                                             </div>
@@ -1727,7 +1835,24 @@
                     $('#alasanCancel').val(dtDis.alasan_cancel);
                     $('#alasanPending').val(dtDis.alasan_pending);
 
+                    $('#telp_dispatch').val(dtDis.telp_dispatch);
                     $('#picDispatch').val(toTitleCase(dtDis.nama_dispatch || ""));
+                    $('#validasi_start').val(dtDis.validasi_start);
+                    $('#validasi_end').val(dtDis.validasi_end);
+
+                    $('#respon_konf_cst').val(dtDis.respon_konf_cst);
+                    $('#jawaban_konf_cst').val(dtDis.jawaban_konf_cst);
+                    $('#permintaan_reschedule').val(dtDis.permintaan_reschedule);
+                    $('#start_ikr_wa').val(dtDis.start_ikr_wa);
+                    $('#end_ikr_wa').val(dtDis.end_ikr_wa);
+
+                    $('#jam_teknisi_aktifasi_perangkat').val(dtDis.jam_teknisi_aktifasi_perangkat);
+                    $('#jam_dispatch_respon_aktifasi_perangkat').val(dtDis.jam_dispatch_respon_aktifasi_perangkat);
+                    $('#jam_tek_foto_rmh').val(dtDis.jam_tek_foto_rmh);
+                    $('#jam_dispatch_respon_foto').val(dtDis.jam_dispatch_respon_foto);
+
+                    $('#otp_start').val(dtDis.otp_start);
+                    $('#otp_end').val(dtDis.otp_end);
 
                     $('#leaderShow').val(dtDis.leader);
                     $('#teknisi1Show').val(dtDis.teknisi1);

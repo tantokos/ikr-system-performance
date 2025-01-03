@@ -54,6 +54,7 @@ class FtthIb extends Model
         'alasan_cancel',
         'alasan_pending',
         'respon_konf_cst',
+        'jawaban_konf_cst',
         'permintaan_reschedule',
         'weather',
         'start_ikr_wa',
