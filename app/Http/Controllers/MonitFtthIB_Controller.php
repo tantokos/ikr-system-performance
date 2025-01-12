@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\DataAssignTim;
 use App\Models\Employee;
 use App\Models\FtthIb;
+use App\Models\FtthIbMaterial;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
@@ -48,7 +49,17 @@ class MonitFtthIB_Controller extends Controller
         ini_set('memory_limit', '8192M');
         $akses = Auth::user()->name;
 
-        $datas = DB::table('data_ftth_ib_oris')->orderBy('tgl_ikr', 'DESC');
+        // $datas = DB::table('data_ftth_ib_oris')->orderBy('tgl_ikr', 'DESC');
+        $datas = DB::table('data_ftth_ib_oris')->orderBy('tgl_ikr', 'DESC')
+                ->orderBy('is_checked')
+                ->orderByRaw('case when status_apk="CHECKOUT" then 1
+                                when status_apk="DONE" then 2
+                                when status_apk="PENDING" then 3
+                                when status_apk="CANCELLED" then 4
+                                when status_apk="CHECKIN" then 5
+                                when status_apk="REQUESTED" then 6
+                                else 7 End'
+                            );
 
             if($request->filTgl != null) {
                 $dateRange = explode("-", $request->filTgl);
@@ -100,6 +111,20 @@ class MonitFtthIB_Controller extends Controller
                 $datas = $datas->where('slot_time', $request->filslotTime);
             }
 
+            if ($request->filGroup != null) {
+                $group = $request->filGroup;
+
+                if ($group == 'Jakarta') {
+                    // Area yang termasuk dalam grup Jabota
+                    $jakartaAreas = ['Jakarta Timur', 'Jakarta Selatan', ];
+                    $datas = $datas->whereIn('branch', $jakartaAreas);
+                } elseif ($group == 'Regional') {
+                    // Area yang termasuk dalam grup Regional
+                    $regionalAreas = ['Bogor', 'Tangerang', 'Bali', 'Bekasi', 'Jambi', 'Medan', 'Palembang', 'Pontianak', 'Pangkal Pinang'];
+                    $datas = $datas->whereIn('branch', $regionalAreas);
+                }
+            }
+
             $datas = $datas->get();
 
         if ($request->ajax()) {
@@ -130,7 +155,7 @@ class MonitFtthIB_Controller extends Controller
                         id="detail-material"
                         data-id="' . $row->id . '"
                         class="btn btn-sm btn-secondary detail-material mb-0">
-                        Material
+                        <svg width="18" height="18" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>Detail Material</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-102.000000, -777.000000)" fill="#ffffff"> <path d="M119,797 L130,797 L130,799 L119,799 L119,807 L117,807 L117,799 L106,799 L106,797 L117,797 L117,789 L104,789 L104,805 C104,807.209 105.791,809 108,809 L128,809 C130.209,809 132,807.209 132,805 L132,789 L119,789 L119,797 L119,797 Z M121,783 C119.896,783 119,782.104 119,781 C119,779.896 119.896,779 121,779 C122.104,779 123,779.896 123,781 C123,782.104 122.104,783 121,783 L121,783 Z M115,783 C113.896,783 113,782.104 113,781 C113,779.896 113.896,779 115,779 C116.104,779 117,779.896 117,781 C117,782.104 116.104,783 115,783 L115,783 Z M132,783 L124.445,783 C124.789,782.41 125,781.732 125,781 C125,778.791 123.209,777 121,777 C119.798,777 118.733,777.541 118,778.38 C117.267,777.541 116.202,777 115,777 C112.791,777 111,778.791 111,781 C111,781.732 111.211,782.41 111.555,783 L104,783 C102.896,783 102,783.896 102,785 L102,787 L134,787 L134,785 C134,783.896 133.104,783 132,783 L132,783 Z" id="present" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
                         </a>';
                     return $btn;
                 })
@@ -142,6 +167,59 @@ class MonitFtthIB_Controller extends Controller
         }
 
         // return response()->json($request->ajax());
+    }
+
+    public function getSummaryWOIb(Request $request)
+    {
+        $datas = DB::table('data_ftth_ib_oris');
+
+        if($request->filTgl != null) {
+            $dateRange = explode("-", $request->filTgl);
+            $startDt = \Carbon\Carbon::parse($dateRange[0]);
+            $endDt = \Carbon\Carbon::parse($dateRange[1]);
+
+            $datas = $datas->whereBetween('tgl_ikr',[$startDt, $endDt]);
+        }
+
+        if($request->filGroup == null && $request->filarea != null) {
+            $b = explode("|", $request->filarea);
+            $br = $b[1];
+            $datas = $datas->where('branch', $br);
+        }
+
+        if($request->filcluster != null) {
+            $datas = $datas->where('cluster', $request->filcluster);
+        }
+        if($request->filfatCode != null) {
+            $datas = $datas->where('kode_fat', $request->filfatCode);
+        }
+        if($request->filslotTime != null) {
+            $datas = $datas->where('slot_time', $request->filslotTime);
+        }
+
+        if ($request->filGroup != null) {
+            $group = $request->filGroup;
+
+            if ($group == 'Jakarta') {
+                $jakartaAreas = ['Jakarta Timur', 'Jakarta Selatan'];
+                $datas = $datas->whereIn('branch', $jakartaAreas);
+            } elseif ($group == 'Regional') {
+                $regionalAreas = ['Bali', 'Bekasi', 'Bogor', 'Tangerang', 'Jambi', 'Medan', 'Palembang', 'Pontianak', 'Pangkal Pinang'];
+                $datas = $datas->whereIn('branch', $regionalAreas);
+            }
+        }
+
+        $datas = $datas->select(
+                    DB::raw('
+                    count(*) as total,
+                    count(if((status_wo="Done") || (status_wo="Checkout"),1,null)) as done,
+                    count(if(status_wo="Pending",1,null)) as pending,
+                    count(if(status_wo="Cancel",1,null)) as cancel,
+                    count(if(status_wo="Checkin",1,null)) as checkin,
+                    count(if(status_wo="Requested",1,null)) as requested ')
+                )->get();
+
+        return response()->json($datas);
     }
 
     public function getDetailWOFtthIB(Request $request)
@@ -227,6 +305,7 @@ class MonitFtthIB_Controller extends Controller
             $ftth_ib_material = DB::table('ftth_ib_materials')
                 ->select(
 
+                    'id',
                     'status_item',
                     'item_code',
                     'description',
@@ -364,5 +443,35 @@ class MonitFtthIB_Controller extends Controller
     {
         $export = new FtthIbExport($request);
         return Excel::download($export, 'FTTH_IB.xlsx');
+    }
+
+    public function editMaterialIb(Request $request)
+    {
+        $assignId = $request->filAssignId;
+        $datas = DB::table('ftth_ib_materials as d')
+            ->where('d.id', $assignId)->first();
+
+        return response()->json($datas);
+    }
+
+    public function updateMaterialIb(Request $request)
+    {
+        // dd($request->all());
+        $id = $request->detId;
+
+        $material_mt = FtthIbMaterial::findOrFail($id);
+
+        $material_mt->update([
+            'status_item' => $request['status_item'],
+            'item_code' => $request['item_code'],
+            'qty' => $request['qty'],
+            'sn' => $request['sn'],
+            'mac_address' => $request['mac_address'],
+            'description' => $request['description'],
+
+        ]);
+
+        return redirect()->route('monitFtthIB')
+            ->with('success', 'Berhasil mengubah data material New Installation');
     }
 }

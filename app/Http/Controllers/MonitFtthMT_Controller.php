@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\DataAssignTim;
 use App\Models\Employee;
+use App\Models\FtthMaterial;
 use App\Models\FtthMt;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -89,7 +90,7 @@ class MonitFtthMT_Controller extends Controller
         ));
     }
 
-    public function getSummaryWO(Request $request) 
+    public function getSummaryWO(Request $request)
     {
         $datas = DB::table('data_ftth_mt_oris');
 
@@ -99,6 +100,34 @@ class MonitFtthMT_Controller extends Controller
             $endDt = \Carbon\Carbon::parse($dateRange[1]);
 
             $datas = $datas->whereBetween('tgl_ikr',[$startDt, $endDt]);
+        }
+
+        if($request->filGroup == null && $request->filarea != null) {
+            $b = explode("|", $request->filarea);
+            $br = $b[1];
+            $datas = $datas->where('branch', $br);
+        }
+
+        if($request->filcluster != null) {
+            $datas = $datas->where('cluster', $request->filcluster);
+        }
+        if($request->filfatCode != null) {
+            $datas = $datas->where('kode_fat', $request->filfatCode);
+        }
+        if($request->filslotTime != null) {
+            $datas = $datas->where('slot_time', $request->filslotTime);
+        }
+
+        if ($request->filGroup != null) {
+            $group = $request->filGroup;
+
+            if ($group == 'Jakarta') {
+                $jakartaAreas = ['Jakarta Timur', 'Jakarta Selatan'];
+                $datas = $datas->whereIn('branch', $jakartaAreas);
+            } elseif ($group == 'Regional') {
+                $regionalAreas = ['Bali', 'Bekasi', 'Bogor', 'Tangerang', 'Jambi', 'Medan', 'Palembang', 'Pontianak', 'Pangkal Pinang'];
+                $datas = $datas->whereIn('branch', $regionalAreas);
+            }
         }
 
         $datas = $datas->select(
@@ -179,6 +208,20 @@ class MonitFtthMT_Controller extends Controller
             }
             if($request->filslotTime != null) {
                 $datas = $datas->where('slot_time', $request->filslotTime);
+            }
+
+            if ($request->filGroup != null) {
+                $group = $request->filGroup;
+
+                if ($group == 'Jakarta') {
+                    // Area yang termasuk dalam grup Jabota
+                    $jakartaAreas = ['Jakarta Timur', 'Jakarta Selatan', ];
+                    $datas = $datas->whereIn('branch', $jakartaAreas);
+                } elseif ($group == 'Regional') {
+                    // Area yang termasuk dalam grup Regional
+                    $regionalAreas = ['Bogor', 'Tangerang', 'Bali', 'Bekasi', 'Jambi', 'Medan', 'Palembang', 'Pontianak', 'Pangkal Pinang'];
+                    $datas = $datas->whereIn('branch', $regionalAreas);
+                }
             }
 
             $datas = $datas->get();
@@ -278,7 +321,7 @@ class MonitFtthMT_Controller extends Controller
                 DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Socket Pipe" THEN qty END AS socket_out'),
                 DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "UTP" THEN qty END AS utp_out'),
                 DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "RJ45" THEN qty END AS rj45_out'),
-                
+
             )
             ->get()
             ->toArray(); // Konversi hasil query ke array
@@ -379,9 +422,10 @@ class MonitFtthMT_Controller extends Controller
             $wo_no = DB::table('data_ftth_mt_oris')->where('id', $assignId)->value('no_wo');
 
             // Ambil data material berdasarkan nomor WO
-            $ftth_ib_material = DB::table('ftth_materials')
+            $ftth_mt_material = DB::table('ftth_materials')
                 ->select(
 
+                    'id',
                     'status_item',
                     'item_code',
                     'description',
@@ -396,7 +440,7 @@ class MonitFtthMT_Controller extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Data retrieved successfully',
-                'data' => $ftth_ib_material,
+                'data' => $ftth_mt_material,
             ], 200);
 
         } catch (\Exception $e) {
@@ -416,6 +460,7 @@ class MonitFtthMT_Controller extends Controller
         $id = $request->detId;
 
         $ftthMt = FtthMt::findOrFail($id);
+        $assignTim = DataAssignTim::where('leadcall_id', $ftthMt->leadcall_id)->first();
 
         DB::beginTransaction();
         try {
@@ -503,8 +548,8 @@ class MonitFtthMT_Controller extends Controller
                 // 'dw_out' => $request[''],
                 'precon_out' => $request['kabelPrecon'],
                 // 'bad_precon' => $request[''],
-                // 'fast_connector' => $request[''],
-                // 'patchcord' => $request[''],
+                'fastcon_out' => $request['fastConnector'],
+                'patchcord_out' => $request['patchCord'],
                 // 'terminal_box' => $request[''],
                 // 'remote_fiberhome' => $request[''],
                 // 'remote_extrem' => $request[''],
@@ -516,12 +561,12 @@ class MonitFtthMT_Controller extends Controller
                 // 'remark_status2' => $request[''],
                 // 'wo_type_apk' => $request[''],
                 // 'branch_id' => $request[''],
-                // 'leadcall' => $request[''],
+                // 'leadcall' => $request['LeadCallsignShow'],
                 // 'tek1_nik' => $request[''],
                 // 'tek2_nik' => $request[''],
                 // 'tek3_nik' => $request[''],
                 // 'tek4_nik' => $request[''],
-                // 'leadcall_id' => $request[''],
+                'leadcall_id' => $request['LeadCallsignShow'],
                 'dispatch' => $request['picDispatch'],
                 'leader_id' => $request['leaderidShow'],
                 'callsign_id' => $request['callsign_id'],
@@ -535,97 +580,23 @@ class MonitFtthMT_Controller extends Controller
                 'login' => $akses,
             ]);
 
+            $assignTim = $assignTim->update([
+                'leadcall_id' => $request['LeadCallsignShow'],
+            ]);
+
             DB::commit();
-    
-            if ($updateFtthMt) {
+
+            if ($updateFtthMt && $assignTim) {
                 // return redirect()->route('monitFtthMT')->with(['success' => 'Data tersimpan.']);
                 return response()->json('success');
-            } 
+            }
         } catch (\Exception $e) {
             DB::rollBack();
             // return redirect()->route('monitFtthMT')->with(['error' => 'Gagal Simpan Data.']);
             return response()->json($e->getMessage());
 
         }
-
-        
     }
-
-    // public function update(Request $request)
-    // {
-    //     // dd($request->all());
-    //     // Dapatkan data user yang login
-    //     $aksesId = Auth::user()->id;
-    //     $akses = Auth::user()->name;
-
-    //     // Ambil ID record yang akan di-update dari request
-    //     $id = $request->detId;
-
-    //     $ftthMt = FtthMt::findOrFail($id);
-
-    //     // Siapkan data untuk di-update
-    //     $dataUpdate = [
-    //         'type_wo' => $request->woTypeShow,
-    //         'no_wo' => $request->noWoShow,
-    //         'no_ticket' => $request->ticketNoShow,
-    //         'cust_id' => $request->custIdShow,
-    //         'nama_cust' => $request->custNameShow,
-    //         'cust_address1' => $request->custAddressShow,
-    //         'kode_fat' => $request->fatCodeShow,
-    //         'cluster' => $request->cluster,
-    //         'branch' => $request->branchShow,
-    //         'tgl_ikr' => $request->tglProgressShow,
-    //         'slot_time_leader' => $request->slotTimeLeaderShow,
-    //         'slot_time_apk' => $request->slotTimeAPKShow,
-    //         'sesi' => $request->sesiShow,
-    //         'leader' => $request->leaderShow,
-    //         'teknisi1' => $request->teknisi1Show,
-    //         'teknisi2' => $request->teknisi2Show,
-    //         'teknisi3' => $request->teknisi3Show,
-    //         'status_wo' => $request->statusWo,
-    //         'couse_code' => $request->causeCode,
-    //         'root_couse' => $request->rootCause,
-    //         'tgl_jam_reschedule' => $request->tglReschedule,
-    //         'action_taken' => $request->actionTaken,
-    //         'weather' => $request->weatherShow,
-    //         'remark_status' => $request->remarkStatus,
-    //         'checkin_apk' => $request->checkin_apk,
-    //         'checkout_apk' => $request->checkout_apk,
-    //         'status_apk' => $request->statusWoApk,
-    //         'ont_merk_in' => $request->merkOntIn,
-    //         'ont_mac_in' => $request->macOntIn,
-    //         'router_sn_out' => $request->snRouterOut,
-    //         'router_mac_out' => $request->macRouterOut,
-    //         'router_merk_in' => $request->merkRouterIn,
-    //         'router_sn_in' => $request->snRouterIn,
-    //         'router_mac_in' => $request->macRouterIn,
-    //         'stb_merk_out' => $request->merkStbOut,
-    //         'stb_sn_out' => $request->snStbOut,
-    //         'stb_mac_out' => $request->macStbOut,
-    //         'stb_merk_in' => $request->merkStbIn,
-    //         'stb_sn_in' => $request->snStbIn,
-    //         'stb_mac_in' => $request->macStbIn,
-    //         'precon_out' => $request->kabelPrecon,
-    //         'leader_id' => $request->leaderidShow,
-    //         'callsign_id' => $request->callsign_id,
-    //         'alasan_tidak_ganti_precon' => $request->alasan_tidak_ganti_precon,
-    //         'alasan_pending' => $request->alasan_pending,
-    //         'alasan_cancel' => $request->alasan_cancel,
-    //         'report_teknisi' => $request->report_teknisi,
-    //         'login_id' => $aksesId,
-    //         'login' => $akses,
-    //     ];
-
-    //     // Update data di database
-    //     $updateFtthMt = $ftthMt->update($dataUpdate);
-
-    //     // Cek apakah update berhasil
-    //     if ($updateFtthMt) {
-    //         return redirect()->route('monitFtthMT')->with(['success' => 'Data berhasil disimpan.']);
-    //     } else {
-    //         return redirect()->route('monitFtthT')->with(['error' => 'Gagal menyimpan data.']);
-    //     }
-    // }
 
     public function export(Request $request)
     {
@@ -633,13 +604,34 @@ class MonitFtthMT_Controller extends Controller
         return Excel::download($export, 'FTTH_MT.xlsx');
     }
 
-    public function tampilkanSLA()
+    public function editMaterial(Request $request)
     {
-        // Ambil semua data dari tabel
-        $records = FtthMt::all();
+        $assignId = $request->filAssignId;
+        $datas = DB::table('ftth_materials as d')
+            ->where('d.id', $assignId)->first();
 
-        // Kirimkan data ke view atau API
-        return view('sla.index', compact('records'));
+        return response()->json($datas);
+    }
+
+    public function updateMaterialMt(Request $request)
+    {
+        // dd($request->all());
+        $id = $request->detId;
+
+        $material_mt = FtthMaterial::findOrFail($id);
+
+        $material_mt->update([
+            'status_item' => $request['status_item'],
+            'item_code' => $request['item_code'],
+            'qty' => $request['qty'],
+            'sn' => $request['sn'],
+            'mac_address' => $request['mac_address'],
+            'description' => $request['description'],
+
+        ]);
+
+        return redirect()->route('monitFtthMT')
+            ->with('success', 'Berhasil mengubah data material maintenance');
     }
 
 }
