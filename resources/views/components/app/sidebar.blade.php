@@ -107,7 +107,7 @@
                     </a>
                 </li>
             @endif
-            
+
 
             <li class="nav-item">
                 <a
@@ -147,7 +147,7 @@
                 </a>
             </li>
 
-            @if (Auth::user()->name == "Tanto")
+            {{-- @if (Auth::user()->name == "Tanto") --}}
 
             <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('rekapAssignTim') ? 'active' : '' }}"
@@ -163,7 +163,14 @@
                 </a>
             </li>
 
-            @endif            
+            <li class="nav-item border-start my-0 pt-2">
+                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('fttx-assign-team') ? 'active' : '' }}"
+                    href="{{ route('fttx-assign-team') }}">
+                    <span class="nav-link-text ms-1">Assign Tim FTTX</span>
+                </a>
+            </li>
+
+            {{-- @endif             --}}
 
             <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('rescheduleWO') ? 'active' : '' }}"
@@ -227,6 +234,20 @@
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('monitFtthDismantle') ? 'active' : '' }}"
                     href="{{ route('ftth-dismantle') }}">
                     <span class="nav-link-text ms-1">FTTH Dismantle</span>
+                </a>
+            </li>
+
+            <li class="nav-item border-start my-0 pt-2">
+                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('fttx-ib') ? 'active' : '' }}"
+                    href="{{ route('fttx-ib') }}">
+                    <span class="nav-link-text ms-1">FTTX New Installation</span>
+                </a>
+            </li>
+
+            <li class="nav-item border-start my-0 pt-2">
+                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('fttx-mt') ? 'active' : '' }}"
+                    href="{{ route('fttx-mt') }}">
+                    <span class="nav-link-text ms-1">FTTX Maintenance</span>
                 </a>
             </li>
 
@@ -311,7 +332,7 @@
                     <span class="nav-link-text ms-1">Seragam IKR</span>
                 </a>
             </li> --}}
-            
+
             {{-- <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('dataSeragam') ? 'active' : '' }}"
                     href="{{ route('dataSeragam') }}">

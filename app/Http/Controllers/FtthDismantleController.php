@@ -36,13 +36,76 @@ class FtthDismantleController extends Controller
         ));
     }
 
+    public function getSummaryWODismantle(Request $request)
+    {
+        $datas = DB::table('data_ftth_dismantle_oris');
+
+        if($request->filTgl != null) {
+            $dateRange = explode("-", $request->filTgl);
+            $startDt = \Carbon\Carbon::parse($dateRange[0]);
+            $endDt = \Carbon\Carbon::parse($dateRange[1]);
+
+            $datas = $datas->whereBetween('visit_date',[$startDt, $endDt]);
+        }
+
+        if($request->filGroup == null && $request->filarea != null) {
+            $b = explode("|", $request->filarea);
+            $br = $b[1];
+            $datas = $datas->where('branch', $br);
+        }
+
+        if($request->filcluster != null) {
+            $datas = $datas->where('cluster', $request->filcluster);
+        }
+        if($request->filfatCode != null) {
+            $datas = $datas->where('kode_fat', $request->filfatCode);
+        }
+        if($request->filslotTime != null) {
+            $datas = $datas->where('slot_time', $request->filslotTime);
+        }
+
+        if ($request->filGroup != null) {
+            $group = $request->filGroup;
+
+            if ($group == 'Jakarta') {
+                $jakartaAreas = ['Jakarta Timur', 'Jakarta Selatan'];
+                $datas = $datas->whereIn('branch', $jakartaAreas);
+            } elseif ($group == 'Regional') {
+                $regionalAreas = ['Bali', 'Bekasi', 'Bogor', 'Tangerang', 'Jambi', 'Medan', 'Palembang', 'Pontianak', 'Pangkal Pinang'];
+                $datas = $datas->whereIn('branch', $regionalAreas);
+            }
+        }
+
+        $datas = $datas->select(
+                    DB::raw('
+                    count(*) as total,
+                    count(if((status_wo="Done") || (status_wo="Checkout"),1,null)) as done,
+                    count(if(status_wo="Pending",1,null)) as pending,
+                    count(if(status_wo="Cancel",1,null)) as cancel,
+                    count(if(status_wo="Checkin",1,null)) as checkin,
+                    count(if(status_wo="Requested",1,null)) as requested ')
+                )->get();
+
+        return response()->json($datas);
+    }
+
     public function getFtthDismantle(Request $request)
     {
         ini_set('max_execution_time', 1900);
         ini_set('memory_limit', '8192M');
         $akses = Auth::user()->name;
 
-        $datas = DB::table('data_ftth_dismantle_oris')->orderBy('visit_date', 'DESC');
+        // $datas = DB::table('data_ftth_dismantle_oris')->orderBy('visit_date', 'DESC');
+        $datas = DB::table('data_ftth_dismantle_oris')->orderBy('visit_date', 'DESC')
+                ->orderBy('is_checked')
+                ->orderByRaw('case when status_apk="CHECKOUT" then 1
+                                when status_apk="DONE" then 2
+                                when status_apk="PENDING" then 3
+                                when status_apk="CANCELLED" then 4
+                                when status_apk="CHECKIN" then 5
+                                when status_apk="REQUESTED" then 6
+                                else 7 End'
+                            );
 
             if($request->filTgl != null) {
                 $dateRange = explode("-", $request->filTgl);
@@ -92,6 +155,19 @@ class FtthDismantleController extends Controller
             }
             if($request->filslotTime != null) {
                 $datas = $datas->where('slot_time', $request->filslotTime);
+            }
+            if ($request->filGroup != null) {
+                $group = $request->filGroup;
+
+                if ($group == 'Jakarta') {
+                    // Area yang termasuk dalam grup Jabota
+                    $jakartaAreas = ['Jakarta Timur', 'Jakarta Selatan', ];
+                    $datas = $datas->whereIn('branch', $jakartaAreas);
+                } elseif ($group == 'Regional') {
+                    // Area yang termasuk dalam grup Regional
+                    $regionalAreas = ['Bogor', 'Tangerang', 'Bali', 'Bekasi', 'Jambi', 'Medan', 'Palembang', 'Pontianak', 'Pangkal Pinang'];
+                    $datas = $datas->whereIn('branch', $regionalAreas);
+                }
             }
 
             $datas = $datas->get();
@@ -221,7 +297,7 @@ class FtthDismantleController extends Controller
             // Ambil data material berdasarkan nomor WO
             $ftth_ib_material = DB::table('ftth_dismantle_materials')
                 ->select(
-
+                    'id',
                     'status_item',
                     'item_code',
                     'description',
@@ -349,4 +425,35 @@ class FtthDismantleController extends Controller
         $export = new FtthDismantleExport($request);
         return Excel::download($export, 'FTTH_Dismantle.xlsx');
     }
+
+    public function editMaterialDismantle(Request $request)
+    {
+        $assignId = $request->filAssignId;
+        $datas = DB::table('ftth_dismantle_materials as d')
+            ->where('d.id', $assignId)->first();
+
+        return response()->json($datas);
+    }
+
+    public function updateMaterialDismantle(Request $request)
+    {
+        // Validasi data jika diperlukan
+        $id = $request->detId;
+
+        // Perbarui data langsung menggunakan query builder
+        DB::table('ftth_dismantle_materials')
+            ->where('id', $id)
+            ->update([
+                'status_item' => $request['status_item'],
+                'item_code' => $request['item_code'],
+                'qty' => $request['qty'],
+                'sn' => $request['sn'],
+                'mac_address' => $request['mac_address'],
+                'description' => $request['description'],
+            ]);
+
+        return redirect()->route('ftth-dismantle')
+            ->with('success', 'Berhasil mengubah data material dismantle');
+    }
+
 }

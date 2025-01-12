@@ -172,6 +172,15 @@
                                         </select>
                                     </div>
 
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Grup</span>
+                                        <select class="form-control form-control-sm select2" id="filGroup" name="filGroup" style="border-color:#9ca0a7;">
+                                            <option value="">Pilih Grup</option>
+                                            <option value="Jakarta">Jakarta</option>
+                                            <option value="Regional">Regional</option>
+                                        </select>
+                                    </div>
+
                                 </div>
                                 <hr>
                                 <div class="row text-center mb-1">
@@ -212,7 +221,8 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="w-100 text-center">
-                                        <p class="text-sm text-secondary mb-1">Checkout/Done</p>
+
+                                        <p class="text-secondary mb-1" style="font-size: 0.82rem;">Checkout/Done</p>
                                         <h4 class="mb-2 font-weight-bold" id="totDone"></h4>
                                     </div>
                                 </div>
@@ -1504,51 +1514,8 @@
         </div>
         {{-- End Modal Show Detail Tool --}}
 
-        {{-- Modal Detail Material --}}
-        <div class="modal fade" id="showMaterial" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalLabel2" aria-hidden="true" data-bs-keyboard="false"
-            data-bs-backdrop="static">>
-            <div class="modal-dialog modal-xl" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel2">Detail Material</h5>
-                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
-                            aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col-sm-12 mt-3 mb-3">
-                            <div class="table-responsive p-0">
-                                <table id="summaryAssignTeam" class="table table-sm table-striped table-bordered align-items-center mb-0">
-                                    <thead class="bg-gray-600">
-                                        <tr id="headStatusProgresWo">
-                                            <th class="text-white text-sm font-weight-semibold">No</th>
-                                            <th class="text-white text-sm font-weight-semibold">Status Item</th>
-                                            <th class="text-white text-sm font-weight-semibold">Item Code</th>
-                                            <th class="text-white text-sm font-weight-semibold">Description</th>
-                                            <th class="text-white text-sm font-weight-semibold">Qty</th>
-                                            <th class="text-white text-sm font-weight-semibold">SN</th>
-                                            <th class="text-white text-sm font-weight-semibold">Mac Address</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="bodyStatusProgresWo">
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" value="close" class="btn btn-sm btn-dark align-items-center"
-                            data-bs-dismiss="modal">Tutup</button>
-                    </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        {{-- End Modal Detail Material --}}
+        @include('monitoringWo.modal-ib.detail-material')
+        @include('monitoringWo.modal-ib.edit-material')
 
     </main>
 
@@ -1781,7 +1748,7 @@
         $(document).on('click', '#filAssignTim', function(e) {
             get_summary();
             get_data_assignTim_ib();
-            
+
             stDate = $('.date-range').data('daterangepicker').startDate.format("DD-MMM-YYYY");
             enDate = $('.date-range').data('daterangepicker').endDate.format("DD-MMM-YYYY");
         })
@@ -1803,7 +1770,8 @@
                 filteknisi: $('#filteknisi').val(),
                 filcluster: $('#filcluster').val(),
                 filfatCode: $('#filfatCode').val(),
-                filslotTime: $('#filslotTime').val()
+                filslotTime: $('#filslotTime').val(),
+                filGroup: $('#filGroup').val()
             };
 
             window.location.href = url + '?' + $.param(params);
@@ -1811,13 +1779,16 @@
 
         function get_summary() {
             var _token = $('meta[name=csrf-token]').attr('content');
-            let typeSum = "Ftth IB"
+            let typeSum = "Ftth MT"
 
             $.ajax({
-                url: "{{ route('getSummaryWOIB') }}",
+                url: "{{ route('getSummaryWOIb') }}",
                 type: "get",
                 data: {
                     filTgl: $('#filtglProgress').val(),
+                    filarea: $('#filarea').val(),
+                    filcluster: $('#filcluster').val(),
+                    filGroup: $('#filGroup').val(),
 
                     filtype: typeSum,
                     _token: _token
@@ -1885,6 +1856,7 @@
                         filcluster: $('#filcluster').val(),
                         filfatCode: $('#filfatCode').val(),
                         filslotTime: $('#filslotTime').val(),
+                        filGroup: $('#filGroup').val(),
                         _token: _token
                     }
                 },
@@ -2146,6 +2118,21 @@
                                     <td>${item.qty}</td>
                                     <td>${item.sn ? item.sn : '-'}</td>
                                     <td>${item.mac_address ? item.mac_address : '-'}</td>
+                                    <td>
+                                        <a href="javascript:void(0)"
+                                            id="edit-material"
+                                            data-id="${item.id}"
+                                            class="btn btn-sm btn-secondary edit-material mb-0 tooltip-info p-1"
+                                            data-rel="tooltip"
+                                            title="Edit Material" data-bs-toggle="modal" data-bs-target="#editMaterial" data-bs-whatever="Edit Material">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 50 50">
+                                                <path d="M 43.125 2 C 41.878906 2 40.636719 2.488281 39.6875 3.4375 L 38.875 4.25 L 45.75 11.125 C 45.746094 11.128906 46.5625 10.3125 46.5625 10.3125 C 48.464844 8.410156 48.460938 5.335938 46.5625 3.4375 C 45.609375 2.488281 44.371094 2 43.125 2 Z M 37.34375 6.03125 C 37.117188 6.0625 36.90625 6.175781 36.75 6.34375 L 4.3125 38.8125 C 4.183594 38.929688 4.085938 39.082031 4.03125 39.25 L 2.03125 46.75 C 1.941406 47.09375 2.042969 47.457031 2.292969 47.707031 C 2.542969 47.957031 2.90625 48.058594 3.25 47.96875 L 10.75 45.96875 C 10.917969 45.914063 11.070313 45.816406 11.1875 45.6875 L 43.65625 13.25 C 44.054688 12.863281 44.058594 12.226563 43.671875 11.828125 C 43.285156 11.429688 42.648438 11.425781 42.25 11.8125 L 9.96875 44.09375 L 5.90625 40.03125 L 38.1875 7.75 C 38.488281 7.460938 38.578125 7.011719 38.410156 6.628906 C 38.242188 6.246094 37.855469 6.007813 37.4375 6.03125 C 37.40625 6.03125 37.375 6.03125 37.34375 6.03125 Z"></path>
+                                            </svg>
+                                        </a>
+                                    </td>
                                 </tr>
                             `;
                             // Tambahkan baris ke tabel
@@ -2169,8 +2156,37 @@
                 }
             });
 
-        })
+        });
 
+        $(document).on('click', '#edit-material', function (e) {
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let assign_id = $(this).data('id');
 
+            $.ajax({
+                url: "{{ route('editMaterialFtthIb') }}",
+                type: "get",
+                data: {
+                    filAssignId: assign_id,
+                    _token: _token
+                },
+                success: function (response) {
+                    console.log('Respons dari API:', response);
+                    console.log('Material ID:', assign_id);
+
+                    let dtDis = response;
+
+                    $('#det_id').val(dtDis.id);
+                    $('#status_item').val(dtDis.status_item);
+                    $('#item_code').val(dtDis.item_code);
+                    $('#qty').val(dtDis.qty);
+                    $('#sn').val(dtDis.sn);
+                    $('#mac_address').val(dtDis.mac_address);
+                    $('#description').val(dtDis.description);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Gagal memuat data:', error);
+                }
+            });
+        });
     })
 </script>

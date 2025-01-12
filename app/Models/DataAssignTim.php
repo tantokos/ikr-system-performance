@@ -9,6 +9,8 @@ class DataAssignTim extends Model
 {
     use HasFactory;
 
+    protected $table = 'data_assign_tims';
+
     protected $fillable = [
         'batch_wo',
         'tgl_ikr',

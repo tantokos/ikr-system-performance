@@ -129,7 +129,7 @@ class Import_DataWoController extends Controller
 
                 return back()->with(['error' => 'Kesalahan validasi: ' . implode('<br>', $errorMessages)]);
             } catch (\Exception $e) {
-                
+
                 return back()->with(['error' => 'Kesalahan: ' . $e->getMessage()]);
             }
         }
@@ -335,7 +335,7 @@ class Import_DataWoController extends Controller
                             $areaSegmen = DB::table('list_fat')->where('kategori_area', $kategori_area->kategori_area)
                                         ->where('kode_area', $kdArea)->first();
 
-                            // $cekStatWOBefore = DB::table('data_ftth_mt_oris')->where('no_wo',$data['no_wo_apk']) 
+                            // $cekStatWOBefore = DB::table('data_ftth_mt_oris')->where('no_wo',$data['no_wo_apk'])
                             //             ->where('status_wo','<>',"Done")
                             //             ->where('tgl_ikr','<',$data['tgl_ikr'])
                             //             ->orderBy('tgl_ikr','DESC')
@@ -375,19 +375,19 @@ class Import_DataWoController extends Controller
                                     'teknisi3' => $data['teknisi3'],
                                     'status_wo' => "Requested",
                                     'status_apk' => "Requested",
-                                    'ms_regular' => isset($areaSegmen->status_ms) ? $areaSegmen->status_ms : null,                                    
+                                    'ms_regular' => isset($areaSegmen->status_ms) ? $areaSegmen->status_ms : null,
                                     'wo_date_apk' => $data['wo_date_apk'],
-                                    'slot_time_assign_apk' => implode(" ", [$data['tgl_ikr'], $data['time_apk']]),    
+                                    'slot_time_assign_apk' => implode(" ", [$data['tgl_ikr'], $data['time_apk']]),
                                     'port_fat' => $data['fat_port_apk'],
                                     'site_penagihan' => isset($areaSegmen->site) ? $areaSegmen->site : null,
                                     'wo_type_apk' => $data['wo_type_apk'],
                                     'leadcall_id' => $data['leadcall_id'],
                                     'leadcall' => $data['leadcall'],
-                                    'leader_id' => $data['leader_id'],                                    
-                                    'callsign_id' => $data['callsign_id'],                                    
-                                    'tek1_nik' => $data['tek1_nik'],                                    
-                                    'tek2_nik' => $data['tek2_nik'],                                    
-                                    'tek3_nik' => $data['tek3_nik'],                                    
+                                    'leader_id' => $data['leader_id'],
+                                    'callsign_id' => $data['callsign_id'],
+                                    'tek1_nik' => $data['tek1_nik'],
+                                    'tek2_nik' => $data['tek2_nik'],
+                                    'tek3_nik' => $data['tek3_nik'],
                                     'tek4_nik' => $data['tek4_nik'],
                                     'teknisi4' => $data['teknisi4'],
                                     'is_checked' => 0,
@@ -417,7 +417,7 @@ class Import_DataWoController extends Controller
                                     'leadcall' => $data['leadcall'],
                                     'tgl_ikr' => $data['tgl_ikr'],
                                     'slot_time_leader' => $data['slot_time'],
-                                    'slot_time_apk' => $data['time_apk'],                                    
+                                    'slot_time_apk' => $data['time_apk'],
                                     'sesi' => $data['batch_wo'],
                                     'callsign' => $data['callsign'],
                                     'callsign_id' => $data['callsign_id'],
@@ -427,8 +427,8 @@ class Import_DataWoController extends Controller
                                     'tek2_nik' => $data['tek2_nik'],
                                     'tek3_nik' => $data['tek3_nik'],
                                     'tek4_nik' => $data['tek4_nik'],
-                                    'teknisi1' => $data['teknisi1'],                                    
-                                    'teknisi2' => $data['teknisi2'],                                    
+                                    'teknisi1' => $data['teknisi1'],
+                                    'teknisi2' => $data['teknisi2'],
                                     'teknisi3' => $data['teknisi3'],
                                     'teknisi4' => $data['teknisi4'],
                                     'wo_date_apk' => $data['wo_date_apk'],
@@ -493,7 +493,7 @@ class Import_DataWoController extends Controller
                                 ->with(['success' => 'Data tersimpan.']);
                         }
                     } catch (\Exception $e) {
-                        
+
                         DB::rollBack();
                         // dd($kdArea);
                         return redirect()->route('importDataWo')

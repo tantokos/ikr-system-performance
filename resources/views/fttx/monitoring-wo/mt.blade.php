@@ -3,47 +3,29 @@
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
         <div class="container-fluid py-4 px-5">
-            {{-- <div class="row">
+            <div class="row">
                 <div class="col-12">
-                    <div class="card card-background card-background-after-none align-items-start mt-1 mb-3">
+                    <div class="card card-background card-background-after-none align-items-start mt-2 mb-5">
                         <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
                         </div>
                         <div class="card-body text-start p-4 w-100">
-                            <h3 class="text-white mb-1">Monitoring WO FTTH Maintenance</h3>
-                            <p class="mb-2 font-weight-semibold">
+                            <h3 class="text-white mb-2">Monitoring WO FTTX Maintenance</h3>
+                            <p class="mb-4 font-weight-semibold">
                                 PT. Mitra Sinergi Telematika.
                             </p>
+
+                            {{-- <img src="../assets/img/3d-cube.png" alt="3d-cube"
+                                class="position-absolute top-0 end-1 w-25 max-width-200 mt-n6 d-sm-block d-none" /> --}}
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
 
             <div class="row">
                 <div class="col-12">
-                    <div class="card border shadow-xs mb-3">
-                        <div class="card-header border-bottom pb-0" style="background: linear-gradient(to right, #4e0808, #6d2121);">
-
-                            {{-- <div class="row"> --}}
-                                {{-- <div class="col-12"> --}}
-                                    {{-- <div class="card card-background card-background-after-none align-items-start mt-0 mb-0"> --}}
-                                        <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
-                                        </div>
-                                        <div class="text-start p-2 w-100">
-                                            <h4 class="text-white mb-1">Monitoring WO FTTH Maintenance</h3>
-                                            {{-- <p class="mb-1 font-weight-semibold">
-                                                PT. Mitra Sinergi Telematika.
-                                            </p> --}}
-
-                                            {{-- <img src="../assets/img/3d-cube.png" alt="3d-cube"
-                                                class="position-absolute top-0 end-1 w-25 max-width-200 mt-n6 d-sm-block d-none" /> --}}
-                                        </div>
-                                    {{-- </div> --}}
-                                {{-- </div> --}}
-                            {{-- </div> --}}
-                            {{-- </div> --}}
-                        </div>
-
-                        <div class="card-body px-2 py-2">
+                    <div class="card border shadow-xs mb-4">
+                        <div class="card-header border-bottom pb-0">
+                            {{-- <div class="d-sm-flex align-items-center"> --}}
                             <div class="row">
                                 <div class="col">
 
@@ -65,13 +47,25 @@
                                             name="filcustId" style="border-color:#9ca0a7;">
                                     </div>
 
-
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Status WO</span>
+                                        <select class="form-control form-control-sm" type="text" id="filstatusWo"
+                                            name="filstatusWo" style="border-color:#9ca0a7;">
+                                            <option value="" disabled selected>Pilih Status WO</option>
+                                            <option value="Requested">Requested</option>
+                                            <option value="Checkin">Checkin</option>
+                                            <option value="Checkout">Checkout</option>
+                                            <option value="Done">Done</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="Cancelled">Cancelled</option>
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <div class="col">
                                     <div class="form-group mb-1">
                                         <span class="text-xs">Area</span>
-                                        <select class="form-control form-control-sm select2" type="text" id="filarea"
+                                        <select class="form-control form-control-sm" type="text" id="filarea"
                                             name="filarea" style="border-color:#9ca0a7;">
                                             <option value="">Pilih Area</option>
                                             @if (isset($branches))
@@ -99,6 +93,21 @@
                                         <input type="hidden" id="filleaderid" name="filleaderid" readonly>
                                     </div>
 
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Callsign Tim</span>
+                                        <select class="form-control form-control-sm" type="text" id="filcallsignTimid"
+                                            name="filcallsignTimid" style="border-color:#9ca0a7;"
+                                            placeholder="Isi Callsign Tim">
+                                            <option value="">Pilih Callsign Tim</option>
+                                            @if (isset($callTim))
+                                                @foreach ($callTim as $cTim)
+                                                    <option
+                                                        value="{{ $cTim->callsign_tim_id . '|' . $cTim->callsign_tim }}">
+                                                        {{ $cTim->callsign_tim }}
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
 
                                     <div class="form-group mb-1">
                                         <span class="text-xs">Teknisi</span>
@@ -126,39 +135,6 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Callsign Tim</span>
-                                        <select class="form-control form-control-sm" type="text" id="filcallsignTimid"
-                                            name="filcallsignTimid" style="border-color:#9ca0a7;"
-                                            placeholder="Isi Callsign Tim">
-                                            <option value="">Pilih Callsign Tim</option>
-                                            @if (isset($callTim))
-                                                @foreach ($callTim as $cTim)
-                                                    <option
-                                                        value="{{ $cTim->callsign_tim_id . '|' . $cTim->callsign_tim }}">
-                                                        {{ $cTim->callsign_tim }}
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Status WO</span>
-                                        <select class="form-control form-control-sm" type="text" id="filstatusWo"
-                                            name="filstatusWo" style="border-color:#9ca0a7;">
-                                            <option value="" selected>Pilih Status WO</option>
-                                            <option value="Requested">Requested</option>
-                                            <option value="Checkin">Checkin</option>
-                                            <option value="Checkout">Checkout</option>
-                                            <option value="Done">Done</option>
-                                            <option value="Pending">Pending</option>
-                                            <option value="Cancel">Cancelled</option>
-                                        </select>
-                                    </div>
-
-                                </div>
-
-                                <div class="col">
                                     <div class="form-group mb-1">
                                         <span class="text-xs">FAT Code</span>
                                         <input type="text" class="form-control form-control-sm" id="filfatCode"
@@ -206,7 +182,6 @@
                                     </div>
 
                                 </div>
-
                                 <hr>
                                 <div class="row text-center mb-1">
                                     <div class="col">
@@ -219,7 +194,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            {{-- </div> --}}
                         </div>
                     </div>
                 </div>
@@ -318,11 +293,8 @@
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div>
-                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data FTTH Maintenance</span>
-                                    </h6>
-                                    {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
+                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data FTTX Maintenance</span></h6>
                                 </div>
-
                                 <div class="ms-auto d-flex">
                                     <a href="#" id="exportButton">
                                         <button type="button"
@@ -335,7 +307,7 @@
                                         </button>
                                     </a>
 
-                                    <a href="{{ route('importDataFtthMtApk') }}">
+                                    <a href="{{ route('importDataFtthIbApk') }}">
                                         <button type="button"
                                             class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
                                             <span class="btn-inner--icon">
@@ -346,10 +318,10 @@
                                                     </path>
                                                 </svg>
                                             </span>
-                                            <span class="btn-inner--text">Import Data WO APK</span>
+                                            <span class="btn-inner--text">Import Data WO</span>
                                         </button>
                                     </a>
-                                    <a href="{{ route('importDataMaterial') }}">
+                                    <a href="{{ route('importIbMaterial') }}">
                                         <button type="button"
                                             class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
                                             <span class="btn-inner--icon">
@@ -360,7 +332,7 @@
                                                     </path>
                                                 </svg>
                                             </span>
-                                            <span class="btn-inner--text">Import Data Material APK</span>
+                                            <span class="btn-inner--text">Import Data Material</span>
                                         </button>
                                     </a>
                                 </div>
@@ -391,6 +363,7 @@
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 1</th>
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 2</th>
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 3</th>
+                                            {{-- <th class="text-center text-xs font-weight-semibold">Teknisi 4</th> --}}
                                             <th class="text-center text-xs font-weight-semibold">Status WO</th>
                                             <th class="text-center text-xs font-weight-semibold">Status Check</th>
 
@@ -411,93 +384,63 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-sm-6 mt-3 mb-3">
-                    <h6>5 Cause Code Terbanyak</h6>
-                    <div class="table-responsive p-0">
-                        <table id="summaryAssignTeam" class="table table-striped table-sm table-bordered align-items-center mb-0" style="font-size: 0.85rem;">
-                            <thead class="bg-gray-600">
-                                <tr id="headStatusProgresWo">
-                                    <th class="text-white text-sm font-weight-semibold p-1">No</th>
-                                    <th class="text-white text-sm font-weight-semibold p-1">Cause Code</th>
-                                    <th class="text-white text-sm font-weight-semibold p-1">Total Cause Code</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($mostCauseCode as $causeCode)
-                                <tr>
-                                    <td class="text-sm p-1">{{ $loop->iteration }}</td>
-                                    <td class="text-sm p-1">{{ $causeCode->couse_code }}</td>
-                                    <td class="text-sm p-1">{{ $causeCode->qtyCauseCode }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 mt-3 mb-3">
-                    <h6>5 Root Cause Terbanyak</h6>
-                    <div class="table-responsive p-0">
-                        <table id="summaryAssignTeam" class="table table-striped table-bordered table-sm align-items-center mb-0" style="font-size: 0.85rem;">
-                            <thead class="bg-gray-600">
-                                <tr id="headStatusProgresWo">
-                                    <th class="text-white text-sm font-weight-semibold p-1">No</th>
-                                    <th class="text-white text-sm font-weight-semibold p-1">Root Cause</th>
-                                    <th class="text-white text-sm font-weight-semibold p-1">Total Root Cause</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($mostRootCause as $root_cause)
-                                <tr>
-                                    <td class="text-sm p-1">{{ $loop->iteration }}</td>
-                                    <td class="text-sm p-1">{{ $root_cause->root_couse }}</td>
-                                    <td class="text-sm p-1">{{ $root_cause->qtyRootCause }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-12 mt-3 mb-3">
-                    <h6>5 Action Taken Terbanyak</h6>
-                    <div class="table-responsive p-0">
-                        <table id="summaryAssignTeam" class="table table-striped table-bordered table-sm align-items-center mb-0" style="font-size: 0.85rem;">
-                            <thead class="bg-gray-600">
-                                <tr id="headStatusProgresWo">
-                                    <th class="text-white text-sm font-weight-semibold p-1">No</th>
-                                    <th class="text-white text-sm font-weight-semibold p-1">Action Taken</th>
-                                    <th class="text-white text-sm font-weight-semibold p-1">Total Action Taken</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($mostActionTaken as $actionTaken)
-                                <tr>
-                                    <td class="text-sm p-1">{{ $loop->iteration }}</td>
-                                    <td class="text-sm p-1">{{ $actionTaken->action_taken }}</td>
-                                    <td class="text-sm p-1">{{ $actionTaken->qtyActionTaken }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
             {{-- <x-app.footer /> --}}
         </div>
 
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl"> <!-- Tambahkan modal-xl -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Customer</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Gunakan table-responsive agar tabel bisa di-scroll -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="detailHistoryuWo">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">No WO</th>
+                                        <th scope="col">Cust Id</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Tanggal Ikr</th>
+                                        <th scope="col">Status Wo</th>
+                                        <th scope="col">Couse Code</th>
+                                        <th scope="col">Root Couse</th>
+                                        <th scope="col">Action Taken</th>
+                                        <th scope="col">Kode Fat</th>
+                                        <th scope="col">Branch</th>
+                                        <th scope="col">Cluster</th>
+                                        <th scope="col">Kotamadya</th>
+                                        <th scope="col">Callsign</th>
+                                        <th scope="col">Leader</th>
+                                        <th scope="col">Teknisi1</th>
+                                        <th scope="col">Teknisi2</th>
+                                        <th scope="col">Teknisi3</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {{-- Modal Show Detail Data Tool --}}
-        <div class="modal fade" id="showDetail" tabindex="-1" role="dialog"
+        <div class="modal fade" id="showAssignTim" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false"
-            data-bs-backdrop="static">
+            data-bs-backdrop="static">>
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Detail Progress WO FTTH Maintenance</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Progress WO FTTH New Installation</h5>
                         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
                             aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -505,9 +448,7 @@
                     </div>
                     <div class="modal-body">
                         {{-- <form action="{{ route('updateSignTim') }}" method="post" enctype="multipart/form-data"> --}}
-                        {{-- <form action="{{ route('updateFtthMt') }}" method="post" enctype="multipart/form-data"> --}}
-                        <form class="updateFtthMt" method="post" enctype="multipart/form-data">
-
+                        <form action="{{ route('updateFtthIb') }}" method="post" enctype="multipart/form-data">
                             @method('PUT')
                             @csrf
 
@@ -527,13 +468,12 @@
                                                 aria-selected="true">Status Progress
                                             </a>
                                         </li>
-                                        <!-- Jangan Dihapus -->
-                                        {{-- <li class="nav-item">
+                                        <li class="nav-item">
                                             <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab"
                                                 href="#StatusMaterial" role="tab" aria-controls="StatusMaterial"
                                                 aria-selected="false">Status Material
                                             </a>
-                                        </li> --}}
+                                        </li>
 
                                     </ul>
                                 </div>
@@ -622,6 +562,14 @@
                                                     <textarea class="form-control form-control-sm" type="text" id="custAddressShow" name="custAddressShow"
                                                         style="border-color:#9ca0a7;" readonly></textarea>
                                                 </div>
+                                                <div class="form-group mb-1">
+                                                    <span class="text-xs">Area/Cluster</span>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        type="text" id="areaShow" name="areaShow"
+                                                        style="border-color:#9ca0a7;" readonly>
+                                                </div>
+
+
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
@@ -641,38 +589,19 @@
                                                 </div>
 
                                                 <div class="form-group mb-1">
-                                                    <span class="text-xs">Area/Cluster</span>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        type="text" id="cluster" name="cluster"
-                                                        style="border-color:#9ca0a7;" readonly>
-                                                </div>
-
-
-
-                                                <div class="form-group mb-1">
                                                     <span class="text-xs">Remarks</span>
-                                                    <textarea class="form-control form-control-sm" type="text" id="remarkStatus" name="remarkStatus"
+                                                    <textarea class="form-control form-control-sm" type="text" id="remarksShow" name="remarksShow"
                                                         style="border-color:#9ca0a7;" readonly></textarea>
                                                 </div>
 
                                             </div>
 
                                             <div class="col">
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Branch</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="branchShow" name="branchShow"
-                                                                style="border-color:#9ca0a7;" readonly>
-                                                        </div>
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Kotamadya</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="kotamadyaShow" name="kotamadyaShow"
-                                                                style="border-color:#9ca0a7;" readonly>
-                                                        </div>
-                                                    </div>
+                                                <div class="col form-group mb-1">
+                                                    <span class="text-xs">Branch</span>
+                                                    <input class="form-control form-control-sm" type="text"
+                                                        id="branchShow" name="branchShow"
+                                                        style="border-color:#9ca0a7;" readonly>
                                                 </div>
 
                                                 <div class="form-group mb-1">
@@ -739,9 +668,6 @@
                                                                 <option value="19:30">19:30</option>
                                                                 <option value="20:00">20:00</option>
                                                             </select>
-                                                            {{-- <input class="form-control form-control-sm" type="text"
-                                                                id="slotTimeLeaderShow" name="slotTimeLeaderShow"
-                                                                style="border-color:#9ca0a7;"> --}}
                                                         </div>
 
                                                         <div class="col form-group mb-1">
@@ -781,13 +707,22 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
 
+
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Lead Callsign</span>
-                                                            <select class="form-control form-control-sm" id="LeadCallsignShow" name="LeadCallsignShow" style="border-color:#9ca0a7;">
+                                                            <select class="form-control form-control-sm"
+                                                                id="LeadCallsignShow" name="LeadCallsignShow"
+                                                                style="border-color:#9ca0a7;" required readonly>
                                                                 <option value="">Pilih Lead Callsign</option>
+                                                                @if (isset($leadCallsign))
+                                                                    @foreach ($leadCallsign as $lead)
+                                                                        <option
+                                                                            value="{{ $lead->lead_call_id . '|' . $lead->lead_callsign }}">
+                                                                            {{ $lead->lead_callsign }}
+                                                                    @endforeach
+                                                                @endif
                                                             </select>
                                                         </div>
-
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Nama Leader</span>
                                                             <input class="form-control form-control-sm" type="text"
@@ -802,13 +737,17 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
 
+
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Callsign Tim</span>
-                                                            <select class="form-control form-control-sm" id="callsignTimidShow" name="callsignTimidShow" style="border-color:#9ca0a7;" readonly>
+                                                            <select class="form-control form-control-sm"
+                                                                id="callsignTimidShow" name="callsignTimidShow"
+                                                                style="border-color:#9ca0a7;" readonly>
                                                                 <option value="">Pilih Callsign Tim</option>
                                                             </select>
+                                                            <input type="hidden" id="callsignTimShow"
+                                                                name="callsignTimShow">
                                                         </div>
-
                                                     </div>
 
                                                     <div class="form-group mb-1">
@@ -837,9 +776,12 @@
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 4</span>
-                                                        <input class="form-control form-control-sm" type="text" id="teknisi4Show"
+                                                        <select class="form-control form-control-sm" type="text" id="teknisi4Show"
                                                             name="teknisi4Show" style="border-color:#9ca0a7;" readonly>
+                                                            <option value="">Teknisi 4</option>
+                                                        </select>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -867,7 +809,7 @@
                                                             <span class="text-xs">Slot Time Leader</span>
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="slotTimeLeaderStatusShow"
-                                                                name="slotTimeLeaderStatusShow"
+                                                                name="slotTimeLeaderStatusShow" disabled
                                                                 style="border-color:#9ca0a7;">
                                                                 <option value="">Pilih Slot Time</option>
                                                                 <option value="09:00">09:00</option>
@@ -896,6 +838,8 @@
                                                             </select>
                                                         </div>
 
+
+
                                                     </div>
                                                 </div>
 
@@ -911,54 +855,44 @@
                                                             <option value="Cancel">Cancel</option>
                                                         </select>
                                                     </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Cause Code</span>
-                                                            <select class="form-control form-control-sm"
-                                                                type="text" id="causeCode"
-                                                                name="causeCode" style="border-color:#9ca0a7;">
-                                                                <option value="" disabled selected>--Pilih Cause Code--</option>
-
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Root Cause</span>
-                                                            <select class="form-control form-control-sm"
-                                                                type="text" id="rootCause"
-                                                                name="rootCause" style="border-color:#9ca0a7;">
-                                                                <option value="" disabled selected>--Pilih Cause Code--</option>
-                                                            </select>
-                                                        </div>
+                                                    <div class="col form-group mb-1">
+                                                        <span class="text-xs">Reason Status</span>
+                                                        <input type="text" class="form-control form-control-sm" id="reasonStatus" name="reasonStatus">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Action Taken</span>
+                                                            <span class="text-xs">Kondisi Cuaca</span>
                                                             <select class="form-control form-control-sm"
-                                                                type="text" id="actionTaken"
-                                                                name="actionTaken" style="border-color:#9ca0a7;">
-                                                                <option value="" disabled selected>--Pilih Action Taken--</option>
-
+                                                                type="text" id="weatherShow" name="weatherShow"
+                                                                style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Kondisi Cuaca--</option>
+                                                                <option value="Cerah">Cerah</option>
+                                                                <option value="Hujan">Hujan</option>
                                                             </select>
                                                         </div>
+
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Penagihan</span>
                                                             <select class="form-control form-control-sm"
-                                                                id="penagihanShow"
-                                                                name="penagihanShow"
-                                                                style="border-color:#9ca0a7;">
+                                                                type="text" id="penagihanShow"
+                                                                name="penagihanShow" style="border-color:#9ca0a7;">
                                                                 <option value="" disabled selected>--Pilih Penagihan--</option>
+                                                                <option value="Migrasi Dw To Precon">Migrasi Dw To Precon</option>
+                                                                <option value="Replace Precon To Precon">Replace Precon To Precon</option>
+                                                                <option value="No Customer">No Customer</option>
+                                                                <option value="Connector">Connector</option>
+                                                                <option value="Cancel by Dispatcher">Cancel by Dispatcher</option>
+                                                                <option value="Reconfig">Reconfig</option>
+                                                                <option value="ONT">ONT</option>
+                                                                <option value="Bad Cable Splice">Bad Cable Splice</option>
+                                                                <option value="Reschedule">Reschedule</option>
+                                                                <option value="STB">STB</option>
                                                             </select>
                                                         </div>
-
                                                     </div>
-
                                                 </div>
 
                                                 <div class="form-group mb-1">
@@ -973,9 +907,9 @@
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Jam Penjadwalan Ulang</span>
                                                             <select class="form-control form-control-sm"
-                                                                type="text" id="tglJamReschedule"
-                                                                name="tglJamReschedule" style="border-color:#9ca0a7;">
-                                                                <option value="" disabled selected>--Pilih Slot Time--</option>
+                                                                type="text" id="jamReschedule"
+                                                                name="jamReschedule" style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Jam--</option>
                                                                 <option value="09:00">09:00</option>
                                                                 <option value="09:30">09:30</option>
                                                                 <option value="10:00">10:00</option>
@@ -1005,8 +939,66 @@
                                                 </div>
 
                                                 <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Respon Konfirmasi Customer</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="respon_konf_cst" name="respon_konf_cst"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jawaban Konfirmasi Customer</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="jawaban_konf_cst" name="jawaban_konf_cst"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <span class="text-xs">Permintaan Reschedule</span>
+                                                    <input class="form-control form-control-sm" type="text"
+                                                                id="permintaan_reschedule" name="permintaan_reschedule"
+                                                                style="border-color:#9ca0a7;">
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Start IKR (WA)</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="start_ikr_wa" name="start_ikr_wa"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">End IKR (WA)</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="end_ikr_wa" name="end_ikr_wa"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">OTP Start</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="otp_start" name="otp_start"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">OTP End</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="otp_end" name="otp_end"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
                                                     <span class="text-xs">Report Teknisi</span>
-                                                    <textarea class="form-control form-control-sm" type="text" id="reportTeknisi" name="report_teknisi"
+                                                    <textarea class="form-control form-control-sm" type="text" id="remarksTeknisi" name="remarksTeknisi"
                                                         style="border-color:#9ca0a7;"></textarea>
                                                 </div>
 
@@ -1026,7 +1018,7 @@
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Slot Time Aplikasi</span>
                                                             <select class="form-control form-control-sm"
-                                                                type="text" id="slotTimeAPKStatusShow"
+                                                                type="text" id="slotTimeAPKStatusShow" disabled
                                                                 name="slotTimeAPKStatusShow"
                                                                 style="border-color:#9ca0a7;">
                                                                 <option value="">Pilih Slot Time</option>
@@ -1069,7 +1061,7 @@
                                                         <option value="Checkout">Checkout</option>
                                                         <option value="Done">Done</option>
                                                         <option value="Pending">Pending</option>
-                                                        <option value="Cancelled">Cancelled</option>
+                                                        <option value="Cancel">Cancel</option>
                                                     </select>
                                                 </div>
 
@@ -1078,16 +1070,16 @@
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkin Aplikasi</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                value="" id="tglCheckinApk"
-                                                                name="tglCheckinApk"
+                                                                value="" id="checkinApkShow"
+                                                                name="checkinApkShow"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkout Aplikasi</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                value="" id="tglCheckoutApk"
-                                                                name="checkout_apk"
+                                                                value="" id="checkoutApkShow"
+                                                                name="checkoutApkShow"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
                                                     </div>
@@ -1096,31 +1088,27 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Alasan Tidak Ganti Precon</span>
-                                                            <textarea class="form-control form-control-sm" type="text"
-                                                                id="alasanTidakGantiPrecon" name="alasan_tidak_ganti_precon"
-                                                                style="border-color:#9ca0a7;"></textarea>
-                                                        </div>
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Kondisi Cuaca</span>
-                                                            <select class="form-control form-control-sm"
-                                                                type="text" id="weatherShow" name="weatherShow"
+                                                            <span class="text-xs">Alasan Cancel</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="alasanCancel" name="alasanCancel"
                                                                 style="border-color:#9ca0a7;">
-                                                                <option value="" disabled selected>--Pilih Kondisi Cuaca--</option>
-                                                                <option value="Cerah">Cerah</option>
-                                                                <option value="Hujan">Hujan</option>
-                                                            </select>
                                                         </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Alasan Pending</span>
-                                                            <textarea class="form-control form-control-sm" type="text"
-                                                                id="alasanPending" name="alasan_pending"
-                                                                style="border-color:#9ca0a7;"></textarea>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="alasanPending" name="alasanPending"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Telp Dispatch</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="telp_dispatch" name="telp_dispatch"
+                                                                style="border-color:#9ca0a7;">
                                                         </div>
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">PIC Dispatch</span>
@@ -1134,64 +1122,16 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Alasan Cancel</span>
-                                                            <textarea class="form-control form-control-sm" type="text"
-                                                                id="alasanCancel" name="alasan_cancel"
-                                                                style="border-color:#9ca0a7;"></textarea>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="col">
-                                                <div class="col form-group mb-1">
-                                                    <span class="text-xs">Status Visit</span>
-                                                    <select class="form-control form-control-sm" type="text"
-                                                        id="statusVisit" name="statusVisit" style="border-color:#9ca0a7;">
-                                                        <option value="Team Visit">Team Visit</option>
-                                                        <option value="No VIsit">No Visit</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
                                                             <span class="text-xs">Validasi Start</span>
-                                                            <input class="form-control form-control-sm" type="time"
-                                                                value="{{ date('H:i') }}" id="validasiStart"
-                                                                name="validasiStart" style="border-color:#9ca0a7;">
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="validasi_start" name="validasi_start"
+                                                                style="border-color:#9ca0a7;">
                                                         </div>
-
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Validasi End</span>
-                                                            <input class="form-control form-control-sm" type="time"
-                                                                value="{{ date('H:i') }}" id="validasiEnd"
-                                                                name="validasiEnd" style="border-color:#9ca0a7;">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Status Checkin Slot Time</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                value="" id="statusCheckin"
-                                                                name="statusCheckin" style="border-color:#9ca0a7;" readonly>
-                                                        </div>
-
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Penggunaan Material</span>
-                                                            <select class="form-control form-control-sm" type="text"
-                                                                value="" id="statusMaterial"
-                                                                name="statusMaterial" style="border-color:#9ca0a7;">
-                                                                <option value=""></option>
-                                                                <option value="Ada">Ada</option>
-                                                                <option value="Tidak Ada">Tidak Ada</option>
-                                                            </select>
-
+                                                                id="validasi_end" name="validasi_end"
+                                                                style="border-color:#9ca0a7;">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1199,40 +1139,49 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Site Penagihan</span>
-                                                            <select class="form-control form-control-sm" type="text"
-                                                                value="" id="sitePenagihan"
-                                                                name="sitePenagihan" style="border-color:#9ca0a7;">
-                                                                <option value=""></option>
-                                                                <option value="Retail">Retail</option>
-                                                                <option value="Apartemen">Apartemen</option>
-                                                                <option value="Underground">Underground</option>
-                                                                <option value="Retail / Underground">Retail / Underground</option>
-                                                            </select>
-                                                        </div>
-
-                                                        {{-- <div class="col form-group mb-1">
-                                                            <span class="text-xs">Status Penggunaan Material</span>
+                                                            <span class="text-xs">Jam Teknisi Aktivasi Perangkat</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                value="" id="statusMaterial"
-                                                                name="statusMaterial" style="border-color:#9ca0a7;" readonly>
-                                                        </div> --}}
+                                                                id="jam_teknisi_aktifasi_perangkat" name="jam_teknisi_aktifasi_perangkat"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jam Dispatch Respon Aktivasi Perangkat</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="jam_dispatch_respon_aktifasi_perangkat" name="jam_dispatch_respon_aktifasi_perangkat"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
-                                                        <div class="col form-group">
-                                                            <div class="form-check">
-                                                                <input type="hidden" name="is_checked" value="0"> <!-- Default jika tidak dicentang -->
-                                                                <input class="form-check-input" type="checkbox" name="is_checked" value="1" id="isChecked">
-                                                                <label class="text-xs" for="isChecked">
-                                                                    Sudah Dicek (PIC. {{Auth::user()->name}} )
-                                                                </label>
-
-                                                            </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jam Teknisi Foto Rumah</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="jam_tek_foto_rmh" name="jam_tek_foto_rmh"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jam Dispatch Respon Foto Rumah</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="jam_dispatch_respon_foto" name="jam_dispatch_respon_foto"
+                                                                style="border-color:#9ca0a7;">
                                                         </div>
                                                     </div>
+                                                </div>
+
+                                                <div class="form-group mt-4 float-end">
+                                                    <div class="form-check">
+                                                        <input type="hidden" name="is_checked" value="0"> <!-- Default jika tidak dicentang -->
+                                                        <input class="form-check-input" type="checkbox" name="is_checked" value="1" id="isChecked">
+                                                        <label class="form-check-label" for="isChecked">
+                                                            Sudah Dicek
+                                                        </label>
+                                                    </div>
+
+                                                    <span class="text-xs text-bold">
+                                                        ( {{Auth::user()->name}} )
+                                                    </span>
                                                 </div>
 
                                             </div>
@@ -1244,8 +1193,6 @@
                             <div class="tab-content">
                                 <div class="tab-pane" id="StatusMaterial" role="tabpanel" aria-expanded="true">
                                     <div class="card-body">
-
-                                        <input type="hidden" name="id_material" id="id_material">
 
                                         <div class="row">
                                             <div class="col">
@@ -1261,7 +1208,7 @@
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">SN ONT Terpasang</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                id="snOntOut" name="snOntOut"
+                                                                value="" id="snOntOut" name="snOntOut"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
 
@@ -1326,7 +1273,7 @@
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Merk STB Terambil</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                id="merkStbIn" name="merkStbIn"
+                                                                value="" id="merkStbIn" name="merkStbIn"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
 
@@ -1405,20 +1352,6 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Remote Terpasang</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                value="" id="remoteOut"
-                                                                name="remoteOut" style="border-color:#9ca0a7;">
-                                                        </div>
-
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Remote Terambil</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                value="" id="remoteTerambil" name="remoteTerambil"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-
-                                                        <div class="col form-group mb-1">
                                                             <span class="text-xs">Kabel Drop Wire</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 value="" id="kabelDw" name="kabelDw"
@@ -1470,34 +1403,18 @@
                                                         </div>
 
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">PVC Pipe</span>
+                                                            <span class="text-xs">Remote Fiberhome</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                value="" id="pvcPipe" name="pvcPipe"
-                                                                style="border-color:#9ca0a7;">
+                                                                value="" id="remoteFiberhome"
+                                                                name="remoteFiberhome" style="border-color:#9ca0a7;">
                                                         </div>
 
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Socket Pipe</span>
+                                                            <span class="text-xs">Remote Extrem</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                value="" id="socketPipe" name="socketPipe"
+                                                                value="" id="remoteExtrem" name="remoteExtrem"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
-
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Kabel UTP</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                value="" id="kabelUtp" name="kabelUtp"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">RJ-45</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                value="" id="rj45" name="rj45"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -1520,55 +1437,8 @@
         </div>
         {{-- End Modal Show Detail Tool --}}
 
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl"> <!-- Tambahkan modal-xl -->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Detail Customer</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Gunakan table-responsive agar tabel bisa di-scroll -->
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="detailHistoryuWo">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">No</th>
-                                        <th scope="col">No WO</th>
-                                        <th scope="col">Cust Id</th>
-                                        <th scope="col">Type</th>
-                                        <th scope="col">Tanggal Ikr</th>
-                                        <th scope="col">Status Wo</th>
-                                        <th scope="col">Cause Code</th>
-                                        <th scope="col">Root Cause</th>
-                                        <th scope="col">Action Taken</th>
-                                        <th scope="col">Kode Fat</th>
-                                        <th scope="col">Branch</th>
-                                        <th scope="col">Cluster</th>
-                                        <th scope="col">Kotamadya</th>
-                                        <th scope="col">Callsign</th>
-                                        <th scope="col">Leader</th>
-                                        <th scope="col">Teknisi1</th>
-                                        <th scope="col">Teknisi2</th>
-                                        <th scope="col">Teknisi3</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        @include('monitoringWo.modal-mt.detail-material')
-        @include('monitoringWo.modal-mt.edit-material')
+        @include('monitoringWo.modal-ib.detail-material')
+        @include('monitoringWo.modal-ib.edit-material')
 
     </main>
 
@@ -1582,6 +1452,7 @@
 <script
     src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-html5-3.1.0/fc-5.0.1/r-3.0.2/datatables.min.js">
 </script>
+
 
 <script>
     //message with sweetalert
@@ -1613,6 +1484,7 @@
         });
     @endif
 </script>
+
 <script>
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -1632,16 +1504,6 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
-<script type="text/javascript">
-    let firstDate;
-    let lastDate;
-    let dataFtthIB = "";
-
-    $('.date-range').daterangepicker();
-    //set date rangepicker value empty after load
-    $('.date-range').val("");
-</script>
 
 <script>
     function detailHistory(id) {
@@ -1751,6 +1613,18 @@
         }
 
 </script>
+
+<script type="text/javascript">
+    let firstDate;
+    let lastDate;
+    let dataFtthIB = "";
+
+    $('.date-range').daterangepicker();
+    //set date rangepicker value empty after load
+    $('.date-range').val("");
+</script>
+
+
 <script>
     $(document).ready(function() {
         var _token = $('meta[name=csrf-token]').attr('content');
@@ -1758,10 +1632,7 @@
         var lastDate;
         var stDate;
         var enDate;
-        var dtCouseCode = {!! $dtCouseCode !!};
-        var dtRootCouse = {!! $dtRootCouse !!};
-        var dtActionTaken = {!! $dtActionTaken !!};
-        var dtPenagihan = {!! $dtPenagihan !!};
+
         akses = $('#akses').val();
         // get_data_assignTim()
 
@@ -1772,89 +1643,13 @@
             );
         }
 
-        $('#causeCode').find('option').remove();
-        $('#rootCause').find('option').remove();
-        $('#actionTaken').find('option').remove();
-        $('#penagihanShow').find('option').remove();
-
-        $('#causeCode').append(`
-            <option value="" disabled selected>--Pilih Cause Code--</option>`
-        );
-        $('#rootCause').append(`
-            <option value="" disabled selected>--Pilih Root Cause--</option>`
-        );
-        $('#actionTaken').append(`
-            <option value="" disabled selected>--Pilih Action Taken--</option>`
-        );
-        $('#penagihanShow').append(`
-            <option value="" disabled selected>--Pilih Penagihan--</option>`
-        );
-
-        $.each(dtCouseCode, function(k, cc) {
-            $('#causeCode').append(
-                `<option value="${cc.couse_code}">${cc.couse_code}</option>`
-            )
-        })
-        $.each(dtRootCouse, function(k, cc) {
-            $('#rootCause').append(
-                `<option value="${cc.root_couse}">${cc.root_couse}</option>`
-            )
-        })
-        $.each(dtActionTaken, function(k, cc) {
-            $('#actionTaken').append(
-                `<option value="${cc.action_taken}">${cc.action_taken}</option>`
-            )
-        })
-        $.each(dtPenagihan, function(k, cc) {
-            $('#penagihanShow').append(
-                `<option value="${cc.rootcouse_penagihan}">${cc.rootcouse_penagihan}</option>`
-            )
-        })
-
-        $(document).on('change', '#tglProgressAPKShow', function(e) {
-            tgl = $('#tglProgressAPKShow').val();
-            jm = $('#slotTimeAPKStatusShow').val();
-
-            tglJmCheckin = new Date($('#tglCheckinApk').val());
-            tglJmSlotTime = new Date(tgl.concat(" ", jm));
-
-            const timeDistance = (date1, date2) => {
-                let distance = Math.abs(date1 - date2);
-                const hours = Math.floor(distance / 3600000);
-                distance -= hours * 3600000;
-                const minutes = Math.floor(distance / 60000);
-                distance -= minutes * 60000;
-                const seconds = Math.floor(distance / 1000);
-                return `${hours}:${('0' + minutes).slice(-2)}:${('0' + seconds).slice(-2)}`;
-            };
-
-            console.log('timeDistance : ', timeDistance(tglJmCheckin, tglJmSlotTime));
-
-            stat=(tglJmCheckin-tglJmSlotTime)/60000;
-
-            if(stat < -15){
-                status="Lebih Awal"
-            }else if(stat <= -1 && stat >= -15) {
-                status="On Time"
-            } else if(stat>0) {
-                status="Terlambat"
-            }
-            $('#statusCheckin').val(status);
-
-        })
-
-        $(document).on('change', '#tglCheckinApk', function(e) {
-            $('#tglProgressAPKShow').trigger('change');
-        })
-
-
         $('.date-range').daterangepicker({
             startDate: moment(),
             endDate: moment(),
         });
 
         $(document).on('click', '#filAssignTim', function(e) {
-            get_data_assignTim();
+            get_data_assignTim_ib();
             get_summary();
             stDate = $('.date-range').data('daterangepicker').startDate.format("DD-MMM-YYYY");
             enDate = $('.date-range').data('daterangepicker').endDate.format("DD-MMM-YYYY");
@@ -1862,96 +1657,10 @@
 
         $('#filAssignTim').trigger("click");
 
-        $(document).on('change','#statusWo', function(e) {
-            console.log($(this).val());
-            $('#causeCode').val('');
-            $('#rootCause').val('');
-            $('#actionTaken').val('');
-            $('#penagihanShow').val('');
-
-            $('#causeCode').find('option').remove();
-            $('#causeCode').append(`
-                <option value="" disabled selected>--Pilih Cause Code--</option>`
-            );
-
-            filCouseCode = dtCouseCode.filter(k => k.status_wo === $(this).val());
-
-            $.each(filCouseCode, function(k, cc) {
-                $('#causeCode').append(
-                    `<option value="${cc.couse_code}">${cc.couse_code}</option>`
-                )
-            })
-
-
-        })
-
-        $(document).on('change','#causeCode', function(e) {
-            // alert('status change');
-            // $('#rootCause').val('');
-            // $('#actionTaken').val('');
-            // $('#penagihanShow').val('');
-
-            $('#rootCause').find('option').remove();
-            $('#rootCause').append(`
-                <option value="" disabled selected>--Pilih Root Cause--</option>`
-            );
-
-            filRootCouse = dtRootCouse.filter(k => k.couse_code === $(this).val());
-
-            $.each(filRootCouse, function(k, cc) {
-                $('#rootCause').append(
-                    `<option value="${cc.root_couse}">${cc.root_couse}</option>`
-                )
-            })
-
-        })
-
-        $(document).on('change','#rootCause', function(e) {
-            // alert('status change');
-            // $('#rootCause').val('');
-            // $('#actionTaken').val('');
-            // $('#penagihanShow').val('');
-
-            $('#actionTaken').find('option').remove();
-            $('#actionTaken').append(`
-                <option value="" disabled selected>--Pilih Action Taken--</option>`
-            );
-
-            filActionTaken = dtActionTaken.filter(k => k.root_couse === $(this).val());
-
-            $.each(filActionTaken, function(k, cc) {
-                $('#actionTaken').append(
-                    `<option value="${cc.action_taken}">${cc.action_taken}</option>`
-                )
-            })
-
-        })
-
-        $(document).on('change','#actionTaken', function(e) {
-            // alert('status change');
-            // $('#rootCause').val('');
-            // $('#actionTaken').val('');
-            // $('#penagihanShow').val('');
-
-            $('#penagihanShow').find('option').remove();
-            $('#penagihanShow').append(`
-                <option value="" disabled selected>--Pilih Penagihan--</option>`
-            );
-
-            filPenagihan = dtPenagihan.filter(k => k.status_wo === $('#statusWo').val() && k.couse_code === $('#causeCode').val() && k.root_couse === $('#rootCause').val() && k.action_taken === $('#actionTaken').val() );
-
-            $.each(filPenagihan, function(k, cc) {
-                $('#penagihanShow').append(
-                    `<option value="${cc.rootcouse_penagihan}">${cc.rootcouse_penagihan}</option>`
-                )
-            })
-
-        })
-
         //Export Excel
         $(document).on('click', '#exportButton', function(e) {
             e.preventDefault();
-            var url = '{{ route("ftth-mt.export") }}';
+            var url = '{{ route("ftth-ib.export") }}';
             var params = {
                 filtglProgress: $('#filtglProgress').val(),
                 filnoWo: $('#filnoWo').val(),
@@ -1975,7 +1684,7 @@
             let typeSum = "Ftth MT"
 
             $.ajax({
-                url: "{{ route('getSummaryWO') }}",
+                url: "{{ route('getSummaryWOIb') }}",
                 type: "get",
                 data: {
                     filTgl: $('#filtglProgress').val(),
@@ -2007,7 +1716,7 @@
             });
         }
 
-        function get_data_assignTim() {
+        function get_data_assignTim_ib() {
             var data_assignTim = $('#tabelAssignTim').DataTable({
                 // dom: 'Bftip',
                 layout: {
@@ -2033,7 +1742,7 @@
                 processing: true,
                 serverSide: false,
                 ajax: {
-                    url: "{{ route('getDataMTOris') }}",
+                    url: "{{ route('getDataIBOris') }}",
                     type: "get",
                     dataType: "json",
                     data: {
@@ -2050,7 +1759,7 @@
                         filslotTime: $('#filslotTime').val(),
                         filGroup: $('#filGroup').val(),
                         _token: _token
-                    },
+                    }
                 },
                 columns: [{
                         data: 'DT_RowIndex',
@@ -2133,54 +1842,36 @@
             })
         }
 
-        $(document).on('click', '#detail-assign', function (e) {
+        $(document).on('click', '#detail-assign', function(e) {
+            // e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
             let assign_id = $(this).data('id');
 
+
             $.ajax({
-                url: "{{ route('getDetailWOFtthMT') }}",
+                url: "{{ route('getDetailWOFtthIB') }}",
                 type: "get",
                 data: {
                     filAssignId: assign_id,
                     _token: _token
                 },
-                success: function (response) {
+                success: function(response) {
                     console.log('Respons dari API:', response);
-                    console.log('Assign ID:', assign_id);
 
-                    console.log('Respons Material length:', response.ftth_material.count);
                     let dtDis = response.data;
                     let material = response.ftth_material;
                     let callsignTims = response.callsign_tims;
                     let callsignLeads = response.callsign_leads;
 
-                    if(response.ftth_material.length > 0) {
-                        statMaterial = "Ada"
-                    } else {
-                        statMaterial = "Tidak Ada"
-                    };
-                    console.log('statMaterial : ', statMaterial)
 
-                    //Tab Detail WO/////////////////////////////
-                    $('#detId').val(dtDis.id);
-                    $('#noWoShow').val(dtDis.no_wo);
-                    $('#ticketNoShow').val(dtDis.no_ticket);
-                    $('#custIdShow').val(dtDis.cust_id);
-                    $('#custNameShow').val(toTitleCase(dtDis.nama_cust || ""));
-                    $('#woTypeShow').val(toTitleCase(dtDis.wo_type_apk || ""));
-                    $('#jenisWoShow').val(dtDis.type_wo);
-                    $('#WoDateShow').val(dtDis.wo_date_apk);
-                    $('#custAddressShow').val(toTitleCase(dtDis.cust_address1 || ""));
-                    $('#fatCodeShow').val(dtDis.kode_fat);
-                    $('#portFatShow').val(dtDis.port_fat);
-                    $('#cluster').val(dtDis.cluster);
-                    $('#remarkStatus').val(toTitleCase(dtDis.type_maintenance || ""));
-                    $('#branchShow').val(dtDis.branch);
-                    $('#kotamadyaShow').val(dtDis.kotamadya);
-                    $('#tglProgressShow').val(dtDis.tgl_ikr);
-                    $('#sesiShow').val(toTitleCase(dtDis.sesi || ""));
-                    $('#slotTimeLeaderShow').val(dtDis.slot_time_leader);
-                    $('#slotTimeAPKShow').val(dtDis.slot_time_apk);
+
+                    // Populasi dropdown Callsign Tim
+                    let selectTim = $('#callsignTimidShow');
+                    selectTim.empty().append('<option value="">Pilih Callsign Tim</option>');
+                    callsignTims.forEach(item => {
+                        selectTim.append(`<option value="${item.id}">${item.callsign_tim}</option>`);
+                    });
+                    selectTim.val(dtDis.callsign_id);
 
                     // Populasi dropdown Lead Callsign
                     let selectLead = $('#LeadCallsignShow');
@@ -2194,107 +1885,98 @@
                         selectLead.val(dtDis.leadcall_id);
                     }
 
-                    $('#leaderShow').val(dtDis.leader);
-                    // Populasi dropdown Callsign Tim
-                    let selectTim = $('#callsignTimidShow');
-                    selectTim.empty().append('<option value="">Pilih Callsign Tim</option>');
-                    callsignTims.forEach(item => {
-                        selectTim.append(`<option value="${item.id}">${item.callsign_tim}</option>`);
-                    });
-                    selectTim.val(dtDis.callsign_id);
 
-                    $('#teknisi1Show').val(toTitleCase(dtDis.teknisi1 || ""));
-                    $('#teknisi2Show').val(toTitleCase(dtDis.teknisi2 || ""));
-                    $('#teknisi3Show').val(toTitleCase(dtDis.teknisi3 || ""));
-                    $('#teknisi4Show').val(toTitleCase(dtDis.teknisi4 || ""));
-                    //End Tab Detail WO//////////////////////////////
+                    $('#detId').val(dtDis.id)
+                    $('#noWoShow').val(dtDis.no_wo);
+                    $('#ticketNoShow').val(dtDis.no_ticket)
+                    $('#woTypeShow').val(toTitleCase(dtDis.wo_type_apk || ""));
+                    $('#jenisWoShow').val(dtDis.type_wo);
+                    $('#WoDateShow').val(dtDis.wo_date_apk)
+                    $('#custIdShow').val(dtDis.cust_id)
+                    $('#custNameShow').val(toTitleCase(dtDis.nama_cust))
+                    // $('#custPhoneShow').val(dtDis.cust_phone)
 
-                    //Tab Status Progress
+                    // $('#custMobileShow').val(dtDis.cust_mobile);
+                    $('#custAddressShow').val(toTitleCase(dtDis.cust_address1 || "" ));
+                    $('#areaShow').val(toTitleCase(dtDis.cluster || "" ));
+                    // $('#ikrDateApkShow').val(dtDis.ikr_date);
+                    $('#timeApkShow').val(dtDis.time);
+                    $('#fatCodeShow').val(dtDis.kode_fat);
+                    $('#portFatShow').val(dtDis.port_fat);
+                    $('#remarksShow').val(toTitleCase(dtDis.type_maintenance || "" ));
+
+                    $('#branchShow').val(dtDis.branch);
+                    $('#tglProgressShow').val(dtDis.tgl_ikr);
                     $('#tglProgressStatusShow').val(dtDis.tgl_ikr);
+                    $('#tglProgressAPKShow').val(dtDis.tgl_ikr);
+
+                    $('#sesiShow').val(toTitleCase(dtDis.sesi || ""));
+                    $('#slotTimeLeaderShow').val(dtDis.slot_time_leader);
+                    $('#slotTimeAPKShow').val(dtDis.slot_time_apk);
+
                     $('#slotTimeLeaderStatusShow').val(dtDis.slot_time_leader);
+                    $('#slotTimeAPKStatusShow').val(dtDis.slot_time_apk);
+                    $('#weatherShow').val(dtDis.weather);
+
+                    $('#checkinApkShow').val(dtDis.checkin_apk);
+                    $('#checkoutApkShow').val(dtDis.checkout_apk);
+                    $('#jamReschedule').val(dtDis.tgl_jam_reschedule);
+                    $('#tglReschedule').val(dtDis.tgl_reschedule);
+
+                    $('#reasonStatus').val(dtDis.reason_status);
+                    $('#remarksTeknisi').val(dtDis.remarks_teknisi);
+                    $('#alasanCancel').val(dtDis.alasan_cancel);
+                    $('#alasanPending').val(dtDis.alasan_pending);
+
+                    $('#telp_dispatch').val(dtDis.telp_dispatch);
+                    $('#picDispatch').val(toTitleCase(dtDis.nama_dispatch || ""));
+                    $('#validasi_start').val(dtDis.validasi_start);
+                    $('#validasi_end').val(dtDis.validasi_end);
+
+                    $('#respon_konf_cst').val(dtDis.respon_konf_cst);
+                    $('#jawaban_konf_cst').val(dtDis.jawaban_konf_cst);
+                    $('#permintaan_reschedule').val(dtDis.permintaan_reschedule);
+                    $('#start_ikr_wa').val(dtDis.start_ikr_wa);
+                    $('#end_ikr_wa').val(dtDis.end_ikr_wa);
+
+                    $('#jam_teknisi_aktifasi_perangkat').val(dtDis.jam_teknisi_aktifasi_perangkat);
+                    $('#jam_dispatch_respon_aktifasi_perangkat').val(dtDis.jam_dispatch_respon_aktifasi_perangkat);
+                    $('#jam_tek_foto_rmh').val(dtDis.jam_tek_foto_rmh);
+                    $('#jam_dispatch_respon_foto').val(dtDis.jam_dispatch_respon_foto);
+
+                    $('#otp_start').val(dtDis.otp_start);
+                    $('#otp_end').val(dtDis.otp_end);
+
+                    $('#leaderShow').val(dtDis.leader);
+                    $('#teknisi1Show').val(dtDis.teknisi1);
+                    $('#teknisi2Show').val(dtDis.teknisi2);
+                    $('#teknisi3Show').val(dtDis.teknisi3);
+                    $('#teknisi4Show').val(dtDis.teknisi4);
+
                     $('#statusWo').val(toTitleCase(dtDis.status_wo || ""));
-                    $('#statusWo').trigger("change");
+                    $('#statusWoApk').val(toTitleCase(dtDis.status_apk || ""));
+                    $('#isChecked').prop('checked', dtDis.is_checked == 1);
+
 
                     $('#causeCode').val(dtDis.couse_code);
-                    $('#causeCode').trigger("change");
-
                     $('#rootCause').val(dtDis.root_couse);
-                    $('#rootCause').trigger("change");
-
                     $('#actionTaken').val(dtDis.action_taken);
-                    $('#actionTaken').trigger("change");
-
                     $('#penagihanShow').val(dtDis.penagihan);
-                    $('#tglReschedule').val(dtDis.tgl_reschedule);
-                    $('#tglJamReschedule').val(dtDis.tgl_jam_reschedule);
-                    $('#reportTeknisi').val(toTitleCase(dtDis.keterangan || ""));
 
-                    $('#tglProgressAPKShow').val(dtDis.tgl_ikr);
-                    $('#slotTimeAPKStatusShow').val(dtDis.slot_time_apk);
-                    $('#statusWoApk').val(toTitleCase(dtDis.status_apk || ""));
-                    $('#tglCheckinApk').val(dtDis.checkin_apk);
-                    $('#tglCheckoutApk').val(dtDis.checkout_apk);
-                    $('#alasanTidakGantiPrecon').val(toTitleCase(dtDis.alasan_tidak_ganti_precon || ""));
-                    $('#weatherShow').val(dtDis.weather);
-                    $('#alasanPending').val(toTitleCase(dtDis.alasan_pending || ""));
-                    $('#picDispatch').val(toTitleCase(dtDis.pic_dispatch || ""));
-                    $('#alasanCancel').val(toTitleCase(dtDis.alasan_cancel || ""));
-
-                    $('#statusVisit').val(dtDis.visit_novisit);
-                    $('#validasiStart').val(dtDis.validasi_start);
-                    $('#validasiEnd').val(dtDis.validasi_end);
-                    $('#statusMaterial').val(statMaterial);
-                    $('#sitePenagihan').val(dtDis.site_penagihan);
-
-                    $('#isChecked').prop('checked', dtDis.is_checked == 1);
-                    //End Tab Status Progress
-
-                    //Start Tab Material
-                    $('#id_material').val(dtDis.id_material);
-                    $('#merkOntOut').val(material.merk_ont_out);
                     $('#snOntOut').val(material.sn_ont_out);
                     $('#macOntOut').val(material.mac_ont_out);
-                    $('#merkOntIn').val(material.merk_ont_in);
-                    $('#snOntIn').val(material.sn_ont_in);
                     $('#macOntIn').val(material.mac_ont_in);
-
-                    $('#merkStbOut').val(material.merk_stb_out);
-                    $('#snStbOut').val(material.sn_stb_out);
-                    $('#macStbOut').val(material.mac_stb_out);
-                    $('#merkStbIn').val(material.merk_stb_in);
-                    $('#snStbIn').val(material.sn_stb_in);
-                    $('#macStbIn').val(material.mac_stb_in);
-
-                    $('merkRouterOut').val(material.merk_router_out);
-                    $('snRouterOut').val(material.sn_router_out);
-                    $('macRouterOut').val(material.mac_router_out);
-                    $('merkRouterIn').val(material.merk_router_in);
-                    $('snRouterIn').val(material.sn_router_in);
-                    $('macRouterIn').val(material.mac_router_in);
-
-                    $('#remoteOut').val(material.remote_out);
-                    $('#remoteIn').val(material.remote_in);
-                    $('#kabelDw').val(material.dw_out);
+                    $('#merkOntIn').val(material.merk_ont_in);
+                    $('#merkStbOut').val(material.stb_merk_out);
+                    $('#merkStbIn').val(material.stb_merk_in);
                     $('#kabelPrecon').val(material.precon_out);
-                    $('#kabelPreconBad').val(material.bad_precon);
+                    $('#snOntIn').val(material.sn_ont_in);
 
-                    $('#fastConnector').val(material.fastcon_out);
-                    $('#patchCord').val(material.patchcord_out);
-                    $('#terminalBox').val(material.tb_out);
-                    $('#pvcPipe').val(material.pvc_out);
-                    $('#socketPipe').val(material.socket_out);
-                    $('#kabelUtp').val(material.utp_out);
-                    $('#rj45').val(material.rj45_out);
+                    $('#showAssignTim').modal('show');
 
-
-                    $('#tglProgressAPKShow').trigger('change');
-                    $('#showDetail').modal('show');
-                },
-                error: function (xhr, status, error) {
-                    console.error('Gagal memuat data:', error);
                 }
-            });
-        });
+            })
+        })
 
         $(document).on('click', '#detail-material', function(e) {
             // e.preventDefault();
@@ -2303,7 +1985,7 @@
 
 
             $.ajax({
-                url: "{{ route('getMaterialFtthMt') }}",
+                url: "{{ route('getMaterialFtthIb') }}",
                 type: "get",
                 data: {
                     filAssignId: assign_id,
@@ -2311,6 +1993,7 @@
                 },
                 success: function(response) {
                     console.log('Respons dari API:', response);
+
                     // Ambil data material dari response
                     let materials = response.data;
 
@@ -2376,50 +2059,12 @@
 
         });
 
-
-        $('.updateFtthMt').submit(function(e) {
-            e.preventDefault();
-
-            $.ajax({
-                url: "{{ route('updateFtthMt') }}",
-                type: "post",
-                data: $(this).serialize(),
-                success: function(obj) {
-                    if(obj=="success"){
-                        $('#showDetail').modal('hide');
-
-                        Swal.fire({
-                            icon: "success",
-                            title: "Success",
-                            text: "Berhasil update Data Monitoring",
-                            showConfirmButton: true,
-                            // timer: 2000
-                        });
-
-                        $('#tabelAssignTim').DataTable().ajax.reload();
-                    } else {
-                        $('#showDetail').modal('hide');
-
-                        Swal.fire({
-                            icon: "error",
-                            title: "Gagal",
-                            text: obj,
-                            showConfirmButton: true,
-                            // timer: 2000
-                        });
-
-                        $('#tabelAssignTim').DataTable().ajax.reload();
-                    }
-                }
-            });
-        });
-
         $(document).on('click', '#edit-material', function (e) {
             var _token = $('meta[name=csrf-token]').attr('content');
             let assign_id = $(this).data('id');
 
             $.ajax({
-                url: "{{ route('editMaterialFtthMt') }}",
+                url: "{{ route('editMaterialFtthIb') }}",
                 type: "get",
                 data: {
                     filAssignId: assign_id,
@@ -2444,7 +2089,5 @@
                 }
             });
         });
-
-    });
+    })
 </script>
-
