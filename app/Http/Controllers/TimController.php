@@ -18,7 +18,7 @@ class TimController extends Controller
     public function index()
     {
         $area = DB::table('branches')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
-        $leaderName = DB::table('employees')->where('posisi', 'like', 'Leader%')->get();
+        $leaderName = DB::table('employees')->where('posisi', 'like', 'Leader%')->where('status_active','=','Aktif')->get();
         $dtLeadCallsign = DB::table('callsign_leads')->orderBy('lead_callsign')->get();
 
         return view('tim.data_Tim', ['area' => $area, 'namaLeader' => $leaderName, 'dtLeadCallsign' => $dtLeadCallsign]);
@@ -82,7 +82,7 @@ class TimController extends Controller
 
     public function getLeader(Request $request)
     {
-        $leaderName = DB::table('employees')->where('posisi', 'like', 'Leader%')->where('branch_id', '=', $request->filArea)->get();
+        $leaderName = DB::table('employees')->where('posisi', 'like', 'Leader%')->where('branch_id', '=', $request->filArea)->where('status_active','=','Aktif')->get();
 
         return response()->json(['leadName' => $leaderName]);
     }
@@ -218,7 +218,7 @@ class TimController extends Controller
             ->leftJoin('branches as b', 'e.branch_id', '=', 'b.id')
             ->select('c.*', 'e.branch_id', 'b.nama_branch', 'e.posisi')->first();
 
-        $leaderName = DB::table('employees')->select('nik_karyawan', 'nama_karyawan', 'posisi')->where('posisi', 'like', 'Leader%')->where('branch_id', '=', $request->filBranchId)->get();
+        $leaderName = DB::table('employees')->select('nik_karyawan', 'nama_karyawan', 'posisi')->where('posisi', 'like', 'Leader%')->where('branch_id', '=', $request->filBranchId)->where('status_active','=','Aktif')->get();
 
         // $area = Branch::all();
         return response()->json(['callsignLead' => $callsignLead, 'leaderName' => $leaderName, 'area' => $area]);

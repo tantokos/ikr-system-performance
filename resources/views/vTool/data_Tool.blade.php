@@ -1530,6 +1530,7 @@
                                             <tr id="headBranchTool">
                                                 <th class="text-center text-xs font-weight-semibold p-2">#</th>
                                                 <th class="text-xs font-weight-semibold" >Branch</th>
+                                                <th class="text-xs font-weight-semibold" >Dept.</th>
                                                 <th class="text-center text-xs font-weight-semibold" >Jml</th>
                                             </tr>
                                         </thead>
@@ -1715,9 +1716,10 @@
                 toolN = "";
                 toolL = "";
                 for(b=0;b<detailRkp.branchList.length;b++){
-                    branch = branch + `<tr id="${detailRkp.branchList[b].branch_penerima}" onclick="detRekapBranch_click(this.id)"> 
+                    branch = branch + `<tr id="${detailRkp.branchList[b].branch_penerima}|${detailRkp.branchList[b].departement}" onclick="detRekapBranch_click(this.id)"> 
                             <td class="text-center" style="font-weight:500">${b + 1}</td>
                             <td style="font-weight:500;cursor:pointer">${detailRkp.branchList[b].branch_penerima}</td>
+                            <td style="font-weight:500;cursor:pointer">${detailRkp.branchList[b].departement}</td>
                             <td class="text-center" style="font-weight:500">${detailRkp.branchList[b].jml}</td>
                           </tr>`;
                 }
@@ -1800,8 +1802,9 @@
         $('#bodyBranchTool').find('tr').removeClass();
         document.getElementById(branch).setAttribute("class","clickable");
 
-        filToolBranch = listToolN.filter(k => k.branch_penerima === branch);
-        filDataTool = listToolData.filter(k => k.branch_penerima === branch);
+        branchClick = branch.split("|");
+        filToolBranch = listToolN.filter(k => k.branch_penerima === branchClick[0] && k.departement == branchClick[1]);
+        filDataTool = listToolData.filter(k => k.branch_penerima === branchClick[0] && k.departement == branchClick[1]);
 
         $('#bodyToolName').find('tr').remove();
         toolN = "";
@@ -1870,7 +1873,7 @@
 
         branchTool = name.split("|");
 
-        filBranchToolName = listToolData.filter(k => k.branch_penerima === branchTool[0] && k.nama_barang === branchTool[1]);
+        filBranchToolName = listToolData.filter(k => k.branch_penerima === branchTool[0] && k.departement === branchTool[1] && k.nama_barang === branchTool[2]);
 
         $('#tabelDetClickTool').DataTable().clear().destroy();
 
@@ -1929,7 +1932,7 @@
         toolN = "";
         toolL = "";
         for(b=0;b<listBranch.length;b++){
-            branch = branch + `<tr id="${listBranch[b].branch_penerima}" onclick="detRekapBranch_click(this.id)"> 
+            branch = branch + `<tr id="${listBranch[b].branch_penerima}|${listBranch[b].departement}" onclick="detRekapBranch_click(this.id)"> 
                             <td class="text-center" style="font-weight:500">${b + 1}</td>
                             <td style="font-weight:500;cursor:pointer">${listBranch[b].branch_penerima}</td>
                             <td class="text-center" style="font-weight:500">${listBranch[b].jml}</td>

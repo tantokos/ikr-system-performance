@@ -142,6 +142,13 @@ Route::get('/rekapAssignTim', [RekapAssignTimController::class, 'index'])->name(
 Route::get('/getTabelLeadAssignTim', [RekapAssignTimController::class, 'getTabelLeadAssignTim'])->name('getTabelLeadAssignTim')->middleware('auth');
 Route::get('/getTabelRekapAssignTim', [RekapAssignTimController::class, 'getTabelRekapAssignTim'])->name('getTabelRekapAssignTim')->middleware('auth');
 Route::get('/getDetailLeadAssignTim', [RekapAssignTimController::class, 'getDetailLeadAssignTim'])->name('getDetailLeadAssignTim')->middleware('auth');
+Route::get('/getTimEditCallsign', [RekapAssignTimController::class, 'getTimEditCallsign'])->name('getTimEditCallsign')->middleware('auth');
+
+Route::get('/getDetailRekapAssignTim', [RekapAssignTimController::class, 'getDetailRekapAssignTim'])->name('getDetailRekapAssignTim')->middleware('auth');
+Route::get('/getPopUpRekapAssignTim', [RekapAssignTimController::class, 'getPopUpRekapAssignTim'])->name('getPopUpRekapAssignTim')->middleware('auth');
+Route::get('/getPopUpRekapJmlAssignTeknisi', [RekapAssignTimController::class, 'getPopUpRekapJmlAssignTeknisi'])->name('getPopUpRekapJmlAssignTeknisi')->middleware('auth');
+
+Route::get('/updateRekapCallTim', [RekapAssignTimController::class, 'updateRekapCallTim'])->name('updateRekapCallTim')->middleware('auth');
 
 Route::get('/assignTim', [AssignTimController::class, 'index'])->name('assignTim')->middleware('auth');
 Route::get('/getTabelAssignTim', [AssignTimController::class, 'getTabelAssignTim'])->name('getTabelAssignTim')->middleware('auth');
@@ -157,6 +164,8 @@ Route::post('/importProsesDataWo', [Import_DataWoController::class, 'importProse
 Route::get('/getdataImportWo', [Import_DataWoController::class, 'getdataImportWo'])->name('getdataImportWo')->middleware('auth');
 Route::get('/getDetailImport', [Import_DataWoController::class, 'getDetailImport'])->name('getDetailImport')->middleware('auth');
 Route::get('/getMaterial', [Import_DataWoController::class, 'getMaterial'])->name('getMaterial')->middleware('auth');
+
+Route::get('/getDoubleCallsign', [Import_DataWoController::class, 'getDoubleCallsign'])->name('getDoubleCallsign')->middleware('auth');
 
 Route::get('/updateImportWo', [Import_DataWoController::class, 'updateImportWo'])->name('updateImportWo')->middleware('auth');
 Route::post('/simpanImportWo', [Import_DataWoController::class, 'simpanImportWo'])->name('simpanImportWo')->middleware('auth');
@@ -220,6 +229,7 @@ Route::get('/getDetailWOFtthIB', [MonitFtthIB_Controller::class, 'getDetailWOFtt
 Route::put('/updateFtthIb', [MonitFtthIB_Controller::class, 'updateFtthIb'])->name('updateFtthIb')->middleware('auth');
 
 Route::get('/getSummaryWO', [MonitFtthMT_Controller::class, 'getSummaryWO'])->name('getSummaryWO')->middleware('auth');
+Route::get('/getSummaryWOIB', [MonitFtthIB_Controller::class, 'getSummaryWOIB'])->name('getSummaryWOIB')->middleware('auth');
 
 Route::get('/getMaterialFtthMt', [MonitFtthMT_Controller::class,'getMaterialFtthMt'])->name('getMaterialFtthMt')->middleware('auth');
 // Route::get('/getTabelAssignMT', [MonitFTTH_MTController::class, 'getTabelAssignMT'])->name('getTabelAssignMT')->middleware('auth');

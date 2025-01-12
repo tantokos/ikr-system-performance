@@ -34,12 +34,41 @@ class MonitFtthIB_Controller extends Controller
         $cluster = DB::table('fats')->select('cluster')
                 ->where('cluster', '<>', "")->distinct()->orderBy('cluster')->get();
 
+        $penagihanIB = DB::table('root_couse_penagihan')->select('status','penagihan')
+                    ->where('type_wo','=','IB FTTH')->where('penagihan','<>','total_done')->get();
+
         return view('monitoringWo.monit_ftth_ib', compact(
             'branches',
             'leader',
             'callTim',
-            'cluster'
+            'cluster',
+            'penagihanIB'
         ));
+    }
+
+    public function getSummaryWOIB(Request $request) 
+    {
+        $datas = DB::table('data_ftth_ib_oris');
+
+        if($request->filTgl != null) {
+            $dateRange = explode("-", $request->filTgl);
+            $startDt = \Carbon\Carbon::parse($dateRange[0]);
+            $endDt = \Carbon\Carbon::parse($dateRange[1]);
+
+            $datas = $datas->whereBetween('tgl_ikr',[$startDt, $endDt]);
+        }
+
+        $datas = $datas->select(
+                    DB::raw('
+                    count(*) as total,
+                    count(if((status_wo="Done") || (status_wo="Checkout"),1,null)) as done,
+                    count(if(status_wo="Pending",1,null)) as pending,
+                    count(if(status_wo="Cancel",1,null)) as cancel,
+                    count(if(status_wo="Checkin",1,null)) as checkin,
+                    count(if(status_wo="Requested",1,null)) as requested ')
+                )->get();
+
+        return response()->json($datas);
     }
 
     public function getDataIBOris(Request $request)

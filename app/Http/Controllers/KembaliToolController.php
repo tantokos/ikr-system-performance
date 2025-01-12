@@ -139,9 +139,9 @@ class KembaliToolController extends Controller
 
             $toolDis = ToolIkr::find($brg_id);
             $toolDis->update([
-                'status_distribusi' => "Not Distributed",
+                'status_distribusi' => "Stock",
                 'kondisi' => $request['kondisi'],
-                'posisi' => "Supervisor"
+                'posisi' => "Stock Branch"
             ]);
         }
 

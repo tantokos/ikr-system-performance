@@ -13,6 +13,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 
+use function PHPUnit\Framework\isNull;
+
 class JadwalTim_controller extends Controller
 {
 
@@ -22,6 +24,7 @@ class JadwalTim_controller extends Controller
 
         $branches = DB::table('branches')->select('id','nama_branch')->whereNotIn('nama_branch',['Apartemen', 'Underground'])->get();
         $kry = DB::table('employees as e')
+            ->where('status_active','=','Aktif')
             ->leftJoin('branches as b','e.branch_id','=','b.id')
             ->select('e.nik_karyawan', 'e.nama_karyawan', 'b.nama_branch')->orderBy('e.nama_karyawan')->get();
 
@@ -61,6 +64,7 @@ class JadwalTim_controller extends Controller
         // dd($request->all());
         // dd($request->filStDate, $request->filEndDate);        
         
+
         $area = explode("|",$request->filarea);
         $areaId = $area[0];
         $areaNm = $area[1];
@@ -165,8 +169,7 @@ class JadwalTim_controller extends Controller
             $datas = $datas->where('branch', $areaNm);
         }
 
-        $datas = $datas->get();
-        
+        $datas = $datas->get();        
 
         if ($request->ajax()) {
 
@@ -430,6 +433,10 @@ class JadwalTim_controller extends Controller
         $loginId = Auth::user()->id;
         $login = Auth::user()->name;
         
+        $brnch = explode("|", $request->branch);
+        $branchid = $brnch[0];
+        $branch = $brnch[1];
+
         $dateRange = explode("-", $request->tglProgress);
         $thn = $dateRange[0];
         $bln = $dateRange[1];
@@ -457,7 +464,7 @@ class JadwalTim_controller extends Controller
         try {
 
             if (is_null($dt)) {
-                return redirect()->route('jadwalTim')->with(['error' => 'Gagal Simpan Data. Karyawan tidak ada data karyawan']);
+                return redirect()->route('jadwalTim')->with(['error' => 'Gagal Simpan Data. Karyawan tidak ada di data karyawan']);
             } else {
                 $dt->$day = $request->statusKehadiran;
                 $updateDt = $dt->update();
@@ -506,6 +513,27 @@ class JadwalTim_controller extends Controller
                             $request->file('fotoPengajuanGD')->move(public_path('storage/image-jadwal'), $file);
                         }
                     }
+                }
+
+                $dtAssign = DB::table('v_rekap_assign')
+                        ->where('tgl_ikr', $request->tglProgress)->where('tek_nik', $request->nikKaryawan)
+                        ->select('callsign', 'posisi_nik','posisi_tek')
+                        ->first();
+                // dd(is_null($dtAssign));
+                
+                if(!is_null($dtAssign) && ($request->statusKehadiran == "OFF" || $request->statusKehadiran == "Cuti" || $request->statusKehadiran == "Sakit" || $request->statusKehadiran == "Absen"))
+                {
+                    $pos_nik = $dtAssign->posisi_nik;
+                    $pos_tek = $dtAssign->posisi_tek;
+
+                    $dtAssignTim = DB::table('data_assign_tims')
+                            ->where('tgl_ikr', $request->tglProgress)
+                            ->where('branch', $dt->branch)
+                            ->where('callsign', $dtAssign->callsign)
+                            ->update([
+                                $pos_nik => null,
+                                $pos_tek => null,
+                            ]);                
                 }
 
                 DB::commit();
@@ -558,7 +586,11 @@ class JadwalTim_controller extends Controller
         $kryNm = $detail[6];
         $dept=$detail[8];
 
-        $tglStatus = implode("-",[$thn, $bln, $request->tglClick]);
+        if ($request->tglClick != "total") {
+            $tglStat = implode("-",[$thn, $bln, $request->tglClick]);
+            $tglStatus = \Carbon\Carbon::parse($tglStat)->format('Y-m-d');
+        }       
+
 
         if($day == "ttotal"){
             $datas= DB::table('v_rekap_jadwal_data as vd')
