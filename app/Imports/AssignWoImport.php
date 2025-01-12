@@ -63,8 +63,27 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             }
         }
 
+        $woDate = Str::trim($row['wo_date']);
+        if (is_numeric($woDate)) {
+            $formatWoDate = Date::excelToDateTimeObject($woDate)->format("d-m-Y H:i");
+        } else {
+            $parsedDate = \DateTime::createFromFormat('d/m/Y H:i', $woDate)
+                ?: \DateTime::createFromFormat('m/d/Y H:i', $woDate)
+                ?: \DateTime::createFromFormat('d-m-Y H:i', $woDate)
+                ?: \DateTime::createFromFormat('d/m/Y H:i', $woDate)
+                ?: \DateTime::createFromFormat('Y/m/d H:i', $woDate)
+                ?: \DateTime::createFromFormat('Y-m-d H:i', $woDate);
 
-        $tm = intval($row['time']);        
+            if ($parsedDate) {
+                $formatWoDate = $parsedDate->format('d-m-Y H:i');
+            } else {
+                $formatWoDate = $woDate;
+                // throw new \Exception("Format tanggal IKR tidak valid: " . $ikrDate);
+            }
+        }
+
+
+        $tm = intval($row['time']);
 
         return new ImportAssignTim([
 
@@ -73,11 +92,11 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             // 'tgl_ikr' => ,
             'no_wo_apk' => Str::trim($row['wo_no']),
             'no_ticket_apk' => Str::trim($row['ticket_no']),
-            'wo_type_apk' => Str::title($row['wo_type']),
+            'wo_type_apk' => Str::title(str_replace("_"," ",$row['wo_type'])),
 
-            'type_wo' => $this->get_data_id("type_wo", Str::trim($row['wo_type'])), // Str::upper($row['wo_type'])=="MAINTENANCE" || Str::upper($row['wo_type'])=="REMOVE DEVICE" || Str::upper($row['wo_type'])=="ADD DEVICE" || Str::upper($row['wo_type'])=="ADD / REMOVE DEVICE" || Str::upper($row['wo_type'])=="PENDING DEVICE" ? "FTTH Maintenance" : (Str::upper($row['wo_type'])=="NEW INSTALLATION" || Str::upper($row['wo_type'])=="RELOCATION" ? "FTTH New Installation" : (Str::upper($row['wo_type'])=="DISMANTLE" ? "FTTH Dismantle" : "-")),
+            'type_wo' => $this->get_data_id("type_wo", Str::trim(str_replace('_',' ', $row['wo_type']))), // Str::upper($row['wo_type'])=="MAINTENANCE" || Str::upper($row['wo_type'])=="REMOVE DEVICE" || Str::upper($row['wo_type'])=="ADD DEVICE" || Str::upper($row['wo_type'])=="ADD / REMOVE DEVICE" || Str::upper($row['wo_type'])=="PENDING DEVICE" ? "FTTH Maintenance" : (Str::upper($row['wo_type'])=="NEW INSTALLATION" || Str::upper($row['wo_type'])=="RELOCATION" ? "FTTH New Installation" : (Str::upper($row['wo_type'])=="DISMANTLE" ? "FTTH Dismantle" : "-")),
 
-            'wo_date_apk' => Str::trim($row['wo_date']),
+            'wo_date_apk' => $formatWoDate, // Str::trim($row['wo_date']),
             'cust_id_apk' => Str::trim($row['cust_id']),
             'name_cust_apk' => Str::title($row['name']),
             'cust_phone_apk' => Str::trim($row['cust_phone']),
@@ -233,7 +252,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     break;
 
                 case "tek1_nik":
-                    $tek1_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->first();
+                    $tek1_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
                     // dd(is_null($tek1_nik));
                     $tek1Nik = is_null($tek1_nik) ? null : $tek1_nik->nik_karyawan;
                     return $tek1Nik;
@@ -241,19 +260,19 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     break;
 
                 case "tek2_nik":
-                    $tek2_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->first();
+                    $tek2_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
                     $tek2Nik = is_null($tek2_nik) ? null : $tek2_nik->nik_karyawan;
                     return $tek2Nik;
                     break;
 
                 case "tek3_nik":
-                    $tek3_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->first();
+                    $tek3_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
                     $tek3Nik = is_null($tek3_nik) ? null : $tek3_nik->nik_karyawan;
                     return $tek3Nik;
                     break;
 
                 case "tek4_nik":
-                    $tek4_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->first();
+                    $tek4_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
                     $tek4Nik = is_null($tek4_nik) ? null : $tek4_nik->nik_karyawan;
                     return $tek4Nik;
                     break;

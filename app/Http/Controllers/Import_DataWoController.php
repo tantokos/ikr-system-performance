@@ -137,6 +137,22 @@ class Import_DataWoController extends Controller
         return back()->with(['error' => 'Tidak ada file yang diunggah.']);
     }
 
+    public function getDoubleCallsign(Request $request)
+    {
+        $dtAssign = collect(DB::table('data_assign_tims')
+                ->select('callsign','tek1_nik', 'teknisi1','tek2_nik', 'teknisi2','tek3_nik', 'teknisi3','tek4_nik', 'teknisi4')
+                ->where('tgl_ikr','2025-01-06')->get());
+
+        $dtImport = collect(DB::table('import_assign_tims')
+                ->select('callsign','tek1_nik', 'teknisi1','tek2_nik', 'teknisi2','tek3_nik', 'teknisi3','tek4_nik', 'teknisi4')
+                ->where('tgl_ikr','2025-01-06')->get());
+
+        $diff = $dtImport->diff($dtAssign);
+        dd($diff);
+        $differenceArray = array_diff($dtAssign, $dtImport);
+
+        return response()->json($dtAssign);
+    }
 
     public function getDataImportWo(Request $request)
     {
@@ -170,6 +186,7 @@ class Import_DataWoController extends Controller
 
         $tim = Employee::whereIn('posisi', ['Installer', 'Maintenance','Teknisi'])
             ->select('nik_karyawan', 'nama_karyawan')
+            ->where('status_active','=','Aktif')
             ->orderBy('nama_karyawan')
             ->get();
 

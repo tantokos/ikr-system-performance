@@ -36,6 +36,7 @@ class AssignTimController extends Controller
 
         $tim = Employee::whereIn('posisi', ['Installer', 'Maintenance', 'Teknisi'])
             ->select('nik_karyawan', 'nama_karyawan')
+            ->where('status_active','=','Aktif')
             ->orderBy('nama_karyawan')
             ->get();
 
@@ -146,6 +147,7 @@ class AssignTimController extends Controller
 
         $tim = Employee::whereIn('posisi', ['Installer', 'Maintenance', 'Teknisi'])
             ->select('nik_karyawan', 'nama_karyawan')
+            ->where('status_active','=','Aktif')
             ->orderBy('nama_karyawan')
             ->get();
 
@@ -183,6 +185,7 @@ class AssignTimController extends Controller
 
         $tim = Employee::whereIn('posisi', ['Installer', 'Maintenance', 'Teknisi'])
             ->select('nik_karyawan', 'nama_karyawan')
+            ->where('status_active','=','Aktif')
             ->orderBy('nama_karyawan')
             ->get();
 

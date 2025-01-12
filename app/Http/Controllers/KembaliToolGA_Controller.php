@@ -66,7 +66,7 @@ class KembaliToolGA_Controller extends Controller
     {
 
         $dataDis = DB::table('tool_ikrs')
-            ->where('status_distribusi', '=', 'Not Distributed')
+            ->where('status_distribusi', '=', 'Stock')
             ->whereNotIn('posisi', ['Dikembalikan ke GA'])
             ->orderBy('nama_barang')
             ->get();
@@ -117,7 +117,7 @@ class KembaliToolGA_Controller extends Controller
 
             $toolDis = ToolIkr::find($brg_id);
             $toolDis->update([
-                'status_distribusi' => "Not Distributed",
+                'status_distribusi' => "Return GA",
                 'kondisi' => $request['kondisi'],
                 'posisi' => "Dikembalikan ke GA"
             ]);

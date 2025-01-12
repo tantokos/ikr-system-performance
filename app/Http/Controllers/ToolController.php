@@ -85,6 +85,7 @@ class ToolController extends Controller
                 ->select(
                         DB::raw('(case posisi 
                                     when "Supervisor" then posisi
+                                    when "Stock Branch" then posisi
                                     when "Dikembalikan ke GA" then posisi
                                     when "Disposal" then posisi
                                     else "Tim"
@@ -104,7 +105,7 @@ class ToolController extends Controller
 
         if($request->filPosisi != "ALL"){
             if($request->filPosisi == "Tim") {
-                $RekapTool = $RekapTool->whereNotIn('posisi',["Supervisor","Dikembalikan ke GA","Disposal"]);
+                $RekapTool = $RekapTool->whereNotIn('posisi',["Stock Branch","Dikembalikan ke GA","Disposal"]);
             } else {
                 $RekapTool = $RekapTool->where('posisi',$request->filPosisi);
             }
@@ -145,7 +146,7 @@ class ToolController extends Controller
 
         if($request->filPosisi != "ALL"){
             if($request->filPosisi == "Tim") {
-                $datas = $datas->whereNotIn('posisi',["Supervisor","Dikembalikan ke GA","Disposal"]);
+                $datas = $datas->whereNotIn('posisi',["Stock Branch","Dikembalikan ke GA","Disposal"]);
             } else {
                 $datas = $datas->where('posisi',$request->filPosisi);
             }
@@ -273,10 +274,10 @@ class ToolController extends Controller
         }
         
         if($clickPosisi=="Tim"){
-            $branchList = $branchList->whereNotIn('posisi',['Supervisor','Dikembalikan ke GA','Disposal']);
-            $RekapTool = $RekapTool->whereNotIn('posisi',['Supervisor','Dikembalikan ke GA','Disposal']);
-            $RekapToolBranch = $RekapToolBranch->whereNotIn('posisi',['Supervisor','Dikembalikan ke GA','Disposal']);
-            $listTool = $listTool->whereNotIn('posisi',['Supervisor','Dikembalikan ke GA','Disposal']);
+            $branchList = $branchList->whereNotIn('posisi',['Stock Branch','Dikembalikan ke GA','Disposal']);
+            $RekapTool = $RekapTool->whereNotIn('posisi',['Stock Branch','Dikembalikan ke GA','Disposal']);
+            $RekapToolBranch = $RekapToolBranch->whereNotIn('posisi',['Stock Branch','Dikembalikan ke GA','Disposal']);
+            $listTool = $listTool->whereNotIn('posisi',['Stock Branch','Dikembalikan ke GA','Disposal']);
         } else {
             $RekapTool = $RekapTool->where('posisi', $clickPosisi);
             $RekapToolBranch = $RekapToolBranch->where('posisi', $clickPosisi);
@@ -407,7 +408,8 @@ class ToolController extends Controller
                 'departement' => $request['departemen'],
                 'approve1' => 'Submited',
                 'approve2' => 'Submited',
-                'posisi' => "Supervisor",
+                'status_distribusi' => 'Stock',
+                'posisi' => "Stock Branch",
                 'login' => $login,
             ]);
 
