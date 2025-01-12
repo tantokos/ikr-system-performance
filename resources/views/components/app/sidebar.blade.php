@@ -408,6 +408,13 @@
             </li>
 
             <li class="nav-item border-start my-0 pt-2">
+                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('laporanTool') ? 'active' : '' }}"
+                    href="{{ route('laporanTool') }}">
+                    <span class="nav-link-text ms-1">Laporan Kondisi Tools</span>
+                </a>
+            </li>
+
+            <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('dataKembaliTool') ? 'active' : '' }}"
                     href="{{ route('dataKembaliTool') }}">
                     <span class="nav-link-text ms-1">Pengembalian Tools</span>
@@ -420,14 +427,7 @@
                     <span class="nav-link-text ms-1">Pengembalian Tools GA</span>
                 </a>
             </li>
-
-            <li class="nav-item border-start my-0 pt-2">
-                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('laporanTool') ? 'active' : '' }}"
-                    href="{{ route('laporanTool') }}">
-                    <span class="nav-link-text ms-1">Laporan Kondisi Tools</span>
-                </a>
-            </li>
-
+            
             <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('disposalTool') ? 'active' : '' }}"
                     href="{{ route('disposalTool') }}">

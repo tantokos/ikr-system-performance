@@ -1110,7 +1110,7 @@
                 bFilter: true,
                 destroy: true,
                 processing: true,
-                serverSide: true, // Ubah ke serverSide jika memang menggunakan serverside
+                serverSide: false, // Ubah ke serverSide jika memang menggunakan serverside
                 ajax: {
                     url: "{{ route('getTabelAssignTim') }}",
                     type: "get",

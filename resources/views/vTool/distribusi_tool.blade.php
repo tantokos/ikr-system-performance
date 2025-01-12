@@ -143,7 +143,7 @@
                                         <span class="text-xs">Callsign Tim</span>
                                         <select class="form-control form-control-sm" type="text"
                                             id="callsignTimid" name="callsignTimid" style="border-color:#9ca0a7;"
-                                            placeholder="Isi Callsign Tim">
+                                            placeholder="Isi Callsign Tim" required>
                                             <option value="">Pilih Callsign Tim</option>
                                         </select>
                                         <input type="hidden" id="callsignTim" name="callsignTim">
@@ -997,6 +997,17 @@
                     $('#posisiTim').val(dtLead.callLead.posisi)
 
                     $('#callsignTimid').find('option').remove();
+
+                    $('#callsignTim').val('')
+                    $('#teknisi1Nk').val('');
+                    $('#teknisi1').val('');
+                    $('#teknisi2Nk').val('');
+                    $('#teknisi2').val('');
+                    $('#teknisi3Nk').val('');
+                    $('#teknisi3').val('');
+                    $('#teknisi4Nk').val('');
+                    $('#teknisi4').val('');
+
                     $('#callsignTimid').append(
                         `<option value="">Pilih Callsign Tim</option>`);
 

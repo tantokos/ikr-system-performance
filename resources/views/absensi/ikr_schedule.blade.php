@@ -205,7 +205,7 @@
 
                         <style>
                             .fw-500 { font-weight: 500; };
-                            .red ( backgound-color: "red");
+                            .red ( backgound-color: "red" !important);
                         </style>
 
                         <div class="tab-content">
@@ -213,13 +213,13 @@
 
                                 <div class="card-body px-2 py-2">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered align-items-center mb-0" id="tabelRekapJadwalTeknisi"
+                                        <table class="table table-striped table-bordered align-items-center mb-0" id="tabelRekapJadwalTeknisi"
                                             style="font-size: 12px; border-color:#9ca0a7;">
                                             <thead class="bg-gray-200">
                                                 <tr>
                                                     <th class="text-secondary text-xs">#</th>
                                                     <th class="text-secondary text-xs">Area</th>
-                                                    <th class="text-secondary text-xs">Departement</th>
+                                                    <th class="text-secondary text-xs">Dept</th>
                                                     <th class="text-center text-secondary text-xs">Bulan</th>
                                                     <th class="text-center text-secondary text-xs">Tahun</th>
                                                     <th class="text-center text-secondary text-xs">Status</th>
@@ -294,7 +294,7 @@
                                                 <tr>
                                                     <th class="text-secondary text-xs font-weight-semibold">#</th>
                                                     <th class="text-secondary text-xs font-weight-semibold ps-2">Area</th>
-                                                    <th class="text-secondary text-xs">Departement</th>
+                                                    <th class="text-secondary text-xs">Dept</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold ">Bulan</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold">Tahun</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold">Status</th>
@@ -369,7 +369,7 @@
                                                 <tr>
                                                     <th class="text-secondary text-xs font-weight-semibold">#</th>
                                                     <th class="text-secondary text-xs font-weight-semibold ps-2">Area</th>
-                                                    <th class="text-secondary text-xs">Departement</th>
+                                                    <th class="text-secondary text-xs">Dept</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold ">Bulan</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold">Tahun</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold">Status</th>
@@ -444,7 +444,7 @@
                                                 <tr>
                                                     <th class="text-secondary text-xs font-weight-semibold">#</th>
                                                     <th class="text-secondary text-xs font-weight-semibold ps-2">Area</th>
-                                                    <th class="text-secondary text-xs">Departement</th>
+                                                    <th class="text-secondary text-xs">Dept</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold ">Bulan</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold">Tahun</th>
                                                     <th class="text-center text-secondary text-xs font-weight-semibold">Status</th>
@@ -563,7 +563,7 @@
                                         <tr id="headTool">
                                             <th class="text-xs font-weight-semibold">#</th>
                                             <th class="text-center text-xs font-weight-semibold">Area</th>
-                                            <th class="text-secondary text-xs">Departement</th>
+                                            <th class="text-secondary text-xs">Dept</th>
                                             <th class="text-center text-xs font-weight-semibold">NIK Karyawan</th>
                                             <th class="text-center text-xs font-weight-semibold">Nama Karyawan</th>
                                             <th class="text-center text-xs font-weight-semibold">Bulan</th>
@@ -1167,7 +1167,7 @@
                     {data: 't31', name:'31'},
                 ],
                 columnDefs: [
-                    { targets: [6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36], 
+                    { targets: [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37], 
                             render: function(data, type, row, col, index) {
                                 var color = 'black';
 
@@ -1183,8 +1183,8 @@
                                 }
                                 return '<span style="cursor:pointer; color:' + color + '">' + data + '</span>';
                             },
-                            'createdCell': function(td, cellData, rowData, row, col) {
-                                // this will give each cell an ID
+                            'createdCell': function(td, cellData, rowData, row, col, index) {
+                                // this will give each cell an ID                                
                                 $(td).attr('data-id', 'jdwlId-' + rowData.dtid +'|'+ cellData +'|'+ rowData.branch +'|'+ rowData.nik_karyawan +'|'+ rowData.bulan +'|'+ rowData.tahun);
                             }
                     },
@@ -1218,7 +1218,9 @@
             e.preventDefault();
             klik = $(this).data('id').split('|');
             tbl = klik[0];
-            isi = klik[7];            
+            isi = klik[7];
+
+            console.log('klik :' , klik);
 
             if(tbl == "Teknisi" && isi != "0") {
                 columns = tableTk.settings().init().columns;
@@ -1322,7 +1324,7 @@
                 fixedColumns: true,
 
                 fixedColumns: {
-                    leftColumns: 5,
+                    leftColumns: 6,
                     rightColumns: 1
                 },
                 deferRender: true,
@@ -1376,7 +1378,7 @@
                     
                 ],
                 columnDefs: [
-                    { targets: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36], 
+                    { targets: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37], 
                             render: function(data, type, row, col, index) {
                                 var color = 'black';
                                 var v;
@@ -1416,7 +1418,7 @@
                 fixedColumns: true,
 
                 fixedColumns: {
-                    leftColumns: 5,
+                    leftColumns: 6,
                     rightColumns: 1
                 },
                 deferRender: true,
@@ -1470,7 +1472,7 @@
                     
                 ],
                 columnDefs: [
-                    { targets: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36], 
+                    { targets: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37], 
                             render: function(data, type, row, col, index) {
                                 var color = 'black';
                                 var v;
@@ -1510,7 +1512,7 @@
                 fixedColumns: true,
 
                 fixedColumns: {
-                    leftColumns: 5,
+                    leftColumns: 6,
                     rightColumns: 1
                 },
                 deferRender: true,
@@ -1564,7 +1566,7 @@
                     
                 ],
                 columnDefs: [
-                    { targets: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36], 
+                    { targets: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37], 
                             render: function(data, type, row, col, index) {
                                 var color = 'black';
                                 var v;
@@ -1605,7 +1607,7 @@
                 fixedColumns: true,
 
                 fixedColumns: {
-                    leftColumns: 5,
+                    leftColumns: 6,
                     rightColumns: 1
                 },
                 deferRender: true,
@@ -1659,7 +1661,7 @@
                     
                 ],
                 columnDefs: [
-                    { targets: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36], 
+                    { targets: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37], 
                             render: function(data, type, row, col, index) {
                                 var color = 'black';
                                 var v;

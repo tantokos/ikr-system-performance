@@ -221,6 +221,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="w-100 text-center">
+
                                         <p class="text-secondary mb-1" style="font-size: 0.82rem;">Checkout/Done</p>
                                         <h4 class="mb-2 font-weight-bold" id="totDone"></h4>
                                     </div>
@@ -342,36 +343,36 @@
                         <div class="card-body px-2 py-2">
                             <div class="table-responsive p-0">
                                 <table class="table table-striped table-bordered align-items-center mb-0"
-                                    id="tabelAssignTim" style="font-size: 12px">
+                                    id="tabelAssignTim" style="font-size: 12px; border-color:#9ca0a7;">
                                     <thead class="bg-gray-100">
                                         <tr id="headTool">
-                                            <th class="text-xs font-weight-semibold">#</th>
-                                            <th class="text-center text-xs font-weight-semibold">Tanggal</th>
-                                            <th class="text-center text-xs font-weight-semibold">No WO</th>
-                                            <th class="text-center text-xs font-weight-semibold">WO Date</th>
-                                            <th class="text-center text-xs font-weight-semibold">Cust Id</th>
-                                            <th class="text-center text-xs font-weight-semibold">Cust Name</th>
+                                            <th class="text-xs">#</th>
+                                            <th class="text-center text-xs">Tanggal</th>
+                                            <th class="text-center text-xs">No WO</th>
+                                            <th class="text-center text-xs">WO Date</th>
+                                            <th class="text-center text-xs">Cust Id</th>
+                                            <th class="text-center text-xs">Cust Name</th>
                                             {{-- <th class="text-center text-xs font-weight-semibold">Cust Address</th> --}}
-                                            <th class="text-center text-xs font-weight-semibold">Type WO</th>
-                                            <th class="text-center text-xs font-weight-semibold">Fat Code</th>
-                                            <th class="text-center text-xs font-weight-semibold">Cluster</th>
-                                            <th class="text-center text-xs font-weight-semibold">Area</th>
-                                            <th class="text-center text-xs font-weight-semibold">Slot Time</th>
+                                            <th class="text-center text-xs">Type WO</th>
+                                            <th class="text-center text-xs">Fat Code</th>
+                                            <th class="text-center text-xs">Cluster</th>
+                                            <th class="text-center text-xs">Area</th>
+                                            <th class="text-center text-xs">Slot Time</th>
                                             {{-- <th class="text-center text-xs font-weight-semibold">Lead Callsign</th> --}}
-                                            <th class="text-center text-xs font-weight-semibold">Callsign Tim</th>
-                                            <th class="text-center text-xs font-weight-semibold">Leader</th>
-                                            <th class="text-center text-xs font-weight-semibold">Teknisi 1</th>
-                                            <th class="text-center text-xs font-weight-semibold">Teknisi 2</th>
-                                            <th class="text-center text-xs font-weight-semibold">Teknisi 3</th>
+                                            <th class="text-center text-xs">Callsign Tim</th>
+                                            <th class="text-center text-xs">Leader</th>
+                                            <th class="text-center text-xs">Teknisi 1</th>
+                                            <th class="text-center text-xs">Teknisi 2</th>
+                                            <th class="text-center text-xs">Teknisi 3</th>
                                             {{-- <th class="text-center text-xs font-weight-semibold">Teknisi 4</th> --}}
-                                            <th class="text-center text-xs font-weight-semibold">Status WO</th>
-                                            <th class="text-center text-xs font-weight-semibold">Status Check</th>
+                                            <th class="text-center text-xs">Status WO</th>
+                                            <th class="text-center text-xs">Status Check</th>
 
-                                            <th class="text-center text-xs font-weight-semibold">#</th>
+                                            <th class="text-center text-xs">#</th>
 
                                         </tr>
                                     </thead>
-                                    <tbody id="bodyTool">
+                                    <tbody id="bodyTool" style="font-weight: bold">
 
                                     </tbody>
                                 </table>
@@ -837,9 +838,6 @@
                                                                 <option value="20:00">20:00</option>
                                                             </select>
                                                         </div>
-
-
-
                                                     </div>
                                                 </div>
 
@@ -857,7 +855,9 @@
                                                     </div>
                                                     <div class="col form-group mb-1">
                                                         <span class="text-xs">Reason Status</span>
-                                                        <input type="text" class="form-control form-control-sm" id="reasonStatus" name="reasonStatus">
+                                                        <select type="text" class="form-control form-control-sm" id="reasonStatus" name="reasonStatus" style="border-color:#9ca0a7;">
+                                                            <option value=""></option>
+                                                        </select>
                                                     </div>
                                                 </div>
 
@@ -876,21 +876,28 @@
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Penagihan</span>
-                                                            <select class="form-control form-control-sm"
+                                                            <input class="form-control form-control-sm"
                                                                 type="text" id="penagihanShow"
-                                                                name="penagihanShow" style="border-color:#9ca0a7;">
-                                                                <option value="" disabled selected>--Pilih Penagihan--</option>
-                                                                <option value="Migrasi Dw To Precon">Migrasi Dw To Precon</option>
-                                                                <option value="Replace Precon To Precon">Replace Precon To Precon</option>
-                                                                <option value="No Customer">No Customer</option>
-                                                                <option value="Connector">Connector</option>
-                                                                <option value="Cancel by Dispatcher">Cancel by Dispatcher</option>
-                                                                <option value="Reconfig">Reconfig</option>
-                                                                <option value="ONT">ONT</option>
-                                                                <option value="Bad Cable Splice">Bad Cable Splice</option>
-                                                                <option value="Reschedule">Reschedule</option>
-                                                                <option value="STB">STB</option>
-                                                            </select>
+                                                                name="penagihanShow" style="border-color:#9ca0a7;" readonly>
+                                                                {{-- <option value="New Installation" selected>New Installation</option> --}}
+                                                            {{-- </select> --}}
+                                                        </div>
+                                                    </div>
+                                                </div>                                                
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Alasan Cancel</span>
+                                                            <textarea class="form-control form-control-sm" type="text"
+                                                                id="alasanCancel" name="alasanCancel"
+                                                                style="border-color:#9ca0a7;"></textarea>
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Alasan Pending</span>
+                                                            <textarea class="form-control form-control-sm" type="text"
+                                                                id="alasanPending" name="alasanPending"
+                                                                style="border-color:#9ca0a7;"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -909,7 +916,7 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="jamReschedule"
                                                                 name="jamReschedule" style="border-color:#9ca0a7;">
-                                                                <option value="" disabled selected>--Pilih Jam--</option>
+                                                                <option value="" selected>--Pilih Jam--</option>
                                                                 <option value="09:00">09:00</option>
                                                                 <option value="09:30">09:30</option>
                                                                 <option value="10:00">10:00</option>
@@ -939,68 +946,49 @@
                                                 </div>
 
                                                 <div class="form-group mb-1">
+                                                    <span class="text-xs">Permintaan Reschedule</span>
+                                                    <select class="form-control form-control-sm" type="text"
+                                                        id="permintaan_reschedule" name="permintaan_reschedule"
+                                                        style="border-color:#9ca0a7;">
+                                                        <option value=""></option>
+                                                        <option value="Customer">Customer</option>
+                                                        <option value="Dispatch">Dispatch</option>
+                                                        <option value="Leader">Leader</option>
+                                                        <option value="Teknisi">Teknisi</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Respon Konfirmasi Customer</span>
-                                                            <input class="form-control form-control-sm" type="text"
+                                                            <select class="form-control form-control-sm" type="text"
                                                                 id="respon_konf_cst" name="respon_konf_cst"
                                                                 style="border-color:#9ca0a7;">
+                                                                <option value=""></option>
+                                                                <option value="Respon">Respon</option>
+                                                                <option value="Tidak Respon">Tidak Respon</option>
+                                                            </select>
                                                         </div>
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Jawaban Konfirmasi Customer</span>
-                                                            <input class="form-control form-control-sm" type="text"
+                                                            <select class="form-control form-control-sm" type="text"
                                                                 id="jawaban_konf_cst" name="jawaban_konf_cst"
                                                                 style="border-color:#9ca0a7;">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <span class="text-xs">Permintaan Reschedule</span>
-                                                    <input class="form-control form-control-sm" type="text"
-                                                                id="permintaan_reschedule" name="permintaan_reschedule"
-                                                                style="border-color:#9ca0a7;">
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Start IKR (WA)</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="start_ikr_wa" name="start_ikr_wa"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">End IKR (WA)</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="end_ikr_wa" name="end_ikr_wa"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">OTP Start</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="otp_start" name="otp_start"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">OTP End</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="otp_end" name="otp_end"
-                                                                style="border-color:#9ca0a7;">
+                                                                <option value=""></option>
+                                                                <option value="Setuju">Setuju</option>
+                                                                <option value="Tidak Setuju">Tidak Setuju</option>
+                                                                <option value="Tidak Respon">Tidak Respon</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group mb-1">
                                                     <span class="text-xs">Report Teknisi</span>
-                                                    <textarea class="form-control form-control-sm" type="text" id="remarksTeknisi" name="remarksTeknisi"
+                                                    <textarea class="form-control form-control-sm" type="text" id="remarksTeknisi" name="remarksTeknisi" rows="4"
                                                         style="border-color:#9ca0a7;"></textarea>
-                                                </div>
+                                                </div>                                                
 
                                             </div>
 
@@ -1088,33 +1076,29 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Alasan Cancel</span>
+                                                            <span class="text-xs">Status Checkin</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                id="alasanCancel" name="alasanCancel"
-                                                                style="border-color:#9ca0a7;">
+                                                                id="statCheckin" name="statCheckin"
+                                                                style="border-color:#9ca0a7;" readonly>
                                                         </div>
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Alasan Pending</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="alasanPending" name="alasanPending"
+                                                            <span class="text-xs">Foto Rumah</span>
+                                                            <select class="form-control form-control-sm" type="text"
+                                                                id="fto_rumah" name="fto_rumah"
                                                                 style="border-color:#9ca0a7;">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Telp Dispatch</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="telp_dispatch" name="telp_dispatch"
-                                                                style="border-color:#9ca0a7;">
+                                                                <option value="Sesuai">Sesuai</option>
+                                                                <option value="Tidak Sesuai">Tidak Sesuai</option>
+                                                                <option value="Tidak Ada">Tidak Ada</option>
+                                                            </select>
                                                         </div>
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">PIC Dispatch</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="picDispatch" name="picDispatch"
+                                                            <span class="text-xs">Foto Selfie</span>
+                                                            <select class="form-control form-control-sm" type="text"
+                                                                id="fto_selfie" name="fto_selfie"
                                                                 style="border-color:#9ca0a7;">
+                                                                <option value="Ada">Ada</option>
+                                                                <option value="Tidak Ada">Tidak Ada</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1122,32 +1106,15 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Validasi Start</span>
+                                                            <span class="text-xs">Start IKR (WA)</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                id="validasi_start" name="validasi_start"
+                                                                id="start_ikr_wa" name="start_ikr_wa"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Validasi End</span>
+                                                            <span class="text-xs">End IKR (WA)</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                id="validasi_end" name="validasi_end"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Jam Teknisi Aktivasi Perangkat</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="jam_teknisi_aktifasi_perangkat" name="jam_teknisi_aktifasi_perangkat"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Jam Dispatch Respon Aktivasi Perangkat</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="jam_dispatch_respon_aktifasi_perangkat" name="jam_dispatch_respon_aktifasi_perangkat"
+                                                                id="end_ikr_wa" name="end_ikr_wa"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
                                                     </div>
@@ -1162,26 +1129,136 @@
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Jam Dispatch Respon Foto Rumah</span>
+                                                            <span class="text-xs">Jam Respon Dispatch</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 id="jam_dispatch_respon_foto" name="jam_dispatch_respon_foto"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Durasi Respon Foto Rumah</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="durasi_dispatch_respon_foto" name="durasi_dispatch_respon_foto"
+                                                                style="border-color:#9ca0a7;" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jam Aktivasi Perangkat</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="jam_teknisi_aktifasi_perangkat" name="jam_teknisi_aktifasi_perangkat"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jam Respon Aktivasi</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="jam_dispatch_respon_aktifasi_perangkat" name="jam_dispatch_respon_aktifasi_perangkat"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Durasi Respon Aktivasi</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="durasi_dispatch_respon_aktifasi_perangkat" name="durasi_dispatch_respon_aktifasi_perangkat"
+                                                                style="border-color:#9ca0a7;" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {{-- <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">OTP Start</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="otp_start" name="otp_start"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">OTP End</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="otp_end" name="otp_end"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div> --}}
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">PIC Dispatch</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="picDispatch" name="picDispatch"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Telp Dispatch</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="telp_dispatch" name="telp_dispatch"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group mt-4 float-end">
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <div class="row">
+                                                                <div class="col form-group mb-1">
+                                                                    <span class="text-xs">Marker</span>
+                                                                    <select class="form-control form-control-sm" type="text" id="marker" name="marker"
+                                                                        style="border-color:#9ca0a7;">
+                                                                        <option value=""></option>
+                                                                        <option value="Ada">Ada</option>
+                                                                        <option value="Tidak Ada">Tidak Ada</option>
+
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col form-group mb-1">
+                                                                    <span class="text-xs">Port FAT</span>
+                                                                    <input class="form-control form-control-sm" type="text" id="portFATProgress" name="portFATProgress"
+                                                                        style="border-color:#9ca0a7;">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Kondisi FAT</span>
+                                                            <select class="form-control form-control-sm" type="text"
+                                                                id="kondisiFAT" name="kondisiFAT"
+                                                                style="border-color:#9ca0a7;">
+                                                                <option value=""></option>
+                                                                <option value="FAT Full Marker">FAT Full Marker</option>
+                                                                <option value="FAT Sebagian Tidak Bermarker">FAT Sebagian Tidak Bermarker</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {{-- <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Validasi Start</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="validasi_start" name="validasi_start"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Validasi End</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="validasi_end" name="validasi_end"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div> --}}
+
+                                                <div class="form-group mt-3">
                                                     <div class="form-check">
                                                         <input type="hidden" name="is_checked" value="0"> <!-- Default jika tidak dicentang -->
                                                         <input class="form-check-input" type="checkbox" name="is_checked" value="1" id="isChecked">
                                                         <label class="form-check-label" for="isChecked">
-                                                            Sudah Dicek
+                                                            Sudah Dicek (PIC. {{Auth::user()->name}} )
                                                         </label>
                                                     </div>
-
-                                                    <span class="text-xs text-bold">
-                                                        ( {{Auth::user()->name}} )
-                                                    </span>
                                                 </div>
 
                                             </div>
@@ -1632,6 +1709,7 @@
         var lastDate;
         var stDate;
         var enDate;
+        var listPenagihan = {!! $penagihanIB !!};
 
         akses = $('#akses').val();
         // get_data_assignTim()
@@ -1648,9 +1726,29 @@
             endDate: moment(),
         });
 
+        $(document).on('change', '#statusWo', function(e) {
+            $('#reasonStatus').find('option').remove();
+            $('#reasonStatus').append(`
+                <option value="">--Pilih Reason Status--</option>`
+            );
+
+            filListPenagihan = listPenagihan.filter(k => k.status == $(this).val());
+
+            $.each(filListPenagihan, function(k,cc) {
+                $('#reasonStatus').append(
+                    `<option value="${cc.penagihan}">${cc.penagihan}</option>`
+                );
+            })
+        })
+
+        $(document).on('change', '#reasonStatus', function(e) {
+            $('#penagihanShow').val($('#reasonStatus').val());
+        })
+
         $(document).on('click', '#filAssignTim', function(e) {
-            get_data_assignTim_ib();
             get_summary();
+            get_data_assignTim_ib();
+
             stDate = $('.date-range').data('daterangepicker').startDate.format("DD-MMM-YYYY");
             enDate = $('.date-range').data('daterangepicker').endDate.format("DD-MMM-YYYY");
         })
@@ -1691,6 +1789,7 @@
                     filarea: $('#filarea').val(),
                     filcluster: $('#filcluster').val(),
                     filGroup: $('#filGroup').val(),
+
                     filtype: typeSum,
                     _token: _token
                 },
