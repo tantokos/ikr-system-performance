@@ -254,6 +254,9 @@ Route::view('/fttx-ib', 'fttx.monitoring-wo.ib')->name('fttx-ib')->middleware('a
 Route::view('/fttx-mt', 'fttx.monitoring-wo.mt')->name('fttx-mt')->middleware('auth');
 
 Route::get('/fttx/import/assign-team', [ImportAssignTeamController::class, 'index'])->name('fttx.import.assign-team')->middleware('auth');
+Route::post('/fttx/import/proses-so', [ImportAssignTeamController::class, 'importProsesDataSo'])->name('fttx.import.proses-so')->middleware('auth');
+Route::get('/fttx/import/data', [ImportAssignTeamController::class, 'getImportSoFttx'])->name('fttx.import.data')->middleware('auth');
+
 //END FTTX
 
 Route::get('ftth-mt/export', [MonitFtthMT_Controller::class, 'export'])->name('ftth-mt.export')->middleware('auth');
