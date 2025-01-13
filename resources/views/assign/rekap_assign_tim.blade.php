@@ -1072,7 +1072,7 @@
                         "render": function(data,type,row) { 
                             jml = Number(data["j_on"]) - Number(data["j_teknisi"]);
 
-                            return `<a href="javascript:void(0);" id="det-jml_standby" data-id="${jml==null ? "0" : jml}|JmlStandby|${row.branch}|${row.departement}"  class="text-primary">${data["jmStandby"]==null ? "0" : data["jmStandby"] }</a>`;
+                            return `<a href="javascript:void(0);" id="det-jml_standby" data-id="${jml==null ? "0" : jml}|JmlStandby|${row.branch}|${row.departement}"  class="text-primary">${jml==null ? "0" : jml }</a>`;
                             // return (Number(data["j_on"]) - Number(data["j_teknisi"]))
                         },
                     },
