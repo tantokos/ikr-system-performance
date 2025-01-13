@@ -48,16 +48,6 @@ class RekapAssignTimController extends Controller
     public function getTabelRekapAssignTim(Request $request)
     {
         $akses = Auth::user()->name;
-
-            $stndby = DB::table('v_rekap_jadwal_data as vjad')
-                    ->select('vjad.nik_karyawan','vjad.nama_karyawan')
-                    ->leftJoin('employees as e', 'vjad.nik_karyawan','=','e.nik_karyawan')
-                    ->leftJoin('v_rekap_assign as vrek', function($join) {
-                        $join->on('vjad.nik_karyawan','=','vrek.tek_nik')
-                        ->on('vjad.tgl','=','vrek.tgl_ikr');
-                    })
-                    ->whereIn('vjad.status',['ON','OD'])
-                    ->where('e.posisi','=','Teknisi')->where('vrek.tek_nik','=',null)->distinct();
                             
             $datas = DB::table('v_rekap_summary_tim as vtim')
                 ->select(DB::raw('vtim.branch, vtim.departement,
@@ -89,7 +79,6 @@ class RekapAssignTimController extends Controller
                 $endDt = \Carbon\Carbon::parse($dateRange[1])->format('Y-m-d');
 
                 $datas = $datas->whereBetween('vtim.tgl_ikr',[$startDt, $endDt]);
-                $stndby = $stndby->whereBetween('vjad.tgl', [$startDt, $endDt]);
                 // $datas = $datas->whereRaw("(date_format(vtim.tgl_ikr,'%Y-%m-%d') >= ? and date_format(vtim.tgl_ikr, '%Y-%m-%d') <= ?)",[$startDt, $endDt]);
             }
 
@@ -97,11 +86,9 @@ class RekapAssignTimController extends Controller
                 $b = explode("|", $request->filarea);
                 $br = $b[1];
                 $datas = $datas->where('vtim.branch', $br);
-                $stndby = $stndby->where('vjad.branch', $br);
             }
 
             $datas = $datas->get();
-            $stndby = $stndby->count();
 
  
         if ($request->ajax()) {
@@ -124,8 +111,7 @@ class RekapAssignTimController extends Controller
                     //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
                     return $btn;
                 })
-                ->addColumn('jmStandby', function($stndby) { return $stndby; })
-                ->rawColumns(['action','jmStandby'])   //merender content column dalam bentuk html
+                ->rawColumns(['action'])   //merender content column dalam bentuk html
                 ->escapeColumns()  //mencegah XSS Attack
                 ->toJson(); //merubah response dalam bentuk Json
             // ->make(true);

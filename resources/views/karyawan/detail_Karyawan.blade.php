@@ -54,9 +54,18 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-2">
-                                    <div class="form-group mb-1 text-center">
-                                        <img src="/storage/image-kry/{{ $karyawan->foto_karyawan }}" id="showFotoDetail"
-                                            alt="Card Image" style="width:160px;height: 160px;" />
+                                    <div class="form-group mb-1 text-center" style="width:160px;height: 160px;">
+
+                                        @if (substr($karyawan->foto_karyawan,0,4) == "http" )
+                                            {{-- {{ dd($karyawan->foto_karyawan)}} --}}
+                                            <iframe src="https://drive.google.com/file/d/{{ substr($karyawan->foto_karyawan, strpos($karyawan->foto_karyawan,"id=") + 3) }}/preview" id="showFotoDetail"
+                                            alt="Card Image" width="170" height="170"></iframe>
+                                        @else
+                                            <img src="/storage/image-kry/{{ $karyawan->foto_karyawan }}" id="showFotoDetail"
+                                            alt="Card Image" style="width:160px;height: 160px;object-fit: contain;"/>
+                                        @endif
+                                        
+                                            
                                     </div>
                                 </div>
                                 <div class="col">
