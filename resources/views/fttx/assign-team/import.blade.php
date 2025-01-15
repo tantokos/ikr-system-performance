@@ -58,7 +58,7 @@
 
 
                         <div class="col-md-6">
-                            <form action="{{ route('simpanImportWo') }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('simpanImportWoFttx') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <label class="col-sm-3 col-form-label form-control-sm">Import By</label>
@@ -72,10 +72,10 @@
 
                     <hr class="mt-1 mb-1">
                     <div class="col text-end">
-                        <button onclick="return confirm('Simpan hasil import WO?')" type="submit" name="action"
+                        <button onclick="return confirm('Simpan hasil import WO FTTX?')" type="submit" name="action"
                             value="simpan" class="btn btn-sm btn-dark align-items-center mb-1">Save Import
                             SO</button>
-                        <button onclick="return confirm('Hapus hasil import Data Work Order?')"
+                        <button onclick="return confirm('Hapus hasil import Data FTTX?')"
                             onsubmit="this.disabled = true;" type="submit" name="action" value="batal"
                             class="btn btn-sm btn-danger align-items-center mb-1">Cancel Import
                             Data</button>
@@ -92,7 +92,7 @@
                                 <div class="col-12">
                                     <div class="w-100 text-center">
                                         <p class="text-sm text-secondary mb-1">Total FTTX</p>
-                                        <h4 class="mb-2 font-weight-bold">{{ $totalFtthNewInstallation }}</h4>
+                                        <h4 class="mb-2 font-weight-bold">{{ $totalFttx }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
                                 <div class="col-12">
                                     <div class="w-100 text-center">
                                         <p class="text-sm text-secondary mb-1">Total FTTX IB</p>
-                                        <h4 class="mb-2 font-weight-bold">{{ $totalFtthMt }}</h4>
+                                        <h4 class="mb-2 font-weight-bold">{{ $totalFttxIb }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -120,7 +120,7 @@
                                 <div class="col-12">
                                     <div class="w-100 text-center">
                                         <p class="text-sm text-secondary mb-1">Total FTTX MT</p>
-                                        <h4 class="mb-2 font-weight-bold">{{ $totalDismantle }}</h4>
+                                        <h4 class="mb-2 font-weight-bold">{{ $totalFttxMt }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -146,12 +146,12 @@
                                 <table id="summaryAssignTeam" class="table table-striped table-bordered align-items-center mb-0" style="font-size: 12px">
                                     <thead class="bg-gray-600">
                                         <tr id="headStatusProgresWo">
-                                            <th class="text-xs font-weight-semibold">No</th>
-                                            <th class="text-xs font-weight-semibold">Area</th>
-                                            <th class="text-xs font-weight-semibold">Callsign Tim</th>
-                                            <th class="text-white text-xs font-weight-semibold">FTTX New Installation</th>
-                                            <th class="text-white text-xs font-weight-semibold">FTTX Maintenance</th>
-                                            <th class="text-white text-xs font-weight-semibold">Total WO</th>
+                                            <th class="text-white text-xs font-weight-semibold">No</th>
+                                            <th class="text-white text-xs font-weight-semibold">Area</th>
+                                            <th class="text-white text-xs font-weight-semibold">Callsign Tim</th>
+                                            <th class="text-white text-xs text-center font-weight-semibold">FTTX New Installation</th>
+                                            <th class="text-white text-xs text-center font-weight-semibold">FTTX Maintenance</th>
+                                            <th class="text-white text-xs text-center font-weight-semibold">Total WO</th>
                                         </tr>
                                     </thead>
                                     <tbody id="bodyStatusProgresWo">
@@ -172,8 +172,7 @@
                                             <th style="text-align:center"></th>
                                             <th style="text-align:center"></th>
                                             <th style="text-align:center"></th>
-                                            <th style="text-align:center"></th>
-                                            <th style="text-align:center"></th>
+                                            {{-- <th style="text-align:center"></th> --}}
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -195,6 +194,10 @@
                             </div>
                         </div>
 
+                        <style>
+                            .wrap-address {word-wrap: break-word;min-width: 160px;max-width: 160px;white-space: normal;}
+                        </style>
+
                         <div class="card-body px-2 py-2">
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered align-items-center mb-0" id="tabelDataWoImport" style="font-size: 12px">
@@ -202,51 +205,73 @@
                                         <tr>
                                             <th class="text-secondary text-xs">#</th>
                                             <th class="text-secondary text-xs ps-2">No SO</th>
-                                            <th class="text-center text-secondary text-xs">WO Date</th>
-                                            <th class="text-center text-secondary text-xs">Cust Id</th>
+                                            <th class="text-center text-secondary text-xs">SO Date</th>
                                             <th
                                                 class="text-center text-secondary text-xs">
                                                 Cust Name</th>
+                                            <th
+                                                class="text-center text-secondary text-xs wrap-address">
+                                                Cust Address</th>
+                                            <th
+                                                class="text-center text-secondary text-xs">
+                                                PIC Customer</th>
+                                            <th
+                                                class="text-center text-secondary text-xs">
+                                                Telp PIC Customer</th>
                                             <th
                                                 class="text-center text-secondary text-xs">
                                                 WO Type</th>
                                             <th
                                                 class="text-center text-secondary text-xs">
-                                                FAT Code</th>
+                                                Product</th>
+                                            <th
+                                                class="text-center text-secondary text-xs wrap-address">
+                                                Remark EWO</th>
+                                            <th
+                                                class="text-center text-secondary text-xs">
+                                                CID</th>
+                                            <th
+                                                class="text-center text-secondary text-xs">
+                                                Segment Sales</th>
+                                            <th
+                                                class="text-center text-secondary text-xs">
+                                                Area</th>
+                                            <th
+                                                class="text-center text-secondary text-xs">
+                                                Jadwa IKR</th>
+                                            <th
+                                                class="text-center text-secondary text-xs">
+                                                Slot time</th>
+                                            <th
+                                                class="text-center text-secondary text-xs wrap-address">
+                                                Remark</th>
+                                            <th
+                                                class="text-center text-secondary text-xs">
+                                                Status Jadwal</th>
                                             <th
                                                 class="text-center text-secondary text-xs">
                                                 Branch</th>
                                             <th
                                                 class="text-center text-secondary text-xs">
-                                                Area Cluster</th>
-                                            <th
-                                                class="text-center text-secondary text-xs">
-                                                Lead Callsign</th>
-                                            <th
-                                                class="text-center text-secondary text-xs">
                                                 Leader</th>
                                             <th
                                                 class="text-center text-secondary text-xs">
-                                                Callsign Tim</th>
+                                                Callsign</th>
                                             <th
                                                 class="text-center text-secondary text-xs">
-                                                Teknisi 1</th>
+                                                tim 1</th>
                                             <th
                                                 class="text-center text-secondary text-xs">
-                                                Teknisi 2</th>
+                                                tim 2</th>
                                             <th
                                                 class="text-center text-secondary text-xs">
-                                                Teknisi 3</th>
+                                                tim 3</th>
                                             <th
                                                 class="text-center text-secondary text-xs">
-                                                Teknisi 4</th>
+                                                tim 4</th>
                                             <th
                                                 class="text-center text-secondary text-xs">
-                                                Installation Date</th>
-                                            <th
-                                                class="text-center text-secondary text-xs">
-                                                Slot Time</th>
-
+                                                Nopol</th>
                                             <th
                                                 class="text-center text-secondary text-xs">
                                                 #</th>
@@ -645,9 +670,9 @@
             destroy: true,
             processing: true,
             serverSide: false,
-            fixedColumns: {
-                leftColumns: 3 // Jumlah kolom di sebelah kiri yang di-"fix"
-            },
+            // fixedColumns: {
+            //     leftColumns: 3 // Jumlah kolom di sebelah kiri yang di-"fix"
+            // },
             footerCallback: function (row, data, start, end, display) {
                 var api = this.api();
 
@@ -660,7 +685,7 @@
                         : 0;
                 };
 
-                for(x=3;x<9;x++){
+                for(x=3;x<6;x++){
                     // Total over all pages
                     totalIb = api
                         .column(x)
@@ -747,7 +772,12 @@
                         data: 'customer_name'
                     },
                     {
-                        data: 'address'
+                        data: 'address',
+                        // "className": "wrap-address",
+                        render: function (data, type, row)
+                        {
+                            return "<div class='text-wrap'>" + data + "</div>"
+                        }
                     },
                     {
                         data: 'pic_customer'
@@ -762,10 +792,20 @@
                         data: 'product'
                     },
                     {
-                        data: 'remark_ewo'
+                        data: 'remark_ewo',
+                        "width": '160',
+                        // "className": "wrap-address"
+                        render: function (data, type, row)
+                        {
+                            return "<div class='text-wrap'>" + data + "</div>"
+                        }
                     },
                     {
-                        data: 'cid'
+                        data: 'cid',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='text-wrap'>" + data + "</div>"
+                        }
                     },
                     {
                         data: 'segment_sales',
@@ -784,12 +824,48 @@
                         // "className": "text-center",
                     },
                     {
+                        data: 'remark_for_ikr',
+                        // "className": "wrap-address",
+                        render: function (data, type, row)
+                        {
+                            return "<div class='text-wrap'>" + data + "</div>"
+                        }
+                    },
+                    {
                         data: 'status_penjadwalan',
-                        "className": "text-center",
+                        // "className": "text-center",
+                    },
+                    {
+                        data: 'branch',
+                        // "className": "text-center",
                     },
                     {
                         data: 'leader',
                         "className": "text-center",
+                    },
+                    {
+                        data: 'callsign',
+                        "className": "text-center",
+                    },
+                    {
+                        data: 'tim_1',
+                        // "className": "text-center",
+                    },
+                    {
+                        data: 'tim_2',
+                        // "className": "text-center",
+                    },
+                    {
+                        data: 'tim_3',
+                        // "className": "text-center",
+                    },
+                    {
+                        data: 'tim_4',
+                        // "className": "text-center",
+                    },
+                    {
+                        data: 'nopol',
+                        // "className": "text-center",
                     },
                     {
                         data: 'action',

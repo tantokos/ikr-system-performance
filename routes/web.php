@@ -47,8 +47,10 @@ use App\Http\Controllers\DisposalToolController;
 use App\Http\Controllers\DistribusiSeragamController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FTTX\AssignTeamController;
+use App\Http\Controllers\FTTX\AssignTeamFttxController;
 use App\Http\Controllers\FTTX\AssignTeammController;
 use App\Http\Controllers\FTTX\AssignTimController as FTTXAssignTimController;
+use App\Http\Controllers\FTTX\ImportAssignTeamFttxController;
 use PhpParser\Node\Expr\Assign;
 
 /*
@@ -249,13 +251,18 @@ Route::put('/updateMaterialMt', [MonitFtthMT_Controller::class, 'updateMaterialM
 
 //FTTX
 // Route::view('/fttx-assign-team', 'fttx.assign-team.index')->name('fttx-assign-team')->middleware('auth');
-Route::get('/fttx-assign-team', [AssignTeamController::class, 'index'])->name('fttx-assign-team')->middleware('auth');
+
+Route::get('/fttx-assign-team', [AssignTeamFttxController::class, 'index'])->name('fttx-assign-team')->middleware('auth');
+Route::get('/getTabelAssignTimFttx', [AssignTeamFttxController::class, 'getTabelAssignTimFttx'])->name('getTabelAssignTimFttx')->middleware('auth');
+
 Route::view('/fttx-ib', 'fttx.monitoring-wo.ib')->name('fttx-ib')->middleware('auth');
 Route::view('/fttx-mt', 'fttx.monitoring-wo.mt')->name('fttx-mt')->middleware('auth');
 
-Route::get('/fttx/import/assign-team', [ImportAssignTeamController::class, 'index'])->name('fttx.import.assign-team')->middleware('auth');
-Route::post('/fttx/import/proses-so', [ImportAssignTeamController::class, 'importProsesDataSo'])->name('fttx.import.proses-so')->middleware('auth');
-Route::get('/fttx/import/data', [ImportAssignTeamController::class, 'getImportSoFttx'])->name('fttx.import.data')->middleware('auth');
+Route::get('/fttx/import/assign-team', [ImportAssignTeamFttxController::class, 'index'])->name('fttx.import.assign-team')->middleware('auth');
+Route::post('/fttx/import/proses-so', [ImportAssignTeamFttxController::class, 'importProsesDataSo'])->name('fttx.import.proses-so')->middleware('auth');
+Route::get('/fttx/import/data', [ImportAssignTeamFttxController::class, 'getImportSoFttx'])->name('fttx.import.data')->middleware('auth');
+
+Route::post('/simpanImportWoFttx', [ImportAssignTeamFttxController::class,'simpanImportWoFttx'])->name('simpanImportWoFttx')->middleware('auth');
 
 //END FTTX
 

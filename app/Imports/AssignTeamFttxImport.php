@@ -6,9 +6,14 @@ use Illuminate\Support\Str;
 use App\Models\ImportAssignTeamFttx;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
+use \PhpOffice\PhpSpreadsheet\Shared\Date;
+use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 
-class AssignTeamFttxImport implements ToModel, WithHeadingRow
+class AssignTeamFttxImport implements ToModel, WithHeadingRow,  WithValidation, SkipsEmptyRows
 {
     /**
     * @param array $row
@@ -36,6 +41,21 @@ class AssignTeamFttxImport implements ToModel, WithHeadingRow
             return null;
         }
 
+        $ikrDate = $row['jadwal_ikr'];
+        if (is_numeric($ikrDate)) {
+            $formattedDate = Date::excelToDateTimeObject($ikrDate)->format("Y-m-d");
+        } else {
+            $parsedDate = \DateTime::createFromFormat('d/m/Y', $ikrDate)
+                ?: \DateTime::createFromFormat('d-m-Y', $ikrDate)
+                ?: \DateTime::createFromFormat('Y-m-d', $ikrDate);
+
+            if ($parsedDate) {
+                $formattedDate = $parsedDate->format('Y-m-d');
+            } else {
+                throw new \Exception("Format tanggal IKR tidak valid: " . $ikrDate);
+            }
+        }
+
         return new ImportAssignTeamFttx([
             'no_so' => Str::trim($row['no_so']),
             'so_date' => Str::trim($row['so_date']),
@@ -43,23 +63,33 @@ class AssignTeamFttxImport implements ToModel, WithHeadingRow
             'address' => Str::trim($row['address']),
             'pic_customer' => Str::trim($row['pic_cst']),
             'phone_pic_cust' => Str::trim($row['phone_pic_cust']),
-            'wo_type' => Str::trim($row['wo_type']),
+            'wo_type' => (Str::trim($row['wo_type']) == "New Installation") ? "FTTX New Installation" : (Str::trim($row['wo_type']) == "Maintenance" ? "FTTX Maintenance" : null),
             'product' => Str::trim($row['product']),
             'remark_ewo' => Str::trim($row['remark_ewo']),
             'cid' => Str::trim($row['cid']),
             'segment_sales' => Str::trim($row['segment_sales']),
             'area' => Str::trim($row['area']),
-            'jadwal_ikr' => Str::trim($row['jadwal_ikr']),
+            'jadwal_ikr' => $formattedDate, // Str::trim($row['jadwal_ikr']),
             'slot_time_jadwal' => Str::trim($row['slot_time_jadwal']),
             'remark_for_ikr' => Str::trim($row['remark_for_ikr']),
             'status_penjadwalan' => Str::trim($row['status_penjadwalan']),
             'vendor' => Str::trim($row['vendor']),
-            'branch' => Str::trim($row['branch']),
-            'leader' => Str::trim($row['leader']),
+            'branch_id' => $this->get_data_id("branch_id", Str::trim(Str::title($row['branch']))),
+            'branch' => $this->get_data_id("branch", Str::trim(Str::title($row['branch']))),
+            'leadcall_id' => $this->get_data_id("leadcall_id", Str::trim(Str::title($row['leader']))),
+            'leadcall' => $this->get_data_id("leadcall", Str::trim(Str::title($row['leader']))),
+            'leader_id' => $this->get_data_id("leader_id", Str::trim(Str::title($row['leader']))),
+            'leader' => Str::trim(Str::title($row['leader'])),
+            'callsign_id' => $this->get_data_id("callsign_id", Str::trim($row['callsign'])),
             'callsign' => Str::trim($row['callsign']),
-            'tim_1' => Str::trim($row['tim_1']),
-            'tim_2' => Str::trim($row['tim_2']),
-            'tim_3' => Str::trim($row['tim_3']),
+            'tek1_nik' => $this->get_data_id("tek1_nik", Str::trim(Str::title($row['tim_1']))),
+            'tim_1' => $this->get_data_id("tek1_nik", $row['tim_1']) == null ? null : Str::trim(Str::title($row['tim_1'])),
+            'tek2_nik'=> $this->get_data_id("tek2_nik", Str::trim($row['tim_2'])),
+            'tim_2' => $this->get_data_id("tek2_nik", $row['tim_2']) == null ? null : Str::trim(Str::title($row['tim_2'])),
+            'tek3_nik' => $this->get_data_id("tek3_nik", Str::trim($row['tim_3'])),
+            'tim_3' => $this->get_data_id("tek3_nik", $row['tim_3']) == null ? null : Str::trim(Str::title($row['tim_3'])),
+            'tek4_nik' => $this->get_data_id("tek4_nik", Str::trim($row['tim_4'])),
+            'tim_4' => $this->get_data_id("tek4_nik", $row['tim_4']) == null ? null : Str::trim(Str::title($row['tim_4'])),
             'nopol' => Str::trim($row['nopol']),
             'perubahan_slot_time_tele' => Str::trim($row['perubahan_slot_time_tele']),
             'checkin' => Str::trim($row['checkin']),
@@ -70,6 +100,69 @@ class AssignTeamFttxImport implements ToModel, WithHeadingRow
             'login' => $this->logNm
         ]);
 
+    }
+
+    public function rules(): array
+    {
+        return [
+            '*.no_so' => ['required', Rule::unique('import_assign_tims', 'no_wo_apk')],
+            '*.wo_type' => ['required', Rule::exists('type_wo','type_wo_apk')],
+            '*.branch' => ['required', Rule::exists('branches', 'nama_branch')],
+            '*.leader' => ['required', Rule::exists('v_detail_callsign_tim','nama_leader')],
+            '*.tim_1' => [Rule::exists('employees','nama_karyawan')],
+            '*.tim_2' => ['nullable', Rule::exists('employees','nama_karyawan')],
+            '*.tim_3' => ['nullable', Rule::exists('employees','nama_karyawan')],
+            '*.tim_4' => ['nullable', Rule::exists('employees','nama_karyawan')],
+            '*.callsign' => ['required'],
+            '*.jadwal_ikr' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    try {
+                        $date = null;
+
+                        // Jika nilai berupa angka (Excel datetime)
+                        if (is_numeric($value)) {
+                            $date = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($value)->format('Y-m-d');
+                        } else {
+                            // Jika nilai berupa string, coba parsing dengan berbagai format
+                            $formats = ['d/m/Y', 'd-m-Y', 'Y-m-d'];
+                            foreach ($formats as $format) {
+                                $parsedDate = \DateTime::createFromFormat($format, $value);
+                                if ($parsedDate !== false) {
+                                    $date = $parsedDate->format('Y-m-d');
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Jika konversi gagal
+                        if (!$date) {
+                            $fail("Format tanggal $attribute tidak valid. Gunakan format d/m/Y, d-m-Y, Y-m-d, atau Excel date.");
+                            return;
+                        }
+
+                        // Validasi tanggal tidak boleh di masa lalu
+                        if (\Carbon\Carbon::parse($date)->isBefore(\Carbon\Carbon::today())) {
+                            $fail("Tanggal $attribute tidak boleh di masa lalu.");
+                        }
+                    } catch (\Exception $e) {
+                        $fail("Format tanggal $attribute tidak valid.");
+                    }
+                }
+            ],
+        ];
+    }
+
+    public function customValidationMessages()
+    {
+        return [
+            // '*.wo_no.unique' => 'No WO sudah ada di database',
+            '*.leader' => 'Nama Leader tidak terdaftar',
+            '*.wo_no.required' => 'No WO harus diisi',
+            '*.branch.required' => 'Branch harus diisi',
+            '*.callsign.required' => 'Callsign harus diisi',
+            '*.ikr_date.required' => 'Tanggal IKR harus diisi',
+        ];
     }
 
     public function startRow(): int

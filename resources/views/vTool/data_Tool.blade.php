@@ -552,9 +552,11 @@
 
                                     <div class="row text-center mb-1">
                                         <div class="col">
+                                            
                                             <button type="submit"
-                                                class="btn btn-sm btn-dark align-items-center updateTool"
-                                                id="updateTool">Update Data</button>
+                                                    class="btn btn-sm btn-dark align-items-center updateTool"
+                                                    id="updateTool">Update Data</button>
+                                            
                                             <button type="button" value="close"
                                                 class="btn btn-sm btn-dark align-items-center"
                                                 data-bs-dismiss="modal">Kembali</button>

@@ -252,15 +252,13 @@
                                         <tr id="headTool">
                                             <th class="text-xs font-weight-semibold">#</th>
                                             <th class="text-center text-xs font-weight-semibold">Tanggal</th>
-                                            <th class="text-center text-xs font-weight-semibold">No WO</th>
-                                            <th class="text-center text-xs font-weight-semibold">WO Date</th>
-                                            <th class="text-center text-xs font-weight-semibold">Cust Id</th>
+                                            <th class="text-center text-xs font-weight-semibold">No SO</th>
                                             <th class="text-center text-xs font-weight-semibold">Cust Name</th>
-                                            {{-- <th class="text-center text-xs font-weight-semibold">Cust Address</th> --}}
-                                            <th class="text-center text-xs font-weight-semibold">Type WO</th>
-                                            <th class="text-center text-xs font-weight-semibold">Fat Code</th>
+                                            <th class="text-center text-xs font-weight-semibold">Cust Address</th>
+                                            <th class="text-center text-xs font-weight-semibold">PIC Customer</th>
+                                            <th class="text-center text-xs font-weight-semibold">WO Type</th>
                                             <th class="text-center text-xs font-weight-semibold">Area</th>
-                                            <th class="text-center text-xs font-weight-semibold">Cluster</th>
+                                            <th class="text-center text-xs font-weight-semibold">Branch</th>
                                             <th class="text-center text-xs font-weight-semibold">Slot Time</th>
                                             <th class="text-center text-xs font-weight-semibold">Lead Callsign</th>
                                             <th class="text-center text-xs font-weight-semibold">Leader</th>
@@ -269,7 +267,6 @@
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 2</th>
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 3</th>
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 4</th>
-                                            <th class="text-center text-xs font-weight-semibold">Leader Assign</th>
                                             <th class="text-center text-xs font-weight-semibold">#</th>
 
                                         </tr>
@@ -414,8 +411,12 @@
             $('#tabelAssignTim').DataTable({
                 layout: {
                     topStart: {
-                        buttons: ['excel']
+                        pageLength: {
+                            menu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                        } ,
+                        buttons: ['excel'],
                     },
+                    
                 },
                 paging: true,
                 orderClasses: false,
@@ -426,14 +427,13 @@
                 scrollCollapse: true,
                 scrollX: true,
                 pageLength: 10,
-                lengthChange: false,
+                lengthChange: true,
                 bFilter: true,
                 destroy: true,
                 processing: true,
-                serverSide: true, // Ubah ke serverSide jika memang menggunakan serverside
+                serverSide: false, // Ubah ke serverSide jika memang menggunakan serverside
                 ajax: {
-                    // url: "{{ route('getTabelAssignTim') }}",
-                    url: "javascript:void(0)",
+                    url: "{{ route('getTabelAssignTimFttx') }}",
                     type: "get",
                     dataType: "json",
                     data: {
@@ -453,24 +453,27 @@
                 },
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_Row_Index', "className": "text-center", searchable: false, "width": '10' },
-                    { data: 'tgl_ikr' },
-                    { data: 'no_wo_apk' },
-                    { data: 'wo_date_apk' },
-                    { data: 'cust_id_apk' },
-                    { data: 'name_cust_apk' },
-                    { data: 'wo_type_apk' },
-                    { data: 'fat_code_apk' },
+                    { data: 'jadwal_ikr' },
+                    { data: 'no_so' },
+                    { data: 'customer_name' },
+                    { data: 'address',
+                        render: function (data, type, row)
+                        {
+                            return "<div class='text-wrap'>" + data + "</div>"
+                        }
+                    },
+                    { data: 'pic_customer' },
+                    { data: 'wo_type' },
+                    { data: 'area' },
                     { data: 'branch' },
-                    { data: 'area_cluster_apk' },
-                    { data: 'slot_time' },
+                    { data: 'slot_time_jadwal' },
                     { data: 'leadcall' },
                     { data: 'leader' },
                     { data: 'callsign' },
-                    { data: 'teknisi1' },
-                    { data: 'teknisi2' },
-                    { data: 'teknisi3' },
-                    { data: 'teknisi4' },
-                    { data: 'login' },
+                    { data: 'tim_1' },
+                    { data: 'tim_2' },
+                    { data: 'tim_3' },
+                    { data: 'tim_4' },
                     { data: 'action', "className": "text-center" },
                 ],
                 drawCallback: function(settings) {

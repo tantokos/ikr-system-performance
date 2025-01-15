@@ -59,7 +59,7 @@ class RekapAssignTimController extends Controller
                                     sum(vtim.jml_cuti) as j_cuti,
                                     sum(vtim.jml_sakit) as j_sakit,
                                     sum(vtim.jml_abs) as j_abs'))
-                ->where('vtim.departement','FTTH')
+                // ->where('vtim.departement','FTTH')
                 ->groupBy('vtim.branch','vtim.departement')
                 ->orderBy(DB::raw('case when vtim.branch="Jakarta Timur" then 1
                             when vtim.branch="Jakarta Selatan" then 2
@@ -158,6 +158,7 @@ class RekapAssignTimController extends Controller
         $tgl = $request->EdittglProgressTim;
         $branch = $request->EditArea;
         $callTim = $request->EditcallsignTim;
+        $dept = $request->EditDepartement;
 
         $tek1 = !isset($request->EditTeknisi1) ? null : explode("|",$request->EditTeknisi1);
         $tek1_nik = !isset($tek1) ? null : $tek1[0];
@@ -178,11 +179,18 @@ class RekapAssignTimController extends Controller
         DB::beginTransaction();
         try {
 
+            //get data dari view rekap assign tim untuk teknisi yg di rubah/update
             $dtAssign = DB::table('v_rekap_assign')
                         ->where('tgl_ikr', $tgl)->whereIn('tek_nik', [$tek1_nik, $tek2_nik, $tek3_nik, $tek4_nik])
-                        ->select('callsign', 'posisi_nik','posisi_tek')
+                        ->select('callsign', 'departement', 'posisi_nik','posisi_tek')
                         ->get();
 
+            $dtAssignx = DB::table('v_rekap_assign_fttx')
+                        ->where('tgl_ikr', $tgl)->whereIn('tek_nik', [$tek1_nik, $tek2_nik, $tek3_nik, $tek4_nik])
+                        ->select('callsign', 'departement', 'posisi_nik','posisi_tek')
+                        ->get();
+
+            //hapus semua teknisi yang di rubah/update di data callsign lain
             if(!is_null($dtAssign)) {
                 for($x=0; $x < count($dtAssign); $x++) {
                     $pos_nik = $dtAssign[$x]->posisi_nik;
@@ -195,28 +203,58 @@ class RekapAssignTimController extends Controller
                             ->update([
                                 $pos_nik => null,
                                 $pos_tek => null,
-                            ]);  
+                            ]);                                          
                 }
-            }            
+            }
 
-            $dtCallTim = DB::table('data_assign_tims')
-                ->where('tgl_ikr',$tgl)->where('branch',$branch)
-                ->where('callsign',$callTim)->update([
-                'tek1_nik' => $tek1_nik,
-                'teknisi1' => $teknisi1,
-                'tek2_nik' => $tek2_nik,
-                'teknisi2' => $teknisi2,
-                'tek3_nik' => $tek3_nik,
-                'teknisi3' => $teknisi3,
-                'tek4_nik' => $tek4_nik,
-                'teknisi4' => $teknisi4,
-            ]);
+            if(!is_null($dtAssignx)) {
+                for($x=0; $x < count($dtAssignx); $x++) {
+                    $pos_nikx = $dtAssignx[$x]->posisi_nik;
+                    $pos_tekx = $dtAssignx[$x]->posisi_tek;
+
+                    $dtAssignTim = DB::table('data_assign_tim_fttxs')
+                            ->where('jadwal_ikr', $tgl)
+                            ->where('branch', $branch)
+                            ->where('callsign', $dtAssignx[$x]->callsign)
+                            ->update([
+                                $pos_nikx => null,
+                                $pos_nikx => null,
+                            ]);
+                }
+            }
+
+                $dtCallTim = DB::table('data_assign_tims')
+                    ->where('tgl_ikr',$tgl)->where('branch',$branch)
+                    ->where('callsign',$callTim)->update([
+                    'tek1_nik' => $tek1_nik,
+                    'teknisi1' => $teknisi1,
+                    'tek2_nik' => $tek2_nik,
+                    'teknisi2' => $teknisi2,
+                    'tek3_nik' => $tek3_nik,
+                    'teknisi3' => $teknisi3,
+                    'tek4_nik' => $tek4_nik,
+                    'teknisi4' => $teknisi4,
+                ]);
+
+                $dtCallTim = DB::table('data_assign_tim_fttxs')
+                    ->where('jadwal_ikr',$tgl)->where('branch',$branch)
+                    ->where('callsign',$callTim)->update([
+                    'tek1_nik' => $tek1_nik,
+                    'tim_1' => $teknisi1,
+                    'tek2_nik' => $tek2_nik,
+                    'tim_2' => $teknisi2,
+                    'tek3_nik' => $tek3_nik,
+                    'tim_3' => $teknisi3,
+                    'tek4_nik' => $tek4_nik,
+                    'tim_4' => $teknisi4,
+                ]);
+            
 
             DB::commit();
 
-            if ($dtCallTim) {
+            // if ($dtCallTim) {
                 return response()->json('success');
-            }
+            // }
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -236,17 +274,44 @@ class RekapAssignTimController extends Controller
         $startDt = \Carbon\Carbon::parse($filTgl[0])->format('Y-m-d');
         $endDt = \Carbon\Carbon::parse($filTgl[1])->format('Y-m-d');
 
-        $dt = DB::table('data_assign_tims as d')
+        if($dept == "FTTH") {
+            $dtx = DB::table('data_assign_tim_fttxs as d')
                 ->leftJoin('employees as e', 'd.leader_id', '=', 'e.nik_karyawan')
-                ->select('d.tgl_ikr', 'd.branch_id', 'd.branch', 'e.departement','d.leadcall_id', 'd.leadcall', 'd.leader_id', 'd.leader', 
-                    'd.callsign_id', 'd.callsign','d.tek1_nik', 'd.teknisi1', 'd.tek2_nik', 'd.teknisi2', 'd.tek3_nik', 'd.teknisi3', 'd.tek4_nik', 'd.teknisi4')
+                ->select('d.jadwal_ikr as tgl_ikr', 'd.branch_id', 'd.branch', 'e.departement','d.leadcall_id', 'd.leadcall', 'd.leader_id', 'd.leader', 
+                    'd.callsign_id', 'd.callsign','d.tek1_nik', 'd.tim_1 as teknisi1', 'd.tek2_nik', 'd.tim_2 as teknisi2', 'd.tek3_nik', 'd.tim_3 as teknisi3', 'd.tek4_nik', 'd.tim_4 as teknisi4')
                 ->where('d.branch',$branch)
                 ->where('e.departement', $dept)
-                ->whereBetween('d.tgl_ikr', [$startDt, $endDt])
-                ->groupBy('d.tgl_ikr', 'd.branch_id', 'd.branch', 'e.departement','d.leadcall_id', 'd.leadcall', 'd.leader_id', 'd.leader', 
-                    'd.callsign_id', 'd.callsign','d.tek1_nik', 'd.teknisi1', 'd.tek2_nik', 'd.teknisi2', 'd.tek3_nik', 'd.teknisi3', 'd.tek4_nik', 'd.teknisi4')
+                ->whereBetween('d.jadwal_ikr', [$startDt, $endDt])
+                ->groupBy('d.jadwal_ikr', 'd.branch_id', 'd.branch', 'e.departement','d.leadcall_id', 'd.leadcall', 'd.leader_id', 'd.leader', 
+                    'd.callsign_id', 'd.callsign','d.tek1_nik', 'd.tim_1', 'd.tek2_nik', 'd.tim_2', 'd.tek3_nik', 'd.tim_3', 'd.tek4_nik', 'd.tim_4')
+                ->orderBy('tgl_ikr')->orderBy('callsign');    
+                // ->get(); 
+
+            $dt = DB::table('data_assign_tims as d')
+                    ->leftJoin('employees as e', 'd.leader_id', '=', 'e.nik_karyawan')
+                    ->select('d.tgl_ikr', 'd.branch_id', 'd.branch', 'e.departement','d.leadcall_id', 'd.leadcall', 'd.leader_id', 'd.leader', 
+                        'd.callsign_id', 'd.callsign','d.tek1_nik', 'd.teknisi1', 'd.tek2_nik', 'd.teknisi2', 'd.tek3_nik', 'd.teknisi3', 'd.tek4_nik', 'd.teknisi4')
+                    ->where('d.branch',$branch)
+                    ->where('e.departement', $dept)
+                    ->whereBetween('d.tgl_ikr', [$startDt, $endDt])
+                    ->union($dtx)
+                    ->groupBy('d.tgl_ikr', 'd.branch_id', 'd.branch', 'e.departement','d.leadcall_id', 'd.leadcall', 'd.leader_id', 'd.leader', 
+                        'd.callsign_id', 'd.callsign','d.tek1_nik', 'd.teknisi1', 'd.tek2_nik', 'd.teknisi2', 'd.tek3_nik', 'd.teknisi3', 'd.tek4_nik', 'd.teknisi4')
+                    ->orderBy('tgl_ikr')->orderBy('callsign')    
+                    ->get();
+        } else {
+            $dt = DB::table('data_assign_tim_fttxs as d')
+                ->leftJoin('employees as e', 'd.leader_id', '=', 'e.nik_karyawan')
+                ->select('d.jadwal_ikr as tgl_ikr', 'd.branch_id', 'd.branch', 'e.departement','d.leadcall_id', 'd.leadcall', 'd.leader_id', 'd.leader', 
+                    'd.callsign_id', 'd.callsign','d.tek1_nik', 'd.tim_1 as teknisi1', 'd.tek2_nik', 'd.tim_2 as teknisi2', 'd.tek3_nik', 'd.tim_3 as teknisi3', 'd.tek4_nik', 'd.tim_4 as teknisi4')
+                ->where('d.branch',$branch)
+                ->where('e.departement', $dept)
+                ->whereBetween('d.jadwal_ikr', [$startDt, $endDt])
+                ->groupBy('d.jadwal_ikr', 'd.branch_id', 'd.branch', 'e.departement','d.leadcall_id', 'd.leadcall', 'd.leader_id', 'd.leader', 
+                    'd.callsign_id', 'd.callsign','d.tek1_nik', 'd.tim_1', 'd.tek2_nik', 'd.tim_2', 'd.tek3_nik', 'd.tim_3', 'd.tek4_nik', 'd.tim_4')
                 ->orderBy('tgl_ikr')->orderBy('callsign')    
                 ->get();
+        }
 
         if ($request->ajax()) 
         {
@@ -255,7 +320,7 @@ class RekapAssignTimController extends Controller
                 ->addColumn('action', function ($row) {
                     $btn = '
                         <button type="button" id="editSignTim" name="editSignTim" 
-                        data-id= "'. $row->tgl_ikr."|".$row->branch."|".$row->leadcall."|".$row->leader."|".$row->callsign ."|".$row->tek1_nik."|".$row->teknisi1."|".$row->tek2_nik."|".$row->teknisi2."|".$row->tek3_nik."|".$row->teknisi3."|".$row->tek4_nik."|".$row->teknisi4. '" class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-0 mb-0 px-1 py-1">
+                        data-id= "'. $row->tgl_ikr."|".$row->branch."|".$row->leadcall."|".$row->leader."|".$row->callsign ."|".$row->tek1_nik."|".$row->teknisi1."|".$row->tek2_nik."|".$row->teknisi2."|".$row->tek3_nik."|".$row->teknisi3."|".$row->tek4_nik."|".$row->teknisi4."|".$row->departement. '" class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-0 mb-0 px-1 py-1">
                             <span class="btn-inner--icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
                                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
@@ -343,36 +408,52 @@ class RekapAssignTimController extends Controller
         $startDt = \Carbon\Carbon::parse($filTgl[0])->format('Y-m-d');
         $endDt = \Carbon\Carbon::parse($filTgl[1])->format('Y-m-d');
 
-        $tek1 = DB::table('v_rekap_assign_tim as vtim')
-                    ->leftJoin('employees as e', 'vtim.tek1_nik','=','e.nik_karyawan')
-                    ->select('vtim.tgl_ikr','vtim.branch_id','vtim.branch', 'vtim.departement','vtim.callsign', 'vtim.tek1_nik', 'vtim.teknisi1', 'e.posisi' )
-                    ->whereBetween('vtim.tgl_ikr',[$startDt, $endDt])
-                    ->where('vtim.branch',$branch)->where('vtim.departement',$dept)
-                    ->whereNotNull('vtim.tek1_nik');
+        // $tek1 = DB::table('v_rekap_assign_tim as vtim')
+        //             ->leftJoin('employees as e', 'vtim.tek1_nik','=','e.nik_karyawan')
+        //             ->select('vtim.tgl_ikr','vtim.branch_id','vtim.branch', 'vtim.departement','vtim.callsign', 'vtim.tek1_nik', 'vtim.teknisi1', 'e.posisi' )
+        //             ->whereBetween('vtim.tgl_ikr',[$startDt, $endDt])
+        //             ->where('vtim.branch',$branch)->where('vtim.departement',$dept)
+        //             ->whereNotNull('vtim.tek1_nik');
 
-        $tek2 = DB::table('v_rekap_assign_tim as vtim')
-                    ->leftJoin('employees as e', 'vtim.tek2_nik','=','e.nik_karyawan')
-                    ->select('vtim.tgl_ikr','vtim.branch_id','vtim.branch', 'vtim.departement','vtim.callsign', 'vtim.tek2_nik', 'vtim.teknisi2', 'e.posisi' )
-                    ->whereBetween('vtim.tgl_ikr',[$startDt, $endDt])
-                    ->where('vtim.branch',$branch)->where('vtim.departement',$dept)
-                    ->whereNotNull('vtim.tek2_nik');
+        // $tek2 = DB::table('v_rekap_assign_tim as vtim')
+        //             ->leftJoin('employees as e', 'vtim.tek2_nik','=','e.nik_karyawan')
+        //             ->select('vtim.tgl_ikr','vtim.branch_id','vtim.branch', 'vtim.departement','vtim.callsign', 'vtim.tek2_nik', 'vtim.teknisi2', 'e.posisi' )
+        //             ->whereBetween('vtim.tgl_ikr',[$startDt, $endDt])
+        //             ->where('vtim.branch',$branch)->where('vtim.departement',$dept)
+        //             ->whereNotNull('vtim.tek2_nik');
 
-        $tek3 = DB::table('v_rekap_assign_tim as vtim')
-                    ->leftJoin('employees as e', 'vtim.tek3_nik','=','e.nik_karyawan')
-                    ->select('vtim.tgl_ikr','vtim.branch_id','vtim.branch', 'vtim.departement','vtim.callsign', 'vtim.tek3_nik', 'vtim.teknisi3', 'e.posisi' )
-                    ->whereBetween('vtim.tgl_ikr',[$startDt, $endDt])
-                    ->where('vtim.branch',$branch)->where('vtim.departement',$dept)
-                    ->whereNotNull('vtim.tek3_nik');
+        // $tek3 = DB::table('v_rekap_assign_tim as vtim')
+        //             ->leftJoin('employees as e', 'vtim.tek3_nik','=','e.nik_karyawan')
+        //             ->select('vtim.tgl_ikr','vtim.branch_id','vtim.branch', 'vtim.departement','vtim.callsign', 'vtim.tek3_nik', 'vtim.teknisi3', 'e.posisi' )
+        //             ->whereBetween('vtim.tgl_ikr',[$startDt, $endDt])
+        //             ->where('vtim.branch',$branch)->where('vtim.departement',$dept)
+        //             ->whereNotNull('vtim.tek3_nik');
 
-        $tekAssign = DB::table('v_rekap_assign_tim as vtim')
-                    ->leftJoin('employees as e', 'vtim.tek4_nik','=','e.nik_karyawan')
-                    ->select('vtim.tgl_ikr','vtim.branch_id','vtim.branch', 'vtim.departement','vtim.callsign', 'vtim.tek4_nik as tek_nik', 'vtim.teknisi4 as teknisi', 'e.posisi' )
+        // $tekAssign = DB::table('v_rekap_assign_tim as vtim')
+        //             ->leftJoin('employees as e', 'vtim.tek4_nik','=','e.nik_karyawan')
+        //             ->select('vtim.tgl_ikr','vtim.branch_id','vtim.branch', 'vtim.departement','vtim.callsign', 'vtim.tek4_nik as tek_nik', 'vtim.teknisi4 as teknisi', 'e.posisi' )
+        //             ->whereBetween('vtim.tgl_ikr',[$startDt, $endDt])
+        //             ->where('vtim.branch',$branch)->where('vtim.departement',$dept)
+        //             ->whereNotNull('vtim.tek4_nik')
+        //             ->union($tek1)
+        //             ->union($tek2)
+        //             ->union($tek3)->distinct()
+        //             ->orderBy('callsign')->get();
+
+        $tekFtth = DB::table('v_rekap_assign as vtim')
+                    ->leftJoin('employees as e', 'vtim.tek_nik','=','e.nik_karyawan')
+                    ->select('vtim.tgl_ikr','vtim.branch', 'vtim.departement','vtim.callsign', 'vtim.tek_nik', 'vtim.teknisi', 'e.posisi' )
                     ->whereBetween('vtim.tgl_ikr',[$startDt, $endDt])
                     ->where('vtim.branch',$branch)->where('vtim.departement',$dept)
-                    ->whereNotNull('vtim.tek4_nik')
-                    ->union($tek1)
-                    ->union($tek2)
-                    ->union($tek3)->distinct()
+                    ->whereNotNull('vtim.tek_nik');
+
+        $tekAssign = DB::table('v_rekap_assign_fttx as vtim')
+                    ->leftJoin('employees as e', 'vtim.tek_nik','=','e.nik_karyawan')
+                    ->select('vtim.tgl_ikr','vtim.branch', 'vtim.departement','vtim.callsign', 'vtim.tek_nik', 'vtim.teknisi as teknisi', 'e.posisi' )
+                    ->whereBetween('vtim.tgl_ikr',[$startDt, $endDt])
+                    ->where('vtim.branch',$branch)->where('vtim.departement',$dept)
+                    ->whereNotNull('vtim.tek_nik')
+                    ->union($tekFtth)->distinct()
                     ->orderBy('callsign')->get();
 
 
@@ -427,9 +508,9 @@ class RekapAssignTimController extends Controller
     {
         $akses = Auth::user()->name;
 
-        $datas = DB::table('v_lead_assign_tim')
-                ->select('branch',DB::raw('sum(ftth_ib) as ftth_ib, sum(ftth_mt) as ftth_mt, sum(dismantle) as dismantle, sum(fttx_ib) as fttx_ib, sum(fttx_mt) as fttx_mt'))
-                ->groupBy('branch')
+        $datas = DB::table('v_rekap_assign_tim_hx')
+                ->select('branch','departement',DB::raw('sum(ftth_ib) as ftth_ib, sum(ftth_mt) as ftth_mt, sum(dismantle) as dismantle, sum(fttx_ib) as fttx_ib, sum(fttx_mt) as fttx_mt'))
+                ->groupBy('branch','departement')
                 ->orderBy('branch');
 
             if($request->filTgl != null) {

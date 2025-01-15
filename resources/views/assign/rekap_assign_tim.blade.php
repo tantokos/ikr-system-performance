@@ -169,19 +169,20 @@
                                     id="rekapAssignTim" style="font-size: 12px; border-color:#9ca0a7;">
                                     <thead class="bg-gray-100">
                                         <tr id="headTool">
-                                            <th class="text-xs font-weight-semibold">#</th>
-                                            <th class="text-center text-xs font-weight-semibold">Area</th>
+                                            <th class="text-xs text-secondary">#</th>
+                                            <th class="text-xs text-secondary">Area</th>
+                                            <th class="text-xs text-secondary">Dept.</th>
                                             {{-- <th class="text-center text-xs font-weight-semibold">PIC Assign Tim</th> --}}
-                                            <th class="text-center text-xs font-weight-semibold">FTTH New Installation</th>
-                                            <th class="text-center text-xs font-weight-semibold">FTTH Maintenance</th>
-                                            <th class="text-center text-xs font-weight-semibold">Dismantle</th>
-                                            <th class="text-center text-xs font-weight-semibold">FTTX New Installation</th>
-                                            <th class="text-center text-xs font-weight-semibold">FTTX Maintenance</th>
-                                            <th class="text-center text-xs font-weight-semibold">#</th>
+                                            <th class="text-center text-xs text-secondary">FTTH New Installation</th>
+                                            <th class="text-center text-xs text-secondary">FTTH Maintenance</th>
+                                            <th class="text-center text-xs text-secondary">Dismantle</th>
+                                            <th class="text-center text-xs text-secondary">FTTX New Installation</th>
+                                            <th class="text-center text-xs text-secondary">FTTX Maintenance</th>
+                                            <th class="text-center text-xs text-secondary">#</th>
 
                                         </tr>
                                     </thead>
-                                    <tbody id="bodyTool">
+                                    <tbody id="bodyTool" style="font-weight: bold">
 
                                     </tbody>
                                 </table>
@@ -253,10 +254,21 @@
                                 </div>
 
                                 <div class="form-group mb-1">
-                                    <span class="text-xs">Callsign Tim</span>
-                                    <input class="form-control form-control-sm" type="text" value="" id="EditcallsignTim"
-                                            name="EditcallsignTim" style="border-color:#9ca0a7;" readonly>
-                                    <input type="hidden" id="EditCallsignTimId" name="EditCallsignTimId" readonly>
+                                    <div class="row">
+                                        <div class="col">
+                                            <span class="text-xs">Callsign Tim</span>
+                                            <input class="form-control form-control-sm" type="text" value="" id="EditcallsignTim"
+                                                    name="EditcallsignTim" style="border-color:#9ca0a7;" readonly>
+                                            <input type="hidden" id="EditCallsignTimId" name="EditCallsignTimId" readonly>
+                                        </div>
+
+                                        <div class="col">
+                                            <span class="text-xs">Departemen</span>
+                                            <input class="form-control form-control-sm" type="text" value="" id="EditDepartement"
+                                                    name="EditDepartement" style="border-color:#9ca0a7;" readonly>
+                                        </div>
+
+                                    </div>
                                 </div>
 
                                 <div class="form-group mb-1">
@@ -799,6 +811,7 @@
                     $('#EditLeadCallsign').val(edt[2]);
                     $('#EditLeader').val(edt[3]);
                     $('#EditcallsignTim').val(edt[4]);
+                    $('#EditDepartement').val(edt[13]);
 
                     $('#EditTeknisi1').find('option').remove();
                     $('#EditTeknisi1').append(
@@ -951,6 +964,10 @@
                     },
                     {
                         data: 'branch',
+                        // width: '90'
+                    },
+                    {
+                        data: 'departement',
                         // width: '90'
                     },
                     // {
