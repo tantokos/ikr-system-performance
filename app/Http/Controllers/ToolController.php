@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\DataDistribusiTool;
+use App\Models\DataPengecekanTool;
+use App\Models\DataPengembalianTool;
 use App\Models\Employee;
 use App\Models\ToolApprove;
 use App\Models\ToolIkr;
@@ -22,6 +24,8 @@ class ToolController extends Controller
     public function index()
     {
         $mail = Auth::user()->email;
+        $can = Auth::user()->akses;
+
         $login = Employee::where('email', $mail)
                 ->leftJoin('branches', 'employees.branch_id','=','branches.id')
                 ->select('nik_karyawan', 'nama_karyawan','departement','posisi','nama_branch','email')
@@ -56,7 +60,7 @@ class ToolController extends Controller
         return view('vTool.data_Tool',
                 ['login' => $login, 'loginApp1' => $loginApp1, 
                 'loginApp2' => $loginApp2,'branch' => $branch,
-                'posisi' => $posisi, 'callsign' => $callsign, 'namaTool' => $namaTool]);
+                'posisi' => $posisi, 'callsign' => $callsign, 'namaTool' => $namaTool, 'can' => $can]);
     }
 
 
@@ -468,20 +472,69 @@ class ToolController extends Controller
 
             // $dtToolOld = DB::table('tool_ikrs')->where('id', $request->namaToolShowId)->first();
             $dtTool = ToolIkr::findOrFail($request->namaToolShowId);
+            
+            if(Auth::user()->akses == "SA") {
+                $dtTool->update([
+                    'nama_barang' => $request['namaToolShow'],
+                    'merk_barang' => $request['merkShow'],
+                    'spesifikasi' => $request['spesifikasiShow'],
+                    'kode_aset' => Str::upper($request['kodeAsetShow']),
+                    'kode_ga' => Str::upper($request['kodeGAShow']),
+                    'kondisi' => $request['kondisiShow'],
+                    'satuan' => $request['satuanShow'],
+                    'tgl_pengadaan' => $request['tglPenerimaanShow'],
+                    'foto_barang' => $file,
+                    'approve1' => $dtToolOld->approve1,
+                    'approve2' => $dtToolOld->approve2,
+                ]);
 
-            $dtTool->update([
-                'nama_barang' => $request['namaToolShow'],
-                'merk_barang' => $request['merkShow'],
-                'spesifikasi' => $request['spesifikasiShow'],
-                'kode_aset' => Str::upper($request['kodeAsetShow']),
-                'kode_ga' => Str::upper($request['kodeGAShow']),
-                'kondisi' => $request['kondisiShow'],
-                'satuan' => $request['satuanShow'],
-                'tgl_pengadaan' => $request['tglPenerimaanShow'],
-                'foto_barang' => $file,
-                'approve1' => 'Submited',
-                'approve2' => 'Submited',
-            ]);
+                $dtDis = DataDistribusiTool::where('barang_id', $request->namaToolShowId)
+                        ->update([
+                            'nama_barang' => $request['namaToolShow'],
+                            'merk_barang' => $request['merkShow'],
+                            // 'kondisi' => $request['kondisiShow'],
+                            'satuan' => $request['satuanShow'],
+                            'kode_aset' => Str::upper($request['kodeAsetShow']),
+                            'kode_ga' => Str::upper($request['kodeGAShow']),
+                            'spesifikasi' => $request['spesifikasiShow'],                    
+                        ]);
+
+                $dtkmbli = DataPengembalianTool::where('barang_id', $request->namaToolShowId)
+                        ->update([
+                            'nama_barang' => $request['namaToolShow'],
+                            'merk_barang' => $request['merkShow'],
+                            // 'kondisi' => $request['kondisiShow'],
+                            'satuan' => $request['satuanShow'],
+                            'kode_aset' => Str::upper($request['kodeAsetShow']),
+                            'kode_ga' => Str::upper($request['kodeGAShow']),
+                            'spesifikasi' => $request['spesifikasiShow'],                    
+                        ]);
+
+                $dtlap = DataPengecekanTool::where('barang_id', $request->namaToolShowId)
+                        ->update([
+                            'nama_barang' => $request['namaToolShow'],
+                            'merk_barang' => $request['merkShow'],
+                            // 'kondisi' => $request['kondisiShow'],
+                            'satuan' => $request['satuanShow'],
+                            'kode_aset' => Str::upper($request['kodeAsetShow']),
+                            'kode_ga' => Str::upper($request['kodeGAShow']),
+                            'spesifikasi' => $request['spesifikasiShow'],                    
+                        ]);
+            } else {
+                $dtTool->update([
+                    'nama_barang' => $request['namaToolShow'],
+                    'merk_barang' => $request['merkShow'],
+                    'spesifikasi' => $request['spesifikasiShow'],
+                    'kode_aset' => Str::upper($request['kodeAsetShow']),
+                    'kode_ga' => Str::upper($request['kodeGAShow']),
+                    'kondisi' => $request['kondisiShow'],
+                    'satuan' => $request['satuanShow'],
+                    'tgl_pengadaan' => $request['tglPenerimaanShow'],
+                    'foto_barang' => $file,
+                    'approve1' => 'Submited',
+                    'approve2' => 'Submited',
+                ]);
+            }            
 
             DB::commit();
 
@@ -589,6 +642,10 @@ class ToolController extends Controller
                 ->leftJoin('employees','tool_ikrs.nik_penerima','=','employees.nik_karyawan')
                 ->select('tool_ikrs.*','employees.nik_karyawan', 'employees.nama_karyawan','employees.departement','employees.posisi')->where('tool_ikrs.id', $request->filToolId)
             ->first();
+
+        if(Auth::user()->akses == "SA") {
+            $detTool->approve1 = "Submited";
+        }
 
         return response()->json($detTool);
     }

@@ -515,9 +515,19 @@ class JadwalTim_controller extends Controller
                     }
                 }
 
+                // $dtAssign = DB::table('v_rekap_assign')
+                //         ->where('tgl_ikr', $request->tglProgress)->where('tek_nik', $request->nikKaryawan)
+                //         ->select('callsign', 'posisi_nik','posisi_tek', 'departement')
+                //         ->first();
+
                 $dtAssign = DB::table('v_rekap_assign')
                         ->where('tgl_ikr', $request->tglProgress)->where('tek_nik', $request->nikKaryawan)
-                        ->select('callsign', 'posisi_nik','posisi_tek')
+                        ->select('callsign', 'departement', 'posisi_nik','posisi_tek')
+                        ->first();
+
+                $dtAssignx = DB::table('v_rekap_assign_fttx')
+                        ->where('tgl_ikr', $request->tglProgress)->where('tek_nik', $request->nikKaryawan)
+                        ->select('callsign', 'departement', 'posisi_nik','posisi_tek')
                         ->first();
                 // dd(is_null($dtAssign));
                 
@@ -533,7 +543,22 @@ class JadwalTim_controller extends Controller
                             ->update([
                                 $pos_nik => null,
                                 $pos_tek => null,
-                            ]);                
+                            ]);                                   
+                }
+
+                if(!is_null($dtAssignx) && ($request->statusKehadiran == "OFF" || $request->statusKehadiran == "Cuti" || $request->statusKehadiran == "Sakit" || $request->statusKehadiran == "Absen"))
+                {
+                    $pos_nikx = $dtAssignx->posisi_nik;
+                    $pos_tekx = $dtAssignx->posisi_tek;
+
+                    $dtAssignTim = DB::table('data_assign_tim_fttxs')
+                            ->where('jadwal_ikr', $request->tglProgress)
+                            ->where('branch', $dt->branch)
+                            ->where('callsign', $dtAssignx->callsign)
+                            ->update([
+                                $pos_nikx => null,
+                                $pos_tekx => null,
+                            ]);    
                 }
 
                 DB::commit();
