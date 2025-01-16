@@ -323,7 +323,6 @@
             icon: "success",
             title: "Berhasil",
             text: "{{ session('success') }}",
-            showConfirmButton: true,
             // timer: 2000
         });
     @elseif (session('error'))
@@ -416,7 +415,7 @@
                         } ,
                         buttons: ['excel'],
                     },
-                    
+
                 },
                 paging: true,
                 orderClasses: false,
@@ -500,7 +499,7 @@
             let assign_id = $(this).data('id');
 
             $.ajax({
-                url: "{{ route('getDetailAssign') }}",
+                url: "{{ route('getDetailAssignFttx') }}",
                 type: "get",
                 data: {
                     filAssignId: assign_id,
@@ -509,31 +508,33 @@
                 success: function(dtDis) {
                     console.log(dtDis);
                     $('#detId').val(dtDis.data.id)
-                    $('#noWoShow').val(dtDis.data.no_wo_apk)
-                    $('#ticketNoShow').val(dtDis.data.no_ticket_apk)
-                    $('#woTypeShow').val(toTitleCase(dtDis.data.wo_type_apk))
-                    $('#jenisWoShow').val(dtDis.data.type_wo)
-                    $('#WoDateShow').val(dtDis.data.wo_date_apk)
-                    $('#custIdShow').val(dtDis.data.cust_id_apk)
-                    $('#custNameShow').val(toTitleCase(dtDis.data.name_cust_apk))
-                    $('#custPhoneShow').val(dtDis.data.cust_phone_apk)
-
-                    $('#custMobileShow').val(dtDis.data.cust_mobile_apk);
-                    $('#custAddressShow').val(toTitleCase(dtDis.data.address_apk));
-                    $('#areaShow').val(toTitleCase(dtDis.data.area_cluster_apk));
-                    $('#ikrDateApkShow').val(dtDis.data.ikr_date_apk);
-                    $('#timeApkShow').val(dtDis.data.time_apk);
-                    $('#fatCodeShow').val(dtDis.data.fat_code_apk);
-                    $('#portFatShow').val(dtDis.data.fat_port_apk);
-                    $('#remarksShow').val(toTitleCase(dtDis.data.remarks_apk || ""));
-
+                    $('#noSo').val(dtDis.data.no_so)
+                    $('#woType').val(dtDis.data.wo_type)
+                    $('#picCustomer').val(dtDis.data.pic_customer)
+                    $('#soDate').val(dtDis.data.so_date)
+                    $('#customerName').val(toTitleCase(dtDis.data.customer_name))
+                    $('#phonePicCust').val(dtDis.data.phone_pic_cust)
+                    $('#productShow').val(toTitleCase(dtDis.data.product))
                     $('#branchShow').val(dtDis.data.branch_id + '|' + dtDis.data.branch);
-                    $('#tglProgressShow').val(dtDis.data.tgl_ikr);
-
-                    $('#sesiShowAdd').val(toTitleCase(dtDis.data.batch_wo || ""));
-                    $('#sesiShow').val(toTitleCase(dtDis.data.batch_wo || ""));
-                    console.log(dtDis.data.batch_wo);
-
+                    $('#teknisi1').val(dtDis.data.tim_1)
+                    $('#teknisi2').val(dtDis.data.tim_2)
+                    $('#teknisi3').val(dtDis.data.tim_3)
+                    $('#teknisi4').val(dtDis.data.tim_4)
+                    $('#addressShow').val(dtDis.data.address)
+                    $('#remarkEwo').val(dtDis.data.remark_ewo)
+                    $('#cidShow').val(dtDis.data.cid)
+                    $('#segmentSales').val(dtDis.data.segment_sales)
+                    $('#checkinShow').val(dtDis.data.checkin)
+                    $('#checkoutShow').val(dtDis.data.checkout)
+                    $('#statusWo').val(dtDis.data.status_wo)
+                    $('#areaShow').val(dtDis.data.area)
+                    $('#statusPenjadwalan').val(dtDis.data.status_penjadwalan)
+                    $('#jadwalIkr').val(dtDis.data.jadwal_ikr)
+                    $('#slotTimeJadwal').val(dtDis.data.slot_time_jadwal)
+                    $('#nopolShow').val(dtDis.data.nopol)
+                    $('#perubahanSlotTimeTele').val(dtDis.data.perubahan_slot_time_tele)
+                    $('#keteranganWo').val(dtDis.data.keterangan_wo)
+                    $('#remarkForIkr').val(dtDis.data.remark_for_ikr)
 
                     leadCallsignDet = dtDis.data.leadcall_id + '|' + dtDis.data.leadcall
                     // document.getElementById("LeadCallsignShow").value = leadCallsignDet;
@@ -542,8 +543,6 @@
 
                     $('#leaderShow').val(dtDis.data.leader);
                     $('#leaderidShow').val(dtDis.data.leader_id);
-                    $('#slotTimeShow').val(dtDis.data.slot_time);
-
                     $('#callsignTimidShow').find('option').remove();
                     $('#callsignTimidShow').append(
                         `<option value="">Pilih Callsign Tim</option>`);
@@ -597,10 +596,10 @@
                         )
                     })
                     // $('#callsignTimShow').val(dtDis.callsign);
-                    $('#teknisi1Show').val(dtDis.data.tek1_nik + '|' + dtDis.data.teknisi1);
-                    $('#teknisi2Show').val(dtDis.data.tek2_nik + '|' + dtDis.data.teknisi2);
-                    $('#teknisi3Show').val(dtDis.data.tek3_nik + '|' + dtDis.data.teknisi3);
-                    $('#teknisi4Show').val(dtDis.data.tek4_nik + '|' + dtDis.data.teknisi4);
+                    $('#teknisi1Show').val(dtDis.data.tek1_nik + '|' + dtDis.data.tim_1);
+                    $('#teknisi2Show').val(dtDis.data.tek2_nik + '|' + dtDis.data.tim_2);
+                    $('#teknisi3Show').val(dtDis.data.tek3_nik + '|' + dtDis.data.tim_3);
+                    $('#teknisi4Show').val(dtDis.data.tek4_nik + '|' + dtDis.data.tim_4);
 
                     $('#showAssignTim').modal('show');
                 }
@@ -793,8 +792,8 @@
                     area = dtLead.callLead.branch_id;
                     leader = dtLead.callLead.nik_karyawan
                     // $('#leadCallsignShow').val(dtLead.callLead.lead_callsign)
-                    // $('#leaderid').val(dtLead.callLead.leader_id)
-                    // $('#leader').val(dtLead.callLead.nama_karyawan)
+                    $('#leaderidShow').val(dtLead.callLead.leader_id)
+                    $('#leaderShow').val(dtLead.callLead.nama_karyawan)
                     // $('#areaTim').val(dtLead.callLead.nama_branch)
                     // $('#posisiTim').val(dtLead.callLead.posisi)
 
