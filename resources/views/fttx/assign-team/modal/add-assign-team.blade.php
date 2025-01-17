@@ -151,17 +151,6 @@
                                 <textarea class="form-control form-control-sm" type="text" id="address" name="address"
                                     style="border-color:#9ca0a7;" required></textarea>
                             </div>
-
-                            <div class="form-group mb-1">
-                                <div class="row">
-                                    <div class="col form-group mb-1">
-                                        <span class="text-xs">Remark EWO</span>
-                                        <textarea class="form-control form-control-sm" type="text" id="remark_ewo" name="remark_ewo" style="border-color:#9ca0a7;"
-                                            required></textarea>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
 
                         <div class="col">
@@ -278,7 +267,7 @@
                                 <div class="form-group mb-1">
                                     <span class="text-xs">Keterangan WO</span>
                                     <textarea class="form-control form-control-sm" type="text" id="keterangan_wo" name="keterangan_wo"
-                                        style="border-color:#9ca0a7;" required></textarea>
+                                        style="border-color:#9ca0a7;"></textarea>
                                 </div>
                             </div>
 
@@ -287,7 +276,16 @@
                                     <div class="col form-group mb-1">
                                         <span class="text-xs">Remark For IKR</span>
                                         <textarea class="form-control form-control-sm" type="text" id="remark_for_ikr" name="remark_for_ikr"
-                                            style="border-color:#9ca0a7;" required></textarea>
+                                            style="border-color:#9ca0a7;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-1">
+                                <div class="row">
+                                    <div class="col form-group mb-1">
+                                        <span class="text-xs">Remark EWO</span>
+                                        <textarea class="form-control form-control-sm" type="text" id="remark_ewo" name="remark_ewo" style="border-color:#9ca0a7;"></textarea>
                                     </div>
                                 </div>
                             </div>
