@@ -143,7 +143,7 @@ class RekapAssignTimController extends Controller
                     ->where('e.status_active', 'Aktif')
                     ->whereIn('vd.status', ["ON", "OD"])
                     ->where('vd.tgl', $tgl)
-                    ->where('e.posisi', 'like','%Teknisi%')
+                    ->whereRaw('(e.posisi like "%Teknisi%" or e.posisi like "%Leader%")')
                     ->select('vd.tgl','vd.branch','vd.nik_karyawan','vd.nama_karyawan','e.posisi')
                     ->orderBy('vd.tgl')
                     ->orderBy('vd.nama_karyawan')
@@ -263,6 +263,41 @@ class RekapAssignTimController extends Controller
 
     }
 
+    public function getTabelRekapLeader(Request $request)
+    {
+        $rekapLead = DB::table('v_rekap_jadwal_data as vj')
+                    ->leftJoin('employees as e', 'vj.nik_karyawan','=','e.nik_karyawan')
+                    ->where('e.posisi','like','%Leader%')
+                    ->select(DB::raw('vj.branch, vj.departement,
+                                count(if((vj.status="ON") or (vj.status="OD"),1,null)) as lead_on,
+                                count(if(vj.status="OFF",1,null)) as lead_off,
+                                count(if(vj.status="Cuti",1,null)) as lead_cuti,
+                                count(if(vj.status="Sakit",1,null)) as lead_sakit,
+                                count(if(vj.status="Absen",1,null)) as lead_abs'))
+                    ->groupBy('vj.branch','vj.departement');
+
+
+        if($request->filTgl != null) {
+            $dateRange = explode("-", $request->filTgl);
+            $startDt = \Carbon\Carbon::parse($dateRange[0])->format('Y-m-d');
+            $endDt = \Carbon\Carbon::parse($dateRange[1])->format('Y-m-d');
+        
+            $rekapLead = $rekapLead->whereBetween('vj.tgl',[$startDt, $endDt]);
+            // $datas = $datas->whereRaw("(date_format(vtim.tgl_ikr,'%Y-%m-%d') >= ? and date_format(vtim.tgl_ikr, '%Y-%m-%d') <= ?)",[$startDt, $endDt]);
+        }
+        
+        if($request->filarea != null) {
+            $b = explode("|", $request->filarea);
+            $br = $b[1];
+            $rekapLead = $rekapLead->where('vj.branch', $br);
+        }
+
+        $rekapLead= $rekapLead->get();
+
+        dd($rekapLead);
+
+    }
+
     public function getDetailRekapAssignTim(Request $request)
     {
         $detail = explode("|", $request->fil);
@@ -305,7 +340,7 @@ class RekapAssignTimController extends Controller
                 ->select('d.jadwal_ikr as tgl_ikr', 'd.branch_id', 'd.branch', 'e.departement','d.leadcall_id', 'd.leadcall', 'd.leader_id', 'd.leader', 
                     'd.callsign_id', 'd.callsign','d.tek1_nik', 'd.tim_1 as teknisi1', 'd.tek2_nik', 'd.tim_2 as teknisi2', 'd.tek3_nik', 'd.tim_3 as teknisi3', 'd.tek4_nik', 'd.tim_4 as teknisi4')
                 ->where('d.branch',$branch)
-                ->where('e.departement', $dept)
+                // ->where('e.departement', $dept)
                 ->whereBetween('d.jadwal_ikr', [$startDt, $endDt])
                 ->groupBy('d.jadwal_ikr', 'd.branch_id', 'd.branch', 'e.departement','d.leadcall_id', 'd.leadcall', 'd.leader_id', 'd.leader', 
                     'd.callsign_id', 'd.callsign','d.tek1_nik', 'd.tim_1', 'd.tek2_nik', 'd.tim_2', 'd.tek3_nik', 'd.tim_3', 'd.tek4_nik', 'd.tim_4')
@@ -322,9 +357,8 @@ class RekapAssignTimController extends Controller
                         <button type="button" id="editSignTim" name="editSignTim" 
                         data-id= "'. $row->tgl_ikr."|".$row->branch."|".$row->leadcall."|".$row->leader."|".$row->callsign ."|".$row->tek1_nik."|".$row->teknisi1."|".$row->tek2_nik."|".$row->teknisi2."|".$row->tek3_nik."|".$row->teknisi3."|".$row->tek4_nik."|".$row->teknisi4."|".$row->departement. '" class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-0 mb-0 px-1 py-1">
                             <span class="btn-inner--icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
-                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"></path>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
                                 </svg>
                             </span>
                         </button>';
@@ -457,6 +491,15 @@ class RekapAssignTimController extends Controller
                     ->orderBy('callsign')->get();
 
 
+        $tekftth = DB::table('v_rekap_assign as tekh')
+                    ->select('tekh.tek_nik', 'tekh.teknisi')
+                    ->whereBetween('tekh.tgl_ikr',[$startDt, $endDt]);
+        $dtTekAssignAll = DB::table('v_rekap_assign_fttx as tekx')
+                    ->select('tekx.tek_nik', 'tekx.teknisi')
+                    ->whereBetween('tekx.tgl_ikr',[$startDt, $endDt])
+                    ->union($tekftth)
+                    ->orderBy('teknisi')->get();
+
         $tekStandBy= DB::table('v_rekap_jadwal_data as vd')
                     ->leftJoin('employees as e', 'vd.nik_karyawan','=','e.nik_karyawan')                    
                     ->where('vd.branch', $branch)
@@ -465,7 +508,7 @@ class RekapAssignTimController extends Controller
                     ->whereBetween('vd.tgl', [$startDt,$endDt])
                     ->where('e.posisi', 'like','%Teknisi%')
                     ->where('vd.departement','=', $dept)
-                    ->whereNotIn('vd.nik_karyawan', $tekAssign->pluck('tek_nik'))
+                    ->whereNotIn('vd.nik_karyawan', $dtTekAssignAll->pluck('tek_nik'))
                     ->select('vd.tgl as tgl_ikr','vd.branch','vd.nik_karyawan as tek_nik','vd.nama_karyawan as teknisi','e.posisi','vd.status','vd.keterangan')
                     ->orderBy('vd.tgl')
                     ->orderBy('vd.nama_karyawan')
@@ -478,7 +521,6 @@ class RekapAssignTimController extends Controller
         }elseif($klik=="JmlStandby"){
             $dt = $tekStandBy;
         }
-
         
         if ($request->ajax()) 
         {

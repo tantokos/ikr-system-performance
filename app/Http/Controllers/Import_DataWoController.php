@@ -335,8 +335,10 @@ class Import_DataWoController extends Controller
                             if ($cekDoubleAssign) {
                                 array_push($doubleAssign, $data['no_wo_apk']);
 
+                                //update callsign di data sebelum nya, jika ada perubahan tim/callsign
                                 $updateDtAssign = DataAssignTim::where('no_wo_apk', $data['no_wo_apk'])->where('tgl_ikr', $data['tgl_ikr'])
                                                 ->update([
+                                                    'area_cluster_apk' => $data['area_cluster_apk'],
                                                     'slot_time' => $data['slot_time'],
                                                     'time_apk' => $data['time_apk'],
                                                     'branch_id' => $data['branch_id'],
@@ -355,12 +357,12 @@ class Import_DataWoController extends Controller
                                                     'teknisi3' => $data['teknisi3'],
                                                     'tek4_nik' => $data['tek4_nik'],
                                                     'teknisi4' => $data['teknisi4']
-                                                ]);
+                                                ]);                                
                             }                          
 
                         }
 
-                        //update callsign di data assign tim
+                        //update selurun callsign tim di data assign tim jika ada perubahan tim di callsign
                         foreach ($dtImportCallsign as $impCallsign ) {
                             $updateDtCallsign = DataAssignTim::where('tgl_ikr', $impCallsign['tgl_ikr'])
                                     ->where('callsign', $impCallsign['callsign'])
@@ -432,7 +434,6 @@ class Import_DataWoController extends Controller
                         // Insert data yang valid/tidak double ke data_assign_tims    
                         DataAssignTim::insert($dtImportAssign2);
 
-
                         // Proses penyimpanan ke tabel sesuai type_wo
                         foreach ($dtImportAssign2 as $data) {
 
@@ -499,7 +500,9 @@ class Import_DataWoController extends Controller
                                     'tek4_nik' => $data['tek4_nik'],
                                     'teknisi4' => $data['teknisi4'],
                                     'is_checked' => 0,
-                                    'login' => $data['login']
+                                    'login' => $data['login'],
+                                    "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+                                    "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
                                 ]);
                             } elseif ($data['type_wo'] === 'FTTH New Installation') {
                                 DB::table('data_ftth_ib_oris')->insert([
@@ -544,7 +547,9 @@ class Import_DataWoController extends Controller
                                     'status_wo' => "Requested",
                                     'status_apk' => "Requested",
                                     'is_checked' => 0,
-                                    'login' => $data['login']
+                                    'login' => $data['login'],
+                                    "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+                                    "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
                                 ]);
                             } elseif ($data['type_wo'] == 'FTTH Dismantle') {
                                 DB::table('data_ftth_dismantle_oris')->insert([
@@ -578,7 +583,9 @@ class Import_DataWoController extends Controller
                                     'teknisi2' => $data['teknisi2'],
                                     'tek3_nik' => $data['tek3_nik'],
                                     'teknisi3' => $data['teknisi3'],
-                                    'login' => $data['login']
+                                    'login' => $data['login'],
+                                    "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+                                    "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
                                 ]);
                             }
                         }

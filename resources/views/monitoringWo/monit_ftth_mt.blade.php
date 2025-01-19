@@ -424,13 +424,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($mostCauseCode as $causeCode)
-                                <tr>
-                                    <td class="text-sm p-1">{{ $loop->iteration }}</td>
-                                    <td class="text-sm p-1">{{ $causeCode->couse_code }}</td>
-                                    <td class="text-sm p-1">{{ $causeCode->qtyCauseCode }}</td>
-                                </tr>
-                                @endforeach
+                                @if (isset($mostCauseCode))
+                                    @foreach ($mostCauseCode as $causeCode)
+                                    <tr>
+                                        <td class="text-sm p-1">{{ $loop->iteration }}</td>
+                                        <td class="text-sm p-1">{{ $causeCode->couse_code }}</td>
+                                        <td class="text-sm p-1">{{ $causeCode->qtyCauseCode }}</td>
+                                    </tr>
+                                    @endforeach
+                                @endif
+                                
                             </tbody>
                         </table>
                     </div>
@@ -448,13 +451,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($mostRootCause as $root_cause)
-                                <tr>
-                                    <td class="text-sm p-1">{{ $loop->iteration }}</td>
-                                    <td class="text-sm p-1">{{ $root_cause->root_couse }}</td>
-                                    <td class="text-sm p-1">{{ $root_cause->qtyRootCause }}</td>
-                                </tr>
-                                @endforeach
+                                @if (isset($mostRootCause))
+                                    @foreach ($mostRootCause as $root_cause)
+                                    <tr>
+                                        <td class="text-sm p-1">{{ $loop->iteration }}</td>
+                                        <td class="text-sm p-1">{{ $root_cause->root_couse }}</td>
+                                        <td class="text-sm p-1">{{ $root_cause->qtyRootCause }}</td>
+                                    </tr>
+                                    @endforeach
+                                @endif
+                                
                             </tbody>
                         </table>
                     </div>
@@ -474,13 +480,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($mostActionTaken as $actionTaken)
-                                <tr>
-                                    <td class="text-sm p-1">{{ $loop->iteration }}</td>
-                                    <td class="text-sm p-1">{{ $actionTaken->action_taken }}</td>
-                                    <td class="text-sm p-1">{{ $actionTaken->qtyActionTaken }}</td>
-                                </tr>
-                                @endforeach
+                                @if (isset($mostActionTaken))
+                                    @foreach ($mostActionTaken as $actionTaken)
+                                    <tr>
+                                        <td class="text-sm p-1">{{ $loop->iteration }}</td>
+                                        <td class="text-sm p-1">{{ $actionTaken->action_taken }}</td>
+                                        <td class="text-sm p-1">{{ $actionTaken->qtyActionTaken }}</td>
+                                    </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -641,15 +649,6 @@
                                                 </div>
 
                                                 <div class="form-group mb-1">
-                                                    <span class="text-xs">Area/Cluster</span>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        type="text" id="cluster" name="cluster"
-                                                        style="border-color:#9ca0a7;" readonly>
-                                                </div>
-
-
-
-                                                <div class="form-group mb-1">
                                                     <span class="text-xs">Remarks</span>
                                                     <textarea class="form-control form-control-sm" type="text" id="remarkStatus" name="remarkStatus"
                                                         style="border-color:#9ca0a7;" readonly></textarea>
@@ -677,11 +676,19 @@
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
-                                                        <div class="col form-group mb-1">
+
+                                                        {{-- <div class="col form-group mb-1">
                                                             <span class="text-xs">Tanggal Progress</span>
                                                             <input class="form-control form-control-sm" type="date"
                                                                 value="{{ date('Y-m-d') }}" id="tglProgressShow"
                                                                 name="tglProgressShow" style="border-color:#9ca0a7;" readonly>
+                                                        </div> --}}
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Area/Cluster</span>
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                type="text" id="cluster" name="cluster"
+                                                                style="border-color:#9ca0a7;">
                                                         </div>
 
                                                         <div class="col form-group mb-1">
@@ -689,7 +696,7 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="sesiShow" name="sesiShow"
                                                                 style="border-color:#9ca0a7;"
-                                                                placeholder="Isi Callsign Tim" readonly>
+                                                                placeholder="Isi Callsign Tim" disabled>
                                                                 <option value="Regular">Regular</option>
                                                                 <option value="Batch 1">Batch 1</option>
                                                                 <option value="Batch 2">Batch 2</option>
@@ -702,53 +709,19 @@
 
                                                             </select>
                                                         </div>
+                                                        
+                                                        
 
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Slot Time Leader</span>
-                                                            <select class="form-control form-control-sm"
-                                                                type="text" id="slotTimeLeaderShow"
-                                                                name="slotTimeLeaderShow"
-                                                                style="border-color:#9ca0a7;" readonly>
-                                                                <option value="">Pilih Slot Time</option>
-                                                                <option value="09:00">09:00</option>
-                                                                <option value="09:30">09:30</option>
-                                                                <option value="10:00">10:00</option>
-                                                                <option value="10:30">10:30</option>
-                                                                <option value="11:00">11:00</option>
-                                                                <option value="11:30">11:30</option>
-                                                                <option value="12:00">12:00</option>
-                                                                <option value="12:30">12:30</option>
-                                                                <option value="13:00">13:00</option>
-                                                                <option value="13:30">13:30</option>
-                                                                <option value="14:00">14:00</option>
-                                                                <option value="14:30">14:30</option>
-                                                                <option value="15:00">15:00</option>
-                                                                <option value="15:30">15:30</option>
-                                                                <option value="16:00">16:00</option>
-                                                                <option value="16:30">16:30</option>
-                                                                <option value="17:00">17:00</option>
-                                                                <option value="17:30">17:30</option>
-                                                                <option value="18:00">18:00</option>
-                                                                <option value="18:30">18:30</option>
-                                                                <option value="19:00">19:00</option>
-                                                                <option value="19:30">19:30</option>
-                                                                <option value="20:00">20:00</option>
-                                                            </select>
-                                                            {{-- <input class="form-control form-control-sm" type="text"
-                                                                id="slotTimeLeaderShow" name="slotTimeLeaderShow"
-                                                                style="border-color:#9ca0a7;"> --}}
-                                                        </div>
-
-                                                        <div class="col form-group mb-1">
+                                                        {{-- <div class="col-4 form-group mb-1">
                                                             <span class="text-xs">Slot Time APK</span>
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="slotTimeAPKShow"
-                                                                name="slotTimeAPKShow" style="border-color:#9ca0a7;" readonly>
+                                                                name="slotTimeAPKShow" style="border-color:#9ca0a7;" disabled>
                                                                 <option value="">Pilih Slot Time</option>
                                                                 <option value="09:00">09:00</option>
                                                                 <option value="09:30">09:30</option>
@@ -774,19 +747,23 @@
                                                                 <option value="19:30">19:30</option>
                                                                 <option value="20:00">20:00</option>
                                                             </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
+                                                        </div> --}}
 
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Lead Callsign</span>
+                                                            <span class="text-xs">Lead Callsign | Leader</span>
                                                             <select class="form-control form-control-sm" id="LeadCallsignShow" name="LeadCallsignShow" style="border-color:#9ca0a7;">
                                                                 <option value="">Pilih Lead Callsign</option>
                                                             </select>
                                                         </div>
+
+                                                        
+                                                    </div>
+                                                </div>
+
+                                                {{-- <div class="form-group mb-1">
+                                                    <div class="row">
+
+                                                        
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Nama Leader</span>
@@ -797,14 +774,14 @@
                                                                 name="leaderidShow" readonly>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Callsign Tim</span>
-                                                            <select class="form-control form-control-sm" id="callsignTimidShow" name="callsignTimidShow" style="border-color:#9ca0a7;" readonly>
+                                                            <select class="form-control form-control-sm" id="callsignTimidShow" name="callsignTimidShow" style="border-color:#9ca0a7;">
                                                                 <option value="">Pilih Callsign Tim</option>
                                                             </select>
                                                         </div>
@@ -813,32 +790,37 @@
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 1</span>
-                                                        <input class="form-control form-control-sm" type="text"
+                                                        <select class="form-control form-control-sm" type="text"
                                                                  id="teknisi1Show"
                                                                 name="teknisi1Show"
-                                                                style="border-color:#9ca0a7;" readonly>
+                                                                style="border-color:#9ca0a7;">
+
+                                                        </select>
                                                     </div>
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 2</span>
-                                                        <input class="form-control form-control-sm" type="text"
+                                                        <select class="form-control form-control-sm" type="text"
                                                                  id="teknisi2Show"
                                                                 name="teknisi2Show"
-                                                                style="border-color:#9ca0a7;" readonly>
+                                                                style="border-color:#9ca0a7;">
+                                                        </select>
                                                     </div>
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 3</span>
-                                                        <input class="form-control form-control-sm" type="text"
+                                                        <select class="form-control form-control-sm" type="text"
                                                                  id="teknisi3Show"
                                                                 name="teknisi3Show"
-                                                                style="border-color:#9ca0a7;" readonly>
+                                                                style="border-color:#9ca0a7;">
+                                                        </select>
                                                     </div>
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 4</span>
-                                                        <input class="form-control form-control-sm" type="text" id="teknisi4Show"
-                                                            name="teknisi4Show" style="border-color:#9ca0a7;" readonly>
+                                                        <select class="form-control form-control-sm" type="text" id="teknisi4Show"
+                                                            name="teknisi4Show" style="border-color:#9ca0a7;">
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -852,166 +834,6 @@
                                     <div class="card-body">
 
                                         <div class="row">
-                                            <div class="col">
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Tanggal Progress</span>
-                                                            <input class="form-control form-control-sm" type="date"
-                                                                value="{{ date('Y-m-d') }}" id="tglProgressStatusShow"
-                                                                name="tglProgressStatusShow"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Slot Time Leader</span>
-                                                            <select class="form-control form-control-sm"
-                                                                type="text" id="slotTimeLeaderStatusShow"
-                                                                name="slotTimeLeaderStatusShow"
-                                                                style="border-color:#9ca0a7;">
-                                                                <option value="">Pilih Slot Time</option>
-                                                                <option value="09:00">09:00</option>
-                                                                <option value="09:30">09:30</option>
-                                                                <option value="10:00">10:00</option>
-                                                                <option value="10:30">10:30</option>
-                                                                <option value="11:00">11:00</option>
-                                                                <option value="11:30">11:30</option>
-                                                                <option value="12:00">12:00</option>
-                                                                <option value="12:30">12:30</option>
-                                                                <option value="13:00">13:00</option>
-                                                                <option value="13:30">13:30</option>
-                                                                <option value="14:00">14:00</option>
-                                                                <option value="14:30">14:30</option>
-                                                                <option value="15:00">15:00</option>
-                                                                <option value="15:30">15:30</option>
-                                                                <option value="16:00">16:00</option>
-                                                                <option value="16:30">16:30</option>
-                                                                <option value="17:00">17:00</option>
-                                                                <option value="17:30">17:30</option>
-                                                                <option value="18:00">18:00</option>
-                                                                <option value="18:30">18:30</option>
-                                                                <option value="19:00">19:00</option>
-                                                                <option value="19:30">19:30</option>
-                                                                <option value="20:00">20:00</option>
-                                                            </select>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col form-group mb-1">
-                                                        <span class="text-xs">Status WO</span>
-                                                        <select class="form-control form-control-sm" type="text"
-                                                            id="statusWo" name="statusWo"
-                                                            style="border-color:#9ca0a7;">
-                                                            <option value="">Pilih Status WO</option>
-                                                            <option value="Done">Done</option>
-                                                            <option value="Pending">Pending</option>
-                                                            <option value="Cancel">Cancel</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Cause Code</span>
-                                                            <select class="form-control form-control-sm"
-                                                                type="text" id="causeCode"
-                                                                name="causeCode" style="border-color:#9ca0a7;">
-                                                                <option value="" disabled selected>--Pilih Cause Code--</option>
-
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Root Cause</span>
-                                                            <select class="form-control form-control-sm"
-                                                                type="text" id="rootCause"
-                                                                name="rootCause" style="border-color:#9ca0a7;">
-                                                                <option value="" disabled selected>--Pilih Cause Code--</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Action Taken</span>
-                                                            <select class="form-control form-control-sm"
-                                                                type="text" id="actionTaken"
-                                                                name="actionTaken" style="border-color:#9ca0a7;">
-                                                                <option value="" disabled selected>--Pilih Action Taken--</option>
-
-                                                            </select>
-                                                        </div>
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Penagihan</span>
-                                                            <select class="form-control form-control-sm"
-                                                                id="penagihanShow"
-                                                                name="penagihanShow"
-                                                                style="border-color:#9ca0a7;">
-                                                                <option value="" disabled selected>--Pilih Penagihan--</option>
-                                                            </select>
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Tanggal Penjadwalan
-                                                                Ulang</span>
-                                                            <input class="form-control form-control-sm" type="date"
-                                                                id="tglReschedule" name="tglReschedule"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Jam Penjadwalan Ulang</span>
-                                                            <select class="form-control form-control-sm"
-                                                                type="text" id="tglJamReschedule"
-                                                                name="tglJamReschedule" style="border-color:#9ca0a7;">
-                                                                <option value="" disabled selected>--Pilih Slot Time--</option>
-                                                                <option value="09:00">09:00</option>
-                                                                <option value="09:30">09:30</option>
-                                                                <option value="10:00">10:00</option>
-                                                                <option value="10:30">10:30</option>
-                                                                <option value="11:00">11:00</option>
-                                                                <option value="11:30">11:30</option>
-                                                                <option value="12:00">12:00</option>
-                                                                <option value="12:30">12:30</option>
-                                                                <option value="13:00">13:00</option>
-                                                                <option value="13:30">13:30</option>
-                                                                <option value="14:00">14:00</option>
-                                                                <option value="14:30">14:30</option>
-                                                                <option value="15:00">15:00</option>
-                                                                <option value="15:30">15:30</option>
-                                                                <option value="16:00">16:00</option>
-                                                                <option value="16:30">16:30</option>
-                                                                <option value="17:00">17:00</option>
-                                                                <option value="17:30">17:30</option>
-                                                                <option value="18:00">18:00</option>
-                                                                <option value="18:30">18:30</option>
-                                                                <option value="19:00">19:00</option>
-                                                                <option value="19:30">19:30</option>
-                                                                <option value="20:00">20:00</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <span class="text-xs">Report Teknisi</span>
-                                                    <textarea class="form-control form-control-sm" type="text" id="reportTeknisi" name="report_teknisi"
-                                                        style="border-color:#9ca0a7;"></textarea>
-                                                </div>
-
-                                            </div>
-
                                             <div class="col">
                                                 <div class="form-group mb-1">
                                                     <div class="row">
@@ -1058,21 +880,6 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col form-group mb-1">
-                                                    <span class="text-xs">Status WO Aplikasi</span>
-                                                    <select class="form-control form-control-sm" type="text"
-                                                        id="statusWoApk" name="statusWoApk"
-                                                        style="border-color:#9ca0a7;">
-                                                        <option value="">Pilih Status WO</option>
-                                                        <option value="Requested">Requested</option>
-                                                        <option value="Checkin">Checkin</option>
-                                                        <option value="Checkout">Checkout</option>
-                                                        <option value="Done">Done</option>
-                                                        <option value="Pending">Pending</option>
-                                                        <option value="Cancelled">Cancelled</option>
-                                                    </select>
-                                                </div>
-
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
@@ -1088,6 +895,308 @@
                                                             <input class="form-control form-control-sm" type="text"
                                                                 value="" id="tglCheckoutApk"
                                                                 name="checkout_apk"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col form-group mb-1">
+                                                        <span class="text-xs">Status WO Aplikasi</span>
+                                                        <select class="form-control form-control-sm" type="text"
+                                                            id="statusWoApk" name="statusWoApk"
+                                                            style="border-color:#9ca0a7;">
+                                                                <option value="">Pilih Status WO</option>
+                                                                <option value="Requested">Requested</option>
+                                                                <option value="Checkin">Checkin</option>
+                                                                <option value="Checkout">Checkout</option>
+                                                                <option value="Done">Done</option>
+                                                                <option value="Pending">Pending</option>
+                                                                <option value="Cancelled">Cancelled</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col form-group mb-1">
+                                                        <span class="text-xs">Status WO</span>
+                                                        <select class="form-control form-control-sm" type="text"
+                                                            id="statusWo" name="statusWo"
+                                                            style="border-color:#9ca0a7;">
+                                                            <option value="">Pilih Status WO</option>
+                                                            <option value="Done">Done</option>
+                                                            <option value="Pending">Pending</option>
+                                                            <option value="Cancel">Cancel</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Cause Code</span>
+                                                            <select class="form-control form-control-sm"
+                                                                type="text" id="causeCodeOld"
+                                                                name="causeCodeOld" style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Cause Code--</option>
+
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Cause Code</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                value="" id="causeCode" list="causeCodeList"
+                                                                name="causeCode" style="border-color:#9ca0a7;">
+
+                                                            <datalist id="causeCodeList"
+                                                                name="causeCodeList">
+                                                                <option value="" disabled selected>--Pilih Cause Code--</option>
+
+                                                            </datalist>
+                                                        </div>
+
+                                                        {{-- <div class="col form-group mb-1">
+                                                            <span class="text-xs">Root Cause</span>
+                                                            <select class="form-control form-control-sm"
+                                                                type="text" id="rootCause"
+                                                                name="rootCause" style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Cause Code--</option>
+                                                            </select>
+                                                        </div> --}}
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        {{-- <div class="col form-group mb-1">
+                                                            <span class="text-xs">Cause Code</span>
+                                                            <select class="form-control form-control-sm"
+                                                                type="text" id="causeCode"
+                                                                name="causeCode" style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Cause Code--</option>
+
+                                                            </select>
+                                                        </div> --}}
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Root Cause</span>
+                                                            <select class="form-control form-control-sm"
+                                                                type="text" id="rootCause"
+                                                                name="rootCause" style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Cause Code--</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Action Taken</span>
+                                                            <select class="form-control form-control-sm"
+                                                                type="text" id="actionTaken"
+                                                                name="actionTaken" style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Action Taken--</option>
+
+                                                            </select>
+                                                        </div>
+                                                        {{-- <div class="col form-group mb-1">
+                                                            <span class="text-xs">Penagihan</span>
+                                                            <select class="form-control form-control-sm"
+                                                                id="penagihanShow"
+                                                                name="penagihanShow"
+                                                                style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Penagihan--</option>
+                                                            </select>
+                                                        </div> --}}
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        {{-- <div class="col form-group mb-1">
+                                                            <span class="text-xs">Action Taken</span>
+                                                            <select class="form-control form-control-sm"
+                                                                type="text" id="actionTaken"
+                                                                name="actionTaken" style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Action Taken--</option>
+
+                                                            </select>
+                                                        </div> --}}
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Rekonsil Penagihan</span>
+                                                            <select class="form-control form-control-sm"
+                                                                id="penagihanShow"
+                                                                name="penagihanShow"
+                                                                style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Penagihan--</option>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                
+
+                                                <div class="form-group mb-1">
+                                                    <span class="text-xs">Report Teknisi</span>
+                                                    <textarea class="form-control form-control-sm" type="text" id="reportTeknisi" name="report_teknisi"
+                                                        style="border-color:#9ca0a7;"></textarea>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col">
+                                                
+
+                                                <div class="col form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Status Visit</span>
+                                                            <select class="form-control form-control-sm" type="text"
+                                                                id="statusVisit" name="statusVisit" style="border-color:#9ca0a7;">
+                                                                <option value="Team Visit">Team Visit</option>
+                                                                <option value="No VIsit">No Visit</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Action Status</span>
+                                                            <select class="form-control form-control-sm" type="text"
+                                                                id="actionStatus" name="actionStatus"
+                                                                style="border-color:#9ca0a7;">
+                                                                <option value="Sudah dikerjakan MST">Sudah dikerjakan MST</option>
+                                                                <option value="Sign Ulang">Sign Ulang</option>
+                                                                <option value="Tunggu Konfirmasi">Tunggu Konfirmasi</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col form-group mb-1">
+                                                    <div class="row">
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Status Checkin Slot Time</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                value="" id="statusCheckin"
+                                                                name="statusCheckin" style="border-color:#9ca0a7;" readonly>
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Menit</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                value="" id="statusCheckinMenit"
+                                                                name="statusCheckinMenit" style="border-color:#9ca0a7;" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Tanggal Penjadwalan
+                                                                Ulang</span>
+                                                            <input class="form-control form-control-sm" type="date"
+                                                                id="tglReschedule" name="tglReschedule"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jam Penjadwalan Ulang</span>
+                                                            <select class="form-control form-control-sm"
+                                                                type="text" id="tglJamReschedule"
+                                                                name="tglJamReschedule" style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Slot Time--</option>
+                                                                <option value="09:00">09:00</option>
+                                                                <option value="09:30">09:30</option>
+                                                                <option value="10:00">10:00</option>
+                                                                <option value="10:30">10:30</option>
+                                                                <option value="11:00">11:00</option>
+                                                                <option value="11:30">11:30</option>
+                                                                <option value="12:00">12:00</option>
+                                                                <option value="12:30">12:30</option>
+                                                                <option value="13:00">13:00</option>
+                                                                <option value="13:30">13:30</option>
+                                                                <option value="14:00">14:00</option>
+                                                                <option value="14:30">14:30</option>
+                                                                <option value="15:00">15:00</option>
+                                                                <option value="15:30">15:30</option>
+                                                                <option value="16:00">16:00</option>
+                                                                <option value="16:30">16:30</option>
+                                                                <option value="17:00">17:00</option>
+                                                                <option value="17:30">17:30</option>
+                                                                <option value="18:00">18:00</option>
+                                                                <option value="18:30">18:30</option>
+                                                                <option value="19:00">19:00</option>
+                                                                <option value="19:30">19:30</option>
+                                                                <option value="20:00">20:00</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col form-group mb-1">
+                                                    <div class="row">
+                                                            
+
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">Permintaan Rsch.</span>
+                                                                <select class="form-control form-control-sm" type="time"
+                                                                    id="permintaanReschedule" name="permintaanReschedule" 
+                                                                    style="border-color:#9ca0a7;">
+                                                                    <option value="Customer">Customer</option>
+                                                                    <option value="Teknisi">Teknisi</option>
+                                                                    <option value="Leader">Leader</option>
+                                                                    <option value="Dispatch">Dispatch</option>
+                                                                </select>
+                                                            </div>
+                                                    </div>
+
+                                                    
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Respon Cst</span>
+                                                            <select class="form-control form-control-sm" type="time"
+                                                                id="responKonfCst" name="responKonfCst" 
+                                                                style="border-color:#9ca0a7;">
+                                                                <option value="Respon">Respon</option>
+                                                                <option value="Tidak Respon">Tidak Respon</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jawaban Cst</span>
+                                                            <select class="form-control form-control-sm" type="time"
+                                                                id="jwbKonfCst" name="jwbKonfCst" 
+                                                                style="border-color:#9ca0a7;">
+                                                                <option value="Setuju">Setuju</option>
+                                                                <option value="Tidak Setuju">Tidak Setuju</option>
+                                                                <option value="Tidak Respon">Tidak Respon</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">PIC Dispatch</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="picDispatch" name="picDispatch"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Telp Dispatch</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="telpDispatch" name="telpDispatch" 
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
                                                     </div>
@@ -1116,18 +1225,20 @@
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
+                                                        
+                                                        
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Alasan Pending</span>
                                                             <textarea class="form-control form-control-sm" type="text"
                                                                 id="alasanPending" name="alasan_pending"
                                                                 style="border-color:#9ca0a7;"></textarea>
                                                         </div>
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">PIC Dispatch</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="picDispatch" name="picDispatch"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
 
@@ -1146,13 +1257,24 @@
                                             </div>
 
                                             <div class="col">
-                                                <div class="col form-group mb-1">
-                                                    <span class="text-xs">Status Visit</span>
-                                                    <select class="form-control form-control-sm" type="text"
-                                                        id="statusVisit" name="statusVisit" style="border-color:#9ca0a7;">
-                                                        <option value="Team Visit">Team Visit</option>
-                                                        <option value="No VIsit">No Visit</option>
-                                                    </select>
+                                                
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Cek Telebot</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="cekTelebot" name="cekTelebot"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Hasil Cek</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="hasilCekTelebot" name="hasilCekTelebot" 
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                                 <div class="form-group mb-1">
@@ -1176,11 +1298,24 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Status Checkin Slot Time</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                value="" id="statusCheckin"
-                                                                name="statusCheckin" style="border-color:#9ca0a7;" readonly>
+                                                            <span class="text-xs">Regist Start</span>
+                                                            <input class="form-control form-control-sm" type="time"
+                                                                value="{{ date('H:i') }}" id="registStart"
+                                                                name="registStart" style="border-color:#9ca0a7;">
                                                         </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Regist End</span>
+                                                            <input class="form-control form-control-sm" type="time"
+                                                                value="{{ date('H:i') }}" id="registEnd"
+                                                                name="registEnd" style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Penggunaan Material</span>
@@ -1763,6 +1898,7 @@
         var dtActionTaken = {!! $dtActionTaken !!};
         var dtPenagihan = {!! $dtPenagihan !!};
         akses = $('#akses').val();
+        var callTim;
         // get_data_assignTim()
 
         function toTitleCase(str) {
@@ -1877,7 +2013,10 @@
             filCouseCode = dtCouseCode.filter(k => k.status_wo === $(this).val());
 
             $.each(filCouseCode, function(k, cc) {
-                $('#causeCode').append(
+                $('#causeCodeOld').append(
+                    `<option value="${cc.couse_code}">${cc.couse_code}</option>`
+                )
+                $('#causeCodeList').append(
                     `<option value="${cc.couse_code}">${cc.couse_code}</option>`
                 )
             })
@@ -2133,6 +2272,23 @@
             })
         }
 
+        $(document).on('change','#callsignTimidShow', function(e) {
+            
+            ctim = $(this).val().split("|");
+            ctimTeknisi = callTim.find(k=>k.callsign === ctim[1] );
+
+            let selectTek1 = $('#teknisi1Show');
+            let selectTek2 = $('#teknisi2Show');
+            let selectTek3 = $('#teknisi3Show');
+            let selectTek4 = $('#teknisi4Show');
+
+            selectTek1.val(ctimTeknisi.tek1_nik+"|"+ctimTeknisi.teknisi1 || "");
+            selectTek2.val(ctimTeknisi.tek2_nik+"|"+ctimTeknisi.teknisi2 || "");
+            selectTek3.val(ctimTeknisi.tek3_nik+"|"+ctimTeknisi.teknisi3 || "");
+            selectTek4.val(ctimTeknisi.tek4_nik+"|"+ctimTeknisi.teknisi4 || "");
+
+        });
+
         $(document).on('click', '#detail-assign', function (e) {
             var _token = $('meta[name=csrf-token]').attr('content');
             let assign_id = $(this).data('id');
@@ -2153,6 +2309,8 @@
                     let material = response.ftth_material;
                     let callsignTims = response.callsign_tims;
                     let callsignLeads = response.callsign_leads;
+                    let teknisiOn = response.teknisiOn;
+                    callTim = response.assignTim;
 
                     if(response.ftth_material.length > 0) {
                         statMaterial = "Ada"
@@ -2179,34 +2337,51 @@
                     $('#kotamadyaShow').val(dtDis.kotamadya);
                     $('#tglProgressShow').val(dtDis.tgl_ikr);
                     $('#sesiShow').val(toTitleCase(dtDis.sesi || ""));
-                    $('#slotTimeLeaderShow').val(dtDis.slot_time_leader);
+                    // $('#slotTimeLeaderShow').val(dtDis.slot_time_leader);
                     $('#slotTimeAPKShow').val(dtDis.slot_time_apk);
 
                     // Populasi dropdown Lead Callsign
                     let selectLead = $('#LeadCallsignShow');
                     selectLead.empty().append('<option value="">Pilih Lead Callsign</option>');
                     callsignLeads.forEach(item => {
-                        selectLead.append(`<option value="${item.id}">${item.lead_callsign}</option>`);
+                        selectLead.append(`<option value="${item.id}|${item.lead_callsign}|${item.leader_id}|${item.nama_karyawan}">${item.lead_callsign} | ${item.nama_karyawan} </option>`);
                     });
 
                     // Atur nilai dropdown Lead Callsign sesuai dengan `leadcall_id`
                     if (dtDis.leadcall_id) {
-                        selectLead.val(dtDis.leadcall_id);
+                        selectLead.val(dtDis.leadcall_id+"|"+dtDis.leadcall+"|"+dtDis.leader_id+"|"+dtDis.leader);
                     }
 
-                    $('#leaderShow').val(dtDis.leader);
                     // Populasi dropdown Callsign Tim
                     let selectTim = $('#callsignTimidShow');
                     selectTim.empty().append('<option value="">Pilih Callsign Tim</option>');
                     callsignTims.forEach(item => {
-                        selectTim.append(`<option value="${item.id}">${item.callsign_tim}</option>`);
+                        selectTim.append(`<option value="${item.id}|${item.callsign_tim}">${item.callsign_tim}</option>`);
                     });
-                    selectTim.val(dtDis.callsign_id);
+                    selectTim.val(dtDis.callsign_id+"|"+dtDis.callsign);
 
-                    $('#teknisi1Show').val(toTitleCase(dtDis.teknisi1 || ""));
-                    $('#teknisi2Show').val(toTitleCase(dtDis.teknisi2 || ""));
-                    $('#teknisi3Show').val(toTitleCase(dtDis.teknisi3 || ""));
-                    $('#teknisi4Show').val(toTitleCase(dtDis.teknisi4 || ""));
+                    let selectTek1 = $('#teknisi1Show');
+                    let selectTek2 = $('#teknisi2Show');
+                    let selectTek3 = $('#teknisi3Show');
+                    let selectTek4 = $('#teknisi4Show');
+
+                    selectTek1.empty().append('<option value="">Pilih Teknisi</option>');
+                    selectTek2.empty().append('<option value="">Pilih Teknisi</option>');
+                    selectTek3.empty().append('<option value="">Pilih Teknisi</option>');
+                    selectTek4.empty().append('<option value="">Pilih Teknisi</option>');
+
+                    teknisiOn.forEach(item => {
+                        selectTek1.append(`<option value="${item.nik_karyawan}|${item.nama_karyawan}">${item.nama_karyawan}</option>`);
+                        selectTek2.append(`<option value="${item.nik_karyawan}|${item.nama_karyawan}">${item.nama_karyawan}</option>`);
+                        selectTek3.append(`<option value="${item.nik_karyawan}|${item.nama_karyawan}">${item.nama_karyawan}</option>`);
+                        selectTek4.append(`<option value="${item.nik_karyawan}|${item.nama_karyawan}">${item.nama_karyawan}</option>`);
+                    });
+
+                    selectTek1.val(dtDis.tek1_nik+"|"+dtDis.teknisi1 || "");
+                    selectTek2.val(dtDis.tek2_nik+"|"+dtDis.teknisi2 || "");
+                    selectTek3.val(dtDis.tek3_nik+"|"+dtDis.teknisi3 || "");
+                    selectTek4.val(dtDis.tek4_nik+"|"+dtDis.teknisi4 || "");
+
                     //End Tab Detail WO//////////////////////////////
 
                     //Tab Status Progress
@@ -2215,6 +2390,7 @@
                     $('#statusWo').val(toTitleCase(dtDis.status_wo || ""));
                     $('#statusWo').trigger("change");
 
+                    $('#causeCodeOld').val(dtDis.couse_code);
                     $('#causeCode').val(dtDis.couse_code);
                     $('#causeCode').trigger("change");
 
