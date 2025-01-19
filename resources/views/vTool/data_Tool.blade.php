@@ -409,7 +409,7 @@
             aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">>
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header pb-1">
                         <h5 class="modal-title" id="exampleModalLabel">Detail Data Tool</h5>
                         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
                             aria-label="Close">
@@ -564,10 +564,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <hr class="mb-1">
-                            <div class="row mb-1">
-                                <p>Riwayat Tool</p>
-                            </div>
+                            <hr class="mb-1 mt-0">
+                            <div class="d-flex justify-content-between">
+                                <div>Riwayat Tool</div>
+                                <div><p><small class="text-xs text-muted toold"></small></p></div>
+                           </div>
+                            {{-- <div class="row mb-1">
+                                <p class="mb-1">Riwayat Tool</p>
+                            </div> --}}
 
                             <div class="row">
                                 <div class="table-responsive p-0">
@@ -2409,6 +2413,7 @@
                         $('#fotoToolShow').val('')
 
                     $('#namaToolShowId').val(respon.id)
+                    $('.toold').text(respon.id)
                     $('#namaToolShow').val(respon.nama_barang)
                     $('#merkShow').val(respon.merk_barang)
                     $('#satuanShow').val(respon.satuan)
@@ -2428,8 +2433,6 @@
                     $('#ShowTool').modal('show');
                     // showDetail_tool(t_id);
                     showRiwayatTool(t_id);
-
-
                 }
             })
         })

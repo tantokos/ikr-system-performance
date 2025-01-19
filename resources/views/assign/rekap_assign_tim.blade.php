@@ -105,6 +105,10 @@
                             </div>
                         </div>
 
+                        <style>
+                            .wrap-kolom {word-wrap: break-word;min-width: 50px;max-width: 90px;white-space:normal;}
+                        </style>
+
                         <div class="card-body px-2 py-2">
                             <div class="table-responsive p-0">
                                 <table class="table table-striped table-bordered align-items-center mb-0"
@@ -116,15 +120,17 @@
                                             <th class="text-xs text-secondary">Dept</th>
                                             {{-- <th class="text-center text-xs font-weight-semibold">PIC Assign Tim</th> --}}
                                             <th class="text-center text-xs text-secondary">Jml Tim</th>
-                                            <th class="text-center text-xs text-secondary">Jml Assign Tim</th>
-                                            <th class="text-center text-xs text-secondary">Jml Assign Teknisi</th>
-                                            <th class="text-center text-xs text-secondary">Standby</th>
-                                            <th class="text-center text-xs text-secondary">ON</th>
-                                            <th class="text-center text-xs text-secondary">OFF</th>
-                                            <th class="text-center text-xs text-secondary">Cuti</th>
-                                            <th class="text-center text-xs text-secondary">Sakit</th>
-                                            <th class="text-center text-xs text-secondary">ABS</th>
-                                            <th class="text-center text-xs text-secondary">Total Teknisi</th>
+                                            <th class="text-center text-xs text-secondary" style="white-space: normal">Jml Assign Tim</th>
+                                            
+                                            <th class="text-center text-xs text-secondary" style="white-space: normal">Jml Assign Teknisi</th>
+                                            <th class="text-center text-xs text-secondary" style="white-space: normal">Leader Progres</th>
+                                            <th class="text-center text-xs text-secondary" style="white-space: normal">Tek. Standby</th>
+                                            <th class="text-center text-xs text-secondary" style="white-space: normal">Tek. ON</th>
+                                            <th class="text-center text-xs text-secondary" style="white-space: normal">Tek. OFF</th>
+                                            <th class="text-center text-xs text-secondary" style="white-space: normal">Tek. Cuti</th>
+                                            <th class="text-center text-xs text-secondary" style="white-space: normal">Tek. Sakit</th>
+                                            <th class="text-center text-xs text-secondary" style="white-space: normal">Tek. ABS</th>
+                                            <th class="text-center text-xs text-secondary" style="white-space: normal">Total Teknisi</th>
                                             {{-- <th class="text-center text-xs">FTTH Maintenance</th>
                                             <th class="text-center text-xs">Dismantle</th>
                                             <th class="text-center text-xs">FTTX New Installation</th>
@@ -1070,22 +1076,29 @@
                     },
                     {
                         data: 'j_assign',
-                        "className": "text-center",
+                        "className": "text-center wrap-kolom",
                         "render": function (cellData, rowData, row, col, index) {
                             return `<a href="javascript:void(0);" id="detail-jml_assign" data-id="${row.branch}|${row.departement}"  class="text-primary">${cellData}</a>`;
                         }
-                    },
+                    },                    
                     {
                         data: 'j_teknisi',
-                        "className": "text-center",
+                        "className": "text-center wrap-kolom",
                         "render": function (cellData, rowData, row, col, index) {
                             return `<a href="javascript:void(0);" id="det-jml_teknisi" data-id="${cellData==null ? "0" : cellData}|JmlTeknisi|${row.branch}|${row.departement}"  class="text-primary">${cellData==null ? "0" : cellData }</a>`;
                         }
                     
                     },
                     {
+                        data: null,
+                        "className": "text-center wrap-kolom",
+                        "render": function (cellData, rowData, row, col, index) {
+                            return `<a href="javascript:void(0);" id="detail-jml_assign" data-id="${row.branch}|${row.departement}"  class="text-primary">0</a>`;
+                        }
+                    },
+                    {
                         data: null, //'jmStandby',
-                        "className": "text-center",
+                        "className": "text-center wrap-kolom",
                         "render": function(data,type,row) { 
                             jml = Number(data["j_on"]) - Number(data["j_teknisi"]);
 
@@ -1105,35 +1118,35 @@
                     // },
                     {
                         data: 'j_on',
-                        "className": "text-center",
+                        "className": "text-center wrap-kolom",
                         "render": function (cellData, rowData, row, col, index) {
                             return `<a href="javascript:void(0);" id="det-rekap" data-id="${cellData}|Absensi|${row.branch}|${row.departement}|ON"  class="text-primary">${cellData}</a>`;
                         }
                     },
                     {
                         data: 'j_off',
-                        "className": "text-center",
+                        "className": "text-center wrap-kolom",
                         "render": function (cellData, rowData, row, col, index) {
                             return `<a href="javascript:void(0);" id="det-rekap" data-id="${cellData}|Absensi|${row.branch}|${row.departement}|OFF"  class="text-primary">${cellData}</a>`;
                         }
                     },
                     {
                         data: 'j_cuti',
-                        "className": "text-center",
+                        "className": "text-center wrap-kolom",
                         "render": function (cellData, rowData, row, col, index) {
                             return `<a href="javascript:void(0);" id="det-rekap" data-id="${cellData}|Absensi|${row.branch}|${row.departement}|Cuti"  class="text-primary">${cellData}</a>`;
                         }
                     },
                     {
                         data: 'j_sakit',
-                        "className": "text-center",
+                        "className": "text-center wrap-kolom",
                         "render": function (cellData, rowData, row, col, index) {
                             return `<a href="javascript:void(0);" id="det-rekap" data-id="${cellData}|Absensi|${row.branch}|${row.departement}|Sakit"  class="text-primary">${cellData}</a>`;
                         }
                     },
                     {
                         data: 'j_abs',
-                        "className": "text-center",
+                        "className": "text-center wrap-kolom",
                         "render": function (cellData, rowData, row, col, index) {
                             return `<a href="javascript:void(0);" id="det-rekap" data-id="${cellData}|Absensi|${row.branch}|${row.departement}|Absen"  class="text-primary">${cellData}</a>`;
                         }
@@ -1141,7 +1154,7 @@
                     {
                         data: null,
                         "render": function(data,type,row) { return (Number(data["j_on"]) + Number(data["j_off"]) + Number(data["j_cuti"]) + Number(data["j_sakit"]) + Number(data["j_abs"]))},
-                        "className": "text-center",
+                        "className": "text-center wrap-kolom",
                     },
                     // {
                     //     data: 'action',
@@ -1149,7 +1162,7 @@
                     // },
                     
                     
-                ]
+                ],
             })
         }
 

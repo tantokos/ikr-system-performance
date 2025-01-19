@@ -35,7 +35,7 @@
   --bs-danger: #ea4e3d;
   --bs-light: #cbd5e1;
   --bs-dark: #1e293b;
-  --bs-white: #fff;
+  --bs-white: #ffffff;
   --bs-primary-rgb: 119, 77, 211;
   --bs-secondary-rgb: 100, 116, 139;
   --bs-success-rgb: 103, 194, 58;
@@ -57,7 +57,7 @@
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
   --bs-body-color: #64748b;
-  --bs-body-bg: #fff;
+  --bs-body-bg: #ffffff;
   --bs-border-width: 1px;
   --bs-border-style: solid;
   --bs-border-color: #dde0e5;
@@ -321,7 +321,7 @@ a>code {
 kbd {
   padding: 0.2rem 0.4rem;
   font-size: 0.875em;
-  color: #fff;
+  color: #ffffff;
   background-color: #212529;
   border-radius: 0.25rem;
 }
@@ -2730,7 +2730,7 @@ progress {
   font-weight: 400;
   line-height: 1rem;
   color: #495057;
-  background-color: #fff;
+  background-color: #ffffff;
   background-clip: padding-box;
   border: 1px solid #dde0e5;
   appearance: none;
@@ -2754,7 +2754,7 @@ progress {
 
 .form-control:focus {
   color: #495057;
-  background-color: #fff;
+  background-color: #ffffff;
   border-color: #1b89f7;
   outline: 0;
   box-shadow: 0 1px 3px 0 rgba(12, 26, 36, 0.1);
@@ -2885,7 +2885,7 @@ textarea.form-control-lg {
   font-weight: 400;
   line-height: 1rem;
   color: #495057;
-  background-color: #fff;
+  background-color: #ffffff;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;

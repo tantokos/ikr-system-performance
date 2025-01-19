@@ -153,8 +153,7 @@ class ImportDataWoApkController extends Controller
                 DB::beginTransaction();
                 try {
                     // Update status_wo pada data_ftth_mt_oris berdasarkan wo_no dan tgl_ikr
-                    foreach ($importedData as $data) {
-                        
+                    foreach ($importedData as $data) {                        
                         
                         if(Str::upper($data->status == "DONE") || Str::upper($data->status == "CHECKOUT")) {
                             $statWo = "Done";

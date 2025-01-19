@@ -82,11 +82,26 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             }
         }
 
-
         $tm = intval($row['time']);
 
-        return new ImportAssignTim([
+        $katArea = "";
+        if(Str::title($row['branch']) == "Jakarta Timur" || Str::title($row['branch']) == "Jakarta Selatan" || Str::title($row['branch']) == "Bekasi" || Str::title($row['branch']) == "Bogor" || Str::title($row['branch']) == "Tangerang") {
+            $katArea = "Jabotabek";
+        } else {
+            $katArea = "Regional";
+        }
+        
+        if( $row['area'] == null ) {            
 
+            $clusterArea = DB::table('list_fat')->select('cluster')
+                            ->where('kode_area', substr($row['fat_code'],4,3))->where('kategori_area', $katArea)->first();
+            
+            $area = is_null($clusterArea) ? $row['area'] : $clusterArea->cluster;
+        } else {
+            $area = $row['area'];
+        }
+
+        return new ImportAssignTim([
 
             'batch_wo' => Str::trim($row['sesi']),
             // 'tgl_ikr' => ,
@@ -95,14 +110,14 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             'wo_type_apk' => Str::title(str_replace("_"," ",$row['wo_type'])),
 
             'type_wo' => $this->get_data_id("type_wo", Str::trim(str_replace('_',' ', $row['wo_type']))), // Str::upper($row['wo_type'])=="MAINTENANCE" || Str::upper($row['wo_type'])=="REMOVE DEVICE" || Str::upper($row['wo_type'])=="ADD DEVICE" || Str::upper($row['wo_type'])=="ADD / REMOVE DEVICE" || Str::upper($row['wo_type'])=="PENDING DEVICE" ? "FTTH Maintenance" : (Str::upper($row['wo_type'])=="NEW INSTALLATION" || Str::upper($row['wo_type'])=="RELOCATION" ? "FTTH New Installation" : (Str::upper($row['wo_type'])=="DISMANTLE" ? "FTTH Dismantle" : "-")),
-
+            'area_cluster_apk' => Str::title($area),
             'wo_date_apk' => $formatWoDate, // Str::trim($row['wo_date']),
             'cust_id_apk' => Str::trim($row['cust_id']),
             'name_cust_apk' => Str::title($row['name']),
             'cust_phone_apk' => Str::trim($row['cust_phone']),
             'cust_mobile_apk' => Str::trim($row['cust_mobile']),
             'address_apk' => Str::title($row['address']),
-            'area_cluster_apk' => Str::title($row['area']),
+            
             'fat_code_apk' => Str::trim($row['fat_code']),
             'fat_port_apk' => Str::trim($row['fat_port']),
             'remarks_apk' => Str::title($row['remarks']),
@@ -123,14 +138,14 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             'leader' => Str::trim(Str::title($row['leader'])),
             'callsign_id' => $this->get_data_id("callsign_id", Str::trim($row['callsign'])),
             'callsign' => Str::trim($row['callsign']),
-            'tek1_nik' => $this->get_data_id("tek1_nik", Str::trim(Str::title($row['tim_1']))),
-            'teknisi1' => $this->get_data_id("tek1_nik", $row['tim_1']) == null ? null : Str::trim(Str::title($row['tim_1'])),
+            'tek1_nik' => $this->get_data_id("tek1_nik", Str::trim(ucwords($row['tim_1']))),
+            'teknisi1' => $this->get_data_id("teknisi1", $row['tim_1']) == null ? null : Str::trim(ucwords($row['tim_1'])),
             'tek2_nik'=> $this->get_data_id("tek2_nik", Str::trim($row['tim_2'])),
-            'teknisi2' => $this->get_data_id("tek2_nik", $row['tim_2']) == null ? null : Str::trim(Str::title($row['tim_2'])),
+            'teknisi2' => $this->get_data_id("teknisi2", $row['tim_2']) == null ? null : Str::trim(ucwords($row['tim_2'])),
             'tek3_nik' => $this->get_data_id("tek3_nik", Str::trim($row['tim3'])),
-            'teknisi3' => $this->get_data_id("tek3_nik", $row['tim3']) == null ? null : Str::trim(Str::title($row['tim3'])),
+            'teknisi3' => $this->get_data_id("teknisi3", $row['tim3']) == null ? null : Str::trim(ucwords($row['tim3'])),
             'tek4_nik' => $this->get_data_id("tek4_nik", Str::trim($row['tim4'])),
-            'teknisi4' => $this->get_data_id("tek4_nik", $row['tim4']) == null ? null : Str::trim(Str::title($row['tim4'])),
+            'teknisi4' => $this->get_data_id("teknisi4", $row['tim4']) == null ? null : Str::trim(ucwords($row['tim4'])),
             'login_id' => $this->logId,
             'login' => $this->logNm
         ]);
@@ -256,7 +271,13 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     // dd(is_null($tek1_nik));
                     $tek1Nik = is_null($tek1_nik) ? null : $tek1_nik->nik_karyawan;
                     return $tek1Nik;
+                    break;
 
+                case "teknisi1":
+                    $tek1_nik = DB::table('employees')->select('nama_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    // dd(is_null($tek1_nik));
+                    $tekName1 = is_null($tek1_nik) ? null : $tek1_nik->nama_karyawan;
+                    return $tekName1;
                     break;
 
                 case "tek2_nik":
@@ -265,10 +286,24 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     return $tek2Nik;
                     break;
 
+                case "teknisi2":
+                    $tek2_nik = DB::table('employees')->select('nama_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    // dd(is_null($tek1_nik));
+                    $tekName2 = is_null($tek2_nik) ? null : $tek2_nik->nama_karyawan;
+                    return $tekName2;
+                    break;
+
                 case "tek3_nik":
                     $tek3_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
                     $tek3Nik = is_null($tek3_nik) ? null : $tek3_nik->nik_karyawan;
                     return $tek3Nik;
+                    break;
+
+                case "teknisi3":
+                    $tek3_nik = DB::table('employees')->select('nama_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    // dd(is_null($tek1_nik));
+                    $tekName3 = is_null($tek3_nik) ? null : $tek3_nik->nama_karyawan;
+                    return $tekName3;
                     break;
 
                 case "tek4_nik":
@@ -276,11 +311,32 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     $tek4Nik = is_null($tek4_nik) ? null : $tek4_nik->nik_karyawan;
                     return $tek4Nik;
                     break;
+
+                case "teknisi4":
+                    $tek4_nik = DB::table('employees')->select('nama_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    // dd(is_null($tek1_nik));
+                    $tekName4 = is_null($tek4_nik) ? null : $tek4_nik->nama_karyawan;
+                    return $tekName4;
+                    break;
+
                 case "type_wo":
                     $tp_wo = DB::table('type_wo')->select('type_wo')->where('type_wo_apk', $data)->first();
                     $typeWo = is_null($tp_wo) ? null : $tp_wo->type_wo;
                     return $typeWo;
-                    break;
+                    break;   
+                case "areaCluster":
+                    $katArea = "";
+                    if($data == "Jakarta Timur" || $data == "Jakarta Selatan" || $data == "Bekasi" || $data == "Bogor" || $data == "Tangerang") {
+                        $katArea = "Jabotabek";
+                    } else {
+                        $katArea = "Regional";
+                    }
+
+                    $clusterArea = DB::table('list_fat')->select('cluster')
+                                ->where('kode_area', substr($data,5,3))->where('kategori_area', $katArea)->first();
+                    $cluster = is_null($clusterArea) ? null : $clusterArea->cluster;
+                    return $cluster;
+                    break;           
 
                     // dd($branch);
             }
