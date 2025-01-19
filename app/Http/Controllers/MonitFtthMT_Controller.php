@@ -33,30 +33,30 @@ class MonitFtthMT_Controller extends Controller
         $cluster = DB::table('fats')->select('cluster')
                 ->where('cluster', '<>', "")->distinct()->orderBy('cluster')->get();
 
-        $mostCauseCode = FtthMt::select(
-                    'couse_code',
-                    DB::raw('COUNT(couse_code) AS qtyCauseCode')
-                )
-                ->groupBy('couse_code') // Tambahkan groupBy di sini
-                ->orderBy('qtyCauseCode', 'desc')
-                ->limit(5)
-                ->get();
+        // $mostCauseCode = FtthMt::select(
+        //             'couse_code',
+        //             DB::raw('COUNT(couse_code) AS qtyCauseCode')
+        //         )
+        //         ->groupBy('couse_code') // Tambahkan groupBy di sini
+        //         ->orderBy('qtyCauseCode', 'desc')
+        //         ->limit(5)
+        //         ->get();
 
-        $mostRootCause = FtthMt::select(
-            'root_couse',
-                DB::raw('COUNT(root_couse) AS qtyRootCause')
-            )
-            ->groupBy('root_couse') ->orderBy('qtyRootCause','desc')
-            ->limit(5)
-            ->get();
+        // $mostRootCause = FtthMt::select(
+        //     'root_couse',
+        //         DB::raw('COUNT(root_couse) AS qtyRootCause')
+        //     )
+        //     ->groupBy('root_couse') ->orderBy('qtyRootCause','desc')
+        //     ->limit(5)
+        //     ->get();
 
-        $mostActionTaken = FtthMt::select(
-            'action_taken',
-                DB::raw('COUNT(action_taken) AS qtyActionTaken')
-            )
-            ->groupBy('action_taken') ->orderBy('qtyActionTaken','desc')
-            ->limit(5)
-            ->get();
+        // $mostActionTaken = FtthMt::select(
+        //     'action_taken',
+        //         DB::raw('COUNT(action_taken) AS qtyActionTaken')
+        //     )
+        //     ->groupBy('action_taken') ->orderBy('qtyActionTaken','desc')
+        //     ->limit(5)
+        //     ->get();
 
         $dtCouseCode = DB::table('root_couses')
                 ->select('status_wo','couse_code')
@@ -79,9 +79,9 @@ class MonitFtthMT_Controller extends Controller
                 ->orderBy('rootcouse_penagihan')->get();
 
         return view('monitoringWo.monit_ftth_mt', compact(
-            'mostCauseCode',
-            'mostRootCause',
-            'mostActionTaken',
+            // 'mostCauseCode',
+            // 'mostRootCause',
+            // 'mostActionTaken',
             'branches',
             'leader',
             'callTim',
@@ -276,7 +276,20 @@ class MonitFtthMT_Controller extends Controller
         $datas = DB::table('data_ftth_mt_oris as d')
             ->where('d.id', $assignId)->first();
         $callsign_tims = DB::table('callsign_tims')->get();
-        $callsign_leads = DB::table('callsign_leads')->get();
+        $callsign_leads = DB::table('callsign_leads as clead')
+                ->leftJoin('employees as e','clead.leader_id', '=','e.nik_karyawan')
+                ->select('clead.id','clead.lead_callsign','clead.leader_id','e.nama_karyawan')->get();
+
+        $assignTim = DB::table('v_rekap_assign_tim')
+                    ->where('tgl_ikr', $datas->tgl_ikr)->get();
+
+        $teknisiOn = DB::table('v_rekap_jadwal_data as vj')
+                    ->leftJoin('employees as e','vj.nik_karyawan','=','e.nik_karyawan')
+                    ->where('vj.tgl', $datas->tgl_ikr)
+                    ->where('e.posisi', 'like','%Teknisi%')
+                    ->whereIn('vj.status', ["ON","OD"])
+                    ->select('vj.nik_karyawan', 'e.nama_karyawan')
+                    ->orderBy('e.nama_karyawan')->get();
 
         // $wo_no = DB::table('data_ftth_mt_oris')->where('id', $assignId)->value('no_wo'); // contoh WO No
 
@@ -351,10 +364,13 @@ class MonitFtthMT_Controller extends Controller
             'data' => $datas,
             'callsign_tims' => $callsign_tims,
             'callsign_leads' => $callsign_leads,
-            'ftth_material' => $mergedMaterial
+            'ftth_material' => $mergedMaterial,
+            'assignTim' => $assignTim,
+            'teknisiOn' => $teknisiOn
         ]);
 
     }
+
 
     public function getDetailCustId(Request $request)
     {
