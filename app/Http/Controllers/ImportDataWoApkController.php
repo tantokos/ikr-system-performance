@@ -38,9 +38,16 @@ class ImportDataWoApkController extends Controller
 
             $akses = Auth::user()->id . "|" . Auth::user()->name;
 
-            Excel::import(new FtthMtApkImport($akses), request()->file('fileDataWO'));
+            try {
+                Excel::import(new FtthMtApkImport($akses), request()->file('fileDataWO'));
 
-            return back()->with(['success' => 'Import WO FTTH Maintenance berhasil.']);
+                return back()->with(['success' => 'Import WO FTTH Maintenance berhasil.']);
+                
+            } catch (\Exception $e) {
+
+                return back()->with(['error' => 'Kesalahan: ' . $e->getMessage()]);
+            }
+            
 
         }
 
@@ -147,7 +154,17 @@ class ImportDataWoApkController extends Controller
         switch ($request->input('action')) {
             case 'simpan':
 
-                $importedData = DB::table('import_ftth_mt_apks')
+                // $importedData = DB::table('import_ftth_mt_apks')
+                //     ->get();
+
+                $importedData = DB::table('import_ftth_mt_apks as apk')
+                    ->leftJoin('v_rekap_assign_tim as vtim', function($join) {
+                        $join->on('apk.installation_date','=','vtim.tgl_ikr');
+                        $join->on('apk.callsign','=','vtim.callsign');
+                    })
+                    ->select('apk.*','vtim.leadcall_id','vtim.leadcall', 'vtim.leader_id', 'vtim.leader', 'vtim.callsign_id as callsignAssignId', 'vtim.callsign as callsignAssign', 
+                            'vtim.tek1_nik', 'vtim.teknisi1', 'vtim.tek2_nik', 'vtim.teknisi2', 'vtim.tek3_nik', 'vtim.teknisi3', 
+                            'vtim.tek4_nik', 'vtim.teknisi4')
                     ->get();
 
                 DB::beginTransaction();
@@ -170,6 +187,21 @@ class ImportDataWoApkController extends Controller
                             ->where('tgl_ikr', $data->installation_date) // Menambahkan syarat
                             ->where('is_checked', 0)
                             ->update([
+                                'wo_date_apk' => $data->wo_date,
+                                // 'leadcall_id' => $data->leadcall_id,
+                                // 'leadcall' => $data->leadcall,
+                                // 'leader_id' => $data->leader_id,
+                                // 'leader' => $data->leader,
+                                'callsign_id' => $data->callsign_id,
+                                'callsign' => $data->callsign,
+                                // 'tek1_nik' => $data->tek1_nik,
+                                // 'teknisi1' => $data->teknisi1,
+                                // 'tek2_nik' => $data->tek2_nik,
+                                // 'teknisi2' => $data->teknisi2,
+                                // 'tek3_nik' => $data->tek3_nik,
+                                // 'teknisi3' => $data->teknisi3,
+                                // 'tek4_nik' => $data->tek4_nik,
+                                // 'teknisi4' => $data->teknisi4,
                                 'slot_time_apk' => $data->time,
                                 'status_wo' => $statWo,
                                 'couse_code' => $data->cause_code,
@@ -204,8 +236,6 @@ class ImportDataWoApkController extends Controller
             //     ImportAssignTim::where('login', $akses)->delete();
             //         return redirect()->route('assignTim');
             // break;
-
-
         }
 
     }

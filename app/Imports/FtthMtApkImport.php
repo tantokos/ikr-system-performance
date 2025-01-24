@@ -9,8 +9,10 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 
-class FtthMtApkImport implements ToModel, WithHeadingRow, WithChunkReading, WithValidation
+class FtthMtApkImport implements ToModel, WithHeadingRow, WithChunkReading, WithValidation, SkipsEmptyRows
 {
     protected $logId, $logNm;
 
@@ -36,6 +38,7 @@ class FtthMtApkImport implements ToModel, WithHeadingRow, WithChunkReading, With
             'time' => $row['time'],
             'vendor_installer' => $row['vendor_installer'],
             'callsign' => $row['call_sign'],
+            'callsign_id' => $this->get_data_id("callsign_id", Str::trim($row['call_sign'])),
             'cust_id' => $row['cust_id'],
             'name' => Str::title($row['name']),
             'cust_phone' => $row['cust_phone'],
@@ -93,5 +96,26 @@ class FtthMtApkImport implements ToModel, WithHeadingRow, WithChunkReading, With
             '*.wo_date.required' => 'WO Date harus diisi',
             '*.installation_date.required' => 'Periksa kembali file yang diunggah, pastikan formatnya benar',
         ];
+    }
+
+    public function get_data_id($kolom, $data)
+    {
+        // dd($kolom, $data);
+
+            switch ($kolom) {
+                case "callsign_id":
+                    if(strtoupper(substr($data,0,4))=="LEAD") {
+                        $callsign_id = DB::table('callsign_leads as cl')
+                            ->leftJoin('employees as e','cl.leader_id', '=', 'e.nik_karyawan')
+                            ->select('cl.id as callsign_tim_id')
+                            ->where('lead_callsign', $data)->first();
+                    } else {
+                        $callsign_id = DB::table('v_detail_callsign_tim')->select('callsign_tim_id')->where('callsign_tim', $data)->first();
+                    }
+                    
+                    // $leaderID= is_null($leader_id) ? "-" : $leader_id->leader_id;
+                    return is_null($callsign_id) ?  null : $callsign_id->callsign_tim_id;
+                    break;
+            }
     }
 }

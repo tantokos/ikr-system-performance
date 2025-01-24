@@ -13,17 +13,18 @@
                 <div class="col-sm-12 mt-3 mb-3">
                     <div class="table-responsive p-0">
                         <table id="summaryAssignTeam"
-                            class="table table-sm table-striped table-bordered align-items-center mb-0">
+                            class="table table-sm table-striped table-bordered align-items-center mb-0"
+                            style="font-size: 12px;border-color:#9ca0a7;">
                             <thead class="bg-gray-600">
                                 <tr id="headStatusProgresWo">
-                                    <th class="text-white text-sm font-weight-semibold">No</th>
-                                    <th class="text-white text-sm font-weight-semibold">Status Item</th>
-                                    <th class="text-white text-sm font-weight-semibold">Item Code</th>
-                                    <th class="text-white text-sm font-weight-semibold">Description</th>
-                                    <th class="text-white text-sm font-weight-semibold">Qty</th>
-                                    <th class="text-white text-sm font-weight-semibold">SN</th>
-                                    <th class="text-white text-sm font-weight-semibold">Mac Address</th>
-                                    <th class="text-white text-sm font-weight-semibold">Edit</th>
+                                    <th class="text-white text-xs font-weight-semibold">No</th>
+                                    <th class="text-white text-xs font-weight-semibold">Status Item</th>
+                                    <th class="text-white text-xs font-weight-semibold">Item Code</th>
+                                    <th class="text-white text-xs font-weight-semibold">Description</th>
+                                    <th class="text-white text-xs font-weight-semibold">Qty</th>
+                                    <th class="text-white text-xs font-weight-semibold">SN</th>
+                                    <th class="text-white text-xs font-weight-semibold">Mac Address</th>
+                                    <th class="text-white text-xs font-weight-semibold">Edit</th>
                                 </tr>
                             </thead>
                             <tbody id="bodyStatusProgresWo">

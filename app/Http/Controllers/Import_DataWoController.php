@@ -109,6 +109,9 @@ class Import_DataWoController extends Controller
 
     public function importProsesDataWo(Request $request)
     {
+        ini_set('max_execution_time', 1900);
+        ini_set('memory_limit', '8192M');
+
         if ($request->hasFile('fileDataWO')) {
             $request->validate([
                 'fileDataWO' => ['required', 'mimes:xlsx,xls,csv']
