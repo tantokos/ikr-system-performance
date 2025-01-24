@@ -443,7 +443,7 @@
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Detail Teknisi Progress</h5>
+                        <h5 class="modal-title" id="judulModalTeknisiProgress">Detail Teknisi Progress</h5>
                         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -495,7 +495,7 @@
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Detail Teknisi Standby</h5>
+                        <h5 class="modal-title" id="judulModalStandby">Detail Teknisi Standby</h5>
                         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -515,6 +515,7 @@
                                                 <th class="text-center text-xs">Nik Karyawan</th>
                                                 <th class="text-center text-xs">Nama Karyawan</th>
                                                 <th class="text-center text-xs">Posisi</th>
+                                                <th class="text-center text-xs">Keterangan</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -595,8 +596,8 @@
                                                         </th>
                                                         <th class="text-center text-xs font-weight-semibold">Teknisi 4
                                                         </th>
-                                                        <th class="text-center text-xs font-weight-semibold">Leader
-                                                            Assign</th>
+                                                        {{-- <th class="text-center text-xs font-weight-semibold">Leader
+                                                            Assign</th> --}}
                                                         {{-- <th class="text-center text-xs font-weight-semibold">#</th> --}}
 
                                                     </tr>
@@ -1078,7 +1079,7 @@
                         data: 'j_assign',
                         "className": "text-center wrap-kolom",
                         "render": function (cellData, rowData, row, col, index) {
-                            return `<a href="javascript:void(0);" id="detail-jml_assign" data-id="${row.branch}|${row.departement}"  class="text-primary">${cellData}</a>`;
+                            return `<a href="javascript:void(0);" id="detail-jml_assign" data-id="${row.branch}|${row.departement}"  class="text-primary">${cellData==null ? "0" : cellData}</a>`;
                         }
                     },                    
                     {
@@ -1090,19 +1091,21 @@
                     
                     },
                     {
-                        data: null,
+                        data: 'l_progress',
                         "className": "text-center wrap-kolom",
                         "render": function (cellData, rowData, row, col, index) {
-                            return `<a href="javascript:void(0);" id="detail-jml_assign" data-id="${row.branch}|${row.departement}"  class="text-primary">0</a>`;
+                            return `<a href="javascript:void(0);" id="det-jml_teknisi" data-id="${cellData==null ? "0" : cellData}|JmlLeader|${row.branch}|${row.departement}"  class="text-primary">${cellData==null ? "0" : cellData }</a>`;
                         }
                     },
                     {
-                        data: null, //'jmStandby',
+                        data: 'j_standby', //'jmStandby',
                         "className": "text-center wrap-kolom",
-                        "render": function(data,type,row) { 
-                            jml = Number(data["j_on"]) - Number(data["j_teknisi"]);
+                        "render": function (cellData, rowData, row, col, index) {
+                        // "render": function(data,type,row) { 
+                            // jml = Number(data["j_on"]) - Number(data["j_teknisi"]);
 
-                            return `<a href="javascript:void(0);" id="det-jml_standby" data-id="${jml==null ? "0" : jml}|JmlStandby|${row.branch}|${row.departement}"  class="text-primary">${jml==null ? "0" : jml }</a>`;
+                            // return `<a href="javascript:void(0);" id="det-jml_standby" data-id="${jml==null ? "0" : jml}|JmlStandby|${row.branch}|${row.departement}"  class="text-primary">${jml==null ? "0" : jml }</a>`;
+                            return `<a href="javascript:void(0);" id="det-jml_standby" data-id="${cellData==null ? "0" : cellData}|JmlStandby|${row.branch}|${row.departement}"  class="text-primary">${cellData==null ? "0" : cellData }</a>`;
                             // return (Number(data["j_on"]) - Number(data["j_teknisi"]))
                         },
                     },
@@ -1176,6 +1179,11 @@
             if(isi != "0") {
 
                 $('#modalRekapJmlTeknisi').modal('show');
+                if(tbl=="JmlStandby") {
+                    $('#judulModalTeknisiProgress').html("Detail Teknisi Progress");
+                } else {
+                    $('#judulModalTeknisiProgress').html("Detail Leader Progress WO");
+                }
 
                 tableDetRekap = 
                 $('#tabelDetailRekapJmlTeknisi').DataTable({
@@ -1242,12 +1250,12 @@
             e.preventDefault();
             klik = $(this).data('id').split('|');
             tbl = klik[1];
-            isi = klik[0];        
+            isi = klik[0];      
             
             if(isi != "0") {
 
-                $('#modalRekapJmlStandby').modal('show');
-
+                $('#modalRekapJmlStandby').modal('show');                
+                
                 tableDetRekap = 
                 $('#tabelDetailRekapJmlStandby').DataTable({
                         layout: {
@@ -1299,11 +1307,9 @@
                             {data: 'tek_nik', "className": "text-center",},                    
                             {data: 'teknisi'},
                             {data: 'posisi'},
-                                
-                        ],
-                        
+                            {data: 'keterangan'},                                
+                        ],                        
                     })
-
             }
         })
 
@@ -1372,10 +1378,8 @@
                             {data: 'status', "className": "text-center",},
                             {data: 'keterangan'},
                                 
-                        ],
-                        
+                        ],                        
                     })
-
             }
         })
 
@@ -1403,7 +1407,7 @@
                 orderClasses: false,
                 // fixedColumns: true,
                 fixedColumns: {
-                    leftColumns: 6,
+                    leftColumns: 2,
                     // rightColumns: 1
                 },
                 deferRender: true,
@@ -1472,7 +1476,7 @@
                         data: 'area_cluster_apk'
                     },
                     {
-                        data: 'slot_time'
+                        data: 'time_apk'
                     },
                     {
                         data: 'leadcall'
@@ -1495,9 +1499,9 @@
                     {
                         data: 'teknisi4'
                     },
-                    {
-                        data: 'login',
-                    },
+                    // {
+                    //     data: 'login',
+                    // },
                     // {
                     //     data: 'action',
                     //     "className": "text-center",

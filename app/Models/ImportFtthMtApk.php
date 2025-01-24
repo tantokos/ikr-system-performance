@@ -18,6 +18,7 @@ class ImportFtthMtApk extends Model
         'time',
         'vendor_installer',
         'callsign',
+        'callsign_id',
         'cust_id',
         'name',
         'cust_phone',

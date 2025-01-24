@@ -259,6 +259,7 @@
                                             name="kondisi" style="border-color:#9ca0a7;">
                                             <option value="Baik">Baik</option>
                                             <option value="Rusak">Rusak</option>
+                                            <option value="Hilang">Hilang</option>
                                         </select>
                                     </div>
 

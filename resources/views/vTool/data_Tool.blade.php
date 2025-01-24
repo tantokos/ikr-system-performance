@@ -476,6 +476,7 @@
                                                     <option value="">Pilih Kondisi</option>
                                                     <option value="Baik">Baik</option>
                                                     <option value="Rusak">Rusak</option>
+                                                    <option value="Hilang">Hilang</option>
                                                 </select>
                                             </div>
 
@@ -1080,6 +1081,7 @@
                                                     <option value="">Pilih Kondisi</option>
                                                     <option value="Baik">Baik</option>
                                                     <option value="Rusak">Rusak</option>
+                                                    <option value="Hilang">Hilang</option>
                                                 </select>
                                             </div>
 
@@ -1326,6 +1328,7 @@
                                                     <option value="">Pilih Kondisi</option>
                                                     <option value="Baik">Baik</option>
                                                     <option value="Rusak">Rusak</option>
+                                                    <option value="Hilang">Hilang</option>
                                                 </select>
                                             </div>
 

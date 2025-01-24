@@ -306,10 +306,10 @@ class AssignTimController extends Controller
                 'login_id' => $aksesId,
                 'login' => $akses
             ]);
-    
+
             if ($simpanAssignTim) {
                 $dataForFtth = $simpanAssignTim->toArray();
-    
+
                 // Tentukan tabel tujuan berdasarkan type_wo
                 switch ($request['jenisWo']) {
                     case 'FTTH New Installation':
@@ -331,6 +331,7 @@ class AssignTimController extends Controller
                             'slot_time_leader' => $dataForFtth['slot_time'],
                             'slot_time_apk' => $dataForFtth['time_apk'],
                             'status_apk' => "Requested",
+                            'status_wo' => "Requested",
                             'branch_id' => $dataForFtth['branch_id'],
                             'branch' => $dataForFtth['branch'],
                             'leadcall_id' => $dataForFtth['leadcall_id'],
@@ -349,7 +350,7 @@ class AssignTimController extends Controller
                             'login' => $dataForFtth['login']
                         ]);
                         break;
-    
+
                     case 'FTTH Maintenance':
                         DB::table('data_ftth_mt_oris')->insert([
                             'sesi' => $dataForFtth['batch_wo'],
@@ -369,6 +370,7 @@ class AssignTimController extends Controller
                             'slot_time_leader' => $dataForFtth['slot_time'],
                             'slot_time_apk' => $dataForFtth['time_apk'],
                             'status_apk' => "Requested",
+                            'status_wo' => "Requested",
                             'branch_id' => $dataForFtth['branch_id'],
                             'branch' => $dataForFtth['branch'],
                             'leadcall_id' => $dataForFtth['leadcall_id'],
@@ -389,7 +391,7 @@ class AssignTimController extends Controller
                             'login' => $dataForFtth['login']
                         ]);
                         break;
-    
+
                     case 'FTTH Dismantle':
                         DB::table('data_ftth_dismantle_oris')->insert([
                             'sesi' => $dataForFtth['batch_wo'],
@@ -408,6 +410,7 @@ class AssignTimController extends Controller
                             'slot_time_leader' => $dataForFtth['slot_time'],
                             'slot_time_apk' => $dataForFtth['time_apk'],
                             'status_apk' => "Requested",
+                            'status_wo' => "Requested",
                             'branch_id' => $dataForFtth['branch_id'],
                             'branch' => $dataForFtth['branch'],
                             'leadcall_id' => $dataForFtth['leadcall_id'],
@@ -426,14 +429,14 @@ class AssignTimController extends Controller
                             'login' => $dataForFtth['login']
                         ]);
                         break;
-    
+
                     default:
                         // Logika lain jika type_wo tidak dikenali
                         break;
                 }
 
                 DB::commit();
-    
+
                 return redirect()->route('assignTim')->with(['success' => 'Data tersimpan.']);
             } else {
                 return redirect()->route('assignTim')->withInput()->with(['error' => 'Gagal Simpan Data.']);
@@ -442,7 +445,7 @@ class AssignTimController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->route('assignTim')->with(['error' => 'Gagal Simpan Data.'. $e->getMessage()]);
-        }       
+        }
 
     }
 
@@ -511,7 +514,7 @@ class AssignTimController extends Controller
         } else {
             $callsignId = $request->callsignTimidShow;
             $callsign = $request->callsignTimidShow;
-        }      
+        }
 
         DB::beginTransaction();
 
@@ -629,16 +632,16 @@ class AssignTimController extends Controller
                     // 'slot_time_apk_delay'
                     // 'status_slot_time_apk_delay'
                     // 'ket_delay_slot_time'
-                    // 'konfirmasi_customer'        
+                    // 'konfirmasi_customer'
                     // 'port_fat' => $data['fat_port_apk'],
                     // 'site_penagihan' => $areaSegmen->site,
-                    // 'wo_type_apk' => $data['wo_type_apk'],                                    
-                    
+                    // 'wo_type_apk' => $data['wo_type_apk'],
+
                     'leadcall_id' => $leadCallId,
                     'leadcall' => $leadCall,
-                    'leader_id' => $request['leaderidShow'],                                    
-                    'callsign_id' => $callsignId,                                    
-                    'tek1_nik' => $tek1Nk,                                    
+                    'leader_id' => $request['leaderidShow'],
+                    'callsign_id' => $callsignId,
+                    'tek1_nik' => $tek1Nk,
                     'tek2_nik' => $tek2Nk,
                     'tek3_nik' => $tek3Nk,
                     'tek4_nik' => $tek4Nk,
@@ -671,13 +674,13 @@ class AssignTimController extends Controller
                     'leadcall' => $leadCall,
                     'tgl_ikr' => $request['tglProgressShow'],
                     'slot_time_leader' => $request['slotTimeShow'],
-                    'slot_time_apk' => $request['slotTimeShow'],                                 
+                    'slot_time_apk' => $request['slotTimeShow'],
                     'sesi' => $request['sesiShow'],
                     'callsign' => $callsign,
                     'callsign_id' => $callsignId,
                     'leader_id' => $request['leaderidShow'],
                     'leader' => $request['leaderShow'],
-                    'tek1_nik' => $tek1Nk,                                    
+                    'tek1_nik' => $tek1Nk,
                     'tek2_nik' => $tek2Nk,
                     'tek3_nik' => $tek3Nk,
                     'tek4_nik' => $tek4Nk,

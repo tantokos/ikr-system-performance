@@ -25,7 +25,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
      * @return \Illuminate\Database\Eloquent\Model|null
      */
 
-    protected $logId, $logNm;
+    protected $logId, $logNm, $rekapJadwal;
 
     function __construct($akses)
     {
@@ -109,7 +109,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             'no_ticket_apk' => Str::trim($row['ticket_no']),
             'wo_type_apk' => Str::title(str_replace("_"," ",$row['wo_type'])),
 
-            'type_wo' => $this->get_data_id("type_wo", Str::trim(str_replace('_',' ', $row['wo_type']))), // Str::upper($row['wo_type'])=="MAINTENANCE" || Str::upper($row['wo_type'])=="REMOVE DEVICE" || Str::upper($row['wo_type'])=="ADD DEVICE" || Str::upper($row['wo_type'])=="ADD / REMOVE DEVICE" || Str::upper($row['wo_type'])=="PENDING DEVICE" ? "FTTH Maintenance" : (Str::upper($row['wo_type'])=="NEW INSTALLATION" || Str::upper($row['wo_type'])=="RELOCATION" ? "FTTH New Installation" : (Str::upper($row['wo_type'])=="DISMANTLE" ? "FTTH Dismantle" : "-")),
+            'type_wo' => $this->get_data_id("type_wo", Str::trim(str_replace('_',' ', $row['wo_type'])), $formattedDate), // Str::upper($row['wo_type'])=="MAINTENANCE" || Str::upper($row['wo_type'])=="REMOVE DEVICE" || Str::upper($row['wo_type'])=="ADD DEVICE" || Str::upper($row['wo_type'])=="ADD / REMOVE DEVICE" || Str::upper($row['wo_type'])=="PENDING DEVICE" ? "FTTH Maintenance" : (Str::upper($row['wo_type'])=="NEW INSTALLATION" || Str::upper($row['wo_type'])=="RELOCATION" ? "FTTH New Installation" : (Str::upper($row['wo_type'])=="DISMANTLE" ? "FTTH Dismantle" : "-")),
             'area_cluster_apk' => Str::title($area),
             'wo_date_apk' => $formatWoDate, // Str::trim($row['wo_date']),
             'cust_id_apk' => Str::trim($row['cust_id']),
@@ -130,22 +130,22 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             'slot_time' => is_string($row['time']) ? \Carbon\Carbon::createFromFormat('H:i', $row['time'])->format('H:i') : Date::excelToDateTimeObject($row['time'])->format("H:i"),
             'time_apk' => is_string($row['time']) ? \Carbon\Carbon::createFromFormat('H:i', $row['time'])->format('H:i') : Date::excelToDateTimeObject($row['time'])->format("H:i"),
 
-            'branch_id' => $this->get_data_id("branch_id", Str::trim(Str::title($row['branch']))),
-            'branch' => $this->get_data_id("branch", Str::trim(Str::title($row['branch']))),
-            'leadcall_id' => $this->get_data_id("leadcall_id", Str::trim(Str::title($row['leader']))),
-            'leadcall' => $this->get_data_id("leadcall", Str::trim(Str::title($row['leader']))),
-            'leader_id' => $this->get_data_id("leader_id", Str::trim(Str::title($row['leader']))),
+            'branch_id' => $this->get_data_id("branch_id", Str::trim(Str::title($row['branch'])), $formattedDate),
+            'branch' => $this->get_data_id("branch", Str::trim(Str::title($row['branch'])), $formattedDate),
+            'leadcall_id' => $this->get_data_id("leadcall_id", Str::trim(Str::title($row['leader'])), $formattedDate),
+            'leadcall' => $this->get_data_id("leadcall", Str::trim(Str::title($row['leader'])), $formattedDate),
+            'leader_id' => $this->get_data_id("leader_id", Str::trim(Str::title($row['leader'])), $formattedDate),
             'leader' => Str::trim(Str::title($row['leader'])),
-            'callsign_id' => $this->get_data_id("callsign_id", Str::trim($row['callsign'])),
+            'callsign_id' => $this->get_data_id("callsign_id", Str::trim($row['callsign']), $formattedDate),
             'callsign' => Str::trim($row['callsign']),
-            'tek1_nik' => $this->get_data_id("tek1_nik", Str::trim(ucwords($row['tim_1']))),
-            'teknisi1' => $this->get_data_id("teknisi1", $row['tim_1']) == null ? null : Str::trim(ucwords($row['tim_1'])),
-            'tek2_nik'=> $this->get_data_id("tek2_nik", Str::trim($row['tim_2'])),
-            'teknisi2' => $this->get_data_id("teknisi2", $row['tim_2']) == null ? null : Str::trim(ucwords($row['tim_2'])),
-            'tek3_nik' => $this->get_data_id("tek3_nik", Str::trim($row['tim3'])),
-            'teknisi3' => $this->get_data_id("teknisi3", $row['tim3']) == null ? null : Str::trim(ucwords($row['tim3'])),
-            'tek4_nik' => $this->get_data_id("tek4_nik", Str::trim($row['tim4'])),
-            'teknisi4' => $this->get_data_id("teknisi4", $row['tim4']) == null ? null : Str::trim(ucwords($row['tim4'])),
+            'tek1_nik' => $this->get_data_id("tek1_nik", Str::trim(ucwords($row['tim_1'])), $formattedDate),
+            'teknisi1' => $this->get_data_id("teknisi1", $row['tim_1'] == null ? null : Str::trim(ucwords($row['tim_1'])), $formattedDate),
+            'tek2_nik'=> $this->get_data_id("tek2_nik", Str::trim($row['tim_2']), $formattedDate),
+            'teknisi2' => $this->get_data_id("teknisi2", $row['tim_2'] == null ? null : Str::trim(ucwords($row['tim_2'])), $formattedDate),
+            'tek3_nik' => $this->get_data_id("tek3_nik", Str::trim($row['tim3']), $formattedDate),
+            'teknisi3' => $this->get_data_id("teknisi3", $row['tim3'] == null ? null : Str::trim(ucwords($row['tim3'])), $formattedDate),
+            'tek4_nik' => $this->get_data_id("tek4_nik", Str::trim($row['tim4']), $formattedDate),
+            'teknisi4' => $this->get_data_id("teknisi4", $row['tim4'] == null ? null : Str::trim(ucwords($row['tim4'])), $formattedDate),
             'login_id' => $this->logId,
             'login' => $this->logNm
         ]);
@@ -225,7 +225,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
         return 1000;
     }
 
-    public function get_data_id($kolom, $data)
+    public function get_data_id($kolom, $data, $tanggal)
     {
         // dd($kolom, $data);
 
@@ -261,59 +261,106 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     break;
 
                 case "callsign_id":
-                    $callsign_id = DB::table('v_detail_callsign_tim')->select('callsign_tim_id')->where('callsign_tim', $data)->first();
+                    if(strtoupper(substr($data,0,4))=="LEAD") {
+                        $callsign_id = DB::table('callsign_leads as cl')
+                            ->leftJoin('employees as e','cl.leader_id', '=', 'e.nik_karyawan')
+                            ->select('cl.id as callsign_tim_id')
+                            ->where('lead_callsign', $data)->first();
+                    } else {
+                        $callsign_id = DB::table('v_detail_callsign_tim')->select('callsign_tim_id')->where('callsign_tim', $data)->first();
+                    }
+                    
                     // $leaderID= is_null($leader_id) ? "-" : $leader_id->leader_id;
                     return is_null($callsign_id) ?  null : $callsign_id->callsign_tim_id;
                     break;
 
                 case "tek1_nik":
-                    $tek1_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    $tek1_nik = DB::table('employees as e')->select('e.nik_karyawan')->where('e.nama_karyawan', $data)->where('e.status_active','=','Aktif')
+                                ->leftJoin('v_rekap_jadwal_data as vj', 'e.nik_karyawan','=','vj.nik_karyawan')
+                                ->whereIn('vj.status', ["ON","OD"])
+                                ->where('vj.tgl', $tanggal)
+                                ->first();
                     // dd(is_null($tek1_nik));
                     $tek1Nik = is_null($tek1_nik) ? null : $tek1_nik->nik_karyawan;
                     return $tek1Nik;
                     break;
 
                 case "teknisi1":
-                    $tek1_nik = DB::table('employees')->select('nama_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    // $tek1_nik = DB::table('employees')->select('nama_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    $tek1_nik = DB::table('employees as e')->select('e.nama_karyawan')->where('e.nama_karyawan', $data)->where('e.status_active','=','Aktif')
+                                ->leftJoin('v_rekap_jadwal_data as vj', 'e.nik_karyawan','=','vj.nik_karyawan')
+                                ->whereIn('vj.status', ["ON","OD"])
+                                ->where('vj.tgl', $tanggal)
+                                ->first();
                     // dd(is_null($tek1_nik));
                     $tekName1 = is_null($tek1_nik) ? null : $tek1_nik->nama_karyawan;
                     return $tekName1;
                     break;
 
                 case "tek2_nik":
-                    $tek2_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    // $tek2_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    $tek2_nik = DB::table('employees as e')->select('e.nik_karyawan')->where('e.nama_karyawan', $data)->where('e.status_active','=','Aktif')
+                            ->leftJoin('v_rekap_jadwal_data as vj', 'e.nik_karyawan','=','vj.nik_karyawan')
+                            ->whereIn('vj.status', ["ON","OD"])
+                            ->where('vj.tgl', $tanggal)
+                            ->first();
                     $tek2Nik = is_null($tek2_nik) ? null : $tek2_nik->nik_karyawan;
                     return $tek2Nik;
                     break;
 
                 case "teknisi2":
-                    $tek2_nik = DB::table('employees')->select('nama_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    // $tek2_nik = DB::table('employees')->select('nama_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    $tek2_nik = DB::table('employees as e')->select('e.nama_karyawan')->where('e.nama_karyawan', $data)->where('e.status_active','=','Aktif')
+                            ->leftJoin('v_rekap_jadwal_data as vj', 'e.nik_karyawan','=','vj.nik_karyawan')
+                            ->whereIn('vj.status', ["ON","OD"])
+                            ->where('vj.tgl', $tanggal)
+                            ->first();
                     // dd(is_null($tek1_nik));
                     $tekName2 = is_null($tek2_nik) ? null : $tek2_nik->nama_karyawan;
                     return $tekName2;
                     break;
 
                 case "tek3_nik":
-                    $tek3_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    // $tek3_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    $tek3_nik = DB::table('employees as e')->select('e.nik_karyawan')->where('e.nama_karyawan', $data)->where('e.status_active','=','Aktif')
+                            ->leftJoin('v_rekap_jadwal_data as vj', 'e.nik_karyawan','=','vj.nik_karyawan')
+                            ->whereIn('vj.status', ["ON","OD"])
+                            ->where('vj.tgl', $tanggal)
+                            ->first();
                     $tek3Nik = is_null($tek3_nik) ? null : $tek3_nik->nik_karyawan;
                     return $tek3Nik;
                     break;
 
                 case "teknisi3":
-                    $tek3_nik = DB::table('employees')->select('nama_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    // $tek3_nik = DB::table('employees')->select('nama_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    $tek3_nik = DB::table('employees as e')->select('e.nama_karyawan')->where('e.nama_karyawan', $data)->where('e.status_active','=','Aktif')
+                            ->leftJoin('v_rekap_jadwal_data as vj', 'e.nik_karyawan','=','vj.nik_karyawan')
+                            ->whereIn('vj.status', ["ON","OD"])
+                            ->where('vj.tgl', $tanggal)
+                            ->first();
                     // dd(is_null($tek1_nik));
                     $tekName3 = is_null($tek3_nik) ? null : $tek3_nik->nama_karyawan;
                     return $tekName3;
                     break;
 
                 case "tek4_nik":
-                    $tek4_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    // $tek4_nik = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    $tek4_nik = DB::table('employees as e')->select('e.nik_karyawan')->where('e.nama_karyawan', $data)->where('e.status_active','=','Aktif')
+                            ->leftJoin('v_rekap_jadwal_data as vj', 'e.nik_karyawan','=','vj.nik_karyawan')
+                            ->whereIn('vj.status', ["ON","OD"])
+                            ->where('vj.tgl', $tanggal)
+                            ->first();
                     $tek4Nik = is_null($tek4_nik) ? null : $tek4_nik->nik_karyawan;
                     return $tek4Nik;
                     break;
 
                 case "teknisi4":
-                    $tek4_nik = DB::table('employees')->select('nama_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    // $tek4_nik = DB::table('employees')->select('nama_karyawan')->where('nama_karyawan', $data)->where('status_active','=','Aktif')->first();
+                    $tek4_nik = DB::table('employees as e')->select('e.nama_karyawan')->where('e.nama_karyawan', $data)->where('e.status_active','=','Aktif')
+                            ->leftJoin('v_rekap_jadwal_data as vj', 'e.nik_karyawan','=','vj.nik_karyawan')
+                            ->whereIn('vj.status', ["ON","OD"])
+                            ->where('vj.tgl', $tanggal)
+                            ->first();
                     // dd(is_null($tek1_nik));
                     $tekName4 = is_null($tek4_nik) ? null : $tek4_nik->nama_karyawan;
                     return $tekName4;
