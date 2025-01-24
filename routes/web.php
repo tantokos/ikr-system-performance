@@ -263,6 +263,9 @@ Route::post('/fttx/import/proses-so', [ImportAssignTeamFttxController::class, 'i
 Route::get('/fttx/import/data', [ImportAssignTeamFttxController::class, 'getImportSoFttx'])->name('fttx.import.data')->middleware('auth');
 
 Route::post('/simpanImportWoFttx', [ImportAssignTeamFttxController::class,'simpanImportWoFttx'])->name('simpanImportWoFttx')->middleware('auth');
+Route::post('/simpanSignTimFttx', [AssignTeamFttxController::class, 'simpanSignTimFttx'])->name('simpanSignTimFttx')->middleware('auth');
+Route::get('/getDetailAssignFttx', [AssignTeamFttxController::class, 'getDetailAssignFttx'])->name('getDetailAssignFttx')->middleware('auth');
+Route::post('/updateSignTimFttx', [AssignTeamFttxController::class, 'updateSignTimFttx'])->name('updateSignTimFttx')->middleware('auth');
 
 //END FTTX
 

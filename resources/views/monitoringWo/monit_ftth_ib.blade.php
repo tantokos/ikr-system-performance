@@ -469,12 +469,12 @@
                                                 aria-selected="true">Status Progress
                                             </a>
                                         </li>
-                                        <li class="nav-item">
+                                        {{-- <li class="nav-item">
                                             <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab"
                                                 href="#StatusMaterial" role="tab" aria-controls="StatusMaterial"
                                                 aria-selected="false">Status Material
                                             </a>
-                                        </li>
+                                        </li> --}}
 
                                     </ul>
                                 </div>
@@ -569,8 +569,6 @@
                                                         type="text" id="areaShow" name="areaShow"
                                                         style="border-color:#9ca0a7;" readonly>
                                                 </div>
-
-
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
@@ -710,28 +708,20 @@
 
 
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Lead Callsign</span>
-                                                            <select class="form-control form-control-sm"
-                                                                id="LeadCallsignShow" name="LeadCallsignShow"
-                                                                style="border-color:#9ca0a7;" required readonly>
+                                                            <span class="text-xs">Lead Callsign | Leader</span>
+                                                            <select class="form-control form-control-sm" id="LeadCallsignShow" name="LeadCallsignShow"
+                                                                style="border-color:#9ca0a7;">
                                                                 <option value="">Pilih Lead Callsign</option>
-                                                                @if (isset($leadCallsign))
-                                                                    @foreach ($leadCallsign as $lead)
-                                                                        <option
-                                                                            value="{{ $lead->lead_call_id . '|' . $lead->lead_callsign }}">
-                                                                            {{ $lead->lead_callsign }}
-                                                                    @endforeach
-                                                                @endif
                                                             </select>
                                                         </div>
-                                                        <div class="col form-group mb-1">
+                                                        {{-- <div class="col form-group mb-1">
                                                             <span class="text-xs">Nama Leader</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 id="leaderShow" name="leaderShow"
                                                                 style="border-color:#9ca0a7;" readonly>
                                                             <input type="hidden" id="leaderidShow"
                                                                 name="leaderidShow" readonly>
-                                                        </div>
+                                                        </div> --}}
                                                     </div>
                                                 </div>
 
@@ -743,7 +733,7 @@
                                                             <span class="text-xs">Callsign Tim</span>
                                                             <select class="form-control form-control-sm"
                                                                 id="callsignTimidShow" name="callsignTimidShow"
-                                                                style="border-color:#9ca0a7;" readonly>
+                                                                style="border-color:#9ca0a7;">
                                                                 <option value="">Pilih Callsign Tim</option>
                                                             </select>
                                                             <input type="hidden" id="callsignTimShow"
@@ -753,37 +743,33 @@
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 1</span>
-                                                        <input class="form-control form-control-sm" type="text"
-                                                                 id="teknisi1Show"
-                                                                name="teknisi1Show"
-                                                                style="border-color:#9ca0a7;" readonly>
+                                                        <select class="form-control form-control-sm" type="text" id="teknisi1Show" name="teknisi1Show"
+                                                            style="border-color:#9ca0a7;">
+                                                        </select>
                                                     </div>
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 2</span>
-                                                        <input class="form-control form-control-sm" type="text"
-                                                                 id="teknisi2Show"
-                                                                name="teknisi2Show"
-                                                                style="border-color:#9ca0a7;" readonly>
+                                                        <select class="form-control form-control-sm" type="text" id="teknisi2Show" name="teknisi2Show"
+                                                            style="border-color:#9ca0a7;">
+                                                        </select>
                                                     </div>
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 3</span>
-                                                        <input class="form-control form-control-sm" type="text"
-                                                                 id="teknisi3Show"
-                                                                name="teknisi3Show"
-                                                                style="border-color:#9ca0a7;" readonly>
+                                                        <select class="form-control form-control-sm" type="text" id="teknisi3Show" name="teknisi3Show"
+                                                            style="border-color:#9ca0a7;">
+                                                        </select>
                                                     </div>
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 4</span>
-                                                        <select class="form-control form-control-sm" type="text" id="teknisi4Show"
-                                                            name="teknisi4Show" style="border-color:#9ca0a7;" readonly>
-                                                            <option value="">Teknisi 4</option>
+                                                        <select class="form-control form-control-sm" type="text" id="teknisi4Show" name="teknisi4Show"
+                                                            style="border-color:#9ca0a7;">
                                                         </select>
                                                     </div>
-
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -883,7 +869,7 @@
                                                             {{-- </select> --}}
                                                         </div>
                                                     </div>
-                                                </div>                                                
+                                                </div>
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
@@ -988,7 +974,7 @@
                                                     <span class="text-xs">Report Teknisi</span>
                                                     <textarea class="form-control form-control-sm" type="text" id="remarksTeknisi" name="remarksTeknisi" rows="4"
                                                         style="border-color:#9ca0a7;"></textarea>
-                                                </div>                                                
+                                                </div>
 
                                             </div>
 
@@ -1941,6 +1927,23 @@
             })
         }
 
+        $(document).on('change', '#callsignTimidShow', function (e) {
+
+            ctim = $(this).val().split("|");
+            ctimTeknisi = callTim.find(k => k.callsign === ctim[1]);
+
+            let selectTek1 = $('#teknisi1Show');
+            let selectTek2 = $('#teknisi2Show');
+            let selectTek3 = $('#teknisi3Show');
+            let selectTek4 = $('#teknisi4Show');
+
+            selectTek1.val(ctimTeknisi.tek1_nik + "|" + ctimTeknisi.teknisi1 || "");
+            selectTek2.val(ctimTeknisi.tek2_nik + "|" + ctimTeknisi.teknisi2 || "");
+            selectTek3.val(ctimTeknisi.tek3_nik + "|" + ctimTeknisi.teknisi3 || "");
+            selectTek4.val(ctimTeknisi.tek4_nik + "|" + ctimTeknisi.teknisi4 || "");
+
+        });
+
         $(document).on('click', '#detail-assign', function(e) {
             // e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
@@ -1961,28 +1964,51 @@
                     let material = response.ftth_material;
                     let callsignTims = response.callsign_tims;
                     let callsignLeads = response.callsign_leads;
+                    let teknisiOn = response.teknisiOn;
+                    callTim = response.assignTim;
 
+                    // Populasi dropdown Lead Callsign
+                    let selectLead = $('#LeadCallsignShow');
+                    selectLead.empty().append('<option value="">Pilih Lead Callsign</option>');
 
+                    callsignLeads.forEach(item => {
+                        selectLead.append(`<option value="${item.id}|${item.lead_callsign}|${item.leader_id}|${item.nama_karyawan}">${item.lead_callsign} | ${item.nama_karyawan} </option>`);
+                    });
+
+                    // Atur nilai dropdown Lead Callsign sesuai dengan `leadcall_id`
+                    if (dtDis.leadcall_id) {
+                        selectLead.val(dtDis.leadcall_id + "|" + dtDis.leadcall + "|" + dtDis.leader_id + "|" + dtDis.leader);
+                    }
 
                     // Populasi dropdown Callsign Tim
                     let selectTim = $('#callsignTimidShow');
                     selectTim.empty().append('<option value="">Pilih Callsign Tim</option>');
                     callsignTims.forEach(item => {
-                        selectTim.append(`<option value="${item.id}">${item.callsign_tim}</option>`);
+                        selectTim.append(`<option value="${item.id}|${item.callsign_tim}">${item.callsign_tim}</option>`);
                     });
-                    selectTim.val(dtDis.callsign_id);
+                    selectTim.val(dtDis.callsign_id + "|" + dtDis.callsign);
 
-                    // Populasi dropdown Lead Callsign
-                    let selectLead = $('#LeadCallsignShow');
-                    selectLead.empty().append('<option value="">Pilih Lead Callsign</option>');
-                    callsignLeads.forEach(item => {
-                        selectLead.append(`<option value="${item.id}">${item.lead_callsign}</option>`);
+                    let selectTek1 = $('#teknisi1Show');
+                    let selectTek2 = $('#teknisi2Show');
+                    let selectTek3 = $('#teknisi3Show');
+                    let selectTek4 = $('#teknisi4Show');
+
+                    selectTek1.empty().append('<option value="">Pilih Teknisi</option>');
+                    selectTek2.empty().append('<option value="">Pilih Teknisi</option>');
+                    selectTek3.empty().append('<option value="">Pilih Teknisi</option>');
+                    selectTek4.empty().append('<option value="">Pilih Teknisi</option>');
+
+                    teknisiOn.forEach(item => {
+                        selectTek1.append(`<option value="${item.nik_karyawan}|${item.nama_karyawan}">${item.nama_karyawan}</option>`);
+                        selectTek2.append(`<option value="${item.nik_karyawan}|${item.nama_karyawan}">${item.nama_karyawan}</option>`);
+                        selectTek3.append(`<option value="${item.nik_karyawan}|${item.nama_karyawan}">${item.nama_karyawan}</option>`);
+                        selectTek4.append(`<option value="${item.nik_karyawan}|${item.nama_karyawan}">${item.nama_karyawan}</option>`);
                     });
 
-                    // Atur nilai dropdown Lead Callsign sesuai dengan `leadcall_id`
-                    if (dtDis.leadcall_id) {
-                        selectLead.val(dtDis.leadcall_id);
-                    }
+                    selectTek1.val(dtDis.tek1_nik + "|" + dtDis.teknisi1 || "");
+                    selectTek2.val(dtDis.tek2_nik + "|" + dtDis.teknisi2 || "");
+                    selectTek3.val(dtDis.tek3_nik + "|" + dtDis.teknisi3 || "");
+                    selectTek4.val(dtDis.tek4_nik + "|" + dtDis.teknisi4 || "");
 
 
                     $('#detId').val(dtDis.id)
@@ -2047,11 +2073,6 @@
                     $('#otp_end').val(dtDis.otp_end);
 
                     $('#leaderShow').val(dtDis.leader);
-                    $('#teknisi1Show').val(dtDis.teknisi1);
-                    $('#teknisi2Show').val(dtDis.teknisi2);
-                    $('#teknisi3Show').val(dtDis.teknisi3);
-                    $('#teknisi4Show').val(dtDis.teknisi4);
-
                     $('#statusWo').val(toTitleCase(dtDis.status_wo || ""));
                     $('#statusWoApk').val(toTitleCase(dtDis.status_apk || ""));
                     $('#isChecked').prop('checked', dtDis.is_checked == 1);

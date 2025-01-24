@@ -232,7 +232,21 @@ class MonitFtthIB_Controller extends Controller
         $datas = DB::table('data_ftth_ib_oris as d')
             ->where('d.id', $assignId)->first();
         $callsign_tims = DB::table('callsign_tims')->get();
-        $callsign_leads = DB::table('callsign_leads')->get();
+        $callsign_leads = DB::table('callsign_leads as clead')
+                ->leftJoin('employees as e','clead.leader_id', '=','e.nik_karyawan')
+                ->select('clead.id','clead.lead_callsign','clead.leader_id','e.nama_karyawan')->get();
+
+        $assignTim = DB::table('v_rekap_assign_tim')
+                    ->where('tgl_ikr', $datas->tgl_ikr)->get();
+
+        $teknisiOn = DB::table('v_rekap_jadwal_data as vj')
+        ->leftJoin('employees as e', 'vj.nik_karyawan', '=', 'e.nik_karyawan')
+        ->whereDate('vj.tgl', $datas->tgl_ikr) // Ganti where() dengan whereDate()
+        ->where('e.posisi', 'like', '%Teknisi%')
+        ->whereIn('vj.status', ["ON", "OD"])
+        ->select('vj.nik_karyawan', 'e.nama_karyawan')
+        ->orderBy('e.nama_karyawan')
+        ->get();
 
 
         $wo_no = DB::table('data_ftth_ib_oris')->where('id', $assignId)->value('no_wo'); // contoh WO No
@@ -281,7 +295,9 @@ class MonitFtthIB_Controller extends Controller
             'data' => $datas,
             'callsign_tims' => $callsign_tims,
             'callsign_leads' => $callsign_leads,
-            'ftth_material' => $mergedMaterial
+            'ftth_material' => $mergedMaterial,
+            'assignTim' => $assignTim,
+            'teknisiOn' => $teknisiOn,
         ]);
     }
 
@@ -344,8 +360,72 @@ class MonitFtthIB_Controller extends Controller
         $id = $request->detId;
 
         $ftthIb = FtthIb::findOrFail($id);
+        $assignTim = DataAssignTim::where('no_wo_apk', $ftthIb->no_wo)
+                                    ->where('tgl_ikr', $ftthIb->tgl_ikr)
+                                    ->first();
 
-        $updateFtthIb = $ftthIb->update([
+        if($request['LeadCallsignShow']) {
+            $LeadCallsignShow = explode("|",$request['LeadCallsignShow']);
+            $leadcall_id =  $LeadCallsignShow[0];
+            $leadcall = $LeadCallsignShow[1];
+            $leader_id = $LeadCallsignShow[2];
+            $leader = $LeadCallsignShow[3];
+        } else {
+            // $LeadCallsignShow = explode("|",$request['LeadCallsignShow']);
+            $leadcall_id =  null;
+            $leadcall = null;
+            $leader_id = null;
+            $leader = null;
+        }
+
+        if($request['callsignTimidShow']) {
+            $callsignTimidShow = explode("|", $request['callsignTimidShow']);
+            $callsign_id = $callsignTimidShow[0];
+            $callsign = $callsignTimidShow[1];
+        } else {
+            $callsign_id = null;
+            $callsign = null;
+        }
+
+        if($request['teknisi1Show']) {
+            $teknisi1Show = explode("|", $request['teknisi1Show']);
+            $tek1_nik = $teknisi1Show[0];
+            $teknisi1 = $teknisi1Show[1];
+        } else {
+            $tek1_nik = null;
+            $teknisi1 = null;
+        }
+
+        if($request['teknisi2Show']) {
+            $teknisi2Show = explode("|", $request['teknisi2Show']);
+            $tek2_nik = $teknisi2Show[0];
+            $teknisi2 = $teknisi2Show[1];
+        } else {
+            $tek2_nik = null;
+            $teknisi2 = null;
+        }
+
+        if($request['teknisi3Show']) {
+            $teknisi3Show = explode("|", $request['teknisi3Show']);
+            $tek3_nik = $teknisi3Show[0];
+            $teknisi3 = $teknisi3Show[1];
+        } else {
+            $tek3_nik = null;
+            $teknisi3 = null;
+        }
+
+        if($request['teknisi4Show']) {
+            $teknisi4Show = explode("|", $request['teknisi4Show']);
+            $tek4_nik = $teknisi4Show[0];
+            $teknisi4 = $teknisi4Show[1];
+        } else {
+            $tek4_nik = null;
+            $teknisi4 = null;
+        }
+
+        DB::beginTransaction();
+        try {
+            $updateFtthIb = $ftthIb->update([
             'type_wo' => $request['woTypeShow'],
             'no_wo' => $request['noWoShow'],
             'no_ticket' => $request['ticketNoShow'],
@@ -353,17 +433,27 @@ class MonitFtthIB_Controller extends Controller
             'nama_cust' => $request['custNameShow'],
             'cust_address1' => $request['custAddressShow'],
             'kode_fat' => $request['fatCodeShow'],
-            'cluster' => $request['cluster'],
+            'cluster' => $request['areaShow'],
             'branch' => $request['branchShow'],
             'penagihan' => $request['penagihanShow'],
             'tgl_ikr' => $request['tglProgressShow'],
             'slot_time_leader' => $request['slotTimeLeaderShow'],
             'slot_time_apk' => $request['slotTimeAPKShow'],
             'sesi' => $request['sesiShow'],
-            'leader' => $request['leaderShow'],
-            'teknisi1' => $request['teknisi1Show'],
-            'teknisi2' => $request['teknisi2Show'],
-            'teknisi3' => $request['teknisi3Show'],
+            'leader' => $leader,
+            'leadcall' => $leadcall,
+            'callsign' => $callsign,
+            'leader_id' => $leader_id,
+            'leadcall_id' => $leadcall_id,
+            'callsign_id' => $callsign_id,
+            'tek1_nik' => $tek1_nik,
+            'tek2_nik' => $tek2_nik,
+            'tek3_nik' => $tek3_nik,
+            'tek4_nik' => $tek4_nik,
+            'teknisi1' => $teknisi1,
+            'teknisi2' => $teknisi2,
+            'teknisi3' => $teknisi3,
+            'teknisi4' => $teknisi4,
             'status_wo' => $request['statusWo'],
             'tgl_jam_reschedule' => $request['jamReschedule'],
             'tgl_reschedule' => $request['tglReschedule'],
@@ -390,8 +480,6 @@ class MonitFtthIB_Controller extends Controller
             'stb_sn_in' => $request['snStbIn'],
             'stb_mac_in' => $request['macStbIn'],
             'precon_out' => $request['kabelPrecon'],
-            'leader_id' => $request['leaderidShow'],
-            'callsign_id' => $request['callsign_id'],
             'telp_dispatch' => $request['telp_dispatch'],
             'nama_dispatch' => $request['picDispatch'],
             'alasan_pending' => $request['alasanPending'],
@@ -414,9 +502,32 @@ class MonitFtthIB_Controller extends Controller
             'login' => $akses,
         ]);
 
-        if ($updateFtthIb) {
-            return redirect()->route('monitFtthIB')->with(['success' => 'Data tersimpan.']);
-        } else {
+        $assignTim = $assignTim->update([
+                'slot_time' => $request['slotTimeAPKStatusShow'],
+                'time_apk' => $request['slotTimeAPKStatusShow'],
+                'leadcall_id' => $leadcall_id,
+                'leadcall' => $leadcall,
+                'leader_id' => $leader_id,
+                'leader' => $leader,
+                'callsign_id' => $callsign_id,
+                'callsign' => $callsign,
+                'tek1_nik' => $tek1_nik,
+                'teknisi1' => $teknisi1,
+                'tek2_nik' => $tek2_nik,
+                'teknisi2' => $teknisi2,
+                'tek3_nik' => $tek3_nik,
+                'teknisi3' => $teknisi3,
+                'tek4_nik' => $tek4_nik,
+                'teknisi4' => $teknisi4
+            ]);
+
+            DB::commit();
+
+            if ($updateFtthIb && $assignTim) {
+                return redirect()->route('monitFtthIB')->with(['success' => 'Data tersimpan.']);
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
             return redirect()->route('monitFtthIB')->with(['error' => 'Gagal Simpan Data.']);
         }
     }

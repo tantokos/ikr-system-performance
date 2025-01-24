@@ -99,14 +99,14 @@
                 </a>
             </li>
 
-            @if (Auth::user()->name == "Tanto")
+            {{-- @if (Auth::user()->name == "Tanto") --}}
                 <li class="nav-item border-start my-0 pt-2">
                     <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('jadwalTim') ? 'active' : '' }}"
                         href="{{ route('jadwalTim') }}">
                         <span class="nav-link-text ms-1">Jadwal Tim</span>
                     </a>
                 </li>
-            @endif
+            {{-- @endif --}}
 
 
             <li class="nav-item">
@@ -427,7 +427,7 @@
                     <span class="nav-link-text ms-1">Pengembalian Tools GA</span>
                 </a>
             </li>
-            
+
             <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('disposalTool') ? 'active' : '' }}"
                     href="{{ route('disposalTool') }}">

@@ -37,6 +37,7 @@ class FtthIb extends Model
         'slot_time_apk',
         'sesi',
         'callsign',
+        'callsign_id',
         'leader_id',
         'leader',
         'tek1_nik',

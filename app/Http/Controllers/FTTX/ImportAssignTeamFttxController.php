@@ -59,7 +59,7 @@ class ImportAssignTeamFttxController extends Controller
             }
 
             // Tambahkan nilai total_wo ke type_wo yang sesuai
-            $pivotData[$callsign][$wo_type] = $item->total_wo;            
+            $pivotData[$callsign][$wo_type] = $item->total_wo;
 
             if($wo_type == 'FTTX New Installation'){
                 $totalFttxIb += $item->total_wo;
@@ -130,9 +130,9 @@ class ImportAssignTeamFttxController extends Controller
         $akses = Auth::user()->name;
 
         $datas = DB::table('import_assign_team_fttx')->where('login', '=', $akses)->get();
-            
+
         if ($request->ajax()) {
-            
+
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
                 ->addColumn('action', function ($row) {
@@ -223,10 +223,10 @@ class ImportAssignTeamFttxController extends Controller
                     ->distinct()->get()->toArray();
 
 
-                if (count($dtImportAssign) > 0) {                    
+                if (count($dtImportAssign) > 0) {
 
                     DB::beginTransaction();
-                    
+
                     try {
 
                         $doubleAssign = [];
@@ -234,7 +234,7 @@ class ImportAssignTeamFttxController extends Controller
                         foreach ($dtImportAssign as $data) {
                             $cekDoubleAssign = DataAssignTimFttx::where('no_so', $data['no_so'])
                                 ->where('jadwal_ikr', $data['jadwal_ikr'])
-                                ->first();                            
+                                ->first();
 
                             //update callsign jika wo sudah pernah di import/ sudah ada di data assign tim
                             if ($cekDoubleAssign) {
@@ -260,7 +260,7 @@ class ImportAssignTeamFttxController extends Controller
                                                     'tek4_nik' => $data['tek4_nik'],
                                                     'tim_4' => $data['tim_4']
                                                 ]);
-                            }                          
+                            }
 
                         }
 
@@ -269,24 +269,24 @@ class ImportAssignTeamFttxController extends Controller
                             $updateDtCallsign = DataAssignTimFttx::where('jadwal_ikr', $impCallsign['jadwal_ikr'])
                                     ->where('callsign', $impCallsign['callsign'])
                                     ->update(['leadcall_id' => $impCallsign['leadcall_id'],
-                                                'leadcall' => $impCallsign['leadcall'], 
+                                                'leadcall' => $impCallsign['leadcall'],
                                                 'leader_id' => $impCallsign['leader_id'],
                                                 'leader' => $impCallsign['leader'],
-                                                'callsign_id' => $impCallsign['callsign_id'], 
-                                                'callsign' => $impCallsign['callsign'], 
-                                                'tek1_nik' => $impCallsign['tek1_nik'], 
-                                                'tim_1' => $impCallsign['tim_1'],  
-                                                'tek2_nik' => $impCallsign['tek2_nik'], 
+                                                'callsign_id' => $impCallsign['callsign_id'],
+                                                'callsign' => $impCallsign['callsign'],
+                                                'tek1_nik' => $impCallsign['tek1_nik'],
+                                                'tim_1' => $impCallsign['tim_1'],
+                                                'tek2_nik' => $impCallsign['tek2_nik'],
                                                 'tim_2' => $impCallsign['tim_2'],
-                                                'tek3_nik' => $impCallsign['tek3_nik'], 
-                                                'tim_3' => $impCallsign['tim_3'], 
-                                                'tek4_nik' => $impCallsign['tek4_nik'], 
+                                                'tek3_nik' => $impCallsign['tek3_nik'],
+                                                'tim_3' => $impCallsign['tim_3'],
+                                                'tek4_nik' => $impCallsign['tek4_nik'],
                                                 'tim_4' => $impCallsign['tim_4']
                                             ]);
-                                    
+
                         }
 
-                        //get data WO baru dari import assign tim 
+                        //get data WO baru dari import assign tim
                         $dtImportAssign2 = ImportAssignTeamFttx::whereNotIn('no_so', $doubleAssign)
                             ->select(
                                 'no_so',
@@ -336,11 +336,11 @@ class ImportAssignTeamFttxController extends Controller
                             ->get()
                             ->toArray();
 
-                        // Insert data yang valid/tidak double ke data_assign_tims    
-                        DataAssignTimFttx::insert($dtImportAssign2);                        
+                        // Insert data yang valid/tidak double ke data_assign_tims
+                        DataAssignTimFttx::insert($dtImportAssign2);
 
                         // Hapus data sementara yang sudah diproses
-                        ImportAssignTeamFttx::where('login', $akses) //whereNotIn('no_wo_apk', $doubleAssign)                            
+                        ImportAssignTeamFttx::where('login', $akses) //whereNotIn('no_wo_apk', $doubleAssign)
                             ->delete();
 
                         DB::commit();
@@ -372,7 +372,9 @@ class ImportAssignTeamFttxController extends Controller
                 break;
 
             case 'batal':
-                ImportAssignTeamFttx::where('login', $akses)->delete();
+                $importedData = DB::table('import_assign_team_fttx')->where('login', $akses)
+                    ->delete();
+                // ImportAssignTeamFttx::where('login', $akses)->delete();
                 return redirect()->route('fttx-assign-team');
                 break;
         }

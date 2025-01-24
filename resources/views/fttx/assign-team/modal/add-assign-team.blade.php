@@ -10,75 +10,43 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('simpanSignTim') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('simpanSignTimFttx') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col">
                             <div class="row">
                                 <div class="col form-group mb-1">
-                                    <span class="text-xs">WO No</span>
-                                    <input class="form-control form-control-sm" value="{{ old('noWo') }}"
-                                        type="text" id="noWo" name="noWo" style="border-color:#9ca0a7;"
+                                    <span class="text-xs">No SO</span>
+                                    <input class="form-control form-control-sm" value="{{ old('no_so') }}"
+                                        type="text" id="no_so" name="no_so" style="border-color:#9ca0a7;"
                                         required>
                                 </div>
-
-                                <div class="col-4 form-group mb-1">
-                                    <span class="text-xs">Ticket No</span>
-                                    <input class="form-control form-control-sm" type="text"
-                                        value="{{ old('noWo') }}" id="ticketNo" name="ticketNo"
-                                        style="border-color:#9ca0a7;">
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">WO Type</span>
+                                    <select class="form-control form-control-sm" type="text" id="wo_type" name="wo_type" style="border-color:#9ca0a7;">
+                                        <option value="">Pilih Type WO</option>
+                                        <option value="FTTX New Installation">FTTX New Installation
+                                        </option>
+                                        <option value="FTTX Maintenance">FTTX Maintenance</option>
+                                        <option value="FTTX/B New Installation">FTTX/B New Installation
+                                        </option>
+                                        <option value="FTTX/B Maintenance">FTTX/B Maintenance</option>
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="form-group mb-1">
                                 <div class="row">
                                     <div class="col form-group mb-1">
-                                        <span class="text-xs">WO Type</span>
-                                        <input class="form-control form-control-sm" type="text" id="woType"
-                                            name="woType" value="{{ old('woType') }}" style="border-color:#9ca0a7;">
-                                    </div>
-                                    <div class="col form-group mb-1">
-                                        <span class="text-xs">Type</span>
-                                        <select class="form-control form-control-sm" type="text" id="jenisWo"
-                                            name="jenisWo" style="border-color:#9ca0a7;" value="{{ old('jenisWo') }}"
-                                            required>
-                                            <option value="FTTX New Installation">FTTX New Installation
-                                            </option>
-                                            <option value="FTTX Maintenance">FTTX Maintenance</option>
-                                            <option value="FTTX/B New Installation">FTTX/B New Installation
-                                            </option>
-                                            <option value="FTTX/B Maintenance">FTTX/B Maintenance</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="form-group mb-1">
-                                <span class="text-xs">WO Date</span>
-                                <input class="form-control form-control-sm" type="text" id="WoDate" name="WoDate"
-                                    style="border-color:#9ca0a7;" required value="{{ old('WoDate') }}">
-                            </div>
-
-
-                            {{-- </div> --}}
-
-                            {{-- <div class="col"> --}}
-
-                            <div class="form-group mb-1">
-                                <div class="row">
-                                    <div class="col-4 form-group mb-1">
-                                        <span class="text-xs">Cust Id</span>
-                                        <input class="form-control form-control-sm" type="text" id="custId"
-                                            name="custId" style="border-color:#9ca0a7;" required
-                                            value="{{ old('custId') }}">
+                                        <span class="text-xs">PIC Customer</span>
+                                        <input class="form-control form-control-sm" type="text" id="pic_customer" name="pic_customer"
+                                            style="border-color:#9ca0a7;" required value="{{ old('pic_customer') }}">
                                     </div>
 
                                     <div class="col form-group mb-1">
-                                        <span class="text-xs">Cust Name</span>
-                                        <input class="form-control form-control-sm" type="text" id="custName"
-                                            name="custName" style="border-color:#9ca0a7;" required
-                                            value="{{ old('custName') }}">
+                                        <span class="text-xs">SO Date</span>
+                                        <input class="form-control form-control-sm" type="text" id="so_date" name="so_date" style="border-color:#9ca0a7;"
+                                            required value="{{ old('so_date') }}">
                                     </div>
                                 </div>
                             </div>
@@ -86,165 +54,25 @@
                             <div class="form-group mb-1">
                                 <div class="row">
                                     <div class="col form-group mb-1">
-                                        <span class="text-xs">Cust Phone</span>
-                                        <input class="form-control form-control-sm" type="text" id="custPhone"
-                                            name="custPhone" style="border-color:#9ca0a7;" required
-                                            value="{{ old('custPhone') }}">
+                                        <span class="text-xs">Customer Name</span>
+                                        <input class="form-control form-control-sm" type="text" id="customer_name" name="customer_name"
+                                            style="border-color:#9ca0a7;" required value="{{ old('customer_name') }}">
                                     </div>
 
                                     <div class="col form-group mb-1">
-                                        <span class="text-xs">Cust Mobile</span>
-                                        <input class="form-control form-control-sm" type="text" id="custMobile"
-                                            name="custMobile" style="border-color:#9ca0a7;" required
-                                            value="{{ old('custMobile') }}">
+                                        <span class="text-xs">Phone PIC Cust</span>
+                                        <input class="form-control form-control-sm" type="text" id="phone_pic_cust"
+                                            name="phone_pic_cust" style="border-color:#9ca0a7;" required
+                                            value="{{ old('phone_pic_cust') }}">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group mb-1">
-                                <span class="text-xs">Address</span>
-                                <textarea class="form-control form-control-sm" type="text" id="custAddress" name="custAddress"
-                                    style="border-color:#9ca0a7;" required></textarea>
-                            </div>
-                            <div class="form-group mb-1">
-                                <span class="text-xs">Area/Cluster</span>
-                                <input type="text" class="form-control form-control-sm" type="text"
-                                    id="area" name="area" style="border-color:#9ca0a7;" required
-                                    value="{{ old('area') }}">
-                            </div>
-
-                            <div class="form-group mb-1">
-                                <div class="row">
-                                    <div class="col form-group mb-1">
-                                        <span class="text-xs">IKR Date APK</span>
-                                        <input class="form-control form-control-sm" type="date" id="ikrDateApk"
-                                            name="ikrDateApk" style="border-color:#9ca0a7;" required
-                                            value="{{ old('ikrDateApk') }}">
-                                    </div>
-
-                                    <div class="col form-group mb-1">
-                                        <span class="text-xs">Time APK</span>
-                                        <select class="form-control form-control-sm" id="timeApk" name="timeApk"
-                                            style="border-color:#9ca0a7;" placeholder="Isi Callsign Tim" required>
-                                            <option value="">Pilih Time APK</option>
-                                            <option value="09:00" {{ old('timeApk') == '09:00' ? 'selected' : '' }}>
-                                                09:00</option>
-                                            <option value="09:30" {{ old('timeApk') == '09:30' ? 'selected' : '' }}>
-                                                09:30</option>
-                                            <option value="10:00" {{ old('timeApk') == '10:00' ? 'selected' : '' }}>
-                                                10:00</option>
-                                            <option value="10:30" {{ old('timeApk') == '10:30' ? 'selected' : '' }}>
-                                                10:30</option>
-                                            <option value="11:00" {{ old('timeApk') == '11:00' ? 'selected' : '' }}>
-                                                11:00</option>
-                                            <option value="11:30" {{ old('timeApk') == '11:30' ? 'selected' : '' }}>
-                                                11:30</option>
-                                            <option value="12:00" {{ old('timeApk') == '12:00' ? 'selected' : '' }}>
-                                                12:00</option>
-                                            <option value="12:30" {{ old('timeApk') == '12:30' ? 'selected' : '' }}>
-                                                12:30</option>
-                                            <option value="13:00" {{ old('timeApk') == '13:00' ? 'selected' : '' }}>
-                                                13:00</option>
-                                            <option value="13:30" {{ old('timeApk') == '13:30' ? 'selected' : '' }}>
-                                                13:30</option>
-                                            <option value="14:00" {{ old('timeApk') == '14:00' ? 'selected' : '' }}>
-                                                14:00</option>
-                                            <option value="14:30" {{ old('timeApk') == '14:30' ? 'selected' : '' }}>
-                                                14:30</option>
-                                            <option value="15:00" {{ old('timeApk') == '15:00' ? 'selected' : '' }}>
-                                                15:00</option>
-                                            <option value="15:30" {{ old('timeApk') == '15:30' ? 'selected' : '' }}>
-                                                15:30</option>
-                                            <option value="16:00" {{ old('timeApk') == '16:00' ? 'selected' : '' }}>
-                                                16:00</option>
-                                            <option value="16:30" {{ old('timeApk') == '16:30' ? 'selected' : '' }}>
-                                                16:30</option>
-                                            <option value="17:00" {{ old('timeApk') == '17:00' ? 'selected' : '' }}>
-                                                17:00</option>
-                                            <option value="17:30" {{ old('timeApk') == '17:30' ? 'selected' : '' }}>
-                                                17:30</option>
-                                            <option value="18:00" {{ old('timeApk') == '18:00' ? 'selected' : '' }}>
-                                                18:00</option>
-                                            <option value="18:30" {{ old('timeApk') == '18:30' ? 'selected' : '' }}>
-                                                18:30</option>
-                                            <option value="19:00" {{ old('timeApk') == '19:00' ? 'selected' : '' }}>
-                                                19:00</option>
-                                            <option value="19:30" {{ old('timeApk') == '19:30' ? 'selected' : '' }}>
-                                                19:30</option>
-                                            <option value="20:00" {{ old('timeApk') == '20:00' ? 'selected' : '' }}>
-                                                20:00</option>
-                                        </select>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div class="form-group mb-1">
-                                <div class="row">
-                                    <div class="col form-group mb-1">
-                                        <span class="text-xs">FAT Code</span>
-                                        <input class="form-control form-control-sm" type="text" id="fatCode"
-                                            name="fatCode" style="border-color:#9ca0a7;" required
-                                            value="{{ old('fatCode') }}">
-                                    </div>
-                                    <div class="col-4 form-group mb-1">
-                                        <span class="text-xs">Port FAT</span>
-                                        <input class="form-control form-control-sm" type="text" id="portFat"
-                                            name="portFat" style="border-color:#9ca0a7;" required
-                                            value="{{ old('portFat') }}">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group mb-1">
-                                <span class="text-xs">Remarks</span>
-                                <textarea class="form-control form-control-sm" type="text" id="remarks" name="remarks"
-                                    style="border-color:#9ca0a7;"></textarea>
-                            </div>
-
-                        </div>
-
-                        <div class="col">
-                            <div class="col form-group mb-1">
-                                <span class="text-xs">Branch</span>
-                                <select class="form-control form-control-sm" type="text" id="branch"
-                                    name="branch" style="border-color:#9ca0a7;" placeholder="Isi Callsign Tim">
-                                    <option value="">Pilih Branch</option>
-                                    @if (isset($branches))
-                                        @foreach ($branches as $b)
-                                            <option value="{{ $b->id . '|' . $b->nama_branch }}">
-                                                {{ $b->nama_branch }}
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-
-                            <div class="form-group mb-1">
-                                <div class="row">
-                                    <div class="col form-group mb-1">
-                                        <span class="text-xs">Tanggal Progress</span>
-                                        <input class="form-control form-control-sm" type="date"
-                                            value="{{ date('Y-m-d') }}" id="tglProgress" name="tglProgress"
-                                            style="border-color:#9ca0a7;" value="{{ old('tglProgress') }}">
-                                    </div>
-
-                                    <div class="col form-group mb-1">
-                                        <span class="text-xs">Sesi</span>
-                                        <select class="form-control form-control-sm" type="text" id="sesiShowAdd"
-                                            name="sesiShowAdd" style="border-color:#9ca0a7;"
-                                            placeholder="Isi Callsign Tim">
-                                            <option value="Regular">Regular</option>
-                                            <option value="Batch 1">Batch 1</option>
-                                            <option value="Batch 2">Batch 2</option>
-                                            <option value="Batch 3">Batch 3</option>
-                                            <option value="Batch 4">Batch 4</option>
-                                            <option value="Batch 5">Batch 5</option>
-                                            <option value="Batch 6">Batch 6</option>
-                                            <option value="Pendingan">Pendingan</option>
-                                            <option value="Sameday">Sameday</option>
-
-                                        </select>
-                                    </div>
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Product</span>
+                                    <input type="text" class="form-control form-control-sm" type="text" id="product" name="product"
+                                        style="border-color:#9ca0a7;" required value="{{ old('product') }}">
                                 </div>
                             </div>
 
@@ -274,13 +102,131 @@
                             </div>
 
                             <div class="form-group mb-1">
+                                <span class="text-xs">Callsign Tim</span>
+                                <select class="form-control form-control-sm" id="callsignTimid" name="callsignTimid" style="border-color:#9ca0a7;"
+                                    placeholder="Isi Callsign Tim" required>
+                                    <option value="">Pilih Callsign Tim</option>
+                                </select>
+                                <input type="hidden" id="callsignTim" name="callsignTim">
+                            </div>
+
+                            <div class="form-group mb-1">
                                 <div class="row">
                                     <div class="col form-group mb-1">
-                                        <span class="text-xs">Slot Time</span>
-                                        <select class="form-control form-control-sm" type="text" id="slotTime"
-                                            name="slotTime" style="border-color:#9ca0a7;"
+                                        <span class="text-xs">Teknisi 1</span>
+                                        <select class="form-control form-control-sm" id="teknisi1" name="teknisi1" style="border-color:#9ca0a7;" required>
+                                            <option value="">Teknisi 1</option>
+                                        </select>
+                                    </div>
+                                    <div class="col form-group mb-1">
+                                        <span class="text-xs">Teknisi 2</span>
+                                        <select class="form-control form-control-sm" id="teknisi2" name="teknisi2" style="border-color:#9ca0a7;" required>
+                                            <option value="">Teknisi 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-1">
+                                <div class="row">
+                                    <div class="col form-group mb-1">
+                                        <span class="text-xs">Teknisi 3</span>
+                                        <select class="form-control form-control-sm" id="teknisi3" name="teknisi3" style="border-color:#9ca0a7;">
+                                            <option value="">Teknisi 3</option>
+                                        </select>
+                                    </div>
+                                    <div class="col form-group mb-1">
+                                        <span class="text-xs">Teknisi 4</span>
+                                        <select class="form-control form-control-sm" id="teknisi4" name="teknisi4" style="border-color:#9ca0a7;">
+                                            <option value="">Teknisi 4</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group mb-1">
+                                <span class="text-xs">Address</span>
+                                <textarea class="form-control form-control-sm" type="text" id="address" name="address"
+                                    style="border-color:#9ca0a7;" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col">
+
+                            <div class="form-group mb-1">
+                                <div class="row">
+                                    <div class="col form-group mb-0">
+                                        <span class="text-xs">CID</span>
+                                        <input type="text" class="form-control form-control-sm" type="text" id="cid" name="cid"
+                                            style="border-color:#9ca0a7;" required value="{{ old('cid') }}">
+                                    </div>
+                                    <div class="col form-group mb-0">
+                                        <span class="text-xs">Segment Sales</span>
+                                        <input class="form-control form-control-sm" type="text" id="segment_sales"
+                                            name="segment_sales" style="border-color:#9ca0a7;" required
+                                            value="{{ old('segment_sales') }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-1">
+                                <div class="row">
+                                    <div class="col form-group mb-1">
+                                        <span class="text-xs">Checkin</span>
+                                        <input type="text" class="form-control form-control-sm" type="text" id="checkin" name="checkin"
+                                            style="border-color:#9ca0a7;" required value="{{ old('checkin') }}">
+                                    </div>
+
+                                    <div class="col form-group mb-1">
+                                        <span class="text-xs">Checkout</span>
+                                        <input type="text" class="form-control form-control-sm" type="text" id="checkout" name="checkout"
+                                            style="border-color:#9ca0a7;" required value="{{ old('checkout') }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Branch</span>
+                                    <select class="form-control form-control-sm" type="text" id="branch" name="branch" style="border-color:#9ca0a7;"
+                                        placeholder="Isi Callsign Tim">
+                                        <option value="">Pilih Branch</option>
+                                        @if (isset($branches))
+                                            @foreach ($branches as $b)
+                                                <option value="{{ $b->id . '|' . $b->nama_branch }}">
+                                                    {{ $b->nama_branch }}
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                                <div class="col form-group mb-1">
+                                    <span class="text-xs">Area</span>
+                                    <input class="form-control form-control-sm" type="text" id="area" name="area" style="border-color:#9ca0a7;" required
+                                        value="{{ old('area') }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-1">
+                                <span class="text-xs">Status Penjadwalan</span>
+                                <input type="text" class="form-control form-control-sm" type="text" id="status_penjadwalan" name="status_penjadwalan"
+                                    style="border-color:#9ca0a7;" required value="{{ old('status_penjadwalan') }}">
+                            </div>
+
+                            <div class="form-group mb-1">
+                                <div class="row">
+                                    <div class="col form-group mb-1">
+                                        <span class="text-xs">Jadwal IKR</span>
+                                        <input class="form-control form-control-sm" type="date"
+                                            value="{{ date('Y-m-d') }}" id="jadwal_ikr" name="jadwal_ikr"
+                                            style="border-color:#9ca0a7;" value="{{ old('jadwal_ikr') }}">
+                                    </div>
+                                    <div class="col form-group mb-1">
+                                        <span class="text-xs">Slot Time Jadwal</span>
+                                        <select class="form-control form-control-sm" type="text" id="slot_time_jadwal" name="slot_time_jadwal" style="border-color:#9ca0a7;"
                                             placeholder="Isi Callsign Tim" required>
-                                            <option value="">Pilih Slot Time</option>
+                                            <option value="">Pilih Slot Time Jadwal</option>
                                             <option value="09:00">09:00</option>
                                             <option value="09:30">09:30</option>
                                             <option value="10:00">10:00</option>
@@ -306,53 +252,44 @@
                                             <option value="20:00">20:00</option>
                                         </select>
                                     </div>
-
-                                    <div class="col form-group mb-1">
-                                        <span class="text-xs">Callsign Tim</span>
-                                        <select class="form-control form-control-sm" id="callsignTimid"
-                                            name="callsignTimid" style="border-color:#9ca0a7;"
-                                            placeholder="Isi Callsign Tim" required>
-                                            <option value="">Pilih Callsign Tim</option>
-                                        </select>
-                                        <input type="hidden" id="callsignTim" name="callsignTim">
-                                    </div>
-                                </div>
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Teknisi 1</span>
-                                    <select class="form-control form-control-sm" id="teknisi1" name="teknisi1"
-                                        style="border-color:#9ca0a7;" required>
-                                        <option value="">Teknisi 1</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Teknisi 2</span>
-                                    <select class="form-control form-control-sm" id="teknisi2" name="teknisi2"
-                                        style="border-color:#9ca0a7;" required>
-                                        <option value="">Teknisi 2</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Teknisi 3</span>
-                                    <select class="form-control form-control-sm" id="teknisi3" name="teknisi3"
-                                        style="border-color:#9ca0a7;">
-                                        <option value="">Teknisi 3</option>
-                                    </select>
-                                </div>
-                                {{-- </div> --}}
-                                {{-- <div class="col"> --}}
-
-
-                                <div class="form-group mb-1">
-                                    <span class="text-xs">Teknisi 4</span>
-                                    <select class="form-control form-control-sm" id="teknisi4" name="teknisi4"
-                                        style="border-color:#9ca0a7;">
-                                        <option value="">Teknisi 4</option>
-                                    </select>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="form-group mb-1">
+                                    <span class="text-xs">Nopol</span>
+                                    <input type="text" class="form-control form-control-sm" type="text" id="nopol" name="nopol"
+                                        style="border-color:#9ca0a7;" required value="{{ old('nopol') }}">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group mb-1">
+                                    <span class="text-xs">Keterangan WO</span>
+                                    <textarea class="form-control form-control-sm" type="text" id="keterangan_wo" name="keterangan_wo"
+                                        style="border-color:#9ca0a7;"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-1">
+                                <div class="row">
+                                    <div class="col form-group mb-1">
+                                        <span class="text-xs">Remark For IKR</span>
+                                        <textarea class="form-control form-control-sm" type="text" id="remark_for_ikr" name="remark_for_ikr"
+                                            style="border-color:#9ca0a7;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-1">
+                                <div class="row">
+                                    <div class="col form-group mb-1">
+                                        <span class="text-xs">Remark EWO</span>
+                                        <textarea class="form-control form-control-sm" type="text" id="remark_ewo" name="remark_ewo" style="border-color:#9ca0a7;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <hr>
                     </div>
