@@ -49,7 +49,7 @@ class RekapAssignTimController extends Controller
     {
         $akses = Auth::user()->name;
                             
-            $datas = DB::table('v_rekap_summary_tim as vtim')
+            $datas = DB::table('v_rekap_sum_tim as vtim')
                 ->select(DB::raw('vtim.branch, vtim.departement,
                                     sum(vtim.jml_tim) as j_tim,
                                     sum(vtim.jml_assign) as j_assign, 
@@ -58,7 +58,9 @@ class RekapAssignTimController extends Controller
                                     sum(vtim.jml_off) as j_off,
                                     sum(vtim.jml_cuti) as j_cuti,
                                     sum(vtim.jml_sakit) as j_sakit,
-                                    sum(vtim.jml_abs) as j_abs'))
+                                    sum(vtim.jml_abs) as j_abs,
+                                    sum(vtim.j_standby) as j_standby,
+                                    sum(vtim.l_progress) as l_progress'))
                 // ->where('vtim.departement','FTTH')
                 ->groupBy('vtim.branch','vtim.departement')
                 ->orderBy(DB::raw('case when vtim.branch="Jakarta Timur" then 1
@@ -490,6 +492,24 @@ class RekapAssignTimController extends Controller
                     ->union($tekFtth)->distinct()
                     ->orderBy('callsign')->get();
 
+        $ledFtth = DB::table('v_rekap_assign as vtim')
+                    ->leftJoin('employees as e', 'vtim.tek_nik','=','e.nik_karyawan')
+                    ->select('vtim.tgl_ikr','vtim.branch', 'vtim.departement','vtim.callsign', 'vtim.tek_nik', 'vtim.teknisi', 'e.posisi' )
+                    ->whereBetween('vtim.tgl_ikr',[$startDt, $endDt])
+                    ->where('e.posisi', 'like', '%Leader%')
+                    ->where('vtim.branch',$branch)->where('vtim.departement',$dept)
+                    ->whereNotNull('vtim.tek_nik');
+
+        $ledAssign = DB::table('v_rekap_assign_fttx as vtim')
+                    ->leftJoin('employees as e', 'vtim.tek_nik','=','e.nik_karyawan')
+                    ->select('vtim.tgl_ikr','vtim.branch', 'vtim.departement','vtim.callsign', 'vtim.tek_nik', 'vtim.teknisi as teknisi', 'e.posisi' )
+                    ->whereBetween('vtim.tgl_ikr',[$startDt, $endDt])
+                    ->where('e.posisi', 'like', '%Leader%')
+                    ->where('vtim.branch',$branch)->where('vtim.departement',$dept)
+                    ->whereNotNull('vtim.tek_nik')
+                    ->union($ledFtth)->distinct()
+                    ->orderBy('callsign')->get(); 
+
 
         $tekftth = DB::table('v_rekap_assign as tekh')
                     ->select('tekh.tek_nik', 'tekh.teknisi')
@@ -520,6 +540,8 @@ class RekapAssignTimController extends Controller
             $dt = $tekAssign;
         }elseif($klik=="JmlStandby"){
             $dt = $tekStandBy;
+        }elseif($klik=="JmlLeader"){
+            $dt = $ledAssign;
         }
         
         if ($request->ajax()) 
@@ -613,7 +635,7 @@ class RekapAssignTimController extends Controller
                 ->addIndexColumn() //memberikan penomoran                
                 ->addColumn('action', function ($row) {
                     $btn = '
-                        <button type="button" id="showDetAssignTim" name="showDetAssignTim" data-id= "'. $row->branch . '" class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-0 mb-0 px-1 py-1">
+                        <button type="button" id="showDetAssignTim" name="showDetAssignTim" data-id= "'. $row->branch . '|'. $row->departement . '" class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-0 mb-0 px-1 py-1">
                             <span class="btn-inner--icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
                                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
@@ -640,31 +662,49 @@ class RekapAssignTimController extends Controller
         // dd($request);
         $akses = Auth::user()->name;
 
-        $datas = DB::table('data_assign_tims')->orderBy('tgl_ikr', 'DESC');
+        $datasFtth = DB::table('data_assign_tims as dh')
+                ->select('dh.id', 'dh.batch_wo', 'dh.tgl_ikr', 'dh.type_wo', 'dh.no_wo_apk', 'dh.no_ticket_apk', 'dh.wo_date_apk', 'dh.cust_id_apk', 'dh.name_cust_apk', 
+                        'dh.address_apk', 'dh.area_cluster_apk', 'dh.wo_type_apk', 'dh.fat_code_apk', 'dh.fat_port_apk', 'dh.remarks_apk', 'dh.time_apk', 
+                        'e.departement','dh.branch_id', 'dh.branch', 'dh.leadcall_id', 'dh.leadcall', 'dh.leader_id', 'dh.leader', 'dh.callsign_id', 'dh.callsign',
+                        'dh.tek1_nik', 'dh.teknisi1', 'dh.tek2_nik', 'dh.teknisi2', 'dh.tek3_nik', 'dh.teknisi3', 'dh.tek4_nik', 'dh.teknisi4')
+                ->leftJoin('employees as e', 'dh.leader_id', '=', 'e.nik_karyawan');
+
+        $datasFttx = DB::table('data_assign_tim_fttxs as dx')
+                ->select('dx.id', 'dx.status_penjadwalan', 'dx.jadwal_ikr', 'dx.wo_type', 'dx.no_so', DB::raw('null as no_ticket_apk'), 'dx.so_date', DB::raw('null as cust_id_apk'), 'dx.customer_name', 
+                'dx.address', 'dx.area', 'dx.wo_type', DB::raw('null as fat_code_apk') , DB::raw('null as fat_port_apk'), 'dx.remark_ewo', 'dx.slot_time_jadwal', 
+                'ex.departement','dx.branch_id', 'dx.branch', 'dx.leadcall_id', 'dx.leadcall', 'dx.leader_id', 'dx.leader', 'dx.callsign_id', 'dx.callsign', 
+                'dx.tek1_nik', 'dx.tim_1', 'dx.tek2_nik', 'dx.tim_2', 'dx.tek3_nik', 'dx.tim_3', 'dx.tek4_nik', 'dx.tim_4')
+                ->leftJoin('employees as ex', 'dx.leader_id', '=', 'ex.nik_karyawan');
+
+        // $datas = DB::table('data_assign_tims')->orderBy('tgl_ikr', 'DESC');
 
             if($request->filTgl != null) {
                 $dateRange = explode("-", $request->filTgl);
                 $startDt = \Carbon\Carbon::parse($dateRange[0]);
                 $endDt = \Carbon\Carbon::parse($dateRange[1]);
 
-                $datas = $datas->whereBetween('tgl_ikr',[$startDt, $endDt]);
+                // $datas = $datas->whereBetween('tgl_ikr',[$startDt, $endDt]);
+                $datasFtth = $datasFtth->whereBetween('dh.tgl_ikr',[$startDt, $endDt]);
+                $datasFttx = $datasFttx->whereBetween('dx.jadwal_ikr',[$startDt, $endDt]);
             }
 
             if($request->filBrnchLead != null) {
                 $BrLead = explode("|", $request->filBrnchLead);
                 $branch = $BrLead[0];
-                $lead = $BrLead[1];
+                $dept = $BrLead[1];
 
-                $datas = $datas->where('branch',$branch)->where('login',$lead);
+                // $datas = $datas->where('branch',$branch); //->where('departement',$dept);
+                $datasFtth = $datasFtth->where('dh.branch',$branch)->where('e.departement', $dept);
+                $datasFttx = $datasFttx->where('dx.branch',$branch)->where('ex.departement', $dept);
             }
 
-            $datas=$datas->get();
+            // $datas=$datas->get();
 
-            // dd($datas);
+            $datasFtth = $datasFtth->union($datasFttx)->get();
 
         if ($request->ajax()) {
 
-            return DataTables::of($datas)
+            return DataTables::of($datasFtth)
                 ->addIndexColumn() //memberikan penomoran
                 ->editColumn('name_cust_apk', function ($nm) {
                     return Str::title($nm->name_cust_apk);

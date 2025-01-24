@@ -77,6 +77,12 @@ class MonitFtthMT_Controller extends Controller
                 ->select('status_wo','couse_code', 'root_couse', 'action_taken','rootcouse_penagihan')
                 ->groupBy('status_wo','couse_code', 'root_couse', 'action_taken','rootcouse_penagihan')
                 ->orderBy('rootcouse_penagihan')->get();
+        
+        $dtPenagihanAll = DB::table('root_couse_penagihan')
+                ->select('status as status_wo','penagihan as rootcouse_penagihan')
+                ->where('type_wo', "MT FTTH")
+                ->where('penagihan','not like', '%total_%')
+                ->orderBy('penagihan')->get();
 
         return view('monitoringWo.monit_ftth_mt', compact(
             // 'mostCauseCode',
@@ -86,7 +92,7 @@ class MonitFtthMT_Controller extends Controller
             'leader',
             'callTim',
             'cluster',
-            'dtCouseCode','dtRootCouse','dtActionTaken','dtPenagihan'
+            'dtCouseCode','dtRootCouse','dtActionTaken','dtPenagihan', 'dtPenagihanAll'
         ));
     }
 
@@ -275,7 +281,16 @@ class MonitFtthMT_Controller extends Controller
         $assignId = $request->filAssignId;
         $datas = DB::table('data_ftth_mt_oris as d')
             ->where('d.id', $assignId)->first();
-        $callsign_tims = DB::table('callsign_tims')->get();
+
+        $callLead = DB::table('callsign_leads as cl')
+                    ->select('id','lead_callsign as callsign_tim')->orderBy('lead_callsign');
+
+        $callsign_tims = DB::table('callsign_tims')
+                    ->select('id','callsign_tim')
+                    ->union($callLead)
+                    ->orderBy('callsign_tim')->get();
+        // dd($callsign_tims);
+
         $callsign_leads = DB::table('callsign_leads as clead')
                 ->leftJoin('employees as e','clead.leader_id', '=','e.nik_karyawan')
                 ->select('clead.id','clead.lead_callsign','clead.leader_id','e.nama_karyawan')->get();
@@ -285,7 +300,7 @@ class MonitFtthMT_Controller extends Controller
 
         $teknisiOn = DB::table('v_rekap_jadwal_data as vj')
                     ->leftJoin('employees as e','vj.nik_karyawan','=','e.nik_karyawan')
-                    ->where('vj.tgl', $datas->tgl_ikr)
+                    ->whereDate('vj.tgl', $datas->tgl_ikr)
                     ->where('e.posisi', 'like','%Teknisi%')
                     ->whereIn('vj.status', ["ON","OD"])
                     ->select('vj.nik_karyawan', 'e.nama_karyawan')
@@ -296,46 +311,7 @@ class MonitFtthMT_Controller extends Controller
         // Mendapatkan data dari database seperti biasa
         $ftth_material = DB::table('ftth_materials')
             ->where('wo_no', $datas->no_wo)
-            ->select(
-                'wo_no',
-                'installation_date',
-                'status_item',
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "ONT" THEN description END AS merk_ont_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "ONT" THEN sn END AS sn_ont_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "ONT" THEN mac_address END AS mac_ont_out'),
-                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "ONT" THEN description END AS merk_ont_in'),
-                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "ONT" THEN sn END AS sn_ont_in'),
-                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "ONT" THEN mac_address END AS mac_ont_in'),
-
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "STB" THEN description END AS merk_stb_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "STB" THEN sn END AS sn_stb_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "STB" THEN mac_address END AS mac_stb_out'),
-                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "STB" THEN description END AS merk_stb_in'),
-                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "STB" THEN sn END AS sn_stb_in'),
-                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "STB" THEN mac_address END AS mac_stb_in'),
-
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Router" THEN description END AS merk_router_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Router" THEN sn END AS sn_router_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Router" THEN mac_address END AS mac_router_out'),
-                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "Router" THEN description END AS merk_router_in'),
-                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "Router" THEN sn END AS sn_router_in'),
-                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "Router" THEN mac_address END AS mac_router_in'),
-
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Remote" THEN description END AS remote_out'),
-                DB::raw('CASE WHEN status_item = "IN" AND kategori_material = "Remote" THEN description END AS remote_in'),
-
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "DW" THEN qty END AS dw_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Precon" THEN description END AS precon_out'),
-
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Fast Connector" THEN qty END AS fastcon_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Patchcord" THEN qty END AS patchcord_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Terminal Box" THEN qty END AS tb_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "PVC Pipe" THEN qty END AS pvc_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "Socket Pipe" THEN qty END AS socket_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "UTP" THEN qty END AS utp_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND kategori_material = "RJ45" THEN qty END AS rj45_out'),
-
-            )
+            ->select('wo_no','installation_date','status_item')
             ->get()
             ->toArray(); // Konversi hasil query ke array
 
@@ -356,7 +332,8 @@ class MonitFtthMT_Controller extends Controller
         }
 
         // Gabungkan data ftth_material menjadi satu array
-        $mergedMaterial = mergeFtthMaterials($ftth_material);
+        // $mergedMaterial = mergeFtthMaterials($ftth_material);
+        $mergedMaterial = $ftth_material;
 
         // dd($datas);
         // Mengirimkan response JSON
@@ -475,60 +452,144 @@ class MonitFtthMT_Controller extends Controller
         $akses = Auth::user()->name;
         $id = $request->detId;
 
+        if($request['is_checked'] == "1") {
+            $pic = $akses;
+        } else {
+            $pic = null;
+        }
+
         $ftthMt = FtthMt::findOrFail($id);
-        $assignTim = DataAssignTim::where('leadcall_id', $ftthMt->leadcall_id)->first();
+        $assignTim = DataAssignTim::where('no_wo_apk', $ftthMt->no_wo)
+                                    ->where('tgl_ikr', $ftthMt->tgl_ikr)->first();
+                                    // ->where('leadcall_id', $ftthMt->leadcall_id)->first();
+
+        if($request['LeadCallsignShow']) {
+            $LeadCallsignShow = explode("|",$request['LeadCallsignShow']);
+            $leadcall_id =  $LeadCallsignShow[0];
+            $leadcall = $LeadCallsignShow[1];
+            $leader_id = $LeadCallsignShow[2];
+            $leader = $LeadCallsignShow[3];
+        } else {
+            // $LeadCallsignShow = explode("|",$request['LeadCallsignShow']);
+            $leadcall_id =  null;
+            $leadcall = null;
+            $leader_id = null;
+            $leader = null;
+        }
+
+        if($request['callsignTimidShow']) {
+            $callsignTimidShow = explode("|", $request['callsignTimidShow']);
+            $callsign_id = $callsignTimidShow[0];
+            $callsign = $callsignTimidShow[1];
+        } else {
+            $callsign_id = null;
+            $callsign = null;
+        }
+
+        if($request['teknisi1Show']) {
+            $teknisi1Show = explode("|", $request['teknisi1Show']);
+            $tek1_nik = $teknisi1Show[0];
+            $teknisi1 = $teknisi1Show[1];
+        } else {
+            $tek1_nik = null;
+            $teknisi1 = null;
+        }
+
+        if($request['teknisi2Show']) {
+            $teknisi2Show = explode("|", $request['teknisi2Show']);
+            $tek2_nik = $teknisi2Show[0];
+            $teknisi2 = $teknisi2Show[1];
+        } else {
+            $tek2_nik = null;
+            $teknisi2 = null;
+        }
+
+        if($request['teknisi3Show']) {
+            $teknisi3Show = explode("|", $request['teknisi3Show']);
+            $tek3_nik = $teknisi3Show[0];
+            $teknisi3 = $teknisi3Show[1];
+        } else {
+            $tek3_nik = null;
+            $teknisi3 = null;
+        }
+
+        if($request['teknisi4Show']) {
+            $teknisi4Show = explode("|", $request['teknisi4Show']);
+            $tek4_nik = $teknisi4Show[0];
+            $teknisi4 = $teknisi4Show[1];
+        } else {
+            $tek4_nik = null;
+            $teknisi4 = null;
+        }
 
         DB::beginTransaction();
         try {
             $updateFtthMt = $ftthMt->update([
-                'pic_monitoring' => $akses,
-                // 'type_wo' => $request['jenisWoShow'],
+                'pic_monitoring' => $pic,
+                'type_wo' => $request['jenisWoShow'],
                 'no_wo' => $request['noWoShow'],
                 'no_ticket' => $request['ticketNoShow'],
                 'cust_id' => $request['custIdShow'],
                 'nama_cust' => $request['custNameShow'],
                 'cust_address1' => $request['custAddressShow'],
                 // 'cust_address2' => $request[''],
-                // 'type_maintenance' => $request[''],
+                // 'type_maintenance' => $request['remarkStatus'],
                 'kode_fat' => $request['fatCodeShow'],
                 // 'kode_wilayah' => $request[''],
                 'cluster' => $request['cluster'],
                 // 'kotamadya' => $request[''],
                 // 'kotamadya_penagihan' => $request[''],
                 'branch' => $request['branchShow'],
-                'tgl_ikr' => $request['tglProgressShow'],
-                'slot_time_leader' => $request['slotTimeLeaderShow'],
-                'slot_time_apk' => $request['slotTimeAPKShow'],
-                'sesi' => $request['sesiShow'],
+                'tgl_ikr' => $request['tglProgressAPKShow'],
+                'slot_time_leader' => $request['slotTimeAPKStatusShow'],
+                'slot_time_apk' => $request['slotTimeAPKStatusShow'],
+
+
+                'sesi' => $request['sesiDetShow'],
                 // 'remark_traffic' => $request[''],
-                // 'callsign' => $request[''],
-                'leader' => $request['leaderShow'],
-                'teknisi1' => $request['teknisi1Show'],
-                'teknisi2' => $request['teknisi2Show'],
-                'teknisi3' => $request['teknisi3Show'],
+                'callsign' => $callsign,
+                'leader' => $leader,
+                'teknisi1' => $teknisi1,
+                'teknisi2' => $teknisi2,
+                'teknisi3' => $teknisi3,
+                'teknisi4' => $teknisi4,
                 'status_wo' => $request['statusWo'],
                 'couse_code' => $request['causeCode'],
                 'root_couse' => $request['rootCause'],
                 'action_taken' => $request['actionTaken'],
                 'penagihan' => $request['penagihanShow'],
-                // 'alasan_tag_alarm' => $request[''],
+                'alasan_tag_alarm' => $request['alasanTidakGantiPrecon'],
                 'tgl_reschedule' => $request['tglReschedule'],
                 'tgl_jam_reschedule' => $request['tglJamReschedule'],
+                'alasan_pending' => $request['alasan_pending'],
+                'permintaan_rsch' => $request['permintaanReschedule'],
+                'respon_cst' => $request['responKonfCst'],
+                'jawaban_cst' => $request['jwbKonfCst'],
+                'alasan_cancel' => $request['alasan_cancel'],
+                'dispatch' => $request['picDispatch'],
+                'telp_dispatch' => $request['telpDispatch'],
+                'start_ikr_wa' => $request['statusStartIkrWa'],
+                'end_ikr_wa' => $request['statusEndIkrWa'],
+                'foto_rumah' => $request['fotoRumah'],
+                'foto_selfie' => $request['fotoSelfie'],                
+                'validasi_start' => $request['validasiStart'],
+                'validasi_end' => $request['validasiEnd'],
+                'regist_start' => $request['registStart'],
+                'regist_end' => $request['registEnd'],
+                'cek_telebot' => $request['cekTelebot'],
+                'hasil_cek_telebot' => $request['hasilCekTelebot'],
+                'kondisi_fat' => $request['kondisiFat'],
                 // 'tgl_jam_fat_on' => $request[''],
                 // 'panjang_kabel' => $request[''],
                 'weather' => $request['weatherShow'],
-                'remark_status' => $request['remarkStatus'],
-                // 'action_status' => $request[''],
+                'remark_status' => $request['statusPrecon'],
+                'action_status' => $request['actionStatus'],
                 'visit_novisit' => $request['statusVisit'],
-                // 'start_ikr_wa' => $request[''],
-                // 'end_ikr_wa' => $request[''],
-                'validasi_start' => $request['validasiStart'],
-                'validasi_end' => $request['validasiEnd'],
                 'checkin_apk' => $request['tglCheckinApk'],
-                'checkout_apk' => $request['checkout_apk'],
+                'checkout_apk' => $request['tglCheckoutApk'],
                 'status_apk' => $request['statusWoApk'],
-                // 'keterangan' => $request[''],
-                // 'ms_regular' => $request[''],
+                'keterangan' => $request['reportTeknisi'],
+                'ms_regular' => "Manage Service",
                 'wo_date_apk' => $request['WoDateShow'],
                 // 'wo_date_mail_reschedule' => $request[''],
                 // 'wo_date_slot_time_apk' => $request[''],
@@ -570,34 +631,44 @@ class MonitFtthMT_Controller extends Controller
                 // 'remote_fiberhome' => $request[''],
                 // 'remote_extrem' => $request[''],
                 // 'port_fat' => $request[''],
-                // 'site_penagihan' => $request[''],
+                'site_penagihan' => $request['sitePenagihan'],
                 // 'konfirmasi_penjadwalan' => $request[''],
                 // 'konfirmasi_cst' => $request[''],
                 // 'konfirmasi_dispatch' => $request[''],
                 // 'remark_status2' => $request[''],
                 // 'wo_type_apk' => $request[''],
                 // 'branch_id' => $request[''],
-                // 'leadcall' => $request['LeadCallsignShow'],
-                // 'tek1_nik' => $request[''],
-                // 'tek2_nik' => $request[''],
-                // 'tek3_nik' => $request[''],
-                // 'tek4_nik' => $request[''],
-                'leadcall_id' => $request['LeadCallsignShow'],
-                'dispatch' => $request['picDispatch'],
-                'leader_id' => $request['leaderidShow'],
-                'callsign_id' => $request['callsign_id'],
-                'alasan_tidak_ganti_precon' => $request['alasan_tidak_ganti_precon'],
-                'alasan_pending' => $request['alasan_pending'],
-                'alasan_cancel' => $request['alasan_cancel'],
-                'keterangan' => $request['report_teknisi'],
+                'leadcall' => $leadcall,
+                'tek1_nik' => $tek1_nik,
+                'tek2_nik' => $tek2_nik,
+                'tek3_nik' => $tek3_nik,
+                'tek4_nik' => $tek4_nik,
+                'leadcall_id' => $leadcall_id,
+                'leader_id' => $leader_id,
+                'callsign_id' => $callsign_id,
+                // 'alasan_tidak_ganti_precon' => $request['alasan_tidak_ganti_precon'],
                 'is_checked' => $request['is_checked'],
-                'teknisi4' => $request[''],
                 'login_id' => $aksesId,
                 'login' => $akses,
             ]);
 
             $assignTim = $assignTim->update([
-                'leadcall_id' => $request['LeadCallsignShow'],
+                'slot_time' => $request['slotTimeAPKStatusShow'],
+                'time_apk' => $request['slotTimeAPKStatusShow'],
+                'leadcall_id' => $leadcall_id,
+                'leadcall' => $leadcall,
+                'leader_id' => $leader_id,
+                'leader' => $leader,
+                'callsign_id' => $callsign_id,
+                'callsign' => $callsign,
+                'tek1_nik' => $tek1_nik,
+                'teknisi1' => $teknisi1,
+                'tek2_nik' => $tek2_nik,
+                'teknisi2' => $teknisi2,
+                'tek3_nik' => $tek3_nik,
+                'teknisi3' => $teknisi3,
+                'tek4_nik' => $tek4_nik,
+                'teknisi4' => $teknisi4
             ]);
 
             DB::commit();

@@ -56,14 +56,30 @@ class AssignTeamFttxImport implements ToModel, WithHeadingRow,  WithValidation, 
             }
         }
 
+        $soDate = $row['so_date'];
+        if (is_numeric($soDate)) {
+            $formattedDateSo = Date::excelToDateTimeObject($soDate)->format("Y-m-d");
+        } else {
+            $parsedDate = \DateTime::createFromFormat('d/m/Y', $soDate)
+                ?: \DateTime::createFromFormat('d-m-Y', $soDate)
+                ?: \DateTime::createFromFormat('Y-m-d', $soDate);
+
+            if ($parsedDate) {
+                $formattedDateSo = $parsedDate->format('Y-m-d');
+            } else {
+                throw new \Exception("Format tanggal IKR tidak valid: " . $soDate);
+                $formattedDateSo = $soDate;
+            }
+        }
+
         return new ImportAssignTeamFttx([
             'no_so' => Str::trim($row['no_so']),
-            'so_date' => Str::trim($row['so_date']),
+            'so_date' => $formattedDateSo, // Str::trim($row['so_date']),
             'customer_name' => Str::trim($row['customer_name']),
             'address' => Str::trim($row['address']),
             'pic_customer' => Str::trim($row['pic_cst']),
             'phone_pic_cust' => Str::trim($row['phone_pic_cust']),
-            'wo_type' => (Str::trim($row['wo_type']) == "New Installation") ? "FTTX New Installation" : (Str::trim($row['wo_type']) == "Maintenance" ? "FTTX Maintenance" : null),
+            'wo_type' => ((Str::trim(strtoupper($row['wo_type'])) == "NEW INSTALLATION" || Str::trim(strtoupper($row['wo_type'])) == "NEW LINK")) ? "FTTX New Installation" : (Str::trim(strtoupper($row['wo_type'])) == "MAINTENANCE" ? "FTTX Maintenance" : null),
             'product' => Str::trim($row['product']),
             'remark_ewo' => Str::trim($row['remark_ewo']),
             'cid' => Str::trim($row['cid']),
@@ -91,11 +107,11 @@ class AssignTeamFttxImport implements ToModel, WithHeadingRow,  WithValidation, 
             'tek4_nik' => $this->get_data_id("tek4_nik", Str::trim($row['tim_4'])),
             'tim_4' => $this->get_data_id("tek4_nik", $row['tim_4']) == null ? null : Str::trim(Str::title($row['tim_4'])),
             'nopol' => Str::trim($row['nopol']),
-            'perubahan_slot_time_tele' => Str::trim($row['perubahan_slot_time_tele']),
-            'checkin' => Str::trim($row['checkin']),
-            'checkout' => Str::trim($row['checkout']),
-            'status_wo' => Str::trim($row['status_wo']),
-            'keterangan_wo' => Str::trim($row['keterangan_wo']),
+            // 'perubahan_slot_time_tele' => Str::trim($row['perubahan_slot_time_tele']),
+            // 'checkin' => Str::trim($row['checkin']),
+            // 'checkout' => Str::trim($row['checkout']),
+            // 'status_wo' => Str::trim($row['status_wo']),
+            // 'keterangan_wo' => Str::trim($row['keterangan_wo']),
             'login_id' => $this->logId,
             'login' => $this->logNm
         ]);
@@ -202,7 +218,14 @@ class AssignTeamFttxImport implements ToModel, WithHeadingRow,  WithValidation, 
                 break;
 
             case "callsign_id":
-                $callsign_id = DB::table('v_detail_callsign_tim')->select('callsign_tim_id')->where('callsign_tim', $data)->first();
+                if(strtoupper(substr($data,0,4))=="LEAD") {
+                    $callsign_id = DB::table('callsign_leads as cl')
+                        ->leftJoin('employees as e','cl.leader_id', '=', 'e.nik_karyawan')
+                        ->select('cl.id as callsign_tim_id')
+                        ->where('lead_callsign', $data)->first();
+                } else {
+                    $callsign_id = DB::table('v_detail_callsign_tim')->select('callsign_tim_id')->where('callsign_tim', $data)->first();
+                }
                 // $leaderID= is_null($leader_id) ? "-" : $leader_id->leader_id;
                 return is_null($callsign_id) ?  null : $callsign_id->callsign_tim_id;
                 break;
