@@ -190,12 +190,12 @@ class Import_DataWoController extends Controller
         }
 
         dd("stop");
-        
+
         $dtAssignTek = DB::table('v_rekap_assign')
                 ->select('tgl_ikr','branch','leadcall','leader','callsign','tek_nik', 'teknisi')
                 ->where('tgl_ikr', '2025-01-12')->get();
 
-                
+
         // $diff = $dtImport->diff($dtAssign);
         dd($dtImportTek, $dtAssignTek);
         $differenceArray = array_diff($dtAssign, $dtImport);
@@ -321,10 +321,10 @@ class Import_DataWoController extends Controller
                     ->distinct()->get()->toArray();
 
 
-                if (count($dtImportAssign) > 0) {                    
+                if (count($dtImportAssign) > 0) {
 
                     DB::beginTransaction();
-                    
+
                     try {
 
                         $doubleAssign = [];
@@ -332,7 +332,7 @@ class Import_DataWoController extends Controller
                         foreach ($dtImportAssign as $data) {
                             $cekDoubleAssign = DataAssignTim::where('no_wo_apk', $data['no_wo_apk'])
                                 ->where('tgl_ikr', $data['tgl_ikr'])
-                                ->first();                            
+                                ->first();
 
                             //update callsign jika wo sudah pernah di import/ sudah ada di data assign tim
                             if ($cekDoubleAssign) {
@@ -360,8 +360,8 @@ class Import_DataWoController extends Controller
                                                     'teknisi3' => $data['teknisi3'],
                                                     'tek4_nik' => $data['tek4_nik'],
                                                     'teknisi4' => $data['teknisi4']
-                                                ]);                                
-                            }                          
+                                                ]);
+                            }
 
                         }
 
@@ -370,24 +370,24 @@ class Import_DataWoController extends Controller
                             $updateDtCallsign = DataAssignTim::where('tgl_ikr', $impCallsign['tgl_ikr'])
                                     ->where('callsign', $impCallsign['callsign'])
                                     ->update(['leadcall_id' => $impCallsign['leadcall_id'],
-                                                'leadcall' => $impCallsign['leadcall'], 
+                                                'leadcall' => $impCallsign['leadcall'],
                                                 'leader_id' => $impCallsign['leader_id'],
                                                 'leader' => $impCallsign['leader'],
-                                                'callsign_id' => $impCallsign['callsign_id'], 
-                                                'callsign' => $impCallsign['callsign'], 
-                                                'tek1_nik' => $impCallsign['tek1_nik'], 
-                                                'teknisi1' => $impCallsign['teknisi1'],  
-                                                'tek2_nik' => $impCallsign['tek2_nik'], 
+                                                'callsign_id' => $impCallsign['callsign_id'],
+                                                'callsign' => $impCallsign['callsign'],
+                                                'tek1_nik' => $impCallsign['tek1_nik'],
+                                                'teknisi1' => $impCallsign['teknisi1'],
+                                                'tek2_nik' => $impCallsign['tek2_nik'],
                                                 'teknisi2' => $impCallsign['teknisi2'],
-                                                'tek3_nik' => $impCallsign['tek3_nik'], 
-                                                'teknisi3' => $impCallsign['teknisi3'], 
-                                                'tek4_nik' => $impCallsign['tek4_nik'], 
+                                                'tek3_nik' => $impCallsign['tek3_nik'],
+                                                'teknisi3' => $impCallsign['teknisi3'],
+                                                'tek4_nik' => $impCallsign['tek4_nik'],
                                                 'teknisi4' => $impCallsign['teknisi4']
                                             ]);
-                                    
+
                         }
 
-                        //get data WO baru dari import assign tim 
+                        //get data WO baru dari import assign tim
                         $dtImportAssign2 = ImportAssignTim::whereNotIn('no_wo_apk', $doubleAssign)
                             ->select(
                                 'batch_wo',
@@ -434,7 +434,7 @@ class Import_DataWoController extends Controller
                             ->get()
                             ->toArray();
 
-                        // Insert data yang valid/tidak double ke data_assign_tims    
+                        // Insert data yang valid/tidak double ke data_assign_tims
                         DataAssignTim::insert($dtImportAssign2);
 
                         // Proses penyimpanan ke tabel sesuai type_wo
@@ -571,6 +571,7 @@ class Import_DataWoController extends Controller
                                     'port_fat' => $data['fat_port_apk'],
                                     'slot_time_leader' => $data['slot_time'],
                                     'slot_time_apk' => $data['time_apk'],
+                                    'status_wo' => "Requested",
                                     'status_apk' => "Requested",
                                     'branch_id' => $data['branch_id'],
                                     'main_branch' => $data['branch'],
@@ -594,7 +595,7 @@ class Import_DataWoController extends Controller
                         }
 
                         // Hapus data sementara yang sudah diproses
-                        ImportAssignTim::where('login', $akses) //whereNotIn('no_wo_apk', $doubleAssign)                            
+                        ImportAssignTim::where('login', $akses) //whereNotIn('no_wo_apk', $doubleAssign)
                             ->delete();
 
                         DB::commit();

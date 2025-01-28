@@ -123,6 +123,9 @@ class ImportFtthDismantleController extends Controller
 
     public function storeDismantleApk(Request $request)
     {
+        ini_set('max_execution_time', 1900);
+        ini_set('memory_limit', '8192M');
+
         $akses = Auth::user()->name;
 
         switch ($request->input('action')) {
