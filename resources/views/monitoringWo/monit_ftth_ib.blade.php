@@ -830,9 +830,10 @@
                                                 <div class="row">
                                                     <div class="col form-group mb-1">
                                                         <span class="text-xs">Status WO</span>
+                                                        <span class="text-danger">*</span>
                                                         <select class="form-control form-control-sm" type="text"
                                                             id="statusWo" name="statusWo"
-                                                            style="border-color:#9ca0a7;">
+                                                            style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
                                                             <option value="">Pilih Status WO</option>
                                                             <option value="Done">Done</option>
                                                             <option value="Pending">Pending</option>
@@ -841,8 +842,20 @@
                                                     </div>
                                                     <div class="col form-group mb-1">
                                                         <span class="text-xs">Reason Status</span>
-                                                        <select type="text" class="form-control form-control-sm" id="reasonStatus" name="reasonStatus" style="border-color:#9ca0a7;">
-                                                            <option value=""></option>
+                                                        <span class="text-danger">*</span>
+                                                        <select type="text" class="form-control form-control-sm" id="reasonStatus" name="reasonStatus" style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
+                                                            <option value="" disabled selected>--Pilih Reason Status--</option>
+                                                            <option value="Close">Close</option>
+                                                            <option value="Cancel No Coverage Area">Cancel No Coverage Area</option>
+                                                            <option value="Pending Reschedule">Pending Reschedule</option>
+                                                            <option value="Cancel By Dispatcher">Cancel By Dispatcher</option>
+                                                            <option value="Pending FAT Full">Pending FAT Full</option>
+                                                            <option value="Pending No Permitte/No Access">Pending No Permitte/No Access</option>
+                                                            <option value="Cancel Limited Access">Cancel Limited Access</option>
+                                                            <option value="Pending FAT Loss">Pending FAT Loss</option>
+                                                            <option value="Pending Registrasi">Pending Registrasi</option>
+                                                            <option value="Cancel FAT Full">Cancel FAT Full</option>
+                                                            <option value="Pending No Customer">Pending No Customer</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -871,7 +884,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group mb-1">
+                                                {{-- <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Alasan Cancel</span>
@@ -886,7 +899,7 @@
                                                                 style="border-color:#9ca0a7;"></textarea>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
@@ -902,7 +915,7 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="jamReschedule"
                                                                 name="jamReschedule" style="border-color:#9ca0a7;">
-                                                                <option value="" selected>--Pilih Jam--</option>
+                                                                <option value="" disabled selected>Pilih Jam</option>
                                                                 <option value="09:00">09:00</option>
                                                                 <option value="09:30">09:30</option>
                                                                 <option value="10:00">10:00</option>
@@ -936,7 +949,7 @@
                                                     <select class="form-control form-control-sm" type="text"
                                                         id="permintaan_reschedule" name="permintaan_reschedule"
                                                         style="border-color:#9ca0a7;">
-                                                        <option value=""></option>
+                                                        <option value="" disabled selected>Pilih Permintaan Reschedule</option>
                                                         <option value="Customer">Customer</option>
                                                         <option value="Dispatch">Dispatch</option>
                                                         <option value="Leader">Leader</option>
@@ -948,26 +961,34 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Respon Konfirmasi Customer</span>
+                                                            <span class="text-danger">*</span>
                                                             <select class="form-control form-control-sm" type="text"
                                                                 id="respon_konf_cst" name="respon_konf_cst"
-                                                                style="border-color:#9ca0a7;">
-                                                                <option value=""></option>
+                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
+                                                                <option value="" disabled selected>Pilih Respon Konfirmasi Cst</option>
                                                                 <option value="Respon">Respon</option>
                                                                 <option value="Tidak Respon">Tidak Respon</option>
                                                             </select>
                                                         </div>
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Jawaban Konfirmasi Customer</span>
+                                                            <span class="text-danger">*</span>
                                                             <select class="form-control form-control-sm" type="text"
                                                                 id="jawaban_konf_cst" name="jawaban_konf_cst"
-                                                                style="border-color:#9ca0a7;">
-                                                                <option value=""></option>
+                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
+                                                                <option value="" disabled selected>Pilih Jawaban Konfirmasi Cst</option>
                                                                 <option value="Setuju">Setuju</option>
                                                                 <option value="Tidak Setuju">Tidak Setuju</option>
                                                                 <option value="Tidak Respon">Tidak Respon</option>
                                                             </select>
                                                         </div>
                                                     </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <span class="text-xs">Detail Alasan</span>
+                                                    <textarea class="form-control form-control-sm" type="text" id="detailAlasan" name="detailAlasan" rows="4"
+                                                        style="border-color:#9ca0a7;"></textarea>
                                                 </div>
 
                                                 <div class="form-group mb-1">
@@ -1026,10 +1047,11 @@
 
                                                 <div class="col form-group mb-1">
                                                     <span class="text-xs">Status WO Aplikasi</span>
+                                                    <span class="text-danger">*</span>
                                                     <select class="form-control form-control-sm" type="text"
                                                         id="statusWoApk" name="statusWoApk"
                                                         style="border-color:#9ca0a7;">
-                                                        <option value="">Pilih Status WO</option>
+                                                        <option value="" disabled selected>Pilih Status WO</option>
                                                         <option value="Requested">Requested</option>
                                                         <option value="Checkin">Checkin</option>
                                                         <option value="Checkout">Checkout</option>
@@ -1043,18 +1065,20 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkin Aplikasi</span>
+                                                            <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 value="" id="checkinApkShow"
                                                                 name="checkinApkShow"
-                                                                style="border-color:#9ca0a7;">
+                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
                                                         </div>
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Checkout Aplikasi</span>
+                                                            <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 value="" id="checkoutApkShow"
                                                                 name="checkoutApkShow"
-                                                                style="border-color:#9ca0a7;">
+                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1063,15 +1087,20 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Status Checkin</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="statCheckin" name="statCheckin"
-                                                                style="border-color:#9ca0a7;" readonly>
+                                                            <span class="text-danger">*</span>
+                                                            <select class="form-control form-control-sm" type="text" id="statCheckin" name="statCheckin" style="border-color:#9ca0a7;"
+                                                                required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
+                                                                <option value="" disabled selected>Pilih Status Checkin</option>
+                                                                <option value="On Time">On Time</option>
+                                                                <option value="Terlambat">Terlambat</option>
+                                                            </select>
                                                         </div>
-                                                        <div class="col form-group mb-1">
+                                                        {{-- <div class="col form-group mb-1">
                                                             <span class="text-xs">Foto Rumah</span>
                                                             <select class="form-control form-control-sm" type="text"
                                                                 id="fto_rumah" name="fto_rumah"
                                                                 style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>Pilih Status Checkin</option>
                                                                 <option value="Sesuai">Sesuai</option>
                                                                 <option value="Tidak Sesuai">Tidak Sesuai</option>
                                                                 <option value="Tidak Ada">Tidak Ada</option>
@@ -1085,7 +1114,7 @@
                                                                 <option value="Ada">Ada</option>
                                                                 <option value="Tidak Ada">Tidak Ada</option>
                                                             </select>
-                                                        </div>
+                                                        </div> --}}
                                                     </div>
                                                 </div>
 
@@ -1106,7 +1135,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group mb-1">
+                                                {{-- <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Jam Teknisi Foto Rumah</span>
@@ -1150,7 +1179,7 @@
                                                                 style="border-color:#9ca0a7;" readonly>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
 
                                                 {{-- <div class="form-group mb-1">
                                                     <div class="row">
@@ -1173,15 +1202,17 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">PIC Dispatch</span>
+                                                            <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 id="picDispatch" name="picDispatch"
-                                                                style="border-color:#9ca0a7;">
+                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
                                                         </div>
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Telp Dispatch</span>
+                                                            <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 id="telp_dispatch" name="telp_dispatch"
-                                                                style="border-color:#9ca0a7;">
+                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1190,33 +1221,47 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <div class="row">
-                                                                <div class="col form-group mb-1">
+                                                                {{-- <div class="col form-group mb-1">
                                                                     <span class="text-xs">Marker</span>
+                                                                    <span class="text-danger">*</span>
                                                                     <select class="form-control form-control-sm" type="text" id="marker" name="marker"
-                                                                        style="border-color:#9ca0a7;">
-                                                                        <option value=""></option>
+                                                                        style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
+                                                                        <option value="" disabled selected>Pilih Marker</option>
                                                                         <option value="Ada">Ada</option>
                                                                         <option value="Tidak Ada">Tidak Ada</option>
 
                                                                     </select>
+                                                                </div> --}}
+                                                                <div class="col form-group mb-1">
+                                                                    <span class="text-xs">Status Checkin</span>
+                                                                    <span class="text-danger">*</span>
+                                                                    <select class="form-control form-control-sm" type="text" id="status_checkin" name="status_checkin" style="border-color:#9ca0a7;"
+                                                                        required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
+                                                                        <option value="" disabled selected>Pilih Status Checkin</option>
+                                                                        <option value="On Time">On Time</option>
+                                                                        <option value="Terlambat">Terlambat</option>
+
+                                                                    </select>
                                                                 </div>
                                                                 <div class="col form-group mb-1">
+                                                                    <span class="text-danger">*</span>
                                                                     <span class="text-xs">Port FAT</span>
                                                                     <input class="form-control form-control-sm" type="text" id="portFATProgress" name="portFATProgress"
-                                                                        style="border-color:#9ca0a7;">
+                                                                        style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col form-group mb-1">
+                                                        {{-- <div class="col form-group mb-1">
                                                             <span class="text-xs">Kondisi FAT</span>
+                                                            <span class="text-danger">*</span>
                                                             <select class="form-control form-control-sm" type="text"
                                                                 id="kondisiFAT" name="kondisiFAT"
-                                                                style="border-color:#9ca0a7;">
-                                                                <option value=""></option>
+                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
+                                                                <option value="" disabled selected>Pilih Kondisi FAT</option>
                                                                 <option value="FAT Full Marker">FAT Full Marker</option>
                                                                 <option value="FAT Sebagian Tidak Bermarker">FAT Sebagian Tidak Bermarker</option>
                                                             </select>
-                                                        </div>
+                                                        </div> --}}
                                                     </div>
                                                 </div>
 
@@ -2071,11 +2116,13 @@
 
                     $('#otp_start').val(dtDis.otp_start);
                     $('#otp_end').val(dtDis.otp_end);
+                    $('#status_checkin').val(dtDis.status_checkin);
 
                     $('#leaderShow').val(dtDis.leader);
                     $('#statusWo').val(toTitleCase(dtDis.status_wo || ""));
                     $('#statusWoApk').val(toTitleCase(dtDis.status_apk || ""));
                     $('#isChecked').prop('checked', dtDis.is_checked == 1);
+
 
 
                     $('#causeCode').val(dtDis.couse_code);
