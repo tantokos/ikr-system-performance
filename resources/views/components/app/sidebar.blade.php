@@ -140,12 +140,12 @@
                 </a>
             </li>
 
-            <li class="nav-item border-start my-0 pt-2">
+            {{-- <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('analisaWo') ? 'active' : '' }}"
                     href="{{ route('analisaWo') }}">
                     <span class="nav-link-text ms-1">Analisa WO</span>
                 </a>
-            </li>
+            </li> --}}
 
             {{-- @if (Auth::user()->name == "Tanto") --}}
 

@@ -200,10 +200,10 @@
                                     {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
                                 </div>
 
-                                <div class="ms-auto d-flex">
+                                {{-- <div class="ms-auto d-flex"> --}}
                                     {{-- <a href="javascript:void(0)"> --}}
-                                        <button type="button" id="tambahPenjadwalanWO" name="tmbahPenjadwalanWO"
-                                            class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
+                                        {{-- <button type="button" id="tambahPenjadwalanWO" name="tmbahPenjadwalanWO" --}}
+                                            {{-- class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"> --}}
                                             {{-- <span class="btn-inner--icon">
                                                 <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
@@ -212,11 +212,11 @@
                                                     </path>
                                                 </svg>
                                             </span> --}}
-                                            <span class="btn-inner--text">+ Penjadwalan Ulang WO</span>
-                                        </button>
+                                            {{-- <span class="btn-inner--text">+ Penjadwalan Ulang WO</span> --}}
+                                        {{-- </button> --}}
                                     {{-- </a> --}}
 
-                                </div>
+                                {{-- </div> --}}
                             </div>
                         </div>
 

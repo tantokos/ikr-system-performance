@@ -326,6 +326,169 @@
         </div>
         {{-- End Modal Edit Assign Tim --}}
 
+        {{-- Modal Detail Edit Assign WO --}}
+        <div class="modal fade" id="modalEditAssignWo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">>
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Assign WO</h5>
+                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form class="updateEditAssignWo" method="post" enctype="multipart/form-data">
+                        {{-- @method('post') --}}
+                        @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group mb-1">
+                                            <span class="text-xs">No WO</span>
+                                            <input class="form-control form-control-sm" type="text" id="EditAssWONoWO"
+                                                    name="EditAssWONoWO" style="border-color:#9ca0a7;" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="form-group mb-1">
+                                            <span class="text-xs">Tanggal Progress</span>
+                                            <input class="form-control form-control-sm" type="date" id="EditAssWOtglProgressTim"
+                                                    name="EditAssWOtglProgressTim" style="border-color:#9ca0a7;" readonly>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group mb-1">
+                                            <span class="text-xs">Cust ID</span>
+                                            <input class="form-control form-control-sm" type="text" id="EditAssWOCustId"
+                                                    name="EditAssWOCustId" style="border-color:#9ca0a7;" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="form-group mb-1">
+                                            <span class="text-xs">Cust Name</span>
+                                            <input class="form-control form-control-sm" type="text" id="EditAssWOCustName"
+                                                    name="EditAssWOCustName" style="border-color:#9ca0a7;" readonly>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group mb-1">
+                                            <span class="text-xs">FAT Code</span>
+                                            <input class="form-control form-control-sm" type="text" id="EditAssWOFatCode"
+                                                    name="EditAssWOFatCode" style="border-color:#9ca0a7;" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group mb-1">
+                                            <span class="text-xs">WO Type</span>
+                                            <input class="form-control form-control-sm" type="text" id="EditAssWOTypeWo"
+                                                    name="EditAssWOTypeWo" style="border-color:#9ca0a7;" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">                                   
+
+                                    <div class="col">
+                                        <div class="form-group mb-1">
+                                            <span class="text-xs">Area</span>
+                                            <input class="form-control form-control-sm" type="text" id="EditAssWOArea"
+                                                    name="EditAssWOArea" style="border-color:#9ca0a7;" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="form-group mb-1">
+                                            <span class="text-xs">Cluster</span>
+                                            <input class="form-control form-control-sm" type="text" id="EditAssWOCluster"
+                                                    name="EditAssWOCluster" style="border-color:#9ca0a7;" readonly>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group mb-1">
+                                    <div class="row">
+                                        <div class="col">
+                                            <span class="text-xs">Callsign Tim</span>
+                                            <select class="form-control form-control-sm" type="text" value="" id="EditAssWOcallsignTim"
+                                                    name="EditAssWOcallsignTim" style="border-color:#9ca0a7;">
+
+                                            </select>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="form-group mb-1">
+                                                <span class="text-xs">Leader</span>
+                                                <input class="form-control form-control-sm" type="text" value="" id="EditAssWOLeader"
+                                                        name="EditAssWOLeader" style="border-color:#9ca0a7;" readonly>
+                                                <input type="hidden" id="EditAssWOLeaderId" name="EditAssWOLeaderId" readonly>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>                             
+
+                                <div class="form-group mb-1">
+                                    <span class="text-xs">Teknisi 1</span>
+                                    <select class="form-control form-control-sm" type="text" value="" id="EditAssWOTeknisi1"
+                                            name="EditAssWOTeknisi1" style="border-color:#9ca0a7;">
+                                        <option value="">Pilih Teknisi</option>
+                                    </select>                                    
+                                </div>
+                                <div class="form-group mb-1">
+                                    <span class="text-xs">Teknisi 2</span>
+                                    <select class="form-control form-control-sm" type="text" value="" id="EditAssWOTeknisi2"
+                                            name="EditAssWOTeknisi2" style="border-color:#9ca0a7;">
+                                        <option value="">Pilih Teknisi</option>
+                                    </select>                                    
+                                </div>
+                                <div class="form-group mb-1">
+                                    <span class="text-xs">Teknisi 3</span>
+                                    <select class="form-control form-control-sm" type="text" value="" id="EditAssWOTeknisi3"
+                                            name="EditAssWOTeknisi3" style="border-color:#9ca0a7;">
+                                        <option value="">Pilih Teknisi</option>
+                                    </select>                                    
+                                </div>
+                                <div class="form-group mb-1">
+                                    <span class="text-xs">Teknisi 4</span>
+                                    <select class="form-control form-control-sm" type="text" value="" id="EditAssWOTeknisi4"
+                                            name="EditAssWOTeknisi4" style="border-color:#9ca0a7;">
+                                        <option value="">Pilih Teknisi</option>
+                                    </select>                                    
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="modal-footer">
+                        {{-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> --}}
+                        {{-- <button type="button" class="btn btn-dark">Save changes</button> --}}
+                        <button type="submit" class="btn btn-sm btn-dark align-items-center"
+                            id="updateEditAssWORekapAssign">Update Tim</button>
+                        <button type="button" value="close" class="btn btn-sm btn-dark align-items-center"
+                            data-bs-dismiss="modal">Batalkan</button>
+                    </div>
+
+                </form>
+
+                </div>
+            </div>
+        </div>
+        {{-- End Modal Edit Assign WO --}}
+
         {{-- Modal Detail Rekap Assign Tim --}}
         <div class="modal fade" id="modalRekapAssignTim" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">>
@@ -557,6 +720,8 @@
                             <div class="col-12">
                                 <div class="card border shadow-xs mb-4">
                                     <div class="card-body px-2 py-2">
+                                        {{-- <form method="post" enctype="multipart/form-data"> --}}
+                                        
                                         <div class="table-responsive p-0">
                                             <table class="table table-striped table-bordered align-items-center mb-0"
                                                 id="tabelAssignTim" style="font-size: 12px">
@@ -598,7 +763,7 @@
                                                         </th>
                                                         {{-- <th class="text-center text-xs font-weight-semibold">Leader
                                                             Assign</th> --}}
-                                                        {{-- <th class="text-center text-xs font-weight-semibold">#</th> --}}
+                                                        <th class="text-center text-xs font-weight-semibold">#</th>
 
                                                     </tr>
                                                 </thead>
@@ -607,6 +772,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                        {{-- </form> --}}
                                         <div class="border-top py-3 px-3 d-flex align-items-center">
 
                                         </div>
@@ -694,6 +860,7 @@
         var lastDate;
         var stDate;
         var enDate;
+        var filCalltim;
 
         akses = $('#akses').val();
 
@@ -837,33 +1004,30 @@
                         `<option value="">Pilih Teknisi 4</option>`);
 
 
-                    $.each(dtTim, function(key, t1) {
+                    $.each(dtTim.dtOn, function(key, t1) {
                         $('#EditTeknisi1').append(
                             `<option value="${t1.nik_karyawan+'|'+t1.nama_karyawan}">${t1.nama_karyawan}</option>`
                         )
                     })
-                    $.each(dtTim, function(key, t2) {
+                    $.each(dtTim.dtOn, function(key, t2) {
                         $('#EditTeknisi2').append(
                             `<option value="${t2.nik_karyawan+'|'+t2.nama_karyawan}">${t2.nama_karyawan}</option>`
                         )
                     })
-                    $.each(dtTim, function(key, t3) {
+                    $.each(dtTim.dtOn, function(key, t3) {
                         $('#EditTeknisi3').append(
                             `<option value="${t3.nik_karyawan+'|'+t3.nama_karyawan}">${t3.nama_karyawan}</option>`
                         )
                     })
-                    $.each(dtTim, function(key, t4) {
+                    $.each(dtTim.dtOn, function(key, t4) {
                         $('#EditTeknisi4').append(
                             `<option value="${t4.nik_karyawan+'|'+t4.nama_karyawan}">${t4.nama_karyawan}</option>`
                         )
                     })
 
                     $('#EditTeknisi1').val(edt[5]+'|'+edt[6]);
-
                     $('#EditTeknisi2').val(edt[7]+'|'+edt[8]);
-
                     $('#EditTeknisi3').val(edt[9]+'|'+edt[10]);
-
                     $('#EditTeknisi4').val(edt[11]+'|'+edt[12]);
                 }
             })
@@ -1383,12 +1547,251 @@
             }
         })
 
+        $(document).on('change', '#EditAssWOcallsignTim', function(e) {
+            e.preventDefault();
+            dtCallsign = $(this).val().split('|');
+            callsign = dtCallsign[1];
+            filLeadTek = filCalltim.find( k => k.callsign == callsign);
+
+            $('#EditAssWOLeader').val(filLeadTek.leadcall+'|'+ filLeadTek.leader);
+            $('#EditAssWOTeknisi1').val(filLeadTek.tek1_nik+'|'+filLeadTek.teknisi1);
+            $('#EditAssWOTeknisi2').val(filLeadTek.tek2_nik+'|'+filLeadTek.teknisi2);
+            $('#EditAssWOTeknisi3').val(filLeadTek.tek3_nik+'|'+filLeadTek.teknisi3);
+            $('#EditAssWOTeknisi4').val(filLeadTek.tek4_nik+'|'+filLeadTek.teknisi4);
+
+        })
+
         $(document).on('click', '#showDetAssignTim', function(e) {
             e.preventDefault();
             $('#modalDataAssignTim').modal('show');
 
             detail_assignTim($(this).data('id'));
 
+        })
+
+        $(document).on('click', '#detail-assignWo', function(e) {
+            e.preventDefault();
+
+            console.log('detail-assignWo : ', $(this).data('id'));
+            detail =  $(this).data('id').split('|');
+            fil = detail[2] + "|" + detail[7];
+            leadCallId = detail[9];
+            leadCall = detail[10];
+            leaderId = detail[11];
+            leader = detail[12];
+            callTimId = detail[13];
+            callTim = detail[14];
+            tek1 = detail[15]+'|'+detail[16];
+            tek2 = ((detail[17] !== null) ? detail[17] : null )+'|'+((detail[18] !== null) ? detail[18] : null );
+            tek3 = ((detail[19] !== null) ? detail[19] : null )+'|'+((detail[20] !== null) ? detail[20] : null );
+            tek4 = ((detail[21] !== null) ? detail[21] : null )+'|'+((detail[22] !== null) ? detail[22] : null );
+
+
+            $('#modalEditAssignWo').modal('show');
+            $('#modalDataAssignTim').modal('hide');
+
+            
+            // get data tim hari terpilih
+            $.ajax({
+                url: "{{ route('getTimEditCallsign') }}",
+                type: "get",
+                data: {
+                    fil: fil,
+                    _token: _token
+                },
+                success: function(dtTim) {
+                    
+                    // console.log('dtTim detail-assignWo : ', dtTim)
+                    $('#EditAssWONoWO').val(detail[1]);
+                    $('#EditAssWOtglProgressTim').val(detail[2]);
+                    $('#EditAssWOCustId').val(detail[3]);
+                    $('#EditAssWOCustName').val(detail[4]);
+                    $('#EditAssWOFatCode').val(detail[5]);
+                    $('#EditAssWOTypeWo').val(detail[6]);
+                    $('#EditAssWOArea').val(detail[7]);
+                    $('#EditAssWOCluster').val(detail[8]);
+
+                    $('#EditAssWOcallsignTim').find('option').remove();
+                    $('#EditAssWOcallsignTim').append(
+                        `<option value="">Pilih Callsign Tim</option>`);
+
+                    $('#EditAssWOTeknisi1').find('option').remove();
+                    $('#EditAssWOTeknisi1').append(
+                        `<option value="">Pilih Teknisi 1</option>`);
+
+                    $('#EditAssWOTeknisi2').find('option').remove();
+                    $('#EditAssWOTeknisi2').append(
+                        `<option value="">Pilih Teknisi 2</option>`);
+
+                    $('#EditAssWOTeknisi3').find('option').remove();
+                    $('#EditAssWOTeknisi3').append(
+                        `<option value="">Pilih Teknisi 3</option>`);
+
+                    $('#EditAssWOTeknisi4').find('option').remove();
+                    $('#EditAssWOTeknisi4').append(
+                        `<option value="">Pilih Teknisi 4</option>`);
+
+                    filCalltim = dtTim.dtAsTim.filter(k => k.branch === detail[7]);
+
+                    $.each(filCalltim, function(key, t1) {
+                        $('#EditAssWOcallsignTim').append(
+                            `<option value="${t1.callsign_id+'|'+t1.callsign+'|'+t1.leadcall_id+'|'+t1.leadcall+'|'
+                                            +t1.leader_id+'|'+t1.leader}">${t1.callsign}</option>`
+                        )
+
+                    })
+
+                    $('#EditAssWOcallsignTim').val(callTimId+'|'+callTim+'|'+leadCallId+'|'+leadCall+'|'+leaderId+'|'+leader);
+
+                    // console.log('pilih callsign : ', callTimId+'|'+callTim+'|'+leadCallId+'|'+leadCall+'|'+leaderId+'|'+leader+'|'
+                    //                                 +tek1+'|'+tek2+'|'+tek3+'|'+tek4);
+                    $('#EditAssWOcallsignTim').trigger('change');
+
+                    $.each(dtTim.dtOn, function(key, t1) {
+                        $('#EditAssWOTeknisi1').append(
+                            `<option value="${t1.nik_karyawan+'|'+t1.nama_karyawan}">${t1.nama_karyawan}</option>`
+                        )
+                    })
+                    $.each(dtTim.dtOn, function(key, t2) {
+                        $('#EditAssWOTeknisi2').append(
+                            `<option value="${t2.nik_karyawan+'|'+t2.nama_karyawan}">${t2.nama_karyawan}</option>`
+                        )
+                    })
+                    $.each(dtTim.dtOn, function(key, t3) {
+                        $('#EditAssWOTeknisi3').append(
+                            `<option value="${t3.nik_karyawan+'|'+t3.nama_karyawan}">${t3.nama_karyawan}</option>`
+                        )
+                    })
+                    $.each(dtTim.dtOn, function(key, t4) {
+                        $('#EditAssWOTeknisi4').append(
+                            `<option value="${t4.nik_karyawan+'|'+t4.nama_karyawan}">${t4.nama_karyawan}</option>`
+                        )
+                    })
+
+                    // console.log(detail[15]+'|'+detail[16]);
+                    $('#EditAssWOTeknisi1').val(tek1);
+                    $('#EditAssWOTeknisi2').val(tek2);
+                    $('#EditAssWOTeknisi3').val(tek3);
+                    $('#EditAssWOTeknisi4').val(tek4);
+                }
+            })
+        });
+
+        //updata callsign di tabel data detail assign tim, 
+        $(document).on('click', '#updateEditAssWORekapAssign', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: "{{ route('updateRekapAssignWo') }}",
+                type: "get",
+                data: $('.updateEditAssignWo').serialize(), 
+                success: function(obj) {
+                    if(obj=="success"){
+                        $('#modalEditAssignWo').modal('hide');                                            
+
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success",
+                            text: "Berhasil update Data Callsign Tim",
+                            showConfirmButton: true,
+                            // timer: 2000
+                        }).then(function () {
+                            $('#modalDataAssignTim').modal('show');
+                            $('#tabelAssignTim').DataTable().ajax.reload();
+                        })
+
+                        $('#rekapAssignTim').DataTable().ajax.reload();
+
+                    } else {
+                        $('#modalEditAssignWo').modal('hide');    
+                        
+
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal",
+                            text: obj,
+                            showConfirmButton: true,
+                            // timer: 2000
+                        }).then(function() {
+                            $('#modalDataAssignTim').modal('show');
+                            $('#tabelAssignTim').DataTable().ajax.reload();
+                        });
+
+                        
+                        $('#rekapAssignTim').DataTable().ajax.reload();
+                    }
+                }
+            })
+            
+        })
+
+        $(document).on('click', '#del-assign', function(e) {
+            e.preventDefault();        
+            
+            $('#modalDataAssignTim').modal('hide');
+              
+            Swal.fire({
+                title: "Hapus data assign WO?",
+                icon: "warning",
+                // showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: "Hapus Data",
+                // denyButtonText: `Don't save`
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('delRekapAssignWo') }}",
+                        type: "POST",
+                        dataType: 'JSON',
+                        data: {
+                            dt: $(this).data('id'),
+                            _token: "{{ csrf_token() }}",
+                        },
+                        success: function(obj) {
+                            console.log('obj : ', obj);
+                            if(obj.respon == "success"){
+                                $('#modalDataAssignTim').modal('hide');                                            
+
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Success",
+                                    text: obj.msg, //"Berhasil hapus Data Assign WO",
+                                    showConfirmButton: true,
+                                    // timer: 2000
+                                }).then(function () {
+                                    $('#modalDataAssignTim').modal('show');
+                                    $('#tabelAssignTim').DataTable().ajax.reload();
+                                    $('#rekapAssignTim').DataTable().ajax.reload();
+                                })
+
+                                
+
+                            } else {
+                                $('#modalDataAssignTim').modal('hide');                            
+
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Gagal",
+                                    text: obj,
+                                    showConfirmButton: true,
+                                    // timer: 2000
+                                }).then(function() {
+                                    $('#modalDataAssignTim').modal('show');
+                                    $('#rekapAssignTim').DataTable().ajax.reload();
+                                });
+                        
+                                
+                            }
+                        }
+                    })
+                    
+                } else {
+                    $('#modalDataAssignTim').modal('show');
+                }
+            });
+            
+            
         })
 
         function detail_assignTim(data) {
@@ -1407,7 +1810,7 @@
                 orderClasses: false,
                 // fixedColumns: true,
                 fixedColumns: {
-                    leftColumns: 2,
+                    leftColumns: 3,
                     // rightColumns: 1
                 },
                 deferRender: true,
@@ -1502,10 +1905,10 @@
                     // {
                     //     data: 'login',
                     // },
-                    // {
-                    //     data: 'action',
-                    //     "className": "text-center",
-                    // },
+                    {
+                        data: 'action',
+                        "className": "text-center",
+                    },
                 ]
             })
         }             

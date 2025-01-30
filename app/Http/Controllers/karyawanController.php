@@ -250,130 +250,176 @@ class karyawanController extends Controller
         $karyawan = Employee::findOrFail($request->nikId);
         // $karyawan = DB::table('employees')->where('id', $request->nikId)->where('nik_karyawan', $request->nik)->first();
 
+        DB::beginTransaction();
+        try{
 
-        if ($request->hasFile('foto_karyawan')) {
-            $fileFoto = $request->file('foto_karyawan');
-            $file = $fileFoto->hashName();
-            $request->file('foto_karyawan')->move(public_path('storage/image-kry'), $file);
-
-            if($karyawan->foto_karyawan != "foto-blank.jpg"){
-                File::delete(public_path('storage/image-kry/' . $karyawan->foto_karyawan));
+            if ($request->hasFile('foto_karyawan')) {
+                $fileFoto = $request->file('foto_karyawan');
+                $file = $fileFoto->hashName();
+                $request->file('foto_karyawan')->move(public_path('storage/image-kry'), $file);
+    
+                if($karyawan->foto_karyawan != "foto-blank.jpg"){
+                    File::delete(public_path('storage/image-kry/' . $karyawan->foto_karyawan));
+                }
+                
+                $karyawan->update([
+                    'nik_karyawan' => $request->nik,
+                    'nama_karyawan' => $request->namaKaryawan,
+                    'alamat' => $request->alamat,
+                    'tempat_lahir' => $request->tmptLahir,
+                    'tgl_lahir' => $request->tglLahir,
+                    'jenis_kelamin' => $request->jenisKelamin,
+                    'agama' => $request->agama,
+                    'no_telp' => $request->noTelpKry,
+                    'tgl_gabung' => $request->tglGabung,
+                    'status_pegawai' => $request->statusPegawai,
+                    'status_active' => $request->statusKaryawan,
+                    'tgl_nonactive' => $request->tglKeluar,
+                    'branch_id' => $request->area,
+                    'divisi' => $request->divisi,
+                    'departement' => $request->departemen,
+                    'posisi' => $request->posisi,
+                    'email' => $request->emailPerusahaan,
+                    'seragam1' => $request->seragam1,
+                    'seragam2' => $request->seragam2,
+                    'seragam3' => $request->seragam3,
+                    'no_ktp' => $request->noKTP,
+                    'no_npwp' => $request->noNPWP,
+                    'no_rek' => $request->noRek,
+                    'no_bpjs' => $request->noBpjs,
+                    'no_jamsostek' => $request->noJamsostek,
+                    'foto_karyawan' => $file,
+                    'kewarganegaraan' => $request->kewarganegaraan,
+                    'status_pernikahan' => $request->statusPernikahan,
+                    'jml_tanggungan' => $request->jmlTanggungan,
+                    'email_pribadi' => $request->emailPribadi,
+                    'alamat_domisili' => $request->alamatDomisili,
+                    'pendidikan_terakhir' => $request->pendidikanTerakhir,
+                    'golongan_darah' => $request->golonganDarah,
+                    'no_koperasi' => $request->noKoperasi,
+                    'nama_kel' => $request->namaKel,
+                    'status_kel' => $request->statusKel,
+                    'alamat_kel' => $request->alamatKel,
+                    'pekerjaan_kel' => $request->pekerjaanKel,
+                    'no_telp_kel' => $request->noTelpKel,
+                    'anak1' => $request->anak1,
+                    'anak2' => $request->anak2,
+                    'anak3' => $request->anak3,
+                    'anak4' => $request->anak4,
+                    'nama_kontak1' => $request->namaKontak1,
+                    'status_kontak1' => $request->statusKontak1,
+                    'alamat_kontak1' => $request->alamatKontak1,
+                    'no_telp_kontak1' => $request->noTelpKontak1,
+                    'nama_kontak2' => $request->namaKontak2,
+                    'status_kontak2' => $request->statusKontak2,
+                    'alamat_kontak2' => $request->alamatKontak2,
+                    'no_telp_kontak2' => $request->noTelpKontak2,
+                    'update_by' => $akses
+                ]);
+            } else {
+                // $file = 'foto-blank.jpg';
+    
+                $karyawan->update([
+                    'nik_karyawan' => $request->nik,
+                    'nama_karyawan' => $request->namaKaryawan,
+                    'alamat' => $request->alamat,
+                    'tempat_lahir' => $request->tmptLahir,
+                    'tgl_lahir' => $request->tglLahir,
+                    'jenis_kelamin' => $request->jenisKelamin,
+                    'agama' => $request->agama,
+                    'no_telp' => $request->noTelpKry,
+                    'tgl_gabung' => $request->tglGabung,
+                    'status_pegawai' => $request->statusPegawai,
+                    'status_active' => $request->statusKaryawan,
+                    'tgl_nonactive' => $request->tglKeluar,
+                    'branch_id' => $request->area,
+                    'divisi' => $request->divisi,
+                    'departement' => $request->departemen,
+                    'posisi' => $request->posisi,
+                    'email' => $request->emailPerusahaan,
+                    'seragam1' => $request->seragam1,
+                    'seragam2' => $request->seragam2,
+                    'seragam3' => $request->seragam3,
+                    'no_ktp' => $request->noKTP,
+                    'no_npwp' => $request->noNPWP,
+                    'no_rek' => $request->noRek,
+                    'no_bpjs' => $request->noBpjs,
+                    'no_jamsostek' => $request->noJamsostek,
+                    // 'foto_karyawan' => $file,
+                    'kewarganegaraan' => $request->kewarganegaraan,
+                    'status_pernikahan' => $request->statusPernikahan,
+                    'jml_tanggungan' => $request->jmlTanggungan,
+                    'email_pribadi' => $request->emailPribadi,
+                    'alamat_domisili' => $request->alamatDomisili,
+                    'pendidikan_terakhir' => $request->pendidikanTerakhir,
+                    'golongan_darah' => $request->golonganDarah,
+                    'no_koperasi' => $request->noKoperasi,
+                    'nama_kel' => $request->namaKel,
+                    'status_kel' => $request->statusKel,
+                    'alamat_kel' => $request->alamatKel,
+                    'pekerjaan_kel' => $request->pekerjaanKel,
+                    'no_telp_kel' => $request->noTelpKel,
+                    'anak1' => $request->anak1,
+                    'anak2' => $request->anak2,
+                    'anak3' => $request->anak3,
+                    'anak4' => $request->anak4,
+                    'nama_kontak1' => $request->namaKontak1,
+                    'status_kontak1' => $request->statusKontak1,
+                    'alamat_kontak1' => $request->alamatKontak1,
+                    'no_telp_kontak1' => $request->noTelpKontak1,
+                    'nama_kontak2' => $request->namaKontak2,
+                    'status_kontak2' => $request->statusKontak2,
+                    'alamat_kontak2' => $request->alamatKontak2,
+                    'no_telp_kontak2' => $request->noTelpKontak2,
+                    'update_by' => $akses
+                ]);
             }
             
-            $karyawan->update([
-                'nik_karyawan' => $request->nik,
-                'nama_karyawan' => $request->namaKaryawan,
-                'alamat' => $request->alamat,
-                'tempat_lahir' => $request->tmptLahir,
-                'tgl_lahir' => $request->tglLahir,
-                'jenis_kelamin' => $request->jenisKelamin,
-                'agama' => $request->agama,
-                'no_telp' => $request->noTelpKry,
-                'tgl_gabung' => $request->tglGabung,
-                'status_pegawai' => $request->statusPegawai,
-                'status_active' => $request->statusKaryawan,
-                'tgl_nonactive' => $request->tglKeluar,
-                'branch_id' => $request->area,
-                'divisi' => $request->divisi,
-                'departement' => $request->departemen,
-                'posisi' => $request->posisi,
-                'email' => $request->emailPerusahaan,
-                'seragam1' => $request->seragam1,
-                'seragam2' => $request->seragam2,
-                'seragam3' => $request->seragam3,
-                'no_ktp' => $request->noKTP,
-                'no_npwp' => $request->noNPWP,
-                'no_rek' => $request->noRek,
-                'no_bpjs' => $request->noBpjs,
-                'no_jamsostek' => $request->noJamsostek,
-                'foto_karyawan' => $file,
-                'kewarganegaraan' => $request->kewarganegaraan,
-                'status_pernikahan' => $request->statusPernikahan,
-                'jml_tanggungan' => $request->jmlTanggungan,
-                'email_pribadi' => $request->emailPribadi,
-                'alamat_domisili' => $request->alamatDomisili,
-                'pendidikan_terakhir' => $request->pendidikanTerakhir,
-                'golongan_darah' => $request->golonganDarah,
-                'no_koperasi' => $request->noKoperasi,
-                'nama_kel' => $request->namaKel,
-                'status_kel' => $request->statusKel,
-                'alamat_kel' => $request->alamatKel,
-                'pekerjaan_kel' => $request->pekerjaanKel,
-                'no_telp_kel' => $request->noTelpKel,
-                'anak1' => $request->anak1,
-                'anak2' => $request->anak2,
-                'anak3' => $request->anak3,
-                'anak4' => $request->anak4,
-                'nama_kontak1' => $request->namaKontak1,
-                'status_kontak1' => $request->statusKontak1,
-                'alamat_kontak1' => $request->alamatKontak1,
-                'no_telp_kontak1' => $request->noTelpKontak1,
-                'nama_kontak2' => $request->namaKontak2,
-                'status_kontak2' => $request->statusKontak2,
-                'alamat_kontak2' => $request->alamatKontak2,
-                'no_telp_kontak2' => $request->noTelpKontak2,
-                'update_by' => $akses
-            ]);
-        } else {
-            // $file = 'foto-blank.jpg';
+            if($karyawan) {
+                $dtBranch = DB::table('branches')->where('id', $request->area)->first();
+    
+                $dtJadwal = DB::table('data_jadwal_ikrs')->where('nik_karyawan', $request->nik)
+                            ->select('branch_id','branch')->distinct()->first();
 
-            $karyawan->update([
-                'nik_karyawan' => $request->nik,
-                'nama_karyawan' => $request->namaKaryawan,
-                'alamat' => $request->alamat,
-                'tempat_lahir' => $request->tmptLahir,
-                'tgl_lahir' => $request->tglLahir,
-                'jenis_kelamin' => $request->jenisKelamin,
-                'agama' => $request->agama,
-                'no_telp' => $request->noTelpKry,
-                'tgl_gabung' => $request->tglGabung,
-                'status_pegawai' => $request->statusPegawai,
-                'status_active' => $request->statusKaryawan,
-                'tgl_nonactive' => $request->tglKeluar,
-                'branch_id' => $request->area,
-                'divisi' => $request->divisi,
-                'departement' => $request->departemen,
-                'posisi' => $request->posisi,
-                'email' => $request->emailPerusahaan,
-                'seragam1' => $request->seragam1,
-                'seragam2' => $request->seragam2,
-                'seragam3' => $request->seragam3,
-                'no_ktp' => $request->noKTP,
-                'no_npwp' => $request->noNPWP,
-                'no_rek' => $request->noRek,
-                'no_bpjs' => $request->noBpjs,
-                'no_jamsostek' => $request->noJamsostek,
-                // 'foto_karyawan' => $file,
-                'kewarganegaraan' => $request->kewarganegaraan,
-                'status_pernikahan' => $request->statusPernikahan,
-                'jml_tanggungan' => $request->jmlTanggungan,
-                'email_pribadi' => $request->emailPribadi,
-                'alamat_domisili' => $request->alamatDomisili,
-                'pendidikan_terakhir' => $request->pendidikanTerakhir,
-                'golongan_darah' => $request->golonganDarah,
-                'no_koperasi' => $request->noKoperasi,
-                'nama_kel' => $request->namaKel,
-                'status_kel' => $request->statusKel,
-                'alamat_kel' => $request->alamatKel,
-                'pekerjaan_kel' => $request->pekerjaanKel,
-                'no_telp_kel' => $request->noTelpKel,
-                'anak1' => $request->anak1,
-                'anak2' => $request->anak2,
-                'anak3' => $request->anak3,
-                'anak4' => $request->anak4,
-                'nama_kontak1' => $request->namaKontak1,
-                'status_kontak1' => $request->statusKontak1,
-                'alamat_kontak1' => $request->alamatKontak1,
-                'no_telp_kontak1' => $request->noTelpKontak1,
-                'nama_kontak2' => $request->namaKontak2,
-                'status_kontak2' => $request->statusKontak2,
-                'alamat_kontak2' => $request->alamatKontak2,
-                'no_telp_kontak2' => $request->noTelpKontak2,
-                'update_by' => $akses
-            ]);
+                if(count($dtJadwal) > 0) 
+                {
+                    if($dtJadwal->branch_id != $request->area) {
+                        $updateJadwal = DB::table('data_jadwal_ikrs')->where('nik_karyawan', $request->nik)
+                            ->update([
+                                'branch_id' => $request->area,
+                                'branch' => $dtBranch->nama_branch
+                            ]);
+                        
+                        $updateCallTim1 = DB::table('callsign_tims')->where('nik_tim1', $request->nik)
+                            ->update([
+                                'nik_tim1' => null,                            
+                            ]);
+                        $updateCallTim2 = DB::table('callsign_tims')->where('nik_tim2', $request->nik)
+                            ->update([
+                                'nik_tim2' => null,                            
+                            ]);
+                        $updateCallTim3 = DB::table('callsign_tims')->where('nik_tim3', $request->nik)
+                            ->update([
+                                'nik_tim3' => null,                            
+                            ]);
+                        $updateCallTim4 = DB::table('callsign_tims')->where('nik_tim4', $request->nik)
+                            ->update([
+                                'nik_tim4' => null,                            
+                            ]);
+                    }
+                }               
+                
+            }
+
+            DB::commit();
+            return redirect()->route('dataKaryawan')->with(['success' => 'Data sudah tersimpan.']);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // return response()->json($e->getMessage());
+            return redirect()->route('dataKaryawan')->with(['error' => 'Gagal mengupdate status.' . $e->getMessage()]);
         }
-
-        return redirect()->route('dataKaryawan')->with(['success' => 'Data sudah tersimpan.']);
+        
     }
 
     /**

@@ -391,6 +391,7 @@
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 1</th>
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 2</th>
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 3</th>
+                                            <th class="text-center text-xs font-weight-semibold">Teknisi 4</th>
                                             <th class="text-center text-xs font-weight-semibold">Status WO</th>
                                             <th class="text-center text-xs font-weight-semibold">Status Check</th>
 
@@ -411,7 +412,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-sm-6 mt-3 mb-3">
                     <h6>5 Cause Code Terbanyak</h6>
                     <div class="table-responsive p-0">
@@ -465,9 +466,9 @@
                         </table>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-sm-12 mt-3 mb-3">
                     <h6>5 Action Taken Terbanyak</h6>
                     <div class="table-responsive p-0">
@@ -493,7 +494,7 @@
                         </table>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             {{-- <x-app.footer /> --}}
         </div>
@@ -2273,6 +2274,9 @@
                     },
                     {
                         data: 'teknisi3'
+                    },
+                    {
+                        data: 'teknisi4'
                     },
                     {
                         data: 'status_apk'

@@ -67,7 +67,7 @@ class AssignTeamFttxImport implements ToModel, WithHeadingRow,  WithValidation, 
             if ($parsedDate) {
                 $formattedDateSo = $parsedDate->format('Y-m-d');
             } else {
-                throw new \Exception("Format tanggal IKR tidak valid: " . $soDate);
+                // throw new \Exception("Format tanggal IKR tidak valid: " . $soDate);
                 $formattedDateSo = $soDate;
             }
         }
@@ -79,7 +79,7 @@ class AssignTeamFttxImport implements ToModel, WithHeadingRow,  WithValidation, 
             'address' => Str::trim($row['address']),
             'pic_customer' => Str::trim($row['pic_cst']),
             'phone_pic_cust' => Str::trim($row['phone_pic_cust']),
-            'wo_type' => ((Str::trim(strtoupper($row['wo_type'])) == "NEW INSTALLATION" || Str::trim(strtoupper($row['wo_type'])) == "NEW LINK")) ? "FTTX New Installation" : (Str::trim(strtoupper($row['wo_type'])) == "MAINTENANCE" ? "FTTX Maintenance" : null),
+            'wo_type' => ((Str::trim(strtoupper($row['wo_type'])) == "NEW INSTALLATION" || Str::trim(strtoupper($row['wo_type'])) == "RELOCATION" || Str::trim(strtoupper($row['wo_type'])) == "NEW LINK")) ? "FTTX New Installation" : (Str::trim(strtoupper($row['wo_type'])) == "MAINTENANCE" ? "FTTX Maintenance" : null),
             'product' => Str::trim($row['product']),
             'remark_ewo' => Str::trim($row['remark_ewo']),
             'cid' => Str::trim($row['cid']),

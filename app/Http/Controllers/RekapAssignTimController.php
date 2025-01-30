@@ -73,7 +73,9 @@ class RekapAssignTimController extends Controller
                             when vtim.branch="Pontianak" then 8
                             when vtim.branch="Jambi" then 9
                             when vtim.branch="Bali" then 10
-                            when vtim.branch="Palembang" then 11 end')); 
+                            when vtim.branch="Palembang" then 11
+                            when vtim.branch="Serang" then 12 
+                            when vtim.branch="Cirebon" then 13 end')); 
         
             if($request->filTgl != null) {
                 $dateRange = explode("-", $request->filTgl);
@@ -126,20 +128,40 @@ class RekapAssignTimController extends Controller
         $fil = explode("|", $request->fil);
         $tgl= $fil[0];
         $branch= $fil[1];
-        $leadCall = $fil[2];
-        $leader = $fil[3];
-        $callsign = $fil[4];
-        $tek1_nik = $fil[5];
-        $teknisi1 = $fil[6];
-        $tek2_nik = $fil[7];
-        $teknisi2 = $fil[8];
+        // $leadCall = $fil[2];
+        // $leader = $fil[3];
+        // $callsign = $fil[4];
+        // $tek1_nik = $fil[5];
+        // $teknisi1 = $fil[6];
+        // $tek2_nik = $fil[7];
+        // $teknisi2 = $fil[8];
 
         // dd($tgl);
         // $filTgl = explode("-",$request->tglClick);
         // $startDt = \Carbon\Carbon::parse($filTgl[0])->format('Y-m-d');
         // $endDt = \Carbon\Carbon::parse($filTgl[1])->format('Y-m-d');
 
-        $dt= DB::table('v_rekap_jadwal_data as vd')
+        $dttimLead = DB::table('v_detail_callsign_tim')
+                ->select('branch_id','nama_branch as branch','lead_call_id as leadcall_id','lead_callsign as leadcall',
+                        'leader_id','nama_leader as leader',DB::raw('lead_call_id as callsign_id , lead_callsign as callsign,
+                        "" as tek1_nik,"" as teknisi1,"" as tek2_nik,"" as teknisi2,"" as tek3_nik,"" as teknisi3,"" as tek4_nik,"" as teknisi4'));
+
+        $dtTimx = DB::table('v_rekap_assign_tim_fttx')
+                ->where('jadwal_ikr',$tgl)
+                ->select('branch_id','branch','leadcall_id','leadcall',
+                        'leader_id','leader','callsign_id','callsign',
+                        'tek1_nik','tim_1','tek2_nik','tim_2','tek3_nik','tim_3','tek4_nik','tim_4');
+
+        $dtAsTim = DB::table('v_rekap_assign_tim')
+                ->where('tgl_ikr',$tgl)
+                ->select('branch_id','branch','leadcall_id','leadcall',
+                        'leader_id','leader','callsign_id','callsign',
+                        'tek1_nik','teknisi1','tek2_nik','teknisi2','tek3_nik','teknisi3','tek4_nik','teknisi4')
+                ->union($dtTimx)
+                ->union($dttimLead)->distinct()
+                ->orderBy('callsign')->get();
+
+        $dtOn= DB::table('v_rekap_jadwal_data as vd')
                     ->leftJoin('employees as e', 'vd.nik_karyawan','=','e.nik_karyawan')                    
                     ->where('vd.branch', $branch)
                     ->where('e.status_active', 'Aktif')
@@ -151,7 +173,7 @@ class RekapAssignTimController extends Controller
                     ->orderBy('vd.nama_karyawan')
                     ->get();
        
-        return response()->json($dt);
+        return response()->json(['dtOn' => $dtOn, 'dtAsTim' => $dtAsTim]);
     }
 
     public function updateRekapCallTim(Request $request) 
@@ -263,6 +285,139 @@ class RekapAssignTimController extends Controller
             return response()->json($e->getMessage());
         }
 
+    }
+
+    public function updateRekapAssignWo(Request $request) 
+    {
+        $EditcallsignTim = !isset($request->EditAssWOcallsignTim) ? null : explode("|",$request->EditAssWOcallsignTim);
+        $callsignId = !isset($EditcallsignTim) ? null : $EditcallsignTim[0];
+        $callsign = !isset($EditcallsignTim) ? null : $EditcallsignTim[1];
+        $leadCallId = !isset($EditcallsignTim) ? null : $EditcallsignTim[2];
+        $leadCall = !isset($EditcallsignTim) ? null : $EditcallsignTim[3];
+        $leaderId = !isset($EditcallsignTim) ? null : $EditcallsignTim[4];
+        $leader = !isset($EditcallsignTim) ? null : $EditcallsignTim[5];
+
+        $tek1 = !isset($request->EditAssWOTeknisi1) ? null : explode("|",$request->EditAssWOTeknisi1);
+        $tek1_nik = !isset($tek1) ? null : $tek1[0];
+        $teknisi1 = !isset($tek1) ? null : $tek1[1];
+
+        $tek2 = !isset($request->EditAssWOTeknisi2) ? null : explode("|",$request->EditAssWOTeknisi2);
+        $tek2_nik = !isset($tek2) ? null : $tek2[0];
+        $teknisi2 = !isset($tek2) ? null : $tek2[1];
+
+        $tek3 = !isset($request->EditAssWOTeknisi3) ? null : explode("|",$request->EditAssWOTeknisi3);
+        $tek3_nik = !isset($tek3) ? null : $tek3[0];
+        $teknisi3 = !isset($tek3) ? null : $tek3[1];
+
+        $tek4 = !isset($request->EditAssWOTeknisi4) ? null : explode("|",$request->EditAssWOTeknisi4);
+        $tek4_nik = !isset($tek4) ? null : $tek4[0];
+        $teknisi4 = !isset($tek4) ? null : $tek4[1];
+
+        DB::beginTransaction();
+        try {
+
+            $dtAssignTimh = DB::table('data_assign_tims')
+                    ->where('tgl_ikr',$request->EditAssWOtglProgressTim)
+                    ->where('no_wo_apk',$request->EditAssWONoWO)
+                    ->update([
+                    'leadcall_id' => $leadCallId,
+                    'leadcall' => $leadCall,
+                    'leader_id' => $leaderId,
+                    'leader' => $leader,
+                    'callsign_id' => $callsignId,
+                    'callsign' => $callsign,
+                    'tek1_nik' => $tek1_nik,
+                    'teknisi1' => $teknisi1,
+                    'tek2_nik' => $tek2_nik,
+                    'teknisi2' => $teknisi2,
+                    'tek3_nik' => $tek3_nik,
+                    'teknisi3' => $teknisi3,
+                    'tek4_nik' => $tek4_nik,
+                    'teknisi4' => $teknisi4,
+                ]);
+
+            $dtCallTim = DB::table('data_assign_tim_fttxs')
+                    ->where('jadwal_ikr',$request->EditAssWOtglProgressTim)
+                    ->where('no_so', $request->EditAssWONoWO)
+                    ->where('branch',$request->EditAssWOArea)
+                    ->update([
+                    'leadcall_id' => $leadCallId,
+                    'leadcall' => $leadCall,
+                    'leader_id' => $leaderId,
+                    'leader' => $leader,
+                    'callsign_id' => $callsignId,
+                    'callsign' => $callsign,
+                    'tek1_nik' => $tek1_nik,
+                    'tim_1' => $teknisi1,
+                    'tek2_nik' => $tek2_nik,
+                    'tim_2' => $teknisi2,
+                    'tek3_nik' => $tek3_nik,
+                    'tim_3' => $teknisi3,
+                    'tek4_nik' => $tek4_nik,
+                    'tim_4' => $teknisi4,
+            ]);
+
+            DB::commit();
+
+            return response()->json('success');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage());
+        }
+    }
+
+    public function delRekapAssignWo(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $dt = explode("|", $request->dt);
+            $id = $dt[0];
+            $wo = $dt[1];
+            $tgl = $dt[2];
+            $typeWo = $dt[3];
+
+            if(strtoupper(substr($typeWo,0,4)) == "FTTH") {
+                $dtAssign = DB::table('data_assign_tims')->where('tgl_ikr', $tgl)
+                            ->where('no_wo_apk', $wo)->where('type_wo', $typeWo)
+                            ->delete();
+
+                $dtIb = DB::table('data_ftth_ib_oris')->where('tgl_ikr', $tgl)
+                                    ->where('no_wo', $wo)->where('type_wo', $typeWo)
+                                    ->delete();
+
+                $dtMt = DB::table('data_ftth_mt_oris')->where('tgl_ikr', $tgl)
+                        ->where('no_wo', $wo)->where('type_wo', $typeWo)
+                        ->delete();
+
+                $dtdis = DB::table('data_ftth_dismantle_oris')->where('visit_date', $tgl)
+                        ->where('no_wo', $wo)->where('type_wo', $typeWo)
+                        ->delete();
+
+            } elseif(strtoupper(substr($typeWo,0,4)) == "FTTX") {
+                $dtAssign = DB::table('data_assign_tim_fttxs')->where('jadwal_ikr', $tgl)
+                        ->where('no_so', $wo)->where('wo_type', $typeWo)
+                        ->delete();
+
+                $dtIbx = DB::table('data_fttx_ib_oris')->where('ib_date', $tgl)
+                        ->where('no_so', $wo)->where('wo_type', $typeWo)
+                        ->delete();
+
+                $dtMtx = DB::table('data_fttx_mt_oris')->where('mt_date', $tgl)
+                        ->where('no_wo', $wo)->where('wo_type', $typeWo)
+                        ->delete();
+            }
+
+            DB::commit();
+            return response()->json(['respon' => "success", "msg" => $wo . " Berhasil dihapus."]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage() . " " . $request->dt);
+        }
+        
+        
     }
 
     public function getTabelRekapLeader(Request $request)
@@ -662,6 +817,8 @@ class RekapAssignTimController extends Controller
         // dd($request);
         $akses = Auth::user()->name;
 
+
+
         $datasFtth = DB::table('data_assign_tims as dh')
                 ->select('dh.id', 'dh.batch_wo', 'dh.tgl_ikr', 'dh.type_wo', 'dh.no_wo_apk', 'dh.no_ticket_apk', 'dh.wo_date_apk', 'dh.cust_id_apk', 'dh.name_cust_apk', 
                         'dh.address_apk', 'dh.area_cluster_apk', 'dh.wo_type_apk', 'dh.fat_code_apk', 'dh.fat_port_apk', 'dh.remarks_apk', 'dh.time_apk', 
@@ -706,23 +863,31 @@ class RekapAssignTimController extends Controller
 
             return DataTables::of($datasFtth)
                 ->addIndexColumn() //memberikan penomoran
-                ->editColumn('name_cust_apk', function ($nm) {
-                    return Str::title($nm->name_cust_apk);
-                })
-                ->editColumn('wo_type_apk', function ($nm) {
-                    return Str::title($nm->wo_type_apk);
-                })
-                ->editColumn('area_cluster_apk', function ($nm) {
-                    return Str::title($nm->area_cluster_apk);
-                })
-                ->editColumn('branch', function ($nm) {
-                    return Str::title($nm->branch);
-                })
                 ->addColumn('action', function ($row) {
                     $btn = '
-                    <a href="javascript:void(0)" id="detail-assign" data-id="' . $row->id . '" class="btn btn-sm btn-primary detail-assign mb-0" >Detail</a>';
-                    // <a href="javascript:void(0)" id="detail-lead" data-id="' . $row->lead_call_id . "|" . $row->branch_id . "|" . $row->leader_id . '" class="btn btn-sm btn-primary detil-lead mb-0" >Edit</a>';
-                    //  <a href="#" class="btn btn-sm btn-secondary disable"> <i class="fas fa-trash"></i> Hapus</a>';
+                        <button type="button" id="detail-assignWo" name="detail-assignWo" 
+                            data-id= "'.$row->id. '|' .$row->no_wo_apk. '|' .$row->tgl_ikr. '|' 
+                                        .$row->cust_id_apk. '|' .$row->name_cust_apk. '|' .$row->fat_code_apk. '|' .$row->type_wo. '|' .$row->branch. '|' .$row->area_cluster_apk. '|' 
+                                        .$row->leadcall_id. '|' .$row->leadcall. '|' .$row->leader_id. '|' .$row->leader. 
+                                        '|' .$row->callsign_id. '|' .$row->callsign. 
+                                        '|' .$row->tek1_nik. '|' .$row->teknisi1. '|' .$row->tek2_nik. '|' .$row->teknisi2. '|' .$row->tek3_nik. '|' .$row->teknisi3. '|' .$row->tek4_nik. '|' .$row->teknisi4. '|' .$row->type_wo. '" class="detail-assignWo btn btn-sm btn-dark btn-icon align-items-center me-0 mb-0 px-1 py-1">
+                            <span class="btn-inner--icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
+                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"></path>
+                                </svg>
+                            </span>
+                        </button>
+                        
+                        <button type="button" id="del-assign" name="del-assign" data-id= "'.$row->id. '|' .$row->no_wo_apk. '|' .$row->tgl_ikr. '|' .$row->type_wo. '" class="del-assign btn btn-sm btn-dark btn-icon align-items-center me-0 mb-0 px-1 py-1">
+                            <span class="btn-inner--icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                </svg>
+                            </span>
+                        </button>';
+                    
                     return $btn;
                 })
                 ->rawColumns(['action'])   //merender content column dalam bentuk html
