@@ -119,8 +119,21 @@ class Import_DataWoController extends Controller
 
             $akses = Auth::user()->id . "|" . Auth::user()->name;
 
+            $dtJadwal = DB::table('employees as e')->select('vj.tgl','vj.nik_karyawan','e.nama_karyawan')
+                                ->leftJoin('v_rekap_jadwal_data as vj', 'e.nik_karyawan','=','vj.nik_karyawan')
+                                ->where('e.status_active','=','Aktif')                                
+                                ->whereIn('vj.status', ["ON","OD"])->get();
+                                // ->where('vj.tgl', $tanggal)
+                                // ->first();
+            $dtBranch = DB::table('branches')->select('id','nama_branch')->get();
+            $dtCallsignTim = DB::table('v_detail_callsign_tim')->get();
+            $dtCallsignLead = DB::table('callsign_leads as cl')
+                            ->leftJoin('employees as e','cl.leader_id', '=', 'e.nik_karyawan')
+                            ->select('cl.id as callsign_tim_id', 'cl.lead_callsign')->get();
+                            // ->where('lead_callsign', $data)->first();
+
             try {
-                Excel::import(new AssignWoImport($akses), $request->file('fileDataWO'));
+                Excel::import(new AssignWoImport($akses, $dtJadwal, $dtBranch, $dtCallsignTim, $dtCallsignLead), $request->file('fileDataWO'));
 
                 return back()->with(['success' => 'Import Work Order berhasil.']);
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
@@ -268,44 +281,13 @@ class Import_DataWoController extends Controller
                 //get data import assign tim,
                 $dtImportAssign = ImportAssignTim::whereNotNull('callsign')
                     ->select(
-                        'batch_wo',
-                        'tgl_ikr',
-                        'slot_time',
-                        'type_wo',
-                        'no_wo_apk',
-                        'no_ticket_apk',
-                        'wo_date_apk',
-                        'cust_id_apk',
-                        'name_cust_apk',
-                        'cust_phone_apk',
-                        'cust_mobile_apk',
-                        'address_apk',
-                        'area_cluster_apk',
-                        'wo_type_apk',
-                        'fat_code_apk',
-                        'fat_port_apk',
-                        'remarks_apk',
-                        'vendor_installer_apk',
-                        'ikr_date_apk',
-                        'time_apk',
-                        'branch_id',
-                        'branch',
-                        'leadcall_id',
-                        'leadcall',
-                        'leader_id',
-                        'leader',
-                        'callsign_id',
-                        'callsign',
-                        'tek1_nik',
-                        'teknisi1',
-                        'tek2_nik',
-                        'teknisi2',
-                        'tek3_nik',
-                        'teknisi3',
-                        'tek4_nik',
-                        'teknisi4',
-                        'login_id',
-                        'login'
+                        'batch_wo', 'tgl_ikr', 'slot_time', 'type_wo', 'no_wo_apk', 'no_ticket_apk',
+                        'wo_date_apk', 'cust_id_apk', 'name_cust_apk', 'cust_phone_apk', 'cust_mobile_apk',
+                        'address_apk', 'area_cluster_apk', 'wo_type_apk', 'fat_code_apk', 'fat_port_apk',
+                        'remarks_apk', 'vendor_installer_apk', 'ikr_date_apk', 'time_apk', 'branch_id',
+                        'branch', 'leadcall_id', 'leadcall', 'leader_id', 'leader', 'callsign_id',
+                        'callsign', 'tek1_nik', 'teknisi1', 'tek2_nik', 'teknisi2', 'tek3_nik', 'teknisi3',
+                        'tek4_nik', 'teknisi4', 'login_id', 'login'
                     )
                     ->where('login', $akses)
                     ->get()->toArray();

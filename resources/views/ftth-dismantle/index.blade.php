@@ -1463,7 +1463,7 @@
                         data: 'kode_fat'
                     },
                     {
-                        data: 'branch'
+                        data: 'main_branch'
                     },
                     {
                         data: 'cluster'
@@ -1669,7 +1669,7 @@
                         data: 'cluster'
                     },
                     {
-                        data: 'branch'
+                        data: 'main_branch'
                     },
                     {
                         data: 'slot_time_leader'
@@ -1766,7 +1766,7 @@
                     $('#fatCodeShow').val(dtDis.kode_fat);
                     $('#portFatShow').val(dtDis.port_fat);
                     $('#remarkStatus').val(toTitleCase(dtDis.remarkStatus || ""));
-                    $('#branchShow').val(dtDis.branch);
+                    $('#branchShow').val(dtDis.main_branch);
                     $('#tglProgressShow').val(dtDis.visit_date);
                     $('#sesiShow').val(toTitleCase(dtDis.sesi || ""));
                     $('#slotTimeLeaderShow').val(dtDis.slot_time_leader);

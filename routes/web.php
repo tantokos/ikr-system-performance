@@ -156,6 +156,8 @@ Route::get('/getPopUpRekapAssignTim', [RekapAssignTimController::class, 'getPopU
 Route::get('/getPopUpRekapJmlAssignTeknisi', [RekapAssignTimController::class, 'getPopUpRekapJmlAssignTeknisi'])->name('getPopUpRekapJmlAssignTeknisi')->middleware('auth');
 
 Route::get('/updateRekapCallTim', [RekapAssignTimController::class, 'updateRekapCallTim'])->name('updateRekapCallTim')->middleware('auth');
+Route::get('/updateRekapAssignWo', [RekapAssignTimController::class, 'updateRekapAssignWo'])->name('updateRekapAssignWo')->middleware('auth');
+Route::post('/delRekapAssignWo', [RekapAssignTimController::class, 'delRekapAssignWo'])->name('delRekapAssignWo')->middleware('auth');
 
 Route::get('/assignTim', [AssignTimController::class, 'index'])->name('assignTim')->middleware('auth');
 Route::get('/getTabelAssignTim', [AssignTimController::class, 'getTabelAssignTim'])->name('getTabelAssignTim')->middleware('auth');

@@ -122,6 +122,8 @@ class ImportDataWoIbApkController extends Controller
 
     public function storeFtthIbApk(Request $request)
     {
+        ini_set('max_execution_time', 1900);
+        ini_set('memory_limit', '8192M');
         $akses = Auth::user()->name;
 
         switch ($request->input('action')) {
@@ -135,8 +137,8 @@ class ImportDataWoIbApkController extends Controller
                     // Update status_wo pada data_ftth_ib_oris berdasarkan wo_no dan tgl_ikr
                     foreach ($importedData as $data) {
                         DB::table('data_ftth_ib_oris')
-                            ->where('no_wo', $data->wo_no)
                             ->where('tgl_ikr', $data->installation_date) // Menambahkan syarat
+                            ->where('no_wo', $data->wo_no)
                             ->where('is_checked', 0)
                             ->update([
                                 'slot_time_apk' => $data->time,
@@ -159,13 +161,13 @@ class ImportDataWoIbApkController extends Controller
                     return redirect()->route('monitFtthIB')->with(['error' => 'Gagal mengupdate status.']);
                 }
 
-        break;
+                break;
 
             case 'batal':
                 $importedData = DB::table('import_ftth_ib_apks')
                     ->delete();
                 return redirect()->route('monitFtthIB')->with(['success' => 'Data berhasil dihapus.']);
-            break;
+                break;
             // case 'batal':
             //     ImportAssignTim::where('login', $akses)->delete();
             //         return redirect()->route('assignTim');
