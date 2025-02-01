@@ -144,6 +144,7 @@ class ImportDataWoIbApkController extends Controller
                                 'slot_time_apk' => $data->time,
                                 'status_wo' => $data->status,
                                 'status_apk' => $data->status,
+                                'remarks_wo' => $data->remarks,
                                 'checkin_apk' => $data->check_in,
                                 'checkout_apk' => $data->check_out,
                                 'mttr_all' => $data->mttr_all,

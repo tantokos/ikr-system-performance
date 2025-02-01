@@ -364,6 +364,7 @@
                                             <th class="text-center text-xs">Teknisi 1</th>
                                             <th class="text-center text-xs">Teknisi 2</th>
                                             <th class="text-center text-xs">Teknisi 3</th>
+                                            <th class="text-center text-xs">Teknisi 4</th>
                                             {{-- <th class="text-center text-xs font-weight-semibold">Teknisi 4</th> --}}
                                             <th class="text-center text-xs">Status WO</th>
                                             <th class="text-center text-xs">Status Check</th>
@@ -637,39 +638,6 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Slot Time Leader</span>
-                                                            <select class="form-control form-control-sm"
-                                                                type="text" id="slotTimeLeaderShow"
-                                                                name="slotTimeLeaderShow"
-                                                                style="border-color:#9ca0a7;" readonly>
-                                                                <option value="">Pilih Slot Time</option>
-                                                                <option value="09:00">09:00</option>
-                                                                <option value="09:30">09:30</option>
-                                                                <option value="10:00">10:00</option>
-                                                                <option value="10:30">10:30</option>
-                                                                <option value="11:00">11:00</option>
-                                                                <option value="11:30">11:30</option>
-                                                                <option value="12:00">12:00</option>
-                                                                <option value="12:30">12:30</option>
-                                                                <option value="13:00">13:00</option>
-                                                                <option value="13:30">13:30</option>
-                                                                <option value="14:00">14:00</option>
-                                                                <option value="14:30">14:30</option>
-                                                                <option value="15:00">15:00</option>
-                                                                <option value="15:30">15:30</option>
-                                                                <option value="16:00">16:00</option>
-                                                                <option value="16:30">16:30</option>
-                                                                <option value="17:00">17:00</option>
-                                                                <option value="17:30">17:30</option>
-                                                                <option value="18:00">18:00</option>
-                                                                <option value="18:30">18:30</option>
-                                                                <option value="19:00">19:00</option>
-                                                                <option value="19:30">19:30</option>
-                                                                <option value="20:00">20:00</option>
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col form-group mb-1">
                                                             <span class="text-xs">Slot Time APK</span>
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="slotTimeAPKShow"
@@ -786,18 +754,13 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Tanggal Progress</span>
-                                                            <input class="form-control form-control-sm" type="date"
-                                                                value="{{ date('Y-m-d') }}" id="tglProgressStatusShow"
-                                                                name="tglProgressStatusShow"
-                                                                style="border-color:#9ca0a7;">
+                                                            <input class="form-control form-control-sm" type="date" value="{{ date('Y-m-d') }}" id="tglProgressStatusShow"
+                                                                name="tglProgressStatusShow" style="border-color:#9ca0a7;">
                                                         </div>
-
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Slot Time Leader</span>
-                                                            <select class="form-control form-control-sm"
-                                                                type="text" id="slotTimeLeaderStatusShow"
-                                                                name="slotTimeLeaderStatusShow" disabled
-                                                                style="border-color:#9ca0a7;">
+                                                            <span class="text-xs">Slot Time Aplikasi</span>
+                                                            <select class="form-control form-control-sm" type="text" id="slotTimeAPKStatusShow" disabled
+                                                                name="slotTimeAPKStatusShow" style="border-color:#9ca0a7;">
                                                                 <option value="">Pilih Slot Time</option>
                                                                 <option value="09:00">09:00</option>
                                                                 <option value="09:30">09:30</option>
@@ -827,6 +790,25 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Checkin Aplikasi</span>
+                                                            <span class="text-danger">*</span>
+                                                            <input class="form-control form-control-sm" type="text" id="tglCheckinApk" name="tglCheckinApk"
+                                                                style="border-color:#9ca0a7;" required>
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Checkout Aplikasi</span>
+                                                            <span class="text-danger">*</span>
+                                                            <input class="form-control form-control-sm" type="text" id="tglCheckoutApk" name="tglCheckoutApk"
+                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')"
+                                                                oninput="this.setCustomValidity('')"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <div class="row">
                                                     <div class="col form-group mb-1">
                                                         <span class="text-xs">Status WO</span>
@@ -841,23 +823,28 @@
                                                         </select>
                                                     </div>
                                                     <div class="col form-group mb-1">
-                                                        <span class="text-xs">Reason Status</span>
+                                                        <span class="text-xs">Status WO Aplikasi</span>
                                                         <span class="text-danger">*</span>
-                                                        <select type="text" class="form-control form-control-sm" id="reasonStatus" name="reasonStatus" style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
-                                                            <option value="" disabled selected>--Pilih Reason Status--</option>
-                                                            <option value="Close">Close</option>
-                                                            <option value="Cancel No Coverage Area">Cancel No Coverage Area</option>
-                                                            <option value="Pending Reschedule">Pending Reschedule</option>
-                                                            <option value="Cancel By Dispatcher">Cancel By Dispatcher</option>
-                                                            <option value="Pending FAT Full">Pending FAT Full</option>
-                                                            <option value="Pending No Permitte/No Access">Pending No Permitte/No Access</option>
-                                                            <option value="Cancel Limited Access">Cancel Limited Access</option>
-                                                            <option value="Pending FAT Loss">Pending FAT Loss</option>
-                                                            <option value="Pending Registrasi">Pending Registrasi</option>
-                                                            <option value="Cancel FAT Full">Cancel FAT Full</option>
-                                                            <option value="Pending No Customer">Pending No Customer</option>
+                                                        <select class="form-control form-control-sm" type="text" id="statusWoApk" name="statusWoApk"
+                                                            style="border-color:#9ca0a7;">
+                                                            <option value="" disabled selected>Pilih Status WO</option>
+                                                            <option value="Requested">Requested</option>
+                                                            <option value="Checkin">Checkin</option>
+                                                            <option value="Checkout">Checkout</option>
+                                                            <option value="Done">Done</option>
+                                                            <option value="Pending">Pending</option>
+                                                            <option value="Cancel">Cancel</option>
                                                         </select>
                                                     </div>
+                                                </div>
+
+                                                <div class="col form-group mb-1">
+                                                    <span class="text-xs">Reason Status</span>
+                                                    <span class="text-danger">*</span>
+                                                    <select type="text" class="form-control form-control-sm" id="reasonStatus" name="reasonStatus"
+                                                        style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')"
+                                                        oninput="this.setCustomValidity('')">
+                                                    </select>
                                                 </div>
 
                                                 <div class="form-group mb-1">
@@ -902,52 +889,8 @@
                                                 </div> --}}
 
                                                 <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Tanggal Penjadwalan
-                                                                Ulang</span>
-                                                            <input class="form-control form-control-sm" type="date"
-                                                                id="tglReschedule" name="tglReschedule"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Jam Penjadwalan Ulang</span>
-                                                            <select class="form-control form-control-sm"
-                                                                type="text" id="jamReschedule"
-                                                                name="jamReschedule" style="border-color:#9ca0a7;">
-                                                                <option value="" disabled selected>Pilih Jam</option>
-                                                                <option value="09:00">09:00</option>
-                                                                <option value="09:30">09:30</option>
-                                                                <option value="10:00">10:00</option>
-                                                                <option value="10:30">10:30</option>
-                                                                <option value="11:00">11:00</option>
-                                                                <option value="11:30">11:30</option>
-                                                                <option value="12:00">12:00</option>
-                                                                <option value="12:30">12:30</option>
-                                                                <option value="13:00">13:00</option>
-                                                                <option value="13:30">13:30</option>
-                                                                <option value="14:00">14:00</option>
-                                                                <option value="14:30">14:30</option>
-                                                                <option value="15:00">15:00</option>
-                                                                <option value="15:30">15:30</option>
-                                                                <option value="16:00">16:00</option>
-                                                                <option value="16:30">16:30</option>
-                                                                <option value="17:00">17:00</option>
-                                                                <option value="17:30">17:30</option>
-                                                                <option value="18:00">18:00</option>
-                                                                <option value="18:30">18:30</option>
-                                                                <option value="19:00">19:00</option>
-                                                                <option value="19:30">19:30</option>
-                                                                <option value="20:00">20:00</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
                                                     <span class="text-xs">Permintaan Reschedule</span>
-                                                    <select class="form-control form-control-sm" type="text"
-                                                        id="permintaan_reschedule" name="permintaan_reschedule"
+                                                    <select class="form-control form-control-sm" type="text" id="permintaan_reschedule" name="permintaan_reschedule"
                                                         style="border-color:#9ca0a7;">
                                                         <option value="" disabled selected>Pilih Permintaan Reschedule</option>
                                                         <option value="Customer">Customer</option>
@@ -990,135 +933,49 @@
                                                     <textarea class="form-control form-control-sm" type="text" id="detailAlasan" name="detailAlasan" rows="4"
                                                         style="border-color:#9ca0a7;"></textarea>
                                                 </div>
-
-                                                <div class="form-group mb-1">
-                                                    <span class="text-xs">Report Teknisi</span>
-                                                    <textarea class="form-control form-control-sm" type="text" id="remarksTeknisi" name="remarksTeknisi" rows="4"
-                                                        style="border-color:#9ca0a7;"></textarea>
-                                                </div>
-
                                             </div>
 
                                             <div class="col">
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Tanggal Progress Aplikasi</span>
-                                                            <input class="form-control form-control-sm" type="date"
-                                                                value="{{ date('Y-m-d') }}" id="tglProgressAPKShow"
-                                                                name="tglProgressAPKShow"
-                                                                style="border-color:#9ca0a7;">
+                                                            <span class="text-xs">PIC Dispatch</span>
+                                                            <span class="text-danger">*</span>
+                                                            <input class="form-control form-control-sm" type="text" id="picDispatch" name="picDispatch"
+                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')"
+                                                                oninput="this.setCustomValidity('')">
                                                         </div>
-
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Slot Time Aplikasi</span>
-                                                            <select class="form-control form-control-sm"
-                                                                type="text" id="slotTimeAPKStatusShow" disabled
-                                                                name="slotTimeAPKStatusShow"
-                                                                style="border-color:#9ca0a7;">
-                                                                <option value="">Pilih Slot Time</option>
-                                                                <option value="09:00">09:00</option>
-                                                                <option value="09:30">09:30</option>
-                                                                <option value="10:00">10:00</option>
-                                                                <option value="10:30">10:30</option>
-                                                                <option value="11:00">11:00</option>
-                                                                <option value="11:30">11:30</option>
-                                                                <option value="12:00">12:00</option>
-                                                                <option value="12:30">12:30</option>
-                                                                <option value="13:00">13:00</option>
-                                                                <option value="13:30">13:30</option>
-                                                                <option value="14:00">14:00</option>
-                                                                <option value="14:30">14:30</option>
-                                                                <option value="15:00">15:00</option>
-                                                                <option value="15:30">15:30</option>
-                                                                <option value="16:00">16:00</option>
-                                                                <option value="16:30">16:30</option>
-                                                                <option value="17:00">17:00</option>
-                                                                <option value="17:30">17:30</option>
-                                                                <option value="18:00">18:00</option>
-                                                                <option value="18:30">18:30</option>
-                                                                <option value="19:00">19:00</option>
-                                                                <option value="19:30">19:30</option>
-                                                                <option value="20:00">20:00</option>
-                                                            </select>
+                                                            <span class="text-xs">Telp Dispatch</span>
+                                                            <span class="text-danger">*</span>
+                                                            <input class="form-control form-control-sm" type="text" id="telp_dispatch" name="telp_dispatch"
+                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')"
+                                                                oninput="this.setCustomValidity('')">
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <div class="col form-group mb-1">
-                                                    <span class="text-xs">Status WO Aplikasi</span>
-                                                    <span class="text-danger">*</span>
-                                                    <select class="form-control form-control-sm" type="text"
-                                                        id="statusWoApk" name="statusWoApk"
-                                                        style="border-color:#9ca0a7;">
-                                                        <option value="" disabled selected>Pilih Status WO</option>
-                                                        <option value="Requested">Requested</option>
-                                                        <option value="Checkin">Checkin</option>
-                                                        <option value="Checkout">Checkout</option>
-                                                        <option value="Done">Done</option>
-                                                        <option value="Pending">Pending</option>
-                                                        <option value="Cancel">Cancel</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Checkin Aplikasi</span>
-                                                            <span class="text-danger">*</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                value="" id="checkinApkShow"
-                                                                name="checkinApkShow"
-                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
-                                                        </div>
-
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Checkout Aplikasi</span>
-                                                            <span class="text-danger">*</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                value="" id="checkoutApkShow"
-                                                                name="checkoutApkShow"
-                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Status Checkin</span>
-                                                            <span class="text-danger">*</span>
-                                                            <select class="form-control form-control-sm" type="text" id="statCheckin" name="statCheckin" style="border-color:#9ca0a7;"
-                                                                required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
-                                                                <option value="" disabled selected>Pilih Status Checkin</option>
-                                                                <option value="On Time">On Time</option>
-                                                                <option value="Terlambat">Terlambat</option>
-                                                            </select>
-                                                        </div>
-                                                        {{-- <div class="col form-group mb-1">
-                                                            <span class="text-xs">Foto Rumah</span>
-                                                            <select class="form-control form-control-sm" type="text"
-                                                                id="fto_rumah" name="fto_rumah"
-                                                                style="border-color:#9ca0a7;">
-                                                                <option value="" disabled selected>Pilih Status Checkin</option>
-                                                                <option value="Sesuai">Sesuai</option>
-                                                                <option value="Tidak Sesuai">Tidak Sesuai</option>
-                                                                <option value="Tidak Ada">Tidak Ada</option>
-                                                            </select>
+                                                            <input class="form-control form-control-sm" type="text" id="statusCheckin" name="statusCheckin"
+                                                                style="border-color:#9ca0a7;" readonly>
                                                         </div>
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Foto Selfie</span>
-                                                            <select class="form-control form-control-sm" type="text"
-                                                                id="fto_selfie" name="fto_selfie"
-                                                                style="border-color:#9ca0a7;">
-                                                                <option value="Ada">Ada</option>
-                                                                <option value="Tidak Ada">Tidak Ada</option>
-                                                            </select>
-                                                        </div> --}}
+                                                            <span class="text-xs">+/- Menit</span>
+                                                            <input class="form-control form-control-sm" type="text" id="statusCheckinMenit" name="statusCheckinMenit"
+                                                                style="border-color:#9ca0a7;" readonly>
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Waktu Instalasi</span>
+                                                            <span class="text-danger">*</span>
+                                                            <input class="form-control form-control-sm" type="text" id="waktuInstallation" name="waktuInstallation"
+                                                                style="border-color:#9ca0a7;" readonly>
+                                                        </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group mb-1">
+                                                {{-- <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Start IKR (WA)</span>
@@ -1133,7 +990,7 @@
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
 
                                                 {{-- <div class="form-group mb-1">
                                                     <div class="row">
@@ -1197,22 +1054,14 @@
                                                         </div>
                                                     </div>
                                                 </div> --}}
-
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">PIC Dispatch</span>
+                                                            <span class="text-xs">Port FAT</span>
                                                             <span class="text-danger">*</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="picDispatch" name="picDispatch"
-                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
-                                                        </div>
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Telp Dispatch</span>
-                                                            <span class="text-danger">*</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="telp_dispatch" name="telp_dispatch"
-                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
+                                                            <input class="form-control form-control-sm" type="text" id="portFATProgress" name="portFATProgress"
+                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')"
+                                                                oninput="this.setCustomValidity('')">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1221,66 +1070,103 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <div class="row">
-                                                                {{-- <div class="col form-group mb-1">
-                                                                    <span class="text-xs">Marker</span>
-                                                                    <span class="text-danger">*</span>
-                                                                    <select class="form-control form-control-sm" type="text" id="marker" name="marker"
-                                                                        style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
-                                                                        <option value="" disabled selected>Pilih Marker</option>
-                                                                        <option value="Ada">Ada</option>
-                                                                        <option value="Tidak Ada">Tidak Ada</option>
-
-                                                                    </select>
-                                                                </div> --}}
-                                                                <div class="col form-group mb-1">
-                                                                    <span class="text-xs">Status Checkin</span>
-                                                                    <span class="text-danger">*</span>
-                                                                    <select class="form-control form-control-sm" type="text" id="status_checkin" name="status_checkin" style="border-color:#9ca0a7;"
-                                                                        required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
-                                                                        <option value="" disabled selected>Pilih Status Checkin</option>
-                                                                        <option value="On Time">On Time</option>
-                                                                        <option value="Terlambat">Terlambat</option>
-
-                                                                    </select>
+                                                                <div class="col form-group  mb-1">
+                                                                    <span class="text-xs">Penggunaan Material</span>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input id="statusMaterial" name="statusMaterial" style="border-color:#9ca0a7;" type="text"
+                                                                            class="form-control form-control-sm" readonly>
+                                                                        <button class="btn btn-sm btn-outline-secondary mb-0" type="button" id="detail-materialStatus">...</button>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="col form-group mb-1">
-                                                                    <span class="text-danger">*</span>
-                                                                    <span class="text-xs">Port FAT</span>
-                                                                    <input class="form-control form-control-sm" type="text" id="portFATProgress" name="portFATProgress"
-                                                                        style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
+                                                                    <span class="text-xs">Jumlah Material</span>
+                                                                    <span class="text-danger"></span>
+                                                                    <input class="form-control form-control-sm" type="text" id="jumlahMaterial" name="jumlahMaterial"
+                                                                        style="border-color:#9ca0a7;" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        {{-- <div class="col form-group mb-1">
-                                                            <span class="text-xs">Kondisi FAT</span>
-                                                            <span class="text-danger">*</span>
-                                                            <select class="form-control form-control-sm" type="text"
-                                                                id="kondisiFAT" name="kondisiFAT"
-                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
-                                                                <option value="" disabled selected>Pilih Kondisi FAT</option>
-                                                                <option value="FAT Full Marker">FAT Full Marker</option>
-                                                                <option value="FAT Sebagian Tidak Bermarker">FAT Sebagian Tidak Bermarker</option>
-                                                            </select>
-                                                        </div> --}}
                                                     </div>
                                                 </div>
 
-                                                {{-- <div class="form-group mb-1">
+                                                <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Validasi Start</span>
-                                                            <input class="form-control form-control-sm" type="text"
+                                                            <input class="form-control form-control-sm" type="time" value="{{ date('H:i') }}"
                                                                 id="validasi_start" name="validasi_start"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Validasi End</span>
-                                                            <input class="form-control form-control-sm" type="text"
+                                                            <input class="form-control form-control-sm" type="time" value="{{ date('H:i') }}"
                                                                 id="validasi_end" name="validasi_end"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
                                                     </div>
-                                                </div> --}}
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Start Regist</span>
+                                                            <input class="form-control form-control-sm" type="time" value="{{ date('H:i') }}" id="start_regist"
+                                                                name="start_regist" style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">End Regist</span>
+                                                            <input class="form-control form-control-sm" type="time" value="{{ date('H:i') }}" id="end_regist"
+                                                                name="end_regist" style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Tanggal Penjadwalan
+                                                                Ulang</span>
+                                                            <input class="form-control form-control-sm" type="date" id="tglReschedule" name="tglReschedule"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jam Penjadwalan Ulang</span>
+                                                            <select class="form-control form-control-sm" type="text" id="jamReschedule" name="jamReschedule"
+                                                                style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>Pilih Jam</option>
+                                                                <option value="09:00">09:00</option>
+                                                                <option value="09:30">09:30</option>
+                                                                <option value="10:00">10:00</option>
+                                                                <option value="10:30">10:30</option>
+                                                                <option value="11:00">11:00</option>
+                                                                <option value="11:30">11:30</option>
+                                                                <option value="12:00">12:00</option>
+                                                                <option value="12:30">12:30</option>
+                                                                <option value="13:00">13:00</option>
+                                                                <option value="13:30">13:30</option>
+                                                                <option value="14:00">14:00</option>
+                                                                <option value="14:30">14:30</option>
+                                                                <option value="15:00">15:00</option>
+                                                                <option value="15:30">15:30</option>
+                                                                <option value="16:00">16:00</option>
+                                                                <option value="16:30">16:30</option>
+                                                                <option value="17:00">17:00</option>
+                                                                <option value="17:30">17:30</option>
+                                                                <option value="18:00">18:00</option>
+                                                                <option value="18:30">18:30</option>
+                                                                <option value="19:00">19:00</option>
+                                                                <option value="19:30">19:30</option>
+                                                                <option value="20:00">20:00</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <span class="text-xs">Report Teknisi</span>
+                                                    <textarea class="form-control form-control-sm" type="text" id="remarksTeknisi" name="remarksTeknisi" rows="4"
+                                                        style="border-color:#9ca0a7;"></textarea>
+                                                </div>
 
                                                 <div class="form-group mt-3">
                                                     <div class="form-check">
@@ -1950,6 +1836,9 @@
                         data: 'teknisi3'
                     },
                     {
+                        data: 'teknisi4'
+                    },
+                    {
                         data: 'status_apk'
                     },
                     {
@@ -2006,11 +1895,24 @@
                     console.log('Respons dari API:', response);
 
                     let dtDis = response.data;
-                    let material = response.ftth_material;
+                    let material = response.ftth_ib_material;
                     let callsignTims = response.callsign_tims;
                     let callsignLeads = response.callsign_leads;
                     let teknisiOn = response.teknisiOn;
+                    let jumlahMaterial = material.length || 0;
                     callTim = response.assignTim;
+
+
+                    if (jumlahMaterial > 0) {
+                        statMaterial = "Ada"
+                    } else {
+                        statMaterial = "Tidak Ada"
+                    };
+
+                    console.log('Respons material:', material);
+                    document.getElementById("jumlahMaterial").value = jumlahMaterial;
+                    console.log("Jumlah material yand dipakai : " + jumlahMaterial);
+                    console.log("Status Material: " + statMaterial);
 
                     // Populasi dropdown Lead Callsign
                     let selectLead = $('#LeadCallsignShow');
@@ -2073,12 +1975,11 @@
                     $('#timeApkShow').val(dtDis.time);
                     $('#fatCodeShow').val(dtDis.kode_fat);
                     $('#portFatShow').val(dtDis.port_fat);
+                    $('#portFATProgress').val(dtDis.port_fat);
                     $('#remarksShow').val(toTitleCase(dtDis.type_maintenance || "" ));
 
                     $('#branchShow').val(dtDis.branch);
-                    $('#tglProgressShow').val(dtDis.tgl_ikr);
                     $('#tglProgressStatusShow').val(dtDis.tgl_ikr);
-                    $('#tglProgressAPKShow').val(dtDis.tgl_ikr);
 
                     $('#sesiShow').val(toTitleCase(dtDis.sesi || ""));
                     $('#slotTimeLeaderShow').val(dtDis.slot_time_leader);
@@ -2088,12 +1989,12 @@
                     $('#slotTimeAPKStatusShow').val(dtDis.slot_time_apk);
                     $('#weatherShow').val(dtDis.weather);
 
-                    $('#checkinApkShow').val(dtDis.checkin_apk);
-                    $('#checkoutApkShow').val(dtDis.checkout_apk);
+                    $('#tglCheckinApk').val(dtDis.checkin_apk);
+                    $('#tglCheckoutApk').val(dtDis.checkout_apk);
+                    $('#tglProgressStatusShow').trigger("change");
                     $('#jamReschedule').val(dtDis.tgl_jam_reschedule);
                     $('#tglReschedule').val(dtDis.tgl_reschedule);
 
-                    $('#reasonStatus').val(dtDis.reason_status);
                     $('#remarksTeknisi').val(dtDis.remarks_teknisi);
                     $('#alasanCancel').val(dtDis.alasan_cancel);
                     $('#alasanPending').val(dtDis.alasan_pending);
@@ -2102,6 +2003,10 @@
                     $('#picDispatch').val(toTitleCase(dtDis.nama_dispatch || ""));
                     $('#validasi_start').val(dtDis.validasi_start);
                     $('#validasi_end').val(dtDis.validasi_end);
+
+                    $('#start_regist').val(dtDis.start_regist);
+                    $('#end_regist').val(dtDis.end_regist);
+                    $('#statusMaterial').val(statMaterial);
 
                     $('#respon_konf_cst').val(dtDis.respon_konf_cst);
                     $('#jawaban_konf_cst').val(dtDis.jawaban_konf_cst);
@@ -2120,10 +2025,10 @@
 
                     $('#leaderShow').val(dtDis.leader);
                     $('#statusWo').val(toTitleCase(dtDis.status_wo || ""));
+                    $('#statusWo').trigger("change");
+                    $('#reasonStatus').val(dtDis.reason_status);
                     $('#statusWoApk').val(toTitleCase(dtDis.status_apk || ""));
                     $('#isChecked').prop('checked', dtDis.is_checked == 1);
-
-
 
                     $('#causeCode').val(dtDis.couse_code);
                     $('#rootCause').val(dtDis.root_couse);
@@ -2145,11 +2050,66 @@
             })
         })
 
-        $(document).on('click', '#detail-material', function(e) {
+        $(document).on('change', '#tglProgressStatusShow', function (e) {
+            tgl = $('#tglProgressStatusShow').val();
+            jm = $('#slotTimeAPKStatusShow').val();
+            status = "";
+
+            tglJmCheckin = new Date($('#tglCheckinApk').val());
+            tglJmCheckOut = new Date($('#tglCheckoutApk').val());
+            tglJmSlotTime = new Date(tgl.concat(" ", jm));
+
+            const timeDistance = (date1, date2) => {
+                let distance = Math.abs(date1 - date2);
+                const hours = Math.floor(distance / 3600000);
+                distance -= hours * 3600000;
+                const minutes = Math.floor(distance / 60000);
+                distance -= minutes * 60000;
+                const seconds = Math.floor(distance / 1000);
+                return `${hours}:${('0' + minutes).slice(-2)}:${('0' + seconds).slice(-2)}`;
+            };
+
+            if (!isNaN(tglJmCheckin)) {
+                stat = (tglJmCheckin - tglJmSlotTime) / 60000;
+
+                if (stat < -15) {
+                    status = "Lebih Awal"
+                } else if (stat <= -1 && stat >= -15) {
+                    status = "On Time"
+                } else if (stat > 0) {
+                    status = "Terlambat"
+                }
+
+            } else {
+                stat = 0;
+            }
+
+            if (!isNaN(tglJmCheckOut) && !isNaN(tglJmCheckin)) {
+                wktInstall = timeDistance(tglJmCheckOut, tglJmCheckin);
+            } else {
+                wktInstall = "0"
+            }
+
+            $('#statusCheckin').val(status);
+            $('#statusCheckinMenit').val(stat.toFixed(0));
+            $('#waktuInstallation').val(wktInstall);
+
+        })
+
+        $(document).on('click', '#detail-materialStatus', function (e) {
+            e.preventDefault();
+            $('#detail-material').trigger('click', [$('#detId').val()]);
+        })
+
+        $(document).on('click', '#detail-material', function(e, detid) {
             // e.preventDefault();
             var _token = $('meta[name=csrf-token]').attr('content');
-            let assign_id = $(this).data('id');
-
+            let assign_id
+            if (!detid) {
+                assign_id = $(this).data('id');
+            } else {
+                assign_id = detid;
+            }
 
             $.ajax({
                 url: "{{ route('getMaterialFtthIb') }}",
