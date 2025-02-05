@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\FtthIbApkImport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -12,9 +13,25 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ImportDataWoIbApkController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $akses = Auth::user()->akses;
+        if($request->areaFill != null) {
+            $area = explode(",", $request->areaFill);
+            $filArea = $area[1];
+        }
+
+        if($request->areagroup != null) {
+            $grupArea = DB::table('branches')->select('grup_area', 'nama_branch')
+                ->where('grup_area', $request->areagroup)->pluck('nama_branch')->toArray();
+
+            $filArea = Arr::join($grupArea, ', ');
+        }
+
+        if($request->areaFill == null && $request->areagroup == null) {
+            $filArea = null;
+        }
+
+        $akses = Auth::user()->name;
         $leadCallsign = DB::table('v_detail_callsign_tim')->select('lead_call_id', 'lead_callsign', 'leader_id', 'nama_leader', 'nama_branch')
             ->orderBy('lead_callsign')->orderBy('branch_id')
             ->groupBy('lead_call_id', 'lead_callsign', 'nama_branch')->get();
@@ -23,7 +40,7 @@ class ImportDataWoIbApkController extends Controller
 
         $jmlData = DB::table('import_ftth_ib_apks');
 
-        return view('monitoringWo.import_ftth_ib_apk', compact('branches', 'leadCallsign', 'akses', 'jmlData'));
+        return view('monitoringWo.import_ftth_ib_apk', compact('branches', 'leadCallsign', 'akses', 'jmlData', 'filArea'));
     }
 
     public function importProsesDataWoIbApk(Request $request)
@@ -124,13 +141,28 @@ class ImportDataWoIbApkController extends Controller
     {
         ini_set('max_execution_time', 1900);
         ini_set('memory_limit', '8192M');
+
+        $filArea = [];
         $akses = Auth::user()->name;
 
         switch ($request->input('action')) {
             case 'simpan':
 
-                $importedData = DB::table('import_ftth_ib_apks')
-                    ->get();
+                $importedData = DB::table('import_ftth_ib_apks as apk')
+                    ->leftJoin('v_rekap_assign_tim as vtim', function($join) {
+                        $join->on('apk.installation_date','=','vtim.tgl_ikr');
+                        $join->on('apk.callsign','=','vtim.callsign');
+                    })
+                    ->select('apk.*','vtim.leadcall_id','vtim.leadcall', 'vtim.leader_id', 'vtim.leader', 'vtim.callsign_id as callsignAssignId', 'vtim.callsign as callsignAssign',
+                            'vtim.tek1_nik', 'vtim.teknisi1', 'vtim.tek2_nik', 'vtim.teknisi2', 'vtim.tek3_nik', 'vtim.teknisi3',
+                            'vtim.tek4_nik', 'vtim.teknisi4');
+
+                if($request->FiArea != "All Area") {
+                    $listArea = explode(", ", $request->FiArea);
+                    $importedData = $importedData->whereIn('apk.area', $listArea);
+                }
+
+                $importedData = $importedData->get();
 
                 DB::beginTransaction();
                 try {

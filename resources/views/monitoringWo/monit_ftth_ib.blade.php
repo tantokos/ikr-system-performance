@@ -308,7 +308,7 @@
                                         </button>
                                     </a>
 
-                                    <a href="{{ route('importDataFtthIbApk') }}">
+                                    <a href="{{ route('importDataFtthIbApk') }}" id="importApkButton">
                                         <button type="button"
                                             class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
                                             <span class="btn-inner--icon">
@@ -322,7 +322,7 @@
                                             <span class="btn-inner--text">Import Data WO</span>
                                         </button>
                                     </a>
-                                    <a href="{{ route('importIbMaterial') }}">
+                                    <a href="{{ route('importIbMaterial') }}" id="importIbMaterialButton">
                                         <button type="button"
                                             class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
                                             <span class="btn-inner--icon">
@@ -1078,12 +1078,14 @@
                                                                         <button class="btn btn-sm btn-outline-secondary mb-0" type="button" id="detail-materialStatus">...</button>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col form-group mb-1">
+                                                                <input type="hidden" name="materialOut">
+                                                                <input type="hidden" name="materialIn">
+                                                                {{-- <div class="col form-group mb-1">
                                                                     <span class="text-xs">Jumlah Material</span>
                                                                     <span class="text-danger"></span>
                                                                     <input class="form-control form-control-sm" type="text" id="jumlahMaterial" name="jumlahMaterial"
                                                                         style="border-color:#9ca0a7;" readonly>
-                                                                </div>
+                                                                </div> --}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1666,6 +1668,35 @@
             get_summary();
             get_data_assignTim_ib();
 
+            //link import apk default
+            let newlink = "{{ route('importDataFtthIbApk') }}"
+            document.getElementById('importApkButton').href = newlink
+
+            // let ibnewlink = "{{ route('importDataFtthIbApk') }}"
+            // document.getElementById('importIbMaterialButton').href = ibnewlink
+
+            //Otomatis ganti link jika ada filter area/group area
+            if($('#filarea').val() !=""){
+                area = $('#filarea').val();
+                newlink = "{{ route('importDataFtthIbApk', 'areaFill=areagroup=') }}";
+                newlink = newlink.replace('areaFill=', 'areaFill='+area+'&');
+                document.getElementById('importApkButton').href = newlink
+
+                // ibnewlink = "{{ route('importDataFtthIbApk', 'areaFill=areagroup=') }}";
+                // ibnewlink = ibnewlink.replace('areaFill=', 'areaFill=' + area + '&');
+                // document.getElementById('importIbMaterialButton').href = ibnewlink
+            }
+            if($('#filGroup').val() !=""){
+                area = $('#filGroup').val();
+                newlink = "{{ route('importDataFtthIbApk', 'areaFill=areagroup=') }}";
+                newlink = newlink.replace('areagroup=', '&areagroup='+area);
+                document.getElementById('importApkButton').href = newlink
+
+                // ibnewlink = "{{ route('importDataFtthIbApk', 'areaFill=areagroup=') }}";
+                // ibnewlink = ibnewlink.replace('areagroup=', '&areagroup=' + area);
+                // document.getElementById('importIbMaterialButton').href = ibnewlink
+            }
+
             stDate = $('.date-range').data('daterangepicker').startDate.format("DD-MMM-YYYY");
             enDate = $('.date-range').data('daterangepicker').endDate.format("DD-MMM-YYYY");
         })
@@ -1899,19 +1930,33 @@
                     let callsignTims = response.callsign_tims;
                     let callsignLeads = response.callsign_leads;
                     let teknisiOn = response.teknisiOn;
-                    let jumlahMaterial = material.length || 0;
                     callTim = response.assignTim;
 
+                    if (response.ftth_ib_material.length > 0) {
+                        materialOut = response.ftth_ib_material.filter(k => k.status_item == "OUT");
+                        materialIn = response.ftth_ib_material.filter(i => i.status_item == "IN");
 
-                    if (jumlahMaterial > 0) {
-                        statMaterial = "Ada"
+                        // Mengisi nilai ke input materialOut dan materialIn
+                        $('input[name="materialOut"]').val(materialOut.length || 0); // Default 0 jika materialOut kosong
+                        $('input[name="materialIn"]').val(materialIn.length || 0);   // Default 0 jika materialIn kosong
+
+                        // statMaterial = "Ada | " + response.ftth_ib_material.length
+                        statMaterial = "Terpasang = " + materialOut.length + " | Dikembalikan = " + materialIn.length;
+
                     } else {
-                        statMaterial = "Tidak Ada"
-                    };
+                        statMaterial = "Tidak Ada";
+                        // Jika tidak ada data, isi input dengan nilai default 0
+                        $('input[name="materialOut"]').val(0);
+                        $('input[name="materialIn"]').val(0);
+                    }
+
+                    // if (jumlahMaterial > 0) {
+                    //     statMaterial = "Ada"
+                    // } else {
+                    //     statMaterial = "Tidak Ada"
+                    // };
 
                     console.log('Respons material:', material);
-                    document.getElementById("jumlahMaterial").value = jumlahMaterial;
-                    console.log("Jumlah material yand dipakai : " + jumlahMaterial);
                     console.log("Status Material: " + statMaterial);
 
                     // Populasi dropdown Lead Callsign

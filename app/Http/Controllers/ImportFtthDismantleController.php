@@ -149,6 +149,11 @@ class ImportFtthDismantleController extends Controller
                                 'checkin_apk' => $data->check_in,
                                 'checkout_apk' => $data->check_out,
                                 'login' => Auth::user()->name,
+                                'mttr_all' => $data->mttr_all,
+                                'mttr_pending' => $data->mttr_pending,
+                                'mttr_progress' => $data->mttr_progress,
+                                'mttr_technician' => $data->mttr_technician,
+                                'sla_over' => $data->sla_over,
                             ]);
                     }
 

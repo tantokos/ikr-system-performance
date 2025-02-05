@@ -55,6 +55,17 @@
                                             name="akses" value="{{ $akses }}" readonly />
                                     </div>
                                 </div>
+
+                                <div class="row">
+                                    <label for="" class="col-sm-3 col-form-label form-control-sm">Filter Area/Group</label>
+                                    <div class="col form-group">
+                                        @if(isset($filArea))
+                                            <textarea type="text" name="FiArea" readonly class="form-control form-control-sm">{{ $filArea }}</textarea>
+                                        @else
+                                            <textarea type="text" name="FiArea" readonly class="form-control form-control-sm"></textarea>
+                                        @endif
+                                    </div>
+                                </div>
                         </div>
                     </div>
                     <hr>

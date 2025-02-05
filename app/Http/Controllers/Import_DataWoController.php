@@ -121,7 +121,7 @@ class Import_DataWoController extends Controller
 
             $dtJadwal = DB::table('employees as e')->select('vj.tgl','vj.nik_karyawan','e.nama_karyawan')
                                 ->leftJoin('v_rekap_jadwal_data as vj', 'e.nik_karyawan','=','vj.nik_karyawan')
-                                ->where('e.status_active','=','Aktif')                                
+                                ->where('e.status_active','=','Aktif')
                                 ->whereIn('vj.status', ["ON","OD"])->get();
                                 // ->where('vj.tgl', $tanggal)
                                 // ->first();
@@ -548,6 +548,8 @@ class Import_DataWoController extends Controller
                                     'nama_cust' => $data['name_cust_apk'],
                                     'cust_address1' => $data['address_apk'],
                                     'cluster' => $data['area_cluster_apk'],
+                                    'kotamadya' => isset($areaSegmen->kotamadya) ? $areaSegmen->kotamadya : null,
+                                    'kotamadya_penagihan' => isset($areaSegmen->kotamadya_penagihan) ? $areaSegmen->kotamadya_penagihan: null,
                                     'wo_type_apk' => $data['wo_type_apk'],
                                     'kode_fat' => $data['fat_code_apk'],
                                     'port_fat' => $data['fat_port_apk'],

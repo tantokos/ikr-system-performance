@@ -9,8 +9,10 @@ use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
-class FtthIbExport implements FromCollection, WithHeadings, WithStyles
+class FtthIbExport implements FromCollection, WithHeadings, WithStyles, WithColumnFormatting
 {
     protected $request;
     /**
@@ -32,6 +34,7 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles
                 'd.no_wo',
                 'd.wo_date_apk',
                 'd.type_wo',
+                'd.wo_type_apk',
                 // 'd.wo_type_apk',
                 'd.remarks_wo',
                 'd.sesi',
@@ -46,7 +49,8 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles
                 'd.slot_time_apk',
                 'd.checkin_apk',
                 // DB::raw('TIMESTAMPDIFF(MINUTE, d.checkin_apk, TIMESTAMP(d.tgl_ikr, d.slot_time_apk)) as selisih_menit'),
-                'd.selisih_menit',
+                // 'd.selisih_menit',
+                DB::raw('"-" as minute'),
                 'd.status_checkin',
                 'd.checkout_apk',
                 // DB::raw('
@@ -56,7 +60,8 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles
                 //         ELSE "00:00"
                 //     END as waktu_instalasi
                 // '),
-                'd.waktu_instalasi',
+                // 'd.waktu_instalasi',
+                DB::raw('"-" as waktu_Installasi'),
                 'd.mttr_all',
                 'd.mttr_pending',
                 'd.mttr_progress',
@@ -81,6 +86,7 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles
                 DB::raw("'' as action_taken"),
                 DB::raw("'' as action_status"),
                 'd.remarks_teknisi',
+                DB::raw("'' as status_visit"),
                 DB::raw("'' as remarks"),
                 'd.tgl_jam_reschedule',
                 'd.respon_konf_cst',
@@ -103,7 +109,8 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles
                 DB::raw("'' as status_konfirmasi_cst"),
                 DB::raw("'' as waktu_keterlambatan_konfirmasi"),
                 DB::raw("'' as bukti_konfirmasi"),
-                'd.jumlah_material',
+                'd.qty_material_out',
+                'd.qty_material_in',
                 DB::raw('(SELECT description FROM ftth_ib_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND description LIKE "%ONT%" LIMIT 1) as ont_merk_out'),
                 DB::raw('(SELECT sn FROM ftth_ib_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND description LIKE "%ONT%" LIMIT 1) as ont_sn_out'),
                 DB::raw('(SELECT mac_address FROM ftth_ib_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND description LIKE "%ONT%" LIMIT 1) as ont_mac_out'),
@@ -122,8 +129,8 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles
                 DB::raw('(SELECT description FROM ftth_ib_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND description LIKE "%STB%" LIMIT 1) as stb_merk_in'),
                 DB::raw('(SELECT sn FROM ftth_ib_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND description LIKE "%STB%" LIMIT 1) as stb_sn_in'),
                 DB::raw('(SELECT mac_address FROM ftth_ib_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND description LIKE "%STB%" LIMIT 1) as stb_mac_in'),
-                'd.remote_fiberhome',
-                'd.remote_extrem',
+                DB::raw("'' as remot_out"),
+                DB::raw("'' as remot_in"),
                 'd.dw_out',
                 DB::raw('(SELECT description FROM ftth_ib_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND description LIKE "%PRECON%" LIMIT 1) as precon_out'),
                 DB::raw("'' as precon_in"),
@@ -134,6 +141,7 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles
                 'd.pipa',
                 'd.socket_pipa',
                 'd.cable_duct',
+                DB::raw("'' as precon_in"),
             )
             ->orderBy('d.tgl_ikr', 'DESC');
 
@@ -201,7 +209,19 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles
             $datas = $datas->where('slot_time', $this->request->filslotTime);
         }
 
-        return $datas->get();
+        $datas = $datas->get();
+
+        $collection = $datas->map(function ($item, $key) {
+            $item->minute = '=IF(Q'.($key + 2).'="","No Checkin",(CONCATENATE(TEXT(O'.($key + 2).',"yyyy-mm-dd")&" "&TEXT(P'.($key + 2).',"hh:mm:ss"))-Q'.($key + 2).')*1440)';
+            $item->status_checkin = '=IF(R'.($key + 2).'="No Checkin", "No Checkin",IF(R'.($key + 2).'<0,"Terlambat","On Time"))';
+            $item->waktu_Installasi = '=IF(AND(AM'.($key + 2).'="Done",AL'.($key + 2).'="cancelled"),0,IF(OR(AM'.($key + 2).'="done",AM'.($key + 2).'="CHECKOUT"),(T'.($key + 2).'-Q'.($key + 2).'),0))';
+            $item->material_in = '=COUNTA(BV'.($key + 2).',CB'.($key + 2).',CH'.($key + 2).',CL'.($key + 2).',CO'.($key + 2).')';
+            $item->material_out = '=COUNTA(BS'.($key + 2).',BY'.($key + 2).',CE'.($key + 2).',CK'.($key + 2).',CM'.($key + 2).',CN'.($key + 2).',CP'.($key + 2).',CQ'.($key + 2).',CR'.($key + 2).',CS'.($key + 2).',CT'.($key + 2).',CU'.($key + 2).',CV'.($key + 2).',CW'.($key + 2).')';
+            return $item;
+        });
+
+        // return $datas->get();
+        return $collection;
     }
 
     public function headings(): array
@@ -211,6 +231,7 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles
             'No Wo',
             'WO Date',
             'Type Wo',
+            'Wo Type Apk',
             'Remarks WO',
             'Sesi',
             'No Ticket',
@@ -244,13 +265,14 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles
             'PIC Input',
             'PIC Pengecekan',
             'Status Aplikasi',
-            'Status',
+            'Status Progress',
             'Root Cause Penagihan',
             'Couse Code / Reason Status',
             'Root Cause',
             'Action Taken',
             'Action Status',
             'Detail Alasan',
+            'Status Visit',
             'Remarks',
             'Tanggal & Jam Reschedule Customer',
             'Respon Konfirmasi Cst (Respon/Tidak Respon)',
@@ -267,13 +289,14 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles
             'End Regist',
             'Kode OTP',
             'PIC Konfirmasi Cst',
-            'Status Konfirmasi Customer',
+            'Status Konfirmasi Cst',
             'Tgl IKR & Jam Konfirmasi Cst',
             '+/- Minute Konfirmasi',
-            'Status Konfirmasi Cst',
+            'Keterangan Konfirmasi Cst',
             'Waktu Keterlambatan Konfirmasi',
             'Bukti Konfirmasi',
-            'Jumlah Material',
+            'Qty Material Out',
+            'Qty Material In',
             'Merk ONT Out',
             'SN Ont Out',
             'Mac Ont Out',
@@ -292,8 +315,8 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles
             'Merk STB In',
             'SN STB In',
             'Mac STB In',
-            'Remote Fiberhome',
-            'Remote Extreme',
+            'Remot Out',
+            'Remot In',
             'Aerial drop cable DW',
             'Precon Out',
             'Precon In',
@@ -304,8 +327,19 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles
             'Pipa',
             'Socket Pipa',
             'Cable Duct',
+            'RJ45',
         ];
     }
+
+    public function columnFormats(): array
+    {
+        return [
+            'R' => NumberFormat::FORMAT_NUMBER, // Format kolom D sebagai number
+            'S' => NumberFormat::FORMAT_NUMBER, // Format kolom D sebagai number
+            'U' => NumberFormat::FORMAT_DATE_TIME4, // Format kolom D sebagai time 24 jam
+        ];
+    }
+
 
     public function styles(Worksheet $sheet)
     {
