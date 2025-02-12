@@ -126,7 +126,8 @@ class FtthIb extends Model
         'marker',
         'site_penagihan',
         'login',
-        'is_checked'
+        'is_checked',
+        'is_confirmation',
     ];
 
     public function material_ib()

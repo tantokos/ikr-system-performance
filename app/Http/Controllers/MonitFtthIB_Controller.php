@@ -580,4 +580,23 @@ class MonitFtthIB_Controller extends Controller
         return redirect()->route('monitFtthIB')
             ->with('success', 'Berhasil mengubah data material New Installation');
     }
+
+    public function updateConfirmation(Request $request)
+    {
+        $request->validate([
+            'data' => 'required|array',
+            'data.*.id' => 'required|integer|exists:data_assign_tims,id',
+            'data.*.is_confirmation' => 'required|in:0,1'
+        ]);
+
+        foreach ($request->data as $item) {
+            FtthIb::where('id', $item['id'])->update([
+                'is_confirmation' => $item['is_confirmation']
+            ]);
+        }
+
+        return response()->json(['message' => 'Konfirmasi diperbarui!']);
+    }
+
+
 }

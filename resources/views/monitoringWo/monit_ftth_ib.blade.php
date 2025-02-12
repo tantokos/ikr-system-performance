@@ -341,6 +341,13 @@
                         </div>
 
                         <div class="card-body px-2 py-2">
+                            <button id="get-selected" class="btn btn-sm btn-primary">Konfirmasi Pengecekan</button><br>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="select-all">
+                                <label class="form-check-label" for="select-all">
+                                  Pilih Semua
+                                </label>
+                            </div>
                             <div class="table-responsive p-0">
                                 <table class="table table-striped table-bordered align-items-center mb-0"
                                     id="tabelAssignTim" style="font-size: 12px; border-color:#9ca0a7;">
@@ -368,6 +375,7 @@
                                             {{-- <th class="text-center text-xs font-weight-semibold">Teknisi 4</th> --}}
                                             <th class="text-center text-xs">Status WO</th>
                                             <th class="text-center text-xs">Status Check</th>
+                                            <th class="text-center text-xs">Status Konfirmasi</th>
 
                                             <th class="text-center text-xs">#</th>
 
@@ -1885,12 +1893,70 @@
                         }
                     },
                     {
+                        data: "is_confirmation", // Gunakan data dari server
+                        render: function (data, type, row) {
+                            // Jika is_confirmation = 1, checkbox dicentang
+                            var checked = data == 1 ? "checked" : "";
+                            return `<div class="form-check">
+                                    <input type="checkbox" id="pilih" class="form-check-input mx-1 confirmation-checkbox"
+                                    name="chkbx" data-id="${row.id}" ${checked}>
+                            </div>`;
+                        }
+                    },
+
+                    {
                         data: 'action',
                         "className": "text-center",
                     },
                 ]
             })
+
+            // Event listener untuk "Pilih Semua"
+            $('#select-all').on('change', function () {
+                var checked = $(this).prop('checked');
+
+                // Update semua checkbox di dalam DataTables
+                $('#tabelAssignTim tbody input[name="chkbx"]').prop('checked', checked);
+            });
+
+            // Event listener untuk tombol "Konfirmasi Pengecekan"
+            $('#get-selected').on('click', function () {
+                var selectedData = [];
+
+                $('#tabelAssignTim tbody input[name="chkbx"]').each(function () {
+                    var row = $(this).closest('tr');
+                    var data = data_assignTim.row(row).data();
+                    var isChecked = $(this).prop('checked') ? 1 : 0; // 1 jika checked, 0 jika unchecked
+
+                    selectedData.push({
+                        id: data.id,
+                        is_confirmation: isChecked
+                    });
+                });
+
+                console.log(selectedData); // Pastikan data benar sebelum dikirim
+
+                $.ajax({
+                    url: "/update-confirmation", // Ganti dengan URL update Laravel
+                    type: "POST",
+                    contentType: "application/json", // Pastikan dikirim sebagai JSON
+                    dataType: "json",
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}" // Kirim token di header
+                    },
+                    data: JSON.stringify({ data: selectedData }), // Kirim seluruh array dalam format JSON
+                    success: function (response) {
+                        console.log("Update berhasil!", response);
+                        data_assignTim.ajax.reload(null, false); // Reload DataTables
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Gagal memperbarui data:", xhr.responseText);
+                    }
+                });
+            });
+
         }
+
 
         $(document).on('change', '#callsignTimidShow', function (e) {
 
@@ -1949,15 +2015,6 @@
                         $('input[name="materialOut"]').val(0);
                         $('input[name="materialIn"]').val(0);
                     }
-
-                    // if (jumlahMaterial > 0) {
-                    //     statMaterial = "Ada"
-                    // } else {
-                    //     statMaterial = "Tidak Ada"
-                    // };
-
-                    console.log('Respons material:', material);
-                    console.log("Status Material: " + statMaterial);
 
                     // Populasi dropdown Lead Callsign
                     let selectLead = $('#LeadCallsignShow');

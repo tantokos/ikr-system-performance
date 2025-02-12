@@ -237,6 +237,8 @@ Route::post('/importProsesFtthDismantle', [ImportFtthDismantleController::class,
 Route::get('/getDataImportDismantle', [ImportFtthDismantleController::class, 'getDataImportDismantle'])->name('getDataImportDismantle')->middleware('auth');
 Route::post('/storeDismantleApk', [ImportFtthDismantleController::class, 'storeDismantleApk'])->name('storeDismantleApk')->middleware('auth');
 
+Route::post('/update-confirmation', [MonitFtthIB_Controller::class, 'updateConfirmation'])->name('update-confirmation')->middleware('auth');
+
 Route::get('/getDataMTOris', [MonitFtthMT_Controller::class, 'getDataMTOris'])->name('getDataMTOris')->middleware('auth');
 Route::get('/getDataIBOris', [MonitFtthIB_Controller::class, 'getDataIBOris'])->name('getDataIBOris')->middleware('auth');
 Route::get('/getDetailWOFtthMT', [MonitFtthMT_Controller::class, 'getDetailWOFtthMT'])->name('getDetailWOFtthMT')->middleware('auth');
