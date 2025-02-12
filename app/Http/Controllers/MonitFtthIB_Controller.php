@@ -251,51 +251,34 @@ class MonitFtthIB_Controller extends Controller
 
         $wo_no = DB::table('data_ftth_ib_oris')->where('id', $assignId)->value('no_wo'); // contoh WO No
 
+
         // Mendapatkan data dari database seperti biasa
-        $ftth_material = DB::table('ftth_ib_materials')
-            ->select(
-                'wo_no',
-                'installation_date',
-                'status_item',
-                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%ONT%" THEN description END AS merk_ont_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%ONT%" THEN sn END AS sn_ont_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%ONT%" THEN mac_address END AS mac_ont_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%STB%" THEN description END AS stb_merk_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%PRECON%" THEN description END AS precon_out'),
-                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%STB%" THEN description END AS stb_merk_in'),
-                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%ONT%" THEN description END AS merk_ont_in'),
-                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%ONT%" THEN sn END AS sn_ont_in'),
-                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%ONT%" THEN mac_address END AS mac_ont_in')
-            )
-            ->where('wo_no', $wo_no)
-            ->get()
-            ->toArray(); // Konversi hasil query ke array
+        // $ftth_material = DB::table('ftth_ib_materials')
+        //     ->where('wo_no', $wo_no)
+        //     ->select('wo_no','installation_date','status_item')
+        //     ->get()
+        //     ->toArray(); // Konversi hasil query ke array
 
-        // Fungsi untuk menggabungkan data dari beberapa array menjadi satu array
-        function mergeFtthMaterials($materials) {
-            $result = [];
+        $ftth_ib_material = DB::table('ftth_ib_materials')
+                ->select(
 
-            foreach ($materials as $material) {
-                foreach ($material as $key => $value) {
-                    // Jika key belum ada di $result atau nilainya masih null, isi dengan data baru
-                    if (!isset($result[$key]) || $result[$key] === null) {
-                        $result[$key] = $value;
-                    }
-                }
-            }
-
-            return $result;
-        }
-
-        // Gabungkan data ftth_material menjadi satu array
-        $mergedMaterial = mergeFtthMaterials($ftth_material);
+                    'id',
+                    'status_item',
+                    'item_code',
+                    'description',
+                    'qty',
+                    'sn',
+                    'mac_address',
+                )
+                ->where('wo_no', $wo_no)
+                ->get();
 
         // Mengirimkan response JSON
         return response()->json([
             'data' => $datas,
             'callsign_tims' => $callsign_tims,
             'callsign_leads' => $callsign_leads,
-            'ftth_material' => $mergedMaterial,
+            'ftth_ib_material' => $ftth_ib_material,
             'assignTim' => $assignTim,
             'teknisiOn' => $teknisiOn,
         ]);
@@ -433,6 +416,7 @@ class MonitFtthIB_Controller extends Controller
             'nama_cust' => $request['custNameShow'],
             'cust_address1' => $request['custAddressShow'],
             'kode_fat' => $request['fatCodeShow'],
+            'port_fat' => $request['portFATProgress'],
             'cluster' => $request['areaShow'],
             'branch' => $request['branchShow'],
             'penagihan' => $request['penagihanShow'],
@@ -440,6 +424,9 @@ class MonitFtthIB_Controller extends Controller
             'slot_time_leader' => $request['slotTimeLeaderShow'],
             'slot_time_apk' => $request['slotTimeAPKShow'],
             'sesi' => $request['sesiShow'],
+            'waktu_instalasi' => $request['waktuInstallation'],
+            'selisih_menit' => $request['statusCheckinMenit'],
+            'status_checkin' => $request['statusCheckin'],
             'leader' => $leader,
             'leadcall' => $leadcall,
             'callsign' => $callsign,
@@ -460,9 +447,11 @@ class MonitFtthIB_Controller extends Controller
             'reason_status' => $request['reasonStatus'],
             'remarks_teknisi' => $request['remarksTeknisi'],
             'weather' => $request['weatherShow'],
-            'checkin_apk' => $request['checkinApkShow'],
-            'checkout_apk' => $request['checkoutApkShow'],
+            'checkin_apk' => $request['tglCheckinApk'],
+            'checkout_apk' => $request['tglCheckoutApk'],
             'status_apk' => $request['statusWoApk'],
+            'qty_material_out' => $request['materialOut'],
+            'qty_material_in' => $request['materialIn'],
             'wo_date_apk' => $request['WoDateShow'],
             'ont_merk_out' => $request['ont_merk_out'],
             'ont_sn_out' => $request['snOntOut'],
@@ -486,6 +475,8 @@ class MonitFtthIB_Controller extends Controller
             'alasan_cancel' => $request['alasanCancel'],
             'validasi_start' => $request['validasi_start'],
             'validasi_end' => $request['validasi_end'],
+            'start_regist' => $request['start_regist'],
+            'end_regist' => $request['end_regist'],
             'respon_konf_cst' => $request['respon_konf_cst'],
             'jawaban_konf_cst' => $request['jawaban_konf_cst'],
             'permintaan_reschedule' => $request['permintaan_reschedule'],

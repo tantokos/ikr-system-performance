@@ -122,10 +122,12 @@ class Import_DataWoController extends Controller
 
             $akses = Auth::user()->id . "|" . Auth::user()->name;
 
+
             // $dtJadwal = DB::table('employees as e')->select('vj.tgl','vj.nik_karyawan','e.nama_karyawan')
             //                     ->leftJoin('v_rekap_jadwal_data as vj', 'e.nik_karyawan','=','vj.nik_karyawan')
             //                     ->where('e.status_active','=','Aktif')                                
             //                     ->whereIn('vj.status', ["ON","OD"])->get();
+
                                 // ->where('vj.tgl', $tanggal)
                                 // ->first();
             $dtKry = DB::table('employees as e')->select('e.nik_karyawan','e.nama_karyawan')
@@ -878,6 +880,7 @@ class Import_DataWoController extends Controller
                                     'callsign_id', 'tek1_nik', 'teknisi1', 'tek2_nik', 'teknisi2',
                                     'tek3_nik', 'teknisi3', 'tek4_nik', 'teknisi4'
                                 ]);
+
                         }
 
                         dd($callsignAssign);
@@ -889,6 +892,7 @@ class Import_DataWoController extends Controller
                                 ['callsign', 'leadcall_id', 'leadcall', 'leader_id', 'leader',
                                     'callsign_id', 'tek1_nik', 'teknisi1', 'tek2_nik', 'teknisi2',
                                     'tek3_nik', 'teknisi3', 'tek4_nik', 'teknisi4'
+
                                 ]);
                         }
                         dd($dtImportCallsignIb);

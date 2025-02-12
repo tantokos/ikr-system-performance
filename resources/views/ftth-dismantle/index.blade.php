@@ -797,6 +797,22 @@
                                                         </div>
                                                     </div>
 
+                                                    <div class="form-group mb-1">
+                                                        <div class="row">
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">Checkin Aplikasi</span>
+                                                                <input class="form-control form-control-sm" type="text" value="" id="tglCheckinApk" name="tglCheckinApk"
+                                                                    style="border-color:#9ca0a7;">
+                                                            </div>
+
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">Checkout Aplikasi</span>
+                                                                <input class="form-control form-control-sm" type="text" value="" id="tglCheckoutApk" name="tglCheckoutApk"
+                                                                    style="border-color:#9ca0a7;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Status WO</span>
@@ -809,72 +825,18 @@
                                                                 <option value="Cancel">Cancel</option>
                                                             </select>
                                                         </div>
-                                                    </div>
-
-                                                    <div class="form-group mb-1">
-                                                        <div class="row">
-                                                            <div class="col form-group mb-1">
-                                                                <span class="text-xs">Penagihan</span>
-                                                                <select class="form-control form-control-sm"
-                                                                    type="text" id="penagihanShow"
-                                                                    name="penagihanShow" style="border-color:#9ca0a7;">
-                                                                    <option value="" disabled selected>Pilih Penagihan</option>
-                                                                    <option value="Migrasi Dw To Precon">Migrasi Dw To Precon</option>
-                                                                    <option value="Replace Precon To Precon">Replace Precon To Precon</option>
-                                                                    <option value="No Customer">No Customer</option>
-                                                                    <option value="Connector">Connector</option>
-                                                                    <option value="Cancel by Dispatcher">Cancel by Dispatcher</option>
-                                                                    <option value="Reconfig">Reconfig</option>
-                                                                    <option value="ONT">ONT</option>
-                                                                    <option value="Bad Cable Splice">Bad Cable Splice</option>
-                                                                    <option value="Reschedule">Reschedule</option>
-                                                                    <option value="STB">STB</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="form-group mb-1">
-                                                        <div class="row">
-                                                            <div class="col form-group mb-1">
-                                                                <span class="text-xs">Tanggal Penjadwalan
-                                                                    Ulang</span>
-                                                                <input class="form-control form-control-sm" type="date"
-                                                                    id="tglReschedule" name="tglReschedule"
-                                                                    style="border-color:#9ca0a7;">
-                                                            </div>
-                                                            <div class="col form-group mb-1">
-                                                                <span class="text-xs">Jam Penjadwalan Ulang</span>
-                                                                <select class="form-control form-control-sm"
-                                                                    type="text" id="jamReschedule"
-                                                                    name="jamReschedule" style="border-color:#9ca0a7;">
-                                                                    <option value="">Pilih Slot Time</option>
-                                                                    <option value="09:00">09:00</option>
-                                                                    <option value="09:30">09:30</option>
-                                                                    <option value="10:00">10:00</option>
-                                                                    <option value="10:30">10:30</option>
-                                                                    <option value="11:00">11:00</option>
-                                                                    <option value="11:30">11:30</option>
-                                                                    <option value="12:00">12:00</option>
-                                                                    <option value="12:30">12:30</option>
-                                                                    <option value="13:00">13:00</option>
-                                                                    <option value="13:30">13:30</option>
-                                                                    <option value="14:00">14:00</option>
-                                                                    <option value="14:30">14:30</option>
-                                                                    <option value="15:00">15:00</option>
-                                                                    <option value="15:30">15:30</option>
-                                                                    <option value="16:00">16:00</option>
-                                                                    <option value="16:30">16:30</option>
-                                                                    <option value="17:00">17:00</option>
-                                                                    <option value="17:30">17:30</option>
-                                                                    <option value="18:00">18:00</option>
-                                                                    <option value="18:30">18:30</option>
-                                                                    <option value="19:00">19:00</option>
-                                                                    <option value="19:30">19:30</option>
-                                                                    <option value="20:00">20:00</option>
-                                                                </select>
-                                                            </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Status WO Aplikasi</span>
+                                                            <select class="form-control form-control-sm" type="text" id="statusWoApk" name="statusWoApk"
+                                                                style="border-color:#9ca0a7;">
+                                                                <option value="">Pilih Status WO</option>
+                                                                <option value="Requested">Requested</option>
+                                                                <option value="Checkin">Checkin</option>
+                                                                <option value="Checkout">Checkout</option>
+                                                                <option value="Done">Done</option>
+                                                                <option value="Pending">Pending</option>
+                                                                <option value="Cancelled">Cancelled</option>
+                                                            </select>
                                                         </div>
                                                     </div>
 
@@ -975,36 +937,85 @@
                                                     </div>
 
                                                     <div class="col form-group mb-1">
-                                                        <span class="text-xs">Status WO Aplikasi</span>
-                                                        <select class="form-control form-control-sm" type="text"
-                                                            id="statusWoApk" name="statusWoApk"
-                                                            style="border-color:#9ca0a7;">
-                                                            <option value="">Pilih Status WO</option>
-                                                            <option value="Requested">Requested</option>
-                                                            <option value="Checkin">Checkin</option>
-                                                            <option value="Checkout">Checkout</option>
-                                                            <option value="Done">Done</option>
-                                                            <option value="Pending">Pending</option>
-                                                            <option value="Cancelled">Cancelled</option>
-                                                        </select>
+                                                        <div class="row">
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">Status Checkin</span>
+                                                                <input class="form-control form-control-sm" type="text" id="statusCheckin" name="statusCheckin"
+                                                                    style="border-color:#9ca0a7;" readonly>
+                                                            </div>
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">+/- Menit</span>
+                                                                <input class="form-control form-control-sm" type="text" id="statusCheckinMenit" name="statusCheckinMenit"
+                                                                    style="border-color:#9ca0a7;" readonly>
+                                                            </div>
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">Waktu Instalasi</span>
+                                                                <span class="text-danger">*</span>
+                                                                <input class="form-control form-control-sm" type="text" id="waktuInstallation" name="waktuInstallation"
+                                                                    style="border-color:#9ca0a7;" readonly>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
                                                     <div class="form-group mb-1">
                                                         <div class="row">
                                                             <div class="col form-group mb-1">
-                                                                <span class="text-xs">Checkin Aplikasi</span>
-                                                                <input class="form-control form-control-sm" type="text"
-                                                                    value="" id="tglCheckinApk"
-                                                                    name="tglCheckinApk"
+                                                                <span class="text-xs">Penagihan</span>
+                                                                <select class="form-control form-control-sm" type="text" id="penagihanShow" name="penagihanShow"
+                                                                    style="border-color:#9ca0a7;">
+                                                                    <option value="" disabled selected>Pilih Penagihan</option>
+                                                                    <option value="Migrasi Dw To Precon">Migrasi Dw To Precon</option>
+                                                                    <option value="Replace Precon To Precon">Replace Precon To Precon</option>
+                                                                    <option value="No Customer">No Customer</option>
+                                                                    <option value="Connector">Connector</option>
+                                                                    <option value="Cancel by Dispatcher">Cancel by Dispatcher</option>
+                                                                    <option value="Reconfig">Reconfig</option>
+                                                                    <option value="ONT">ONT</option>
+                                                                    <option value="Bad Cable Splice">Bad Cable Splice</option>
+                                                                    <option value="Reschedule">Reschedule</option>
+                                                                    <option value="STB">STB</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group mb-1">
+                                                        <div class="row">
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">Tanggal Penjadwalan
+                                                                    Ulang</span>
+                                                                <input class="form-control form-control-sm" type="date" id="tglReschedule" name="tglReschedule"
                                                                     style="border-color:#9ca0a7;">
                                                             </div>
-
                                                             <div class="col form-group mb-1">
-                                                                <span class="text-xs">Checkout Aplikasi</span>
-                                                                <input class="form-control form-control-sm" type="text"
-                                                                    value="" id="tglCheckoutApk"
-                                                                    name="checkout_apk"
+                                                                <span class="text-xs">Jam Penjadwalan Ulang</span>
+                                                                <select class="form-control form-control-sm" type="text" id="jamReschedule" name="jamReschedule"
                                                                     style="border-color:#9ca0a7;">
+                                                                    <option value="">Pilih Slot Time</option>
+                                                                    <option value="09:00">09:00</option>
+                                                                    <option value="09:30">09:30</option>
+                                                                    <option value="10:00">10:00</option>
+                                                                    <option value="10:30">10:30</option>
+                                                                    <option value="11:00">11:00</option>
+                                                                    <option value="11:30">11:30</option>
+                                                                    <option value="12:00">12:00</option>
+                                                                    <option value="12:30">12:30</option>
+                                                                    <option value="13:00">13:00</option>
+                                                                    <option value="13:30">13:30</option>
+                                                                    <option value="14:00">14:00</option>
+                                                                    <option value="14:30">14:30</option>
+                                                                    <option value="15:00">15:00</option>
+                                                                    <option value="15:30">15:30</option>
+                                                                    <option value="16:00">16:00</option>
+                                                                    <option value="16:30">16:30</option>
+                                                                    <option value="17:00">17:00</option>
+                                                                    <option value="17:30">17:30</option>
+                                                                    <option value="18:00">18:00</option>
+                                                                    <option value="18:30">18:30</option>
+                                                                    <option value="19:00">19:00</option>
+                                                                    <option value="19:30">19:30</option>
+                                                                    <option value="20:00">20:00</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1767,7 +1778,7 @@
                     $('#portFatShow').val(dtDis.port_fat);
                     $('#remarkStatus').val(toTitleCase(dtDis.remarkStatus || ""));
                     $('#branchShow').val(dtDis.main_branch);
-                    $('#tglProgressShow').val(dtDis.visit_date);
+                    $('#tglProgressStatusShow').val(dtDis.visit_date);
                     $('#sesiShow').val(toTitleCase(dtDis.sesi || ""));
                     $('#slotTimeLeaderShow').val(dtDis.slot_time_leader);
                     $('#slotTimeLeaderStatusShow').val(dtDis.slot_time_leader);
@@ -1781,6 +1792,7 @@
                     $('#penagihanShow').val(dtDis.penagihan);
                     $('#tglCheckinApk').val(dtDis.checkin_apk);
                     $('#tglCheckoutApk').val(dtDis.checkout_apk);
+                    $('#tglProgressStatusShow').trigger("change");
                     $('#teknisi1Show').val(toTitleCase(dtDis.teknisi1 || ""));
                     $('#teknisi2Show').val(toTitleCase(dtDis.teknisi2 || ""));
                     $('#teknisi3Show').val(toTitleCase(dtDis.teknisi3 || ""));
@@ -1828,6 +1840,52 @@
                 }
             });
         });
+
+        $(document).on('change', '#tglProgressStatusShow', function (e) {
+            tgl = $('#tglProgressStatusShow').val();
+            jm = $('#slotTimeAPKStatusShow').val();
+            status = "";
+
+            tglJmCheckin = new Date($('#tglCheckinApk').val());
+            tglJmCheckOut = new Date($('#tglCheckoutApk').val());
+            tglJmSlotTime = new Date(tgl.concat(" ", jm));
+
+            const timeDistance = (date1, date2) => {
+                let distance = Math.abs(date1 - date2);
+                const hours = Math.floor(distance / 3600000);
+                distance -= hours * 3600000;
+                const minutes = Math.floor(distance / 60000);
+                distance -= minutes * 60000;
+                const seconds = Math.floor(distance / 1000);
+                return `${hours}:${('0' + minutes).slice(-2)}:${('0' + seconds).slice(-2)}`;
+            };
+
+            if (!isNaN(tglJmCheckin)) {
+                stat = (tglJmCheckin - tglJmSlotTime) / 60000;
+
+                if (stat < -15) {
+                    status = "Lebih Awal"
+                } else if (stat <= -1 && stat >= -15) {
+                    status = "On Time"
+                } else if (stat > 0) {
+                    status = "Terlambat"
+                }
+
+            } else {
+                stat = 0;
+            }
+
+            if (!isNaN(tglJmCheckOut) && !isNaN(tglJmCheckin)) {
+                wktInstall = timeDistance(tglJmCheckOut, tglJmCheckin);
+            } else {
+                wktInstall = "0"
+            }
+
+            $('#statusCheckin').val(status);
+            $('#statusCheckinMenit').val(stat.toFixed(0));
+            $('#waktuInstallation').val(wktInstall);
+
+        })
 
         $(document).on('click', '#detail-material', function(e) {
             // e.preventDefault();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\MaterialIbImport;
 use App\Imports\MaterialImport;
+use App\Models\FtthIbMaterial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -91,6 +92,28 @@ class ImportIbMaterialController extends Controller
 
                 DB::beginTransaction();
                 try {
+                    $doubleImport = [];
+
+                    foreach ($importedData as $data) {
+                        // Cek apakah data WO ada sama / pernah di import sebelumnya
+                        $cekDoubleImport = DB::table('ftth_ib_materials')
+                                    ->where('wo_no',$data->wo_no)
+                                    // ->where('installation_date', $data->installation_date)
+                                    ->first();
+
+                        // kumpulkan no wo yg sama /pernah di import sebelumnya
+                        if($cekDoubleImport) {
+                            array_push($doubleImport,  $data->wo_no);
+                        }
+                    }
+
+                    //cek jumlah wo yg sama, dan langsung di hapus
+                    if(count($doubleImport) > 0) {
+                        $deleteDtMaterial = FtthIbMaterial::whereIn('wo_no', $doubleImport)
+                        // ->where('installation_date', $data->installation_date)
+                        ->delete();
+                    }
+
                     foreach ($importedData as $data) {
                         // Cek apakah data dengan wo_no dan installation_date yang sama sudah ada
 
