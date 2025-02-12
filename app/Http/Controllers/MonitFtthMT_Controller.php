@@ -143,7 +143,7 @@ class MonitFtthMT_Controller extends Controller
                     count(if(status_wo="Pending",1,null)) as pending,
                     count(if(status_wo="Cancel",1,null)) as cancel,
                     count(if(status_wo="Checkin",1,null)) as checkin,
-                    count(if(status_wo="Requested",1,null)) as requested ')
+                    count(if((status_wo="Requested") || (status_wo is null),1,null)) as requested ')
                 )->get();
 
         return response()->json($datas);
@@ -214,20 +214,25 @@ class MonitFtthMT_Controller extends Controller
             }
             if($request->filslotTime != null) {
                 $datas = $datas->where('slot_time', $request->filslotTime);
-            }
+            }            
 
             if ($request->filGroup != null) {
                 $group = $request->filGroup;
 
-                if ($group == 'Jakarta') {
+                $grupArea = DB::table('branches')->select('grup_area', 'nama_branch')
+                            ->where('grup_area', $group)->get();
+
+                $datas = $datas->whereIn('branch', $grupArea->pluck('nama_branch'));
+
+                // if ($group == 'Jakarta') {
                     // Area yang termasuk dalam grup Jabota
-                    $jakartaAreas = ['Jakarta Timur', 'Jakarta Selatan', ];
-                    $datas = $datas->whereIn('branch', $jakartaAreas);
-                } elseif ($group == 'Regional') {
+                    // $jakartaAreas = ['Jakarta Timur', 'Jakarta Selatan', ];
+                    // $datas = $datas->whereIn('branch', $jakartaAreas));
+                // } elseif ($group == 'Regional') {
                     // Area yang termasuk dalam grup Regional
-                    $regionalAreas = ['Bogor', 'Tangerang', 'Bali', 'Bekasi', 'Jambi', 'Medan', 'Palembang', 'Pontianak', 'Pangkal Pinang'];
-                    $datas = $datas->whereIn('branch', $regionalAreas);
-                }
+                    // $regionalAreas = ['Bogor', 'Tangerang', 'Bali', 'Bekasi', 'Jambi', 'Medan', 'Palembang', 'Pontianak', 'Pangkal Pinang'];
+                    // $datas = $datas->whereIn('branch', $regionalAreas);
+                // }
             }
 
             $datas = $datas->get();
@@ -263,6 +268,8 @@ class MonitFtthMT_Controller extends Controller
                         data-id="' . $row->id . '"
                         class="btn btn-sm btn-secondary detail-material mb-0 tooltip-info" data-rel="tooltip" title="Detail Material">
                         <svg width="18" height="18" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>Detail Material</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-102.000000, -777.000000)" fill="#ffffff"> <path d="M119,797 L130,797 L130,799 L119,799 L119,807 L117,807 L117,799 L106,799 L106,797 L117,797 L117,789 L104,789 L104,805 C104,807.209 105.791,809 108,809 L128,809 C130.209,809 132,807.209 132,805 L132,789 L119,789 L119,797 L119,797 Z M121,783 C119.896,783 119,782.104 119,781 C119,779.896 119.896,779 121,779 C122.104,779 123,779.896 123,781 C123,782.104 122.104,783 121,783 L121,783 Z M115,783 C113.896,783 113,782.104 113,781 C113,779.896 113.896,779 115,779 C116.104,779 117,779.896 117,781 C117,782.104 116.104,783 115,783 L115,783 Z M132,783 L124.445,783 C124.789,782.41 125,781.732 125,781 C125,778.791 123.209,777 121,777 C119.798,777 118.733,777.541 118,778.38 C117.267,777.541 116.202,777 115,777 C112.791,777 111,778.791 111,781 C111,781.732 111.211,782.41 111.555,783 L104,783 C102.896,783 102,783.896 102,785 L102,787 L134,787 L134,785 C134,783.896 133.104,783 132,783 L132,783 Z" id="present" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
+
+                        <span class="badge text-bg-danger text-white"></span>
                     </a>';
                     return $btn;
                 })
@@ -301,7 +308,8 @@ class MonitFtthMT_Controller extends Controller
         $teknisiOn = DB::table('v_rekap_jadwal_data as vj')
                     ->leftJoin('employees as e','vj.nik_karyawan','=','e.nik_karyawan')
                     ->whereDate('vj.tgl', $datas->tgl_ikr)
-                    ->where('e.posisi', 'like','%Teknisi%')
+                    // ->where('e.posisi', 'like','%Teknisi%')
+                    ->whereRaw('(e.posisi like "%Teknisi%" or e.posisi like "%Leader%")')
                     ->whereIn('vj.status', ["ON","OD"])
                     ->select('vj.nik_karyawan', 'e.nama_karyawan')
                     ->orderBy('e.nama_karyawan')->get();
@@ -316,20 +324,20 @@ class MonitFtthMT_Controller extends Controller
             ->toArray(); // Konversi hasil query ke array
 
         // Fungsi untuk menggabungkan data dari beberapa array menjadi satu array
-        function mergeFtthMaterials($materials) {
-            $result = [];
+        // function mergeFtthMaterials($materials) {
+        //     $result = [];
 
-            foreach ($materials as $material) {
-                foreach ($material as $key => $value) {
-                    // Jika key belum ada di $result atau nilainya masih null, isi dengan data baru
-                    if (!isset($result[$key]) || $result[$key] === null) {
-                        $result[$key] = $value;
-                    }
-                }
-            }
+        //     foreach ($materials as $material) {
+        //         foreach ($material as $key => $value) {
+        //             // Jika key belum ada di $result atau nilainya masih null, isi dengan data baru
+        //             if (!isset($result[$key]) || $result[$key] === null) {
+        //                 $result[$key] = $value;
+        //             }
+        //         }
+        //     }
 
-            return $result;
-        }
+        //     return $result;
+        // }
 
         // Gabungkan data ftth_material menjadi satu array
         // $mergedMaterial = mergeFtthMaterials($ftth_material);
@@ -525,72 +533,97 @@ class MonitFtthMT_Controller extends Controller
         DB::beginTransaction();
         try {
             $updateFtthMt = $ftthMt->update([
-                'pic_monitoring' => $pic,
-                'type_wo' => $request['jenisWoShow'],
-                'no_wo' => $request['noWoShow'],
-                'no_ticket' => $request['ticketNoShow'],
-                'cust_id' => $request['custIdShow'],
-                'nama_cust' => $request['custNameShow'],
-                'cust_address1' => $request['custAddressShow'],
+                // 'no_wo' => $request['noWoShow'],
+                // 'no_ticket' => $request['ticketNoShow'],
+                // 'cust_id' => $request['custIdShow'],
+                // 'nama_cust' => $request['custNameShow'],
+                'pic_monitoring' => $pic, //1
+                'type_wo' => $request['jenisWoShow'], //1
+                'wo_date_apk' => $request['WoDateShow'], //1
+                'branch' => $request['branchShow'], //1
+                'kotamadya' => $request['kotamadyaShow'], //1
+                'cluster' => $request['cluster'],  //1
+                'kotamadya_penagihan' => $request['kotaPenagihanShow'], //1
+                'site_penagihan' => $request['sitePenagihan'], //1
+                'sesi' => $request['sesiDetShow'], //1
+                'callsign_id' => $callsign_id, //1
+                'callsign' => $callsign,  //1
+                'leadcall_id' => $leadcall_id, //1
+                'leadcall' => $leadcall, //1
+                'leader_id' => $leader_id, //1
+                'leader' => $leader, //1
+                'tek1_nik' => $tek1_nik, //1
+                'tek2_nik' => $tek2_nik, //1
+                'tek3_nik' => $tek3_nik, //1
+                'tek4_nik' => $tek4_nik, //1
+                'teknisi1' => $teknisi1, //1
+                'teknisi2' => $teknisi2, //1
+                'teknisi3' => $teknisi3, //1
+                'teknisi4' => $teknisi4, //1
+                'slot_time_leader' => $request['slotTimeAPKStatusShow'], //1
+                'slot_time_apk' => $request['slotTimeAPKStatusShow'], //1
+                'checkin_apk' => $request['tglCheckinApk'], //1
+                'checkout_apk' => $request['tglCheckoutApk'], //1
+                'status_apk' => $request['statusWoApk'], //1
+                'status_wo' => $request['statusWo'], //1
+                'couse_code' => $request['causeCode'],  //1
+                'root_couse' => $request['rootCause'], //1
+                'action_taken' => $request['actionTaken'], //1
+                'penagihan' => $request['penagihanShow'], //1
+                'keterangan' => $request['reportTeknisi'], //1
+                'minute' => $request['statusCheckinMenit'], //1
+                'status_checkin' => $request['statusCheckin'], //1
+                'waktu_installation' => $request['waktuInstallation'], //1
+                'visit_novisit' => $request['statusVisit'], //1
+                'action_status' => $request['actionStatus'], //1
+                'bad_precon' => $request['preconBad'], //1
+                'tgl_reschedule' => $request['tglReschedule'], //11
+                'tgl_jam_reschedule' => $request['tglJamReschedule'], //1
+                'permintaan_rsch' => $request['permintaanReschedule'], //1
+                'respon_cst' => $request['responKonfCst'], //1
+                'jawaban_cst' => $request['jwbKonfCst'], //1
+                'weather' => $request['weatherShow'], //1
+                'dispatch' => $request['picDispatch'], //1
+                'telp_dispatch' => $request['telpDispatch'], //1
+                'detail_alasan' => $request['detailAlasan'], //1
+                'validasi_start' => $request['validasiStart'], //1
+                'validasi_end' => $request['validasiEnd'], //1
+                'regist_start' => $request['registStart'], //1
+                'regist_end' => $request['registEnd'], //1
+                'kode_otp' => $request['kodeOtp'], //1
+                'cek_telebot' => $request['cekTelebot'], //1
+                'hasil_cek_telebot' => $request['hasilCekTelebot'], //1
+                'mttr_all' => $request['mttrAll'], //1
+                'mttr_pending' => $request['mttrPending'], //1
+                'mttr_progress' => $request['mttrProgress'], //1
+                'mttr_teknisi' => $request['mttrTeknisi'],  //1
+                'sla_over' => $request['slaOver'], //1
+                'material_out' => $request['materialOut'], //1
+                'material_in' => $request['materialIn'], //1          
+                'is_checked' => $request['is_checked'], //1
+                'login_id' => $aksesId,
+                'login' => $akses,
+                
+                
+                // 'cust_address1' => $request['custAddressShow'],
                 // 'cust_address2' => $request[''],
                 // 'type_maintenance' => $request['remarkStatus'],
-                'kode_fat' => $request['fatCodeShow'],
+                // 'kode_fat' => $request['fatCodeShow'],
                 // 'kode_wilayah' => $request[''],
-                'cluster' => $request['cluster'],
-                // 'kotamadya' => $request[''],
-                // 'kotamadya_penagihan' => $request[''],
-                'branch' => $request['branchShow'],
-                'tgl_ikr' => $request['tglProgressAPKShow'],
-                'slot_time_leader' => $request['slotTimeAPKStatusShow'],
-                'slot_time_apk' => $request['slotTimeAPKStatusShow'],
-
-
-                'sesi' => $request['sesiDetShow'],
+                // 'tgl_ikr' => $request['tglProgressAPKShow'],
                 // 'remark_traffic' => $request[''],
-                'callsign' => $callsign,
-                'leader' => $leader,
-                'teknisi1' => $teknisi1,
-                'teknisi2' => $teknisi2,
-                'teknisi3' => $teknisi3,
-                'teknisi4' => $teknisi4,
-                'status_wo' => $request['statusWo'],
-                'couse_code' => $request['causeCode'],
-                'root_couse' => $request['rootCause'],
-                'action_taken' => $request['actionTaken'],
-                'penagihan' => $request['penagihanShow'],
-                'alasan_tag_alarm' => $request['alasanTidakGantiPrecon'],
-                'tgl_reschedule' => $request['tglReschedule'],
-                'tgl_jam_reschedule' => $request['tglJamReschedule'],
-                'alasan_pending' => $request['alasan_pending'],
-                'permintaan_rsch' => $request['permintaanReschedule'],
-                'respon_cst' => $request['responKonfCst'],
-                'jawaban_cst' => $request['jwbKonfCst'],
-                'alasan_cancel' => $request['alasan_cancel'],
-                'dispatch' => $request['picDispatch'],
-                'telp_dispatch' => $request['telpDispatch'],
-                'start_ikr_wa' => $request['statusStartIkrWa'],
-                'end_ikr_wa' => $request['statusEndIkrWa'],
-                'foto_rumah' => $request['fotoRumah'],
-                'foto_selfie' => $request['fotoSelfie'],                
-                'validasi_start' => $request['validasiStart'],
-                'validasi_end' => $request['validasiEnd'],
-                'regist_start' => $request['registStart'],
-                'regist_end' => $request['registEnd'],
-                'cek_telebot' => $request['cekTelebot'],
-                'hasil_cek_telebot' => $request['hasilCekTelebot'],
-                'kondisi_fat' => $request['kondisiFat'],
+                // 'alasan_tag_alarm' => $request['alasanTidakGantiPrecon'],                
+                // 'alasan_pending' => $request['alasan_pending'],
+                // 'start_ikr_wa' => $request['statusStartIkrWa'],
+                // 'end_ikr_wa' => $request['statusEndIkrWa'],
+                // 'foto_rumah' => $request['fotoRumah'],
+                // 'foto_selfie' => $request['fotoSelfie'],
+                // 'kondisi_fat' => $request['kondisiFat'],
                 // 'tgl_jam_fat_on' => $request[''],
                 // 'panjang_kabel' => $request[''],
-                'weather' => $request['weatherShow'],
-                'remark_status' => $request['statusPrecon'],
-                'action_status' => $request['actionStatus'],
-                'visit_novisit' => $request['statusVisit'],
-                'checkin_apk' => $request['tglCheckinApk'],
-                'checkout_apk' => $request['tglCheckoutApk'],
-                'status_apk' => $request['statusWoApk'],
-                'keterangan' => $request['reportTeknisi'],
-                'ms_regular' => "Manage Service",
-                'wo_date_apk' => $request['WoDateShow'],
+                // 'remark_status' => $request['statusPrecon'],
+                // 'ms_regular' => "Manage Service",
+                
                 // 'wo_date_mail_reschedule' => $request[''],
                 // 'wo_date_slot_time_apk' => $request[''],
                 // 'actual_sla_wo_minute_apk' => $request[''],
@@ -604,52 +637,44 @@ class MonitFtthMT_Controller extends Controller
                 // 'slot_time_apk_delay' => $request[''],
                 // 'ket_delay_slot_time' => $request[''],
                 // 'konfirmasi_customer' => $request[''],
-                'ont_merk_out' => $request['ont_merk_out'],
-                'ont_sn_out' => $request['snOntOut'],
+                // 'ont_merk_out' => $request['ont_merk_out'],
+                // 'ont_sn_out' => $request['snOntOut'],
                 // 'ont_mac_out' => $request[''],
-                'ont_merk_in' => $request['merkOntIn'],
+                // 'ont_merk_in' => $request['merkOntIn'],
                 // 'ont_sn_in' => $request[''],
-                'ont_mac_in' => $request['macOntIn'],
+                // 'ont_mac_in' => $request['macOntIn'],
                 // 'router_merk_out' => $request[''],
-                'router_sn_out' => $request['snRouterOut'],
-                'router_mac_out' => $request['macRouterOut'],
-                'router_merk_in' => $request['merkRouterIn'],
-                'router_sn_in' => $request['snRouterIn'],
-                'router_mac_in' => $request['macRouterIn'],
-                'stb_merk_out' => $request['merkStbOut'],
-                'stb_sn_out' => $request['snStbOut'],
-                'stb_mac_out' => $request['macStbOut'],
-                'stb_merk_in' => $request['merkStbIn'],
-                'stb_sn_in' => $request['snStbIn'],
-                'stb_mac_in' => $request['macStbIn'],
+                // 'router_sn_out' => $request['snRouterOut'],
+                // 'router_mac_out' => $request['macRouterOut'],
+                // 'router_merk_in' => $request['merkRouterIn'],
+                // 'router_sn_in' => $request['snRouterIn'],
+                // 'router_mac_in' => $request['macRouterIn'],
+                // 'stb_merk_out' => $request['merkStbOut'],
+                // 'stb_sn_out' => $request['snStbOut'],
+                // 'stb_mac_out' => $request['macStbOut'],
+                // 'stb_merk_in' => $request['merkStbIn'],
+                // 'stb_sn_in' => $request['snStbIn'],
+                // 'stb_mac_in' => $request['macStbIn'],
                 // 'dw_out' => $request[''],
-                'precon_out' => $request['kabelPrecon'],
-                // 'bad_precon' => $request[''],
-                'fastcon_out' => $request['fastConnector'],
-                'patchcord_out' => $request['patchCord'],
+                // 'precon_out' => $request['kabelPrecon'],                
+                // 'fastcon_out' => $request['fastConnector'],
+                // 'patchcord_out' => $request['patchCord'],
                 // 'terminal_box' => $request[''],
                 // 'remote_fiberhome' => $request[''],
                 // 'remote_extrem' => $request[''],
                 // 'port_fat' => $request[''],
-                'site_penagihan' => $request['sitePenagihan'],
+                
                 // 'konfirmasi_penjadwalan' => $request[''],
                 // 'konfirmasi_cst' => $request[''],
                 // 'konfirmasi_dispatch' => $request[''],
                 // 'remark_status2' => $request[''],
                 // 'wo_type_apk' => $request[''],
                 // 'branch_id' => $request[''],
-                'leadcall' => $leadcall,
-                'tek1_nik' => $tek1_nik,
-                'tek2_nik' => $tek2_nik,
-                'tek3_nik' => $tek3_nik,
-                'tek4_nik' => $tek4_nik,
-                'leadcall_id' => $leadcall_id,
-                'leader_id' => $leader_id,
-                'callsign_id' => $callsign_id,
+                
+                
+                
                 // 'alasan_tidak_ganti_precon' => $request['alasan_tidak_ganti_precon'],
-                'is_checked' => $request['is_checked'],
-                'login_id' => $aksesId,
-                'login' => $akses,
+                
             ]);
 
             $assignTim = $assignTim->update([

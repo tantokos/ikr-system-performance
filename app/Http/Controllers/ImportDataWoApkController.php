@@ -11,11 +11,31 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Arr;
 
 class ImportDataWoApkController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // dd($request->all() == null);
+        if($request->areaFill != null) {
+            $area = explode("|", $request->areaFill);
+            $filArea = $area[1];
+        }
+
+        if($request->areagroup != null) {
+            $grupArea = DB::table('branches')->select('grup_area', 'nama_branch')
+                            ->where('grup_area', $request->areagroup)->pluck('nama_branch')->toArray();
+
+            $filArea = Arr::join($grupArea, ', ');
+        }        
+
+        if($request->areaFill == null && $request->areagroup == null) {
+            $filArea = null;
+        }
+        
+        // dd($filArea);
+
         $akses = Auth::user()->name;
         $leadCallsign = DB::table('v_detail_callsign_tim')->select('lead_call_id', 'lead_callsign', 'leader_id', 'nama_leader', 'nama_branch')
             ->orderBy('lead_callsign')->orderBy('branch_id')
@@ -25,11 +45,16 @@ class ImportDataWoApkController extends Controller
 
         $jmlData = DB::table('import_ftth_mt_apks');
 
-        return view('monitoringWo.import_ftth_mt_apk', compact('branches', 'leadCallsign', 'akses', 'jmlData'));
+        return view('monitoringWo.import_ftth_mt_apk', compact('branches', 'leadCallsign', 'akses', 'jmlData', 'filArea'));
     }
 
     public function importProsesDataWoApk(Request $request)
     {
+
+        if($request->FilterArea != "All Area"){
+            $filArea = $request->FilterArea;
+        }
+
         if ($request->hasFile('fileDataWO')) {
 
             $request->validate([
@@ -148,15 +173,12 @@ class ImportDataWoApkController extends Controller
 
     public function storeFtthMtApk(Request $request)
     {
-        // return 'test';
+        $filArea = [];
         $akses = Auth::user()->name;
 
         switch ($request->input('action')) {
             case 'simpan':
-
-                // $importedData = DB::table('import_ftth_mt_apks')
-                //     ->get();
-
+                //get all data dari hasil import apk
                 $importedData = DB::table('import_ftth_mt_apks as apk')
                     ->leftJoin('v_rekap_assign_tim as vtim', function($join) {
                         $join->on('apk.installation_date','=','vtim.tgl_ikr');
@@ -164,8 +186,15 @@ class ImportDataWoApkController extends Controller
                     })
                     ->select('apk.*','vtim.leadcall_id','vtim.leadcall', 'vtim.leader_id', 'vtim.leader', 'vtim.callsign_id as callsignAssignId', 'vtim.callsign as callsignAssign', 
                             'vtim.tek1_nik', 'vtim.teknisi1', 'vtim.tek2_nik', 'vtim.teknisi2', 'vtim.tek3_nik', 'vtim.teknisi3', 
-                            'vtim.tek4_nik', 'vtim.teknisi4')
-                    ->get();
+                            'vtim.tek4_nik', 'vtim.teknisi4');
+
+                //tambah filter area sesuai yg dipilih user
+                if($request->FiArea != "All Area") {
+                    $listArea = explode(", ", $request->FiArea);
+                    $importedData = $importedData->whereIn('apk.area', $listArea);
+                } 
+
+                $importedData = $importedData->get();
 
                 DB::beginTransaction();
                 try {
@@ -188,6 +217,9 @@ class ImportDataWoApkController extends Controller
                             ->where('is_checked', 0)
                             ->update([
                                 'wo_date_apk' => $data->wo_date,
+                                'wo_type_apk' => $data->wo_type,
+                                'kode_fat' => $data->fat_code,
+                                'type_maintenance' => $data->remarks,
                                 // 'leadcall_id' => $data->leadcall_id,
                                 // 'leadcall' => $data->leadcall,
                                 // 'leader_id' => $data->leader_id,
@@ -210,6 +242,11 @@ class ImportDataWoApkController extends Controller
                                 'status_apk' => $data->status,
                                 'checkin_apk' => $data->check_in,
                                 'checkout_apk' => $data->check_out,
+                                'mttr_all' => $data->mttr_all,
+                                'mttr_pending' => $data->mttr_pending,
+                                'mttr_progress' => $data->mttr_progress,
+                                'mttr_teknisi' => $data->mttr_technician,
+                                'sla_over' => $data->sla_over,
                                 'login' => Auth::user()->name,
                             ]);
                     }

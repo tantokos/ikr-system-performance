@@ -135,6 +135,13 @@ class FtthMt extends Model
         'jawaban_cst',
         'telp_dispatch',
         'report_teknisi',
+        'detail_alasan',
+        'kode_otp',
+        'mttr_all',
+        'mttr_pending',
+        'mttr_progress',
+        'mttr_teknisi',
+        'sla_over',
         'is_checked',
     ];
 }

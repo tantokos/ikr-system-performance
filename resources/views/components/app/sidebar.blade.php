@@ -165,6 +165,7 @@
                 </div>
             </li>
 
+            @if (Auth::user()->name == "Tanto")
             <li class="nav-item">
                 <div class="accordion" id="monitoringWOAccordion">
                     <!-- Accordion Item: Monitoring WO -->
@@ -209,7 +210,56 @@
                             </div>
                         </div>
                     </div>
-                </div>
+
+                    <span class="nav-link-text ms-1">Monitoring WO</span>
+                </a>
+            </li>
+
+            <li class="nav-item border-start my-0 pt-2">
+                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('rekapProgressWO') ? 'active' : '' }}"
+                    href="{{ route('rekapProgressWO') }}">
+                    <span class="nav-link-text ms-1">Rekap Progress WO</span>
+                </a>
+            </li>
+
+            <li class="nav-item border-start my-0 pt-2">
+                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('monitFtthIB') ? 'active' : '' }}"
+                    href="{{ route('monitFtthIB') }}">
+                    <span class="nav-link-text ms-1">FTTH New Installation</span>
+                </a>
+            </li>
+
+         
+
+            <li class="nav-item border-start my-0 pt-2">
+                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('monitFtthMT') ? 'active' : '' }}"
+                    href="{{ route('monitFtthMT') }}">
+                    <span class="nav-link-text ms-1">FTTH Maintenance</span>
+                </a>
+            </li>
+
+            @endif
+
+            <li class="nav-item border-start my-0 pt-2">
+                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('monitFtthDismantle') ? 'active' : '' }}"
+                    href="{{ route('ftth-dismantle') }}">
+                    <span class="nav-link-text ms-1">FTTH Dismantle</span>
+                </a>
+            </li>
+
+            <li class="nav-item border-start my-0 pt-2">
+                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('fttx-ib') ? 'active' : '' }}"
+                    href="{{ route('fttx-ib') }}">
+                    <span class="nav-link-text ms-1">FTTX New Installation</span>
+                </a>
+            </li>
+
+            <li class="nav-item border-start my-0 pt-2">
+                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('fttx-mt') ? 'active' : '' }}"
+                    href="{{ route('fttx-mt') }}">
+                    <span class="nav-link-text ms-1">FTTX Maintenance</span>
+                </a>
+
             </li>
 
             <li class="nav-item">

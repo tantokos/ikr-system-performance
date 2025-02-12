@@ -200,18 +200,35 @@ class RescheduleWO_Controller extends Controller
     {
         $akses = Auth::user()->name;
         
-        $datas = DB::table('v_pending_detail');
+        // $datas = DB::table('v_pending_detail');
             // ->get();
         
         // $datas = DB::table('data_pending_reschedules')->leftJoin('')->orderBy('reschedule_date', 'DESC');
 
-            if($request->filTgl != null) {
-                $dateRange = explode("-", $request->filTgl);
-                $startDt = \Carbon\Carbon::parse($dateRange[0]);
-                $endDt = \Carbon\Carbon::parse($dateRange[1]);
+        $datas = DB::table('data_ftth_mt_oris')->where('status_wo', '=', 'Pending')
+                ->select(DB::raw('id, no_wo, cust_id, nama_cust, type_wo, kode_fat, branch, max(tgl_ikr) as tgl_ikr, slot_time_apk, callsign, tgl_reschedule,
+                tgl_jam_reschedule, teknisi1, teknisi2, teknisi3, teknisi4, detail_alasan, status_wo, couse_code'))
+                // ->where('type_wo','=','MT')
+                ->whereNotIn('no_wo', function ($p) {
+                    $p->select('no_wo')->distinct()->from('data_ftth_mt_oris as d1')->whereIn('status_wo',['Done','Cancel']);
+                })
+                // ->whereNotIn('no_wo', function ($c) {
+                //     $c->select('no_wo')->from('import_ftth_mt_temps as import2')->where('status_wo', '=', 'Cancel');
+                // })
+                ->orderBy('no_wo')
+                ->groupBy('id','no_wo','cust_id','nama_cust','type_wo','kode_fat','branch','slot_time_apk','callsign','tgl_reschedule',
+                'tgl_jam_reschedule','teknisi1','teknisi2','teknisi3','teknisi4','detail_alasan','status_wo','couse_code');
+                // ->get();
 
-                $datas = $datas->whereBetween('installation_date',[$startDt, $endDt]);
-            }
+
+
+            // if($request->filTgl != null) {
+            //     $dateRange = explode("-", $request->filTgl);
+            //     $startDt = \Carbon\Carbon::parse($dateRange[0]);
+            //     $endDt = \Carbon\Carbon::parse($dateRange[1]);
+
+            //     $datas = $datas->whereBetween('tgl_ikr',[$startDt, $endDt]);
+            // }
 
             if($request->filNoWo != null) {
                 $datas = $datas->where('wo_no', $request->filNoWo);
