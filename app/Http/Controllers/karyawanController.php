@@ -381,7 +381,7 @@ class karyawanController extends Controller
                 $dtJadwal = DB::table('data_jadwal_ikrs')->where('nik_karyawan', $request->nik)
                             ->select('branch_id','branch')->distinct()->first();
 
-                if(count($dtJadwal) > 0) 
+                if($dtJadwal != null) 
                 {
                     if($dtJadwal->branch_id != $request->area) {
                         $updateJadwal = DB::table('data_jadwal_ikrs')->where('nik_karyawan', $request->nik)

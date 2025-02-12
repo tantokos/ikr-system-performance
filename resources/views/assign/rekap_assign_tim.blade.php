@@ -89,6 +89,64 @@
                 </div>
             </div>
 
+            <div class="row" id="revisiAssignOff">
+                <div class="col-12">
+                    <div class="card border shadow-xs mb-4">
+                        <div class="card-header border-bottom pb-1 bg-danger">
+                            <div class="d-sm-flex align-items-center">
+                                <div>
+                                    <h6 class="font-weight-semibold text-lg mb-1 text-white"> <span id="titleLead">List Revisi Assign Teknisi (Off, Cuti, Sakit, Abs) </span></h6>
+                                    {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
+                                </div>
+
+                                {{-- <div class="ms-auto d-flex">
+                                    <span class="text-xs">Periode : -</span>
+                                </div> --}}
+                            </div>
+                        </div>
+
+                        <style>
+                            .wrap-kolom {word-wrap: break-word;min-width: 50px;max-width: 90px;white-space:normal;}
+                        </style>
+
+                        <div class="card-body px-2 py-2" id="tableRevisiAssign">
+                            <div class="table-responsive p-0">
+                                <table class="table table-striped table-bordered align-items-center mb-0"
+                                    id="tabelAssignTimOff" style="font-size: 12px; border-color:#9ca0a7;">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="text-xs font-weight-semibold">#</th>
+                                            <th class="text-center text-xs font-weight-semibold">Tanggal
+                                            </th>
+                                            <th class="text-center text-xs font-weight-semibold">Branch
+                                            </th>
+                                            <th class="text-center text-xs font-weight-semibold">Teknisi
+                                            </th>
+                                            <th class="text-center text-xs font-weight-semibold">Status
+                                            </th>
+                                            <th class="text-center text-xs font-weight-semibold">Callsign</th>
+                                            <th class="text-center text-xs font-weight-semibold">Teknisi 1
+                                            </th>
+                                            <th class="text-center text-xs font-weight-semibold">Teknisi 2
+                                            </th>
+                                            <th class="text-center text-xs font-weight-semibold">Teknisi 3
+                                            </th>
+                                            <th class="text-center text-xs font-weight-semibold">Teknisi 4
+                                            </th>
+                                            {{-- <th class="text-center text-xs font-weight-semibold">#</th> --}}
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabelAssignTimOffRow" style="font-weight: bold">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-12">
                     <div class="card border shadow-xs mb-4">
@@ -877,11 +935,13 @@
         });
 
         $(document).on('click', '#filAssignTim', function(e) {
+            rekap_teknisiOffdiAssign();
             rekap_assignTim();
             data_assignTim();
             stDate = $('.date-range').data('daterangepicker').startDate.format("DD-MMM-YYYY");
             enDate = $('.date-range').data('daterangepicker').endDate.format("DD-MMM-YYYY");
-            $('#periode').text("Tanggal " + stDate + " s/d " + enDate);
+            $('#periode').text("Tanggal " + stDate + " s/d " + enDate);           
+            
         })
 
         $('#filAssignTim').trigger("click");
@@ -1059,6 +1119,7 @@
                         });
                         
                         $('#rekapTim').DataTable().ajax.reload();
+                        $('#tabelAssignTimOff').DataTable().ajax.reload();
                     } else {
                         $('#modalEditAssignTim').modal('hide');
 
@@ -1170,6 +1231,109 @@
                     },
                 ]
             })
+        }
+
+        function rekap_teknisiOffdiAssign() {
+
+            $('#tabelAssignTimOff').DataTable({
+                // dom: 'Bftip',
+                layout: {
+                    topStart: {
+                        pageLength: {
+                            menu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                        } ,
+                        buttons: ['excel'],
+                    },
+                    
+                },
+                paging: true,
+                orderClasses: false,
+                // fixedColumns: true,
+                // fixedColumns: {
+                //     leftColumns: 6,
+                //     // rightColumns: 1
+                // },
+                deferRender: true,
+                scrollCollapse: true,
+                scrollX: true,
+                pageLength: 10,
+                lengthChange: true,
+                bFilter: true,
+                destroy: true,
+                processing: true,
+                serverSide: false,
+                ajax: {
+                    url: "{{ route('getTeknisiOffAssign') }}",
+                    type: "get",
+                    dataType: "json",
+                    data: {
+                        filTgl: $('#filtglProgress').val(),
+                        filNoWo: $('#filnoWo').val(),
+                        filcustId: $('#filcustId').val(),
+                        filtypeWo: $('#filtypeWo').val(),
+                        filarea: $('#filarea').val(),
+                        filleaderTim: $('#filleaderTim').val(),
+                        filcallsignTimid: $('#filcallsignTimid').val(),
+                        filteknisi: $('#filteknisi').val(),
+                        filcluster: $('#filcluster').val(),
+                        filfatCode: $('#filfatCode').val(),
+                        filslotTime: $('#filslotTime').val(),
+                        _token: _token
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_Row_Index',
+                        "className": "text-center",
+                        // orderable: false,
+                        searchable: false,
+                        "width": '10'
+                    },
+                    {
+                        data: 'tgl_ikr',
+                        'className': 'text-center',
+                        // width: '90'
+                    },
+                    {
+                        data: 'branch',
+                    },
+                    {
+                        data: 'teknisi',
+                    },
+                    {
+                        data: 'status',
+                    },
+                    {
+                        data: 'callsign',
+                    },
+                    {
+                        data: 'teknisi1',
+                    },
+                    {
+                        data: 'teknisi2',
+                    },
+                    {
+                        data: 'teknisi3',
+                    },
+                    {
+                        data: 'teknisi4',
+                    },
+                    // {
+                    //     data: 'action',
+                    //     "className": "text-center",
+                    // },
+                ],
+                drawCallback: function(settings) {
+                    var rowCount = this.api().rows().count();
+                    if(rowCount > 0) {
+                        $('#revisiAssignOff').show();
+                    } else {
+                        $('#revisiAssignOff').hide();
+                    }                    
+                }
+            })
+
+                       
         }
 
         function rekap_assignTim() {
@@ -1701,6 +1865,7 @@
                         })
 
                         $('#rekapAssignTim').DataTable().ajax.reload();
+                        $('#tabelAssignTimOff').DataTable().ajax.reload();
 
                     } else {
                         $('#modalEditAssignWo').modal('hide');    

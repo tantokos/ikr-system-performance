@@ -1017,8 +1017,7 @@
                 /\w\S*/g,
                 text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
             );
-        }
-        
+        }        
 
         $(document).on('change', '#filTahun', function() {
 
@@ -1032,6 +1031,7 @@
         })
 
         $('#filTahun').trigger("change");
+        $('#filBulan').val(new Date().getMonth() + 1);
         
         $('#tabelJadwalTim').on('click', 'td', function(e) {
             var columns = tableJT.settings().init().columns;

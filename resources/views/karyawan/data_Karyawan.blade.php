@@ -554,7 +554,7 @@
                                                     </div>
 
                                                     <div class="col">
-                                                        <span class="text-xs">Jml Tanggungan</span>
+                                                        <span class="text-xs">Jml Tanggungan (Anak)</span>
                                                         <input type="number" class="form-control form-control-sm"
                                                             id="jmlTanggungan" name="jmlTanggungan"
                                                             style="border-color:#9ca0a7;">

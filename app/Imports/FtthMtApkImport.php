@@ -80,7 +80,7 @@ class FtthMtApkImport implements ToModel, WithHeadingRow, WithChunkReading, With
     public function rules(): array
     {
         return [
-            '*.wo_no' => ['required', Rule::unique('import_ftth_ib_apks', 'wo_no')],
+            '*.wo_no' => ['required', Rule::unique('import_ftth_mt_apks', 'wo_no')],
             '*.wo_date' => ['required'],
             // '*.ticket_no' => ['required'],
             '*.installation_date' => ['required'],

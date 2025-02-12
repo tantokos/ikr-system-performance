@@ -62,7 +62,7 @@ class JadwalIkrImport implements ToModel, WithCalculatedFormulas, WithStartRow
             } else if($x==1){
                 $dataImport += [
                     'nik_karyawan' => $this->get_data_id("nik_karyawan", $row[$x]),
-                    'nama_karyawan' => $row[$x]
+                    'nama_karyawan' => $this->get_data_id("nama_karyawan", $row[$x])
                 ];    
             } else {
                 $dataImport += ['t'.sprintf("%02d",$x-1) => $row[$x]];
@@ -97,7 +97,8 @@ class JadwalIkrImport implements ToModel, WithCalculatedFormulas, WithStartRow
                     break;
 
                 case "nik_karyawan":
-                    $nik_karyawan = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)->first();
+                    $nik_karyawan = DB::table('employees')->select('nik_karyawan')->where('nama_karyawan', $data)
+                    ->where('status_active', 'Aktif')->first();
                     // dd(is_null($tek1_nik));
                     $nik = is_null($nik_karyawan) ? NULL : $nik_karyawan->nik_karyawan;
                     return $nik;
@@ -105,7 +106,8 @@ class JadwalIkrImport implements ToModel, WithCalculatedFormulas, WithStartRow
                     break;
 
                 case "nama_karyawan":
-                    $nk = DB::table('employees')->select('nama_karyawan')->where('nama_karyawan', $data)->first();
+                    $nk = DB::table('employees')->select('nama_karyawan')->where('nama_karyawan', $data)
+                    ->where('status_active', 'Aktif')->first();
                         // dd(is_null($tek1_nik));
                     $nama = is_null($nk) ? NULL : $nk->nama_karyawan;
                     return $nama;
