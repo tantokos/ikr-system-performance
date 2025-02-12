@@ -143,7 +143,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" hidden>
                 <div class="col-12">
                     <div class="card border shadow-xs mb-4">
                         <div class="card-header border-bottom pb-0">
@@ -238,6 +238,8 @@
                                             <th class="text-center text-xs font-weight-semibold">Area</th>
                                             <th class="text-center text-xs font-weight-semibold">Tanggal Progress</th>
                                             <th class="text-center text-xs font-weight-semibold">Jam Progress</th>
+                                            <th class="text-center text-xs font-weight-semibold">Status WO</th>
+                                            <th class="text-center text-xs font-weight-semibold">Couse Code</th>
                                             <th class="text-center text-xs font-weight-semibold">Callsign</th>
                                             <th class="text-center text-xs font-weight-semibold">Tanggal Progress Ulang</th>
                                             {{-- <th class="text-center text-xs font-weight-semibold">Lead Callsign</th> --}}
@@ -1285,7 +1287,7 @@
                         "width": '10'
                     },
                     {
-                        data: 'wo_no',
+                        data: 'no_wo',
                         // width: '90'
                     },
                     // {
@@ -1312,18 +1314,24 @@
                     },
                     {
                         data: 'tgl_ikr'
+                    },                   
+                    {
+                        data: 'slot_time_apk'
                     },
                     {
-                        data: 'slot_time_leader'
+                        data: 'status_wo'
+                    },
+                    {
+                        data: 'couse_code'
                     },
                     {
                         data: 'callsign'
                     },
                     {
-                        data: 'reschedule_date'
+                        data: 'tgl_reschedule'
                     },
                     {
-                        data: 'reschedule_time'
+                        data: 'tgl_jam_reschedule'
                     },
                     {
                         data: 'teknisi1'
@@ -1338,7 +1346,7 @@
                         data: 'teknisi4'
                     },
                     {
-                        data: 'keterangan',
+                        data: 'detail_alasan',
                         "width": 150
                     },
                     

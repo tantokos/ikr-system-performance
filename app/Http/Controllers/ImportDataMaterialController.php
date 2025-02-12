@@ -12,11 +12,28 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\HeadingRowImport;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Arr;
 
 class ImportDataMaterialController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if($request->areaFill != null) {
+            $area = explode("|", $request->areaFill);
+            $filArea = $area[1];
+        }
+
+        if($request->areagroup != null) {
+            $grupArea = DB::table('branches')->select('grup_area', 'nama_branch')
+                            ->where('grup_area', $request->areagroup)->pluck('nama_branch')->toArray();
+
+            $filArea = Arr::join($grupArea, ', ');
+        }        
+
+        if($request->areaFill == null && $request->areagroup == null) {
+            $filArea = null;
+        }
+
         $akses = Auth::user()->name;
         $leadCallsign = DB::table('v_detail_callsign_tim')->select('lead_call_id', 'lead_callsign', 'leader_id', 'nama_leader', 'nama_branch')
             ->orderBy('lead_callsign')->orderBy('branch_id')
@@ -52,7 +69,7 @@ class ImportDataMaterialController extends Controller
         })->flatten(2);
 
         // return 'Halaman Import Data Material';
-        return view('monitoringWo.import_ftth_material', compact('akses', 'leadCallsign', 'branches', 'processedData'));
+        return view('monitoringWo.import_ftth_material', compact('akses', 'leadCallsign', 'branches', 'processedData','filArea'));
     }
 
     public function import()
@@ -62,6 +79,10 @@ class ImportDataMaterialController extends Controller
 
     public function importProsesMaterial(Request $request, Excel $excel)
     {
+        if($request->FilterArea != "All Area"){
+            $filArea = $request->FilterArea;
+        }
+
         if ($request->hasFile('fileDataWO'))
         {
             $request->validate([
@@ -113,11 +134,20 @@ class ImportDataMaterialController extends Controller
 
     public function storeFtthMaterial(Request $request)
     {
+        $filArea = [];
         $akses = Auth::user()->name;
 
         switch ($request->input('action')) {
             case 'simpan':
-                $importedData = DB::table('import_ftth_material')->get();
+                //get all data dari hasil import apk
+                $importedData = DB::table('import_ftth_material');
+
+                if($request->FiArea != "All Area") {
+                    $listArea = explode(", ", $request->FiArea);
+                    $importedData = $importedData->whereIn('area', $listArea);
+                } 
+
+                $importedData = $importedData->get();
 
                 DB::beginTransaction();
                 try {

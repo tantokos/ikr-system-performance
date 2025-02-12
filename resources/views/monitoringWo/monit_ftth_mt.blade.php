@@ -2,7 +2,7 @@
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
-        <div class="container-fluid py-4 px-5">
+        <div class="container-fluid py-1 px-5">
             {{-- <div class="row">
                 <div class="col-12">
                     <div class="card card-background card-background-after-none align-items-start mt-1 mb-3">
@@ -20,8 +20,8 @@
 
             <div class="row">
                 <div class="col-12">
-                    <div class="card border shadow-xs mb-3">
-                        <div class="card-header border-bottom pb-0" style="background: linear-gradient(to right, #4e0808, #6d2121);">
+                    <div class="card border shadow-xs mb-2">
+                        <div class="card-header border-bottom pb-0 pt-0" style="background: linear-gradient(to right, #4e0808, #6d2121);">
 
                             {{-- <div class="row"> --}}
                                 {{-- <div class="col-12"> --}}
@@ -99,12 +99,17 @@
                                         <input type="hidden" id="filleaderid" name="filleaderid" readonly>
                                     </div>
 
-
                                     <div class="form-group mb-1">
-                                        <span class="text-xs">Teknisi</span>
-                                        <select class="form-control form-control-sm" type="text" id="filteknisi"
-                                            name="filteknisi" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Teknisi</option>
+                                        <span class="text-xs">Status WO</span>
+                                        <select class="form-control form-control-sm" type="text" id="filstatusWo"
+                                            name="filstatusWo" style="border-color:#9ca0a7;">
+                                            <option value="" selected>Pilih Status WO</option>
+                                            <option value="REQUESTED">Requested</option>
+                                            <option value="CHECKIN">Checkin</option>
+                                            <option value="CHECKOUT">Checkout</option>
+                                            <option value="DONE">Done</option>
+                                            <option value="PENDING">Pending</option>
+                                            <option value="CANCEL">Cancelled</option>
                                         </select>
                                     </div>
 
@@ -113,16 +118,11 @@
                                 <div class="col">
 
                                     <div class="form-group mb-1">
-                                        <span class="text-xs">Cluster</span>
-                                        <select class="form-control form-control-sm" type="text" id="filcluster"
-                                            name="filcluster" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Cluster</option>
-                                            @if (isset($cluster))
-                                                @foreach ($cluster as $cl)
-                                                    <option value="{{ $cl->cluster }}">
-                                                        {{ $cl->cluster }}
-                                                @endforeach
-                                            @endif
+                                        <span class="text-xs">Group Area</span>
+                                        <select class="form-control form-control-sm select2" id="filGroup" name="filGroup" style="border-color:#9ca0a7;">
+                                            <option value="">Pilih Grup</option>
+                                            <option value="Jakarta">Jakarta</option>
+                                            <option value="Regional">Regional</option>
                                         </select>
                                     </div>
 
@@ -142,19 +142,33 @@
                                         </select>
                                     </div>
 
+                                </div>
+
+                                <div class="col">
+
                                     <div class="form-group mb-1">
-                                        <span class="text-xs">Status WO</span>
-                                        <select class="form-control form-control-sm" type="text" id="filstatusWo"
-                                            name="filstatusWo" style="border-color:#9ca0a7;">
-                                            <option value="" selected>Pilih Status WO</option>
-                                            <option value="REQUESTED">Requested</option>
-                                            <option value="CHECKIN">Checkin</option>
-                                            <option value="CHECKOUT">Checkout</option>
-                                            <option value="DONE">Done</option>
-                                            <option value="PENDING">Pending</option>
-                                            <option value="CANCEL">Cancelled</option>
+                                        <span class="text-xs">Cluster</span>
+                                        <select class="form-control form-control-sm" type="text" id="filcluster"
+                                            name="filcluster" style="border-color:#9ca0a7;">
+                                            <option value="">Pilih Cluster</option>
+                                            @if (isset($cluster))
+                                                @foreach ($cluster as $cl)
+                                                    <option value="{{ $cl->cluster }}">
+                                                        {{ $cl->cluster }}
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>      
+                                    
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Teknisi</span>
+                                        <select class="form-control form-control-sm" type="text" id="filteknisi"
+                                            name="filteknisi" style="border-color:#9ca0a7;">
+                                            <option value="">Pilih Teknisi</option>
                                         </select>
                                     </div>
+
+                                    
 
                                 </div>
 
@@ -196,14 +210,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Grup</span>
-                                        <select class="form-control form-control-sm select2" id="filGroup" name="filGroup" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Grup</option>
-                                            <option value="Jakarta">Jakarta</option>
-                                            <option value="Regional">Regional</option>
-                                        </select>
-                                    </div>
+                                    
 
                                 </div>
 
@@ -211,10 +218,10 @@
                                 <div class="row text-center mb-1">
                                     <div class="col">
                                         <button type="button"
-                                            class="btn btn-sm btn-dark align-items-center filAssignTim"
+                                            class="btn btn-sm btn-dark align-items-center filAssignTim mb-0"
                                             id="filAssignTim">Tampilkan</button>
                                         <button type="button" value="close"
-                                            class="btn btn-sm btn-dark align-items-center"
+                                            class="btn btn-sm btn-dark align-items-center mb-0"
                                             data-bs-dismiss="modal">Reset</button>
                                     </div>
                                 </div>
@@ -228,7 +235,7 @@
             <div class="row">
                 <div class="col-xl-2 col-sm-2">
                     <div class="card border shadow-lg mb-2">
-                        <div class="card-body text-start p-3 w-100">
+                        <div class="card-body text-start p-2 w-100">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="w-100 text-center">
@@ -242,7 +249,7 @@
                 </div>
                 <div class="col-xl-2 col-sm-2">
                     <div class="card border shadow-lg mb-2">
-                        <div class="card-body text-start p-3 w-100">
+                        <div class="card-body text-start p-2 w-100">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="w-100 text-center">
@@ -256,7 +263,7 @@
                 </div>
                 <div class="col-xl-2 col-sm-2">
                     <div class="card border shadow-lg mb-2">
-                        <div class="card-body text-start p-3 w-100">
+                        <div class="card-body text-start p-2 w-100">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="w-100 text-center">
@@ -270,7 +277,7 @@
                 </div>
                 <div class="col-xl-2 col-sm-2">
                     <div class="card border shadow-lg mb-2">
-                        <div class="card-body text-start p-3 w-100">
+                        <div class="card-body text-start p-2 w-100">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="w-100 text-center">
@@ -284,7 +291,7 @@
                 </div>
                 <div class="col-xl-2 col-sm-2">
                     <div class="card border shadow-lg mb-2">
-                        <div class="card-body text-start p-3 w-100">
+                        <div class="card-body text-start p-2 w-100">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="w-100 text-center">
@@ -298,7 +305,7 @@
                 </div>
                 <div class="col-xl-2 col-sm-2">
                     <div class="card border shadow-lg mb-2">
-                        <div class="card-body text-start p-3 w-100">
+                        <div class="card-body text-start p-2 w-100">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="w-100 text-center">
@@ -335,7 +342,7 @@
                                         </button>
                                     </a>
 
-                                    <a href="{{ route('importDataFtthMtApk') }}">
+                                    <a href="{{ route('importDataFtthMtApk') }}" id="importApkButton">
                                         <button type="button"
                                             class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
                                             <span class="btn-inner--icon">
@@ -349,7 +356,7 @@
                                             <span class="btn-inner--text">Import Data WO APK</span>
                                         </button>
                                     </a>
-                                    <a href="{{ route('importDataMaterial') }}">
+                                    <a href="{{ route('importDataMaterial') }}" id="importApkMaterialButton">
                                         <button type="button"
                                             class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
                                             <span class="btn-inner--icon">
@@ -370,9 +377,9 @@
                         <div class="card-body px-2 py-2">
                             <div class="table-responsive p-0">
                                 <table class="table table-striped table-bordered align-items-center mb-0"
-                                    id="tabelAssignTim" style="font-size: 12px">
+                                    id="tabelAssignTim" style="font-size: 12px; border-color:#9ca0a7;">
                                     <thead class="bg-gray-100">
-                                        <tr id="headTool">
+                                        <tr id="headTool" style="font-weight: bold">
                                             <th class="text-xs font-weight-semibold">#</th>
                                             <th class="text-center text-xs font-weight-semibold">Tanggal</th>
                                             <th class="text-center text-xs font-weight-semibold">No WO</th>
@@ -399,14 +406,14 @@
 
                                         </tr>
                                     </thead>
-                                    <tbody id="bodyTool">
+                                    <tbody id="bodyTool" style="font-weight: bold">
 
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="border-top py-3 px-3 d-flex align-items-center">
+                            {{-- <div class="border-top py-3 px-3 d-flex align-items-center">
 
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -515,7 +522,7 @@
                     <div class="modal-body">
                         {{-- <form action="{{ route('updateSignTim') }}" method="post" enctype="multipart/form-data"> --}}
                         {{-- <form action="{{ route('updateFtthMt') }}" method="post" enctype="multipart/form-data"> --}}
-                        <form class="updateFtthMt" method="get" enctype="multipart/form-data">
+                        <form class="updateFtthMt" method="get" enctype="multipart/form-data" id="formDetailWoMT">
 
                             {{-- @method('PUT') --}}
                             @csrf
@@ -677,19 +684,37 @@
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
-
-                                                        {{-- <div class="col form-group mb-1">
-                                                            <span class="text-xs">Tanggal Progress</span>
-                                                            <input class="form-control form-control-sm" type="date"
-                                                                value="{{ date('Y-m-d') }}" id="tglProgressShow"
-                                                                name="tglProgressShow" style="border-color:#9ca0a7;" readonly>
-                                                        </div> --}}
-
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Area/Cluster</span>
                                                             <input type="text" class="form-control form-control-sm"
                                                                 type="text" id="cluster" name="cluster"
                                                                 style="border-color:#9ca0a7;">
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Kotamadya Penagihan</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="kotaPenagihanShow" name="kotaPenagihanShow"
+                                                                style="border-color:#9ca0a7;" readonly>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Site Penagihan</span>
+                                                            <select class="form-control form-control-sm" type="text"
+                                                                value="" id="sitePenagihan"
+                                                                name="sitePenagihan" style="border-color:#9ca0a7;">
+                                                                <option value=""></option>
+                                                                <option value="Retail">Retail</option>
+                                                                <option value="Apartemen">Apartemen</option>
+                                                                <option value="Underground">Underground</option>
+                                                                <option value="Retail / Underground">Retail / Underground</option>
+                                                            </select>
                                                         </div>
 
                                                         <div class="col form-group mb-1">
@@ -711,52 +736,8 @@
                                                             </select>
                                                         </div>
                                                         
-                                                        
-
                                                     </div>
                                                 </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Lead Callsign | Leader</span>
-                                                            <select class="form-control form-control-sm" id="LeadCallsignShow" name="LeadCallsignShow" style="border-color:#9ca0a7;">
-                                                                <option value="">Pilih Lead Callsign</option>
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Site Penagihan</span>
-                                                            <select class="form-control form-control-sm" type="text"
-                                                                value="" id="sitePenagihan"
-                                                                name="sitePenagihan" style="border-color:#9ca0a7;">
-                                                                <option value=""></option>
-                                                                <option value="Retail">Retail</option>
-                                                                <option value="Apartemen">Apartemen</option>
-                                                                <option value="Underground">Underground</option>
-                                                                <option value="Retail / Underground">Retail / Underground</option>
-                                                            </select>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                </div>
-
-                                                {{-- <div class="form-group mb-1">
-                                                    <div class="row">
-
-                                                        
-
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Nama Leader</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="leaderShow" name="leaderShow"
-                                                                style="border-color:#9ca0a7;" readonly>
-                                                            <input type="hidden" id="leaderidShow"
-                                                                name="leaderidShow" readonly>
-                                                        </div>
-                                                    </div>
-                                                </div> --}}
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
@@ -768,43 +749,51 @@
                                                             </select>
                                                         </div>
 
-                                                    </div>
-
-                                                    <div class="form-group mb-1">
-                                                        <span class="text-xs">Teknisi 1</span>
-                                                        <select class="form-control form-control-sm" type="text"
-                                                                 id="teknisi1Show"
-                                                                name="teknisi1Show"
-                                                                style="border-color:#9ca0a7;">
-
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="form-group mb-1">
-                                                        <span class="text-xs">Teknisi 2</span>
-                                                        <select class="form-control form-control-sm" type="text"
-                                                                 id="teknisi2Show"
-                                                                name="teknisi2Show"
-                                                                style="border-color:#9ca0a7;">
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="form-group mb-1">
-                                                        <span class="text-xs">Teknisi 3</span>
-                                                        <select class="form-control form-control-sm" type="text"
-                                                                 id="teknisi3Show"
-                                                                name="teknisi3Show"
-                                                                style="border-color:#9ca0a7;">
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="form-group mb-1">
-                                                        <span class="text-xs">Teknisi 4</span>
-                                                        <select class="form-control form-control-sm" type="text" id="teknisi4Show"
-                                                            name="teknisi4Show" style="border-color:#9ca0a7;">
-                                                        </select>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Lead Callsign | Leader</span>
+                                                            <select class="form-control form-control-sm" id="LeadCallsignShow" name="LeadCallsignShow" style="border-color:#9ca0a7;">
+                                                                <option value="">Pilih Lead Callsign</option>
+                                                            </select>
+                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
+
+                                                <div class="form-group mb-1">
+                                                    <span class="text-xs">Teknisi 1</span>
+                                                    <select class="form-control form-control-sm" type="text"
+                                                             id="teknisi1Show"
+                                                            name="teknisi1Show"
+                                                            style="border-color:#9ca0a7;">
+
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="form-group mb-1">
+                                                    <span class="text-xs">Teknisi 2</span>
+                                                    <select class="form-control form-control-sm" type="text"
+                                                             id="teknisi2Show"
+                                                            name="teknisi2Show"
+                                                            style="border-color:#9ca0a7;">
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <span class="text-xs">Teknisi 3</span>
+                                                    <select class="form-control form-control-sm" type="text"
+                                                             id="teknisi3Show"
+                                                            name="teknisi3Show"
+                                                            style="border-color:#9ca0a7;">
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <span class="text-xs">Teknisi 4</span>
+                                                    <select class="form-control form-control-sm" type="text" id="teknisi4Show"
+                                                        name="teknisi4Show" style="border-color:#9ca0a7;">
+                                                    </select>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -894,12 +883,13 @@
                                                                 <option value="CHECKOUT">Checkout</option>
                                                                 <option value="DONE">Done</option>
                                                                 <option value="PENDING">Pending</option>
-                                                                <option value="CANCEL">Cancelled</option>
+                                                                <option value="CANCELLED">Cancelled</option>
                                                         </select>
                                                     </div>
 
                                                     <div class="col form-group mb-1">
                                                         <span class="text-xs">Status WO</span>
+                                                        <span class="text-danger">*</span>
                                                         <select class="form-control form-control-sm" type="text"
                                                             id="statusWo" name="statusWo"
                                                             style="border-color:#9ca0a7;">
@@ -925,6 +915,7 @@
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Cause Code</span>
+                                                            <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 value="" id="causeCode" list="causeCodeList"
                                                                 name="causeCode" style="border-color:#9ca0a7;">
@@ -942,6 +933,7 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Root Cause</span>
+                                                            <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 value="" id="rootCause" list="rootCauseList"
                                                                 name="rootCause" style="border-color:#9ca0a7;">
@@ -958,6 +950,7 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Action Taken</span>
+                                                            <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 value="" id="actionTaken" list="actionTakenList"
                                                                 name="actionTaken" style="border-color:#9ca0a7;">
@@ -973,7 +966,8 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">                                                        
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Rekonsil Penagihan</span>
+                                                            <span class="text-xs">Rootcause Penagihan</span>
+                                                            <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 value="" id="penagihanShow" list="penagihanShowList"
                                                                 name="penagihanShow" style="border-color:#9ca0a7;">
@@ -986,10 +980,9 @@
 
                                                 </div>
 
-                                                
-
                                                 <div class="form-group mb-1">
                                                     <span class="text-xs">Report Teknisi</span>
+                                                    <span class="text-danger">*</span>
                                                     <textarea class="form-control form-control-sm" type="text" id="reportTeknisi" name="reportTeknisi"
                                                         style="border-color:#9ca0a7;"></textarea>
                                                 </div>
@@ -997,33 +990,8 @@
                                             </div>
 
                                             <div class="col">
-                                                
 
-                                                <div class="col form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Status Visit</span>
-                                                            <select class="form-control form-control-sm" type="text"
-                                                                id="statusVisit" name="statusVisit" style="border-color:#9ca0a7;">
-                                                                <option value="Team Visit">Team Visit</option>
-                                                                <option value="No VIsit">No Visit</option>
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Action Status</span>
-                                                            <select class="form-control form-control-sm" type="text"
-                                                                id="actionStatus" name="actionStatus"
-                                                                style="border-color:#9ca0a7;">
-                                                                <option value="Sudah dikerjakan MST">Sudah dikerjakan MST</option>
-                                                                <option value="Sign Ulang">Sign Ulang</option>
-                                                                <option value="Tunggu Konfirmasi">Tunggu Konfirmasi</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col form-group mb-1">
+                                                <div class="form-group mb-1">
                                                     <div class="row">
 
                                                         <div class="col form-group mb-1">
@@ -1047,19 +1015,70 @@
                                                                 name="waktuInstallation" style="border-color:#9ca0a7;" readonly>
                                                         </div>
                                                     </div>
+                                                </div>                                               
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Status Visit</span>
+                                                            <span class="text-danger">*</span>
+                                                            <select class="form-control form-control-sm" type="text"
+                                                                id="statusVisit" name="statusVisit" style="border-color:#9ca0a7;">
+                                                                <option value="">-- Pilih --</option>
+                                                                <option value="Team Visit">Team Visit</option>
+                                                                <option value="No VIsit">No Visit</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Action Status</span>
+                                                            <span class="text-danger">*</span>
+                                                            <select class="form-control form-control-sm" type="text"
+                                                                id="actionStatus" name="actionStatus"
+                                                                style="border-color:#9ca0a7;">
+                                                                <option value="">-- Pilih --</option>
+                                                                <option value="Sudah dikerjakan MST">Sudah dikerjakan MST</option>
+                                                                <option value="Sign Ulang">Sign Ulang</option>
+                                                                <option value="Tunggu Konfirmasi">Tunggu Konfirmasi</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Tanggal Penjadwalan
-                                                                Ulang</span>
+                                                            <span class="text-xs">Precon Bad</span>
+                                                            <span class="text-danger">*</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="preconBad" name="preconBad"
+                                                                style="border-color:#9ca0a7;">                                                                
+                                                        </div>
+
+                                                        {{-- <div class="col form-group mb-1">
+                                                            <span class="text-xs">Alasan Tidak Ganti Precon</span>
+                                                            <span class="text-danger">*</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="alasanTidakGantiPrecon" name="alasanTidakGantiPrecon"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div> --}}
+                                                        
+                                                    </div>
+                                                </div>                                                
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Tanggal Reschedule</span>
+                                                            <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="date"
                                                                 id="tglReschedule" name="tglReschedule"
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
+
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Jam Penjadwalan Ulang</span>
+                                                            <span class="text-xs">Jam Reschedule</span>
+                                                            <span class="text-danger">*</span>
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="tglJamReschedule"
                                                                 name="tglJamReschedule" style="border-color:#9ca0a7;">
@@ -1092,13 +1111,12 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col form-group mb-1">
+                                                <div class="form-group mb-1">
                                                     <div class="row">
-                                                            
-
-                                                            <div class="col form-group mb-1">
-                                                                <span class="text-xs">Permintaan Rsch.</span>
-                                                                <select class="form-control form-control-sm" type="time"
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Permintaan Rsch.</span>
+                                                            <span class="text-danger">*</span>
+                                                            <select class="form-control form-control-sm" type="text"
                                                                     id="permintaanReschedule" name="permintaanReschedule" 
                                                                     style="border-color:#9ca0a7;">
                                                                     <option value="">-- Pilih --</option>
@@ -1106,20 +1124,13 @@
                                                                     <option value="Teknisi">Teknisi</option>
                                                                     <option value="Leader">Leader</option>
                                                                     <option value="Dispatch">Dispatch</option>
-                                                                </select>
-                                                            </div>
-                                                    </div>
-
-                                                    
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        
+                                                            </select>
+                                                        </div>
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Respon Cst</span>
-                                                            <select class="form-control form-control-sm" type="time"
+                                                            <span class="text-danger">*</span>
+                                                            <select class="form-control form-control-sm" type="text"
                                                                 id="responKonfCst" name="responKonfCst" 
                                                                 style="border-color:#9ca0a7;">
                                                                 <option value="">-- Pilih --</option>
@@ -1128,15 +1139,39 @@
                                                             </select>
                                                         </div>
 
+                                                        
+                                                    </div>
+                                                    
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        
+
+                                                        
+
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Jawaban Cst</span>
-                                                            <select class="form-control form-control-sm" type="time"
+                                                            <span class="text-danger">*</span>
+                                                            <select class="form-control form-control-sm" type="text"
                                                                 id="jwbKonfCst" name="jwbKonfCst" 
                                                                 style="border-color:#9ca0a7;">
                                                                 <option value="">-- Pilih --</option>
                                                                 <option value="Setuju">Setuju</option>
                                                                 <option value="Tidak Setuju">Tidak Setuju</option>
                                                                 <option value="Tidak Respon">Tidak Respon</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Kondisi Cuaca</span>
+                                                            <span class="text-danger">*</span>
+                                                            <select class="form-control form-control-sm"
+                                                                type="text" id="weatherShow" name="weatherShow"
+                                                                style="border-color:#9ca0a7;">
+                                                                <option value="" disabled selected>--Pilih Kondisi Cuaca--</option>
+                                                                <option value="Cerah">Cerah</option>
+                                                                <option value="Hujan">Hujan</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -1146,6 +1181,7 @@
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">PIC Dispatch</span>
+                                                            <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 id="picDispatch" name="picDispatch"
                                                                 style="border-color:#9ca0a7;">
@@ -1153,6 +1189,7 @@
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Telp Dispatch</span>
+                                                            <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 id="telpDispatch" name="telpDispatch" 
                                                                 style="border-color:#9ca0a7;">
@@ -1160,37 +1197,9 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Status Precon</span>
-                                                            <select class="form-control form-control-sm" type="text"
-                                                                id="statusPrecon" name="statusPrecon"
-                                                                style="border-color:#9ca0a7;">
-                                                                <option value="">-- Pilih --</option>
-                                                                <option value="Sudah Precon">Sudah Precon</option>
-                                                                <option value="Belum Precon">Belum Precon</option>
-                                                            </select>
-                                                        </div>
+                                                
 
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Alasan Tidak Ganti Precon</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="alasanTidakGantiPrecon" name="alasanTidakGantiPrecon"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                        
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        
-                                                        
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
+                                                {{-- <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Alasan Pending</span>
@@ -1207,13 +1216,20 @@
                                                         </div>
                                                         
                                                     </div>
+                                                </div> --}}
+
+                                                <div class="form-group mb-1">
+                                                    <span class="text-xs">Detail Alasan</span>
+                                                    <span class="text-danger">*</span>
+                                                    <textarea class="form-control form-control-sm" type="text" id="detailAlasan" name="detailAlasan"
+                                                        style="border-color:#9ca0a7;"></textarea>
                                                 </div>
 
                                             </div>
 
                                             <div class="col">
 
-                                                <div class="form-group mb-1">
+                                                {{-- <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Start IKR (WA)</span>
@@ -1229,12 +1245,13 @@
                                                                 style="border-color:#9ca0a7;">
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Validasi Start</span>
+                                                            <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="time"
                                                                 value="{{ date('H:i') }}" id="validasiStart"
                                                                 name="validasiStart" style="border-color:#9ca0a7;">
@@ -1242,6 +1259,7 @@
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Validasi End</span>
+                                                            <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="time"
                                                                 value="{{ date('H:i') }}" id="validasiEnd"
                                                                 name="validasiEnd" style="border-color:#9ca0a7;">
@@ -1249,7 +1267,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group mb-1">
+                                                {{-- <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Foto Rumah</span>
@@ -1272,12 +1290,13 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Regist Start</span>
+                                                            <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="time"
                                                                 value="{{ date('H:i') }}" id="registStart"
                                                                 name="registStart" style="border-color:#9ca0a7;">
@@ -1285,6 +1304,7 @@
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Regist End</span>
+                                                            <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="time"
                                                                 value="{{ date('H:i') }}" id="registEnd"
                                                                 name="registEnd" style="border-color:#9ca0a7;">
@@ -1295,7 +1315,30 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
+                                                            <span class="text-xs">Kode OTP</span>
+                                                            <span class="text-danger">*</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="kodeOtp" name="kodeOtp" style="border-color:#9ca0a7;">                                                                
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            {{-- <span class="text-xs">Kondisi FAT</span>
+                                                            <span class="text-danger">*</span>
+                                                            <select class="form-control form-control-sm" type="text"
+                                                                id="kondisiFat" name="kondisiFat" style="border-color:#9ca0a7;">
+                                                                <option value="">-- Pilih --</option>
+                                                                <option value="FAT Full Marker">FAT Full Marker</option>
+                                                                <option value="FAT Sebagian Tidak Bermarker">FAT Sebagian Tidak Bermarker</option>
+                                                            </select> --}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
                                                             <span class="text-xs">Cek Telebot</span>
+                                                            <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 id="cekTelebot" name="cekTelebot"
                                                                 style="border-color:#9ca0a7;">
@@ -1303,6 +1346,7 @@
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Hasil Cek</span>
+                                                            <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 id="hasilCekTelebot" name="hasilCekTelebot" 
                                                                 style="border-color:#9ca0a7;">
@@ -1313,16 +1357,46 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Kondisi FAT</span>
-                                                            <select class="form-control form-control-sm" type="text"
-                                                                id="kondisiFat" name="kondisiFat" style="border-color:#9ca0a7;">
-                                                                <option value="">-- Pilih --</option>
-                                                                <option value="FAT Full Marker">FAT Full Marker</option>
-                                                                <option value="FAT Sebagian Tidak Bermarker">FAT Sebagian Tidak Bermarker</option>
-                                                            </select>
+                                                            <span class="text-xs">MTTR All</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="mttrAll" name="mttrAll"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">MTTR Pending</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="mttrPending" name="mttrPending" 
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">MTTR Progress</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="mttrProgress" name="mttrProgress"
+                                                                style="border-color:#9ca0a7;">
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">MTTR Technician</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="mttrTeknisi" name="mttrTeknisi" 
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">SLA Over</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="slaOver" name="slaOver" 
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>                                                
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
@@ -1335,6 +1409,8 @@
                                                                 <button class="btn btn-sm btn-outline-secondary mb-0" type="button" 
                                                                 id="detail-materialStatus">...</button>
                                                               </div>
+                                                            <input type="hidden" id="materialOut" name="materialOut"/>
+                                                            <input type="hidden" id="materialIn" name="materialIn"/>
 
                                                         </div>
                                                         
@@ -1350,16 +1426,7 @@
 
                                                         </div> --}}
 
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Kondisi Cuaca</span>
-                                                            <select class="form-control form-control-sm"
-                                                                type="text" id="weatherShow" name="weatherShow"
-                                                                style="border-color:#9ca0a7;">
-                                                                <option value="" disabled selected>--Pilih Kondisi Cuaca--</option>
-                                                                <option value="Cerah">Cerah</option>
-                                                                <option value="Hujan">Hujan</option>
-                                                            </select>
-                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
 
@@ -1375,6 +1442,8 @@
 
                                                             </div>
                                                         </div>
+
+                                                        
                                                     </div>
                                                 </div>
 
@@ -1653,9 +1722,9 @@
 
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-sm btn-dark align-items-center updateAssign"
-                            id="updateAssign">Edit Data</button>
+                            id="updateAssign">Simpan</button>
                         <button type="button" value="close" class="btn btn-sm btn-dark align-items-center"
-                            data-bs-dismiss="modal">Batalkan</button>
+                            data-bs-dismiss="modal">Kembali</button>
                     </div>
                     </form>
                 </div>
@@ -1978,9 +2047,7 @@
             if(!isNaN(tglJmCheckin)) {
                 stat=(tglJmCheckin-tglJmSlotTime)/60000;
 
-                if(stat < -15){
-                    status="Lebih Awal"
-                }else if(stat <= -1 && stat >= -15) {
+                if(stat <= -1) {
                     status="On Time"
                 } else if(stat>0) {
                     status="Terlambat"
@@ -2009,11 +2076,42 @@
         $('.date-range').daterangepicker({
             startDate: moment(),
             endDate: moment(),
-        });
+        });        
 
         $(document).on('click', '#filAssignTim', function(e) {
             get_data_assignTim();
             get_summary();
+
+            //link inport apk default
+            let newLink = "{{ route('importDataFtthMtApk') }}"      
+            let newLinkMaterial = "{{ route('importDataMaterial') }}"      
+            document.getElementById('importApkButton').href = newLink
+            document.getElementById('importApkMaterialButton').href = newLinkMaterial
+            
+            //otomati ganti link jika ada filter area / group area
+            if($('#filarea').val() != ""){
+                area = $('#filarea').val();
+                newLink = "{{ route('importDataFtthMtApk', 'areaFill=areagroup=') }}"
+                newLink = newLink.replace('areaFill=', 'areaFill='+area+'&');
+
+                newLinkMaterial = "{{ route('importDataMaterial', 'areaFill=areagroup=') }}"  
+                newLinkMaterial = newLinkMaterial.replace('areaFill=', 'areaFill='+area+'&');
+
+                document.getElementById('importApkButton').href = newLink
+                document.getElementById('importApkMaterialButton').href = newLinkMaterial
+            }
+            if($('#filGroup').val() != ""){
+                area = $('#filGroup').val();
+                newLink = "{{ route('importDataFtthMtApk', 'areaFill=areagroup=') }}"
+                newLink = newLink.replace('areagroup=', '&areagroup='+area);
+
+                newLinkMaterial = "{{ route('importDataMaterial', 'areaFill=areagroup=') }}"
+                newLinkMaterial = newLinkMaterial.replace('areagroup=', '&areagroup='+area);
+
+                document.getElementById('importApkButton').href = newLink
+                document.getElementById('importApkMaterialButton').href = newLinkMaterial
+            }
+
             stDate = $('.date-range').data('daterangepicker').startDate.format("DD-MMM-YYYY");
             enDate = $('.date-range').data('daterangepicker').endDate.format("DD-MMM-YYYY");
         })
@@ -2048,9 +2146,9 @@
 
         $(document).on('change','#causeCode', function(e) {
             // alert('status change');
-            // $('#rootCause').val('');
-            // $('#actionTaken').val('');
-            // $('#penagihanShow').val('');
+            $('#rootCause').val('');
+            $('#actionTaken').val('');
+            $('#penagihanShow').val('');
 
             $('#rootCauseList').find('option').remove();
             $('#rootCauseList').append(`
@@ -2059,19 +2157,23 @@
 
             filRootCouse = dtRootCouse.filter(k => k.couse_code === $(this).val());
 
-            $.each(filRootCouse, function(k, cc) {
+            $.each(filRootCouse, function(k, cc) {                
                 $('#rootCauseList').append(
                     `<option value="${cc.root_couse}">${cc.root_couse}</option>`
                 )
-            })
 
+                if(filRootCouse.length == 1) {
+                    $('#rootCause').val(cc.root_couse)
+                    $('#rootCause').trigger('change')
+                }
+            })
         })
 
         $(document).on('change','#rootCause', function(e) {
             // alert('status change');
             // $('#rootCause').val('');
-            // $('#actionTaken').val('');
-            // $('#penagihanShow').val('');
+            $('#actionTaken').val('');
+            $('#penagihanShow').val('');
 
             $('#actionTakenList').find('option').remove();
             $('#actionTakenList').append(`
@@ -2084,6 +2186,11 @@
                 $('#actionTakenList').append(
                     `<option value="${cc.action_taken}">${cc.action_taken}</option>`
                 )
+
+                if(filActionTaken.length == 1) {
+                    $('#actionTaken').val(cc.action_taken)
+                    $('#actionTaken').trigger('change')
+                }
             })
 
         })
@@ -2092,7 +2199,7 @@
             // alert('status change');
             // $('#rootCause').val('');
             // $('#actionTaken').val('');
-            // $('#penagihanShow').val('');
+            $('#penagihanShow').val('');
 
             $('#penagihanShowList').find('option').remove();
             $('#penagihanShowList').append(`
@@ -2104,11 +2211,17 @@
             if(filPenagihan.length == 0) {
                 filPenagihan = dtPenagihanAll.filter(k => k.status_wo === $('#statusWo').val() );
             }
+            console.log('filPenagihan.length : ', filPenagihan.length);
 
             $.each(filPenagihan, function(k, cc) {
                 $('#penagihanShowList').append(
                     `<option value="${cc.rootcouse_penagihan}">${cc.rootcouse_penagihan}</option>`
                 )
+
+                if(filPenagihan.length === 1) {
+                    $('#penagihanShow').val(cc.rootcouse_penagihan)
+                    // $('#penagihanShow').trigger('change')
+                }
             })
 
         })
@@ -2175,11 +2288,11 @@
         function get_data_assignTim() {
             var data_assignTim = $('#tabelAssignTim').DataTable({
                 // dom: 'Bftip',
-                layout: {
-                    topStart: {
-                        buttons: ['excel']
-                    },
-                },
+                // layout: {
+                //     topStart: {
+                //         buttons: ['excel']
+                //     },
+                // },
                 paging: true,
                 orderClasses: false,
                 // fixedColumns: true,
@@ -2305,6 +2418,7 @@
             
             ctim = $(this).val().split("|");
             ctimTeknisi = callTim.find(k=>k.callsign === ctim[1] );
+            console.log('ctimTeknisi : ', ctimTeknisi);
 
             let selectTek1 = $('#teknisi1Show');
             let selectTek2 = $('#teknisi2Show');
@@ -2320,6 +2434,8 @@
 
         $(document).on('click', '#detail-assign', function (e) {
             var _token = $('meta[name=csrf-token]').attr('content');
+
+            $('#formDetailWoMT').find('input, textarea').val('');
             let assign_id = $(this).data('id');
 
             $.ajax({
@@ -2331,39 +2447,51 @@
                 },
                 success: function (response) {
 
+                    $('#showDetail').modal('show');
+
                     let dtDis = response.data;
                     let material = response.ftth_material;
                     let callsignTims = response.callsign_tims;
                     let callsignLeads = response.callsign_leads;
                     let teknisiOn = response.teknisiOn;
                     callTim = response.assignTim;
-
+                    
                     if(response.ftth_material.length > 0) {
-                        statMaterial = "Ada"
+                        materialOut = response.ftth_material.filter(k => k.status_item == "OUT");
+                        materialIn = response.ftth_material.filter(i => i.status_item == "IN");
+
+                        //mengisi nilai ke input materialOut dan materialIn
+                        $('input[name="materialOut"]').val(materialOut.length);
+                        $('input[name="materialIn"]').val(materialIn.length);
+
+                        // statMaterial = "Ada | " + response.ftth_material.length
+                        statMaterial = "Terpasang = " + materialOut.length + " | Dikembalikan = " + materialIn.length
+
                     } else {
                         statMaterial = "Tidak Ada"
+                        $('input[name="materialOut"]').val(0);
+                        $('input[name="materialIn"]').val(0);
                     };
 
                     //Tab Detail WO/////////////////////////////
                     $('#detId').val(dtDis.id);
-                    $('#noWoShow').val(dtDis.no_wo);
-                    $('#ticketNoShow').val(dtDis.no_ticket);
-                    $('#custIdShow').val(dtDis.cust_id);
-                    $('#custNameShow').val(toTitleCase(dtDis.nama_cust || ""));
-                    $('#woTypeShow').val(toTitleCase(dtDis.wo_type_apk || ""));
-                    $('#jenisWoShow').val(dtDis.type_wo);
-                    $('#WoDateShow').val(dtDis.wo_date_apk);
-                    $('#custAddressShow').val(toTitleCase(dtDis.cust_address1 || ""));
-                    $('#fatCodeShow').val(dtDis.kode_fat);
-                    $('#portFatShow').val(dtDis.port_fat);
-                    $('#cluster').val(dtDis.cluster);
-                    $('#remarkStatus').val(toTitleCase(dtDis.type_maintenance || ""));
-                    $('#branchShow').val(dtDis.branch);
-                    $('#kotamadyaShow').val(dtDis.kotamadya);
-                    $('#tglProgressShow').val(dtDis.tgl_ikr);
-                    $('#sesiDetShow').val(toTitleCase(dtDis.sesi || ""));
-                    // $('#slotTimeLeaderShow').val(dtDis.slot_time_leader);
-                    $('#slotTimeAPKShow').val(dtDis.slot_time_apk);
+                    $('#noWoShow').val(dtDis.no_wo); //1
+                    $('#ticketNoShow').val(dtDis.no_ticket); //1
+                    $('#custIdShow').val(dtDis.cust_id); //1
+                    $('#custNameShow').val(toTitleCase(dtDis.nama_cust || "")); //1
+                    $('#woTypeShow').val(toTitleCase(dtDis.wo_type_apk || "")); //1
+                    $('#jenisWoShow').val(dtDis.type_wo); //1
+                    $('#WoDateShow').val(dtDis.wo_date_apk); //1
+                    $('#custAddressShow').val(toTitleCase(dtDis.cust_address1 || "")); //1
+                    $('#fatCodeShow').val(dtDis.kode_fat); //1
+                    $('#portFatShow').val(dtDis.port_fat); //1
+                    $('#remarkStatus').val(toTitleCase(dtDis.type_maintenance || "")); //1
+                    $('#branchShow').val(dtDis.branch); //1
+                    $('#kotamadyaShow').val(dtDis.kotamadya); //1
+                    $('#cluster').val(dtDis.cluster); //1
+                    $('#kotaPenagihanShow').val(dtDis.kotamadya_penagihan);  //1
+                    $('#sitePenagihan').val(dtDis.site_penagihan); //1
+                    $('#sesiDetShow').val(toTitleCase(dtDis.sesi || "")); //1                   
 
                     // Populasi dropdown Lead Callsign
                     let selectLead = $('#LeadCallsignShow');
@@ -2374,16 +2502,17 @@
 
                     // Atur nilai dropdown Lead Callsign sesuai dengan `leadcall_id`
                     if (dtDis.leadcall_id) {
-                        selectLead.val(dtDis.leadcall_id+"|"+dtDis.leadcall+"|"+dtDis.leader_id+"|"+dtDis.leader);
+                        selectLead.val(dtDis.leadcall_id+"|"+dtDis.leadcall+"|"+dtDis.leader_id+"|"+dtDis.leader); //1
                     }
 
+                    console.log('dtDis : ', dtDis);
                     // Populasi dropdown Callsign Tim
                     let selectTim = $('#callsignTimidShow');
                     selectTim.empty().append('<option value="">Pilih Callsign Tim</option>');
                     callsignTims.forEach(item => {
                         selectTim.append(`<option value="${item.id}|${item.callsign_tim}">${item.callsign_tim}</option>`);
                     });
-                    selectTim.val(dtDis.callsign_id+"|"+dtDis.callsign);
+                    selectTim.val(dtDis.callsign_id+"|"+dtDis.callsign); //1
 
                     let selectTek1 = $('#teknisi1Show');
                     let selectTek2 = $('#teknisi2Show');
@@ -2402,73 +2531,69 @@
                         selectTek4.append(`<option value="${item.nik_karyawan}|${item.nama_karyawan}">${item.nama_karyawan}</option>`);
                     });
 
-                    selectTek1.val(dtDis.tek1_nik+"|"+dtDis.teknisi1 || "");
-                    selectTek2.val(dtDis.tek2_nik+"|"+dtDis.teknisi2 || "");
-                    selectTek3.val(dtDis.tek3_nik+"|"+dtDis.teknisi3 || "");
-                    selectTek4.val(dtDis.tek4_nik+"|"+dtDis.teknisi4 || "");
+                    console.log('dtDis : ', dtDis );
+                    selectTek1.val(dtDis.tek1_nik+"|"+dtDis.teknisi1 || ""); //1
+                    selectTek2.val(dtDis.tek2_nik+"|"+dtDis.teknisi2 || ""); //1
+                    selectTek3.val(dtDis.tek3_nik+"|"+dtDis.teknisi3 || ""); //1
+                    selectTek4.val(dtDis.tek4_nik+"|"+dtDis.teknisi4 || ""); //1
 
                     //End Tab Detail WO//////////////////////////////
 
                     //Tab Status Progress
-                    $('#tglProgressStatusShow').val(dtDis.tgl_ikr);
-                    $('#slotTimeLeaderStatusShow').val(dtDis.slot_time_leader);
-                    $('#statusWo').val(dtDis.status_wo || "");
+                    $('#tglProgressAPKShow').val(dtDis.tgl_ikr); //1
+                    $('#slotTimeAPKStatusShow').val(dtDis.slot_time_apk); //1
+                    $('#statusWo').val(dtDis.status_wo || ""); //1
                     $('#statusWo').trigger("change");
 
                     // $('#causeCodeOld').val(dtDis.couse_code);
-                    $('#causeCode').val(dtDis.couse_code);
+                    $('#causeCode').val(dtDis.couse_code); //1
                     $('#causeCode').trigger("change");
 
-                    $('#rootCause').val(dtDis.root_couse);
+                    $('#rootCause').val(dtDis.root_couse); //1
                     $('#rootCause').trigger("change");
 
-                    $('#actionTaken').val(dtDis.action_taken);
+                    $('#actionTaken').val(dtDis.action_taken); //1
+                    $('#penagihanShow').val(dtDis.penagihan); //
                     $('#actionTaken').trigger("change");
 
-                    $('#penagihanShow').val(dtDis.penagihan);
-                    $('#tglReschedule').val(dtDis.tgl_reschedule);
-                    $('#tglJamReschedule').val(dtDis.tgl_jam_reschedule);
-                    $('#reportTeknisi').val(toTitleCase(dtDis.keterangan || ""));
+                    $('#reportTeknisi').val(toTitleCase(dtDis.keterangan || "")); //1
+                    $('#statusVisit').val(dtDis.visit_novisit); //1
+                    $('#actionStatus').val(dtDis.action_status); //1
 
-                    $('#permintaanReschedule').val(toTitleCase(dtDis.permintaan_rsch || ""));
-                    $('#responKonfCst').val(toTitleCase(dtDis.respon_cst || ""));
-                    $('#jwbKonfCst').val(toTitleCase(dtDis.jawaban_cst || ""));
-                    $('#picDispatch').val(toTitleCase(dtDis.dispatch || ""));
-                    $('#telpDispatch').val(dtDis.telp_dispatch || "");
-                    $('#statusPrecon').val(dtDis.remark_status || "");
-                    $('#alasanTidakGantiPrecon').val(dtDis.alasan_tag_alarm || "");
-
-                    $('#tglProgressAPKShow').val(dtDis.tgl_ikr);
-                    $('#slotTimeAPKStatusShow').val(dtDis.slot_time_apk);
-                    $('#statusWoApk').val(dtDis.status_apk || "");
-                    $('#tglCheckinApk').val(dtDis.checkin_apk);
-                    $('#tglCheckoutApk').val(dtDis.checkout_apk);
+                    $('#preconBad').val(dtDis.bad_precon);  //1
+                    $('#tglReschedule').val(dtDis.tgl_reschedule); //
+                    $('#tglJamReschedule').val(dtDis.tgl_jam_reschedule); //1
                     
-                    $('#weatherShow').val(dtDis.weather);
-                    $('#alasanPending').val(toTitleCase(dtDis.alasan_pending || ""));
-                    
-                    $('#alasanCancel').val(toTitleCase(dtDis.alasan_cancel || ""));
 
-                    $('#statusVisit').val(dtDis.visit_novisit);
+                    $('#permintaanReschedule').val(toTitleCase(dtDis.permintaan_rsch || "")); //1
+                    $('#responKonfCst').val(toTitleCase(dtDis.respon_cst || "")); //1
+                    $('#jwbKonfCst').val(toTitleCase(dtDis.jawaban_cst || "")); //1
+                    $('#weatherShow').val(dtDis.weather); //1
+                    $('#picDispatch').val(toTitleCase(dtDis.dispatch || "")); //1
+                    $('#telpDispatch').val(dtDis.telp_dispatch || ""); //1
+                    $('#detailAlasan').val(toTitleCase(dtDis.detail_alasan || "")); //1
+                    $('#statusWoApk').val(dtDis.status_apk || ""); //1
+                    $('#tglCheckinApk').val(dtDis.checkin_apk); //1
+                    $('#tglCheckoutApk').val(dtDis.checkout_apk); //1
 
-                    $('#statusStartIkrWa').val(dtDis.start_ikr_wa);
-                    $('#statusEndIkrWa').val(dtDis.end_ikr_wa);
+                    $('#validasiStart').val(dtDis.validasi_start); //1
+                    $('#validasiEnd').val(dtDis.validasi_end); //1
+                    $('#registStart').val(dtDis.regist_start); //1
+                    $('#registEnd').val(dtDis.regist_end); //1
+                    $('#kodeOtp').val(dtDis.kode_otp); //1
+                    $('#cekTelebot').val(dtDis.cek_telebot); //1
+                    $('#hasilCekTelebot').val(dtDis.hasil_cek_telebot); //1
+                    $('#mttrAll').val(dtDis.mttr_all); //1
+                    $('#mttrPending').val(dtDis.mttr_pending); //1
+                    $('#mttrProgress').val(dtDis.mttr_progress); //1
+                    $('#mttrTeknisi').val(dtDis.mttr_teknisi); //1
+                    $('#slaOver').val(dtDis.sla_over); //1
+                    $('#statusMaterial').val(statMaterial); //1
+                    $('input[name="materialOut"]').val(0); //1
+                    $('input[name="materialIn"]').val(0); //1
+                    $('#isChecked').prop('checked', dtDis.is_checked == 1); //1
 
-                    $('#validasiStart').val(dtDis.validasi_start);
-                    $('#validasiEnd').val(dtDis.validasi_end);
-                    $('#fotoRumah').val(dtDis.foto_rumah);
-                    $('#fotoSelfie').val(dtDis.foto_selfie);
-                    $('#registStart').val(dtDis.regist_start);
-                    $('#registEnd').val(dtDis.regist_end);
-                    $('#kondisiFat').val(dtDis.kondisi_fat);
-
-                    $('#cekTelebot').val(dtDis.cek_telebot);
-                    $('#hasilCekTelebot').val(dtDis.hasil_cek_telebot);
-
-                    $('#statusMaterial').val(statMaterial);
-                    $('#sitePenagihan').val(dtDis.site_penagihan);
-
-                    $('#isChecked').prop('checked', dtDis.is_checked == 1);
+                    $('#tglProgressAPKShow').trigger('change');
                     //End Tab Status Progress
 
                     //Start Tab Material
@@ -2507,10 +2632,7 @@
                     $('#socketPipe').val(material.socket_out);
                     $('#kabelUtp').val(material.utp_out);
                     $('#rj45').val(material.rj45_out);
-
-
-                    $('#tglProgressAPKShow').trigger('change');
-                    $('#showDetail').modal('show');
+                    
                 },
                 error: function (xhr, status, error) {
                     console.error('Gagal memuat data:', error);

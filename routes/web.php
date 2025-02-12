@@ -146,6 +146,7 @@ Route::post('/simpanImportJadwal', [ImportJadwalTim_controller::class, 'simpanIm
 Route::get('/analisaWo', [analisa_woController::class, 'index'])->name('analisaWo')->middleware('auth');
 
 Route::get('/rekapAssignTim', [RekapAssignTimController::class, 'index'])->name('rekapAssignTim')->middleware('auth');
+Route::get('/getTeknisiOffAssign', [RekapAssignTimController::class, 'getTeknisiOffAssign'])->name('getTeknisiOffAssign')->middleware('auth');
 Route::get('/getTabelLeadAssignTim', [RekapAssignTimController::class, 'getTabelLeadAssignTim'])->name('getTabelLeadAssignTim')->middleware('auth');
 Route::get('/getTabelRekapAssignTim', [RekapAssignTimController::class, 'getTabelRekapAssignTim'])->name('getTabelRekapAssignTim')->middleware('auth');
 Route::get('/getDetailLeadAssignTim', [RekapAssignTimController::class, 'getDetailLeadAssignTim'])->name('getDetailLeadAssignTim')->middleware('auth');

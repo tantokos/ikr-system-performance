@@ -163,12 +163,12 @@ class RekapAssignTimController extends Controller
 
         $dtOn= DB::table('v_rekap_jadwal_data as vd')
                     ->leftJoin('employees as e', 'vd.nik_karyawan','=','e.nik_karyawan')                    
-                    ->where('vd.branch', $branch)
+                    // ->where('vd.branch', $branch)
                     ->where('e.status_active', 'Aktif')
                     ->whereIn('vd.status', ["ON", "OD"])
                     ->where('vd.tgl', $tgl)
                     ->whereRaw('(e.posisi like "%Teknisi%" or e.posisi like "%Leader%")')
-                    ->select('vd.tgl','vd.branch','vd.nik_karyawan','vd.nama_karyawan','e.posisi')
+                    ->select('vd.tgl','vd.branch','vd.nik_karyawan','e.nama_karyawan','e.posisi')
                     ->orderBy('vd.tgl')
                     ->orderBy('vd.nama_karyawan')
                     ->get();
@@ -214,7 +214,7 @@ class RekapAssignTimController extends Controller
                         ->select('callsign', 'departement', 'posisi_nik','posisi_tek')
                         ->get();
 
-            //hapus semua teknisi yang di rubah/update di data callsign lain
+            //hapus semua teknisi FTTH yang di rubah/update jika teknisi tsb ada di callsign lain
             if(!is_null($dtAssign)) {
                 for($x=0; $x < count($dtAssign); $x++) {
                     $pos_nik = $dtAssign[$x]->posisi_nik;
@@ -227,10 +227,38 @@ class RekapAssignTimController extends Controller
                             ->update([
                                 $pos_nik => null,
                                 $pos_tek => null,
-                            ]);                                          
+                            ]);     
+                            
+                    $dtMt = DB::table('data_ftth_mt_oris')
+                            ->where('tgl_ikr', $tgl)
+                            ->where('branch', $branch)
+                            ->where('callsign', $dtAssign[$x]->callsign)
+                            ->update([
+                                $pos_nik => null,
+                                $pos_tek => null,
+                            ]);   
+
+                    $dtIb = DB::table('data_ftth_ib_oris')
+                            ->where('tgl_ikr', $tgl)
+                            ->where('branch', $branch)
+                            ->where('callsign', $dtAssign[$x]->callsign)
+                            ->update([
+                                $pos_nik => null,
+                                $pos_tek => null,
+                            ]);   
+
+                    $dtDis = DB::table('data_ftth_dismantle_oris')
+                            ->where('visit_date', $tgl)
+                            ->where('main_branch', $branch)
+                            ->where('callsign', $dtAssign[$x]->callsign)
+                            ->update([
+                                $pos_nik => null,
+                                $pos_tek => null,
+                            ]);   
                 }
             }
 
+            //hapus semua teknisi FTTx yang di rubah/update di jika teknisi tsb ada di callsign lain
             if(!is_null($dtAssignx)) {
                 for($x=0; $x < count($dtAssignx); $x++) {
                     $pos_nikx = $dtAssignx[$x]->posisi_nik;
@@ -247,32 +275,75 @@ class RekapAssignTimController extends Controller
                 }
             }
 
-                $dtCallTim = DB::table('data_assign_tims')
-                    ->where('tgl_ikr',$tgl)->where('branch',$branch)
-                    ->where('callsign',$callTim)->update([
-                    'tek1_nik' => $tek1_nik,
-                    'teknisi1' => $teknisi1,
-                    'tek2_nik' => $tek2_nik,
-                    'teknisi2' => $teknisi2,
-                    'tek3_nik' => $tek3_nik,
-                    'teknisi3' => $teknisi3,
-                    'tek4_nik' => $tek4_nik,
-                    'teknisi4' => $teknisi4,
-                ]);
+            //update callsign & teknisi didata assign tim FTTH
+            $dtCallTim = DB::table('data_assign_tims')
+                ->where('tgl_ikr',$tgl)->where('branch',$branch)
+                ->where('callsign',$callTim)->update([
+                'tek1_nik' => $tek1_nik,
+                'teknisi1' => $teknisi1,
+                'tek2_nik' => $tek2_nik,
+                'teknisi2' => $teknisi2,
+                'tek3_nik' => $tek3_nik,
+                'teknisi3' => $teknisi3,
+                'tek4_nik' => $tek4_nik,
+                'teknisi4' => $teknisi4,
+            ]);
 
-                $dtCallTim = DB::table('data_assign_tim_fttxs')
-                    ->where('jadwal_ikr',$tgl)->where('branch',$branch)
-                    ->where('callsign',$callTim)->update([
-                    'tek1_nik' => $tek1_nik,
-                    'tim_1' => $teknisi1,
-                    'tek2_nik' => $tek2_nik,
-                    'tim_2' => $teknisi2,
-                    'tek3_nik' => $tek3_nik,
-                    'tim_3' => $teknisi3,
-                    'tek4_nik' => $tek4_nik,
-                    'tim_4' => $teknisi4,
-                ]);
-            
+            //update callsign & teknisi didata monitoring MT FTTH
+            $dtMt = DB::table('data_ftth_mt_oris')
+                ->where('tgl_ikr',$tgl)->where('branch',$branch)
+                ->where('callsign',$callTim)->update([
+                'tek1_nik' => $tek1_nik,
+                'teknisi1' => $teknisi1,
+                'tek2_nik' => $tek2_nik,
+                'teknisi2' => $teknisi2,
+                'tek3_nik' => $tek3_nik,
+                'teknisi3' => $teknisi3,
+                'tek4_nik' => $tek4_nik,
+                'teknisi4' => $teknisi4,
+            ]);
+
+            //update callsign & teknisi didata monitoring IB FTTH
+            $dtIb = DB::table('data_ftth_ib_oris')
+                ->where('tgl_ikr',$tgl)->where('branch',$branch)
+                ->where('callsign',$callTim)->update([
+                'tek1_nik' => $tek1_nik,
+                'teknisi1' => $teknisi1,
+                'tek2_nik' => $tek2_nik,
+                'teknisi2' => $teknisi2,
+                'tek3_nik' => $tek3_nik,
+                'teknisi3' => $teknisi3,
+                'tek4_nik' => $tek4_nik,
+                'teknisi4' => $teknisi4,
+            ]);
+
+            //update callsign & teknisi didata monitoring Dismantle FTTH
+            $dtIb = DB::table('data_ftth_dismantle_oris')
+                ->where('visit_date',$tgl)->where('main_branch',$branch)
+                ->where('callsign',$callTim)->update([
+                'tek1_nik' => $tek1_nik,
+                'teknisi1' => $teknisi1,
+                'tek2_nik' => $tek2_nik,
+                'teknisi2' => $teknisi2,
+                'tek3_nik' => $tek3_nik,
+                'teknisi3' => $teknisi3,
+                'tek4_nik' => $tek4_nik,
+                'teknisi4' => $teknisi4,
+            ]);
+
+            //update data assign tim FTTX
+            $dtCallTim = DB::table('data_assign_tim_fttxs')
+                ->where('jadwal_ikr',$tgl)->where('branch',$branch)
+                ->where('callsign',$callTim)->update([
+                'tek1_nik' => $tek1_nik,
+                'tim_1' => $teknisi1,
+                'tek2_nik' => $tek2_nik,
+                'tim_2' => $teknisi2,
+                'tek3_nik' => $tek3_nik,
+                'tim_3' => $teknisi3,
+                'tek4_nik' => $tek4_nik,
+                'tim_4' => $teknisi4,
+            ]);
 
             DB::commit();
 
@@ -284,7 +355,6 @@ class RekapAssignTimController extends Controller
             DB::rollBack();
             return response()->json($e->getMessage());
         }
-
     }
 
     public function updateRekapAssignWo(Request $request) 
@@ -335,6 +405,66 @@ class RekapAssignTimController extends Controller
                     'tek4_nik' => $tek4_nik,
                     'teknisi4' => $teknisi4,
                 ]);
+
+            $dtMt = DB::table('data_ftth_mt_oris')
+                    ->where('tgl_ikr',$request->EditAssWOtglProgressTim)
+                    ->where('no_wo',$request->EditAssWONoWO)
+                    ->update([
+                    'leadcall_id' => $leadCallId,
+                    'leadcall' => $leadCall,
+                    'leader_id' => $leaderId,
+                    'leader' => $leader,
+                    'callsign_id' => $callsignId,
+                    'callsign' => $callsign,
+                    'tek1_nik' => $tek1_nik,
+                    'teknisi1' => $teknisi1,
+                    'tek2_nik' => $tek2_nik,
+                    'teknisi2' => $teknisi2,
+                    'tek3_nik' => $tek3_nik,
+                    'teknisi3' => $teknisi3,
+                    'tek4_nik' => $tek4_nik,
+                    'teknisi4' => $teknisi4,
+                ]);
+
+            $dtIb = DB::table('data_ftth_ib_oris')
+                ->where('tgl_ikr',$request->EditAssWOtglProgressTim)
+                ->where('no_wo',$request->EditAssWONoWO)
+                ->update([
+                'leadcall_id' => $leadCallId,
+                'leadcall' => $leadCall,
+                'leader_id' => $leaderId,
+                'leader' => $leader,
+                'callsign_id' => $callsignId,
+                'callsign' => $callsign,
+                'tek1_nik' => $tek1_nik,
+                'teknisi1' => $teknisi1,
+                'tek2_nik' => $tek2_nik,
+                'teknisi2' => $teknisi2,
+                'tek3_nik' => $tek3_nik,
+                'teknisi3' => $teknisi3,
+                'tek4_nik' => $tek4_nik,
+                'teknisi4' => $teknisi4,
+            ]);
+
+            $dtDis = DB::table('data_ftth_dismantle_oris')
+                ->where('visit_date',$request->EditAssWOtglProgressTim)
+                ->where('no_wo',$request->EditAssWONoWO)
+                ->update([
+                'leadcall_id' => $leadCallId,
+                'leadcall' => $leadCall,
+                'leader_id' => $leaderId,
+                'leader' => $leader,
+                'callsign_id' => $callsignId,
+                'callsign' => $callsign,
+                'tek1_nik' => $tek1_nik,
+                'teknisi1' => $teknisi1,
+                'tek2_nik' => $tek2_nik,
+                'teknisi2' => $teknisi2,
+                'tek3_nik' => $tek3_nik,
+                'teknisi3' => $teknisi3,
+                'tek4_nik' => $tek4_nik,
+                'teknisi4' => $teknisi4,
+            ]);
 
             $dtCallTim = DB::table('data_assign_tim_fttxs')
                     ->where('jadwal_ikr',$request->EditAssWOtglProgressTim)
@@ -418,6 +548,63 @@ class RekapAssignTimController extends Controller
         }
         
         
+    }
+
+    public function getTeknisiOffAssign(Request $request) 
+    {
+
+        $dtAssignOff = DB::table('v_rekap_assign as vra')
+            ->leftJoin('v_rekap_jadwal_data as vrjd', function($join) {
+                $join->on('vra.tek_nik','=','vrjd.nik_karyawan');
+                $join->on('vra.tgl_ikr','=','vrjd.tgl');
+            })
+            ->whereIn('vrjd.status', ["OFF","Cuti","Sakit","Absen"])
+            ->select('vra.*','vrjd.status' );
+
+        $dtAssign = DB::table('v_rekap_assign_tim as vrat')
+            ->joinSub($dtAssignOff, 'dtAssignOff', function($join) {
+                $join->on('vrat.tgl_ikr','=','dtAssignOff.tgl_ikr');
+                $join->on('vrat.callsign','=','dtAssignOff.callsign');
+            })
+            ->select('vrat.*', 'dtAssignOff.teknisi', 'dtAssignOff.status'); //->get();
+
+        if($request->filTgl != null) {
+                $dateRange = explode("-", $request->filTgl);
+                $startDt = \Carbon\Carbon::parse($dateRange[0]);
+                $endDt = \Carbon\Carbon::parse($dateRange[1]);
+
+                $dtAssign = $dtAssign->whereBetween('vrat.tgl_ikr',[$startDt, $endDt]);
+        }
+
+        if($request->filarea != null) {
+                $b = explode("|", $request->filarea);
+                $br = $b[1];
+                $dtAssign = $dtAssign->where('vrat.branch', $br);
+        }
+
+        $dtAssign = $dtAssign->get();
+
+        if ($request->ajax()) 
+        {
+            return DataTables::of($dtAssign)
+                ->addIndexColumn() //memberikan penomoran                
+                ->addColumn('action', function ($row) {
+                    $btn = '
+                        <button type="button" id="editSignTim" name="editSignTim" 
+                        data-id= "'. $row->tgl_ikr."|".$row->branch. '" class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-0 mb-0 px-1 py-1">
+                            <span class="btn-inner--icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
+                                </svg>
+                            </span>
+                        </button>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])   //merender content column dalam bentuk html
+                ->escapeColumns()  //mencegah XSS Attack
+                ->toJson(); //merubah response dalam bentuk Json
+                // ->make(true);
+        }
     }
 
     public function getTabelRekapLeader(Request $request)
@@ -816,8 +1003,6 @@ class RekapAssignTimController extends Controller
     {
         // dd($request);
         $akses = Auth::user()->name;
-
-
 
         $datasFtth = DB::table('data_assign_tims as dh')
                 ->select('dh.id', 'dh.batch_wo', 'dh.tgl_ikr', 'dh.type_wo', 'dh.no_wo_apk', 'dh.no_ticket_apk', 'dh.wo_date_apk', 'dh.cust_id_apk', 'dh.name_cust_apk', 

@@ -31,7 +31,7 @@ class JadwalTim_controller extends Controller
         $tahun = DB::table('data_jadwal_ikrs')->select('tahun')->distinct()->orderBy('tahun','DESC')->get();
         $bln = DB::table('data_jadwal_ikrs')
                 ->select('tahun','bulan', DB::raw('monthname(DATE(CONCAT_WS("-", tahun, bulan, 1))) as bulanname'))
-                ->distinct()->orderBy('bulan')->get();
+                ->distinct()->orderBy('bulan', 'DESC')->get();
 
         return view('absensi.ikr_schedule', 
                 ['akses' => $akses, 'branches' => $branches, 'kry' => $kry,
@@ -79,6 +79,7 @@ class JadwalTim_controller extends Controller
                 ->leftJoin('employees as e', 'd.nik_karyawan','=','e.nik_karyawan')
                 ->where('d.tahun', $request->filTahun)
                 ->where('d.bulan', $request->filBulan)
+                ->where('e.status_active', "Aktif")
                 ->select(DB::raw('d.*, e.departement, monthname(DATE(CONCAT_WS("-", d.tahun, d.bulan, 1))) as bulanname'))
                 ->orderBy('d.branch_id')
                 ->orderBy('d.nama_karyawan'); //->get();
@@ -99,9 +100,9 @@ class JadwalTim_controller extends Controller
 
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
-                ->editColumn('nama_karyawan', function ($nm) {
-                    return Str::title($nm->nama_karyawan);
-                })
+                // ->editColumn('nama_karyawan', function ($nm) {
+                //     return Str::title($nm->nama_karyawan);
+                // })
                 ->addColumn('dtid', function ($rw) {
                     $rwid = $rw->id;
                     return $rwid;
@@ -139,6 +140,7 @@ class JadwalTim_controller extends Controller
                 ->where('bulan', $request->filBulan)
                 ->where('posisiNew', 'LIKE', "%teknisi%")
                 ->where('nik_karyawan',$kryId)
+                ->where('status_active','=','Aktif')
                 ->orderBy('branch_id')
                 ->orderBy('nama_karyawan')
                 ->orderBy(DB::raw('case when status="ON" then 1
@@ -153,6 +155,7 @@ class JadwalTim_controller extends Controller
                 ->where('tahun', $request->filTahun)
                 ->where('bulan', $request->filBulan)
                 ->where('posisiNew', 'LIKE', "%teknisi%")
+                ->where('status_active','=','Aktif')
                 ->orderBy('branch_id')
                 ->orderBy('departement')
                 ->orderBy(DB::raw('case when status="ON" then 1
@@ -495,8 +498,28 @@ class JadwalTim_controller extends Controller
                         }
                     }
                     
-                } else {
-                    $dtEdit->update([
+                } else {                   
+
+                    // $dtEdit->update([
+                    //     'status_jadwal' => $request->statusKehadiran,
+                    //     'keterangan' => $request->remarks,
+                    //     'foto_lampiran' => $file,
+                    //     'login_id' => $loginId,
+                    //     'login' => $login,
+                    // ]);
+
+                    $delEdit = DataJadwalIkrEdit::where('jadwal_id',$dt->id)->where('tgl_jadwal', $request->tglProgress)->delete();
+
+                    $saveEdit = DataJadwalIkrEdit::create([
+                        'jadwal_id' => $dt->id,
+                        'branch_id' => $dt->branch_id,
+                        'branch' => $dt->branch,
+                        'nik_karyawan' => $dt->nik_karyawan,
+                        'nama_karyawan' => $dt->nama_karyawan,
+                        'bulan' => $dt->bulan,
+                        'tahun' => $dt->tahun,
+                        'tgl_jadwal' => $request->tglProgress,
+                        'jadwal_before' => $request->jadwalKaryawan,
                         'status_jadwal' => $request->statusKehadiran,
                         'keterangan' => $request->remarks,
                         'foto_lampiran' => $file,
@@ -504,7 +527,7 @@ class JadwalTim_controller extends Controller
                         'login' => $login,
                     ]);
 
-                    if($dtEdit){
+                    if($saveEdit){
                         if ($file != 'default-150x150.png') {
                             if($oldFoto != "Baru"){
                                 File::delete(public_path('storage/image-jadwal/' . $oldFoto));

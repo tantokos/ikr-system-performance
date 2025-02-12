@@ -51,8 +51,22 @@
                                 <div class="row">
                                     <label class="col-sm-3 col-form-label form-control-sm">Import By</label>
                                     <div class="col form-group">
-                                        <input type="text" class="form-control form-control-sm" id="akses"
+                                        <input type="text" class="form-control form-control-sm text-sm" id="akses"
                                             name="akses" value="{{ $akses }}" readonly />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label class="col-sm-3 col-form-label form-control-sm">Filter Area/Group</label>
+                                    <div class="col form-group">
+                                        @if (isset($filArea))
+                                            <textarea type="text" class="form-control form-control-sm text-sm"
+                                                name="FiArea" readonly>{{ $filArea }}</textarea>
+                                        @else
+                                            <textarea type="text" class="form-control form-control-sm text-sm"
+                                                name="FiArea" readonly>All Area</textarea>
+                                        @endif
+                                        
                                     </div>
                                 </div>
 

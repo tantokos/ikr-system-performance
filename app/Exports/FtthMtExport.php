@@ -9,8 +9,12 @@ use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class FtthMtExport implements FromCollection, WithHeadings, WithStyles
+class FtthMtExport implements FromCollection, WithHeadings, WithStyles, WithColumnFormatting
 {
     protected $request;
 
@@ -25,122 +29,122 @@ class FtthMtExport implements FromCollection, WithHeadings, WithStyles
         ini_set('memory_limit', '8192M');
 
         $datas = DB::table('data_ftth_mt_oris as d')
-        ->select('d.pic_monitoring',
+        ->leftJoin('data_assign_tims as dt', function ($join) {
+            $join->on('d.no_wo','=','dt.no_wo_apk');
+            $join->on('d.tgl_ikr', '=', 'dt.tgl_ikr');
+        })
+        ->select(
+            'd.site_penagihan',
+            'd.no_wo',       
+            'd.wo_date_apk',
             'd.type_wo',
-            'd.no_wo',
+            'd.wo_type_apk',                 
+            'd.type_maintenance',
+            'd.sesi',
             'd.no_ticket',
             'd.cust_id',
             'd.nama_cust',
             'd.cust_address1',
-            'd.cust_address2',
-            'd.type_maintenance',
+            'dt.cust_phone_apk',            
             'd.kode_fat',
-            'd.kode_wilayah',
+            'd.port_fat',
+            'd.tgl_ikr',
+            'd.slot_time_apk',
+            'd.checkin_apk',
+            DB::raw('"-" as minute'),
+            DB::raw('"-" as status_checkin'),
+            'd.checkout_apk',
+            DB::raw('"-" as waktu_Installasi'),
+            'd.mttr_all',
+            'd.mttr_pending',
+            'd.mttr_progress',
+            'd.mttr_teknisi',
+            'd.sla_over',
             'd.cluster',
             'd.kotamadya',
-            'd.kotamadya_penagihan',
             'd.branch',
-            'd.tgl_ikr',
-            'd.slot_time_leader',
-            'd.slot_time_apk',
-            'd.sesi',
-            'd.remark_traffic',
+            'd.kotamadya_penagihan',
             'd.callsign',
-            'd.leader',
             'd.teknisi1',
             'd.teknisi2',
             'd.teknisi3',
+            'd.leader',
+            'd.pic_monitoring',
+            DB::raw('"-" as pic_pengecekan'),
+            'd.status_apk',
             'd.status_wo',
+            'd.penagihan',
             'd.couse_code',
             'd.root_couse',
-            'd.penagihan',
-            'd.alasan_tag_alarm',
-            'd.tgl_jam_reschedule',
-            'd.tgl_reschedule',
-            'd.tgl_jam_fat_on',
             'd.action_taken',
-            'd.panjang_kabel',
-            'd.weather',
-            'd.remark_status',
             'd.action_status',
+            'd.detail_alasan',
             'd.visit_novisit',
-            'd.start_ikr_wa',
-            'd.end_ikr_wa',
+            'd.keterangan',
+            DB::raw('concat_ws(" ", d.tgl_reschedule, d.tgl_jam_reschedule) as jadwal_reschedule'),
+            'd.respon_cst',
+            'd.jawaban_cst',
+            'd.permintaan_rsch',
+            'd.dispatch',
+            'd.telp_dispatch',
+            'd.cek_telebot',
+            'd.hasil_cek_telebot',
+            'd.weather',
             'd.validasi_start',
             'd.validasi_end',
-            'd.checkin_apk',
-            'd.checkout_apk',
-            'd.status_apk',
-            'd.keterangan',
-            'd.ms_regular',
-            'd.wo_date_apk',
-            'd.wo_date_mail_reschedule',
-            'd.wo_date_slot_time_apk',
-            'd.actual_sla_wo_minute_apk',
-            'd.actual_sla_wo_jam_apk',
-            'd.mttr_over_apk_minute',
-            'd.mttr_over_apk_jam',
-            'd.mttr_over_apk_persen',
-            'd.status_sla',
-            'd.root_couse_before',
-            'd.slot_time_assign_apk',
-            'd.slot_time_apk_delay',
-            'd.status_slot_time_apk_delay',
-            'd.ket_delay_slot_time',
-            'd.konfirmasi_customer',
-            DB::raw('(SELECT description FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND description LIKE "%ONT%" LIMIT 1) as ont_merk_out'),
-            DB::raw('(SELECT sn FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND description LIKE "%ONT%" LIMIT 1) as ont_sn_out'),
-            DB::raw('(SELECT mac_address FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND description LIKE "%ONT%" LIMIT 1) as ont_mac_out'),
-            DB::raw('(SELECT description FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND description LIKE "%ONT%" LIMIT 1) as ont_merk_in'),
-            DB::raw('(SELECT sn FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND description LIKE "%ONT%" LIMIT 1) as ont_sn_in'),
-            DB::raw('(SELECT mac_address FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND description LIKE "%ONT%" LIMIT 1) as ont_mac_in'),
-            'd.router_merk_out',
-            'd.router_sn_out',
-            'd.router_mac_out',
-            'd.router_merk_in',
-            'd.router_sn_in',
-            'd.router_mac_in',
-            'd.stb_merk_out',
-            DB::raw('(SELECT description FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND description LIKE "%STB%" LIMIT 1) as stb_merk_out'),
-            DB::raw('(SELECT sn FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND description LIKE "%STB%" LIMIT 1) as stb_sn_out'),
-            DB::raw('(SELECT mac_address FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND description LIKE "%STB%" LIMIT 1) as stb_mac_out'),
-            DB::raw('(SELECT description FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND description LIKE "%STB%" LIMIT 1) as stb_merk_in'),
-            DB::raw('(SELECT sn FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND description LIKE "%STB%" LIMIT 1) as stb_sn_in'),
-            DB::raw('(SELECT mac_address FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND description LIKE "%STB%" LIMIT 1) as stb_mac_in'),
-            'd.dw_out',
-            DB::raw('(SELECT description FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND description LIKE "%PRECON%" LIMIT 1) as precon_out'),
+            'd.regist_start',
+            'd.regist_end',
+            'd.kode_otp',
+            DB::raw('"-" as pic_konf_cst'),
+            DB::raw('"-" as status_konf_cst'),
+            DB::raw('"-" as tgl_jam_konf_cst'),
+            DB::raw('"-" as menit_konf_cst'),
+            DB::raw('"-" as ket_konf_cst'),
+            DB::raw('"-" as terlambat_konf_cst'),
+            DB::raw('"-" as bukti_konf_cst'),
+            'd.material_out',
+            'd.material_in',
+                  
+            DB::raw('(SELECT description FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "ONT" LIMIT 1) as ont_merk_out'),
+            DB::raw('(SELECT sn FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "ONT" LIMIT 1) as ont_sn_out'),
+            DB::raw('(SELECT mac_address FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "ONT" LIMIT 1) as ont_mac_out'),
+            DB::raw('(SELECT description FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND kategori_material = "ONT" LIMIT 1) as ont_merk_in'),
+            DB::raw('(SELECT sn FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND kategori_material = "ONT" LIMIT 1) as ont_sn_in'),
+            DB::raw('(SELECT mac_address FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND kategori_material = "ONT" LIMIT 1) as ont_mac_in'),
+
+            DB::raw('(SELECT description FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "Router" LIMIT 1) as router_merk_out'),
+            DB::raw('(SELECT sn FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "Router" LIMIT 1) as router_sn_out'),
+            DB::raw('(SELECT mac_address FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "Router" LIMIT 1) as router_mac_out'),
+            DB::raw('(SELECT description FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND kategori_material = "Router" LIMIT 1) as router_merk_in'),
+            DB::raw('(SELECT sn FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND kategori_material = "Router" LIMIT 1) as router_sn_in'),
+            DB::raw('(SELECT mac_address FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND kategori_material = "Router" LIMIT 1) as router_mac_in'),
+
+            DB::raw('(SELECT description FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "STB" LIMIT 1) as stb_merk_out'),
+            DB::raw('(SELECT sn FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "STB" LIMIT 1) as stb_sn_out'),
+            DB::raw('(SELECT mac_address FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "STB" LIMIT 1) as stb_mac_out'),
+            DB::raw('(SELECT description FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND kategori_material = "STB" LIMIT 1) as stb_merk_in'),
+            DB::raw('(SELECT sn FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND kategori_material = "STB" LIMIT 1) as stb_sn_in'),
+            DB::raw('(SELECT mac_address FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND kategori_material = "STB" LIMIT 1) as stb_mac_in'),
+
+            DB::raw('(SELECT description FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "Remote" LIMIT 1) as remote_out'),
+            DB::raw('(SELECT description FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "IN" AND kategori_material = "Remote" LIMIT 1) as remote_in'),
+
+            DB::raw('(SELECT qty FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "DW" LIMIT 1) as dw_out'),
+            DB::raw('(SELECT description FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "Precon" LIMIT 1) as precon_out'),
             'd.bad_precon',
-            'd.fast_connector',
-            'd.patchcord',
-            'd.terminal_box',
-            'd.remote_fiberhome',
-            'd.remote_extrem',
-            'd.port_fat',
-            'd.site_penagihan',
-            'd.site_penagihan',
-            'd.konfirmasi_cst',
-            'd.konfirmasi_dispatch',
-            'd.remark_status2',
-            'd.login',
-            'd.created_at',
-            'd.updated_at',
-            'd.wo_type_apk',
-            'd.branch_id',
-            'd.leadcall',
-            'd.tek1_nik',
-            'd.tek2_nik',
-            'd.tek3_nik',
-            'd.tek4_nik',
-            'd.leadcall_id',
-            'd.leader_id',
-            'd.callsign_id',
-            'd.teknisi4',
-            'd.alasan_tidak_ganti_precon',
-            'd.alasan_pending',
-            'd.alasan_cancel',
+
+            DB::raw('(SELECT qty FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "Fast Connector" LIMIT 1) as fastConnector'),
+            DB::raw('(SELECT qty FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "Patchcord" LIMIT 1) as patchcord'),
+            DB::raw('(SELECT qty FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "Terminal Box" LIMIT 1) as terminal_box'),
+            DB::raw('(SELECT qty FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "UTP Box" LIMIT 1) as kabel_utp'),
+            DB::raw('(SELECT qty FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "PVC Pipe Box" LIMIT 1) as pipa'),
+            DB::raw('(SELECT qty FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "Socket Pipe" LIMIT 1) as socket_pipa'),
+            DB::raw('(SELECT qty FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "Cable Duct" LIMIT 1) as cable_duct'),
+            DB::raw('(SELECT qty FROM ftth_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND kategori_material = "RJ45" LIMIT 1) as rj45'),
+
             'd.is_checked',
          )
-        ->orderBy('tgl_ikr', 'DESC');
+        ->orderBy('d.tgl_ikr', 'DESC');
 
         if($this->request->filtglProgress) {
             $dateRange = explode(" - ", $this->request->filtglProgress);
@@ -153,128 +157,150 @@ class FtthMtExport implements FromCollection, WithHeadings, WithStyles
             $startDt = Carbon::parse($startDate)->startOfDay();
             $endDt = Carbon::parse($endDate)->endOfDay();
 
-            $datas = $datas->whereBetween('tgl_ikr', [$startDt, $endDt]);
+            $datas = $datas->whereBetween('d.tgl_ikr', [$startDt, $endDt]);
         }
 
         if($this->request->filnoWo) {
-            $datas = $datas->where('no_wo', 'like', '%' . $this->request->filnoWo . '%');
+            $datas = $datas->where('d.no_wo', 'like', '%' . $this->request->filnoWo . '%');
         }
 
         if($this->request->filcustId) {
-            $datas = $datas->where('cust_id', 'like', '%' . $this->request->filcustId . '%');
+            $datas = $datas->where('d.cust_id', 'like', '%' . $this->request->filcustId . '%');
         }
 
         if($this->request->filstatusWo) {
-            $datas = $datas->where('status_wo', $this->request->filstatusWo);
+            $datas = $datas->where('d.status_wo', $this->request->filstatusWo);
         }
 
         if($this->request->filarea) {
             $area = explode("|", $this->request->filarea);
-            $datas = $datas->where('branch', $area[1]);
+            $datas = $datas->where('d.branch', $area[1]);
         }
 
         if($this->request->filleaderTim) {
             $leader = explode("|", $this->request->filleaderTim);
-            $datas = $datas->where('leader', $leader[1]);
+            $datas = $datas->where('d.leader', $leader[1]);
         }
 
         if($this->request->filcallsignTimid) {
             $callsign = explode("|", $this->request->filcallsignTimid);
-            $datas = $datas->where('callsign', $callsign[1]);
+            $datas = $datas->where('d.callsign', $callsign[1]);
         }
 
         if($this->request->filteknisi) {
             $teknisi = explode("|", $this->request->filteknisi);
             $nikTk = $teknisi[0];
             $datas = $datas->where(function($query) use ($nikTk) {
-                $query->where('tek1_nik', $nikTk)
-                      ->orWhere('tek2_nik', $nikTk)
-                      ->orWhere('tek3_nik', $nikTk)
-                      ->orWhere('tek4_nik', $nikTk);
+                $query->where('d.tek1_nik', $nikTk)
+                      ->orWhere('d.tek2_nik', $nikTk)
+                      ->orWhere('d.tek3_nik', $nikTk)
+                      ->orWhere('d.tek4_nik', $nikTk);
             });
         }
 
         if($this->request->filcluster) {
-            $datas = $datas->where('cluster', $this->request->filcluster);
+            $datas = $datas->where('d.cluster', $this->request->filcluster);
         }
 
         if($this->request->filfatCode) {
-            $datas = $datas->where('kode_fat', 'like', '%' . $this->request->filfatCode . '%');
+            $datas = $datas->where('d.kode_fat', 'like', '%' . $this->request->filfatCode . '%');
         }
 
         if($this->request->filslotTime) {
-            $datas = $datas->where('slot_time', $this->request->filslotTime);
+            $datas = $datas->where('d.slot_time', $this->request->filslotTime);
         }
 
-        return $datas->get();
+        $datas=$datas->get();
+
+        $collection = $datas->map(function ($item, $key) {
+            $item->minute = '=IF(Q'.($key + 2).'="","No Checkin",(CONCATENATE(TEXT(O'.($key + 2).',"yyyy-mm-dd")&" "&TEXT(P'.($key + 2).',"hh:mm:ss"))-Q'.($key + 2).')*1440)';
+            $item->status_checkin = '=IF(R'.($key + 2).'="No Checkin", "No Checkin",IF(R'.($key + 2).'<0,"Terlambat","On Time"))';
+            $item->waktu_Installasi = '=IF(AND(AM'.($key + 2).'="Done",AL'.($key + 2).'="cancelled"),0,IF(OR(AM'.($key + 2).'="done",AM'.($key + 2).'="CHECKOUT"),(T'.($key + 2).'-Q'.($key + 2).'),0))';
+            $item->material_in = '=COUNTA(BV'.($key + 2).',CB'.($key + 2).',CH'.($key + 2).',CL'.($key + 2).',CO'.($key + 2).')';
+            $item->material_out = '=COUNTA(BS'.($key + 2).',BY'.($key + 2).',CE'.($key + 2).',CK'.($key + 2).',CM'.($key + 2).',CN'.($key + 2).',CP'.($key + 2).',CQ'.($key + 2).',CR'.($key + 2).',CS'.($key + 2).',CT'.($key + 2).',CU'.($key + 2).',CV'.($key + 2).',CW'.($key + 2).')';
+            return $item;
+        });
+
+        // dd($datas);
+
+        // return $datas->get();
+
+        return $collection;
     }
 
     public function headings(): array
     {
         return [
-            'PIC Monitoring',
-            'Type WO',
+            'Site',
             'No WO',
+            'WO Date',
+            'Type WO',
+            'Sub Type WO',
+            'Rekarks WO',
+            'Sesi',
             'No Ticket',
             'Cust ID',
             'Nama Cust',
-            'Adress',
-            'Address2',
-            'Type Maintenance',
+            'Alaamat',
+            'No HP',
             'Kode FAT',
-            'Kode Wilayah',
+            'Port FAT',
+            'IKR Date',
+            'Slot time',
+            'Checkin APK',
+            '+- Minute',
+            'Status Checkin',
+            'Checkout APK',
+            'Waktu Instalasi (APK)',
+            'MTTR All',
+            'MTTR Pending',
+            'MTTR Progress',
+            'MTTR Technician',
+            'SLA Over',
             'Cluster',
             'Kotamadya',
-            'Kotamadya Penagihan',
             'Branch',
-            'Tgl IKR',
-            'Slot Time Leader',
-            'Slot Time APK',
-            'Sesi',
-            'Remarks Traffic',
-            'Callsign',
-            'Leader',
+            'Kotamadya Penagihan',
+            'Callsign',            
             'Teknisi1',
             'Teknisi2',
             'Teknisi3',
-            'Status WO',
-            'Cause Code',
+            'Leader',
+            'PIC Monitoring',
+            'PIC Pengecekan',
+            'Status APK',
+            'Status Progress',
+            'Rootcouse Penagihan',
+            'Couse Code',
             'Root Couse',
-            'Penagihan',
-            'Alasan Tag Alarm',
-            'Tgl Jam Reschedule',
-            'Tgl Reschedule',
-            'Tgl Jam FAT On',
             'Action Taken',
-            'Panjang Kabel',
-            'Weather',
-            'Remarks Status',
             'Action Status',
-            'Visit Novisit',
-            'Start IKR WA',
-            'End IKR WA',
-            'Validasi Start',
-            'Validasi End',
-            'Checkin Apk',
-            'Checkout Apk',
-            'Status Apk',
-            'Report Teknisi',
-            'MS Regular',
-            'WO Date Apk',
-            'Wo Date Mail Reschedule',
-            'Wo Date Slot Time Apk',
-            'Actual Sla Wo Minute Apk',
-            'Actual Sla Wo Jam Apk',
-            'Mttr Over Apk Minute',
-            'Mttr Over Apk Jam',
-            'Mttr Over Apk Persen',
-            'Status Sla',
-            'Root Couse Before',
-            'Slot Time Assign Apk',
-            'Slot Time Apk Delay',
-            'Status Slot Time Apk Delay',
-            'Ket Delay Slot Time',
-            'Konfirmasi Customer',
+            'Detail Alasan',
+            'Status Visit',
+            'Remarks',
+            'Tgl & Jam Reschedule',
+            'Respon Konf Cst',
+            'Jawaban Konf',
+            'Permintaan Reschedule',
+            'Nama Dispatch',
+            'Telp Dispatch',
+            'Cek Telebot',
+            'Hasil Pengecekan',
+            'Weather',
+            'Start Validasi',
+            'End Validasi',
+            'Start Regist',
+            'End Regist',
+            'Kode OTP',   
+            'PIC Konf Cst',
+            'Status Konf Cst',
+            'Tgl & Jam Konf Cst',
+            '+- Menit Konf CST',
+            'Ket Konf Cst',
+            'Keterlambatan Konf Cst',
+            'Bukti Konfirmasi',
+            'Qty Material Out',
+            'Qty Material In',
             'Ont Merk Out',
             'Ont Sn Out',
             'Ont Mac Out',
@@ -293,37 +319,29 @@ class FtthMtExport implements FromCollection, WithHeadings, WithStyles
             'Stb Merk In',
             'Stb Sn In',
             'Stb Mac In',
+            'Remote Out',
+            'Remote In',
             'Dw Out',
             'Precon Out',
-            'Bad Precon',
+            'Precon In',
             'Fast Connector',
             'Patchcord',
             'Terminal Box',
-            'Remote Fiberhome',
-            'Remote Extrem',
-            'Port Fat',
-            'Site Penagihan',
-            'Konfirmasi Cst',
-            'Konfirmasi Dispatch',
-            'Remark Status2',
-            'Login',
-            'Created At',
-            'Updated At',
-            'Wo Type Apk',
-            'Branch Id',
-            'Leadcall',
-            'Tek1 Nik',
-            'Tek2 Nik',
-            'Tek3 Nik',
-            'Tek4 Nik',
-            'Leadcall Id',
-            'Leader Id',
-            'Callsign Id',
-            'Teknisi4',
-            'Alasan Tidak Ganti Precon',
-            'Alasan Pending',
-            'Alasan Cancel',
+            'Kabel UTP',
+            'Pipa PVC',
+            'Socket Pipa',
+            'Cable Duct',
+            'RJ 45',
             'Is Checked',
+        ];
+    }
+
+    public function columnFormats(): array
+    {
+        return [
+            'R' => NumberFormat::FORMAT_NUMBER, // Format kolom D sebagai number
+            'S' => NumberFormat::FORMAT_NUMBER, // Format kolom D sebagai number
+            'U' => NumberFormat::FORMAT_DATE_TIME4, // Format kolom D sebagai time 24 jam
         ];
     }
 

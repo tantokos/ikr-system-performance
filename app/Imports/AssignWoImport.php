@@ -26,26 +26,31 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
      * @return \Illuminate\Database\Eloquent\Model|null
      */
 
-    protected $logId, $logNm, $rekapJadwal, $rekapBranch, $rekapCallsignTim, $rekapCallsignLead;
+    protected $logId, $logNm, $tpe_wo, $cluster, $rekapKry, $rekapBranch, $rekapCallsignTim, $rekapCallsignLead;
 
-    function __construct($akses, $dtJadwal, $dtBranch, $dtCallsignTim, $dtCallsignLead)
+    function __construct($akses, $dttp_wo, $dtcluster, $dtKry, $dtBranch, $dtCallsignTim, $dtCallsignLead)
     {
+        // dd($dttp_wo);
         $dtLogin = explode("|", $akses);
         $loginId = $dtLogin[0];
         $loginNm = $dtLogin[1];
         $this->logId = $loginId;
         $this->logNm = $loginNm;
-        $this->rekapJadwal = json_decode($dtJadwal, true);
+        // $this->rekapJadwal = json_decode($dtJadwal, true);
+        $this->tpe_wo = json_decode($dttp_wo,true);
+        $this->cluster = json_decode($dtcluster, true);
+        $this->rekapKry = json_decode($dtKry, true);
         $this->rekapBranch = json_decode($dtBranch, true);
         $this->rekapCallsignTim = json_decode($dtCallsignTim, true);
         $this->rekapCallsignLead = json_decode($dtCallsignLead, true);
+
     }
 
 
     public function model(array $row)
     {
 
-        // dd($this->rekapJadwal);
+        
         // $ikrDate = $row['ikr_date'];
         
         if(!array_filter($row)) {
@@ -231,7 +236,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
 
     public function chunkSize(): int
     {
-        return 1000;
+        return 10;
     }
 
     public function get_data_id($kolom, $data, $tanggal)
@@ -339,9 +344,9 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     //             ->first();
                     // dd(is_null($tek1_nik));
 
-                    $tek1_nik = array_values(Arr::where($this->rekapJadwal, function (array $value, $key) use ($tanggal, $data) {
+                    $tek1_nik = array_values(Arr::where($this->rekapKry, function (array $value, $key) use ($tanggal, $data) {
                         // return $value['tgl'] == $ikrDate ;
-                        return $value['tgl']== $tanggal && $value['nama_karyawan']== $data;
+                        return strtoupper($value['nama_karyawan'])== strtoupper($data);
                     }));
 
                     $tek1Nik = empty($tek1_nik) ? null : $tek1_nik[0]['nik_karyawan'];
@@ -358,9 +363,9 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     //             ->first();
                     // dd(is_null($tek1_nik));
 
-                    $tek1_nik = array_values(Arr::where($this->rekapJadwal, function (array $value, $key) use ($tanggal, $data) {
+                    $tek1_nik = array_values(Arr::where($this->rekapKry, function (array $value, $key) use ($tanggal, $data) {
                         // return $value['tgl'] == $ikrDate ;
-                        return $value['tgl']== $tanggal && $value['nama_karyawan']== $data;
+                        return strtoupper($value['nama_karyawan'])== strtoupper($data);
                     }));
 
                     $tekName1 = empty($tek1_nik) ? null : $tek1_nik[0]['nama_karyawan'];
@@ -377,11 +382,11 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     //         ->first();
                     // $tek2Nik = is_null($tek2_nik) ? null : $tek2_nik->nik_karyawan;
 
-                    $tek2_nik = array_values(Arr::where($this->rekapJadwal, function (array $value, $key) use ($tanggal, $data) {
+                    $tek2_nik = array_values(Arr::where($this->rekapKry, function (array $value, $key) use ($tanggal, $data) {
                         // return $value['tgl'] == $ikrDate ;
-                        return $value['tgl']== $tanggal && $value['nama_karyawan']== $data;
+                        return strtoupper($value['nama_karyawan'])== strtoupper($data);
                     }));
-
+                    
                     $tek2Nik = empty($tek2_nik) ? null : $tek2_nik[0]['nik_karyawan'];
                     return $tek2Nik;
                     break;
@@ -396,9 +401,9 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     // // dd(is_null($tek1_nik));
                     // $tekName2 = is_null($tek2_nik) ? null : $tek2_nik->nama_karyawan;
 
-                    $tek2_nik = array_values(Arr::where($this->rekapJadwal, function (array $value, $key) use ($tanggal, $data) {
+                    $tek2_nik = array_values(Arr::where($this->rekapKry, function (array $value, $key) use ($tanggal, $data) {
                         // return $value['tgl'] == $ikrDate ;
-                        return $value['tgl']== $tanggal && $value['nama_karyawan']== $data;
+                        return strtoupper($value['nama_karyawan'])== strtoupper($data);
                     }));
 
                     $tekName2 = empty($tek2_nik) ? null : $tek2_nik[0]['nama_karyawan'];
@@ -414,9 +419,9 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     //         ->first();
                     // $tek3Nik = is_null($tek3_nik) ? null : $tek3_nik->nik_karyawan;
 
-                    $tek3_nik = array_values(Arr::where($this->rekapJadwal, function (array $value, $key) use ($tanggal, $data) {
+                    $tek3_nik = array_values(Arr::where($this->rekapKry, function (array $value, $key) use ($tanggal, $data) {
                         // return $value['tgl'] == $ikrDate ;
-                        return $value['tgl']== $tanggal && $value['nama_karyawan']== $data;
+                        return strtoupper($value['nama_karyawan'])== strtoupper($data);
                     }));
                     // dd(empty($tek3_nik));
 
@@ -434,9 +439,9 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     // // dd(is_null($tek1_nik));
                     // $tekName3 = is_null($tek3_nik) ? null : $tek3_nik->nama_karyawan;
 
-                    $tek3_nik = array_values(Arr::where($this->rekapJadwal, function (array $value, $key) use ($tanggal, $data) {
+                    $tek3_nik = array_values(Arr::where($this->rekapKry, function (array $value, $key) use ($tanggal, $data) {
                         // return $value['tgl'] == $ikrDate ;
-                        return $value['tgl']== $tanggal && $value['nama_karyawan']== $data;
+                        return strtoupper($value['nama_karyawan'])== strtoupper($data);
                     }));
 
                     $tekName3 = empty($tek3_nik) ? null : $tek3_nik[0]['nama_karyawan'];
@@ -452,9 +457,9 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     //         ->first();
                     // $tek4Nik = is_null($tek4_nik) ? null : $tek4_nik->nik_karyawan;
 
-                    $tek4_nik = array_values(Arr::where($this->rekapJadwal, function (array $value, $key) use ($tanggal, $data) {
+                    $tek4_nik = array_values(Arr::where($this->rekapKry, function (array $value, $key) use ($tanggal, $data) {
                         // return $value['tgl'] == $ikrDate ;
-                        return $value['tgl']== $tanggal && $value['nama_karyawan']== $data;
+                        return strtoupper($value['nama_karyawan'])== strtoupper($data);
                     }));
 
                     $tek4Nik = empty($tek4_nik) ? null : $tek4_nik[0]['nik_karyawan'];
@@ -471,9 +476,9 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     // // dd(is_null($tek1_nik));
                     // $tekName4 = is_null($tek4_nik) ? null : $tek4_nik->nama_karyawan;
 
-                    $tek4_nik = array_values(Arr::where($this->rekapJadwal, function (array $value, $key) use ($tanggal, $data) {
+                    $tek4_nik = array_values(Arr::where($this->rekapKry, function (array $value, $key) use ($tanggal, $data) {
                         // return $value['tgl'] == $ikrDate ;
-                        return $value['tgl']== $tanggal && $value['nama_karyawan']== $data;
+                        return strtoupper($value['nama_karyawan'])== strtoupper($data);
                     }));
 
                     $tekName4 = empty($tek4_nik) ? null : $tek4_nik[0]['nama_karyawan'];
@@ -481,21 +486,35 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     break;
 
                 case "type_wo":
-                    $tp_wo = DB::table('type_wo')->select('type_wo')->where('type_wo_apk', $data)->first();
-                    $typeWo = is_null($tp_wo) ? null : $tp_wo->type_wo;
+                    // $tp_wo = DB::table('type_wo')->select('type_wo')->where('type_wo_apk', $data)->first();
+                    // $typeWo = is_null($tp_wo) ? null : $tp_wo->type_wo;
+
+                    $t_wo = array_values(Arr::where($this->tpe_wo, function (array $value, $key) use ($data) {
+                        return strtoupper($value['type_wo_apk']) == strtoupper($data);
+
+                    }));
+                    // dd($this->tp_wo);
+                    $typeWo = empty($t_wo) ? null : $t_wo[0]['type_wo'];
                     return $typeWo;
                     break;   
                 case "areaCluster":
                     $katArea = "";
-                    if($data == "Jakarta Timur" || $data == "Jakarta Selatan" || $data == "Bekasi" || $data == "Bogor" || $data == "Tangerang") {
+                    if($data == "Jakarta Timur" || $data == "Jakarta Selatan" || $data == "Bekasi" 
+                                || $data == "Bogor" || $data == "Tangerang") {
                         $katArea = "Jabotabek";
                     } else {
                         $katArea = "Regional";
                     }
 
-                    $clusterArea = DB::table('list_fat')->select('cluster')
-                                ->where('kode_area', substr($data,5,3))->where('kategori_area', $katArea)->first();
-                    $cluster = is_null($clusterArea) ? null : $clusterArea->cluster;
+                    // $clusterArea = DB::table('list_fat')->select('cluster')
+                    //             ->where('kode_area', substr($data,5,3))->where('kategori_area', $katArea)->first();
+                    // $cluster = is_null($clusterArea) ? null : $clusterArea->cluster;
+
+                    $clusterArea = array_values(Arr::where($this->cluster, function (array $value, $key) use ($data, $katArea) {
+                        return strtoupper($value['kode_area']) == strtoupper(substr($data,5,3)) && strtoupper($value['kategori_area']) == strtoupper($katArea);
+
+                    }));
+                    $cluster = empty($clusterArea) ? null : $clusterArea[0]['cluster'];
                     return $cluster;
                     break;           
 

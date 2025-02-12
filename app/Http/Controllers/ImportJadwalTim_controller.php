@@ -177,6 +177,7 @@ class ImportJadwalTim_controller extends Controller
                                 ->where('nik_karyawan', $data['nik_karyawan'])
                                 ->where('bulan', $data['bulan'])->where('tahun', $data['tahun'])
                                 ->update([
+                                    'nama_karyawan' => $data['nama_karyawan'],
                                     'branch_id' => $data['branch_id'],
                                     'branch' => $data['branch'],
                                     't01' => $data['t01'],'t02' => $data['t02'],'t03' => $data['t03'],'t04' => $data['t04'],'t05' => $data['t05'],'t06' => $data['t06'],'t07' => $data['t07'],'t08' => $data['t08'],'t09' => $data['t09'],'t10' => $data['t10'],
@@ -314,9 +315,9 @@ class ImportJadwalTim_controller extends Controller
 
             return DataTables::of($datas)
                 ->addIndexColumn() //memberikan penomoran
-                ->editColumn('nama_karyawan', function ($nm) {
-                    return Str::title($nm->nama_karyawan);
-                })
+                // ->editColumn('nama_karyawan', function ($nm) {
+                //     return Str::title($nm->nama_karyawan);
+                // })
                 
                 ->addColumn('action', function ($row) {
                     $btn = '

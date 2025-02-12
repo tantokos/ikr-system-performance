@@ -259,7 +259,7 @@
                                                 <dd class="col-sm-8 text-sm">{{ $karyawan->status_pernikahan ?: '-' }}
                                                 </dd>
 
-                                                <dt class="col-sm-4 text-sm">Jumlah Tanggungan</dt>
+                                                <dt class="col-sm-4 text-sm">Jumlah Tanggungan (Anak)</dt>
                                                 <dd class="col-sm-8 text-sm">
                                                     {{ $karyawan->jml_tanggungan ?: '-' }}</dd>
 
@@ -496,9 +496,26 @@
 
                                             <div class="col">
                                                 <div class="form-group mb-1 text-center">
-                                                    <img src="/storage/image-kry/{{ $karyawan->foto_karyawan }}"
+                                                    {{-- <img src="/storage/image-kry/{{ $karyawan->foto_karyawan }}"
                                                         id="showFotoEdit" alt="Card Image"
-                                                        style="width:160px;height: 160px;" />
+                                                        style="width:160px;height: 160px;" /> --}}
+
+                                                    {{-- <div class="form-group mb-1 text-center" style="width:160px;height: 160px;"> --}}
+            
+                                                        @if (substr($karyawan->foto_karyawan,0,4) == "http" )
+                                                            {{-- {{ dd($karyawan->foto_karyawan)}} --}}
+                                                            <iframe src="https://drive.google.com/file/d/{{ substr($karyawan->foto_karyawan, strpos($karyawan->foto_karyawan,"id=") + 3) }}/preview" id="showFotoEditHttp"
+                                                            alt="Card Image" width="170" height="170"></iframe>
+
+                                                            <img src="/storage/image-kry/{{ $karyawan->foto_karyawan }}" id="showFotoEdit"
+                                                            alt="Card Image" style="width:160px;height: 160px;object-fit: contain;" hidden/>
+                                                        @else
+                                                            <img src="/storage/image-kry/{{ $karyawan->foto_karyawan }}" id="showFotoEdit"
+                                                            alt="Card Image" style="width:160px;height: 160px;object-fit: contain;"/>
+                                                        @endif
+                                                            
+                                                                
+                                                    {{-- </div> --}}
 
                                                 </div>
                                                 <div class="form-group mb-1">
@@ -769,7 +786,7 @@
                                                         
                                                         <div class="col">
                                                             <input class="form-check-input" type="radio" value="Belum Dapat" name="seragam2" id="seragam2_3"
-                                                            {{ $karyawan->seragam1 == "Belum Dapat" ? "checked" : ""}}>
+                                                            {{ $karyawan->seragam2 == "Belum Dapat" ? "checked" : ""}}>
                                                             <span class="text-xs">Belum Dapat</span>
                                                         </div>
                                                     </div>
@@ -835,7 +852,7 @@
                                                     </div>
 
                                                     <div class="col">
-                                                        <span class="text-xs">Jml Tanggungan</span>
+                                                        <span class="text-xs">Jml Tanggungan (Anak)</span>
                                                         <input type="number" class="form-control form-control-sm"
                                                             id="jmlTanggungan" name="jmlTanggungan"
                                                             style="border-color:#9ca0a7;"
@@ -1188,6 +1205,8 @@
             var reader = new FileReader();
             reader.onload = function(e) {
                 $('#showFotoEdit').attr('src', e.target.result);
+                document.getElementById('showFotoEdit').hidden = false;
+                document.getElementById('showFotoEditHttp').hidden = true;
             }
             reader.readAsDataURL(input.files[0]);
         }

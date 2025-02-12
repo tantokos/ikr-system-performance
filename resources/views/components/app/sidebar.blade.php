@@ -179,6 +179,7 @@
                 </a>
             </li>
 
+            @if (Auth::user()->name == "Tanto")
             <li class="nav-item">
                 <a class="nav-link  {{ is_current_route('monitFtthIB') || is_current_route('monitFtthMT') || is_current_route('rekapProgressWO') ? 'active' : '' }}">
                     <div
@@ -223,12 +224,16 @@
                 </a>
             </li>
 
+         
+
             <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('monitFtthMT') ? 'active' : '' }}"
                     href="{{ route('monitFtthMT') }}">
                     <span class="nav-link-text ms-1">FTTH Maintenance</span>
                 </a>
             </li>
+
+            @endif
 
             <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('monitFtthDismantle') ? 'active' : '' }}"
