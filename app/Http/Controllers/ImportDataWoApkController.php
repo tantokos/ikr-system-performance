@@ -28,12 +28,12 @@ class ImportDataWoApkController extends Controller
                             ->where('grup_area', $request->areagroup)->pluck('nama_branch')->toArray();
 
             $filArea = Arr::join($grupArea, ', ');
-        }        
+        }
 
         if($request->areaFill == null && $request->areagroup == null) {
             $filArea = null;
         }
-        
+
         // dd($filArea);
 
         $akses = Auth::user()->name;
@@ -67,12 +67,12 @@ class ImportDataWoApkController extends Controller
                 Excel::import(new FtthMtApkImport($akses), request()->file('fileDataWO'));
 
                 return back()->with(['success' => 'Import WO FTTH Maintenance berhasil.']);
-                
+
             } catch (\Exception $e) {
 
                 return back()->with(['error' => 'Kesalahan: ' . $e->getMessage()]);
             }
-            
+
 
         }
 
@@ -184,32 +184,33 @@ class ImportDataWoApkController extends Controller
                         $join->on('apk.installation_date','=','vtim.tgl_ikr');
                         $join->on('apk.callsign','=','vtim.callsign');
                     })
-                    ->select('apk.*','vtim.leadcall_id','vtim.leadcall', 'vtim.leader_id', 'vtim.leader', 'vtim.callsign_id as callsignAssignId', 'vtim.callsign as callsignAssign', 
-                            'vtim.tek1_nik', 'vtim.teknisi1', 'vtim.tek2_nik', 'vtim.teknisi2', 'vtim.tek3_nik', 'vtim.teknisi3', 
+                    ->whereNotIn('apk.wo_type', ['NEW INSTALLATION', 'RELOCATION', 'DISMANTLE'])
+                    ->select('apk.*','vtim.leadcall_id','vtim.leadcall', 'vtim.leader_id', 'vtim.leader', 'vtim.callsign_id as callsignAssignId', 'vtim.callsign as callsignAssign',
+                            'vtim.tek1_nik', 'vtim.teknisi1', 'vtim.tek2_nik', 'vtim.teknisi2', 'vtim.tek3_nik', 'vtim.teknisi3',
                             'vtim.tek4_nik', 'vtim.teknisi4');
 
                 //tambah filter area sesuai yg dipilih user
                 if($request->FiArea != "All Area") {
                     $listArea = explode(", ", $request->FiArea);
                     $importedData = $importedData->whereIn('apk.area', $listArea);
-                } 
+                }
 
                 $importedData = $importedData->get();
 
                 DB::beginTransaction();
                 try {
                     // Update status_wo pada data_ftth_mt_oris berdasarkan wo_no dan tgl_ikr
-                    foreach ($importedData as $data) {                        
-                        
+                    foreach ($importedData as $data) {
+
                         if(Str::upper($data->status == "DONE") || Str::upper($data->status == "CHECKOUT")) {
                             $statWo = "Done";
                         }else if(Str::upper($data->status) == "PENDING") {
-                            $statWo = "Pending";   
+                            $statWo = "Pending";
                         }else if(Str::upper($data->status) == "CANCELLED") {
                             $statWo = "Cancel";
                         }else {
                             $statWo = Str::title($data->status);
-                        }                        
+                        }
 
                         DB::table('data_ftth_mt_oris')
                             ->where('no_wo', $data->wo_no)
@@ -276,7 +277,7 @@ class ImportDataWoApkController extends Controller
         }
 
     }
-    
+
     public function updateFtthMtApk_()
     {
         ini_set('max_execution_time', 1900);
