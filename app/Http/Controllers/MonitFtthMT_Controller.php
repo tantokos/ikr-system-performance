@@ -463,7 +463,7 @@ class MonitFtthMT_Controller extends Controller
         if($request['is_checked'] == "1") {
             $pic = $akses;
         } else {
-            $pic = null;
+            $pic = 0;
         }
 
         $ftthMt = FtthMt::findOrFail($id);
@@ -600,7 +600,7 @@ class MonitFtthMT_Controller extends Controller
                 'sla_over' => $request['slaOver'], //1
                 'material_out' => $request['materialOut'], //1
                 'material_in' => $request['materialIn'], //1          
-                'is_checked' => $request['is_checked'], //1
+                'is_checked' => $pic, // $request['is_checked'], //1
                 'login_id' => $aksesId,
                 'login' => $akses,
                 
