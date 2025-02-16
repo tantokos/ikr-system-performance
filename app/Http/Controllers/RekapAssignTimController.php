@@ -75,7 +75,8 @@ class RekapAssignTimController extends Controller
                             when vtim.branch="Bali" then 10
                             when vtim.branch="Palembang" then 11
                             when vtim.branch="Serang" then 12 
-                            when vtim.branch="Cirebon" then 13 end')); 
+                            when vtim.branch="Cirebon" then 13
+                            when vtim.branch="Pekanbaru" then 14 end')); 
         
             if($request->filTgl != null) {
                 $dateRange = explode("-", $request->filTgl);

@@ -184,7 +184,7 @@ class ImportDataWoApkController extends Controller
                         $join->on('apk.installation_date','=','vtim.tgl_ikr');
                         $join->on('apk.callsign','=','vtim.callsign');
                     })
-                    ->whereNotIn('apk.wo_type', ['NEW INSTALLATION', 'RELOCATION', 'DISMANTLE'])
+                    ->whereNotIn('apk.wo_type', ['NEW INSTALLATION', 'INSTALLATION', 'RELOCATION', 'DISMANTLE'])
                     ->select('apk.*','vtim.leadcall_id','vtim.leadcall', 'vtim.leader_id', 'vtim.leader', 'vtim.callsign_id as callsignAssignId', 'vtim.callsign as callsignAssign',
                             'vtim.tek1_nik', 'vtim.teknisi1', 'vtim.tek2_nik', 'vtim.teknisi2', 'vtim.tek3_nik', 'vtim.teknisi3',
                             'vtim.tek4_nik', 'vtim.teknisi4');
