@@ -62,7 +62,7 @@
                                         @if(isset($filArea))
                                             <textarea type="text" name="FiArea" readonly class="form-control form-control-sm">{{ $filArea }}</textarea>
                                         @else
-                                            <textarea type="text" name="FiArea" readonly class="form-control form-control-sm"></textarea>
+                                            <textarea type="text" name="FiArea" readonly class="form-control form-control-sm">All Area</textarea>
                                         @endif
                                     </div>
                                 </div>
