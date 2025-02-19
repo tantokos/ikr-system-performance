@@ -62,6 +62,7 @@ class FtthMtApkImport implements ToModel, WithHeadingRow, WithChunkReading, With
             'mttr_progress' => $row['mttr_progress'],
             'mttr_technician' => $row['mttr_technician'],
             'sla_over' => $row['sla_over'],
+            'login' =>  $this->logNm
         ]);
     }
 
@@ -80,7 +81,9 @@ class FtthMtApkImport implements ToModel, WithHeadingRow, WithChunkReading, With
     public function rules(): array
     {
         return [
-            '*.wo_no' => ['required', Rule::unique('import_ftth_mt_apks', 'wo_no')],
+            '*.wo_no' => ['required', 
+                Rule::unique('import_ftth_mt_apks', 'wo_no')
+                ->using(function ($q) { $q->where('login',  '=', $this->logNm); })],
             '*.wo_date' => ['required'],
             // '*.ticket_no' => ['required'],
             '*.installation_date' => ['required'],

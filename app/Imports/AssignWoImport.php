@@ -108,9 +108,11 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
         if( $row['area'] == null ) {            
 
             $clusterArea = DB::table('list_fat')->select('cluster')
-                            ->where('kode_area', substr($row['fat_code'],4,3))->where('kategori_area', $katArea)->first();
+                            ->where('kode_area', substr($row['fat_code'],4,3))
+                            ->where('branch', $row['branch'])
+                            ->where('kategori_area', $katArea)->first();
             
-            $area = is_null($clusterArea) ? $row['area'] : $clusterArea->cluster;
+            $area = is_null($clusterArea) ? trim($row['area']) : $clusterArea->cluster;
         } else {
             $area = $row['area'];
         }
@@ -124,7 +126,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             'wo_type_apk' => Str::title(str_replace("_"," ",$row['wo_type'])),
 
             'type_wo' => $this->get_data_id("type_wo", Str::trim(str_replace('_',' ', $row['wo_type'])), $formattedDate), // Str::upper($row['wo_type'])=="MAINTENANCE" || Str::upper($row['wo_type'])=="REMOVE DEVICE" || Str::upper($row['wo_type'])=="ADD DEVICE" || Str::upper($row['wo_type'])=="ADD / REMOVE DEVICE" || Str::upper($row['wo_type'])=="PENDING DEVICE" ? "FTTH Maintenance" : (Str::upper($row['wo_type'])=="NEW INSTALLATION" || Str::upper($row['wo_type'])=="RELOCATION" ? "FTTH New Installation" : (Str::upper($row['wo_type'])=="DISMANTLE" ? "FTTH Dismantle" : "-")),
-            'area_cluster_apk' => Str::title($area),
+            'area_cluster_apk' => Str::title(trim($area)),
             'wo_date_apk' => $formatWoDate, // Str::trim($row['wo_date']),
             'cust_id_apk' => Str::trim($row['cust_id']),
             'name_cust_apk' => Str::title($row['name']),

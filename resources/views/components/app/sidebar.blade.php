@@ -165,6 +165,39 @@
                 </div>
             </li>
 
+            <li class="nav-item">
+                <div class="accordion" id="FatAccordion">
+                    <!-- Accordion Item: Monitoring WO -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFat">
+                            <button
+                                class="accordion-button nav-link {{ is_current_route('areaFat') || is_current_route('rootCause') ? 'active' : '' }}"
+                                type="button" data-bs-toggle="collapse" data-bs-target="#collapseFat" aria-expanded="true"
+                                aria-controls="collapseFat">
+                                <span class="nav-link-text ms-1">Rootcause & Area</span>
+                            </button>
+                        </h2>
+                        <div id="collapseFat"
+                            class="accordion-collapse collapse {{ is_current_route('areaFat') || is_current_route('rootCause') ? 'show' : '' }}
+                            aria-labelledby="headingFat" data-bs-parent="#FatAccordion">
+                            <div class="accordion-body p-0">
+                                <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('areaFat') ? 'custom-active' : '' }}"
+                                    href="{{ route('areaFat') }}">
+                                    <span class="nav-link-text ms-1">Area FAT</span>
+                                </a>
+                                <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('rootCause') ? 'custom-active' : '' }}"
+                                    href="{{ route('rootCause') }}">
+                                    <span class="nav-link-text ms-1">Root Cause</span>
+                                </a>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- <span class="nav-link-text ms-1">Monitoring WO</span> --}}
+                </a>
+            </li>
+
             {{-- @if (Auth::user()->name == "Tanto") --}}
             <li class="nav-item">
                 <div class="accordion" id="monitoringWOAccordion">
@@ -212,7 +245,7 @@
                     </div>
 
                     {{-- <span class="nav-link-text ms-1">Monitoring WO</span> --}}
-                </a
+                </a>
             </li>
 
             <li class="nav-item">

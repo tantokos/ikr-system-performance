@@ -511,7 +511,7 @@
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Detail Progress WO FTTH Maintenance</h5>
+                        <h5 class="modal-title" id="titleModalMT">Detail Progress WO FTTH Maintenance</h5>
                         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
                             aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -720,7 +720,7 @@
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="sesiDetShow" name="sesiDetShow"
                                                                 style="border-color:#9ca0a7;"
-                                                                placeholder="Isi Callsign Tim" disabled>
+                                                                placeholder="Isi Callsign Tim">
                                                                 <option value="Regular">Regular</option>
                                                                 <option value="Batch 1">Batch 1</option>
                                                                 <option value="Batch 2">Batch 2</option>
@@ -1180,9 +1180,11 @@
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">PIC Dispatch</span>
                                                             <span class="text-danger">*</span>
-                                                            <input class="form-control form-control-sm" type="text"
+                                                            <select class="form-control form-control-sm" type="text"
                                                                 id="picDispatch" name="picDispatch"
                                                                 style="border-color:#9ca0a7;">
+                                                                <option value=""></option>
+                                                            </select>
                                                         </div>
 
                                                         <div class="col form-group mb-1">
@@ -1190,7 +1192,7 @@
                                                             <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 id="telpDispatch" name="telpDispatch" 
-                                                                style="border-color:#9ca0a7;">
+                                                                style="border-color:#9ca0a7;" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1337,9 +1339,13 @@
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Cek Telebot</span>
                                                             <span class="text-danger">*</span>
-                                                            <input class="form-control form-control-sm" type="text"
+                                                            <select class="form-control form-control-sm" type="text"
                                                                 id="cekTelebot" name="cekTelebot"
                                                                 style="border-color:#9ca0a7;">
+                                                                <option value="Cek Telebot">Cek Telebot</option>
+                                                                <option value="Tidak Cek Telebot">Tidak Cek Telebot</option>
+                                                                <option value="Tidak Perlu Cek Telebot">Tidak Perlu Cek Telebot</option>
+                                                            </select>
                                                         </div>
 
                                                         <div class="col form-group mb-1">
@@ -1430,14 +1436,13 @@
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
-                                                        <div class="col form-group">
-                                                            <div class="form-check">
-                                                                <input type="hidden" name="is_checked" value="0"> <!-- Default jika tidak dicentang -->
-                                                                <input class="form-check-input" type="checkbox" name="is_checked" value="1" id="isChecked">
-                                                                <label class="text-xs" for="isChecked">
+                                                        <div class="col form-group form-check">
+                                                            <input type="hidden" name="is_checked" id="is_checked" value="0"> <!-- Default jika tidak dicentang -->
+                                                            <div class="form-check">                                                                
+                                                                <input class="form-check-input" type="checkbox" name="isChecked" id="isChecked" value="1">
+                                                                <label class="form-check-label" for="isChecked" id="picName" name="picName">
                                                                     Sudah Dicek (PIC. {{Auth::user()->name}} )
                                                                 </label>
-
                                                             </div>
                                                         </div>
 
@@ -1973,6 +1978,8 @@
         var dtActionTaken = {!! $dtActionTaken !!};
         var dtPenagihan = {!! $dtPenagihan !!};
         var dtPenagihanAll = {!! $dtPenagihanAll !!};
+        var dtDispatch = {!! $dtDispatch !!}
+
         akses = $('#akses').val();
         var callTim;
         // get_data_assignTim()
@@ -2142,7 +2149,45 @@
 
         })
 
+        function isiCousecode() {
+            $('#causeCodeList').find('option').remove();
+            $('#causeCodeList').append(`
+                <option value="" disabled selected>--Pilih Cause Code--</option>`
+            );
+
+            filCouseCode = dtCouseCode.filter(k => k.status_wo === $('#statusWo').val());
+
+            $.each(filCouseCode, function(k, cc) {
+                // $('#causeCodeOld').append(
+                //     `<option value="${cc.couse_code}">${cc.couse_code}</option>`
+                // )
+                $('#causeCodeList').append(
+                    `<option value="${cc.couse_code}">${cc.couse_code}</option>`
+                )
+            })
+        }
+
+        function isiDispatch() {
+            $('#picDispatch').find('option').remove();
+            $('#picDispatch').append(`
+                <option value="">--Pilih--</option>`
+            );
+
+            $.each(dtDispatch, function(k,cc) {
+                $('#picDispatch').append(
+                    `<option value="${cc.nama_dispatch}">${cc.nama_dispatch}</option>`
+                )
+            })
+        }
+
+        $(document).on('change', '#picDispatch', function(e) {
+            filDispatch = dtDispatch.filter(k => k.nama_dispatch === $(this).val());
+            
+            $('#telpDispatch').val(filDispatch[0].telp_dispatch);       
+        })
+
         $(document).on('change','#causeCode', function(e) {
+            e.preventDefault();
             // alert('status change');
             $('#rootCause').val('');
             $('#actionTaken').val('');
@@ -2197,7 +2242,7 @@
             // alert('status change');
             // $('#rootCause').val('');
             // $('#actionTaken').val('');
-            $('#penagihanShow').val('');
+            // $('#penagihanShow').val('');
 
             $('#penagihanShowList').find('option').remove();
             $('#penagihanShowList').append(`
@@ -2205,11 +2250,15 @@
             );
 
             filPenagihan = dtPenagihan.filter(k => k.status_wo === $('#statusWo').val() && k.couse_code === $('#causeCode').val() && k.root_couse === $('#rootCause').val() && k.action_taken === $('#actionTaken').val() );
+            console.log('statusWo : ', $('#statusWo').val())
+            console.log('causeCode : ', $('#causeCode').val())
+            console.log('rootCause : ', $('#rootCause').val())
+            console.log('actionTaken : ', $('#actionTaken').val())
 
             if(filPenagihan.length == 0) {
                 filPenagihan = dtPenagihanAll.filter(k => k.status_wo === $('#statusWo').val() );
             }
-            console.log('filPenagihan.length : ', filPenagihan.length);
+            console.log('filPenagihan : ', filPenagihan);
 
             $.each(filPenagihan, function(k, cc) {
                 $('#penagihanShowList').append(
@@ -2222,6 +2271,15 @@
                 }
             })
 
+        })
+
+        $(document).on('change', '#isChecked', function(e) {
+            if ($(this).prop("checked")) 
+            {
+                $('#is_checked').val('1');
+            } else {
+                $('#is_checked').val('0');
+            }
         })
 
         //Export Excel
@@ -2430,6 +2488,8 @@
 
         });
 
+        
+
         $(document).on('click', '#detail-assign', function (e) {
             var _token = $('meta[name=csrf-token]').attr('content');
 
@@ -2446,6 +2506,8 @@
                 success: function (response) {
 
                     $('#showDetail').modal('show');
+                    isiDispatch();
+
 
                     let dtDis = response.data;
                     let material = response.ftth_material;
@@ -2472,6 +2534,8 @@
                     };
 
                     //Tab Detail WO/////////////////////////////
+                    $('#titleModalMT').html('Detail Progress WO FTTH Maintenance - ' + dtDis.no_wo + ' | ' + dtDis.cust_id + ' | ' + dtDis.nama_cust)
+
                     $('#detId').val(dtDis.id);
                     $('#noWoShow').val(dtDis.no_wo); //1
                     $('#ticketNoShow').val(dtDis.no_ticket); //1
@@ -2503,7 +2567,6 @@
                         selectLead.val(dtDis.leadcall_id+"|"+dtDis.leadcall+"|"+dtDis.leader_id+"|"+dtDis.leader); //1
                     }
 
-                    console.log('dtDis : ', dtDis);
                     // Populasi dropdown Callsign Tim
                     let selectTim = $('#callsignTimidShow');
                     selectTim.empty().append('<option value="">Pilih Callsign Tim</option>');
@@ -2541,18 +2604,21 @@
                     $('#tglProgressAPKShow').val(dtDis.tgl_ikr); //1
                     $('#slotTimeAPKStatusShow').val(dtDis.slot_time_apk); //1
                     $('#statusWo').val(dtDis.status_wo || ""); //1
-                    $('#statusWo').trigger("change");
+                    isiCousecode();
+                    // $('#statusWo').trigger("change");
+                    // $('#causeCode').trigger("change");
+                    // $('#rootCause').trigger("change");
+                    
 
                     // $('#causeCodeOld').val(dtDis.couse_code);
                     $('#causeCode').val(dtDis.couse_code); //1
-                    $('#causeCode').trigger("change");
 
                     $('#rootCause').val(dtDis.root_couse); //1
-                    $('#rootCause').trigger("change");
 
                     $('#actionTaken').val(dtDis.action_taken); //1
-                    $('#penagihanShow').val(dtDis.penagihan); //
                     $('#actionTaken').trigger("change");
+
+                    $('#penagihanShow').val(dtDis.penagihan); //
 
                     $('#reportTeknisi').val(toTitleCase(dtDis.keterangan || "")); //1
                     $('#statusVisit').val(dtDis.visit_novisit); //1
@@ -2589,8 +2655,17 @@
                     $('#statusMaterial').val(statMaterial); //1
                     $('input[name="materialOut"]').val(0); //1
                     $('input[name="materialIn"]').val(0); //1
-                    $('#isChecked').prop('checked', dtDis.is_checked == 1); //1
 
+                    if(dtDis.is_checked == 1) {
+                        $('#isChecked').prop('checked', true); //1
+                        $('#is_checked').val(dtDis.is_checked);
+                        $('#picName').html('Sudah dicek (PIC. ' + dtDis.pic_monitoring + ')');
+                    } else {
+                        $('#isChecked').prop('checked', false); //1
+                        $('#is_checked').val(dtDis.is_checked);
+                        $('#picName').html('Sudah dicek (PIC. ' + response.akses + ')');
+                    }
+                    
                     $('#tglProgressAPKShow').trigger('change');
                     //End Tab Status Progress
 

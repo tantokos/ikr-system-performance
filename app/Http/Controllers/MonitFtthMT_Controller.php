@@ -84,6 +84,8 @@ class MonitFtthMT_Controller extends Controller
                 ->where('penagihan','not like', '%total_%')
                 ->orderBy('penagihan')->get();
 
+        $dtDispatch = DB::table('list_dispatch')->get();
+
         return view('monitoringWo.monit_ftth_mt', compact(
             // 'mostCauseCode',
             // 'mostRootCause',
@@ -92,7 +94,12 @@ class MonitFtthMT_Controller extends Controller
             'leader',
             'callTim',
             'cluster',
-            'dtCouseCode','dtRootCouse','dtActionTaken','dtPenagihan', 'dtPenagihanAll'
+            'dtCouseCode',
+            'dtRootCouse',
+            'dtActionTaken',
+            'dtPenagihan', 
+            'dtPenagihanAll',
+            'dtDispatch'
         ));
     }
 
@@ -131,7 +138,7 @@ class MonitFtthMT_Controller extends Controller
                 $jakartaAreas = ['Jakarta Timur', 'Jakarta Selatan'];
                 $datas = $datas->whereIn('branch', $jakartaAreas);
             } elseif ($group == 'Regional') {
-                $regionalAreas = ['Bali', 'Bekasi', 'Bogor', 'Tangerang', 'Jambi', 'Medan', 'Palembang', 'Pontianak', 'Pangkal Pinang'];
+                $regionalAreas = ['Bekasi', 'Bogor', 'Tangerang', 'Medan', 'Pangkal Pinang', 'Pontianak', 'Jambi', 'Bali', 'Palembang', 'Pekanbaru', 'Serang', 'Cirebon', 'Semarang'];
                 $datas = $datas->whereIn('branch', $regionalAreas);
             }
         }
@@ -285,9 +292,13 @@ class MonitFtthMT_Controller extends Controller
 
     public function getDetailWOFtthMT(Request $request)
     {
+        $akses = Auth::user()->name;
+
         $assignId = $request->filAssignId;
         $datas = DB::table('data_ftth_mt_oris as d')
             ->where('d.id', $assignId)->first();
+
+        
 
         $callLead = DB::table('callsign_leads as cl')
                     ->select('id','lead_callsign as callsign_tim')->orderBy('lead_callsign');
@@ -351,7 +362,8 @@ class MonitFtthMT_Controller extends Controller
             'callsign_leads' => $callsign_leads,
             'ftth_material' => $mergedMaterial,
             'assignTim' => $assignTim,
-            'teknisiOn' => $teknisiOn
+            'teknisiOn' => $teknisiOn,
+            'akses' => $akses
         ]);
 
     }
@@ -455,15 +467,17 @@ class MonitFtthMT_Controller extends Controller
 
     public function update(Request $request)
     {
-        // dd($request->all());
+        // dd($request['is_checked'], $request->input('is_checked'), $request['isChecked'], $request->input('isChecked'), );
         $aksesId = Auth::user()->id;
         $akses = Auth::user()->name;
         $id = $request->detId;
 
         if($request['is_checked'] == "1") {
             $pic = $akses;
+            $check = 1;
         } else {
-            $pic = 0;
+            $pic = null;
+            $check = 0;
         }
 
         $ftthMt = FtthMt::findOrFail($id);
@@ -600,7 +614,7 @@ class MonitFtthMT_Controller extends Controller
                 'sla_over' => $request['slaOver'], //1
                 'material_out' => $request['materialOut'], //1
                 'material_in' => $request['materialIn'], //1          
-                'is_checked' => $pic, // $request['is_checked'], //1
+                'is_checked' => $check, //1
                 'login_id' => $aksesId,
                 'login' => $akses,
                 
