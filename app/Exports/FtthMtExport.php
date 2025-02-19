@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -175,6 +176,16 @@ class FtthMtExport implements FromCollection, WithHeadings, WithStyles, WithColu
         if($this->request->filarea) {
             $area = explode("|", $this->request->filarea);
             $datas = $datas->where('d.branch', $area[1]);
+        }
+
+        if($this->request->filGroup) {
+            $branchList = DB::table('branches')->where('grup_area',$this->request->filGroup)
+                        ->select('nama_branch')->pluck('nama_branch')->toArray();
+
+            // $List = Arr::join($branchList, ', ');
+
+            // $area = explode("|", $this->request->filarea);
+            $datas = $datas->whereIn('d.branch', $branchList);
         }
 
         if($this->request->filleaderTim) {

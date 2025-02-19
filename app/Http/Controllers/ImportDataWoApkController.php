@@ -18,6 +18,9 @@ class ImportDataWoApkController extends Controller
     public function index(Request $request)
     {
         // dd($request->all() == null);
+        $monitArea = $request->areaFill;
+        $monitGrupArea = $request->areagroup;
+
         if($request->areaFill != null) {
             $area = explode("|", $request->areaFill);
             $filArea = $area[1];
@@ -45,7 +48,7 @@ class ImportDataWoApkController extends Controller
 
         $jmlData = DB::table('import_ftth_mt_apks');
 
-        return view('monitoringWo.import_ftth_mt_apk', compact('branches', 'leadCallsign', 'akses', 'jmlData', 'filArea'));
+        return view('monitoringWo.import_ftth_mt_apk', compact('branches', 'leadCallsign', 'akses', 'jmlData', 'filArea','monitArea','monitGrupArea'));
     }
 
     public function importProsesDataWoApk(Request $request)
@@ -86,7 +89,7 @@ class ImportDataWoApkController extends Controller
         ini_set('memory_limit', '8192M');
         $akses = Auth::user()->name;
 
-        $datas = DB::table('import_ftth_mt_apks')->orderBy('wo_date', 'DESC');
+        $datas = DB::table('import_ftth_mt_apks')->where('login','=', $akses)->orderBy('wo_date', 'DESC');
 
             if($request->filTgl != null) {
                 $dateRange = explode("-", $request->filTgl);
@@ -176,6 +179,8 @@ class ImportDataWoApkController extends Controller
         $filArea = [];
         $akses = Auth::user()->name;
 
+        // dd($request->all());
+
         switch ($request->input('action')) {
             case 'simpan':
                 //get all data dari hasil import apk
@@ -184,8 +189,14 @@ class ImportDataWoApkController extends Controller
                         $join->on('apk.installation_date','=','vtim.tgl_ikr');
                         $join->on('apk.callsign','=','vtim.callsign');
                     })
+                    ->join('data_ftth_mt_oris as dt', function($j) {
+                        $j->on('dt.tgl_ikr', '=', 'apk.installation_date');
+                        $j->on('dt.no_wo', '=', 'apk.wo_no');
+                    })
                     ->whereNotIn('apk.wo_type', ['NEW INSTALLATION', 'INSTALLATION', 'RELOCATION', 'DISMANTLE'])
-                    ->select('apk.*','vtim.leadcall_id','vtim.leadcall', 'vtim.leader_id', 'vtim.leader', 'vtim.callsign_id as callsignAssignId', 'vtim.callsign as callsignAssign',
+                    ->where('dt.is_checked','=', 0)
+                    ->where('apk.login', $akses)
+                    ->select('dt.id as dt_id', 'apk.*','vtim.leadcall_id','vtim.leadcall', 'vtim.leader_id', 'vtim.leader', 'vtim.callsign_id as callsignAssignId', 'vtim.callsign as callsignAssign',
                             'vtim.tek1_nik', 'vtim.teknisi1', 'vtim.tek2_nik', 'vtim.teknisi2', 'vtim.tek3_nik', 'vtim.teknisi3',
                             'vtim.tek4_nik', 'vtim.teknisi4');
 
@@ -196,77 +207,125 @@ class ImportDataWoApkController extends Controller
                 }
 
                 $importedData = $importedData->get();
+                
+                // dd($importedData);
+                if(count($importedData) > 0) {
+                
+                    DB::beginTransaction();
+                    try {
 
-                DB::beginTransaction();
-                try {
-                    // Update status_wo pada data_ftth_mt_oris berdasarkan wo_no dan tgl_ikr
-                    foreach ($importedData as $data) {
+                        $dtApk = [];
+                        // Update status_wo pada data_ftth_mt_oris berdasarkan wo_no dan tgl_ikr
+                        foreach ($importedData as $data) {
 
-                        if(Str::upper($data->status == "DONE") || Str::upper($data->status == "CHECKOUT")) {
-                            $statWo = "Done";
-                        }else if(Str::upper($data->status) == "PENDING") {
-                            $statWo = "Pending";
-                        }else if(Str::upper($data->status) == "CANCELLED") {
-                            $statWo = "Cancel";
-                        }else {
-                            $statWo = Str::title($data->status);
+                            if(Str::upper($data->status == "DONE") || Str::upper($data->status == "CHECKOUT")) {
+                                $statWo = "Done";
+                            }else if(Str::upper($data->status) == "PENDING") {
+                                $statWo = "Pending";
+                            }else if(Str::upper($data->status) == "CANCELLED") {
+                                $statWo = "Cancel";
+                            }else {
+                                $statWo = Str::title($data->status);
+                            }
+
+                            array_push($dtApk, 
+                                [   
+                                    'id' => $data->dt_id,
+                                    'no_wo' => $data->wo_no,
+                                    'tgl_ikr' => $data->installation_date,
+                                    'wo_date_apk' => $data->wo_date,
+                                    'wo_type_apk' => $data->wo_type,
+                                    'kode_fat' => $data->fat_code,
+                                    'type_maintenance' => $data->remarks,
+                                    'callsign_id' => $data->callsign_id,
+                                    'callsign' => $data->callsign,
+                                    'slot_time_apk' => $data->time,
+                                    'status_wo' => $statWo,
+                                    'couse_code' => $data->cause_code,
+                                    'root_couse' => $data->root_cause,
+                                    'action_taken' => $data->action_taken,
+                                    'status_apk' => $data->status,
+                                    'checkin_apk' => $data->check_in,
+                                    'checkout_apk' => $data->check_out,
+                                    'mttr_all' => $data->mttr_all,
+                                    'mttr_pending' => $data->mttr_pending,
+                                    'mttr_progress' => $data->mttr_progress,
+                                    'mttr_teknisi' => $data->mttr_technician,
+                                    'sla_over' => $data->sla_over,
+                                    'login' => Auth::user()->name,
+                                ]
+                            );                            
                         }
 
-                        DB::table('data_ftth_mt_oris')
-                            ->where('no_wo', $data->wo_no)
-                            ->where('tgl_ikr', $data->installation_date) // Menambahkan syarat
-                            ->where('is_checked', 0)
-                            ->update([
-                                'wo_date_apk' => $data->wo_date,
-                                'wo_type_apk' => $data->wo_type,
-                                'kode_fat' => $data->fat_code,
-                                'type_maintenance' => $data->remarks,
-                                // 'leadcall_id' => $data->leadcall_id,
-                                // 'leadcall' => $data->leadcall,
-                                // 'leader_id' => $data->leader_id,
-                                // 'leader' => $data->leader,
-                                'callsign_id' => $data->callsign_id,
-                                'callsign' => $data->callsign,
-                                // 'tek1_nik' => $data->tek1_nik,
-                                // 'teknisi1' => $data->teknisi1,
-                                // 'tek2_nik' => $data->tek2_nik,
-                                // 'teknisi2' => $data->teknisi2,
-                                // 'tek3_nik' => $data->tek3_nik,
-                                // 'teknisi3' => $data->teknisi3,
-                                // 'tek4_nik' => $data->tek4_nik,
-                                // 'teknisi4' => $data->teknisi4,
-                                'slot_time_apk' => $data->time,
-                                'status_wo' => $statWo,
-                                'couse_code' => $data->cause_code,
-                                'root_couse' => $data->root_cause,
-                                'action_taken' => $data->action_taken,
-                                'status_apk' => $data->status,
-                                'checkin_apk' => $data->check_in,
-                                'checkout_apk' => $data->check_out,
-                                'mttr_all' => $data->mttr_all,
-                                'mttr_pending' => $data->mttr_pending,
-                                'mttr_progress' => $data->mttr_progress,
-                                'mttr_teknisi' => $data->mttr_technician,
-                                'sla_over' => $data->sla_over,
-                                'login' => Auth::user()->name,
-                            ]);
-                    }
+                        // dd(count($dtApk));
 
-                    // Commit transaksi
-                    DB::table('import_ftth_mt_apks')->delete();
-                    DB::commit();
-                    return redirect()->route('monitFtthMT')->with(['success' => 'Status berhasil diupdate.']);
-                } catch (\Exception $e) {
-                    // Rollback jika ada kesalahan
-                    DB::rollback();
-                    // return $e;
-                    return redirect()->route('monitFtthMT')->with(['error' => 'Gagal mengupdate status.' . $e->getMessage()]);
+                        if(count($dtApk)>0) {
+                            $updateProgress = DB::table('data_ftth_mt_oris')->upsert(
+                                $dtApk, ['id'], ['no_wo', 'tgl_ikr', 'wo_date_apk', 'wo_type_apk', 'kode_fat',
+                                        'type_maintenance', 'callsign_id', 'callsign', 'slot_time_apk', 'status_wo',
+                                        'couse_code', 'root_couse', 'action_taken', 'status_apk', 'checkin_apk',
+                                        'checkout_apk', 'mttr_all', 'mttr_pending', 'mttr_progress', 'mttr_teknisi', 
+                                        'sla_over', 'login'
+                                ]);
+                        }
+
+                        // DB::table('data_ftth_mt_oris')
+                        //         ->where('no_wo', $data->wo_no)
+                        //         ->where('tgl_ikr', $data->installation_date) // Menambahkan syarat
+                        //         ->where('is_checked', 0)
+                        //         ->update([
+                        //             'wo_date_apk' => $data->wo_date,
+                        //             'wo_type_apk' => $data->wo_type,
+                        //             'kode_fat' => $data->fat_code,
+                        //             'type_maintenance' => $data->remarks,
+                        //             // 'leadcall_id' => $data->leadcall_id,
+                        //             // 'leadcall' => $data->leadcall,
+                        //             // 'leader_id' => $data->leader_id,
+                        //             // 'leader' => $data->leader,
+                        //             'callsign_id' => $data->callsign_id,
+                        //             'callsign' => $data->callsign,
+                        //             // 'tek1_nik' => $data->tek1_nik,
+                        //             // 'teknisi1' => $data->teknisi1,
+                        //             // 'tek2_nik' => $data->tek2_nik,
+                        //             // 'teknisi2' => $data->teknisi2,
+                        //             // 'tek3_nik' => $data->tek3_nik,
+                        //             // 'teknisi3' => $data->teknisi3,
+                        //             // 'tek4_nik' => $data->tek4_nik,
+                        //             // 'teknisi4' => $data->teknisi4,
+                        //             'slot_time_apk' => $data->time,
+                        //             'status_wo' => $statWo,
+                        //             'couse_code' => $data->cause_code,
+                        //             'root_couse' => $data->root_cause,
+                        //             'action_taken' => $data->action_taken,
+                        //             'status_apk' => $data->status,
+                        //             'checkin_apk' => $data->check_in,
+                        //             'checkout_apk' => $data->check_out,
+                        //             'mttr_all' => $data->mttr_all,
+                        //             'mttr_pending' => $data->mttr_pending,
+                        //             'mttr_progress' => $data->mttr_progress,
+                        //             'mttr_teknisi' => $data->mttr_technician,
+                        //             'sla_over' => $data->sla_over,
+                        //             'login' => Auth::user()->name,
+                        //         ]);
+
+                        // Commit transaksi
+                        DB::table('import_ftth_mt_apks')->where('login', $akses)->delete();
+                        DB::commit();
+                        return redirect()->route('monitFtthMT')->with(['success' => 'Status berhasil diupdate.']);
+                    } catch (\Exception $e) {
+                        // Rollback jika ada kesalahan
+                        DB::rollback();
+                        // return $e;
+                        return redirect()->route('monitFtthMT')->with(['error' => 'Gagal mengupdate status.' . $e->getMessage()]);
+                    }
+                } else {
+                    return redirect()->route('monitFtthMT')->with(['error' => 'Tidak ada data Import APK']);
                 }
 
         break;
 
             case 'batal':
-                $importedData = DB::table('import_ftth_mt_apks')
+                $importedData = DB::table('import_ftth_mt_apks')->where('login', $akses)
                     ->delete();
                 return redirect()->route('monitFtthMT')->with(['success' => 'Data berhasil dihapus.']);
             break;
@@ -282,8 +341,9 @@ class ImportDataWoApkController extends Controller
     {
         ini_set('max_execution_time', 1900);
         ini_set('memory_limit', '8192M');
+        $akses=Auth::user()->name;
 
-        $importedData = DB::table('import_ftth_mt_apks')
+        $importedData = DB::table('import_ftth_mt_apks')->where('login', $akses)
             ->get();
 
         DB::beginTransaction();
@@ -292,6 +352,7 @@ class ImportDataWoApkController extends Controller
             foreach ($importedData as $data) {
                 DB::table('data_ftth_mt_oris')
                     ->where('no_wo', $data->wo_no)
+                    ->where('login', $akses)
                     ->where('tgl_ikr', $data->installation_date) // Menambahkan syarat
                     ->update([
                         'status_wo' => $data->status,

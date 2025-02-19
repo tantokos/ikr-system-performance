@@ -95,7 +95,7 @@
                         <div class="card-header border-bottom pb-1 bg-danger">
                             <div class="d-sm-flex align-items-center">
                                 <div>
-                                    <h6 class="font-weight-semibold text-lg mb-1 text-white"> <span id="titleLead">List Revisi Assign Teknisi (Off, Cuti, Sakit, Abs) </span></h6>
+                                    <h6 class="font-weight-semibold text-lg mb-1 text-white"> <span id="titleLead">Mohon Revisi Assign Teknisi (Off, Cuti, Sakit, Abs) </span></h6>
                                     {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
                                 </div>
 

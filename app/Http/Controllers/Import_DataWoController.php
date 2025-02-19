@@ -328,14 +328,7 @@ class Import_DataWoController extends Controller
                     ->get()->toArray();
 
                 //get data callsign tim dari data import assign tim, sebagai acuan untuk update callsign tim di data assign tim
-                
-
-                
-
-                
-
-                
-                
+                                
                 // dd($dtImportAssign, $dtImportCallsign);
 
                 if (count($dtImportAssign) > 0) {
@@ -365,7 +358,8 @@ class Import_DataWoController extends Controller
                                             ->select('kategori_area')->distinct()->first();
 
                             $areaSegmen = DB::table('list_fat')->where('kategori_area', $kategori_area->kategori_area)
-                                        ->where('kode_area', $kdArea)->first();                           
+                                        ->where('kode_area', $kdArea)
+                                        ->where('branch', $data->branch)->first();                           
 
                             array_push($AssignBaru, ['id' => $data->assign_id, 'no_wo_apk' => $data->no_wo_apk, 'tgl_ikr' => $data->tgl_ikr,
                                         'batch_wo' => $data->batch_wo,
@@ -860,12 +854,12 @@ class Import_DataWoController extends Controller
 
                         return redirect()->route('rekapAssignTim')
                                 ->with(['success' => 'Data tersimpan.']);
-                    } catch (\Exception $e) {
+                    } catch (\Throwable $e) {
 
                         DB::rollBack();
                         // dd($kdArea);
                         return redirect()->route('importDataWo')
-                            ->with(['error' => 'Gagal Simpan Data: ' . $e->getMessage()]);
+                            ->with(['error' => 'Gagal Simpan Dataa: ' . $e->getMessage()]);
                     }
                 } else {
                     return redirect()->route('importDataWo')

@@ -1235,7 +1235,7 @@
         });
 
         $('#simpanButton').on('click', function (e) {
-            
+            // e.preventDefault();
             // Tampilkan loader di tengah halaman
             $('#pageLoader').fadeIn();
         });

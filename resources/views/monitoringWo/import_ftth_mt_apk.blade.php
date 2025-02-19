@@ -34,7 +34,7 @@
                                 @csrf
                                 <div class="form-group">
                                     <input type="file" class="form-control form-control-sm" id="fileDataWO"
-                                        name="fileDataWO" required>
+                                        name="fileDataWO" required>                                    
 
                                     @if (isset($filArea))
                                         <input type="text" class="form-control form-control-sm"
@@ -89,6 +89,15 @@
                                         @endif
                                         
                                     </div>
+
+                                    @if (isset($monitArea))
+                                        <input type="text" class="form-control form-control-sm"
+                                            name="monitArea" value="{{ $monitArea }}" hidden />    
+                                    @endif
+                                    @if (isset($monitGrupArea))
+                                        <input type="text" class="form-control form-control-sm"
+                                            name="monitGrupArea" value="{{ $monitGrupArea }}" hidden />  
+                                    @endif
                                 </div>
 
                                 {{-- <div class="row">
@@ -128,7 +137,7 @@
                     <div class="col text-end">
                         {{-- <button type="button" class="btn btn-sm btn-dark align-items-center" data-bs-toggle="modal"
                             data-bs-target="#previewModal">Show Preview</button> --}}
-                        <button onclick="return confirm('Simpan hasil import WO?')" type="submit" name="action"
+                        <button type="submit" name="action" id="actionSimpan"
                             value="simpan" class="btn btn-sm btn-dark align-items-center">Save Import
                             WO</button>
                         <button onclick="return confirm('Hapus hasil import Data Work Order?')"
@@ -1096,6 +1105,18 @@
                 e.preventDefault(); // Mencegah form dikirim
                 return false;
             }
+
+            // Tampilkan loader di tengah halaman
+            $('#pageLoader').fadeIn();
+        });
+
+        $('#actionSimpan').on('click', function (e) {
+            // Cek apakah file sudah dipilih
+            // if ($('#fileDataWO').val() === '') {
+            //     alert('Silakan pilih file terlebih dahulu!');
+            //     e.preventDefault(); // Mencegah form dikirim
+            //     return false;
+            // }
 
             // Tampilkan loader di tengah halaman
             $('#pageLoader').fadeIn();

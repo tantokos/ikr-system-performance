@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\analisa_woController;
+use App\Http\Controllers\AreaFat_Controller;
 use App\Http\Controllers\AssignTimController;
 use App\Http\Controllers\FtthDismantleController;
 use App\Http\Controllers\FTTX\ImportAssignTeamController;
@@ -51,6 +52,7 @@ use App\Http\Controllers\FTTX\AssignTeamFttxController;
 use App\Http\Controllers\FTTX\AssignTeammController;
 use App\Http\Controllers\FTTX\AssignTimController as FTTXAssignTimController;
 use App\Http\Controllers\FTTX\ImportAssignTeamFttxController;
+use App\Http\Controllers\RootCause_Controller;
 use PhpParser\Node\Expr\Assign;
 
 /*
@@ -399,6 +401,20 @@ Route::post('/simpanReschedule',[RescheduleWO_Controller::class, 'simpanReschedu
 
 //End Reschedule WO//
 
+//Root cause & FAT//
+
+Route::get('/rootCause',[RootCause_Controller::class, 'index'])->name('rootCause')->middleware('auth');
+Route::get('/getListRootCause',[RootCause_Controller::class, 'getListRootCause'])->name('getListRootCause')->middleware('auth');
+Route::get('/getDetailRootCause',[RootCause_Controller::class, 'getDetailRootCause'])->name('getDetailRootCause')->middleware('auth');
+Route::post('/simpanRootCause',[RootCause_Controller::class, 'simpanRootCause'])->name('simpanRootCause')->middleware('auth');
+Route::post('/updateRootCause',[RootCause_Controller::class, 'updateRootCause'])->name('updateRootCause')->middleware('auth');
+
+Route::get('/areaFat',[AreaFat_Controller::class, 'index'])->name('areaFat')->middleware('auth');
+Route::get('/getListAreaFat',[AreaFat_Controller::class, 'getListAreaFat'])->name('getListAreaFat')->middleware('auth');
+Route::get('/getDetailAreaFat',[AreaFat_Controller::class, 'getDetailAreaFat'])->name('getDetailAreaFat')->middleware('auth');
+Route::post('/simpanAreaFat',[AreaFat_Controller::class, 'simpanAreaFat'])->name('simpanAreaFat')->middleware('auth');
+Route::post('/updateAreaFat',[AreaFat_Controller::class, 'updateAreaFat'])->name('updateAreaFat')->middleware('auth');
+//End Root cause & FAT//
 
 Route::get('/linkstorage', function () {
     Artisan::call('storage:link');
