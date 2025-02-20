@@ -144,19 +144,19 @@ class ImportIbMaterialController extends Controller
                     }
 
                     // Commit transaksi jika tidak ada kesalahan
-                    DB::table('import_ftth_ib_materials')->delete();
+                    DB::table('import_ftth_ib_materials')->where('login', $akses)->delete();
                     DB::commit();
-                    return redirect()->route('importIbMaterial')->with('success', 'Data berhasil disimpan.');
+                    return redirect()->route('monitFtthIB')->with('success', 'Data berhasil disimpan.');
                 } catch (\Exception $e) {
                     // Rollback jika ada kesalahan
                     DB::rollback();
-                    return redirect()->route('importIbMaterial')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+                    return redirect()->route('monitFtthIB')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
                 }
                 break;
 
             case 'batal':
-                DB::table('import_ftth_ib_materials')->delete();
-                return redirect()->route('importIbMaterial')->with('success', 'Material berhasil dibatalkan.');
+                DB::table('import_ftth_ib_materials')->where('login', $akses)->delete();
+                return redirect()->route('monitFtthIB')->with('success', 'Material berhasil dibatalkan.');
                 break;
         }
     }

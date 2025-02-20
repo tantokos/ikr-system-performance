@@ -41,5 +41,6 @@ class ImportFtthIbApk extends Model
         'mttr_progress',
         'mttr_technician',
         'sla_over',
+        'login',
     ];
 }

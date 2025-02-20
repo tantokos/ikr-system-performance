@@ -87,7 +87,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingKaryawanTim">
                             <button
-                                class="accordion-button nav-link {{ is_current_route('dataKaryawan') || is_current_route('dataTim') || is_current_route('jadwalTim') ? 'active' : '' }}"
+                                class="accordion-button nav-link {{ is_current_route('dataKaryawan') || is_current_route('dataTim') || is_current_route('importJadwalTim') || is_current_route('jadwalTim') ? 'active' : '' }}"
                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseKaryawanTim" aria-expanded="true"
                                 aria-controls="collapseKaryawanTim">
                                 <span class="nav-link-text ms-1">Karyawan & Tim</span>
@@ -95,7 +95,7 @@
                         </h2>
                         <div id="collapseKaryawanTim"
                             class="accordion-collapse collapse
-                            {{ is_current_route('dataKaryawan') || is_current_route('dataTim') || is_current_route('jadwalTim') ? 'show' : '' }}"
+                            {{ is_current_route('dataKaryawan') || is_current_route('dataTim') || is_current_route('importJadwalTim') || is_current_route('jadwalTim') ? 'show' : '' }}"
                             aria-labelledby="headingKaryawanTim" data-bs-parent="#karyawanTimAccordion">
                             <div class="accordion-body p-0">
                                 <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('dataKaryawan') ? 'custom-active' : '' }}"
@@ -106,7 +106,7 @@
                                     href="{{ route('dataTim') }}">
                                     <span class="nav-link-text ms-1">Data Tim</span>
                                 </a>
-                                <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('jadwalTim') ? 'custom-active' : '' }}"
+                                <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('jadwalTim') || is_current_route('importJadwalTim') ? 'custom-active' : '' }}"
                                     href="{{ route('jadwalTim') }}">
                                     <span class="nav-link-text ms-1">Jadwal Tim</span>
                                 </a>
@@ -122,7 +122,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingMonitoringTim">
                             <button
-                                class="accordion-button nav-link {{ is_current_route('analisaWo') || is_current_route('assignTim') || is_current_route('rekapAssignTim') || is_current_route('rescheduleWO') ? 'active' : '' }}"
+                                class="accordion-button nav-link {{ is_current_route('analisaWo') || is_current_route('assignTim') || is_current_route('rekapAssignTim') || is_current_route('importDataWo') || is_current_route('fttx-assign-team') || is_current_route('fttx.import.assign-team') || is_current_route('rescheduleWO') ? 'active' : '' }}"
                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseMonitoringTim" aria-expanded="true"
                                 aria-controls="collapseMonitoringTim">
                                 <span class="nav-link-text ms-1">Monitoring Tim</span>
@@ -130,7 +130,7 @@
                         </h2>
                         <div id="collapseMonitoringTim"
                             class="accordion-collapse collapse
-                            {{ is_current_route('analisaWo') || is_current_route('assignTim') || is_current_route('fttx-assign-team') || is_current_route('rekapAssignTim') || is_current_route('rescheduleWO') ? 'show' : '' }}"
+                            {{ is_current_route('analisaWo') || is_current_route('assignTim') || is_current_route('importDataWo') || is_current_route('fttx.import.assign-team') || is_current_route('fttx-assign-team') || is_current_route('rekapAssignTim') || is_current_route('rescheduleWO') ? 'show' : '' }}"
                             aria-labelledby="headingMonitoringTim" data-bs-parent="#monitoringTimAccordion">
                             <div class="accordion-body p-0">
                                 <!-- Rekap Assign Tim -->
@@ -145,12 +145,12 @@
                                     </a>
                                 </li> --}}
                                 <!-- Assign Tim -->
-                                <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('assignTim') ? 'custom-active' : '' }}"
+                                <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('assignTim') || is_current_route('importDataWo') ? 'custom-active' : '' }}"
                                     href="{{ route('assignTim') }}">
                                     <span class="nav-link-text ms-1">Assign Tim</span>
                                 </a>
                                 <!-- Assign Tim FTTX -->
-                                <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('fttx-assign-team') ? 'custom-active' : '' }}"
+                                <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('fttx-assign-team') || is_current_route('fttx.import.assign-team') ? 'custom-active' : '' }}"
                                     href="{{ route('fttx-assign-team') }}">
                                     <span class="nav-link-text ms-1">Assign Tim FTTX</span>
                                 </a>
@@ -189,7 +189,7 @@
                                     href="{{ route('rootCause') }}">
                                     <span class="nav-link-text ms-1">Root Cause</span>
                                 </a>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -205,7 +205,9 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingMonitoringWO">
                             <button
-                                class="accordion-button nav-link {{ is_current_route('monitFtthIB') || is_current_route('monitFtthMT') || is_current_route('rekapProgressWO') || is_current_route('monitFtthDismantle') || is_current_route('fttx-ib') || is_current_route('fttx-mt') ? 'active' : '' }}"
+                                class="accordion-button nav-link {{ is_current_route('monitFtthIB') || is_current_route('monitFtthMT') || is_current_route('rekapProgressWO') || is_current_route('ftth-dismantle') || is_current_route('fttx-ib') ||
+                                is_current_route('importDataFtthIbApk') || is_current_route('importIbMaterial') || is_current_route('importDataFtthMtApk') || is_current_route('importDataMaterial') || is_current_route('importFtthDismantle') ||
+                                is_current_route('importMaterialDismantle') || is_current_route('fttx-mt') ? 'active' : '' }}"
                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseMonitoringWO" aria-expanded="true"
                                 aria-controls="collapseMonitoringWO">
                                 <span class="nav-link-text ms-1">Monitoring WO</span>
@@ -213,22 +215,22 @@
                         </h2>
                         <div id="collapseMonitoringWO"
                             class="accordion-collapse collapse
-                            {{ is_current_route('monitFtthIB') || is_current_route('monitFtthMT') || is_current_route('rekapProgressWO') || is_current_route('monitFtthDismantle') || is_current_route('fttx-ib') || is_current_route('fttx-mt') ? 'show' : '' }}"
+                            {{ is_current_route('monitFtthIB') || is_current_route('monitFtthMT') || is_current_route('rekapProgressWO') || is_current_route('ftth-dismantle') || is_current_route('importDataFtthIbApk') || is_current_route('importIbMaterial') || is_current_route('importDataFtthMtApk') || is_current_route('importDataMaterial') || is_current_route('importFtthDismantle') || is_current_route('importMaterialDismantle') || is_current_route('fttx-ib') || is_current_route('fttx-mt') ? 'show' : '' }}"
                             aria-labelledby="headingMonitoringWO" data-bs-parent="#monitoringWOAccordion">
                             <div class="accordion-body p-0">
                                 <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('rekapProgressWO') ? 'custom-active' : '' }}"
                                     href="{{ route('rekapProgressWO') }}">
                                     <span class="nav-link-text ms-1">Rekap Progress WO</span>
                                 </a>
-                                <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('monitFtthIB') ? 'custom-active' : '' }}"
+                                <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('monitFtthIB') || is_current_route('importDataFtthIbApk') || is_current_route('importIbMaterial') ? 'custom-active' : '' }}"
                                     href="{{ route('monitFtthIB') }}">
                                     <span class="nav-link-text ms-1">FTTH New Installation</span>
                                 </a>
-                                <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('monitFtthMT') ? 'custom-active' : '' }}"
+                                <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('monitFtthMT') || is_current_route('importDataFtthMtApk') || is_current_route('importDataMaterial') ? 'custom-active' : '' }}"
                                     href="{{ route('monitFtthMT') }}">
                                     <span class="nav-link-text ms-1">FTTH Maintenance</span>
                                 </a>
-                                <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('monitFtthDismantle') ? 'custom-active' : '' }}"
+                                <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('ftth-dismantle') || is_current_route('importFtthDismantle') || is_current_route('importMaterialDismantle') ? 'custom-active' : '' }}"
                                     href="{{ route('ftth-dismantle') }}">
                                     <span class="nav-link-text ms-1">FTTH Dismantle</span>
                                 </a>
