@@ -342,9 +342,11 @@ class MonitFtthIB_Controller extends Controller
         $akses = Auth::user()->name;
         $id = $request->detId;
 
-        $ftthIb = FtthIb::findOrFail($id);
-        $assignTim = DataAssignTim::where('no_wo_apk', $ftthIb->no_wo)
-                                    ->where('tgl_ikr', $ftthIb->tgl_ikr)
+        $ftthIb = FtthIb::where('id', $id)->where('no_wo', $request->noWoShow)
+                                    ->where('tgl_ikr', $request->tglProgressShow);
+
+        $assignTim = DataAssignTim::where('no_wo_apk', $request->noWoShow)
+                                    ->where('tgl_ikr', $request->tglProgressShow)
                                     ->first();
 
         if($request['LeadCallsignShow']) {
@@ -489,7 +491,6 @@ class MonitFtthIB_Controller extends Controller
             'otp_start' => $request['otp_start'],
             'otp_end' => $request['otp_end'],
             'is_checked' => $request['is_checked'],
-            'login_id' => $aksesId,
             'login' => $akses,
         ]);
 
@@ -519,6 +520,7 @@ class MonitFtthIB_Controller extends Controller
             }
         } catch (\Exception $e) {
             DB::rollBack();
+            return $e;
             return redirect()->route('monitFtthIB')->with(['error' => 'Gagal Simpan Data.']);
         }
     }
