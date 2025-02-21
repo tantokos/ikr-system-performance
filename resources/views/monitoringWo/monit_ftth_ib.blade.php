@@ -1859,7 +1859,7 @@
                         data: 'branch'
                     },
                     {
-                        data: 'slot_time_leader'
+                        data: 'slot_time_apk'
                     },
                     {
                         data: 'callsign'
