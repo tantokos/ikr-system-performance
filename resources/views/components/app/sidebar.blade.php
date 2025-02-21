@@ -178,7 +178,7 @@
                             </button>
                         </h2>
                         <div id="collapseFat"
-                            class="accordion-collapse collapse {{ is_current_route('areaFat') || is_current_route('rootCause') ? 'show' : '' }}
+                            class="accordion-collapse collapse {{ is_current_route('areaFat') || is_current_route('rootCause') ? 'show' : '' }}"
                             aria-labelledby="headingFat" data-bs-parent="#FatAccordion">
                             <div class="accordion-body p-0">
                                 <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('areaFat') ? 'custom-active' : '' }}"

@@ -21,12 +21,13 @@ class KembaliToolGA_Controller extends Controller
     {
         $loginId = Auth::user()->id;
         $loginEmail = Auth::user()->email;
+        $can = Auth::user()->akses;
 
         $dtLog = Employee::where('email',$loginEmail)
                 ->select('nik_karyawan','nama_karyawan')
                 ->first();
 
-        return view('vTool.kembaliTool_GA',['dtlog' => $dtLog]);
+        return view('vTool.kembaliTool_GA',['dtlog' => $dtLog, 'can' => $can]);
     }
 
     public function getDataKembaliGA(Request $request)

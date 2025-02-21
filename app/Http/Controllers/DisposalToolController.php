@@ -18,8 +18,9 @@ class DisposalToolController extends Controller
      */
     public function index()
     {
+        $can = Auth::user()->akses;
 
-        return view('vTool.disposal_tool');
+        return view('vTool.disposal_tool',['can' => $can]);
     }
 
     public function getSelectToolDisposal(Request $request)
