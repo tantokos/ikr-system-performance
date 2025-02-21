@@ -397,7 +397,9 @@
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 2</th>
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 3</th>
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 4</th>
+                                            <th class="text-center text-xs font-weight-semibold">Status APK</th>
                                             <th class="text-center text-xs font-weight-semibold">Status WO</th>
+                                            <th class="text-center text-xs font-weight-semibold">RootCause Penagihan</th>
                                             <th class="text-center text-xs font-weight-semibold">Status Check</th>
 
                                             <th class="text-center text-xs font-weight-semibold">#</th>
@@ -915,7 +917,7 @@
                                                             <span class="text-xs">Cause Code</span>
                                                             <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                value="" id="causeCode" list="causeCodeList"
+                                                                value="" id="causeCode" list="causeCodeList" autocomplete="off"
                                                                 name="causeCode" style="border-color:#9ca0a7;">
 
                                                             <datalist id="causeCodeList"
@@ -933,7 +935,7 @@
                                                             <span class="text-xs">Root Cause</span>
                                                             <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                value="" id="rootCause" list="rootCauseList"
+                                                                value="" id="rootCause" list="rootCauseList" autocomplete="off"
                                                                 name="rootCause" style="border-color:#9ca0a7;">
 
                                                             <datalist id="rootCauseList"
@@ -950,7 +952,7 @@
                                                             <span class="text-xs">Action Taken</span>
                                                             <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                value="" id="actionTaken" list="actionTakenList"
+                                                                value="" id="actionTaken" list="actionTakenList" autocomplete="off"
                                                                 name="actionTaken" style="border-color:#9ca0a7;">
 
                                                             <datalist id="actionTakenList"name="actionTakenList">
@@ -967,7 +969,7 @@
                                                             <span class="text-xs">Rootcause Penagihan</span>
                                                             <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                value="" id="penagihanShow" list="penagihanShowList"
+                                                                value="" id="penagihanShow" list="penagihanShowList" autocomplete="off"
                                                                 name="penagihanShow" style="border-color:#9ca0a7;">
                                                             <datalist id="penagihanShowList" name="penagihanShowList">
                                                                 <option value="" selected>--Pilih Penagihan--</option>
@@ -2449,6 +2451,12 @@
                     },
                     {
                         data: 'status_apk'
+                    },
+                    {
+                        data: 'status_wo'
+                    },
+                    {
+                        data: 'penagihan'
                     },
                     {
                         data: 'is_checked',

@@ -34,7 +34,8 @@
                                 </div>
 
                                 <div class="ms-auto d-flex">
-                                    <button type="button"
+                                    @if (isset($can) && $can !="GA/ACC")
+                                        <button type="button"
                                         class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"
                                         data-bs-toggle="modal" data-bs-target="#tambahDistribusi">
                                         <span class="btn-inner--icon">
@@ -46,8 +47,8 @@
                                             </svg>
                                         </span>
                                         <span class="btn-inner--text">+ Pengembalian Tool ke GA</span>
-                                    </button>
-                                    
+                                        </button>
+                                    @endif
                                 </div>
 
                             </div>

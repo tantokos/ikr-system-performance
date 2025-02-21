@@ -172,7 +172,8 @@ class JadwalTim_controller extends Controller
             $datas = $datas->where('branch', $areaNm);
         }
 
-        $datas = $datas->get();        
+        $datas = $datas->get();     
+           
 
         if ($request->ajax()) {
 

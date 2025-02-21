@@ -33,6 +33,7 @@ class Import_DataWoController extends Controller
 
         $callsigns = DB::table('import_assign_tims')
         ->select('callsign', 'branch_id','branch', 'type_wo', DB::raw('count(*) as total_wo'))
+        ->where('login', $akses)
         ->groupBy('callsign', 'type_wo','branch_id', 'branch')
         ->orderBy('branch_id')
         ->orderBy('callsign')

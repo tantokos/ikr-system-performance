@@ -175,7 +175,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
     public function rules(): array
     {
         return [
-            '*.wo_no' => ['required', Rule::unique('import_assign_tims', 'no_wo_apk')],
+            '*.wo_no' => ['required', Rule::unique('import_assign_tims', 'no_wo_apk')->where('login',$this->logNm)],
             '*.wo_type' => ['required', Rule::exists('type_wo','type_wo_apk')],
             '*.branch' => ['required', Rule::exists('branches', 'nama_branch')],
             '*.leader' => ['required', Rule::exists('v_detail_callsign_tim','nama_leader')],

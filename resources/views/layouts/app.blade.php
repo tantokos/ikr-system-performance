@@ -129,7 +129,12 @@
 
         @elseif(in_array(request()->route()->getName(), $topSidenavRTL))
         @else
-            <x-app.sidebar />
+            @if (Auth::user()->akses == "GA/ACC")
+                <x-app.sidebarGa />
+            @else
+                <x-app.sidebar />
+            @endif
+            
         @endif
 
         {{ $slot }}
