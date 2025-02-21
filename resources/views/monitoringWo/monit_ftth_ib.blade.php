@@ -373,7 +373,9 @@
                                             <th class="text-center text-xs">Teknisi 3</th>
                                             <th class="text-center text-xs">Teknisi 4</th>
                                             {{-- <th class="text-center text-xs font-weight-semibold">Teknisi 4</th> --}}
+                                            <th class="text-center text-xs">Status APK</th>
                                             <th class="text-center text-xs">Status WO</th>
+                                            <th class="text-center text-xs">Reason Status</th>
                                             <th class="text-center text-xs">Status Check</th>
                                             <th class="text-center text-xs">Status Konfirmasi</th>
 
@@ -445,8 +447,8 @@
 
         {{-- Modal Show Detail Data Tool --}}
         <div class="modal fade" id="showAssignTim" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false"
-            data-bs-backdrop="static">>
+            aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false" data-bs-keyboard="false"
+            data-bs-backdrop="static">
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -1879,6 +1881,12 @@
                     },
                     {
                         data: 'status_apk'
+                    },
+                    {
+                        data: 'status_wo'
+                    },
+                    {
+                        data: 'reason_status'
                     },
                     {
                         data: 'is_checked',

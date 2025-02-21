@@ -147,16 +147,24 @@ class ImportDataWoIbApkController extends Controller
 
         switch ($request->input('action')) {
             case 'simpan':
-
+                //get all data dari hasil import apk
                 $importedData = DB::table('import_ftth_ib_apks as apk')
                     ->leftJoin('v_rekap_assign_tim as vtim', function($join) {
                         $join->on('apk.installation_date','=','vtim.tgl_ikr');
                         $join->on('apk.callsign','=','vtim.callsign');
                     })
-                    ->select('apk.*','vtim.leadcall_id','vtim.leadcall', 'vtim.leader_id', 'vtim.leader', 'vtim.callsign_id as callsignAssignId', 'vtim.callsign as callsignAssign',
+                    ->join('data_ftth_ib_oris as dt', function($j) {
+                        $j->on('dt.tgl_ikr', '=', 'apk.installation_date');
+                        $j->on('dt.no_wo', '=', 'apk.wo_no');
+                    })
+                    ->whereIn('apk.wo_type', ['NEW INSTALLATION', 'INSTALLATION', 'RELOCATION'])
+                    ->where('dt.is_checked','=', 0)
+                    ->where('apk.login', $akses)
+                    ->select('dt.id as dt_id', 'apk.*','vtim.leadcall_id','vtim.leadcall', 'vtim.leader_id', 'vtim.leader', 'vtim.callsign_id as callsignAssignId', 'vtim.callsign as callsignAssign',
                             'vtim.tek1_nik', 'vtim.teknisi1', 'vtim.tek2_nik', 'vtim.teknisi2', 'vtim.tek3_nik', 'vtim.teknisi3',
                             'vtim.tek4_nik', 'vtim.teknisi4');
 
+                //tambah filter area sesuai yg dipilih user
                 if($request->FiArea != "All Area") {
                     $listArea = explode(", ", $request->FiArea);
                     $importedData = $importedData->whereIn('apk.area', $listArea);
@@ -164,54 +172,90 @@ class ImportDataWoIbApkController extends Controller
 
                 $importedData = $importedData->get();
 
-                DB::beginTransaction();
-                try {
-                    // Update status_wo pada data_ftth_ib_oris berdasarkan wo_no dan tgl_ikr
-                    foreach ($importedData as $data) {
-                        DB::table('data_ftth_ib_oris')
-                            ->where('tgl_ikr', $data->installation_date) // Menambahkan syarat
-                            ->where('no_wo', $data->wo_no)
-                            ->where('is_checked', 0)
-                            ->update([
-                                'slot_time_apk' => $data->time,
-                                'status_wo' => $data->status,
-                                'status_apk' => $data->status,
-                                'remarks_wo' => $data->remarks,
-                                'checkin_apk' => $data->check_in,
-                                'checkout_apk' => $data->check_out,
-                                'mttr_all' => $data->mttr_all,
-                                'mttr_pending' => $data->mttr_pending,
-                                'mttr_progress' => $data->mttr_progress,
-                                'mttr_technician' => $data->mttr_technician,
-                                'sla_over' => $data->sla_over,
-                                'login' => Auth::user()->name,
-                            ]);
-                    }
+                // dd($importedData);
+                if(count($importedData) > 0)
+                {
 
-                    // Commit transaksi
-                    DB::table('import_ftth_ib_apks')->delete();
-                    DB::commit();
-                    return redirect()->route('monitFtthIB')->with(['success' => 'Status berhasil diupdate.']);
-                } catch (\Exception $e) {
-                    // Rollback jika ada kesalahan
-                    DB::rollback();
-                    return $e;
-                    return redirect()->route('monitFtthIB')->with(['error' => 'Gagal mengupdate status.']);
+                    DB::beginTransaction();
+                    try {
+
+                        $dtApk = [];
+                        // Update status_wo pada data_ftth_ib_oris berdasarkan wo_no dan tgl_ikr
+                        foreach ($importedData as $data) {
+
+                            if(Str::upper($data->status == "DONE") || Str::upper($data->status == "CHECKOUT")) {
+                                $statWo = "Done";
+                            }else if(Str::upper($data->status) == "PENDING") {
+                                $statWo = "Pending";
+                            }else if(Str::upper($data->status) == "CANCELLED") {
+                                $statWo = "Cancel";
+                            }else {
+                                $statWo = Str::title($data->status);
+                            }
+
+                            array_push($dtApk,
+                                [
+                                    'id' => $data->dt_id,
+                                    'no_wo' => $data->wo_no,
+                                    'tgl_ikr' => $data->installation_date,
+                                    'wo_date_apk' => $data->wo_date,
+                                    'wo_type_apk' => $data->wo_type,
+                                    'kode_fat' => $data->fat_code,
+                                    'type_maintenance' => $data->remarks,
+                                    'callsign_id' => $data->callsignAssignId,
+                                    'callsign' => $data->callsignAssign,
+                                    'slot_time_apk' => $data->time,
+                                    'status_wo' => $statWo,
+                                    'reason_status' => null,
+                                    'status_apk' => $data->status,
+                                    'checkin_apk' => $data->check_in,
+                                    'checkout_apk' => $data->check_out,
+                                    'mttr_all' => $data->mttr_all,
+                                    'mttr_pending' => $data->mttr_pending,
+                                    'mttr_progress' => $data->mttr_progress,
+                                    'mttr_technician' => $data->mttr_technician,
+                                    'sla_over' => $data->sla_over,
+                                    'login' => Auth::user()->name,
+                                ]
+                            );
+                        }
+
+                        // dd(count($dtApk));
+
+                        if(count($dtApk)>0) {
+                            $updateProgress = DB::table('data_ftth_ib_oris')->upsert(
+                                $dtApk, ['id'], ['no_wo', 'tgl_ikr', 'wo_date_apk', 'wo_type_apk', 'kode_fat',
+                                        'type_maintenance', 'callsign_id', 'callsign', 'slot_time_apk', 'status_wo',
+                                        'reason_status', 'status_apk', 'checkin_apk',
+                                        'checkout_apk', 'mttr_all', 'mttr_pending', 'mttr_progress', 'mttr_technician',
+                                        'sla_over', 'login'
+                                ]);
+                        }
+                        // Commit transaksi
+                        DB::table('import_ftth_ib_apks')->where('login', $akses)->delete();
+                        DB::commit();
+                        return redirect()->route('monitFtthIB')->with(['success' => 'Status berhasil diupdate.']);
+                    } catch (\Exception $e) {
+                        // Rollback jika ada kesalahan
+                        DB::rollback();
+                        return $e;
+                        return redirect()->route('monitFtthIB')->with(['error' => 'Gagal mengupdate status.' . $e->getMessage()]);
+                    }
+                } else {
+                    return redirect()->route('monitFtthIB')->with(['error' => 'Tidak ada data Import APK']);
                 }
 
-                break;
+        break;
 
             case 'batal':
-                $importedData = DB::table('import_ftth_ib_apks')
+                $importedData = DB::table('import_ftth_ib_apks')->where('login', $akses)
                     ->delete();
                 return redirect()->route('monitFtthIB')->with(['success' => 'Data berhasil dihapus.']);
-                break;
+            break;
             // case 'batal':
             //     ImportAssignTim::where('login', $akses)->delete();
             //         return redirect()->route('assignTim');
             // break;
-
-
         }
     }
 
@@ -225,7 +269,7 @@ class ImportDataWoIbApkController extends Controller
 
         DB::beginTransaction();
         try {
-            // Update status_wo pada data_ftth_mt_oris berdasarkan wo_no dan tgl_ikr
+            // Update status_wo pada data_ftth_ib_oris berdasarkan wo_no dan tgl_ikr
             foreach ($importedData as $data) {
                 DB::table('data_ftth_ib_oris')
                     ->where('no_wo', $data->wo_no)

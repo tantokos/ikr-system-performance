@@ -30,6 +30,7 @@ class FtthIbMaterial extends Model
         'qty',
         'sn',
         'mac_address',
-        'material_condition'
+        'material_condition',
+        'login',
     ];
 }
