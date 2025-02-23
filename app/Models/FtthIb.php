@@ -55,6 +55,7 @@ class FtthIb extends Model
         'penagihan',
         'tgl_jam_reschedule',
         'tgl_reschedule',
+        'detail_alasan',
         'alasan_cancel',
         'alasan_pending',
         'respon_konf_cst',

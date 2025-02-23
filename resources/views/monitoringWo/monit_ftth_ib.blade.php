@@ -2106,6 +2106,7 @@
                     $('#tglReschedule').val(dtDis.tgl_reschedule);
 
                     $('#remarksTeknisi').val(dtDis.remarks_teknisi);
+                    $('#detailAlasan').val(dtDis.detail_alasan);
                     $('#alasanCancel').val(dtDis.alasan_cancel);
                     $('#alasanPending').val(dtDis.alasan_pending);
 

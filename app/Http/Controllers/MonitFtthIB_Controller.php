@@ -473,6 +473,7 @@ class MonitFtthIB_Controller extends Controller
             'precon_out' => $request['kabelPrecon'],
             'telp_dispatch' => $request['telp_dispatch'],
             'nama_dispatch' => $request['picDispatch'],
+            'detail_alasan' => $request['detailAlasan'],
             'alasan_pending' => $request['alasanPending'],
             'alasan_cancel' => $request['alasanCancel'],
             'validasi_start' => $request['validasi_start'],
@@ -587,7 +588,7 @@ class MonitFtthIB_Controller extends Controller
     {
         $request->validate([
             'data' => 'required|array',
-            'data.*.id' => 'required|integer|exists:data_assign_tims,id',
+            'data.*.id' => 'required|integer|exists:data_ftth_ib_oris,id',
             'data.*.is_confirmation' => 'required|in:0,1'
         ]);
 
