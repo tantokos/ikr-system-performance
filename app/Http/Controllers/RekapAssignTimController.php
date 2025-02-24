@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportAssignTimFtth;
 use App\Models\DataAssignTim;
 use App\Models\Employee;
 use Illuminate\Database\Query\JoinClause;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 use function PHPUnit\Framework\isNull;
 
@@ -1081,6 +1083,12 @@ class RekapAssignTimController extends Controller
                 ->toJson(); //merubah response dalam bentuk Json
             // ->make(true);
         }
+    }
+
+    public function exportTemplateAssignTimFtth(Request $request)
+    {
+        // $export = new ExportAssignTimFtth($request);
+        return Excel::download(new ExportAssignTimFtth, 'Template Upload Assign Tim FTTH.xlsx');
     }
 
     /**

@@ -323,7 +323,7 @@ class Import_DataWoController extends Controller
                         'iat.remarks_apk', 'iat.vendor_installer_apk', 'iat.ikr_date_apk', 'iat.time_apk', 'iat.branch_id',
                         'iat.branch', 'iat.leadcall_id', 'iat.leadcall', 'iat.leader_id', 'iat.leader', 'iat.callsign_id',
                         'iat.callsign', 'iat.tek1_nik', 'iat.teknisi1', 'iat.tek2_nik', 'iat.teknisi2', 'iat.tek3_nik', 'iat.teknisi3',
-                        'iat.tek4_nik', 'iat.teknisi4', 'iat.login_id', 'iat.login'
+                        'iat.tek4_nik', 'iat.teknisi4', 'iat.login_id', 'iat.login', 'iat.cek_telebot', 'iat.status_telebot'
                     )
                     ->where('iat.login', $akses)
                     ->get()->toArray();
@@ -399,6 +399,8 @@ class Import_DataWoController extends Controller
                                         'teknisi4' => $data->teknisi4,
                                         'login_id' => $data->login_id,
                                         'login' => $data->login,
+                                        'cek_telebot' => $data->cek_telebot,
+                                        'status_telebot' => $data->status_telebot,
                                         "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
                                         "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()]
                                 ]);
@@ -447,6 +449,8 @@ class Import_DataWoController extends Controller
                                             'teknisi4' => $data->teknisi4,
                                             // 'is_checked' => 0,
                                             'login' => $data->login,
+                                            'cek_telebot' => $data->cek_telebot,
+                                            'hasil_cek_telebot' => $data->status_telebot,
                                             "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
                                             "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
                                         ];
@@ -496,6 +500,8 @@ class Import_DataWoController extends Controller
                                         // 'status_apk' => "Requested",
                                         'is_checked' => 0,
                                         'login' => $data->login,
+                                        'cek_telebot' => $data->cek_telebot,
+                                        'hasil_cek_telebot' => $data->status_telebot,
                                         "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
                                         "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()]
                                         
@@ -536,6 +542,8 @@ class Import_DataWoController extends Controller
                                         'tek3_nik' => $data->tek3_nik,
                                         'teknisi3' => $data->teknisi3,
                                         'login' => $data->login,
+                                        'cek_telebot' => $data->cek_telebot,
+                                        'hasil_cek_telebot' => $data->status_telebot,
                                         "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
                                         "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()]
                                         
@@ -555,7 +563,7 @@ class Import_DataWoController extends Controller
                                         'fat_port_apk', 'remarks_apk', 'vendor_installer_apk', 'ikr_date_apk', 'time_apk',
                                         'branch_id', 'branch', 'leadcall_id', 'leadcall', 'leader_id', 'leader', 'callsign_id',
                                         'callsign', 'tek1_nik', 'teknisi1', 'tek2_nik', 'teknisi2', 'tek3_nik', 'teknisi3',
-                                        'tek4_nik', 'teknisi4', 'login_id', 'login', "created_at", "updated_at"
+                                        'tek4_nik', 'teknisi4', 'login_id', 'login', 'cek_telebot', 'status_telebot', 'created_at', 'updated_at'
                                 ]);
                         }
                         
@@ -570,7 +578,7 @@ class Import_DataWoController extends Controller
                                     'ms_regular', 'wo_date_apk', 'slot_time_assign_apk', 'port_fat', 'site_penagihan',
                                     'wo_type_apk', 'leadcall_id', 'leadcall', 'leader_id', 'callsign_id', 'tek1_nik',
                                     'tek2_nik', 'tek3_nik', 'tek4_nik', 'teknisi4', // 'is_checked' => 0,
-                                    'login', "created_at", "updated_at"
+                                    'login', 'cek_telebot', 'hasil_cek_telebot',  "created_at", "updated_at"
                                 ]
                             );
                         }
@@ -583,7 +591,7 @@ class Import_DataWoController extends Controller
                                         'branch', 'leadcall_id', 'leadcall', 'slot_time_leader', 'slot_time_apk', 'sesi', 'callsign', 'callsign_id',
                                         'leader_id', 'leader', 'tek1_nik', 'tek2_nik', 'tek3_nik', 'tek4_nik', 'teknisi1', 'teknisi2', 'teknisi3', 'teknisi4',
                                         'wo_date_apk', 'port_fat', // 'status_wo' => "Requested", 'status_apk' => "Requested",
-                                        'is_checked', 'login', "created_at", "updated_at"
+                                        'is_checked', 'login', 'cek_telebot', 'hasil_cek_telebot', "created_at", "updated_at"
                                 ]
 
                             );
@@ -595,7 +603,7 @@ class Import_DataWoController extends Controller
                                 ['no_wo', 'visit_date', 'sesi', 'type_wo', 'no_ticket', 'wo_date', 'cust_id', 'nama_cust',
                                         'cust_address1', 'cluster', 'wo_type_apk', 'kode_fat', 'port_fat', 'slot_time_leader', 'slot_time_apk', // 'status_wo' => "Requested",'status_apk' => "Requested",
                                         'branch_id', 'main_branch', 'leadcall_id', 'leadcall', 'leader_id', 'leader', 'callsign_id', 'callsign',
-                                        'tek1_nik', 'teknisi1', 'tek2_nik', 'teknisi2', 'tek3_nik', 'teknisi3', 'login', "created_at", "updated_at"
+                                        'tek1_nik', 'teknisi1', 'tek2_nik', 'teknisi2', 'tek3_nik', 'teknisi3', 'login', 'cek_telebot', 'hasil_cek_telebot', "created_at", "updated_at"
                                 ]
                             );
                         }

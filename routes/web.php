@@ -1,5 +1,6 @@
 <?php
 
+use App\Exports\ExportAssignTimFtth;
 use App\Http\Controllers\analisa_woController;
 use App\Http\Controllers\AreaFat_Controller;
 use App\Http\Controllers\AssignTimController;
@@ -161,6 +162,8 @@ Route::get('/getPopUpRekapJmlAssignTeknisi', [RekapAssignTimController::class, '
 Route::get('/updateRekapCallTim', [RekapAssignTimController::class, 'updateRekapCallTim'])->name('updateRekapCallTim')->middleware('auth');
 Route::get('/updateRekapAssignWo', [RekapAssignTimController::class, 'updateRekapAssignWo'])->name('updateRekapAssignWo')->middleware('auth');
 Route::post('/delRekapAssignWo', [RekapAssignTimController::class, 'delRekapAssignWo'])->name('delRekapAssignWo')->middleware('auth');
+
+Route::get('/exportTemplateAssignTimFtth', [RekapAssignTimController::class, 'exportTemplateAssignTimFtth'])->name('exportTemplateAssignTimFtth')->middleware('auth');
 
 Route::get('/assignTim', [AssignTimController::class, 'index'])->name('assignTim')->middleware('auth');
 Route::get('/getTabelAssignTim', [AssignTimController::class, 'getTabelAssignTim'])->name('getTabelAssignTim')->middleware('auth');
