@@ -20,8 +20,12 @@ class MonitFtthIB_Controller extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $areaFill = $request->areaFill;
+        $areagroup = $request->areagroup;
+
         $branches = DB::table('branches')->select('id','nama_branch')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
 
         $leader = DB::table('v_detail_callsign_tim')->select('leader_id', 'nama_leader', 'nama_branch')
@@ -38,12 +42,16 @@ class MonitFtthIB_Controller extends Controller
         $penagihanIB = DB::table('root_couse_penagihan')->select('status','penagihan')
                     ->where('type_wo','=','IB FTTH')->where('penagihan','<>','total_done')->get();
 
+        $dtDispatch = DB::table('list_dispatch')->get();
+
         return view('monitoringWo.monit_ftth_ib', compact(
             'branches',
             'leader',
             'callTim',
             'cluster',
-            'penagihanIB'
+            'penagihanIB',
+            'dtDispatch',
+            'areaFill', 'areagroup'
         ));
     }
 
@@ -116,17 +124,26 @@ class MonitFtthIB_Controller extends Controller
             }
 
             if ($request->filGroup != null) {
+
                 $group = $request->filGroup;
 
-                if ($group == 'Jakarta') {
-                    // Area yang termasuk dalam grup Jabota
-                    $jakartaAreas = ['Jakarta Timur', 'Jakarta Selatan', ];
-                    $datas = $datas->whereIn('branch', $jakartaAreas);
-                } elseif ($group == 'Regional') {
-                    // Area yang termasuk dalam grup Regional
-                    $regionalAreas = ['Bogor', 'Tangerang', 'Bali', 'Bekasi', 'Jambi', 'Medan', 'Palembang', 'Pontianak', 'Pangkal Pinang'];
-                    $datas = $datas->whereIn('branch', $regionalAreas);
-                }
+                $grupArea = DB::table('branches')->select('grup_area', 'nama_branch')
+                            ->where('grup_area', $group)->get();
+
+                $datas = $datas->whereIn('branch', $grupArea->pluck('nama_branch'));
+
+
+                // $group = $request->filGroup;
+
+                // if ($group == 'Jakarta') {
+                //     // Area yang termasuk dalam grup Jabota
+                //     $jakartaAreas = ['Jakarta Timur', 'Jakarta Selatan', ];
+                //     $datas = $datas->whereIn('branch', $jakartaAreas);
+                // } elseif ($group == 'Regional') {
+                //     // Area yang termasuk dalam grup Regional
+                //     $regionalAreas = ['Bogor', 'Tangerang', 'Bali', 'Bekasi', 'Jambi', 'Medan', 'Palembang', 'Pontianak', 'Pangkal Pinang'];
+                //     $datas = $datas->whereIn('branch', $regionalAreas);
+                // }
             }
 
             $datas = $datas->get();
@@ -202,15 +219,23 @@ class MonitFtthIB_Controller extends Controller
         }
 
         if ($request->filGroup != null) {
+
             $group = $request->filGroup;
 
-            if ($group == 'Jakarta') {
-                $jakartaAreas = ['Jakarta Timur', 'Jakarta Selatan'];
-                $datas = $datas->whereIn('branch', $jakartaAreas);
-            } elseif ($group == 'Regional') {
-                $regionalAreas = ['Bali', 'Bekasi', 'Bogor', 'Tangerang', 'Jambi', 'Medan', 'Palembang', 'Pontianak', 'Pangkal Pinang'];
-                $datas = $datas->whereIn('branch', $regionalAreas);
-            }
+                $grupArea = DB::table('branches')->select('grup_area', 'nama_branch')
+                            ->where('grup_area', $group)->get();
+
+                $datas = $datas->whereIn('branch', $grupArea->pluck('nama_branch'));
+
+            // $group = $request->filGroup;
+
+            // if ($group == 'Jakarta') {
+            //     $jakartaAreas = ['Jakarta Timur', 'Jakarta Selatan'];
+            //     $datas = $datas->whereIn('branch', $jakartaAreas);
+            // } elseif ($group == 'Regional') {
+            //     $regionalAreas = ['Bali', 'Bekasi', 'Bogor', 'Tangerang', 'Jambi', 'Medan', 'Palembang', 'Pontianak', 'Pangkal Pinang'];
+            //     $datas = $datas->whereIn('branch', $regionalAreas);
+            // }
         }
 
         $datas = $datas->select(
@@ -423,7 +448,7 @@ class MonitFtthIB_Controller extends Controller
             'branch' => $request['branchShow'],
             'penagihan' => $request['penagihanShow'],
             'tgl_ikr' => $request['tglProgressShow'],
-            'slot_time_leader' => $request['slotTimeLeaderShow'],
+            'slot_time_leader' => $request['slotTimeAPKShow'],
             'slot_time_apk' => $request['slotTimeAPKShow'],
             'sesi' => $request['sesiShow'],
             'waktu_instalasi' => $request['waktuInstallation'],

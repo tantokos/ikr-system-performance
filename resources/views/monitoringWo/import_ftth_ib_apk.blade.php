@@ -53,6 +53,9 @@
                                     <div class="col form-group">
                                         <input type="text" class="form-control form-control-sm" id="akses"
                                             name="akses" value="{{ $akses }}" readonly />
+                                        
+                                        <input type="hidden" id="areaFill" name="areaFill" value="{{ $areaFill }}" readonly />
+                                        <input type="hidden" id="areagroup" name="areagroup" value="{{ $areagroup }}" readonly />
                                     </div>
                                 </div>
 
@@ -70,7 +73,7 @@
                     </div>
                     <hr>
                     <div class="col text-end">
-                        <button onclick="return confirm('Simpan hasil import WO?')" type="submit" name="action"
+                        <button type="submit" name="action" id="actionSimpan"
                             value="simpan" class="btn btn-sm btn-dark align-items-center">Save Import
                             WO</button>
                         <button onclick="return confirm('Hapus hasil import Data Work Order?')"
@@ -951,6 +954,18 @@
                 e.preventDefault(); // Mencegah form dikirim
                 return false;
             }
+
+            // Tampilkan loader di tengah halaman
+            $('#pageLoader').fadeIn();
+        });
+
+        $('#actionSimpan').on('click', function (e) {
+            // Cek apakah file sudah dipilih
+            // if ($('#fileDataWO').val() === '') {
+            //     alert('Silakan pilih file terlebih dahulu!');
+            //     e.preventDefault(); // Mencegah form dikirim
+            //     return false;
+            // }
 
             // Tampilkan loader di tengah halaman
             $('#pageLoader').fadeIn();

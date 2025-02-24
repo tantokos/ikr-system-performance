@@ -15,8 +15,11 @@ class ImportDataWoIbApkController extends Controller
 {
     public function index(Request $request)
     {
+        $areaFill = $request->areaFill;
+        $areagroup = $request->areagroup; 
+
         if($request->areaFill != null) {
-            $area = explode(",", $request->areaFill);
+            $area = explode("|", $request->areaFill);
             $filArea = $area[1];
         }
 
@@ -40,7 +43,7 @@ class ImportDataWoIbApkController extends Controller
 
         $jmlData = DB::table('import_ftth_ib_apks');
 
-        return view('monitoringWo.import_ftth_ib_apk', compact('branches', 'leadCallsign', 'akses', 'jmlData', 'filArea'));
+        return view('monitoringWo.import_ftth_ib_apk', compact('branches', 'leadCallsign', 'akses', 'jmlData', 'filArea', 'areaFill', 'areagroup'));
     }
 
     public function importProsesDataWoIbApk(Request $request)
@@ -65,7 +68,7 @@ class ImportDataWoIbApkController extends Controller
         ini_set('memory_limit', '8192M');
         $akses = Auth::user()->name;
 
-        $datas = DB::table('import_ftth_ib_apks')->orderBy('wo_date', 'DESC');
+        $datas = DB::table('import_ftth_ib_apks')->where('login', $akses)->orderBy('wo_date', 'DESC');
 
         if($request->filTgl != null) {
             $dateRange = explode("-", $request->filTgl);
@@ -139,8 +142,12 @@ class ImportDataWoIbApkController extends Controller
 
     public function storeFtthIbApk(Request $request)
     {
+        // dd($request->all());
         ini_set('max_execution_time', 1900);
         ini_set('memory_limit', '8192M');
+
+        $areaFill = $request->areaFill;
+        $areagroup = $request->areagroup;
 
         $filArea = [];
         $akses = Auth::user()->name;
@@ -220,9 +227,10 @@ class ImportDataWoIbApkController extends Controller
                             );
                         }
 
-                        // dd(count($dtApk));
+                        // dd($importedData, $dtApk);
 
                         if(count($dtApk)>0) {
+                            // DB::enableQueryLog();
                             $updateProgress = DB::table('data_ftth_ib_oris')->upsert(
                                 $dtApk, ['id'], ['no_wo', 'tgl_ikr', 'wo_date_apk', 'wo_type_apk', 'kode_fat',
                                         'type_maintenance', 'callsign_id', 'callsign', 'slot_time_apk', 'status_wo',
@@ -230,11 +238,14 @@ class ImportDataWoIbApkController extends Controller
                                         'checkout_apk', 'mttr_all', 'mttr_pending', 'mttr_progress', 'mttr_technician',
                                         'sla_over', 'login'
                                 ]);
+
                         }
+
+                        // dd($importedData, $dtApk, DB::getQueryLog());
                         // Commit transaksi
                         DB::table('import_ftth_ib_apks')->where('login', $akses)->delete();
                         DB::commit();
-                        return redirect()->route('monitFtthIB')->with(['success' => 'Status berhasil diupdate.']);
+                        return redirect()->route('monitFtthIB', ['areaFill' => $areaFill,  'areagroup' => $areagroup])->with(['success' => 'Status berhasil diupdate.']);
                     } catch (\Exception $e) {
                         // Rollback jika ada kesalahan
                         DB::rollback();
