@@ -31,6 +31,6 @@ class ImportFtthIbMaterial extends Model
         'sn',
         'mac_address',
         'material_condition',
-        'login',
+        'login'
     ];
 }

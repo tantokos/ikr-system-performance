@@ -54,7 +54,9 @@ class MaterialIbImport implements ToModel, WithHeadingRow, WithChunkReading, Wit
     public function rules(): array
     {
         return [
-            'no_wo_apk' => Rule::unique('import_ftth_ib_material', 'no_wo_apk')
+            // 'no_wo_apk' => Rule::unique('import_ftth_ib_material', 'no_wo_apk')
+            'wo_no' => ['required', 
+                Rule::unique('import_ftth_ib_materials', 'wo_no')->where('login', '=' ,$this->logNm)],
         ];
     }
 

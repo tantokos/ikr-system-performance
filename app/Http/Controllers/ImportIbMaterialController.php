@@ -62,7 +62,7 @@ class ImportIbMaterialController extends Controller
         $akses = Auth::user()->name;
 
         if ($request->ajax()) {
-            $datas = DB::table('import_ftth_ib_materials')
+            $datas = DB::table('import_ftth_ib_materials')->where('login', $akses)
                 ->get();
 
             return Datatables::of($datas)
@@ -88,7 +88,7 @@ class ImportIbMaterialController extends Controller
 
         switch ($request->input('action')) {
             case 'simpan':
-                $importedData = DB::table('import_ftth_ib_materials')->get();
+                $importedData = DB::table('import_ftth_ib_materials')->where('login', $akses)->get();
 
                 DB::beginTransaction();
                 try {

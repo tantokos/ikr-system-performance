@@ -2,15 +2,15 @@
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
-        <div class="container-fluid py-4 px-5">
+        <div class="container-fluid py-2 px-5">
             <div class="row">
                 <div class="col-12">
-                    <div class="card card-background card-background-after-none align-items-start mt-2 mb-5">
+                    <div class="card card-background card-background-after-none align-items-start mt-2 mb-2">
                         <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
                         </div>
-                        <div class="card-body text-start p-4 w-100">
+                        <div class="card-body text-start p-3 w-100">
                             <h3 class="text-white mb-2">Monitoring WO FTTH New Installation</h3>
-                            <p class="mb-4 font-weight-semibold">
+                            <p class="mb-2 font-weight-semibold">
                                 PT. Mitra Sinergi Telematika.
                             </p>
 
@@ -23,7 +23,7 @@
 
             <div class="row">
                 <div class="col-12">
-                    <div class="card border shadow-xs mb-4">
+                    <div class="card border shadow-xs mb-2">
                         <div class="card-header border-bottom pb-0">
                             {{-- <div class="d-sm-flex align-items-center"> --}}
                             <div class="row">
@@ -46,20 +46,6 @@
                                         <input type="text" class="form-control form-control-sm" id="filcustId"
                                             name="filcustId" style="border-color:#9ca0a7;">
                                     </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Status WO</span>
-                                        <select class="form-control form-control-sm" type="text" id="filstatusWo"
-                                            name="filstatusWo" style="border-color:#9ca0a7;">
-                                            <option value="" disabled selected>Pilih Status WO</option>
-                                            <option value="Requested">Requested</option>
-                                            <option value="Checkin">Checkin</option>
-                                            <option value="Checkout">Checkout</option>
-                                            <option value="Done">Done</option>
-                                            <option value="Pending">Pending</option>
-                                            <option value="Cancelled">Cancelled</option>
-                                        </select>
-                                    </div>
                                 </div>
 
                                 <div class="col">
@@ -70,8 +56,11 @@
                                             <option value="">Pilih Area</option>
                                             @if (isset($branches))
                                                 @foreach ($branches as $b)
-                                                    <option value="{{ $b->id . '|' . $b->nama_branch }}">
-                                                        {{ $b->nama_branch }}
+                                                    @if(isset($areaFill))
+                                                        <option value="{{ $b->id . '|' . $b->nama_branch }}" {{ $b->id . '|' . $b->nama_branch == $areaFill ? 'selected' : ''}}>{{ $b->nama_branch }}</option>
+                                                    @else
+                                                        <option value="{{ $b->id . '|' . $b->nama_branch }}">{{ $b->nama_branch }}</option>
+                                                    @endif
                                                 @endforeach
                                             @endif
                                         </select>
@@ -94,6 +83,40 @@
                                     </div>
 
                                     <div class="form-group mb-1">
+                                        <span class="text-xs">Status WO</span>
+                                        <select class="form-control form-control-sm" type="text" id="filstatusWo"
+                                            name="filstatusWo" style="border-color:#9ca0a7;">
+                                            <option value="" disabled selected>Pilih Status WO</option>
+                                            <option value="Requested">Requested</option>
+                                            <option value="Checkin">Checkin</option>
+                                            <option value="Checkout">Checkout</option>
+                                            <option value="Done">Done</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="Cancelled">Cancelled</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="col">
+
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Grup</span>
+                                        <select class="form-control form-control-sm select2" id="filGroup" name="filGroup" style="border-color:#9ca0a7;">
+                                            @if (isset($areagroup))
+                                                <option value="" {{ "" == $areagroup ? 'selected' : ''}}>Pilih Grup</option>
+                                                <option value="Jakarta" {{ "Jakarta" == $areagroup ? 'selected' : ''}}>Jakarta</option>
+                                                <option value="Regional" {{ "Regional" == $areagroup ? 'selected' : ''}}>Regional</option>
+                                            @else
+                                                <option value="">Pilih Grup</option>
+                                                <option value="Jakarta">Jakarta</option>
+                                                <option value="Regional">Regional</option>
+                                            @endif
+                                            
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group mb-1">
                                         <span class="text-xs">Callsign Tim</span>
                                         <select class="form-control form-control-sm" type="text" id="filcallsignTimid"
                                             name="filcallsignTimid" style="border-color:#9ca0a7;"
@@ -108,15 +131,6 @@
                                             @endif
                                         </select>
                                     </div>
-
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Teknisi</span>
-                                        <select class="form-control form-control-sm" type="text" id="filteknisi"
-                                            name="filteknisi" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Teknisi</option>
-                                        </select>
-                                    </div>
-
                                 </div>
 
                                 <div class="col">
@@ -134,6 +148,17 @@
                                             @endif
                                         </select>
                                     </div>
+
+                                    <div class="form-group mb-1">
+                                        <span class="text-xs">Teknisi</span>
+                                        <select class="form-control form-control-sm" type="text" id="filteknisi"
+                                            name="filteknisi" style="border-color:#9ca0a7;">
+                                            <option value="">Pilih Teknisi</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col">
 
                                     <div class="form-group mb-1">
                                         <span class="text-xs">FAT Code</span>
@@ -172,16 +197,9 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group mb-1">
-                                        <span class="text-xs">Grup</span>
-                                        <select class="form-control form-control-sm select2" id="filGroup" name="filGroup" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Grup</option>
-                                            <option value="Jakarta">Jakarta</option>
-                                            <option value="Regional">Regional</option>
-                                        </select>
-                                    </div>
-
+                                    
                                 </div>
+
                                 <hr>
                                 <div class="row text-center mb-1">
                                     <div class="col">
@@ -820,18 +838,7 @@
                                                 </div>
 
                                                 <div class="row">
-                                                    <div class="col form-group mb-1">
-                                                        <span class="text-xs">Status WO</span>
-                                                        <span class="text-danger">*</span>
-                                                        <select class="form-control form-control-sm" type="text"
-                                                            id="statusWo" name="statusWo"
-                                                            style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
-                                                            <option value="">Pilih Status WO</option>
-                                                            <option value="Done">Done</option>
-                                                            <option value="Pending">Pending</option>
-                                                            <option value="Cancel">Cancel</option>
-                                                        </select>
-                                                    </div>
+                                                    
                                                     <div class="col form-group mb-1">
                                                         <span class="text-xs">Status WO Aplikasi</span>
                                                         <span class="text-danger">*</span>
@@ -841,6 +848,19 @@
                                                             <option value="Requested">Requested</option>
                                                             <option value="Checkin">Checkin</option>
                                                             <option value="Checkout">Checkout</option>
+                                                            <option value="Done">Done</option>
+                                                            <option value="Pending">Pending</option>
+                                                            <option value="Cancel">Cancel</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col form-group mb-1">
+                                                        <span class="text-xs">Status WO</span>
+                                                        <span class="text-danger">*</span>
+                                                        <select class="form-control form-control-sm" type="text"
+                                                            id="statusWo" name="statusWo"
+                                                            style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
+                                                            <option value="">Pilih Status WO</option>
                                                             <option value="Done">Done</option>
                                                             <option value="Pending">Pending</option>
                                                             <option value="Cancel">Cancel</option>
@@ -917,7 +937,7 @@
                                                             <span class="text-danger">*</span>
                                                             <select class="form-control form-control-sm" type="text"
                                                                 id="respon_konf_cst" name="respon_konf_cst"
-                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
+                                                                style="border-color:#9ca0a7;">
                                                                 <option value="" disabled selected>Pilih Respon Konfirmasi Cst</option>
                                                                 <option value="Respon">Respon</option>
                                                                 <option value="Tidak Respon">Tidak Respon</option>
@@ -928,7 +948,7 @@
                                                             <span class="text-danger">*</span>
                                                             <select class="form-control form-control-sm" type="text"
                                                                 id="jawaban_konf_cst" name="jawaban_konf_cst"
-                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')" oninput="this.setCustomValidity('')">
+                                                                style="border-color:#9ca0a7;">
                                                                 <option value="" disabled selected>Pilih Jawaban Konfirmasi Cst</option>
                                                                 <option value="Setuju">Setuju</option>
                                                                 <option value="Tidak Setuju">Tidak Setuju</option>
@@ -946,7 +966,7 @@
                                             </div>
 
                                             <div class="col">
-                                                <div class="form-group mb-1">
+                                                {{-- <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">PIC Dispatch</span>
@@ -963,7 +983,30 @@
                                                                 oninput="this.setCustomValidity('')">
                                                         </div>
                                                     </div>
+                                                </div> --}}
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">PIC Dispatch</span>
+                                                            <span class="text-danger">*</span>
+                                                            <select class="form-control form-control-sm" type="text"
+                                                                id="picDispatch" name="picDispatch"
+                                                                style="border-color:#9ca0a7;">
+                                                                <option value=""></option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Telp Dispatch</span>
+                                                            <span class="text-danger">*</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="telp_dispatch" name="telp_dispatch" 
+                                                                style="border-color:#9ca0a7;" readonly>
+                                                        </div>
+                                                    </div>
                                                 </div>
+
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
@@ -1639,6 +1682,7 @@
         var stDate;
         var enDate;
         var listPenagihan = {!! $penagihanIB !!};
+        var dtDispatch = {!! $dtDispatch !!}
 
         akses = $('#akses').val();
         // get_data_assignTim()
@@ -1654,6 +1698,33 @@
             startDate: moment(),
             endDate: moment(),
         });
+
+        function isiDispatch() {
+            $('#picDispatch').find('option').remove();
+            $('#picDispatch').append(`
+                <option value="">--Pilih--</option>`
+            );
+
+            $.each(dtDispatch, function(k,cc) {
+                $('#picDispatch').append(
+                    `<option value="${cc.nama_dispatch}">${cc.nama_dispatch}</option>`
+                )
+            })
+        }
+
+        $(document).on('change', '#picDispatch', function(e) {
+            filDispatch = dtDispatch.filter(k => k.nama_dispatch === $(this).val());
+            
+            $('#telp_dispatch').val(filDispatch[0].telp_dispatch);       
+        })
+
+        $(document).on('change', '#filarea', function() {
+            $('#filGroup').val('');
+        })
+
+        $(document).on('change', '#filGroup', function() {
+            $('#filarea').val('');
+        })
 
         $(document).on('change', '#statusWo', function(e) {
             $('#reasonStatus').find('option').remove();
@@ -1776,11 +1847,11 @@
         function get_data_assignTim_ib() {
             var data_assignTim = $('#tabelAssignTim').DataTable({
                 // dom: 'Bftip',
-                layout: {
-                    topStart: {
-                        buttons: ['excel']
-                    },
-                },
+                // layout: {
+                //     topStart: {
+                //         buttons: ['excel']
+                //     },
+                // },
                 paging: true,
                 orderClasses: false,
                 // fixedColumns: true,
@@ -2005,6 +2076,7 @@
                     let callsignLeads = response.callsign_leads;
                     let teknisiOn = response.teknisiOn;
                     callTim = response.assignTim;
+                    isiDispatch();
 
                     if (response.ftth_ib_material.length > 0) {
                         materialOut = response.ftth_ib_material.filter(k => k.status_item == "OUT");
@@ -2155,6 +2227,7 @@
                     $('#snOntIn').val(material.sn_ont_in);
 
                     $('#showAssignTim').modal('show');
+                    
 
                 }
             })
