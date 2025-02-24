@@ -47,7 +47,9 @@ class ImportAssignTim extends Model
         'tek4_nik',
         'teknisi4',
         'login_id',
-        'login'
+        'login',
+        'cek_telebot',
+        'status_telebot'
 
     ];
 }

@@ -117,6 +117,27 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             $area = $row['area'];
         }
 
+        $cekTelebot ="";
+        $statusTelebot = "";
+
+        if(Str::contains(strtoupper($row['remarks']), "LOS INDICATOR RED")) {
+            $cekTelebot ="Cek Telebot";
+
+            if($row['status_telebot'] == null) {
+                $cekTelebot ="Tidak Cek Telebot";
+                $statusTelebot="-";
+            } elseif ($row['status_telebot'] != null) {
+                $cekTelebot ="Cek Telebot";
+                $statusTelebot = $row['status_telebot'];
+            }
+
+        } else {
+            $cekTelebot ="Tidak Perlu Cek Telebot";
+            $statusTelebot="-";
+        }
+        
+        // dd($cekTelebot);
+
         return new ImportAssignTim([
 
             'batch_wo' => Str::trim($row['sesi']),
@@ -163,7 +184,9 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             'tek4_nik' => $this->get_data_id("tek4_nik", Str::trim($row['tim4']), $formattedDate),
             'teknisi4' => $this->get_data_id("teknisi4", $row['tim4'] == null ? null : Str::trim(ucwords($row['tim4'])), $formattedDate),
             'login_id' => $this->logId,
-            'login' => $this->logNm
+            'login' => $this->logNm,
+            'cek_telebot' => $cekTelebot,
+            'status_telebot' => $statusTelebot
         ]);
     }
 
