@@ -336,7 +336,7 @@
                                             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50" style="margin-right: 8px;">
                                                 <path fill="white" d="M 28.875 0 C 28.855469 0.0078125 28.832031 0.0195313 28.8125 0.03125 L 0.8125 5.34375 C 0.335938 5.433594 -0.0078125 5.855469 0 6.34375 L 0 43.65625 C -0.0078125 44.144531 0.335938 44.566406 0.8125 44.65625 L 28.8125 49.96875 C 29.101563 50.023438 29.402344 49.949219 29.632813 49.761719 C 29.859375 49.574219 29.996094 49.296875 30 49 L 30 44 L 47 44 C 48.09375 44 49 43.09375 49 42 L 49 8 C 49 6.90625 48.09375 6 47 6 L 30 6 L 30 1 C 30.003906 0.710938 29.878906 0.4375 29.664063 0.246094 C 29.449219 0.0546875 29.160156 -0.0351563 28.875 0 Z M 28 2.1875 L 28 6.53125 C 27.867188 6.808594 27.867188 7.128906 28 7.40625 L 28 42.8125 C 27.972656 42.945313 27.972656 43.085938 28 43.21875 L 28 47.8125 L 2 42.84375 L 2 7.15625 Z M 30 8 L 47 8 L 47 42 L 30 42 L 30 37 L 34 37 L 34 35 L 30 35 L 30 29 L 34 29 L 34 27 L 30 27 L 30 22 L 34 22 L 34 20 L 30 20 L 30 15 L 34 15 L 34 13 L 30 13 Z M 36 13 L 36 15 L 44 15 L 44 13 Z M 6.6875 15.6875 L 12.15625 25.03125 L 6.1875 34.375 L 11.1875 34.375 L 14.4375 28.34375 C 14.664063 27.761719 14.8125 27.316406 14.875 27.03125 L 14.90625 27.03125 C 15.035156 27.640625 15.160156 28.054688 15.28125 28.28125 L 18.53125 34.375 L 23.5 34.375 L 17.75 24.9375 L 23.34375 15.6875 L 18.65625 15.6875 L 15.6875 21.21875 C 15.402344 21.941406 15.199219 22.511719 15.09375 22.875 L 15.0625 22.875 C 14.898438 22.265625 14.710938 21.722656 14.5 21.28125 L 11.8125 15.6875 Z M 36 20 L 36 22 L 44 22 L 44 20 Z M 36 27 L 36 29 L 44 29 L 44 27 Z M 36 35 L 36 37 L 44 37 L 44 35 Z"></path>
                                             </svg>
-                                            <span class="btn-inner--text">Export</span>
+                                            <span class="btn-inner--text">Export Report</span>
                                         </button>
                                     </a>
 
@@ -366,6 +366,20 @@
                                                 </svg>
                                             </span>
                                             <span class="btn-inner--text">Import Data Material APK</span>
+                                        </button>
+                                    </a>
+                                    <a href="{{ route('importDataKonfCst') }}" id="importKonfCstButton">
+                                        <button type="button"
+                                            class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
+                                            <span class="btn-inner--icon">
+                                                <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
+                                                    <path
+                                                        d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
+                                                    </path>
+                                                </svg>
+                                            </span>
+                                            <span class="btn-inner--text">Import Data Konfirmasi Cst</span>
                                         </button>
                                     </a>
                                 </div>
@@ -2086,44 +2100,78 @@
         });        
 
         $(document).on('click', '#filAssignTim', function(e) {
+
+            stDate = $('.date-range').data('daterangepicker').startDate.format("DD-MM-YYYY");
+            enDate = $('.date-range').data('daterangepicker').endDate.format("DD-MM-YYYY");
+
             get_data_assignTim();
             get_summary();
 
             //link inport apk default
             let newLink = "{{ route('importDataFtthMtApk') }}"      
             let newLinkMaterial = "{{ route('importDataMaterial') }}"      
-            document.getElementById('importApkButton').href = newLink
-            document.getElementById('importApkMaterialButton').href = newLinkMaterial
+            let newLinkKonfCst = "{{ route('importDataKonfCst') }}"
+
+            let params = {
+                filTgl: $('#filtglProgress').val(),
+                areaFill: $('#filarea').val(),
+                areagroup: $('#filGroup').val()
+            };
+
+            let queryString = Object.keys(params)
+                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
+                .join('&');
             
+            // let fullUrl = newLinkKonfCst + '?' + queryString;
+
+            document.getElementById('importApkButton').href = newLink + '?' + queryString
+            document.getElementById('importApkMaterialButton').href = newLinkMaterial + '?' + queryString
+            document.getElementById('importKonfCstButton').href = newLinkKonfCst + '?' + queryString
+                        
             //otomati ganti link jika ada filter area / group area
-            if($('#filarea').val() != ""){
-                area = $('#filarea').val();
-                newLink = "{{ route('importDataFtthMtApk', 'areaFill=areagroup=') }}"
-                newLink = newLink.replace('areaFill=', 'areaFill='+area+'&');
+            // if($('#filarea').val() != ""){
+            //     area = $('#filarea').val();
+            //     newLink = "{{ route('importDataFtthMtApk', 'areaFill=areagroup=') }}"
+            //     newLink = newLink.replace('areaFill=', 'areaFill='+area+'&');
 
-                newLinkMaterial = "{{ route('importDataMaterial', 'areaFill=areagroup=') }}"  
-                newLinkMaterial = newLinkMaterial.replace('areaFill=', 'areaFill='+area+'&');
+            //     newLinkMaterial = "{{ route('importDataMaterial', 'areaFill=areagroup=') }}"  
+            //     newLinkMaterial = newLinkMaterial.replace('areaFill=', 'areaFill='+area+'&');
 
-                document.getElementById('importApkButton').href = newLink
-                document.getElementById('importApkMaterialButton').href = newLinkMaterial
-            }
-            if($('#filGroup').val() != ""){
-                area = $('#filGroup').val();
-                newLink = "{{ route('importDataFtthMtApk', 'areaFill=areagroup=') }}"
-                newLink = newLink.replace('areagroup=', '&areagroup='+area);
+            //     newLinkKonfCst = "{{ route('importDataKonfCst', 'areaFill=areagroup=') }}"
+            //     newLinkKonfCst = newLinkKonfCst.replace('areaFill=', 'areaFill='+area+'&');
 
-                newLinkMaterial = "{{ route('importDataMaterial', 'areaFill=areagroup=') }}"
-                newLinkMaterial = newLinkMaterial.replace('areagroup=', '&areagroup='+area);
+            //     document.getElementById('importApkButton').href = newLink
+            //     document.getElementById('importApkMaterialButton').href = newLinkMaterial
+            //     document.getElementById('importKonfCstButton').href = newLinkKonfCst
+            // }
+            // if($('#filGroup').val() != ""){
+            //     area = $('#filGroup').val();
+            //     newLink = "{{ route('importDataFtthMtApk', 'areaFill=areagroup=') }}"
+            //     newLink = newLink.replace('areagroup=', '&areagroup='+area);
 
-                document.getElementById('importApkButton').href = newLink
-                document.getElementById('importApkMaterialButton').href = newLinkMaterial
-            }
+            //     newLinkMaterial = "{{ route('importDataMaterial', 'areaFill=areagroup=') }}"
+            //     newLinkMaterial = newLinkMaterial.replace('areagroup=', '&areagroup='+area);
 
-            stDate = $('.date-range').data('daterangepicker').startDate.format("DD-MMM-YYYY");
-            enDate = $('.date-range').data('daterangepicker').endDate.format("DD-MMM-YYYY");
+            //     newLinkKonfCst = "{{ route('importDataKonfCst', 'areaFill=areagroup=') }}"
+            //     newLinkKonfCst = newLinkKonfCst.replace('areagroup=', '&areagroup='+area);
+
+            //     document.getElementById('importApkButton').href = newLink
+            //     document.getElementById('importApkMaterialButton').href = newLinkMaterial
+            //     document.getElementById('importKonfCstButton').href = newLinkKonfCst
+            // }
+
+            
         })
 
         $('#filAssignTim').trigger("click");
+
+        $(document).on('change', '#filarea', function() {
+            $('#filGroup').val('');
+        })
+
+        $(document).on('change', '#filGroup', function() {
+            $('#filarea').val('');
+        })
 
         $(document).on('change','#statusWo', function(e) {
             console.log($(this).val());

@@ -498,7 +498,7 @@ class Import_DataWoController extends Controller
                                         'port_fat' => $data->fat_port_apk,
                                         // 'status_wo' => "Requested",
                                         // 'status_apk' => "Requested",
-                                        'is_checked' => 0,
+                                        // 'is_checked' => 0,
                                         'login' => $data->login,
                                         'cek_telebot' => $data->cek_telebot,
                                         'hasil_cek_telebot' => $data->status_telebot,
@@ -591,7 +591,7 @@ class Import_DataWoController extends Controller
                                         'branch', 'leadcall_id', 'leadcall', 'slot_time_leader', 'slot_time_apk', 'sesi', 'callsign', 'callsign_id',
                                         'leader_id', 'leader', 'tek1_nik', 'tek2_nik', 'tek3_nik', 'tek4_nik', 'teknisi1', 'teknisi2', 'teknisi3', 'teknisi4',
                                         'wo_date_apk', 'port_fat', // 'status_wo' => "Requested", 'status_apk' => "Requested",
-                                        'is_checked', 'login', 'cek_telebot', 'hasil_cek_telebot', "created_at", "updated_at"
+                                        'login', 'cek_telebot', 'hasil_cek_telebot', "created_at", "updated_at"
                                 ]
 
                             );

@@ -96,13 +96,13 @@ class FtthMtExport implements FromCollection, WithHeadings, WithStyles, WithColu
             'd.regist_start',
             'd.regist_end',
             'd.kode_otp',
-            DB::raw('"-" as pic_konf_cst'),
-            DB::raw('"-" as status_konf_cst'),
-            DB::raw('"-" as tgl_jam_konf_cst'),
+            'd.pic_konf_cst',
+            DB::raw('d.konfirmasi_customer as status_konf_cst'),
+            DB::raw('concat_ws(" ", d.tgl_konf_cst, d.jam_konf_cst) as tgl_jam_konf_cst'),
             DB::raw('"-" as menit_konf_cst'),
             DB::raw('"-" as ket_konf_cst'),
             DB::raw('"-" as terlambat_konf_cst'),
-            DB::raw('"-" as bukti_konf_cst'),
+            DB::raw('d.bukti_konf_cst as bukti_konf_cst'),
             'd.material_out',
             'd.material_in',
                   
@@ -229,6 +229,9 @@ class FtthMtExport implements FromCollection, WithHeadings, WithStyles, WithColu
             $item->waktu_Installasi = '=IF(AND(AM'.($key + 2).'="Done",AL'.($key + 2).'="cancelled"),0,IF(OR(AM'.($key + 2).'="done",AM'.($key + 2).'="CHECKOUT"),(T'.($key + 2).'-Q'.($key + 2).'),0))';
             $item->material_in = '=COUNTA(BV'.($key + 2).',CB'.($key + 2).',CH'.($key + 2).',CL'.($key + 2).',CO'.($key + 2).')';
             $item->material_out = '=COUNTA(BS'.($key + 2).',BY'.($key + 2).',CE'.($key + 2).',CK'.($key + 2).',CM'.($key + 2).',CN'.($key + 2).',CP'.($key + 2).',CQ'.($key + 2).',CR'.($key + 2).',CS'.($key + 2).',CT'.($key + 2).',CU'.($key + 2).',CV'.($key + 2).',CW'.($key + 2).')';
+            $item->menit_konf_cst = '=(BL'.($key + 2).'-(CONCATENATE(TEXT(O'.($key + 2).',"yyyy-mm-dd")&" "&TEXT(P'.($key + 2).',"hh:mm:ss"))))*1440';
+            $item->ket_konf_cst = '=IF(BM'.($key + 2).'<=-60,"LEBIH AWAL",IF(BM'.($key + 2).'<=0,"ONTIME","TERLAMBAT"))';
+            $item->terlambat_konf_cst = '=IF(BN'.($key + 2).'="TERLAMBAT",IF(AND(BM'.($key + 2).'>=1,BM'.($key + 2).'<=10),"< 10 Menit",IF(AND(BM'.($key + 2).'>=11,BM'.($key + 2).'<=30),"< 30 Menit",IF(AND(BM'.($key + 2).'>=31,BM'.($key + 2).'<=60),"< 1 Jam",IF(AND(BM'.($key + 2).'>=61,BM'.($key + 2).'<=90)," < 1,5 Jam",IF(BM'.($key + 2).'>=91,"> 2 Jam"))))),"-")';
             return $item;
         });
 
