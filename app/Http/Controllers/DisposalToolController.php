@@ -27,7 +27,7 @@ class DisposalToolController extends Controller
     {
         $tool = DB::table('data_pengembalian_tools_gas as p')
             ->join('tool_ikrs as t','p.barang_id','=','t.id')
-            ->where('t.status_distribusi', 'Not Distributed')
+            ->where('t.status_distribusi', 'Return GA')
             ->where('t.posisi','Dikembalikan ke GA')
             ->select('t.id', 't.nama_barang', 't.merk_barang', 't.satuan', 't.spesifikasi', 'p.tgl_kembali', 't.kondisi', 't.kode_aset', 't.kode_ga', 'p.foto_kembali')
             ->orderBy('t.nama_barang')->get();

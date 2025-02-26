@@ -478,8 +478,9 @@
                     </div>
                     <div class="modal-body">
                         {{-- <form action="{{ route('updateSignTim') }}" method="post" enctype="multipart/form-data"> --}}
-                        <form action="{{ route('updateFtthIb') }}" method="post" enctype="multipart/form-data">
-                            @method('PUT')
+                        {{-- <form action="{{ route('updateFtthIb') }}" method="post" enctype="multipart/form-data" id="formDetailWoIB"> --}}
+                        <form class="updateFtthIb" method="get" enctype="multipart/form-data" id="formDetailWoIB">
+                            {{-- @method('PUT') --}}
                             @csrf
 
                             <div class="card-body px-1 py-1">
@@ -850,7 +851,7 @@
                                                             <option value="Checkout">Checkout</option>
                                                             <option value="Done">Done</option>
                                                             <option value="Pending">Pending</option>
-                                                            <option value="Cancel">Cancel</option>
+                                                            <option value="Cancelled">Cencelled</option>
                                                         </select>
                                                     </div>
 
@@ -2284,6 +2285,45 @@
             e.preventDefault();
             $('#detail-material').trigger('click', [$('#detId').val()]);
         })
+
+        $('.updateFtthIb').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{{ route('updateFtthIb') }}",
+                type: "get",
+                data: $(this).serialize(),
+                success: function(obj) {
+                    console.log('obj : ', obj);
+                    if(obj=="success"){
+                        $('#showAssignTim').modal('hide');
+
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success",
+                            text: "Berhasil update Data Monitoring",
+                            showConfirmButton: true,
+                            // timer: 2000
+                        });
+
+                        $('#tabelAssignTim').DataTable().ajax.reload();
+                        // $('#filAssignTim').trigger("click");
+                    } else {
+                        $('#showAssignTim').modal('hide');
+
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal",
+                            text: obj,
+                            showConfirmButton: true,
+                            // timer: 2000
+                        });
+
+                        $('#tabelAssignTim').DataTable().ajax.reload();
+                        // $('#filAssignTim').trigger("click");
+                    }
+                }
+            });
+        });
 
         $(document).on('click', '#detail-material', function(e, detid) {
             // e.preventDefault();

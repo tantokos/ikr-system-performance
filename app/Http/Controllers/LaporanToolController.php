@@ -16,13 +16,15 @@ class LaporanToolController extends Controller
      */
     public function index()
     {
+        $can = Auth::user()->akses;
+
         $LeadDistribusi = DB::table('data_distribusi_tools')
             ->where('status_kembali', '=', 'Belum dikembalikan')
             ->select('leadcall_id', 'lead_callsign', 'leader_id', 'leader', 'posisi', 'area')
             ->groupBy('leadcall_id', 'lead_callsign', 'leader_id', 'leader', 'posisi', 'area')
             ->orderBy('lead_callsign')->get();
 
-        return view('vTool.laporan_tool', ['leadCallsign' => $LeadDistribusi]);
+        return view('vTool.laporan_tool', ['leadCallsign' => $LeadDistribusi, 'can' => $can]);
     }
 
     public function getDataPengecekan(Request $request)

@@ -57,7 +57,12 @@
                                 <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('dataTool') ? 'custom-active' : '' }}"
                                     href="{{ route('dataTool') }}">
                                     <span class="nav-link-text ms-1">Data Tools</span>
-                                </a>                                
+                                </a>            
+                                <!-- Laporan Kondisi Tools -->
+                                <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('laporanTool') ? 'custom-active' : '' }}"
+                                    href="{{ route('laporanTool') }}">
+                                    <span class="nav-link-text ms-1">Laporan Kondisi Tools</span>
+                                </a>
                                 <!-- Pengembalian Tools GA -->
                                 <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('dataKembaliToolGA') ? 'custom-active' : '' }}"
                                     href="{{ route('dataKembaliToolGA') }}">

@@ -9,7 +9,7 @@
                         <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
                         </div>
                         <div class="card-body text-start p-4 w-100">
-                            <h3 class="text-white mb-2">Import Data Konfirmasi Jadwal</h3>
+                            <h3 class="text-white mb-2">Import Bukti Konfirmasi Jadwal Cst</h3>
                             <p class="mb-2 font-weight-semibold">
                                 {{-- Check all the advantages and choose the best. --}}
                             </p>
@@ -29,7 +29,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <form action="{{ route('importProsesDataWoApk') }}" method="post"
+                            <form action="{{ route('importProsesKonfCst') }}" method="post"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
@@ -46,10 +46,10 @@
 
                                 </div>
                                 <div class="form-group mb-1">
-                                    <button type="submit" id="importButton" class="btn btn-dark btn-sm w-100" onclick="cek()">
+                                    <button type="submit" id="importButton" class="btn btn-dark btn-sm w-100">
                                         <span class="spinner-border spinner-border-sm" style="display: none"
                                             role="status" aria-hidden="true"></span>
-                                        Import Data Work Order</button>
+                                        Import Data Konfirmasi</button>
                                     {{-- </div> --}}
                                     {{-- <div class="form-group"> --}}
                                     {{-- <label class="col-form-label form-control-sm">Information of Data Import :</label> --}}
@@ -67,7 +67,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <form action="{{ route('storeFtthMtApk') }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('storeKonfCst') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <label class="col-sm-3 col-form-label form-control-sm">Import By</label>
@@ -89,6 +89,20 @@
                                         @endif
                                         
                                     </div>
+
+                                    @if (isset($filTgl))
+                                        <input type="text" class="form-control form-control-sm"
+                                            name="filTgl" value="{{ $filTgl }}" hidden />    
+                                    @endif
+                                    @if (isset($monitArea))
+                                        <input type="text" class="form-control form-control-sm"
+                                            name="monitArea" value="{{ $monitArea }}" hidden />    
+                                    @endif
+                                    @if (isset($monitGrupArea))
+                                        <input type="text" class="form-control form-control-sm"
+                                            name="monitGrupArea" value="{{ $monitGrupArea }}" hidden />  
+                                    @endif
+
                                 </div>
 
                                 {{-- <div class="row">
@@ -128,9 +142,7 @@
                     <div class="col text-end">
                         {{-- <button type="button" class="btn btn-sm btn-dark align-items-center" data-bs-toggle="modal"
                             data-bs-target="#previewModal">Show Preview</button> --}}
-                        <button onclick="return confirm('Simpan hasil import WO?')" type="submit" name="action"
-                            value="simpan" class="btn btn-sm btn-dark align-items-center">Save Import
-                            WO</button>
+                        <button type="submit" name="action" id="actionSimpan" value="simpan" class="btn btn-sm btn-dark align-items-center">Save Import Konf Cst</button>
                         <button onclick="return confirm('Hapus hasil import Data Work Order?')"
                             onsubmit="this.disabled = true;" type="submit" name="action" value="batal"
                             class="btn btn-sm btn-danger align-items-center">Cancel Import
@@ -162,101 +174,44 @@
 
                         <div class="card-body px-2 py-2">
                             <div class="table-responsive">
-                                <table class="table table-bordered align-items-center mb-0 display" id="tabelDataWoImportApk" name="tabelDataWoImportApk"
+                                <table class="table table-bordered align-items-center mb-0 display" id="tabelDataKonfImport" name="tabelDataKonfImport"
                                     style="font-size: 12px">
                                     <thead class="bg-gray-100">
                                         <tr>
                                             <th class="text-secondary text-xs font-weight-semibold">#</th>
-                                            <th class="text-secondary text-xs font-weight-semibold ps-2">WO No</th>
+                                            <th class="text-secondary text-xs font-weight-semibold ps-2">PIC</th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Ticket No
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                WO Date
+                                                Tgl Progress
                                             </th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Installation Date
+                                                Branch
                                             </th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Time
+                                                Type WO
                                             </th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Vendor Installer
+                                                No WO
                                             </th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Callsign
+                                                ID Customer
                                             </th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Cust Id
+                                                Nama Customer
                                             </th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Name
+                                                Slot Time
                                             </th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Cust Phone
+                                                Bukti Konfirmasi
                                             </th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Cust Mobile
+                                                Tgl Konfirmasi
                                             </th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Address
+                                                Jam Konfirmasi
                                             </th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Area
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                WO Type
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Cause Code
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Root Cause
-                                            </th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Action Taken
-                                            </th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Fat Code
-                                            </th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Fat Port
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Remarks
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Status
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Pending
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Reason
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Check In
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                Check Out
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                MTTR All
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                MTTR Pending
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                MTTR Progress
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                MTTR Technician
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold ">
-                                                SLA Over
+                                                Status Konfirmasi
                                             </th>
                                         </tr>
                                     </thead>
@@ -669,7 +624,7 @@
         // lastDate = moment(firstDate).endOf('month');
 
         function data_import() {
-            $('#tabelDataWoImportApk').DataTable({
+            $('#tabelDataKonfImport').DataTable({
                 // dom: 'Bftip',
                 // layout: {
                 //     topStart: {
@@ -694,7 +649,7 @@
                 processing: true,
                 serverSide: false,
                 ajax: {
-                    url: "{{ route('getFtthMtApk') }}",
+                    url: "{{ route('getDataImportKonfCst') }}",
                     type: "get",
                     dataType: "json",
                     data: {
@@ -711,99 +666,45 @@
                         "width": '20'
                     },
                     {
-                        data: 'wo_no',
-                        width: '90'
+                        data: 'pic',
+                        // width: '90'
                     },
                     {
-                        data: 'ticket_no'
+                        data: 'tgl_progress'
                     },
                     {
-                        data: 'wo_date'
+                        data: 'branch'
                     },
                     {
-                        data: 'installation_date'
+                        data: 'type_wo'
                     },
                     {
-                        data: 'time'
+                        data: 'no_wo'
                     },
                     {
-                        data: 'vendor_installer'
+                        data: 'id_cust'
                     },
                     {
-                        data: 'callsign'
+                        data: 'nama_cust'
                     },
                     {
-                        data: 'cust_id',
+                        data: 'slot_time_leader',
                     },
                     {
-                        data: 'name'
-                    },
-                    {
-                        data: 'cust_phone',
-                    },
-                    {
-                        data: 'cust_mobile',
-                    },
-                    {
-                        data: 'address',                        
+                        data: 'bukti_konfirmasi',
                         "className": "dttable-wrap",
+                    },
+                    {
+                        data: 'tgl_konfirmasi',
+                    },
+                    {
+                        data: 'jam_konfirmasi',
+                    },
+                    {
+                        data: 'status_konfirmasi',                        
+                        // "className": "dttable-wrap",
                         
-                    },
-                    {
-                        data: 'area',
-                    },
-                    {
-                        data: 'wo_type',
-                    },
-                    {
-                        data: 'cause_code',
-                    },
-                    {
-                        data: 'root_cause',
-                    },
-                    {
-                        data: 'action_taken',
-                    },
-                    {
-                        data: 'fat_code',
-                    },
-                    {
-                        data: 'fat_port',
-                    },
-                    {
-                        data: 'remarks',
-                        "className": "dttable-wrap",
-                    },
-                    {
-                        data: 'status',
-                    },
-                    {
-                        data: 'pending',
-                    },
-                    {
-                        data: 'reason',
-                    },
-                    {
-                        data: 'check_in',
-                    },
-                    {
-                        data: 'check_out',
-                    },
-                    {
-                        data: 'mttr_all',
-                    },
-                    {
-                        data: 'mttr_pending',
-                    },
-                    {
-                        data: 'mttr_progress',
-                    },
-                    {
-                        data: 'mttr_technician',
-                    },
-                    {
-                        data: 'sla_over',
-                    },
+                    }                    
                 ]
             })
         }
@@ -1100,6 +1001,20 @@
             // Tampilkan loader di tengah halaman
             $('#pageLoader').fadeIn();
         });
+
+        $('#actionSimpan').on('click', function (e) {
+            // Cek apakah file sudah dipilih
+            // if ($('#fileDataWO').val() === '') {
+            //     alert('Silakan pilih file terlebih dahulu!');
+            //     e.preventDefault(); // Mencegah form dikirim
+            //     return false;
+            // }
+
+            // Tampilkan loader di tengah halaman
+            $('#pageLoader').fadeIn();
+        });
+
+        
     });
 
 </script>

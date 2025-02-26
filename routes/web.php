@@ -53,6 +53,7 @@ use App\Http\Controllers\FTTX\AssignTeamFttxController;
 use App\Http\Controllers\FTTX\AssignTeammController;
 use App\Http\Controllers\FTTX\AssignTimController as FTTXAssignTimController;
 use App\Http\Controllers\FTTX\ImportAssignTeamFttxController;
+use App\Http\Controllers\ImportDataKonfCstController;
 use App\Http\Controllers\RootCause_Controller;
 use PhpParser\Node\Expr\Assign;
 
@@ -248,7 +249,7 @@ Route::get('/getDataMTOris', [MonitFtthMT_Controller::class, 'getDataMTOris'])->
 Route::get('/getDataIBOris', [MonitFtthIB_Controller::class, 'getDataIBOris'])->name('getDataIBOris')->middleware('auth');
 Route::get('/getDetailWOFtthMT', [MonitFtthMT_Controller::class, 'getDetailWOFtthMT'])->name('getDetailWOFtthMT')->middleware('auth');
 Route::get('/getDetailWOFtthIB', [MonitFtthIB_Controller::class, 'getDetailWOFtthIB'])->name('getDetailWOFtthIB')->middleware('auth');
-Route::put('/updateFtthIb', [MonitFtthIB_Controller::class, 'updateFtthIb'])->name('updateFtthIb')->middleware('auth');
+Route::get('/updateFtthIb', [MonitFtthIB_Controller::class, 'updateFtthIb'])->name('updateFtthIb')->middleware('auth');
 
 Route::get('/getSummaryWO', [MonitFtthMT_Controller::class, 'getSummaryWO'])->name('getSummaryWO')->middleware('auth');
 Route::get('/getSummaryWOIb', [MonitFtthIB_Controller::class, 'getSummaryWOIb'])->name('getSummaryWOIb')->middleware('auth');
@@ -418,6 +419,15 @@ Route::get('/getDetailAreaFat',[AreaFat_Controller::class, 'getDetailAreaFat'])-
 Route::post('/simpanAreaFat',[AreaFat_Controller::class, 'simpanAreaFat'])->name('simpanAreaFat')->middleware('auth');
 Route::post('/updateAreaFat',[AreaFat_Controller::class, 'updateAreaFat'])->name('updateAreaFat')->middleware('auth');
 //End Root cause & FAT//
+
+//start import konfirmasi cst//
+Route::get('/importDataKonfCst', [ImportDataKonfCstController::class, 'index'])->name('importDataKonfCst')->middleware('auth');
+Route::post('/importProsesKonfCst', [ImportDataKonfCstController::class, 'importProsesKonfCst'])->name('importProsesKonfCst')->middleware('auth');
+Route::get('/getDataImportKonfCst', [ImportDataKonfCstController::class, 'getDataImportKonfCst'])->name('getDataImportKonfCst')->middleware('auth');
+
+Route::post('/storeKonfCst', [ImportDataKonfCstController::class, 'storeKonfCst'])->name('storeKonfCst')->middleware('auth');
+
+//end konfirmasi cst//
 
 Route::get('/linkstorage', function () {
     Artisan::call('storage:link');

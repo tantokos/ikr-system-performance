@@ -542,12 +542,15 @@ class MonitFtthIB_Controller extends Controller
             DB::commit();
 
             if ($updateFtthIb && $assignTim) {
-                return redirect()->route('monitFtthIB')->with(['success' => 'Data tersimpan.']);
+                // return redirect()->route('monitFtthIB')->with(['success' => 'Data tersimpan.']);
+                return response()->json('success');
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            return $e;
-            return redirect()->route('monitFtthIB')->with(['error' => 'Gagal Simpan Data.']);
+            // return $e;
+            // dd($e);
+            // return redirect()->route('monitFtthIB')->with(['error' => 'Gagal Simpan Data.']);
+            return response()->json($e->getMessage());
         }
     }
 
