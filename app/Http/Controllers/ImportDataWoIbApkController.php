@@ -145,7 +145,7 @@ class ImportDataWoIbApkController extends Controller
 
     public function storeFtthIbApk(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         ini_set('max_execution_time', 1900);
         ini_set('memory_limit', '8192M');
 
