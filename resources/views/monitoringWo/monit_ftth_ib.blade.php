@@ -106,13 +106,15 @@
                                             @if (isset($areagroup))
                                                 <option value="" {{ "" == $areagroup ? 'selected' : ''}}>Pilih Grup</option>
                                                 <option value="Jakarta" {{ "Jakarta" == $areagroup ? 'selected' : ''}}>Jakarta</option>
+                                                <option value="Jabota" {{ "Jabota" == $areagroup ? 'selected' : ''}}>Jabota</option>
                                                 <option value="Regional" {{ "Regional" == $areagroup ? 'selected' : ''}}>Regional</option>
                                             @else
                                                 <option value="">Pilih Grup</option>
                                                 <option value="Jakarta">Jakarta</option>
+                                                <option value="Jabota">Jabota</option>
                                                 <option value="Regional">Regional</option>
                                             @endif
-                                            
+
                                         </select>
                                     </div>
 
@@ -197,7 +199,7 @@
                                         </select>
                                     </div>
 
-                                    
+
                                 </div>
 
                                 <hr>
@@ -839,7 +841,7 @@
                                                 </div>
 
                                                 <div class="row">
-                                                    
+
                                                     <div class="col form-group mb-1">
                                                         <span class="text-xs">Status WO Aplikasi</span>
                                                         <span class="text-danger">*</span>
@@ -1002,7 +1004,7 @@
                                                             <span class="text-xs">Telp Dispatch</span>
                                                             <span class="text-danger">*</span>
                                                             <input class="form-control form-control-sm" type="text"
-                                                                id="telp_dispatch" name="telp_dispatch" 
+                                                                id="telp_dispatch" name="telp_dispatch"
                                                                 style="border-color:#9ca0a7;" readonly>
                                                         </div>
                                                     </div>
@@ -1715,8 +1717,8 @@
 
         $(document).on('change', '#picDispatch', function(e) {
             filDispatch = dtDispatch.filter(k => k.nama_dispatch === $(this).val());
-            
-            $('#telp_dispatch').val(filDispatch[0].telp_dispatch);       
+
+            $('#telp_dispatch').val(filDispatch[0].telp_dispatch);
         })
 
         $(document).on('change', '#filarea', function() {
@@ -2229,7 +2231,7 @@
                     $('#snOntIn').val(material.sn_ont_in);
 
                     $('#showAssignTim').modal('show');
-                    
+
 
                 }
             })

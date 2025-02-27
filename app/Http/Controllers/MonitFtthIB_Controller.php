@@ -222,20 +222,17 @@ class MonitFtthIB_Controller extends Controller
 
             $group = $request->filGroup;
 
-                $grupArea = DB::table('branches')->select('grup_area', 'nama_branch')
-                            ->where('grup_area', $group)->get();
+            if ($group == "Jabota") {
+                $grupArea = ["Jakarta Timur", "Jakarta Selatan", "Bogor", "Tangerang"];
+            } else {
+                $grupArea = DB::table('branches')
+                    ->where('grup_area', $group)
+                    ->pluck('nama_branch') // Ambil langsung sebagai koleksi nilai
+                    ->toArray(); // Ubah menjadi array agar bisa digunakan di whereIn()
+            }
 
-                $datas = $datas->whereIn('branch', $grupArea->pluck('nama_branch'));
+            $datas = $datas->whereIn('branch', $grupArea);
 
-            // $group = $request->filGroup;
-
-            // if ($group == 'Jakarta') {
-            //     $jakartaAreas = ['Jakarta Timur', 'Jakarta Selatan'];
-            //     $datas = $datas->whereIn('branch', $jakartaAreas);
-            // } elseif ($group == 'Regional') {
-            //     $regionalAreas = ['Bali', 'Bekasi', 'Bogor', 'Tangerang', 'Jambi', 'Medan', 'Palembang', 'Pontianak', 'Pangkal Pinang'];
-            //     $datas = $datas->whereIn('branch', $regionalAreas);
-            // }
         }
 
         $datas = $datas->select(

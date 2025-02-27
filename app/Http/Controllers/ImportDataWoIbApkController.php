@@ -16,7 +16,7 @@ class ImportDataWoIbApkController extends Controller
     public function index(Request $request)
     {
         $areaFill = $request->areaFill;
-        $areagroup = $request->areagroup; 
+        $areagroup = $request->areagroup;
 
         if($request->areaFill != null) {
             $area = explode("|", $request->areaFill);
@@ -24,9 +24,12 @@ class ImportDataWoIbApkController extends Controller
         }
 
         if($request->areagroup != null) {
-            $grupArea = DB::table('branches')->select('grup_area', 'nama_branch')
+            if ($areagroup === "Jabota") {
+                $grupArea = ["Jakarta Timur", "Jakarta Selatan", "Bogor", "Tangerang"];
+            } else {
+                $grupArea = DB::table('branches')->select('grup_area', 'nama_branch')
                 ->where('grup_area', $request->areagroup)->pluck('nama_branch')->toArray();
-
+            }
             $filArea = Arr::join($grupArea, ', ');
         }
 
@@ -142,7 +145,7 @@ class ImportDataWoIbApkController extends Controller
 
     public function storeFtthIbApk(Request $request)
     {
-        // dd($request->all());
+        dd($request->all());
         ini_set('max_execution_time', 1900);
         ini_set('memory_limit', '8192M');
 
