@@ -28,7 +28,10 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles, WithColu
         ini_set('memory_limit', '8192M');
 
         $datas = DB::table('data_ftth_ib_oris as d')
-            ->leftJoin('data_assign_tims as da', 'da.no_wo_apk', '=', 'd.no_wo')
+            ->leftJoin('data_assign_tims as da', function ($join) {
+            $join->on('d.no_wo','=','da.no_wo_apk');
+                        $join->on('d.tgl_ikr', '=', 'da.tgl_ikr');
+                                })
             ->select(
                 'd.site',
                 'd.no_wo',
@@ -36,7 +39,8 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles, WithColu
                 'd.type_wo',
                 'd.wo_type_apk',
                 // 'd.wo_type_apk',
-                'd.remarks_wo',
+                // 'd.remarks_wo',
+                'd.type_maintenance',
                 'd.sesi',
                 'd.no_ticket',
                 'd.cust_id',
@@ -80,15 +84,15 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles, WithColu
                 DB::raw("'' as pic_pengecekan"),
                 'd.status_apk',
                 'd.status_wo',
-                DB::raw("'' as rootcause_penagihan"),
+                'd.penagihan',
                 'd.reason_status',
                 DB::raw("'' as root_cause"),
                 DB::raw("'' as action_taken"),
                 DB::raw("'' as action_status"),
-                'd.remarks_teknisi',
+                'd.detail_alasan',
                 DB::raw("'' as status_visit"),
-                DB::raw("'' as remarks"),
-                'd.tgl_jam_reschedule',
+                 'd.remarks_teknisi',
+                DB::raw('concat_ws(" ", d.tgl_reschedule, d.tgl_jam_reschedule) as jadwal_reschedule'),
                 'd.respon_konf_cst',
                 'd.jawaban_konf_cst',
                 'd.permintaan_reschedule',
@@ -109,8 +113,8 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles, WithColu
                 DB::raw("'' as status_konfirmasi_cst"),
                 DB::raw("'' as waktu_keterlambatan_konfirmasi"),
                 DB::raw("'' as bukti_konfirmasi"),
-                'd.qty_material_out',
-                'd.qty_material_in',
+                'd.qty_material_out as material_out',
+                'd.qty_material_in as material_in',
                 DB::raw('(SELECT description FROM ftth_ib_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND description LIKE "%ONT%" LIMIT 1) as ont_merk_out'),
                 DB::raw('(SELECT sn FROM ftth_ib_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND description LIKE "%ONT%" LIMIT 1) as ont_sn_out'),
                 DB::raw('(SELECT mac_address FROM ftth_ib_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND description LIKE "%ONT%" LIMIT 1) as ont_mac_out'),
