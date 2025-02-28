@@ -182,7 +182,7 @@ class ImportDataWoIbApkController extends Controller
 
                 $importedData = $importedData->get();
 
-                // dd($importedData);
+                // dd($request->all(), $importedData);
                 if(count($importedData) > 0)
                 {
 
@@ -211,7 +211,7 @@ class ImportDataWoIbApkController extends Controller
                                     'wo_date_apk' => $data->wo_date,
                                     'wo_type_apk' => $data->wo_type,
                                     'kode_fat' => $data->fat_code,
-                                    'type_maintenance' => $data->remarks,
+                                    // 'type_maintenance' => $data->remarks,
                                     'callsign_id' => $data->callsignAssignId,
                                     'callsign' => $data->callsignAssign,
                                     'slot_time_apk' => $data->time,
@@ -236,7 +236,7 @@ class ImportDataWoIbApkController extends Controller
                             // DB::enableQueryLog();
                             $updateProgress = DB::table('data_ftth_ib_oris')->upsert(
                                 $dtApk, ['id'], ['no_wo', 'tgl_ikr', 'wo_date_apk', 'wo_type_apk', 'kode_fat',
-                                        'type_maintenance', 'callsign_id', 'callsign', 'slot_time_apk', 'status_wo',
+                                        'callsign_id', 'callsign', 'slot_time_apk', 'status_wo',
                                         'reason_status', 'status_apk', 'checkin_apk',
                                         'checkout_apk', 'mttr_all', 'mttr_pending', 'mttr_progress', 'mttr_technician',
                                         'sla_over', 'login'

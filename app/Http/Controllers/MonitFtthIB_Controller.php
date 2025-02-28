@@ -126,24 +126,18 @@ class MonitFtthIB_Controller extends Controller
             if ($request->filGroup != null) {
 
                 $group = $request->filGroup;
-
-                $grupArea = DB::table('branches')->select('grup_area', 'nama_branch')
-                            ->where('grup_area', $group)->get();
-
-                $datas = $datas->whereIn('branch', $grupArea->pluck('nama_branch'));
-
-
-                // $group = $request->filGroup;
-
-                // if ($group == 'Jakarta') {
-                //     // Area yang termasuk dalam grup Jabota
-                //     $jakartaAreas = ['Jakarta Timur', 'Jakarta Selatan', ];
-                //     $datas = $datas->whereIn('branch', $jakartaAreas);
-                // } elseif ($group == 'Regional') {
-                //     // Area yang termasuk dalam grup Regional
-                //     $regionalAreas = ['Bogor', 'Tangerang', 'Bali', 'Bekasi', 'Jambi', 'Medan', 'Palembang', 'Pontianak', 'Pangkal Pinang'];
-                //     $datas = $datas->whereIn('branch', $regionalAreas);
-                // }
+    
+                if ($group == "Jabota") {
+                    $grupArea = ["Jakarta Timur", "Jakarta Selatan", "Bogor", "Tangerang"];
+                } else {
+                    $grupArea = DB::table('branches')
+                        ->where('grup_area', $group)
+                        ->pluck('nama_branch') // Ambil langsung sebagai koleksi nilai
+                        ->toArray(); // Ubah menjadi array agar bisa digunakan di whereIn()
+                }
+    
+                $datas = $datas->whereIn('branch', $grupArea);
+    
             }
 
             $datas = $datas->get();
@@ -250,6 +244,7 @@ class MonitFtthIB_Controller extends Controller
 
     public function getDetailWOFtthIB(Request $request)
     {
+        $akses = Auth::user()->name;
         $assignId = $request->filAssignId;
         $datas = DB::table('data_ftth_ib_oris as d')
             ->where('d.id', $assignId)->first();
@@ -303,6 +298,7 @@ class MonitFtthIB_Controller extends Controller
             'ftth_ib_material' => $ftth_ib_material,
             'assignTim' => $assignTim,
             'teknisiOn' => $teknisiOn,
+            'akses' => $akses
         ]);
     }
 
@@ -363,6 +359,14 @@ class MonitFtthIB_Controller extends Controller
         $aksesId = Auth::user()->id;
         $akses = Auth::user()->name;
         $id = $request->detId;
+
+        if($request['is_checked'] == "1") {
+            $pic = $akses;
+            $check = 1;
+        } else {
+            $pic = null;
+            $check = 0;
+        }
 
         $ftthIb = FtthIb::where('id', $id)->where('no_wo', $request->noWoShow)
                                     ->where('tgl_ikr', $request->tglProgressShow);
@@ -433,18 +437,19 @@ class MonitFtthIB_Controller extends Controller
         DB::beginTransaction();
         try {
             $updateFtthIb = $ftthIb->update([
-            'type_wo' => $request['woTypeShow'],
-            'no_wo' => $request['noWoShow'],
+            'pic_monitoring' => $pic, //1
+            'type_wo' => $request['jenisWoShow'],
+            // 'no_wo' => $request['noWoShow'],
             'no_ticket' => $request['ticketNoShow'],
-            'cust_id' => $request['custIdShow'],
-            'nama_cust' => $request['custNameShow'],
-            'cust_address1' => $request['custAddressShow'],
+            // 'cust_id' => $request['custIdShow'],
+            // 'nama_cust' => $request['custNameShow'],
+            // 'cust_address1' => $request['custAddressShow'],
             'kode_fat' => $request['fatCodeShow'],
             'port_fat' => $request['portFATProgress'],
             'cluster' => $request['areaShow'],
             'branch' => $request['branchShow'],
-            'penagihan' => $request['penagihanShow'],
-            'tgl_ikr' => $request['tglProgressShow'],
+            'penagihan' => $request['rootCausePenagihan'],
+            // 'tgl_ikr' => $request['tglProgressShow'],
             'slot_time_leader' => $request['slotTimeAPKShow'],
             'slot_time_apk' => $request['slotTimeAPKShow'],
             'sesi' => $request['sesiShow'],
@@ -465,17 +470,17 @@ class MonitFtthIB_Controller extends Controller
             'teknisi2' => $teknisi2,
             'teknisi3' => $teknisi3,
             'teknisi4' => $teknisi4,
+            'status_apk' => $request['statusWoApk'],
             'status_wo' => $request['statusWo'],
-            'tgl_jam_reschedule' => $request['jamReschedule'],
             'tgl_reschedule' => $request['tglReschedule'],
+            'tgl_jam_reschedule' => $request['jamReschedule'],            
             'reason_status' => $request['reasonStatus'],
             'remarks_teknisi' => $request['remarksTeknisi'],
             'weather' => $request['weatherShow'],
             'checkin_apk' => $request['tglCheckinApk'],
-            'checkout_apk' => $request['tglCheckoutApk'],
-            'status_apk' => $request['statusWoApk'],
+            'checkout_apk' => $request['tglCheckoutApk'],            
             'qty_material_out' => $request['materialOut'],
-            'qty_material_in' => $request['materialIn'],
+            'qty_material_in' => $request['materialIn'],            
             'wo_date_apk' => $request['WoDateShow'],
             'ont_merk_out' => $request['ont_merk_out'],
             'ont_sn_out' => $request['snOntOut'],
@@ -496,8 +501,8 @@ class MonitFtthIB_Controller extends Controller
             'telp_dispatch' => $request['telp_dispatch'],
             'nama_dispatch' => $request['picDispatch'],
             'detail_alasan' => $request['detailAlasan'],
-            'alasan_pending' => $request['alasanPending'],
-            'alasan_cancel' => $request['alasanCancel'],
+            // 'alasan_pending' => $request['alasanPending'],
+            // 'alasan_cancel' => $request['alasanCancel'],
             'validasi_start' => $request['validasi_start'],
             'validasi_end' => $request['validasi_end'],
             'start_regist' => $request['start_regist'],
@@ -513,7 +518,7 @@ class MonitFtthIB_Controller extends Controller
             'jam_dispatch_respon_foto' => $request['jam_dispatch_respon_foto'],
             'otp_start' => $request['otp_start'],
             'otp_end' => $request['otp_end'],
-            'is_checked' => $request['is_checked'],
+            'is_checked' => $check,
             'login' => $akses,
         ]);
 
