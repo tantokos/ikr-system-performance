@@ -147,9 +147,18 @@
                                     <div class="form-group mb-1">
                                         <span class="text-xs">Grup</span>
                                         <select class="form-control form-control-sm select2" id="filGroup" name="filGroup" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih Grup</option>
-                                            <option value="Jakarta">Jakarta</option>
-                                            <option value="Regional">Regional</option>
+                                            @if (isset($areagroup))
+                                                <option value="" {{ "" == $areagroup ? 'selected' : ''}}>Pilih Grup</option>
+                                                <option value="Jakarta" {{ "Jakarta" == $areagroup ? 'selected' : ''}}>Jakarta</option>
+                                                <option value="Jabo" {{ "Jabo" == $areagroup ? 'selected' : ''}}>Jabo</option>
+                                                <option value="Regional" {{ "Regional" == $areagroup ? 'selected' : ''}}>Regional</option>
+                                            @else
+                                                <option value="">Pilih Grup</option>
+                                                <option value="Jakarta">Jakarta</option>
+                                                <option value="Jabo">Jabo</option>
+                                                <option value="Regional">Regional</option>
+                                            @endif
+
                                         </select>
                                     </div>
 
@@ -1534,6 +1543,12 @@
             get_summary();
             stDate = $('.date-range').data('daterangepicker').startDate.format("DD-MMM-YYYY");
             enDate = $('.date-range').data('daterangepicker').endDate.format("DD-MMM-YYYY");
+
+            let params = {
+                filTgl: $('#filtglProgress').val(),
+                areaFill: $('#filarea').val(),
+                areagroup: $('#filGroup').val()
+            };
         })
 
         $('#filAssignTim').trigger("click");
