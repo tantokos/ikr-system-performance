@@ -13,8 +13,11 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class FtthDismantleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $areaFill = $request->areaFill;
+        $areagroup = $request->areagroup;
+
         $branches = DB::table('branches')->select('id','nama_branch')->whereNotIn('nama_branch', ['Apartemen', 'Underground'])->get();
 
         $leader = DB::table('v_detail_callsign_tim')->select('leader_id', 'nama_leader', 'nama_branch')
@@ -33,6 +36,7 @@ class FtthDismantleController extends Controller
             'leader',
             'callTim',
             'cluster',
+            'areaFill', 'areagroup'
         ));
     }
 
@@ -65,15 +69,16 @@ class FtthDismantleController extends Controller
         }
 
         if ($request->filGroup != null) {
+
             $group = $request->filGroup;
 
-            if ($group == 'Jakarta') {
-                $jakartaAreas = ['Jakarta Timur', 'Jakarta Selatan'];
-                $datas = $datas->whereIn('branch', $jakartaAreas);
-            } elseif ($group == 'Regional') {
-                $regionalAreas = ['Bali', 'Bekasi', 'Bogor', 'Tangerang', 'Jambi', 'Medan', 'Palembang', 'Pontianak', 'Pangkal Pinang'];
-                $datas = $datas->whereIn('branch', $regionalAreas);
-            }
+            $grupArea = DB::table('branches')
+                ->where('grup_dismantle', 'like', '%' . $group . '%')
+                ->pluck('nama_branch')
+                ->toArray();
+
+            $datas = $datas->whereIn('main_branch', $grupArea);
+
         }
 
         $datas = $datas->select(
@@ -157,17 +162,16 @@ class FtthDismantleController extends Controller
                 $datas = $datas->where('slot_time', $request->filslotTime);
             }
             if ($request->filGroup != null) {
+
                 $group = $request->filGroup;
 
-                if ($group == 'Jakarta') {
-                    // Area yang termasuk dalam grup Jabota
-                    $jakartaAreas = ['Jakarta Timur', 'Jakarta Selatan', ];
-                    $datas = $datas->whereIn('branch', $jakartaAreas);
-                } elseif ($group == 'Regional') {
-                    // Area yang termasuk dalam grup Regional
-                    $regionalAreas = ['Bogor', 'Tangerang', 'Bali', 'Bekasi', 'Jambi', 'Medan', 'Palembang', 'Pontianak', 'Pangkal Pinang'];
-                    $datas = $datas->whereIn('branch', $regionalAreas);
-                }
+                $grupArea = DB::table('branches')
+                    ->where('grup_dismantle', 'like', '%' . $group . '%')
+                    ->pluck('nama_branch')
+                    ->toArray();
+
+                $datas = $datas->whereIn('main_branch', $grupArea);
+
             }
 
             $datas = $datas->get();
