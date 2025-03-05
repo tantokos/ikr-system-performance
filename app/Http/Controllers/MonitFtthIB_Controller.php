@@ -126,18 +126,14 @@ class MonitFtthIB_Controller extends Controller
             if ($request->filGroup != null) {
 
                 $group = $request->filGroup;
-    
-                if ($group == "Jabota") {
-                    $grupArea = ["Jakarta Timur", "Jakarta Selatan", "Bogor", "Tangerang"];
-                } else {
-                    $grupArea = DB::table('branches')
-                        ->where('grup_area', $group)
-                        ->pluck('nama_branch') // Ambil langsung sebagai koleksi nilai
-                        ->toArray(); // Ubah menjadi array agar bisa digunakan di whereIn()
-                }
-    
+
+                $grupArea = DB::table('branches')
+                    ->where('grup_ib', 'like', '%'. $group . '%')
+                    ->pluck('nama_branch') // Ambil langsung sebagai koleksi nilai
+                    ->toArray(); // Ubah menjadi array agar bisa digunakan di whereIn()
+
                 $datas = $datas->whereIn('branch', $grupArea);
-    
+
             }
 
             $datas = $datas->get();
@@ -216,14 +212,10 @@ class MonitFtthIB_Controller extends Controller
 
             $group = $request->filGroup;
 
-            if ($group == "Jabota") {
-                $grupArea = ["Jakarta Timur", "Jakarta Selatan", "Bogor", "Tangerang"];
-            } else {
-                $grupArea = DB::table('branches')
-                    ->where('grup_area', $group)
-                    ->pluck('nama_branch') // Ambil langsung sebagai koleksi nilai
-                    ->toArray(); // Ubah menjadi array agar bisa digunakan di whereIn()
-            }
+            $grupArea = DB::table('branches')
+                ->where('grup_ib', 'like', '%'. $group . '%')
+                ->pluck('nama_branch') // Ambil langsung sebagai koleksi nilai
+                ->toArray(); // Ubah menjadi array agar bisa digunakan di whereIn()
 
             $datas = $datas->whereIn('branch', $grupArea);
 
@@ -473,14 +465,14 @@ class MonitFtthIB_Controller extends Controller
             'status_apk' => $request['statusWoApk'],
             'status_wo' => $request['statusWo'],
             'tgl_reschedule' => $request['tglReschedule'],
-            'tgl_jam_reschedule' => $request['jamReschedule'],            
+            'tgl_jam_reschedule' => $request['jamReschedule'],
             'reason_status' => $request['reasonStatus'],
             'remarks_teknisi' => $request['remarksTeknisi'],
             'weather' => $request['weatherShow'],
             'checkin_apk' => $request['tglCheckinApk'],
-            'checkout_apk' => $request['tglCheckoutApk'],            
+            'checkout_apk' => $request['tglCheckoutApk'],
             'qty_material_out' => $request['materialOut'],
-            'qty_material_in' => $request['materialIn'],            
+            'qty_material_in' => $request['materialIn'],
             'wo_date_apk' => $request['WoDateShow'],
             'ont_merk_out' => $request['ont_merk_out'],
             'ont_sn_out' => $request['snOntOut'],
