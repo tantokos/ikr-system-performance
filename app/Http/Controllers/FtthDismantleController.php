@@ -55,7 +55,7 @@ class FtthDismantleController extends Controller
         if($request->filGroup == null && $request->filarea != null) {
             $b = explode("|", $request->filarea);
             $br = $b[1];
-            $datas = $datas->where('branch', $br);
+            $datas = $datas->where('main_branch', $br);
         }
 
         if($request->filcluster != null) {
@@ -132,7 +132,7 @@ class FtthDismantleController extends Controller
             if($request->filarea != null) {
                 $b = explode("|", $request->filarea);
                 $br = $b[1];
-                $datas = $datas->where('branch', $br);
+                $datas = $datas->where('main_branch', $br);
             }
             if($request->filleaderTim != null) {
                 $lt = explode("|", $request->filleaderTim);

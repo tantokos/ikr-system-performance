@@ -26,9 +26,11 @@ class FtthDismantleExport implements FromCollection, WithHeadings, WithStyles
         ini_set('memory_limit', '8192M');
 
         $datas = DB::table('data_ftth_dismantle_oris as d')
-            ->leftJoin('data_assign_tims as da', 'da.no_wo_apk', '=', 'd.no_wo')
-            ->select
-            (
+                ->leftJoin('data_assign_tims as da', function ($join) {
+                $join->on('d.no_wo','=','da.no_wo_apk');
+                            $join->on('d.visit_date', '=', 'da.tgl_ikr');
+                })
+                ->select(
                 DB::raw("'' as site"),
                 'd.no_wo',
             'd.wo_date',
@@ -120,7 +122,7 @@ class FtthDismantleExport implements FromCollection, WithHeadings, WithStyles
             DB::raw("'' as precon_in"),
             DB::raw("'' as fast_connector"),
             DB::raw("'' as patchcord"),
-            DB::raw("'' as termintal_box"),
+            DB::raw("'' as terminal_box"),
             DB::raw("'' as kabel_utp"),
             DB::raw("'' as pipa"),
             DB::raw("'' as socket_pipa"),
@@ -159,7 +161,7 @@ class FtthDismantleExport implements FromCollection, WithHeadings, WithStyles
 
         if($this->request->filarea) {
             $area = explode("|", $this->request->filarea);
-            $datas = $datas->where('branch', $area[1]);
+            $datas = $datas->where('d.main_branch', $area[1]);
         }
 
         if($this->request->filleaderTim) {
@@ -170,6 +172,17 @@ class FtthDismantleExport implements FromCollection, WithHeadings, WithStyles
         if($this->request->filcallsignTimid) {
             $callsign = explode("|", $this->request->filcallsignTimid);
             $datas = $datas->where('callsign', $callsign[1]);
+        }
+
+        if ($this->request->filGroup != null) {
+            $group = $this->request->filGroup;
+
+            $grupArea = DB::table('branches')
+                ->where('grup_dismantle', 'like', '%' . $group . '%')
+                ->pluck('nama_branch')
+                ->toArray();
+
+            $datas = $datas->whereIn('main_branch', $grupArea);
         }
 
         if($this->request->filteknisi) {

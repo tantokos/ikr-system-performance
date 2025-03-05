@@ -177,7 +177,7 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles, WithColu
 
         if($this->request->filarea) {
             $area = explode("|", $this->request->filarea);
-            $datas = $datas->where('branch', $area[1]);
+            $datas = $datas->where('d.branch', $area[1]);
         }
 
         if($this->request->filleaderTim) {
@@ -188,6 +188,23 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles, WithColu
         if($this->request->filcallsignTimid) {
             $callsign = explode("|", $this->request->filcallsignTimid);
             $datas = $datas->where('callsign', $callsign[1]);
+        }
+
+        if ($this->request->filGroup != null) {
+
+            $group = $this->request->filGroup;
+
+            if ($group == "Jabota") {
+                $grupArea = ["Jakarta Timur", "Jakarta Selatan", "Bogor", "Tangerang"];
+            } else {
+                $grupArea = DB::table('branches')
+                    ->where('grup_area', $group)
+                    ->pluck('nama_branch') // Ambil langsung sebagai koleksi nilai
+                    ->toArray(); // Ubah menjadi array agar bisa digunakan di whereIn()
+            }
+
+            $datas = $datas->whereIn('d.branch', $grupArea);
+
         }
 
         if($this->request->filteknisi) {
