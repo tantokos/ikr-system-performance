@@ -131,8 +131,8 @@ class FtthIb extends Model
         'is_confirmation',
     ];
 
-    public function material_ib()
-    {
-        return $this->hasMany(FtthIbMaterial::class);
-    }
+    // public function material_ib()
+    // {
+    //     return $this->hasMany(FtthIbMaterial::class);
+    // }
 }
