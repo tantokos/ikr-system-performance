@@ -603,7 +603,7 @@ class Import_DataWoController extends Controller
                                 ['no_wo', 'visit_date', 'sesi', 'type_wo', 'no_ticket', 'wo_date', 'cust_id', 'nama_cust',
                                         'cust_address1', 'cluster', 'wo_type_apk', 'kode_fat', 'port_fat', 'slot_time_leader', 'slot_time_apk', // 'status_wo' => "Requested",'status_apk' => "Requested",
                                         'branch_id', 'main_branch', 'leadcall_id', 'leadcall', 'leader_id', 'leader', 'callsign_id', 'callsign',
-                                        'tek1_nik', 'teknisi1', 'tek2_nik', 'teknisi2', 'tek3_nik', 'teknisi3', 'login', 'cek_telebot', 'hasil_cek_telebot', "created_at", "updated_at"
+                                        'tek1_nik', 'teknisi1', 'tek2_nik', 'teknisi2', 'tek3_nik', 'teknisi3', 'tek4_nik', 'teknisi4', 'login', 'cek_telebot', 'hasil_cek_telebot', "created_at", "updated_at"
                                 ]
                             );
                         }
