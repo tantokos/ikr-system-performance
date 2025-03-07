@@ -31,11 +31,18 @@ class FtthDismantleController extends Controller
         $cluster = DB::table('fats')->select('cluster')
                 ->where('cluster', '<>', "")->distinct()->orderBy('cluster')->get();
 
+        $dtDispatch = DB::table('list_dispatch')->get();
+
+        $penagihanDismantle = DB::table('root_couse_penagihan')->select('status','penagihan')
+                    ->where('type_wo','=','Dismantle FTTH')->where('penagihan','<>','total_done')->get();
+
         return view('ftth-dismantle.index', compact(
             'branches',
             'leader',
             'callTim',
             'cluster',
+            'dtDispatch',
+            'penagihanDismantle',
             'areaFill', 'areagroup'
         ));
     }
@@ -358,8 +365,14 @@ class FtthDismantleController extends Controller
             'teknisi1' => $request['teknisi1Show'],
             'teknisi2' => $request['teknisi2Show'],
             'teknisi3' => $request['teknisi3Show'],
+            'status_apk' => $request['statusWoApk'],
             'status_wo' => $request['statusWo'],
-            'remarks' => $request['remarkStatus'],
+            'action_status' => $request['actionStatus'],
+            'remarks' => $request['report_teknisi'],
+            'reschedule_date' => $request['tglReschedule'],
+            'reschedule_time' => $request['jamReschedule'],
+            'penagihan' => $request['rootCausePenagihan'],
+            'reason_status' => $request['reasonStatus'],
             'tgl_jam_reschedule' => $request['tglReschedule'],
             'weather' => $request['weatherShow'],
             'start' => $request['start'],
@@ -368,7 +381,6 @@ class FtthDismantleController extends Controller
             'tarik_cable' => $request['tarik_cable'],
             'checkin_apk' => $request['tglCheckinApk'],
             'checkout_apk' => $request['tglCheckoutApk'],
-            'status_apk' => $request['statusWoApk'],
             'wo_date_apk' => $request['WoDateShow'],
             'ont_merk_out' => $request['ont_merk_out'],
             'ont_sn_out' => $request['snOntOut'],
@@ -389,6 +401,8 @@ class FtthDismantleController extends Controller
             'leader_id' => $request['leaderidShow'],
             'callsign_id' => $request['callsign_id'],
             'pic_dispatch' => $request['picDispatch'],
+            'telp_dispatch' => $request['telp_dispatch'],
+            'detail_alasan' => $request['detailAlasan'],
             'alasan_pending' => $request['alasan_pending'],
             'alasan_cancel' => $request['alasan_cancel'],
             'alasan_no_rollback' => $request['alasan_no_rollback'],

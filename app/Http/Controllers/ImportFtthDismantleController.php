@@ -49,7 +49,8 @@ class ImportFtthDismantleController extends Controller
         ini_set('memory_limit', '8192M');
         $akses = Auth::user()->name;
 
-        $datas = DB::table('import_ftth_dismantle_apk')->orderBy('wo_date', 'DESC');
+        // $datas = DB::table('import_ftth_dismantle_apk')->orderBy('wo_date', 'DESC');
+        $datas = DB::table('import_ftth_dismantle_apk')->where('login', $akses)->orderBy('wo_date', 'DESC');
 
         if($request->filTgl != null) {
             $dateRange = explode("-", $request->filTgl);
@@ -123,6 +124,7 @@ class ImportFtthDismantleController extends Controller
 
     public function storeDismantleApk(Request $request)
     {
+        // dd($request->all());
         ini_set('max_execution_time', 1900);
         ini_set('memory_limit', '8192M');
 
@@ -131,47 +133,102 @@ class ImportFtthDismantleController extends Controller
         switch ($request->input('action')) {
             case 'simpan':
 
-                $importedData = DB::table('import_ftth_dismantle_apk')
-                    ->get();
+                $importedData = DB::table('import_ftth_dismantle_apk as apk')
+                    ->leftJoin('v_rekap_assign_tim as vtim', function($join) {
+                        $join->on('apk.installation_date','=','vtim.tgl_ikr');
+                        $join->on('apk.callsign','=','vtim.callsign');
+                    })
+                    ->join('data_ftth_dismantle_oris as dt', function($j) {
+                        $j->on('dt.visit_date', '=', 'apk.installation_date');
+                        $j->on('dt.no_wo', '=', 'apk.wo_no');
+                    })
+                    ->whereIn('apk.wo_type', ['DISMANTLE'])
+                    ->where('dt.is_checked','=', 0)
+                    ->where('apk.login', $akses)
+                    ->select('dt.id as dt_id', 'apk.*','vtim.leadcall_id','vtim.leadcall', 'vtim.leader_id', 'vtim.leader', 'vtim.callsign_id as callsignAssignId', 'vtim.callsign as callsignAssign',
+                            'vtim.tek1_nik', 'vtim.teknisi1', 'vtim.tek2_nik', 'vtim.teknisi2', 'vtim.tek3_nik', 'vtim.teknisi3',
+                            'vtim.tek4_nik', 'vtim.teknisi4');
 
-                DB::beginTransaction();
-                try {
-                    // Update status_wo pada data_ftth_dismantle_oris berdasarkan wo_no dan tgl_ikr
-                    foreach ($importedData as $data) {
-                        DB::table('data_ftth_dismantle_oris')
-                            ->where('no_wo', $data->wo_no)
-                            ->where('visit_date', $data->installation_date) // Menambahkan syarat
-                            ->where('is_checked', 0)
-                            ->update([
-                                'slot_time_apk' => $data->time,
-                                'status_wo' => $data->status,
-                                'status_apk' => $data->status,
-                                'checkin_apk' => $data->check_in,
-                                'checkout_apk' => $data->check_out,
-                                'login' => Auth::user()->name,
-                                'mttr_all' => $data->mttr_all,
-                                'mttr_pending' => $data->mttr_pending,
-                                'mttr_progress' => $data->mttr_progress,
-                                'mttr_technician' => $data->mttr_technician,
-                                'sla_over' => $data->sla_over,
-                            ]);
+                $importedData = $importedData->get();
+
+                if(count($importedData) > 0)
+                {
+
+                    DB::beginTransaction();
+                    try {
+
+                        $dtApk = [];
+                        foreach ($importedData as $data) {
+
+                            if(Str::upper($data->status == "DONE") || Str::upper($data->status == "CHECKOUT")) {
+                                $statWo = "Done";
+                            }elseif(Str::upper($data->status) == "PENDING") {
+                                $statWo = "Pending";
+                            }elseif(Str::upper($data->status) == "CANCELLED") {
+                                $statWo = "Cancel";
+                            }else {
+                                $statWo = Str::title($data->status);
+                            }
+
+                            array_push($dtApk,
+                                [
+                                    'id' => $data->dt_id,
+                                    'no_wo' => $data->wo_no,
+                                    'visit_date' => $data->installation_date,
+                                    'wo_date' => $data->wo_date,
+                                    'wo_type_apk' => $data->wo_type,
+                                    'kode_fat' => $data->fat_code,
+                                    // 'type_maintenance' => $data->remarks,
+                                    'callsign_id' => $data->callsignAssignId,
+                                    'callsign' => $data->callsignAssign,
+                                    'slot_time_apk' => $data->time,
+                                    'status_wo' => $statWo,
+                                    'reason_status' => null,
+                                    'status_apk' => $data->status,
+                                    'checkin_apk' => $data->check_in,
+                                    'checkout_apk' => $data->check_out,
+                                    'mttr_all' => $data->mttr_all,
+                                    'mttr_pending' => $data->mttr_pending,
+                                    'mttr_progress' => $data->mttr_progress,
+                                    'mttr_technician' => $data->mttr_technician,
+                                    'sla_over' => $data->sla_over,
+                                    'login' => Auth::user()->name,
+                                ]
+                            );
+                        }
+
+                        // dd($importedData, $dtApk);
+
+                        if(count($dtApk)>0) {
+                            // DB::enableQueryLog();
+                            $updateProgress = DB::table('data_ftth_dismantle_oris')->upsert(
+                                $dtApk, ['id'], ['no_wo', 'visit_date', 'wo_date', 'wo_type_apk', 'kode_fat',
+                                        'callsign_id', 'callsign', 'slot_time_apk', 'status_wo',
+                                        'reason_status', 'status_apk', 'checkin_apk',
+                                        'checkout_apk', 'mttr_all', 'mttr_pending', 'mttr_progress', 'mttr_technician',
+                                        'sla_over', 'login'
+                                ]);
+
+                        }
+
+                        // dd($importedData, $dtApk, DB::getQueryLog());
+                        // Commit transaksi
+                        DB::table('import_ftth_dismantle_apk')->where('login', $akses)->delete();
+                        DB::commit();
+                        return redirect()->route('ftth-dismantle')->with(['success' => 'Status berhasil diupdate.']);
+                    } catch (\Exception $e) {
+                        // Rollback jika ada kesalahan
+                        DB::rollback();
+                        return redirect()->route('ftth-dismantle')->with(['error' => 'Gagal mengupdate status.' . $e->getMessage()]);
                     }
-
-                    // Commit transaksi
-                    DB::table('import_ftth_dismantle_apk')->delete();
-                    DB::commit();
-                    return redirect()->route('ftth-dismantle')->with(['success' => 'Status berhasil diupdate.']);
-                } catch (\Exception $e) {
-                    // Rollback jika ada kesalahan
-                    return $e;
-                    DB::rollback();
-                    return redirect()->route('ftth-dismantle')->with(['error' => 'Gagal mengupdate status.']);
+                } else {
+                    return redirect()->route('ftth-dismantle')->with(['error' => 'Tidak ada data Import APK']);
                 }
 
         break;
 
             case 'batal':
-                $importedData = DB::table('import_ftth_dismantle_apk')
+                $importedData = DB::table('import_ftth_dismantle_apk')->where('login', $akses)
                     ->delete();
                 return redirect()->route('ftth-dismantle')->with(['success' => 'Data berhasil dihapus.']);
             break;

@@ -252,7 +252,6 @@ class ImportDataWoIbApkController extends Controller
                     } catch (\Exception $e) {
                         // Rollback jika ada kesalahan
                         DB::rollback();
-                        return $e;
                         return redirect()->route('monitFtthIB')->with(['error' => 'Gagal mengupdate status.' . $e->getMessage()]);
                     }
                 } else {

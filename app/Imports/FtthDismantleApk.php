@@ -53,6 +53,7 @@ class FtthDismantleApk implements ToModel, WithHeadingRow, WithValidation, WithC
             'mttr_progress' => $row['mttr_progress'],
             'mttr_technician' => $row['mttr_technician'],
             'sla_over' => $row['sla_over'],
+            'login' =>  $this->logNm
         ]);
     }
 
