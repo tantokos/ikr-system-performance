@@ -342,6 +342,7 @@
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 1</th>
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 2</th>
                                             <th class="text-center text-xs font-weight-semibold">Teknisi 3</th>
+                                            <th class="text-center text-xs font-weight-semibold">Status APK</th>
                                             <th class="text-center text-xs font-weight-semibold">Status WO</th>
                                             <th class="text-center text-xs font-weight-semibold">Status Check</th>
 
@@ -760,7 +761,49 @@
 
                                             <div class="row">
                                                 <div class="col">
+
                                                     <div class="form-group mb-1">
+                                                        <div class="row">
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">Tanggal Progress Aplikasi</span>
+                                                                <input class="form-control form-control-sm" type="date" value="{{ date('Y-m-d') }}" id="tglProgressAPKShow"
+                                                                    name="tglProgressAPKShow" style="border-color:#9ca0a7;">
+                                                            </div>
+
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">Slot Time Aplikasi</span>
+                                                                <select class="form-control form-control-sm" type="text" id="slotTimeAPKStatusShow" disabled
+                                                                    name="slotTimeAPKStatusShow" style="border-color:#9ca0a7;">
+                                                                    <option value="">Pilih Slot Time</option>
+                                                                    <option value="09:00">09:00</option>
+                                                                    <option value="09:30">09:30</option>
+                                                                    <option value="10:00">10:00</option>
+                                                                    <option value="10:30">10:30</option>
+                                                                    <option value="11:00">11:00</option>
+                                                                    <option value="11:30">11:30</option>
+                                                                    <option value="12:00">12:00</option>
+                                                                    <option value="12:30">12:30</option>
+                                                                    <option value="13:00">13:00</option>
+                                                                    <option value="13:30">13:30</option>
+                                                                    <option value="14:00">14:00</option>
+                                                                    <option value="14:30">14:30</option>
+                                                                    <option value="15:00">15:00</option>
+                                                                    <option value="15:30">15:30</option>
+                                                                    <option value="16:00">16:00</option>
+                                                                    <option value="16:30">16:30</option>
+                                                                    <option value="17:00">17:00</option>
+                                                                    <option value="17:30">17:30</option>
+                                                                    <option value="18:00">18:00</option>
+                                                                    <option value="18:30">18:30</option>
+                                                                    <option value="19:00">19:00</option>
+                                                                    <option value="19:30">19:30</option>
+                                                                    <option value="20:00">20:00</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group mb-1" style="display: none;">
                                                         <div class="row">
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">Tanggal Progress</span>
@@ -824,21 +867,10 @@
 
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Status WO</span>
-                                                            <select class="form-control form-control-sm" type="text"
-                                                                id="statusWo" name="statusWo"
-                                                                style="border-color:#9ca0a7;">
-                                                                <option value="">Pilih Status WO</option>
-                                                                <option value="Done">Done</option>
-                                                                <option value="Pending">Pending</option>
-                                                                <option value="Cancel">Cancel</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col form-group mb-1">
                                                             <span class="text-xs">Status WO Aplikasi</span>
                                                             <select class="form-control form-control-sm" type="text" id="statusWoApk" name="statusWoApk"
                                                                 style="border-color:#9ca0a7;">
-                                                                <option value="">Pilih Status WO</option>
+                                                                <option value="">Pilih Status WO APK</option>
                                                                 <option value="Requested">Requested</option>
                                                                 <option value="Checkin">Checkin</option>
                                                                 <option value="Checkout">Checkout</option>
@@ -847,20 +879,50 @@
                                                                 <option value="Cancelled">Cancelled</option>
                                                             </select>
                                                         </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Status WO</span>
+                                                            <select class="form-control form-control-sm" type="text" id="statusWo" name="statusWo"
+                                                                style="border-color:#9ca0a7;">
+                                                                <option value="">Pilih Status WO</option>
+                                                                <option value="Done">Done</option>
+                                                                <option value="Pending">Pending</option>
+                                                                <option value="Cancel">Cancel</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
 
                                                     <div class="form-group mb-1">
                                                         <div class="row">
                                                             <div class="col form-group mb-1">
-                                                                <span class="text-xs">Start</span>
-                                                                <input class="form-control form-control-sm" type="text"
-                                                                    id="start" name="start"
-                                                                    style="border-color:#9ca0a7;">
+                                                                <span class="text-xs">Rootcause Penagihan</span>
+                                                                <select type="text" class="form-control form-control-sm" id="rootCausePenagihan" name="rootCausePenagihan"
+                                                                    style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')"
+                                                                    oninput="this.setCustomValidity('')">
+                                                                </select>
                                                             </div>
                                                             <div class="col form-group mb-1">
-                                                                <span class="text-xs">Finish</span>
-                                                                <input class="form-control form-control-sm" type="text"
-                                                                    id="finish" name="finish"
+                                                                <span class="text-xs">Reason Status</span>
+                                                                <span class="text-danger">*</span>
+                                                                <input type="text" class="form-control form-control-sm" id="reasonStatus" name="reasonStatus"
+                                                                    style="border-color:#9ca0a7;" readonly>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group mb-1">
+                                                        <div class="row">
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">Tarik Kabel DW</span>
+                                                                <select class="form-control form-control-sm" type="text" id="tarik_cable" name="tarik_cable"
+                                                                    style="border-color:#9ca0a7;">
+                                                                    <option value="" disabled selected>Pilih Tarik Kabel DW</option>
+                                                                    <option value="Ditarik">Ditarik</option>
+                                                                    <option value="Tidak Ditarik">Tidak Ditarik</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">Alasan Tidak Rollback</span>
+                                                                <input class="form-control form-control-sm" type="text" id="alasan_no_rollback" name="alasan_no_rollback"
                                                                     style="border-color:#9ca0a7;">
                                                             </div>
                                                         </div>
@@ -869,23 +931,22 @@
                                                     <div class="form-group mb-1">
                                                         <div class="row">
                                                             <div class="col form-group mb-1">
-                                                                <span class="text-xs">MS Reguler</span>
-                                                                <select class="form-control form-control-sm"
-                                                                    type="text" id="ms_regular" name="ms_regular"
+                                                                <span class="text-xs">Action Status</span>
+                                                                <select class="form-control form-control-sm" type="text" id="actionStatus" name="actionStatus"
                                                                     style="border-color:#9ca0a7;">
-                                                                    <option value="" disabled selected>Pilih MS Reguler</option>
-                                                                    <option value="Manage Service">Manage Service</option>
-                                                                    <option value="Non Manage Service">Non Manage Service</option>
+                                                                    <option value="" disabled selected>-- Pilih --</option>
+                                                                    <option value="Sudah dikerjakan MST">Sudah dikerjakan MST</option>
+                                                                    <option value="Sign Ulang">Sign Ulang</option>
+                                                                    <option value="Tunggu Konfirmasi">Tunggu Konfirmasi</option>
                                                                 </select>
                                                             </div>
                                                             <div class="col form-group mb-1">
-                                                                <span class="text-xs">Tarik Kabel DW</span>
-                                                                <select class="form-control form-control-sm"
-                                                                    type="text" id="tarik_cable" name="tarik_cable"
+                                                                <span class="text-xs">Kondisi Cuaca</span>
+                                                                <select class="form-control form-control-sm" type="text" id="weatherShow" name="weatherShow"
                                                                     style="border-color:#9ca0a7;">
-                                                                    <option value="" disabled selected>Pilih Tarik Kabel DW</option>
-                                                                    <option value="Ditarik">Ditarik</option>
-                                                                    <option value="Tidak Ditarik">Tidak Ditarik</option>
+                                                                    <option value="" disabled selected>Pilih Cuaca</option>
+                                                                    <option value="Cerah">Cerah</option>
+                                                                    <option value="Hujan">Hujan</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -900,51 +961,6 @@
                                                 </div>
 
                                                 <div class="col">
-                                                    <div class="form-group mb-1">
-                                                        <div class="row">
-                                                            <div class="col form-group mb-1">
-                                                                <span class="text-xs">Tanggal Progress Aplikasi</span>
-                                                                <input class="form-control form-control-sm" type="date"
-                                                                    value="{{ date('Y-m-d') }}" id="tglProgressAPKShow"
-                                                                    name="tglProgressAPKShow"
-                                                                    style="border-color:#9ca0a7;">
-                                                            </div>
-
-                                                            <div class="col form-group mb-1">
-                                                                <span class="text-xs">Slot Time Aplikasi</span>
-                                                                <select class="form-control form-control-sm"
-                                                                    type="text" id="slotTimeAPKStatusShow" disabled
-                                                                    name="slotTimeAPKStatusShow"
-                                                                    style="border-color:#9ca0a7;">
-                                                                    <option value="">Pilih Slot Time</option>
-                                                                    <option value="09:00">09:00</option>
-                                                                    <option value="09:30">09:30</option>
-                                                                    <option value="10:00">10:00</option>
-                                                                    <option value="10:30">10:30</option>
-                                                                    <option value="11:00">11:00</option>
-                                                                    <option value="11:30">11:30</option>
-                                                                    <option value="12:00">12:00</option>
-                                                                    <option value="12:30">12:30</option>
-                                                                    <option value="13:00">13:00</option>
-                                                                    <option value="13:30">13:30</option>
-                                                                    <option value="14:00">14:00</option>
-                                                                    <option value="14:30">14:30</option>
-                                                                    <option value="15:00">15:00</option>
-                                                                    <option value="15:30">15:30</option>
-                                                                    <option value="16:00">16:00</option>
-                                                                    <option value="16:30">16:30</option>
-                                                                    <option value="17:00">17:00</option>
-                                                                    <option value="17:30">17:30</option>
-                                                                    <option value="18:00">18:00</option>
-                                                                    <option value="18:30">18:30</option>
-                                                                    <option value="19:00">19:00</option>
-                                                                    <option value="19:30">19:30</option>
-                                                                    <option value="20:00">20:00</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
                                                     <div class="col form-group mb-1">
                                                         <div class="row">
                                                             <div class="col form-group mb-1">
@@ -969,21 +985,14 @@
                                                     <div class="form-group mb-1">
                                                         <div class="row">
                                                             <div class="col form-group mb-1">
-                                                                <span class="text-xs">Penagihan</span>
-                                                                <select class="form-control form-control-sm" type="text" id="penagihanShow" name="penagihanShow"
+                                                                <span class="text-xs">Start</span>
+                                                                <input class="form-control form-control-sm" type="text" id="start" name="start"
                                                                     style="border-color:#9ca0a7;">
-                                                                    <option value="" disabled selected>Pilih Penagihan</option>
-                                                                    <option value="Migrasi Dw To Precon">Migrasi Dw To Precon</option>
-                                                                    <option value="Replace Precon To Precon">Replace Precon To Precon</option>
-                                                                    <option value="No Customer">No Customer</option>
-                                                                    <option value="Connector">Connector</option>
-                                                                    <option value="Cancel by Dispatcher">Cancel by Dispatcher</option>
-                                                                    <option value="Reconfig">Reconfig</option>
-                                                                    <option value="ONT">ONT</option>
-                                                                    <option value="Bad Cable Splice">Bad Cable Splice</option>
-                                                                    <option value="Reschedule">Reschedule</option>
-                                                                    <option value="STB">STB</option>
-                                                                </select>
+                                                            </div>
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">Finish</span>
+                                                                <input class="form-control form-control-sm" type="text" id="finish" name="finish"
+                                                                    style="border-color:#9ca0a7;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1032,58 +1041,50 @@
                                                     <div class="form-group mb-1">
                                                         <div class="row">
                                                             <div class="col form-group mb-1">
-                                                                <span class="text-xs">Alasan Tidak Rollback</span>
-                                                                <input class="form-control form-control-sm" type="text"
-                                                                    id="alasan_no_rollback" name="alasan_no_rollback"
+                                                                <span class="text-xs">MS Reguler</span>
+                                                                <select class="form-control form-control-sm" type="text" id="ms_regular" name="ms_regular"
                                                                     style="border-color:#9ca0a7;">
-                                                            </div>
-                                                            <div class="col form-group mb-1">
-                                                                <span class="text-xs">Kondisi Cuaca</span>
-                                                                <select class="form-control form-control-sm"
-                                                                    type="text" id="weatherShow" name="weatherShow"
-                                                                    style="border-color:#9ca0a7;">
-                                                                    <option value="" disabled selected>Pilih Cuaca</option>
-                                                                    <option value="Cerah">Cerah</option>
-                                                                    <option value="Hujan">Hujan</option>
+                                                                    <option value="" disabled selected>Pilih MS Reguler</option>
+                                                                    <option value="Manage Service">Manage Service</option>
+                                                                    <option value="Non Manage Service">Non Manage Service</option>
                                                                 </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group mb-1">
-                                                        <div class="row">
-                                                            <div class="col form-group mb-1">
-                                                                <span class="text-xs">Alasan Pending</span>
-                                                                <input class="form-control form-control-sm" type="text"
-                                                                    id="alasanPending" name="alasan_pending"
-                                                                    style="border-color:#9ca0a7;">
-                                                            </div>
-                                                            <div class="col form-group mb-1">
-                                                                <span class="text-xs">PIC Dispatch</span>
-                                                                <input class="form-control form-control-sm" type="text"
-                                                                    id="picDispatch" name="picDispatch"
-                                                                    style="border-color:#9ca0a7;">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group mb-1">
-                                                        <div class="row">
-                                                            <div class="col form-group mb-1">
-                                                                <span class="text-xs">Alasan Cancel</span>
-                                                                <input class="form-control form-control-sm" type="text"
-                                                                    id="alasanCancel" name="alasan_cancel"
-                                                                    style="border-color:#9ca0a7;">
                                                             </div>
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">Takeout/No Takeout</span>
-                                                                <select class="form-control form-control-sm"
-                                                                    type="text" id="takeout_notakeout" name="takeout_notakeout"
+                                                                <select class="form-control form-control-sm" type="text" id="takeout_notakeout" name="takeout_notakeout"
                                                                     style="border-color:#9ca0a7;">
                                                                     <option value="" disabled selected>Pilih Takeout/No Takeout</option>
                                                                     <option value="Takeout">Takeout</option>
                                                                     <option value="No Takeout">No Takeout</option>
                                                                 </select>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group mb-1">
+                                                        <div class="row">
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">PIC Dispatch</span>
+                                                                <select class="form-control form-control-sm" type="text" id="picDispatch" name="picDispatch"
+                                                                    style="border-color:#9ca0a7;">
+                                                                    <option value=""></option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">Telp Dispatch</span>
+                                                                <input class="form-control form-control-sm" type="text" id="telp_dispatch" name="telp_dispatch"
+                                                                    style="border-color:#9ca0a7;" readonly>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group mb-1">
+                                                        <div class="row">
+                                                            <div class="col form-group mb-1">
+                                                                <span class="text-xs">Detail Alasan</span>
+                                                                <textarea class="form-control form-control-sm" type="text" id="detailAlasan" name="detailAlasan"
+                                                                    style="border-color:#9ca0a7;"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1523,6 +1524,9 @@
         var lastDate;
         var stDate;
         var enDate;
+        var listPenagihan = {!! $penagihanDismantle !!};
+        var dtDispatch = {!! $dtDispatch !!}
+
         akses = $('#akses').val();
         // get_data_assignTim()
 
@@ -1536,6 +1540,44 @@
         $('.date-range').daterangepicker({
             startDate: moment(),
             endDate: moment(),
+        });
+
+        function isiDispatch() {
+            $('#picDispatch').find('option').remove();
+            $('#picDispatch').append(`
+                <option value="">--Pilih--</option>`
+            );
+
+            $.each(dtDispatch, function (k, cc) {
+                $('#picDispatch').append(
+                    `<option value="${cc.nama_dispatch}">${cc.nama_dispatch}</option>`
+                )
+            })
+        }
+
+        $(document).on('change', '#picDispatch', function (e) {
+            filDispatch = dtDispatch.filter(k => k.nama_dispatch === $(this).val());
+
+            $('#telp_dispatch').val(filDispatch[0].telp_dispatch);
+        })
+
+        $(document).on('change', '#statusWo', function (e) {
+            $('#rootCausePenagihan').find('option').remove();
+            $('#rootCausePenagihan').append(`
+                <option value="">--Pilih Rootcause Penagihan--</option>`
+            );
+
+            filListPenagihan = listPenagihan.filter(k => k.status == $(this).val());
+
+            $.each(filListPenagihan, function (k, cc) {
+                $('#rootCausePenagihan').append(
+                    `<option value="${cc.penagihan}">${cc.penagihan}</option>`
+                );
+            })
+        })
+
+        $(document).on('change', '#rootCausePenagihan', function (e) {
+            $('#reasonStatus').val($('#rootCausePenagihan').val());
         });
 
         $(document).on('click', '#filAssignTim', function(e) {
@@ -1719,6 +1761,9 @@
                         data: 'status_apk'
                     },
                     {
+                        data: 'status_wo'
+                    },
+                    {
                         data: 'is_checked',
                         render: function(data, type, row) {
                             if (data == 1) {
@@ -1756,6 +1801,7 @@
                     let material = response.ftth_material;
                     let callsignTims = response.callsign_tims;
                     let callsignLeads = response.callsign_leads;
+                    isiDispatch();
 
                     // Populasi dropdown Callsign Tim
                     let selectTim = $('#callsignTimidShow');
@@ -1781,6 +1827,7 @@
                     $('#id_material').val(dtDis.id_material);
                     $('#noWoShow').val(dtDis.no_wo);
                     $('#statusWo').val(toTitleCase(dtDis.status_wo || ""));
+                    $('#statusWo').trigger("change");
                     $('#ticketNoShow').val(dtDis.no_ticket);
                     $('#woTypeShow').val(toTitleCase(dtDis.wo_type_apk || ""));
                     $('#jenisWoShow').val(dtDis.type_wo);
@@ -1792,6 +1839,8 @@
                     $('#fatCodeShow').val(dtDis.kode_fat);
                     $('#portFatShow').val(dtDis.port_fat);
                     $('#remarkStatus').val(toTitleCase(dtDis.remarkStatus || ""));
+                    $('#tglReschedule').val(dtDis.reschedule_date);
+                    $('#jamReschedule').val(dtDis.reschedule_time);
                     $('#branchShow').val(dtDis.main_branch);
                     $('#tglProgressStatusShow').val(dtDis.visit_date);
                     $('#sesiShow').val(toTitleCase(dtDis.sesi || ""));
@@ -1804,7 +1853,8 @@
                     $('#causeCode').val(dtDis.couse_code);
                     $('#rootCause').val(dtDis.root_couse);
                     $('#actionTaken').val(dtDis.action_taken);
-                    $('#penagihanShow').val(dtDis.penagihan);
+                    $('#rootCausePenagihan').val(dtDis.penagihan);
+                    $('#reasonStatus').val(dtDis.reason_status);
                     $('#tglCheckinApk').val(dtDis.checkin_apk);
                     $('#tglCheckoutApk').val(dtDis.checkout_apk);
                     $('#tglProgressStatusShow').trigger("change");
@@ -1841,11 +1891,13 @@
 
                     $('#alasanTidakGantiPrecon').val(toTitleCase(dtDis.alasan_tidak_ganti_precon || ""));
                     $('#alasanPending').val(toTitleCase(dtDis.alasan_pending || ""));
-                    $('#alasanCancel').val(toTitleCase(dtDis.alasan_cancel || ""));
 
                     $('#takeout_notakeout').val(toTitleCase(dtDis.takeout_notakeout || ""));
-                    $('#reportTeknisi').val(toTitleCase(dtDis.report_teknisi || ""));
+                    $('#reportTeknisi').val(toTitleCase(dtDis.remarks || ""));
+                    $('#actionStatus').val(dtDis.action_status);
 
+                    $('#telp_dispatch').val(dtDis.telp_dispatch);
+                    $('#detailAlasan').val(dtDis.detail_alasan);
                     $('#picDispatch').val(toTitleCase(dtDis.pic_dispatch || ""));
 
                     $('#showDetail').modal('show');

@@ -896,7 +896,7 @@
                                                                 style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')"
                                                                 oninput="this.setCustomValidity('')">
                                                             </select>
-                                                        </div>                                                        
+                                                        </div>
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Reason Status</span>
@@ -933,7 +933,7 @@
                                                             </select>
                                                         </div>
 
-                                                        
+
                                                     </div>
                                                 </div>
 
@@ -1014,24 +1014,6 @@
                                             </div>
 
                                             <div class="col">
-                                                {{-- <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">PIC Dispatch</span>
-                                                            <span class="text-danger">*</span>
-                                                            <input class="form-control form-control-sm" type="text" id="picDispatch" name="picDispatch"
-                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')"
-                                                                oninput="this.setCustomValidity('')">
-                                                        </div>
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Telp Dispatch</span>
-                                                            <span class="text-danger">*</span>
-                                                            <input class="form-control form-control-sm" type="text" id="telp_dispatch" name="telp_dispatch"
-                                                                style="border-color:#9ca0a7;" required oninvalid="this.setCustomValidity('Wajib diisi')"
-                                                                oninput="this.setCustomValidity('')">
-                                                        </div>
-                                                    </div>
-                                                </div> --}}
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
@@ -1754,7 +1736,7 @@
             } else {
                 $('#reasonStatus').val($('#rootCausePenagihan').val());
             }
-            
+
         })
 
         $(document).on('click', '#filAssignTim', function(e) {
@@ -1782,7 +1764,7 @@
 
             document.getElementById('importApkButton').href = newLink + '?' + queryString
             document.getElementById('importIbMaterialButton').href = newLinkMaterial + '?' + queryString
-            
+
         })
 
         $('#filAssignTim').trigger("click");
