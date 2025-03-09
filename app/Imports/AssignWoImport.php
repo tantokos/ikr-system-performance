@@ -50,9 +50,9 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
     public function model(array $row)
     {
 
-        
+
         // $ikrDate = $row['ikr_date'];
-        
+
         if(!array_filter($row)) {
             return null;
         }
@@ -104,14 +104,14 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
         } else {
             $katArea = "Regional";
         }
-        
-        if( $row['area'] == null ) {            
+
+        if( $row['area'] == null ) {
 
             $clusterArea = DB::table('list_fat')->select('cluster')
                             ->where('kode_area', substr($row['fat_code'],4,3))
                             ->where('branch', $row['branch'])
                             ->where('kategori_area', $katArea)->first();
-            
+
             $area = is_null($clusterArea) ? trim($row['area']) : $clusterArea->cluster;
         } else {
             $area = $row['area'];
@@ -135,7 +135,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             $cekTelebot ="Tidak Perlu Cek Telebot";
             $statusTelebot="-";
         }
-        
+
         // dd($cekTelebot);
 
         return new ImportAssignTim([
@@ -154,7 +154,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             'cust_phone_apk' => Str::trim($row['cust_phone']),
             'cust_mobile_apk' => Str::trim($row['cust_mobile']),
             'address_apk' => Str::title($row['address']),
-            
+
             'fat_code_apk' => Str::trim($row['fat_code']),
             'fat_port_apk' => Str::trim($row['fat_port']),
             'remarks_apk' => Str::title($row['remarks']),
@@ -238,6 +238,12 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                         if (\Carbon\Carbon::parse($date)->isBefore(\Carbon\Carbon::today())) {
                             $fail("Tanggal $attribute tidak boleh di masa lalu.");
                         }
+
+                        // Validasi tanggal tidak boleh di masa depan
+                        if (\Carbon\Carbon::parse($date)->isAfter(\Carbon\Carbon::today())) {
+                            $fail("Tanggal $attribute tidak boleh di masa depan.");
+                        }
+
                     } catch (\Exception $e) {
                         $fail("Format tanggal $attribute tidak valid.");
                     }
@@ -341,12 +347,12 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                         //     ->leftJoin('employees as e','cl.leader_id', '=', 'e.nik_karyawan')
                         //     ->select('cl.id as callsign_tim_id')
                         //     ->where('lead_callsign', $data)->first();
-                        
+
                         $callsign_id = array_values(Arr::where($this->rekapCallsignLead, function (array $value, $key) use ($data) {
                                 // return $value['tgl'] == $ikrDate ;
                                 return $value['lead_callsign']== $data;
                         }));
-                        
+
                     } else {
                         // $callsign_id = DB::table('v_detail_callsign_tim')->select('callsign_tim_id')->where('callsign_tim', $data)->first();
 
@@ -355,7 +361,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                             return $value['callsign_tim']== $data;
                         }));
                     }
-                    
+
                     // $leaderID= is_null($leader_id) ? "-" : $leader_id->leader_id;
                     // return is_null($callsign_id) ?  null : $callsign_id->callsign_tim_id;
                     return empty($callsign_id) ?  null : $callsign_id[0]['callsign_tim_id'];
@@ -375,7 +381,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     }));
 
                     $tek1Nik = empty($tek1_nik) ? null : $tek1_nik[0]['nik_karyawan'];
-                    
+
                     return $tek1Nik;
                     break;
 
@@ -411,7 +417,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                         // return $value['tgl'] == $ikrDate ;
                         return strtoupper($value['nama_karyawan'])== strtoupper($data);
                     }));
-                    
+
                     $tek2Nik = empty($tek2_nik) ? null : $tek2_nik[0]['nik_karyawan'];
                     return $tek2Nik;
                     break;
@@ -521,10 +527,10 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     // dd($this->tp_wo);
                     $typeWo = empty($t_wo) ? null : $t_wo[0]['type_wo'];
                     return $typeWo;
-                    break;   
+                    break;
                 case "areaCluster":
                     $katArea = "";
-                    if($data == "Jakarta Timur" || $data == "Jakarta Selatan" || $data == "Bekasi" 
+                    if($data == "Jakarta Timur" || $data == "Jakarta Selatan" || $data == "Bekasi"
                                 || $data == "Bogor" || $data == "Tangerang") {
                         $katArea = "Jabotabek";
                     } else {
@@ -541,7 +547,7 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
                     }));
                     $cluster = empty($clusterArea) ? null : $clusterArea[0]['cluster'];
                     return $cluster;
-                    break;           
+                    break;
 
                     // dd($branch);
             }
