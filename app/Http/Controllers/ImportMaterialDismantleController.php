@@ -86,10 +86,33 @@ class ImportMaterialDismantleController extends Controller
 
         switch ($request->input('action')) {
             case 'simpan':
-                $importedData = DB::table('import_ftth_dismantle_materials')->get();
+                $importedData = DB::table('import_ftth_dismantle_materials')->where('login', $akses)->get();
 
                 DB::beginTransaction();
                 try {
+
+                    $doubleImport = [];
+
+                    foreach ($importedData as $data) {
+                        // Cek apakah data WO ada sama / pernah di import sebelumnya
+                        $cekDoubleImport = DB::table('ftth_dismantle_materials')
+                                    ->where('wo_no',$data->wo_no)
+                                    // ->where('installation_date', $data->installation_date)
+                                    ->first();
+
+                        // kumpulkan no wo yg sama /pernah di import sebelumnya
+                        if($cekDoubleImport) {
+                            array_push($doubleImport,  $data->wo_no);
+                        }
+                    }
+
+                    //cek jumlah wo yg sama, dan langsung di hapus
+                    if(count($doubleImport) > 0) {
+                        $deleteDtMaterial = DB::table('ftth_dismantle_materials')->whereIn('wo_no', $doubleImport)
+                        // ->where('installation_date', $data->installation_date)
+                        ->delete();
+                    }
+
                     foreach ($importedData as $data) {
                         // Cek apakah data dengan wo_no dan installation_date yang sama sudah ada
 
@@ -122,7 +145,7 @@ class ImportMaterialDismantleController extends Controller
                     // Commit transaksi jika tidak ada kesalahan
                     DB::table('import_ftth_dismantle_materials')->delete();
                     DB::commit();
-                    return redirect()->route('importFtthDismantle')->with('success', 'Data berhasil disimpan.');
+                    return redirect()->route('ftth-dismantle')->with('success', 'Data berhasil disimpan.');
                 } catch (\Exception $e) {
                     // Rollback jika ada kesalahan
                     DB::rollback();

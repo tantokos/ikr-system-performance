@@ -1082,6 +1082,26 @@
                                                     <div class="form-group mb-1">
                                                         <div class="row">
                                                             <div class="col form-group mb-1">
+                                                                <div class="row">
+                                                                    <div class="col form-group  mb-1">
+                                                                        <span class="text-xs">Penggunaan Material</span>
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input id="statusMaterial" name="statusMaterial" style="border-color:#9ca0a7;" type="text"
+                                                                                class="form-control form-control-sm" readonly>
+                                                                            <button class="btn btn-sm btn-outline-secondary mb-0" type="button"
+                                                                                id="detail-materialStatus">...</button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <input type="text" name="materialOut">
+                                                                    <input type="text" name="materialIn">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group mb-1">
+                                                        <div class="row">
+                                                            <div class="col form-group mb-1">
                                                                 <span class="text-xs">Detail Alasan</span>
                                                                 <textarea class="form-control form-control-sm" type="text" id="detailAlasan" name="detailAlasan"
                                                                     style="border-color:#9ca0a7;"></textarea>
@@ -1798,29 +1818,49 @@
                     console.log('Respons dari API:', response);
 
                     let dtDis = response.data;
-                    let material = response.ftth_material;
+                    let material = response.ftth_dismantle_material;
                     let callsignTims = response.callsign_tims;
                     let callsignLeads = response.callsign_leads;
+                    let teknisiOn = response.teknisiOn;
+                    callTim = response.assignTim;
                     isiDispatch();
+
+                    if (response.ftth_dismantle_material.length > 0) {
+                        materialOut = response.ftth_dismantle_material.filter(k => k.status_item == "OUT");
+                        materialIn = response.ftth_dismantle_material.filter(i => i.status_item == "IN");
+
+                        // Mengisi nilai ke input materialOut dan materialIn
+                        $('input[name="materialOut"]').val(materialOut.length || 0); // Default 0 jika materialOut kosong
+                        $('input[name="materialIn"]').val(materialIn.length || 0);   // Default 0 jika materialIn kosong
+
+                        // statMaterial = "Ada | " + response.ftth_dismantle_material.length
+                        statMaterial = "Terpasang = " + materialOut.length + " | Dikembalikan = " + materialIn.length;
+
+                    } else {
+                        statMaterial = "Tidak Ada";
+                        // Jika tidak ada data, isi input dengan nilai default 0
+                        $('input[name="materialOut"]').val(0);
+                        $('input[name="materialIn"]').val(0);
+                    }
 
                     // Populasi dropdown Callsign Tim
                     let selectTim = $('#callsignTimidShow');
                     selectTim.empty().append('<option value="">Pilih Callsign Tim</option>');
                     callsignTims.forEach(item => {
-                        selectTim.append(`<option value="${item.id}">${item.callsign_tim}</option>`);
+                        selectTim.append(`<option value="${item.id}|${item.callsign_tim}">${item.callsign_tim}</option>`);
                     });
-                    selectTim.val(dtDis.callsign_id);
+                    selectTim.val(dtDis.callsign_id + "|" + dtDis.callsign);
 
                     // Populasi dropdown Lead Callsign
                     let selectLead = $('#LeadCallsignShow');
                     selectLead.empty().append('<option value="">Pilih Lead Callsign</option>');
+
                     callsignLeads.forEach(item => {
-                        selectLead.append(`<option value="${item.id}">${item.lead_callsign}</option>`);
+                        selectLead.append(`<option value="${item.id}|${item.lead_callsign}|${item.leader_id}|${item.nama_karyawan}">${item.lead_callsign} | ${item.nama_karyawan} </option>`);
                     });
 
-                    // Atur nilai dropdown Lead Callsign sesuai dengan `leadcall_id`
                     if (dtDis.leadcall_id) {
-                        selectLead.val(dtDis.leadcall_id);
+                        selectLead.val(dtDis.leadcall_id + "|" + dtDis.leadcall + "|" + dtDis.leader_id + "|" + dtDis.leader);
                     }
 
                     $('#detId').val(dtDis.id);
@@ -1838,6 +1878,7 @@
                     $('#timeApkShow').val(dtDis.time);
                     $('#fatCodeShow').val(dtDis.kode_fat);
                     $('#portFatShow').val(dtDis.port_fat);
+                    $('#statusMaterial').val(statMaterial);
                     $('#remarkStatus').val(toTitleCase(dtDis.remarkStatus || ""));
                     $('#tglReschedule').val(dtDis.reschedule_date);
                     $('#jamReschedule').val(dtDis.reschedule_time);
@@ -1879,14 +1920,6 @@
                     $('#tarik_cable').val(dtDis.tarik_cable);
                     $('#ms_regular').val(dtDis.ms_regular);
 
-                    $('#snOntOut').val(material.sn_ont_out);
-                    $('#macOntOut').val(material.mac_ont_out);
-                    $('#macOntIn').val(material.mac_ont_in);
-                    $('#merkOntIn').val(material.merk_ont_in);
-                    $('#merkStbOut').val(material.stb_merk_out);
-                    $('#merkStbIn').val(material.stb_merk_in);
-                    $('#kabelPrecon').val(material.precon_out);
-                    $('#snOntIn').val(material.sn_ont_in);
                     $('#slotTimeAPKStatusShow').val(dtDis.slot_time_apk);
 
                     $('#alasanTidakGantiPrecon').val(toTitleCase(dtDis.alasan_tidak_ganti_precon || ""));

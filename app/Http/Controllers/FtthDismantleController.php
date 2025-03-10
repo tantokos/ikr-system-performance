@@ -237,50 +237,26 @@ class FtthDismantleController extends Controller
         $wo_no = DB::table('data_ftth_dismantle_oris')->where('id', $assignId)->value('no_wo'); // contoh WO No
 
         // Mendapatkan data dari database seperti biasa
-        $ftth_material = DB::table('ftth_dismantle_materials')
-            ->select(
-                'wo_no',
-                'installation_date',
-                'status_item',
-                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%ONT%" THEN description END AS merk_ont_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%ONT%" THEN sn END AS sn_ont_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%ONT%" THEN mac_address END AS mac_ont_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%STB%" THEN description END AS stb_merk_out'),
-                DB::raw('CASE WHEN status_item = "OUT" AND description LIKE "%PRECON%" THEN description END AS precon_out'),
-                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%STB%" THEN description END AS stb_merk_in'),
-                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%ONT%" THEN description END AS merk_ont_in'),
-                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%ONT%" THEN sn END AS sn_ont_in'),
-                DB::raw('CASE WHEN status_item = "IN" AND description LIKE "%ONT%" THEN mac_address END AS mac_ont_in')
-            )
-            ->where('wo_no', $wo_no)
-            ->get()
-            ->toArray(); // Konversi hasil query ke array
+        $ftth_dismantle_material = DB::table('ftth_dismantle_materials')
+                ->select(
 
-        // Fungsi untuk menggabungkan data dari beberapa array menjadi satu array
-        function mergeFtthMaterials($materials) {
-            $result = [];
-
-            foreach ($materials as $material) {
-                foreach ($material as $key => $value) {
-                    // Jika key belum ada di $result atau nilainya masih null, isi dengan data baru
-                    if (!isset($result[$key]) || $result[$key] === null) {
-                        $result[$key] = $value;
-                    }
-                }
-            }
-
-            return $result;
-        }
-
-        // Gabungkan data ftth_material menjadi satu array
-        $mergedMaterial = mergeFtthMaterials($ftth_material);
+                    'id',
+                    'status_item',
+                    'item_code',
+                    'description',
+                    'qty',
+                    'sn',
+                    'mac_address',
+                )
+                ->where('wo_no', $wo_no)
+                ->get();
 
         // Mengirimkan response JSON
         return response()->json([
             'data' => $datas,
             'callsign_tims' => $callsign_tims,
             'callsign_leads' => $callsign_leads,
-            'ftth_material' => $mergedMaterial
+            'ftth_dismantle_material' => $ftth_dismantle_material,
         ]);
 
     }
@@ -306,7 +282,7 @@ class FtthDismantleController extends Controller
             $wo_no = DB::table('data_ftth_dismantle_oris')->where('id', $assignId)->value('no_wo');
 
             // Ambil data material berdasarkan nomor WO
-            $ftth_ib_material = DB::table('ftth_dismantle_materials')
+            $ftth_dismantle_material = DB::table('ftth_dismantle_materials')
                 ->select(
                     'id',
                     'status_item',
@@ -323,7 +299,7 @@ class FtthDismantleController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Data retrieved successfully',
-                'data' => $ftth_ib_material,
+                'data' => $ftth_dismantle_material,
             ], 200);
 
         } catch (\Exception $e) {
@@ -337,7 +313,7 @@ class FtthDismantleController extends Controller
 
     public function updateFtthDismantle(Request $request)
     {
-        // dd($request->all());
+        dd($request->all());
         $aksesId = Auth::user()->id;
         $akses = Auth::user()->name;
         $id = $request->detId;
@@ -359,6 +335,7 @@ class FtthDismantleController extends Controller
             'slot_time_apk' => $request['slotTimeAPKShow'],
             'sesi' => $request['sesiShow'],
             'waktu_instalasi' => $request['waktuInstallation'],
+            'qty_material_in' => $request['materialIn'],
             'selisih_menit' => $request['statusCheckinMenit'],
             'status_checkin' => $request['statusCheckin'],
             'leader' => $request['leaderShow'],
