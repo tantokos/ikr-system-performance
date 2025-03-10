@@ -34,6 +34,7 @@ class FtthDismantle extends Model
         'kotamadya_penagihan',
         'penagihan',
         'main_branch',
+        'qty_material_in',
         'ms_regular',
         'fat_status',
         'ont_sn_in',
