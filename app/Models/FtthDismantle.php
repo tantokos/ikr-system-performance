@@ -33,6 +33,7 @@ class FtthDismantle extends Model
         'kotamadya',
         'kotamadya_penagihan',
         'penagihan',
+        'tgl_dismantle_port',
         'main_branch',
         'material_in',
         'ms_regular',

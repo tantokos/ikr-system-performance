@@ -506,6 +506,8 @@ class MonitFtthIB_Controller extends Controller
             'end_ikr_wa' => $request['end_ikr_wa'],
             'jam_teknisi_aktifasi_perangkat' => $request['jam_teknisi_aktifasi_perangkat'],
             'jam_dispatch_respon_aktifasi_perangkat' => $request['jam_dispatch_respon_aktifasi_perangkat'],
+            'jam_teknisi_cek_fat' => $request['jam_tek_cek_fat'],
+            'jam_dispatch_respon_fat' => $request['jam_dispatch_respon_fat'],
             'jam_tek_foto_rmh' => $request['jam_tek_foto_rmh'],
             'jam_dispatch_respon_foto' => $request['jam_dispatch_respon_foto'],
             'otp_start' => $request['otp_start'],

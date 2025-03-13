@@ -310,6 +310,7 @@ class FtthDismantleController extends Controller
                     'qty',
                     'sn',
                     'mac_address',
+                    'material_condition'
                 )
                 ->where('wo_no', $wo_no)
                 ->get();
@@ -368,6 +369,7 @@ class FtthDismantleController extends Controller
             'reschedule_date' => $request['tglReschedule'],
             'reschedule_time' => $request['jamReschedule'],
             'penagihan' => $request['rootCausePenagihan'],
+            'tgl_dismantle_port' => $request['tglDismantlePort'],
             'reason_status' => $request['reasonStatus'],
             'tgl_jam_reschedule' => $request['tglReschedule'],
             'weather' => $request['weatherShow'],

@@ -23,6 +23,7 @@
                                     <th class="text-white text-sm font-weight-semibold">Qty</th>
                                     <th class="text-white text-sm font-weight-semibold">SN</th>
                                     <th class="text-white text-sm font-weight-semibold">Mac Address</th>
+                                    <th class="text-white text-sm font-weight-semibold">Material Condition</th>
                                     <th class="text-white text-sm font-weight-semibold">Edit</th>
                                 </tr>
                             </thead>

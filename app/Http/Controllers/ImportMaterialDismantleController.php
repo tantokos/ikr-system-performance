@@ -144,7 +144,7 @@ class ImportMaterialDismantleController extends Controller
                     }
 
                     // Commit transaksi jika tidak ada kesalahan
-                    DB::table('import_ftth_dismantle_materials')->delete();
+                    DB::table('import_ftth_dismantle_materials')->where('login', $akses)->delete();
                     DB::commit();
                     return redirect()->route('ftth-dismantle')->with('success', 'Data berhasil disimpan.');
                 } catch (\Exception $e) {
@@ -155,7 +155,7 @@ class ImportMaterialDismantleController extends Controller
                 break;
 
             case 'batal':
-                DB::table('import_ftth_dismantle_materials')->delete();
+                DB::table('import_ftth_dismantle_materials')->where('login', $akses)->delete();
                 return redirect()->route('importFtthDismantle')->with('success', 'Material berhasil dibatalkan.');
                 break;
         }

@@ -911,6 +911,16 @@
                                                     <div class="form-group mb-1">
                                                         <div class="row">
                                                             <div class="col form-group mb-1">
+                                                                <span class="text-xs">Tanggal Dismantle Port</span>
+                                                                <input type="date" class="form-control form-control-sm" id="tglDismantlePort" name="tglDismantlePort"
+                                                                    style="border-color:#9ca0a7;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group mb-1">
+                                                        <div class="row">
+                                                            <div class="col form-group mb-1">
                                                                 <span class="text-xs">Tarik Kabel DW</span>
                                                                 <select class="form-control form-control-sm" type="text" id="tarik_cable" name="tarik_cable"
                                                                     style="border-color:#9ca0a7;">
@@ -1041,15 +1051,11 @@
                                                         <div class="row">
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">MS Reguler</span>
-                                                                <select class="form-control form-control-sm" type="text" id="ms_regular" name="ms_regular"
+                                                                <input class="form-control form-control-sm" readonly value="Manage Service" type="text" id="ms_regular" name="ms_regular"
                                                                     style="border-color:#9ca0a7;">
-                                                                    <option value="" disabled selected>Pilih MS Reguler</option>
-                                                                    <option value="Manage Service">Manage Service</option>
-                                                                    <option value="Non Manage Service">Non Manage Service</option>
-                                                                </select>
                                                             </div>
                                                             <div class="col form-group mb-1">
-                                                                <span class="text-xs">Takeout/No Takeout</span>
+                                                                <span class="text-xs">Takeout/No Takeout Port</span>
                                                                 <select class="form-control form-control-sm" type="text" id="takeout_notakeout" name="takeout_notakeout"
                                                                     style="border-color:#9ca0a7;">
                                                                     <option value="" disabled selected>Pilih Takeout/No Takeout</option>
@@ -1915,6 +1921,7 @@
                     $('#rootCause').val(dtDis.root_couse);
                     $('#actionTaken').val(dtDis.action_taken);
                     $('#rootCausePenagihan').val(dtDis.penagihan);
+                    $('#tglDismantlePort').val(dtDis.tgl_dismantle_port);
                     $('#reasonStatus').val(dtDis.reason_status);
                     $('#tglCheckinApk').val(dtDis.checkin_apk);
                     $('#tglCheckoutApk').val(dtDis.checkout_apk);
@@ -1938,7 +1945,7 @@
                     $('#start').val(dtDis.start);
                     $('#finish').val(dtDis.finish);
                     $('#tarik_cable').val(dtDis.tarik_cable);
-                    $('#ms_regular').val(dtDis.ms_regular);
+                    // $('#ms_regular').val(dtDis.ms_regular);
 
                     $('#slotTimeAPKStatusShow').val(dtDis.slot_time_apk);
 
@@ -2048,6 +2055,7 @@
                                     <td>${item.qty}</td>
                                     <td>${item.sn ? item.sn : '-'}</td>
                                     <td>${item.mac_address ? item.mac_address : '-'}</td>
+                                    <td>${item.material_condition ? item.material_condition : '-'}</td>
                                     <td>
                                         <a href="javascript:void(0)"
                                             id="edit-material"

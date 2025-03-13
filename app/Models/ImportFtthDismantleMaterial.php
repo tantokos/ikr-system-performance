@@ -30,7 +30,8 @@ class ImportFtthDismantleMaterial extends Model
         'qty',
         'sn',
         'mac_address',
-        'material_condition'
+        'material_condition',
+        'login',
     ];
 
 }
