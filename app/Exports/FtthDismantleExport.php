@@ -100,7 +100,7 @@ class FtthDismantleExport implements FromCollection, WithHeadings, WithStyles
             DB::raw("'' as waktu_keterlambatan_cst"),
             DB::raw("'' as bukti_konfirmasi"),
             DB::raw("'' as qty_material_out"),
-            'd.qty_material_in',
+            'd.material_in',
 
             DB::raw('(SELECT description FROM ftth_dismantle_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND description LIKE "%ONT%" LIMIT 1) as ont_merk_out'),
             DB::raw('(SELECT sn FROM ftth_dismantle_materials WHERE wo_no = d.no_wo AND status_item = "OUT" AND description LIKE "%ONT%" LIMIT 1) as ont_sn_out'),

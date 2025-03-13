@@ -586,7 +586,7 @@
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">Tanggal Progress</span>
                                                                 <input class="form-control form-control-sm" type="date"
-                                                                    value="{{ date('Y-m-d') }}" id="tglProgressShow"
+                                                                    id="tglProgressShow"
                                                                     name="tglProgressShow" style="border-color:#9ca0a7;" readonly>
                                                             </div>
 
@@ -688,20 +688,21 @@
                                                         <div class="row">
 
                                                             <div class="col form-group mb-1">
-                                                                <span class="text-xs">Lead Callsign</span>
-                                                                <select class="form-control form-control-sm" id="LeadCallsignShow" name="LeadCallsignShow" style="border-color:#9ca0a7;" readonly>
+                                                                <span class="text-xs">Lead Callsign | Leader</span>
+                                                                <select class="form-control form-control-sm" id="LeadCallsignShow" name="LeadCallsignShow"
+                                                                    style="border-color:#9ca0a7;">
                                                                     <option value="">Pilih Lead Callsign</option>
                                                                 </select>
                                                             </div>
 
-                                                            <div class="col form-group mb-1">
+                                                            {{-- <div class="col form-group mb-1">
                                                                 <span class="text-xs">Nama Leader</span>
                                                                 <input class="form-control form-control-sm" type="text"
                                                                     id="leaderShow" name="leaderShow"
                                                                     style="border-color:#9ca0a7;" readonly>
                                                                 <input type="hidden" id="leaderidShow"
                                                                     name="leaderidShow" readonly>
-                                                            </div>
+                                                            </div> --}}
                                                         </div>
                                                     </div>
 
@@ -710,42 +711,40 @@
 
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">Callsign Tim</span>
-                                                                <select class="form-control form-control-sm" id="callsignTimidShow" name="callsignTimidShow" style="border-color:#9ca0a7;" readonly>
+                                                                <select class="form-control form-control-sm" id="callsignTimidShow" name="callsignTimidShow"
+                                                                    style="border-color:#9ca0a7;">
                                                                     <option value="">Pilih Callsign Tim</option>
                                                                 </select>
+                                                                <input type="hidden" id="callsignTimShow" name="callsignTimShow">
                                                             </div>
 
                                                         </div>
 
                                                         <div class="form-group mb-1">
                                                             <span class="text-xs">Teknisi 1</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                    id="teknisi1Show"
-                                                                    name="teknisi1Show"
-                                                                    style="border-color:#9ca0a7;" readonly>
+                                                            <select class="form-control form-control-sm" type="text" id="teknisi1Show" name="teknisi1Show"
+                                                                style="border-color:#9ca0a7;">
+                                                            </select>
                                                         </div>
 
                                                         <div class="form-group mb-1">
                                                             <span class="text-xs">Teknisi 2</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                    id="teknisi2Show"
-                                                                    name="teknisi2Show"
-                                                                    style="border-color:#9ca0a7;" readonly>
+                                                            <select class="form-control form-control-sm" type="text" id="teknisi2Show" name="teknisi2Show"
+                                                                style="border-color:#9ca0a7;">
+                                                            </select>
                                                         </div>
 
                                                         <div class="form-group mb-1">
                                                             <span class="text-xs">Teknisi 3</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                    id="teknisi3Show"
-                                                                    name="teknisi3Show"
-                                                                    style="border-color:#9ca0a7;" readonly>
+                                                            <select class="form-control form-control-sm" type="text" id="teknisi3Show" name="teknisi3Show"
+                                                                style="border-color:#9ca0a7;">
+                                                            </select>
                                                         </div>
 
                                                         <div class="form-group mb-1">
                                                             <span class="text-xs">Teknisi 4</span>
-                                                            <select class="form-control form-control-sm" type="text" id="teknisi4Show"
-                                                                name="teknisi4Show" style="border-color:#9ca0a7;" readonly>
-                                                                <option value="">Teknisi 4</option>
+                                                            <select class="form-control form-control-sm" type="text" id="teknisi4Show" name="teknisi4Show"
+                                                                style="border-color:#9ca0a7;">
                                                             </select>
                                                         </div>
                                                     </div>
@@ -766,7 +765,7 @@
                                                         <div class="row">
                                                             <div class="col form-group mb-1">
                                                                 <span class="text-xs">Tanggal Progress Aplikasi</span>
-                                                                <input class="form-control form-control-sm" type="date" value="{{ date('Y-m-d') }}" id="tglProgressAPKShow"
+                                                                <input class="form-control form-control-sm" type="date" id="tglProgressAPKShow"
                                                                     name="tglProgressAPKShow" style="border-color:#9ca0a7;">
                                                             </div>
 
@@ -1092,8 +1091,8 @@
                                                                                 id="detail-materialStatus">...</button>
                                                                         </div>
                                                                     </div>
-                                                                    <input type="text" name="materialOut">
-                                                                    <input type="text" name="materialIn">
+                                                                    <input type="hidden" name="materialOut">
+                                                                    <input type="hidden" name="materialIn">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1826,21 +1825,30 @@
                     isiDispatch();
 
                     if (response.ftth_dismantle_material.length > 0) {
-                        materialOut = response.ftth_dismantle_material.filter(k => k.status_item == "OUT");
                         materialIn = response.ftth_dismantle_material.filter(i => i.status_item == "IN");
 
                         // Mengisi nilai ke input materialOut dan materialIn
-                        $('input[name="materialOut"]').val(materialOut.length || 0); // Default 0 jika materialOut kosong
                         $('input[name="materialIn"]').val(materialIn.length || 0);   // Default 0 jika materialIn kosong
 
                         // statMaterial = "Ada | " + response.ftth_dismantle_material.length
-                        statMaterial = "Terpasang = " + materialOut.length + " | Dikembalikan = " + materialIn.length;
+                        statMaterial = "Dikembalikan = " + materialIn.length;
 
                     } else {
                         statMaterial = "Tidak Ada";
                         // Jika tidak ada data, isi input dengan nilai default 0
-                        $('input[name="materialOut"]').val(0);
                         $('input[name="materialIn"]').val(0);
+                    }
+
+                    let selectLead = $('#LeadCallsignShow');
+                    selectLead.empty().append('<option value="">Pilih Lead Callsign</option>');
+
+                    callsignLeads.forEach(item => {
+                        selectLead.append(`<option value="${item.id}|${item.lead_callsign}|${item.leader_id}|${item.nama_karyawan}">${item.lead_callsign} | ${item.nama_karyawan} </option>`);
+                    });
+
+                    // Atur nilai dropdown Lead Callsign sesuai dengan `leadcall_id`
+                    if (dtDis.leadcall_id) {
+                        selectLead.val(dtDis.leadcall_id + "|" + dtDis.leadcall + "|" + dtDis.leader_id + "|" + dtDis.leader);
                     }
 
                     // Populasi dropdown Callsign Tim
@@ -1851,21 +1859,33 @@
                     });
                     selectTim.val(dtDis.callsign_id + "|" + dtDis.callsign);
 
-                    // Populasi dropdown Lead Callsign
-                    let selectLead = $('#LeadCallsignShow');
-                    selectLead.empty().append('<option value="">Pilih Lead Callsign</option>');
+                    let selectTek1 = $('#teknisi1Show');
+                    let selectTek2 = $('#teknisi2Show');
+                    let selectTek3 = $('#teknisi3Show');
+                    let selectTek4 = $('#teknisi4Show');
 
-                    callsignLeads.forEach(item => {
-                        selectLead.append(`<option value="${item.id}|${item.lead_callsign}|${item.leader_id}|${item.nama_karyawan}">${item.lead_callsign} | ${item.nama_karyawan} </option>`);
+                    selectTek1.empty().append('<option value="">Pilih Teknisi</option>');
+                    selectTek2.empty().append('<option value="">Pilih Teknisi</option>');
+                    selectTek3.empty().append('<option value="">Pilih Teknisi</option>');
+                    selectTek4.empty().append('<option value="">Pilih Teknisi</option>');
+
+                    teknisiOn.forEach(item => {
+                        selectTek1.append(`<option value="${item.nik_karyawan}|${item.nama_karyawan}">${item.nama_karyawan}</option>`);
+                        selectTek2.append(`<option value="${item.nik_karyawan}|${item.nama_karyawan}">${item.nama_karyawan}</option>`);
+                        selectTek3.append(`<option value="${item.nik_karyawan}|${item.nama_karyawan}">${item.nama_karyawan}</option>`);
+                        selectTek4.append(`<option value="${item.nik_karyawan}|${item.nama_karyawan}">${item.nama_karyawan}</option>`);
                     });
 
-                    if (dtDis.leadcall_id) {
-                        selectLead.val(dtDis.leadcall_id + "|" + dtDis.leadcall + "|" + dtDis.leader_id + "|" + dtDis.leader);
-                    }
+                    selectTek1.val(dtDis.tek1_nik + "|" + dtDis.teknisi1 || "");
+                    selectTek2.val(dtDis.tek2_nik + "|" + dtDis.teknisi2 || "");
+                    selectTek3.val(dtDis.tek3_nik + "|" + dtDis.teknisi3 || "");
+                    selectTek4.val(dtDis.tek4_nik + "|" + dtDis.teknisi4 || "");
 
                     $('#detId').val(dtDis.id);
                     $('#id_material').val(dtDis.id_material);
                     $('#noWoShow').val(dtDis.no_wo);
+                    $('#tglProgressAPKShow').val(dtDis.visit_date);
+                    $('#tglProgressShow').val(dtDis.visit_date);
                     $('#statusWo').val(toTitleCase(dtDis.status_wo || ""));
                     $('#statusWo').trigger("change");
                     $('#ticketNoShow').val(dtDis.no_ticket);
