@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use Maatwebsite\Excel\HeadingRowImport;
+use Illuminate\Support\Str;
 
 use function PHPUnit\Framework\isNull;
 
@@ -147,26 +148,35 @@ class Import_DataWoController extends Controller
             $dtcluster = DB::table('list_fat')->select('cluster','kode_area','kategori_area')->get();            
 
             DB::beginTransaction();
+            
             try {
-                Excel::import(new AssignWoImport($akses, $dttp_wo, $dtcluster, $dtKry, $dtBranch, $dtCallsignTim, $dtCallsignLead), $request->file('fileDataWO'));
+                try {
+                    Excel::import(new AssignWoImport($akses, $dttp_wo, $dtcluster, $dtKry, $dtBranch, $dtCallsignTim, $dtCallsignLead), $request->file('fileDataWO'));
 
-                DB::commit();
-                return back()->with(['success' => 'Import Work Order berhasil.']);
-            } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-                DB::rollBack();
-                $failures = $e->failures();
-                // dd($failures);
-                $errorMessages = [];
-                foreach ($failures as $failure) {
-                    // dd($failure->values()[$failure->attribute()]);
-                    $errorMessages[] = "Baris " . $failure->row() . " (" . $failure->attribute() . ") = " . "'" . $failure->values()[$failure->attribute()] . "'. ". implode(', ', $failure->errors());
+                    DB::commit();
+                    return back()->with(['success' => 'Import Work Order berhasil.']);
+                } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+                    DB::rollBack();
+                    $failures = $e->failures();
+                    // dd($e);
+                    $errorMessages = [];
+                    foreach ($failures as $failure) {
+                        // dd($failure->values()[$failure->attribute()]);
+                        $errorMessages[] = "Baris " . $failure->row() . " (" . $failure->attribute() . ") = " . "'" . $failure->values()[$failure->attribute()] . "'. ". implode(', ', $failure->errors());
+                    }
+
+                    return back()->with(['error' => 'Kesalahan validasi: ' . implode('<br>', $errorMessages)]);
                 }
 
-                return back()->with(['error' => 'Kesalahan validasi: ' . implode('<br>', $errorMessages)]);
             } catch (\Exception $e) {
                 DB::rollBack();
-
-                return back()->with(['error' => 'Kesalahan: ' . $e->getMessage()]);
+                // dd($e);
+                if(Str::contains($e->getMessage(), "Undefined array key")) {
+                    return back()->with(['error' => 'Kesalahan: Kolom File Excel tidak lengkap : "' . $e->getMessage() . '".']);
+                } else {
+                    return back()->with(['error' => 'Kesalahan: ' . $e->getMessage()]);
+                }
+                
             }
         }
 

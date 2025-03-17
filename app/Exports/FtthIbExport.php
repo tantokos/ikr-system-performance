@@ -193,15 +193,19 @@ class FtthIbExport implements FromCollection, WithHeadings, WithStyles, WithColu
         if ($this->request->filGroup != null) {
 
             $group = $this->request->filGroup;
-
-            if ($group == "Jabota") {
-                $grupArea = ["Jakarta Timur", "Jakarta Selatan", "Bogor", "Tangerang"];
-            } else {
-                $grupArea = DB::table('branches')
-                    ->where('grup_area', $group)
+            $grupArea = DB::table('branches')
+                    ->where('grup_ib', 'like', '%'.$group.'%')
                     ->pluck('nama_branch') // Ambil langsung sebagai koleksi nilai
                     ->toArray(); // Ubah menjadi array agar bisa digunakan di whereIn()
-            }
+
+            // if ($group == "Jabota") {
+            //     $grupArea = ["Jakarta Timur", "Jakarta Selatan", "Bogor", "Tangerang"];
+            // } else {
+            //     $grupArea = DB::table('branches')
+            //         ->where('grup_area', $group)
+            //         ->pluck('nama_branch') // Ambil langsung sebagai koleksi nilai
+            //         ->toArray(); // Ubah menjadi array agar bisa digunakan di whereIn()
+            // }
 
             $datas = $datas->whereIn('d.branch', $grupArea);
 

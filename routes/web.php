@@ -54,6 +54,7 @@ use App\Http\Controllers\FTTX\AssignTeammController;
 use App\Http\Controllers\FTTX\AssignTimController as FTTXAssignTimController;
 use App\Http\Controllers\FTTX\ImportAssignTeamFttxController;
 use App\Http\Controllers\ImportDataKonfCstController;
+use App\Http\Controllers\po_toolsController;
 use App\Http\Controllers\RootCause_Controller;
 use PhpParser\Node\Expr\Assign;
 
@@ -299,6 +300,10 @@ Route::post('/saveValidasi', [MonitFotoFtthMT_Controller::class, 'saveValidasi']
 Route::get('/getFtthData', [DashboardController::class, 'getFtthData'])->name('getFtthData')->middleware('auth');
 
 //Start Tools//
+Route::get('/poTool', [po_toolsController::class, 'index'])->name('poTool')->middleware('auth');
+Route::post('/simpanPoTool', [po_toolsController::class, 'simpanPoTool'])->name('simpanPoTool')->middleware('auth');
+
+
 Route::get('/dataTool', [ToolController::class, 'index'])->name('dataTool')->middleware('auth');
 Route::get('/getRekapTool', [ToolController::class, 'getRekapTool'])->name('getRekapTool')->middleware('auth');
 Route::get('/getDataTool', [ToolController::class, 'getDataTool'])->name('getDataTool')->middleware('auth');
