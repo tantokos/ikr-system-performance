@@ -1075,28 +1075,7 @@
                                                     </div>
                                                 </div> --}}
 
-                                                {{-- <div class="form-group mb-1">
-                                                    <div class="row">
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Jam Teknisi Foto Rumah</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="jam_tek_foto_rmh" name="jam_tek_foto_rmh"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Jam Respon Dispatch</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="jam_dispatch_respon_foto" name="jam_dispatch_respon_foto"
-                                                                style="border-color:#9ca0a7;">
-                                                        </div>
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Durasi Respon Foto Rumah</span>
-                                                            <input class="form-control form-control-sm" type="text"
-                                                                id="durasi_dispatch_respon_foto" name="durasi_dispatch_respon_foto"
-                                                                style="border-color:#9ca0a7;" readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                {{--
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
@@ -1187,6 +1166,37 @@
                                                             <input class="form-control form-control-sm" type="time" value="{{ date('H:i') }}"
                                                                 id="validasi_end" name="validasi_end"
                                                                 style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jam Teknisi Foto Rumah</span>
+                                                            <input class="form-control form-control-sm" type="time" value="{{ date('H:i') }}" id="jam_tek_foto_rmh"
+                                                                name="jam_tek_foto_rmh" style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jam Dispatch Respon Foto</span>
+                                                            <input class="form-control form-control-sm" type="time" value="{{ date('H:i') }}"
+                                                                id="jam_dispatch_respon_foto" name="jam_dispatch_respon_foto" style="border-color:#9ca0a7;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jam Teknisi Cek FAT</span>
+                                                            <input class="form-control form-control-sm" type="time" id="jam_tek_cek_fat" name="jam_tek_cek_fat"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Jam Dispatch Respon FAT</span>
+                                                            <input class="form-control form-control-sm" type="time" id="jam_dispatch_respon_fat"
+                                                                name="jam_dispatch_respon_fat" style="border-color:#9ca0a7;">
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2184,6 +2194,10 @@
 
                     $('#start_regist').val(dtDis.start_regist);
                     $('#end_regist').val(dtDis.end_regist);
+                    $('#jam_tek_cek_fat').val(dtDis.jam_teknisi_cek_fat);
+                    $('#jam_dispatch_respon_fat').val(dtDis.jam_dispatch_respon_fat);
+
+
                     $('#statusMaterial').val(statMaterial);
 
                     $('#respon_konf_cst').val(dtDis.respon_konf_cst);

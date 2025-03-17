@@ -227,11 +227,27 @@ class FtthDismantleController extends Controller
 
     public function getDetailFtthDismantle(Request $request)
     {
+        $akses = Auth::user()->name;
         $assignId = $request->filAssignId;
         $datas = DB::table('data_ftth_dismantle_oris as d')
             ->where('d.id', $assignId)->first();
+
         $callsign_tims = DB::table('callsign_tims')->get();
-        $callsign_leads = DB::table('callsign_leads')->get();
+        $callsign_leads = DB::table('callsign_leads as clead')
+                ->leftJoin('employees as e','clead.leader_id', '=','e.nik_karyawan')
+                ->select('clead.id','clead.lead_callsign','clead.leader_id','e.nama_karyawan')->get();
+
+        $assignTim = DB::table('v_rekap_assign_tim')
+                    ->where('tgl_ikr', $datas->visit_date)->get();
+
+        $teknisiOn = DB::table('v_rekap_jadwal_data as vj')
+        ->leftJoin('employees as e', 'vj.nik_karyawan', '=', 'e.nik_karyawan')
+        ->whereDate('vj.tgl', $datas->visit_date) // Ganti where() dengan whereDate()
+        ->where('e.posisi', 'like', '%Teknisi%')
+        ->whereIn('vj.status', ["ON", "OD"])
+        ->select('vj.nik_karyawan', 'e.nama_karyawan')
+        ->orderBy('e.nama_karyawan')
+        ->get();
 
 
         $wo_no = DB::table('data_ftth_dismantle_oris')->where('id', $assignId)->value('no_wo'); // contoh WO No
@@ -257,6 +273,9 @@ class FtthDismantleController extends Controller
             'callsign_tims' => $callsign_tims,
             'callsign_leads' => $callsign_leads,
             'ftth_dismantle_material' => $ftth_dismantle_material,
+            'assignTim' => $assignTim,
+            'teknisiOn' => $teknisiOn,
+            'akses' => $akses
         ]);
 
     }
@@ -291,6 +310,7 @@ class FtthDismantleController extends Controller
                     'qty',
                     'sn',
                     'mac_address',
+                    'material_condition'
                 )
                 ->where('wo_no', $wo_no)
                 ->get();
@@ -313,7 +333,7 @@ class FtthDismantleController extends Controller
 
     public function updateFtthDismantle(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $aksesId = Auth::user()->id;
         $akses = Auth::user()->name;
         $id = $request->detId;
@@ -335,7 +355,7 @@ class FtthDismantleController extends Controller
             'slot_time_apk' => $request['slotTimeAPKShow'],
             'sesi' => $request['sesiShow'],
             'waktu_instalasi' => $request['waktuInstallation'],
-            'qty_material_in' => $request['materialIn'],
+            'material_in' => $request['materialIn'],
             'selisih_menit' => $request['statusCheckinMenit'],
             'status_checkin' => $request['statusCheckin'],
             'leader' => $request['leaderShow'],
@@ -349,6 +369,7 @@ class FtthDismantleController extends Controller
             'reschedule_date' => $request['tglReschedule'],
             'reschedule_time' => $request['jamReschedule'],
             'penagihan' => $request['rootCausePenagihan'],
+            'tgl_dismantle_port' => $request['tglDismantlePort'],
             'reason_status' => $request['reasonStatus'],
             'tgl_jam_reschedule' => $request['tglReschedule'],
             'weather' => $request['weatherShow'],
