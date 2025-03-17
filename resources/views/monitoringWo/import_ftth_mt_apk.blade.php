@@ -639,8 +639,8 @@
     @elseif (session('error'))
         Swal.fire({
             icon: "error",
-            title: "Gagal!",
-            text: "{{ session('error') }}",
+            title: "Gagal Import!",
+            text: '{{ session("error") }}',
             showConfirmButton: true,
             // timer: 2000
         });

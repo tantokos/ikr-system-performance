@@ -77,6 +77,21 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             }
         }
 
+        $ikrTime = $row['time'];
+        if (is_numeric($ikrTime)) {
+            $formattedTime = Date::excelToDateTimeObject($ikrTime)->format("H:i");
+        } else {
+            $parsedTime = \DateTime::createFromFormat('H:i', $ikrTime)
+                ?: \DateTime::createFromFormat('H.i', $ikrTime);
+                // ?: \DateTime::createFromFormat('Y-m-d', $ikrTime);
+
+            if ($parsedTime) {
+                $formattedTime = $parsedTime->format('H:i');
+            } else {
+                throw new \Exception("Format Slot time tidak valid: " . $ikrTime);
+            }
+        }        
+
         $woDate = Str::trim($row['wo_date']);
         if (is_numeric($woDate)) {
             $formatWoDate = Date::excelToDateTimeObject($woDate)->format("d-m-Y H:i");

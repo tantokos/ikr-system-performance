@@ -361,10 +361,10 @@ class MonitFtthIB_Controller extends Controller
         }
 
         $ftthIb = FtthIb::where('id', $id)->where('no_wo', $request->noWoShow)
-                                    ->where('tgl_ikr', $request->tglProgressShow);
+                                    ->where('tgl_ikr', $request->tglProgressStatusShow);
 
         $assignTim = DataAssignTim::where('no_wo_apk', $request->noWoShow)
-                                    ->where('tgl_ikr', $request->tglProgressShow)
+                                    ->where('tgl_ikr', $request->tglProgressStatusShow)
                                     ->first();
 
         if($request['LeadCallsignShow']) {
