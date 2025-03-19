@@ -206,8 +206,8 @@
                         <h2 class="accordion-header" id="headingMonitoringWO">
                             <button
                                 class="accordion-button nav-link {{ is_current_route('monitFtthIB') || is_current_route('monitFtthMT') || is_current_route('rekapProgressWO') || is_current_route('ftth-dismantle') || is_current_route('fttx-ib') ||
-                                is_current_route('importDataFtthIbApk') || is_current_route('importIbMaterial') || is_current_route('importDataFtthMtApk') || is_current_route('importDataMaterial') || is_current_route('importFtthDismantle') ||
-                                is_current_route('importMaterialDismantle') || is_current_route('fttx-mt') ? 'active' : '' }}"
+    is_current_route('importDataFtthIbApk') || is_current_route('importIbMaterial') || is_current_route('importDataFtthMtApk') || is_current_route('importDataMaterial') || is_current_route('importFtthDismantle') ||
+    is_current_route('importMaterialDismantle') || is_current_route('fttx-mt') ? 'active' : '' }}"
                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseMonitoringWO" aria-expanded="true"
                                 aria-controls="collapseMonitoringWO">
                                 <span class="nav-link-text ms-1">Monitoring WO</span>
@@ -429,6 +429,13 @@
                         </svg>
                     </div>
                     <span class="nav-link-text ms-1">Import Data Absensi</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link  {{ is_current_route('confirm-customer') ? 'active' : '' }}"
+                    href="{{ route('confirm-customer') }}">
+                    <span class="nav-link-text ms-1">Konfirmasi Customer</span>
                 </a>
             </li>
 
