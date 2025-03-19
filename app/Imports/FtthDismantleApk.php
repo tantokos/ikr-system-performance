@@ -36,7 +36,7 @@ class FtthDismantleApk implements ToModel, WithHeadingRow, WithValidation, WithC
             'cust_mobile' => $row['cust_mobile'],
             'address' => Str::title($row['address']),
             'area' => Str::title($row['area']),
-            'wo_type' => $row['wo_type'],
+            'wo_type' => strtoupper(str_replace("_"," ",$row['wo_type'])),
             'cause_code' => $row['cause_code'],
             'root_cause' => $row['root_cause'],
             'action_taken' => $row['action_taken'],

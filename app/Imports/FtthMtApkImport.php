@@ -45,7 +45,7 @@ class FtthMtApkImport implements ToModel, WithHeadingRow, WithChunkReading, With
             'cust_mobile' => $row['cust_mobile'],
             'address' => Str::title($row['address']),
             'area' => Str::title($row['area']),
-            'wo_type' => $row['wo_type'],
+            'wo_type' => strtoupper(str_replace("_"," ",$row['wo_type'])),            
             'cause_code' => trim($row['cause_code']),
             'root_cause' => trim($row['root_cause']),
             'action_taken' => trim($row['action_taken']),
