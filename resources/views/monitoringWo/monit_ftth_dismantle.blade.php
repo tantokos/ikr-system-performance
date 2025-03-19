@@ -186,7 +186,7 @@
                         <div class="card-body text-start p-3 w-100">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="w-100 text-center"
+                                    <div class="w-100 text-center">
                                         <p class="text-sm text-secondary mb-0" style="font-size: 0.65rem;">Total Dismantle</p>
                                         <h5 class="mb-2 font-weight-bold" id="totTotal"></h5>
                                     </div>
@@ -416,7 +416,7 @@
                 <div class="modal-dialog modal-xl" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Detail Progress WO FTTH Dismantle</h5>
+                            <h5 class="modal-title" id="titleModalIB">Detail Progress WO FTTH Dismantle</h5>
                             <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
                                 aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -1383,8 +1383,8 @@
             </div>
             {{-- End Modal Show Detail Tool --}}
 
-            @include('ftth-dismantle.modal-dismantle.detail-material')
-            @include('ftth-dismantle.modal-dismantle.edit-material')
+            @include('monitoringWo.modal-dismantle.detail-material')
+            @include('monitoringWo.modal-dismantle..edit-material')
 
 
             {{-- <x-app.footer /> --}}
@@ -1886,6 +1886,8 @@
                     selectTek2.val(dtDis.tek2_nik + "|" + dtDis.teknisi2 || "");
                     selectTek3.val(dtDis.tek3_nik + "|" + dtDis.teknisi3 || "");
                     selectTek4.val(dtDis.tek4_nik + "|" + dtDis.teknisi4 || "");
+
+                    $('#titleModalIB').html('Detail Progress WO FTTH Dismantle - ' + dtDis.no_wo + ' | ' + dtDis.cust_id + ' | ' + dtDis.nama_cust)
 
                     $('#detId').val(dtDis.id);
                     $('#id_material').val(dtDis.id_material);

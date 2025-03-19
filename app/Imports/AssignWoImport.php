@@ -77,6 +77,21 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             }
         }
 
+        $ikrTime = $row['time'];
+        if (is_numeric($ikrTime)) {
+            $formattedTime = Date::excelToDateTimeObject($ikrTime)->format("H:i");
+        } else {
+            $parsedTime = \DateTime::createFromFormat('H:i', $ikrTime)
+                ?: \DateTime::createFromFormat('H.i', $ikrTime);
+                // ?: \DateTime::createFromFormat('Y-m-d', $ikrTime);
+
+            if ($parsedTime) {
+                $formattedTime = $parsedTime->format('H:i');
+            } else {
+                throw new \Exception("Format Slot time tidak valid: " . $ikrTime);
+            }
+        }        
+
         $woDate = Str::trim($row['wo_date']);
         if (is_numeric($woDate)) {
             $formatWoDate = Date::excelToDateTimeObject($woDate)->format("d-m-Y H:i");
@@ -144,7 +159,8 @@ class AssignWoImport implements ToModel, WithHeadingRow, WithChunkReading, WithV
             // 'tgl_ikr' => ,
             'no_wo_apk' => Str::trim($row['wo_no']),
             'no_ticket_apk' => Str::trim($row['ticket_no']),
-            'wo_type_apk' => Str::title(str_replace("_"," ",$row['wo_type'])),
+            // 'wo_type_apk' => Str::title(str_replace("_"," ",$row['wo_type'])),
+            'wo_type_apk' => strtoupper(str_replace("_"," ",$row['wo_type'])) == "NEW INSTALLATION" ? "INSTALLATION" : strtoupper(str_replace("_"," ",$row['wo_type'])),
 
             'type_wo' => $this->get_data_id("type_wo", Str::trim(str_replace('_',' ', $row['wo_type'])), $formattedDate), // Str::upper($row['wo_type'])=="MAINTENANCE" || Str::upper($row['wo_type'])=="REMOVE DEVICE" || Str::upper($row['wo_type'])=="ADD DEVICE" || Str::upper($row['wo_type'])=="ADD / REMOVE DEVICE" || Str::upper($row['wo_type'])=="PENDING DEVICE" ? "FTTH Maintenance" : (Str::upper($row['wo_type'])=="NEW INSTALLATION" || Str::upper($row['wo_type'])=="RELOCATION" ? "FTTH New Installation" : (Str::upper($row['wo_type'])=="DISMANTLE" ? "FTTH Dismantle" : "-")),
             'area_cluster_apk' => Str::title(trim($area)),

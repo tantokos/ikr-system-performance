@@ -65,15 +65,18 @@ class ImportDataWoApkController extends Controller
             ]);
 
             $akses = Auth::user()->id . "|" . Auth::user()->name;
-
+            DB::beginTransaction();
             try {
                 Excel::import(new FtthMtApkImport($akses), request()->file('fileDataWO'));
 
+                DB::commit();
                 return back()->with(['success' => 'Import WO FTTH Maintenance berhasil.']);
 
             } catch (\Exception $e) {
-
-                return back()->with(['error' => 'Kesalahan: ' . $e->getMessage()]);
+                DB::rollBack();
+                $gagal = $e->getMessage();
+                return back()->with(['error' => "Kesalahan: " . $gagal]);
+                // return response()->json(['error' => 'Kesalahan: ' . $e->getMessage()]);
             }
 
 
