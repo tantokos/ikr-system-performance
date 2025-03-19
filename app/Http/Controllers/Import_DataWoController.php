@@ -364,7 +364,7 @@ class Import_DataWoController extends Controller
                             //     ->where('tgl_ikr', $data['tgl_ikr'])
                             //     ->first();
 
-                            $kdArea = substr($data->fat_code_apk,4,3);
+                            $kdArea = substr(trim($data->fat_code_apk),4,3);
                             $kategori_area = DB::table('list_fat')->where('branch', $data->branch)
                                             ->select('kategori_area')->distinct()->first();
 
@@ -383,7 +383,8 @@ class Import_DataWoController extends Controller
                                         'cust_phone_apk' => $data->cust_phone_apk,
                                         'cust_mobile_apk' => $data->cust_mobile_apk,
                                         'address_apk' => $data->address_apk,
-                                        'area_cluster_apk' => $data->area_cluster_apk,
+                                        // 'area_cluster_apk' => $data->area_cluster_apk,
+                                        'area_cluster_apk' => isset($areaSegmen->cluster) ? $areaSegmen->cluster : $data->area_cluster_apk,
                                         'wo_type_apk' => $data->wo_type_apk,
                                         'fat_code_apk' => $data->fat_code_apk,
                                         'fat_port_apk' => $data->fat_port_apk,
@@ -427,7 +428,7 @@ class Import_DataWoController extends Controller
                                             'type_maintenance' => $data->remarks_apk,
                                             'kode_fat' => $data->fat_code_apk,
                                             'kode_wilayah' => isset($kdArea) ? $kdArea: null,
-                                            'cluster' => isset($data->area_cluster_apk) ? $data->area_cluster_apk : $areaSegmen->cluster,
+                                            'cluster' => isset($areaSegmen->cluster) ? $areaSegmen->cluster : $data->area_cluster_apk,
                                             'kotamadya' => isset($areaSegmen->kotamadya) ? $areaSegmen->kotamadya : null,
                                             'kotamadya_penagihan' => isset($areaSegmen->kotamadya_penagihan) ? $areaSegmen->kotamadya_penagihan: null,
                                             'branch_id' => $data->branch_id,
@@ -469,6 +470,7 @@ class Import_DataWoController extends Controller
                                         $AssignBaruIB[] =  
                                         ['id' => $data->ib_id, 'no_wo' => $data->no_wo_apk,'tgl_ikr' => $data->tgl_ikr,
                                         'site' => isset($areaSegmen->site) ? $areaSegmen->site : null,
+                                        'site_penagihan' => isset($areaSegmen->site) ? $areaSegmen->site : null,
                                         'type_wo' => $data->type_wo,
                                         'wo_type_apk' => $data->wo_type_apk,
                                         
@@ -480,7 +482,7 @@ class Import_DataWoController extends Controller
                                         'kode_fat' => $data->fat_code_apk,
     
                                         'kode_wilayah' => isset($kdArea) ? $kdArea: null,
-                                        'cluster' => isset($data->area_cluster_apk) ? $data->area_cluster_apk : $areaSegmen->cluster,
+                                        'cluster' => isset($areaSegmen->cluster) ? $areaSegmen->cluster : $data->area_cluster_apk,
                                         'kotamadya' => isset($areaSegmen->kotamadya) ? $areaSegmen->kotamadya : null,
                                         'kotamadya_penagihan' => isset($areaSegmen->kotamadya_penagihan) ? $areaSegmen->kotamadya_penagihan: null,
     
@@ -529,7 +531,7 @@ class Import_DataWoController extends Controller
                                         'cust_id' => $data->cust_id_apk,
                                         'nama_cust' => $data->name_cust_apk,
                                         'cust_address1' => $data->address_apk,
-                                        'cluster' => $data->area_cluster_apk,
+                                        'cluster' => isset($areaSegmen->cluster) ? $areaSegmen->cluster : $data->area_cluster_apk,
                                         'wo_type_apk' => $data->wo_type_apk,
                                         'kode_fat' => $data->fat_code_apk,
                                         'port_fat' => $data->fat_port_apk,
@@ -596,7 +598,7 @@ class Import_DataWoController extends Controller
                             // $insertIB = DB::table('data_ftth_ib_oris')->insert($AssignBaruIB);
                             $insertIB = DB::table('data_ftth_ib_oris')->upsert(
                                 $AssignBaruIB, ['id'], 
-                                ['no_wo', 'tgl_ikr', 'site', 'type_wo', 'wo_type_apk', 'no_ticket', 'cust_id', 'nama_cust', 'cust_address1',
+                                ['no_wo', 'tgl_ikr', 'site', 'site_penagihan', 'type_wo', 'wo_type_apk', 'no_ticket', 'cust_id', 'nama_cust', 'cust_address1',
                                         'type_maintenance', 'kode_fat', 'kode_wilayah', 'cluster', 'kotamadya', 'kotamadya_penagihan', 'branch_id',
                                         'branch', 'leadcall_id', 'leadcall', 'slot_time_leader', 'slot_time_apk', 'sesi', 'callsign', 'callsign_id',
                                         'leader_id', 'leader', 'tek1_nik', 'tek2_nik', 'tek3_nik', 'tek4_nik', 'teknisi1', 'teknisi2', 'teknisi3', 'teknisi4',

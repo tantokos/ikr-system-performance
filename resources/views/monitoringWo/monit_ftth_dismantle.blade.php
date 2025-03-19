@@ -1383,8 +1383,8 @@
             </div>
             {{-- End Modal Show Detail Tool --}}
 
-            @include('ftth-dismantle.modal-dismantle.detail-material')
-            @include('ftth-dismantle.modal-dismantle.edit-material')
+            @include('monitoringWo.modal-dismantle.detail-material')
+            @include('monitoringWo.modal-dismantle..edit-material')
 
 
             {{-- <x-app.footer /> --}}

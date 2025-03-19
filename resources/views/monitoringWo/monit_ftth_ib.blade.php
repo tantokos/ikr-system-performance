@@ -472,7 +472,7 @@
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Detail Progress WO FTTH New Installation</h5>
+                        <h5 class="modal-title" id="titleModalIB">Detail Progress WO FTTH New Installation</h5>
                         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
                             aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -595,13 +595,7 @@
                                                     <textarea class="form-control form-control-sm" type="text" id="custAddressShow" name="custAddressShow"
                                                         style="border-color:#9ca0a7;" readonly></textarea>
                                                 </div>
-                                                <div class="form-group mb-1">
-                                                    <span class="text-xs">Area/Cluster</span>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        type="text" id="areaShow" name="areaShow"
-                                                        style="border-color:#9ca0a7;" readonly>
-                                                </div>
-
+                                                
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
@@ -628,16 +622,47 @@
                                             </div>
 
                                             <div class="col">
-                                                <div class="col form-group mb-1">
-                                                    <span class="text-xs">Branch</span>
-                                                    <input class="form-control form-control-sm" type="text"
-                                                        id="branchShow" name="branchShow"
-                                                        style="border-color:#9ca0a7;" readonly>
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Branch</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="branchShow" name="branchShow"
+                                                                style="border-color:#9ca0a7;" readonly>
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Kotamadya</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="kotamadyaShow" name="kotamadyaShow"
+                                                                style="border-color:#9ca0a7;" readonly>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
+                                                            <span class="text-xs">Area/Cluster</span>
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                type="text" id="areaShow" name="areaShow"
+                                                                style="border-color:#9ca0a7;">
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
+                                                            <span class="text-xs">Kotamadya Penagihan</span>
+                                                            <input class="form-control form-control-sm" type="text"
+                                                                id="kotaPenagihanShow" name="kotaPenagihanShow"
+                                                                style="border-color:#9ca0a7;" readonly>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                                
+
+                                                <div class="form-group mb-1">
+                                                    <div class="row">
+                                                        <div class="col form-group mb-1" hidden>
                                                             <span class="text-xs">Tanggal Progress</span>
                                                             <input class="form-control form-control-sm" type="date"
                                                                 value="{{ date('Y-m-d') }}" id="tglProgressShow"
@@ -645,11 +670,26 @@
                                                         </div>
 
                                                         <div class="col form-group mb-1">
+                                                            <span class="text-xs">Site Penagihan</span>
+                                                            <select class="form-control form-control-sm" type="text"
+                                                                value="" id="sitePenagihan"
+                                                                name="sitePenagihan" style="border-color:#9ca0a7;">
+                                                                <option value=""></option>
+                                                                <option value="Retail">Retail</option>
+                                                                <option value="Apartemen">Apartemen</option>
+                                                                <option value="Underground">Underground</option>
+                                                                <option value="Retail / Underground Kalau Perumahan Grand Cibubur">Retail / Underground Kalau Perumahan Grand Cibubur</option>
+                                                                <option value="Retail / Underground Kalau Perumahan Anabuki">Retail / Underground Kalau Perumahan Anabuki</option>
+                                                                <option value="Retail / Underground Kalau Perumahan Esense Park">Retail / Underground Kalau Perumahan Esense Park</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col form-group mb-1">
                                                             <span class="text-xs">Sesi</span>
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="sesiShow" name="sesiShow"
                                                                 style="border-color:#9ca0a7;"
-                                                                placeholder="Isi Callsign Tim" readonly>
+                                                                placeholder="Isi Callsign Tim">
                                                                 <option value="Regular">Regular</option>
                                                                 <option value="Batch 1">Batch 1</option>
                                                                 <option value="Batch 2">Batch 2</option>
@@ -669,42 +709,15 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Slot Time APK</span>
+                                                            <span class="text-xs">Callsign Tim</span>
                                                             <select class="form-control form-control-sm"
-                                                                type="text" id="slotTimeAPKShow"
-                                                                name="slotTimeAPKShow" style="border-color:#9ca0a7;" readonly>
-                                                                <option value="">Pilih Slot Time</option>
-                                                                <option value="09:00">09:00</option>
-                                                                <option value="09:30">09:30</option>
-                                                                <option value="10:00">10:00</option>
-                                                                <option value="10:30">10:30</option>
-                                                                <option value="11:00">11:00</option>
-                                                                <option value="11:30">11:30</option>
-                                                                <option value="12:00">12:00</option>
-                                                                <option value="12:30">12:30</option>
-                                                                <option value="13:00">13:00</option>
-                                                                <option value="13:30">13:30</option>
-                                                                <option value="14:00">14:00</option>
-                                                                <option value="14:30">14:30</option>
-                                                                <option value="15:00">15:00</option>
-                                                                <option value="15:30">15:30</option>
-                                                                <option value="16:00">16:00</option>
-                                                                <option value="16:30">16:30</option>
-                                                                <option value="17:00">17:00</option>
-                                                                <option value="17:30">17:30</option>
-                                                                <option value="18:00">18:00</option>
-                                                                <option value="18:30">18:30</option>
-                                                                <option value="19:00">19:00</option>
-                                                                <option value="19:30">19:30</option>
-                                                                <option value="20:00">20:00</option>
+                                                                id="callsignTimidShow" name="callsignTimidShow"
+                                                                style="border-color:#9ca0a7;">
+                                                                <option value="">Pilih Callsign Tim</option>
                                                             </select>
+                                                            <input type="hidden" id="callsignTimShow"
+                                                                name="callsignTimShow">
                                                         </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-1">
-                                                    <div class="row">
-
 
                                                         <div class="col form-group mb-1">
                                                             <span class="text-xs">Lead Callsign | Leader</span>
@@ -725,20 +738,6 @@
                                                 </div>
 
                                                 <div class="form-group mb-1">
-                                                    <div class="row">
-
-
-                                                        <div class="col form-group mb-1">
-                                                            <span class="text-xs">Callsign Tim</span>
-                                                            <select class="form-control form-control-sm"
-                                                                id="callsignTimidShow" name="callsignTimidShow"
-                                                                style="border-color:#9ca0a7;">
-                                                                <option value="">Pilih Callsign Tim</option>
-                                                            </select>
-                                                            <input type="hidden" id="callsignTimShow"
-                                                                name="callsignTimShow">
-                                                        </div>
-                                                    </div>
 
                                                     <div class="form-group mb-1">
                                                         <span class="text-xs">Teknisi 1</span>
@@ -2134,6 +2133,7 @@
                     selectTek3.val(dtDis.tek3_nik + "|" + dtDis.teknisi3 || "");
                     selectTek4.val(dtDis.tek4_nik + "|" + dtDis.teknisi4 || "");
 
+                    $('#titleModalIB').html('Detail Progress WO FTTH New Installation - ' + dtDis.no_wo + ' | ' + dtDis.cust_id + ' | ' + dtDis.nama_cust)
 
                     $('#detId').val(dtDis.id)
                     $('#noWoShow').val(dtDis.no_wo);
@@ -2146,8 +2146,7 @@
                     // $('#custPhoneShow').val(dtDis.cust_phone)
 
                     // $('#custMobileShow').val(dtDis.cust_mobile);
-                    $('#custAddressShow').val(toTitleCase(dtDis.cust_address1 || "" ));
-                    $('#areaShow').val(toTitleCase(dtDis.cluster || "" ));
+                    $('#custAddressShow').val(toTitleCase(dtDis.cust_address1 || "" ));                    
                     // $('#ikrDateApkShow').val(dtDis.ikr_date);
                     $('#timeApkShow').val(dtDis.time);
                     $('#fatCodeShow').val(dtDis.kode_fat);
@@ -2156,6 +2155,11 @@
                     $('#remarksShow').val(toTitleCase(dtDis.type_maintenance || "" ));
 
                     $('#branchShow').val(dtDis.branch);
+                    $('#kotamadyaShow').val(dtDis.kotamadya);
+                    $('#areaShow').val(toTitleCase(dtDis.cluster || "" ));
+                    $('#kotaPenagihanShow').val(dtDis.kotamadya_penagihan);
+                    $('#sitePenagihan').val(dtDis.site_penagihan);
+
                     $('#tglProgressStatusShow').val(dtDis.tgl_ikr);
 
                     $('#sesiShow').val(toTitleCase(dtDis.sesi || ""));

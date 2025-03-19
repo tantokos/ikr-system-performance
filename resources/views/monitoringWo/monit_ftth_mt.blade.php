@@ -613,27 +613,22 @@
                                                 <div class="form-group mb-1">
                                                     <div class="row">
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">WO Type</span>
+                                                            <span class="text-xs">WO Type APK</span>
                                                             <input class="form-control form-control-sm" type="text"
                                                                 id="woTypeShow" name="woTypeShow"
                                                                 style="border-color:#9ca0a7;" readonly>
                                                         </div>
                                                         <div class="col form-group mb-1">
-                                                            <span class="text-xs">Type</span>
+                                                            <span class="text-xs">WO Type</span>
                                                             <select class="form-control form-control-sm"
                                                                 type="text" id="jenisWoShow" name="jenisWoShow"
-                                                                style="border-color:#9ca0a7;" readonly>
-                                                                <option value="FTTH New Installation">FTTH New
-                                                                    Installation
-                                                                </option>
-                                                                <option value="FTTH Maintenance">FTTH Maintenance
-                                                                </option>
+                                                                style="border-color:#9ca0a7;">
+                                                                {{-- <option value="FTTH New Installation">FTTH New Installation</option> --}}
+                                                                <option value="FTTH Maintenance">FTTH Maintenance</option>
+                                                                <option value="Additional">Additional</option>
                                                                 <option value="Dismantle">Dismantle</option>
-                                                                <option value="FTTX/B New Installation">FTTX/B New
-                                                                    Installation
-                                                                </option>
-                                                                <option value="FTTX/B Maintenance">FTTX/B Maintenance
-                                                                </option>
+                                                                {{-- <option value="FTTX/B New Installation">FTTX/B New Installation</option> --}}
+                                                                {{-- <option value="FTTX/B Maintenance">FTTX/B Maintenance</option> --}}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -727,7 +722,9 @@
                                                                 <option value="Retail">Retail</option>
                                                                 <option value="Apartemen">Apartemen</option>
                                                                 <option value="Underground">Underground</option>
-                                                                <option value="Retail / Underground">Retail / Underground</option>
+                                                                <option value="Retail / Underground Kalau Perumahan Grand Cibubur">Retail / Underground Kalau Perumahan Grand Cibubur</option>
+                                                                <option value="Retail / Underground Kalau Perumahan Anabuki">Retail / Underground Kalau Perumahan Anabuki</option>
+                                                                <option value="Retail / Underground Kalau Perumahan Esense Park">Retail / Underground Kalau Perumahan Esense Park</option>
                                                             </select>
                                                         </div>
 
@@ -2174,7 +2171,7 @@
         })
 
         $(document).on('change','#statusWo', function(e) {
-            console.log($(this).val());
+            // console.log($(this).val());
             $('#causeCode').val('');
             $('#rootCause').val('');
             $('#actionTaken').val('');
@@ -2196,7 +2193,16 @@
                 )
             })
 
-
+            console.log('statusWo : , ', $('#statusWo').val() )
+            if ($('#statusWo').val() === "Done") {
+                if($('#woTypeShow').val().toUpperCase() === "REMOVE DEVICE") {
+                    $('#jenisWoShow').val("Dismantle"); //1
+                } else if($('#woTypeShow').val().toUpperCase() === "ADD DEVICE" || $('#woTypeShow').val().toUpperCase() === "PENDING DEVICE") {
+                    $('#jenisWoShow').val("Additional"); //1
+                }                
+            } else {
+                $('#jenisWoShow').val("FTTH Maintenance"); //1
+            }
         })
 
         function isiCousecode() {
@@ -2214,7 +2220,7 @@
                 $('#causeCodeList').append(
                     `<option value="${cc.couse_code}">${cc.couse_code}</option>`
                 )
-            })
+            })            
         }
 
         function isiDispatch() {
