@@ -598,6 +598,7 @@ class Import_DataWoController extends Controller
                         if(count($AssignBaruIB)>0) {
                             // $insertIB = DB::table('data_ftth_ib_oris')->insert($AssignBaruIB);
                             $insertIB = DB::table('data_ftth_ib_oris')->upsert(
+
                                 $AssignBaruIB, ['id'],
                                 ['no_wo', 'tgl_ikr', 'site', 'site_penagihan', 'type_wo', 'wo_type_apk', 'no_ticket', 'cust_id', 'nama_cust', 'cust_address1',
                                         'type_maintenance', 'kode_fat', 'kode_wilayah', 'cluster', 'kotamadya', 'kotamadya_penagihan', 'branch_id',
