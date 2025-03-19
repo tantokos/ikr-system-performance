@@ -8,6 +8,7 @@ use App\Http\Controllers\FtthDismantleController;
 use App\Http\Controllers\FTTX\ImportAssignTeamController;
 use App\Http\Controllers\ImportDataMaterialController;
 use App\Http\Controllers\ImportIbMaterialController;
+use App\Http\Controllers\WhatsappController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
@@ -173,6 +174,11 @@ Route::get('/getTabelAssignTim', [AssignTimController::class, 'getTabelAssignTim
 Route::get('/getDetailAssign', [AssignTimController::class, 'getDetailAssign'])->name('getDetailAssign')->middleware('auth');
 Route::get('/getLeadCallsignAssign', [AssignTimController::class, 'getLeadCallsignAssign'])->name('getLeadCallsignAssign')->middleware('auth');
 Route::get('/getTeknisi', [AssignTimController::class, 'getTeknisi'])->name('getTeknisi')->middleware('auth');
+
+Route::get('/confirm-customer', [WhatsappController::class, 'index'])->name('confirm-customer')->middleware('auth');
+Route::get('/send-broadcast', [WhatsappController::class, 'sendBroadcast'])->name('send-broadcast')->middleware('auth');
+Route::get('/get-data-customer', [WhatsappController::class, 'getDataCustomer'])->name('getDataCustomer')->middleware('auth');
+
 
 Route::post('/simpanSignTim', [AssignTimController::class, 'simpanSignTim'])->name('simpanSignTim')->middleware('auth');
 Route::post('/updateSignTim', [AssignTimController::class, 'updateSignTim'])->name('updateSignTim')->middleware('auth');

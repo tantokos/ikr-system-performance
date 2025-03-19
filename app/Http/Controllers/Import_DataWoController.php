@@ -127,14 +127,14 @@ class Import_DataWoController extends Controller
 
             // $dtJadwal = DB::table('employees as e')->select('vj.tgl','vj.nik_karyawan','e.nama_karyawan')
             //                     ->leftJoin('v_rekap_jadwal_data as vj', 'e.nik_karyawan','=','vj.nik_karyawan')
-            //                     ->where('e.status_active','=','Aktif')                                
+            //                     ->where('e.status_active','=','Aktif')
             //                     ->whereIn('vj.status', ["ON","OD"])->get();
 
                                 // ->where('vj.tgl', $tanggal)
                                 // ->first();
             $dtKry = DB::table('employees as e')->select('e.nik_karyawan','e.nama_karyawan')
                         ->where('e.status_active','=','Aktif')
-                        ->whereRaw('(e.posisi like "%Teknisi%" OR e.posisi like "%Leader%")')->get();                                
+                        ->whereRaw('(e.posisi like "%Teknisi%" OR e.posisi like "%Leader%")')->get();
 
             $dtBranch = DB::table('branches')->select('id','nama_branch')->get();
             $dtCallsignTim = DB::table('v_detail_callsign_tim')->get();
@@ -145,7 +145,7 @@ class Import_DataWoController extends Controller
 
             $dttp_wo = DB::table('type_wo')->select('type_wo', 'type_wo_apk')->get();
             // dd($dttp_wo);
-            $dtcluster = DB::table('list_fat')->select('cluster','kode_area','kategori_area')->get();            
+            $dtcluster = DB::table('list_fat')->select('cluster','kode_area','kategori_area')->get();
 
             DB::beginTransaction();
             
@@ -339,7 +339,7 @@ class Import_DataWoController extends Controller
                     ->get()->toArray();
 
                 //get data callsign tim dari data import assign tim, sebagai acuan untuk update callsign tim di data assign tim
-                                
+
                 // dd($dtImportAssign, $dtImportCallsign);
 
                 if (count($dtImportAssign) > 0) {
@@ -370,7 +370,7 @@ class Import_DataWoController extends Controller
 
                             $areaSegmen = DB::table('list_fat')->where('kategori_area', $kategori_area->kategori_area)
                                         ->where('kode_area', $kdArea)
-                                        ->where('branch', $data->branch)->first();                           
+                                        ->where('branch', $data->branch)->first();
 
                             array_push($AssignBaru, ['id' => $data->assign_id, 'no_wo_apk' => $data->no_wo_apk, 'tgl_ikr' => $data->tgl_ikr,
                                         'batch_wo' => $data->batch_wo,
@@ -418,8 +418,8 @@ class Import_DataWoController extends Controller
 
                                 if ($data->type_wo == "FTTH Maintenance") {
                                     // DB::table('data_ftth_mt_oris')->insert([
-                                        $AssignBaruMT[] = ['id' => $data->mt_id, 'no_wo' => $data->no_wo_apk, 'tgl_ikr' => $data->tgl_ikr,                                            
-                                            'type_wo' => $data->type_wo,                                        
+                                        $AssignBaruMT[] = ['id' => $data->mt_id, 'no_wo' => $data->no_wo_apk, 'tgl_ikr' => $data->tgl_ikr,
+                                            'type_wo' => $data->type_wo,
                                             'no_ticket' => $data->no_ticket_apk,
                                             'cust_id' => $data->cust_id_apk,
                                             'nama_cust' => $data->name_cust_apk,
@@ -432,7 +432,7 @@ class Import_DataWoController extends Controller
                                             'kotamadya' => isset($areaSegmen->kotamadya) ? $areaSegmen->kotamadya : null,
                                             'kotamadya_penagihan' => isset($areaSegmen->kotamadya_penagihan) ? $areaSegmen->kotamadya_penagihan: null,
                                             'branch_id' => $data->branch_id,
-                                            'branch' => $data->branch,                                        
+                                            'branch' => $data->branch,
                                             'slot_time_leader' => $data->slot_time,
                                             'slot_time_apk' => $data->time_apk,
                                             'sesi' => $data->batch_wo,
@@ -467,30 +467,31 @@ class Import_DataWoController extends Controller
                                         ];
                                 } elseif ($data->type_wo == 'FTTH New Installation') {
                                     // DB::table('data_ftth_ib_oris')->insert([
-                                        $AssignBaruIB[] =  
+                                        $AssignBaruIB[] =
                                         ['id' => $data->ib_id, 'no_wo' => $data->no_wo_apk,'tgl_ikr' => $data->tgl_ikr,
                                         'site' => isset($areaSegmen->site) ? $areaSegmen->site : null,
                                         'site_penagihan' => isset($areaSegmen->site) ? $areaSegmen->site : null,
                                         'type_wo' => $data->type_wo,
                                         'wo_type_apk' => $data->wo_type_apk,
-                                        
+
                                         'no_ticket' => $data->no_ticket_apk,
                                         'cust_id' => $data->cust_id_apk,
                                         'nama_cust' => $data->name_cust_apk,
+                                        'cust_phone_apk' => $data->cust_phone_apk,
                                         'cust_address1' => $data->address_apk,
                                         'type_maintenance' => $data->remarks_apk,
                                         'kode_fat' => $data->fat_code_apk,
-    
+
                                         'kode_wilayah' => isset($kdArea) ? $kdArea: null,
                                         'cluster' => isset($areaSegmen->cluster) ? $areaSegmen->cluster : $data->area_cluster_apk,
                                         'kotamadya' => isset($areaSegmen->kotamadya) ? $areaSegmen->kotamadya : null,
                                         'kotamadya_penagihan' => isset($areaSegmen->kotamadya_penagihan) ? $areaSegmen->kotamadya_penagihan: null,
-    
+
                                         'branch_id' => $data->branch_id,
                                         'branch' => $data->branch,
                                         'leadcall_id' => $data->leadcall_id,
                                         'leadcall' => $data->leadcall,
-                                        
+
                                         'slot_time_leader' => $data->slot_time,
                                         'slot_time_apk' => $data->time_apk,
                                         'sesi' => $data->batch_wo,
@@ -516,16 +517,16 @@ class Import_DataWoController extends Controller
                                         'hasil_cek_telebot' => $data->status_telebot,
                                         "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
                                         "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()]
-                                        
+
                                     ];
                                 } elseif ($data->type_wo == 'FTTH Dismantle') {
                                     // DB::table('data_ftth_dismantle_oris')->insert([
-                                        $AssignBaruDis[] = 
+                                        $AssignBaruDis[] =
                                         ['id' => $data->dis_id, 'no_wo' => $data->no_wo_apk, 'visit_date' => $data->tgl_ikr,
                                         'sesi' => $data->batch_wo,
-                                        
+
                                         'type_wo' => $data->type_wo,
-                                        
+
                                         'no_ticket' => $data->no_ticket_apk,
                                         'wo_date' => $data->wo_date_apk,
                                         'cust_id' => $data->cust_id_apk,
@@ -558,15 +559,15 @@ class Import_DataWoController extends Controller
                                         'hasil_cek_telebot' => $data->status_telebot,
                                         "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
                                         "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()]
-                                        
+
                                     ];
                                 }
-                            // }                
+                            // }
                         }
 
                         // update / insert data assign wo
                         if(count($AssignBaru)>0) {
-                            
+
                             // $insertAssign = DB::table('data_assign_tims')->insert($AssignBaru);
                             $insertAssign = DB::table('data_assign_tims')->upsert(
                                 $AssignBaru, ['id'],['no_wo_apk', 'tgl_ikr', 'batch_wo', 'slot_time', 'type_wo',
@@ -578,7 +579,7 @@ class Import_DataWoController extends Controller
                                         'tek4_nik', 'teknisi4', 'login_id', 'login', 'cek_telebot', 'status_telebot', 'created_at', 'updated_at'
                                 ]);
                         }
-                        
+
                         if(count($AssignBaruMT)>0) {
                             // $insertMt = DB::table('data_ftth_mt_oris')->insert($AssignBaruMT);
                             $insertMt = DB::table('data_ftth_mt_oris')->upsert(
@@ -597,6 +598,7 @@ class Import_DataWoController extends Controller
                         if(count($AssignBaruIB)>0) {
                             // $insertIB = DB::table('data_ftth_ib_oris')->insert($AssignBaruIB);
                             $insertIB = DB::table('data_ftth_ib_oris')->upsert(
+
                                 $AssignBaruIB, ['id'], 
                                 ['no_wo', 'tgl_ikr', 'site', 'site_penagihan', 'type_wo', 'wo_type_apk', 'no_ticket', 'cust_id', 'nama_cust', 'cust_address1',
                                         'type_maintenance', 'kode_fat', 'kode_wilayah', 'cluster', 'kotamadya', 'kotamadya_penagihan', 'branch_id',
@@ -645,7 +647,7 @@ class Import_DataWoController extends Controller
 
                             foreach($dtImportCallsign as $data) {
                                 array_push($callsignBaru, [
-                                    'id' => $data->id, 
+                                    'id' => $data->id,
                                     'no_wo_apk' => $data->no_wo_apk,
                                     'cust_id_apk' => $data->cust_id_apk,
                                     'name_cust_apk' => $data->name_cust_apk,
@@ -672,7 +674,7 @@ class Import_DataWoController extends Controller
                                     'login_id' => $data->login_id,
                                     'login' => $data->login]);
                             }
-                            
+
 
                             // dd($callsignBaru);
                             // foreach ($dtImportCallsign as $impCallsign ) {
@@ -702,12 +704,12 @@ class Import_DataWoController extends Controller
                         ->distinct()->get()->toArray();
 
                         // dd($dtImportCallsignMt);
-                        
+
                         if(count($dtImportCallsignMt)>0) {
 
                             foreach($dtImportCallsignMt as $data) {
                                 array_push($callsignBaruMT, [
-                                    'id' => $data->id, 
+                                    'id' => $data->id,
                                     'no_wo' => $data->no_wo_apk,
                                     'cust_id' => $data->cust_id_apk,
                                     'nama_cust' => $data->name_cust_apk,
@@ -731,7 +733,7 @@ class Import_DataWoController extends Controller
                                     'teknisi3' => $data->teknisi3,
                                     'tek4_nik' => $data->tek4_nik,
                                     'teknisi4' => $data->teknisi4,
-                                    // 'login_id' => $data->login_id, 
+                                    // 'login_id' => $data->login_id,
                                     'login' => $data->login]);
                             }
 
@@ -758,14 +760,14 @@ class Import_DataWoController extends Controller
                             'iat.tek3_nik', 'iat.teknisi3', 'iat.tek4_nik', 'iat.teknisi4', 'iat.login_id', 'iat.login'
                         )
                         ->where('iat.login', $akses)
-                        ->distinct()->get()->toArray();                        
+                        ->distinct()->get()->toArray();
 
                         // dd($dtImportCallsignIb);
                         if(count($dtImportCallsignIb)>0) {
 
                             foreach($dtImportCallsignIb as $data) {
                                 array_push($callsignBaruIB, [
-                                    'id' => $data->id, 
+                                    'id' => $data->id,
                                     'no_wo' => $data->no_wo_apk,
                                     'cust_id' => $data->cust_id_apk,
                                     'nama_cust' => $data->name_cust_apk,
@@ -789,7 +791,7 @@ class Import_DataWoController extends Controller
                                     'teknisi3' => $data->teknisi3,
                                     'tek4_nik' => $data->tek4_nik,
                                     'teknisi4' => $data->teknisi4,
-                                    // 'login_id' => $data->login_id, 
+                                    // 'login_id' => $data->login_id,
                                     'login' => $data->login]);
                             }
 
@@ -820,7 +822,7 @@ class Import_DataWoController extends Controller
 
                             foreach($dtImportCallsignIb as $data) {
                                 array_push($callsignBaruIB, [
-                                    'id' => $data->id, 
+                                    'id' => $data->id,
                                     'no_wo' => $data->no_wo_apk,
                                     'cust_id' => $data->cust_id_apk,
                                     'nama_cust' => $data->name_cust_apk,
@@ -844,7 +846,7 @@ class Import_DataWoController extends Controller
                                     'teknisi3' => $data->teknisi3,
                                     'tek4_nik' => $data->tek4_nik,
                                     'teknisi4' => $data->teknisi4,
-                                    // 'login_id' => $data->login_id, 
+                                    // 'login_id' => $data->login_id,
                                     'login' => $data->login]);
                             }
 
