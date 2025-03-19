@@ -362,9 +362,15 @@
                         </h2>
                         <div id="collapseToolsIKR"
                             class="accordion-collapse collapse
-                            {{ is_current_route('dataTool') || is_current_route('distribusiTool') || is_current_route('dataKembaliTool') || is_current_route('dataKembaliToolGA') || is_current_route('laporanTool') || is_current_route('disposalTool') ? 'show' : '' }}"
+                            {{ is_current_route('dataTool') || is_current_route('distribusiTool') || is_current_route('dataKembaliTool') || is_current_route('dataKembaliToolGA') || is_current_route('laporanTool') || is_current_route('disposalTool') || is_current_route('poTool') ? 'show' : '' }}"
                             aria-labelledby="headingToolsIKR" data-bs-parent="#toolsIKRAccordion">
                             <div class="accordion-body p-0">
+                                <!-- Po Tools -->
+                                <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('poTool') ? 'custom-active' : '' }}"
+                                    href="{{ route('poTool') }}">
+                                    <span class="nav-link-text ms-1">PO Tools IKR</span>
+                                </a>
+
                                 <!-- Data Tools -->
                                 <a class="nav-link position-relative ms-3 ps-3 py-2 {{ is_current_route('dataTool') ? 'custom-active' : '' }}"
                                     href="{{ route('dataTool') }}">

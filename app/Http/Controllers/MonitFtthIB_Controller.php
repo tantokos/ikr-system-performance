@@ -251,7 +251,7 @@ class MonitFtthIB_Controller extends Controller
         $teknisiOn = DB::table('v_rekap_jadwal_data as vj')
         ->leftJoin('employees as e', 'vj.nik_karyawan', '=', 'e.nik_karyawan')
         ->whereDate('vj.tgl', $datas->tgl_ikr) // Ganti where() dengan whereDate()
-        ->where('e.posisi', 'like', '%Teknisi%')
+        // ->where('e.posisi', 'like', '%Teknisi%')
         ->whereIn('vj.status', ["ON", "OD"])
         ->select('vj.nik_karyawan', 'e.nama_karyawan')
         ->orderBy('e.nama_karyawan')
@@ -361,10 +361,10 @@ class MonitFtthIB_Controller extends Controller
         }
 
         $ftthIb = FtthIb::where('id', $id)->where('no_wo', $request->noWoShow)
-                                    ->where('tgl_ikr', $request->tglProgressShow);
+                                    ->where('tgl_ikr', $request->tglProgressStatusShow);
 
         $assignTim = DataAssignTim::where('no_wo_apk', $request->noWoShow)
-                                    ->where('tgl_ikr', $request->tglProgressShow)
+                                    ->where('tgl_ikr', $request->tglProgressStatusShow)
                                     ->first();
 
         if($request['LeadCallsignShow']) {
@@ -440,6 +440,10 @@ class MonitFtthIB_Controller extends Controller
             'port_fat' => $request['portFATProgress'],
             'cluster' => $request['areaShow'],
             'branch' => $request['branchShow'],
+            'kotamadya' => $request['kotamadyaShow'],
+            'kotamadya_penagihan' => $request['kotaPenagihanShow'],
+            'site' => $request['sitePenagihan'],
+            'site_penagihan' => $request['sitePenagihan'],
             'penagihan' => $request['rootCausePenagihan'],
             // 'tgl_ikr' => $request['tglProgressShow'],
             'slot_time_leader' => $request['slotTimeAPKShow'],

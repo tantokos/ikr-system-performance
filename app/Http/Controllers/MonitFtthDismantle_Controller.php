@@ -11,8 +11,9 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 
-class FtthDismantleController extends Controller
+class MonitFtthDismantle_Controller extends Controller
 {
+    
     public function index(Request $request)
     {
         $areaFill = $request->areaFill;
@@ -36,7 +37,7 @@ class FtthDismantleController extends Controller
         $penagihanDismantle = DB::table('root_couse_penagihan')->select('status','penagihan')
                     ->where('type_wo','=','Dismantle FTTH')->where('penagihan','<>','total_done')->get();
 
-        return view('ftth-dismantle.index', compact(
+        return view('monitoringWo.monit_ftth_dismantle' , compact(
             'branches',
             'leader',
             'callTim',

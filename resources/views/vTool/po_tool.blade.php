@@ -9,7 +9,7 @@
                         <div class="full-background" style="background: linear-gradient(to right, #112133, #21416d);">
                         </div>
                         <div class="card-body text-start p-3 w-100">
-                            <h4 class="text-white mb-2">Data Tool IKR</h4>
+                            <h4 class="text-white mb-2">Data PO Tool IKR</h4>
                             <p class="mb-1 font-weight-semibold">
                                 PT. Mitra Sinergi Telematika.
                             </p>
@@ -171,7 +171,7 @@
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div>
-                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data Tool</span>
+                                    <h6 class="font-weight-semibold text-lg mb-0"> <span id="titleLead">Data PO Tool</span>
                                     </h6>
                                     {{-- <p class="text-sm" id="absensiNameMonthly">Employee Name</p> --}}
                                 </div>
@@ -181,7 +181,7 @@
                                         @if ($can !="GA/ACC")
                                             <button type="button"
                                                 class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"
-                                                data-bs-toggle="modal" data-bs-target="#tambahTool">
+                                                data-bs-toggle="modal" data-bs-target="#tambahPOTool">
                                                 <span class="btn-inner--icon">
                                                     <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
                                                         viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
@@ -190,7 +190,7 @@
                                                         </path>
                                                     </svg>
                                                 </span>
-                                                <span class="btn-inner--text">Tambah Tool Baru</span>
+                                                <span class="btn-inner--text">Tambah PO Baru</span>
                                             </button>
                                         @endif
                                     {{-- @endif --}}
@@ -239,29 +239,106 @@
         </div>
 
         {{-- Modal Tambah Data Tool --}}
-        <div class="modal fade" id="tambahTool" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" id="tambahPOTool" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">>
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Tambah Data Tool</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Tambah Data PO Tool</h5>
                         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('simpanTool') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('simpanPoTool') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col">
                                     <div class="row">
-                                        <div class="col">
-                                            <div class="form-group mb-1">
+                                        {{-- <div class="col"> --}}
+                                            {{-- <div class="row"> --}}
+                                                <div class="col form-group mb-1">
+                                                    <span class="text-xs">Nomor PO</span>
+                                                    <input class="form-control form-control-sm" type="text"
+                                                        id="noPengajuan" name="noPengajuan" value="{{ old('noPengajuan') }}"
+                                                        style="width: 100%; border-color:#9ca0a7;text-transform:uppercase;" required>
+                                                    @error('noPengajuan')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+
+                                                <div class=" col form-group mb-1">
+                                                    <span class="text-xs">Tanggal PO</span>
+                                                    <input class="form-control form-control-sm" type="date"
+                                                        id="tgl" name="tgl" value="{{ date('Y-m-d') }}"
+                                                        style="width: 100%; border-color:#9ca0a7;">
+                                                </div>
+                                            {{-- </div> --}}
+
+                                            {{-- <div class="row"> --}}
+                                                {{-- <div class="col form-group mb-1">
+                                                    <span class="text-xs">Cost Center</span>
+                                                    <select class="form-control form-control-sm" id="costCenter"
+                                                        name="costCenter" style="width: 100%; border-color:#9ca0a7;"
+                                                        value="{{ old('costCenter') }}" required>
+                                                        <option value="">Pilih Cost Center</option>
+                                                        @foreach ($cost as $cc)
+                                                            <option value="{{ $cc->cost_center }}">
+                                                                {{ $cc->cost_center }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div> --}}
+
+                                                <div class="col form-group mb-1">
+                                                    <span class="text-xs">Branch</span>
+                                                    <select class="form-control form-control-sm" id="branch"
+                                                        name="branch" style="width: 100%; border-color:#9ca0a7;"
+                                                        value="{{ old('branch') }}" required>
+                                                        <option value="">Pilih Branch</option>
+                                                        @foreach ($branch as $b)
+                                                            <option value="{{ $b->nama_branch }}">{{ $b->nama_branch }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            {{-- </div> --}}
+
+                                            <div class="col form-group mb-1">
+                                                <span class="text-xs">PIC Input</span>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    id="picInput" name="picInput" value="{{ $akses }}"
+                                                    style="width: 100%; border-color:#9ca0a7;" readonly>
+                                            </div>
+
+                                            {{-- <div class="row">
+                                                <div class="col form-group mb-1">
+                                                    <span class="text-xs">Category</span>
+                                                    <select class="form-control form-control-sm" id="category"
+                                                        name="category" style="border-color:#9ca0a7;"
+                                                        value="{{ old('category') }}" required>
+                                                        <option value="">Pilih Category</option>
+                                                        <option value="Barang">Barang</option>
+                                                        <option value="Jasa">Jasa</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col form-group mb-1">
+
+                                                </div>
+                                            </div> --}}
+
+
+                                        {{-- </div> --}}
+                                    </div>
+                                    <hr style="border: 1px solid">
+
+                                    <div class="row">
+                                        {{-- <div class="col"> --}}
+                                            <div class="col form-group mb-1">
                                                 {{-- <label class="form-control-label">Nik Karyawan</label> --}}
                                                 <span class="text-xs">Nama Tool</span>
                                                 <select class="form-control form-control-sm namaTool"
-                                                    id="namaTool" name="namaTool" style="border-color:#9ca0a7;"
-                                                    required>
+                                                    id="namaTool" name="namaTool" style="border-color:#9ca0a7;">
                                                     <option value="">Pilih Tool</option>
                                                     @if (isset($namaTool))
                                                         @foreach ($namaTool as $nt )
@@ -272,118 +349,86 @@
                                                 </select>
                                             </div>
 
-                                            <div class="form-group mb-1">
+                                            <div class="col form-group mb-1">
                                                 <span class="text-xs">Merk</span>
                                                 <input class="form-control form-control-sm" type="text"
-                                                    id="merk" name="merk" style="border-color:#9ca0a7;"
-                                                    required>
+                                                    id="merk" name="merk" style="border-color:#9ca0a7;">
                                             </div>
 
-                                            <div class="form-group mb-1">
+                                            <div class="col form-group mb-1">
                                                 <span class="text-xs">Satuan</span>
                                                 <input type="text" class="form-control form-control-sm" id="satuan"
                                                     name="satuan" style="border-color:#9ca0a7;" readonly>
                                             </div>
 
-                                            <div class="form-group mb-1">
+                                            <div class="col form-group mb-1">
                                                 {{-- <label class="form-control-label">Nik Karyawan</label> --}}
                                                 <span class="text-xs">Spesifikasi</span>
                                                 <textarea class="form-control form-control-sm" id="spesifikasi" name="spesifikasi" style="border-color:#9ca0a7;"></textarea>
                                             </div>
-                                        </div>
 
-                                        <div class="col">
-                                            <div class="form-group mb-1">
-                                                <span class="text-xs">Tanggal Penerimaan Tool dari GA</span>
-                                                <input class="form-control form-control-sm" type="date"
-                                                    value="{{ date('Y-m-d') }}" id="tglPenerimaan"
-                                                    name="tglPenerimaan" style="border-color:#9ca0a7;">
+                                            <div class="col form-group mb-1" style="width: 50%;">
+                                                {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                                <span class="text-xs">Qty</span>
+                                                <input type="number" class="form-control form-control-sm" id="qty" name="qty" style="border-color:#9ca0a7;"/>
                                             </div>
 
-                                            <div class="form-group mb-1">
-                                                <span class="text-xs">Kondisi</span>
-                                                <select class="form-control form-control-sm" id="kondisi"
-                                                    name="kondisi" style="border-color:#9ca0a7;" required>
-                                                    <option value="">Pilih Kondisi</option>
-                                                    <option value="Baik">Baik</option>
-                                                    <option value="Rusak">Rusak</option>
-                                                </select>
+                                            <div class="col form-group mb-1">
+                                                {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                                <span class="text-xs">Harga Satuan</span>
+                                                <input type="number" class="form-control form-control-sm" id="hrgSatuan" name="hrgSatuan" style="border-color:#9ca0a7;"/>
                                             </div>
 
-                                            <div class="form-group mb-1">
-                                                <span class="text-xs">Kode Aset</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="kodeAset" name="kodeAset" style="border-color:#9ca0a7;text-transform:uppercase;"
-                                                    required>
+                                            <div class="col form-group mb-1">
+                                                {{-- <label class="form-control-label">Nik Karyawan</label> --}}
+                                                <span class="text-xs">Tot Harga</span>
+                                                <input type="text" class="form-control form-control-sm" id="totHarga" name="totHarga" style="border-color:#9ca0a7;" readonly/>
                                             </div>
+                                        {{-- </div> --}}
+                                    </div>                                    
 
-                                            <div class="form-group mb-1">
-                                                <span class="text-xs">Kode GA</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="kodeGA" name="kodeGA" style="border-color:#9ca0a7;text-transform:uppercase;"
-                                                    required>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="col">
-                                            <div class="form-group mb-1">
-                                                <span class="text-xs">Nik Penerima Tool</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="nikpenerima" name="nikpenerima" style="border-color:#9ca0a7;"
-                                                    value="{{ isset($login) ? $login->nik_karyawan : "" }}" readonly>
-                                            </div>
-
-                                            <div class="form-group mb-1">
-                                                <span class="text-xs">Nama Penerima</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="namapenerima" name="namapenerima" style="border-color:#9ca0a7;"
-                                                    value="{{ isset($login) ? $login->nama_karyawan : "" }}" readonly>
-                                            </div>
-
-                                            <div class="row form-group mb-1">
-                                                <div class="col">
-                                                <span class="text-xs">Departemen</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="departemen" name="departemen" style="border-color:#9ca0a7;"
-                                                    value="{{ isset($login) ? $login->departement : "" }}" readonly>
-                                                </div>
-
-                                                <div class="col">
-                                                    <span class="text-xs">Posisi</span>
-                                                    <input class="form-control form-control-sm" type="text"
-                                                        id="posisi" name="posisi" style="border-color:#9ca0a7;"
-                                                        value="{{ isset($login) ? $login->posisi : "" }}" readonly>
-                                                    </div>
-                                            </div>
-
-                                            <div class="form-group mb-1">
-                                                <span class="text-xs">Branch</span>
-                                                <input class="form-control form-control-sm" type="text"
-                                                    id="namaBranch" name="namaBranch" style="border-color:#9ca0a7;"
-                                                    value="{{ isset($login) ? $login->nama_branch : "" }}" readonly>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="col">
-                                            <span class="text-xs">Foto Tool</span>
-                                            <div class="form-group mb-1 text-center">
-
-                                                <img src="{{ asset('assets/img/default-150x150.png') }}"
-                                                    id="showgambar" alt="Card Image"
-                                                    style="width:200px;height: 200px;" />
-                                            </div>
-
-                                            <div class="form-group mb-1">
-                                                <input class="form-control form-control-sm" id="fotoTool"
-                                                    name="fotoTool" type="file" style="border-color:#9ca0a7;">
-                                            </div>
-
+                                    <div class="row">
+                                        <div class="col text-end mb-1">
+                                            <button type="button"
+                                            class="col btn btn-sm btn-success align-items-center mb-1 addListTool"
+                                            id="addListTool">
+                                            <span class="btn-inner--icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-down" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M3.5 10a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 0 0 1h2A1.5 1.5 0 0 0 14 9.5v-8A1.5 1.5 0 0 0 12.5 0h-9A1.5 1.5 0 0 0 2 1.5v8A1.5 1.5 0 0 0 3.5 11h2a.5.5 0 0 0 0-1z"/>
+                                                    <path fill-rule="evenodd" d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708z"/>
+                                                </svg>
+                                            </span>
+                                            <span> Add To List Tool</span></button>
                                         </div>
                                     </div>
+                                    <hr style="border: 1px solid" class="mt-1 mb-1">
+                                    
+                                    <div class="row" id="tabelBrg">
 
+                                        <div class="table table-responsive">
+                                            <table class="table table-striped table-bordered align-items-center mb-0"
+                                                style="font-size: 12px; border-color:#9ca0a7;" id="tabelPurchase"
+                                                name="tabelPurchase">
+                                                <thead class="bg-secondary text-white">
+                                                    <tr>
+                                                        {{-- <th>#</th> --}}
+                                                        <th class="text-center">Nama Barang</th>
+                                                        <th class="text-center">Merk</th>
+                                                        <th class="text-center">Satuan</th>
+                                                        <th class="text-center">Spesifikasi</th>
+                                                        <th class="text-center" style="width: 5%;">Qty</th>
+                                                        <th class="text-center">Harga</th>
+                                                        <th class="text-center">Total Harga</th>
+                                                        <th class="text-center">#</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tbodyList">
+                                                </tbody>
 
+                                            </table>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
                             <hr>
@@ -1657,33 +1702,63 @@
 </script>
 
 <script>
-    function readURLNew(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#showgambar').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
+
+    $(document).on('keyup', '#hrgSatuan', function() {
+            jml = document.getElementById('qty').value;
+            hrg = document.getElementById('hrgSatuan').value;
+            tot = jml * hrg
+            $('#totHarga').val(tot.toLocaleString())
+    })
+
+    $(document).on('keyup', '#qty', function() {
+            jml = document.getElementById('qty').value;
+            hrg = document.getElementById('hrgSatuan').value;
+            tot = jml * hrg
+            $('#totHarga').val(tot.toLocaleString())
+    })
+    
+    $('#addListTool').click(function(e) {
+        console.log('nama tool : ',  $('#namaTool').val());
+
+        if($('#noPengajuan').val() == "") {
+            alert('Lengkapi Nomor PO terlebih dahulu.');
+            return null;
         }
-    }
 
-    $("#fotoTool").change(function() {
-        readURLNew(this);
-    });
-
-    function readURLShow(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#showgambarShow').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
+        if($('#namaTool').val() == "") {
+            alert('Lengkapi data tool terlebih dahulu.');
+            return null;
         }
-    }
 
-    $("#fotoToolShow").change(function() {
-        readURLShow(this);
-    });
+        $('#tbodyList').append(
+            `<tr>
+            <td><input type="hidden" name="brg_id[]" value="${$('#namaTool').val()}|${$('#merk').val()}|${$('#satuan').val()}|${$('#spesifikasi').val()}|${$('#qty').val()}|${$('#hrgSatuan').val()}|${$('#totHarga').val()}" readonly>
+                ${$('#namaTool').val()}
+            </td>
+            <td>${$('#merk').val()}</td>
+            <td class="text-center">${$('#satuan').val()}</td>
+            <td>${$('#spesifikasi').val()}</td>
+            <td class="text-center">${$('#qty').val()}</td>
+            <td class="text-end">${$('#hrgSatuan').val()}</td>
+            <td class="text-end">${$('#totHarga').val()}</td>
+            <td class="text-center"><input type="Button" onclick="deleteRow(this)" value="x" class="btn btn-sm btn-danger me-0 mb-0 px-1 py-1"></td>
+            </tr>`
+        )
+
+        $('#namaTool').val("")
+        $('#merk').val("")
+        $('#spesifikasi').val("");
+        $('#satuan').val("");
+        $('#qty').val("");
+        $('#hrgSatuan').val("");
+        $('#totHarga').val("");
+
+        })
+
+        function deleteRow(r) {
+            var i = r.parentNode.parentNode.rowIndex;
+            document.getElementById("tabelPurchase").deleteRow(i);
+        }
 </script>
 
 <script>
@@ -1710,10 +1785,10 @@
                 filClick: did,
             },
             success: function(detailRkp) {
-                listBranch = detailRkp.branchList;
-                listToolN = detailRkp.rekapToolBranch;
-                listToolRekap = detailRkp.rekapTool;
-                listToolData = detailRkp.listTool;
+                listBranch ;
+                listToolN ;
+                listToolRekap ;
+                listToolData ;
 
                 click = did.split("|");
                 if(click[1] === "Subtotal") {
