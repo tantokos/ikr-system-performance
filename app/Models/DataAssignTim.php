@@ -51,7 +51,7 @@ class DataAssignTim extends Model
         'login_id',
         'login',
         'cek_telebot',
-        'status_telebot'
-
+        'status_telebot',
+        // 'is_broadcast_sent',
     ];
 }

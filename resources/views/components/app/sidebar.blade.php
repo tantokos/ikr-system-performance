@@ -439,7 +439,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link  {{ is_current_route('confirm-customer') ? 'active' : '' }}"
+                <a class="nav-link  {{ is_current_route('confirm-customer') ? 'custom-active' : '' }}"
                     href="{{ route('confirm-customer') }}">
                     <span class="nav-link-text ms-1">Konfirmasi Customer</span>
                 </a>

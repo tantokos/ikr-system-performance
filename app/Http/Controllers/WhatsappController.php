@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\DataAssignTim;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
@@ -84,36 +85,40 @@ class WhatsappController extends Controller
         // Token API Fonnte (disimpan langsung di controller)
         $token = 'byTuouzHLvb3JTX7gtD4';
 
-        // Ambil data dari tabel data_assign_tims
-        $customers = DataAssignTim::all();
+        $today = Carbon::today();
+        $customers = DataAssignTim::whereDate('tgl_ikr', $today)
+                    ->where('is_broadcast_sent', false)
+                    ->get();
 
-        // Loop melalui setiap pelanggan
         foreach ($customers as $customer) {
-            // Format pesan
             $id = $customer->id;
             $message = $this->formatMessage($id,$customer);
 
-            // Nomor tujuan (pastikan format internasional)
             $target = '62' . ltrim($customer->cust_phone_apk, '0'); // Format nomor HP
 
-            // Kirim pesan menggunakan HTTP Client
             $response = Http::withHeaders([
                 'Authorization' => $token, // Token API
             ])->post('https://api.fonnte.com/send', [
                 'target' => $target, // Nomor tujuan
                 'message' => $message, // Pesan
-                'delay' => '10',
+                'delay' => '5',
             ]);
 
-            // Handle response (opsional)
             if ($response->successful()) {
+                DB::transaction(function () use ($customer) {
+                    $customer->is_broadcast_sent = true;
+                    $customer->save();
+                });
+
                 Log::info("Pesan berhasil dikirim ke {$customer->name_cust_apk} ({$target})");
             } else {
                 Log::error("Gagal mengirim pesan ke {$customer->name_cust_apk} ({$target}): " . $response->body());
             }
+            // dd(json_decode($response->body()));
         }
 
-        return "Proses broadcast selesai.";
+
+        return redirect()->back()->with('success', 'Broadcast berhasil dikirim');
     }
 
     /**
@@ -142,31 +147,74 @@ class WhatsappController extends Controller
 
         $type_wo = $dataAssignTim->type_wo;
 
-        if ($type_wo == 'FTTH Maintenance') {
-            $header = 'Konfirmasi Penjadwalan Perbaikan';
-        } elseif ($type_wo == 'FTTH Dismantle') {
-            $header = 'Konfirmasi Penjadwalan Pengambilan';
-        } elseif ($type_wo == 'FTTH New Installation') {
-            $header = 'Konfirmasi Penjadwalan Pemasangan';
-        } else {
-            $header = 'Konfirmasi Penjadwalan';
-        }
+        $headerMap = [
+            'FTTH Maintenance' => '🔧 Konfirmasi Penjadwalan Perbaikan',
+            'FTTH Dismantle' => '🚚 Konfirmasi Penjadwalan Pengambilan',
+            'FTTH New Installation' => '💻 Konfirmasi Penjadwalan Pemasangan'
+        ];
+
+        $header = $headerMap[$type_wo] ?? '📅 Konfirmasi Penjadwalan';
 
 
-        // Format pesan
-        return "{$header}\n\n" .
-                "{$greeting} Pelanggan Setia Oxygen Home\n\n" .
-               "Saat ini kami dalam proses konfirmasi untuk jadwal perbaikan perangkat dengan info sebagai berikut:\n\n" .
-               "Nama: {$customer->name_cust_apk}\n" .
-               "No ID: {$customer->cust_id_apk}\n" .
-               "Alamat: {$customer->address_apk}\n" .
-               "HP: {$customer->cust_phone_apk}\n" .
-               "Hari/Tanggal: " . date('l, d F Y') . "\n" . // Format tanggal
-               "Waktu: {$customer->slot_time}\n\n" .
-               "Apabila jadwal tersebut di atas sudah sesuai, mohon konfirmasinya untuk kami proses lebih lanjut dengan kunjungan.\n" .
-               "Jika terdapat perubahan jadwal kunjungan, mohon diinformasikan kepada kami kembali untuk penjadwalan ulang.\n\n" .
-               "Terima kasih sudah menjadi pelanggan setia Oxygen Home.\n\n" .
-               "Salam Hangat, " . Auth::user()->name;
+        $hari = [
+            'Sunday' => 'Minggu',
+            'Monday' => 'Senin',
+            'Tuesday' => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis',
+            'Friday' => 'Jumat',
+            'Saturday' => 'Sabtu',
+        ];
+
+        $bulan = [
+            'January' => 'Januari',
+            'February' => 'Februari',
+            'March' => 'Maret',
+            'April' => 'April',
+            'May' => 'Mei',
+            'June' => 'Juni',
+            'July' => 'Juli',
+            'August' => 'Agustus',
+            'September' => 'September',
+            'October' => 'Oktober',
+            'November' => 'November',
+            'December' => 'Desember',
+        ];
+
+        $hariIndonesia = $hari[date('l')];
+        $bulanIndonesia = $bulan[date('F')];
+        $tanggalIndonesia = "$hariIndonesia, " .date('d') . " $bulanIndonesia " . date("Y");
+
+        $formattedPhone = '62' . ltrim($customer->cust_phone_apk, '0');
+
+        return <<<MSG
+
+        {$header}
+
+        {$greeting} Pelanggan Setia Oxygen Home,
+
+        Saat ini kami dalam proses konfirmasi untuk jadwal perbaikan perangkat dengan info sebagai berikut:
+
+        ▫️ *Nama*: {$customer->name_cust_apk}
+        ▫️ *ID Pelanggan*: {$customer->cust_id_apk}
+        ▫️ *Alamat*: {$customer->address_apk}
+        ▫️ *Kontak*: {$formattedPhone}
+        ▫️ *Tanggal*: {$tanggalIndonesia}
+        ▫️ *Waktu*: {$customer->slot_time}
+
+        *Konfirmasi*:
+        ✅ Balas "Ya" jika jadwal sesuai
+        🔄 Balas "Ubah" untuk ubah jadwal
+        ❌ Balas "Batal" jika ingin membatalkan jadwal
+
+        Terima kasih sudah menjadi pelanggan setia Oxygen Home
+
+        Salam hangat,
+        Tim Layanan Pelanggan
+        📞 1500 882 (Customer Service)
+        "📱 https://wa.me/6287750301112"
+        🌐 https://home.oxygen.id/
+        MSG;
     }
 
 }

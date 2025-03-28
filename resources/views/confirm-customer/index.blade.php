@@ -46,10 +46,13 @@
                                     </div>
 
                                     <div class="form-group mb-1">
-                                        <span class="text-xs">Slot Time</span>
-                                        <select class="form-control form-control-sm" type="text" id="filslotTime"
-                                            name="filslotTime" style="border-color:#9ca0a7;">
-                                            <option value="">Pilih SlotTime</option>
+                                        <span class="text-xs">Type Wo</span>
+                                        <select class="form-control form-control-sm" type="text" id="filtypeWo"
+                                            name="filtypeWo" style="border-color:#9ca0a7;">
+                                            <option value="" selected disabled>Pilih Type Wo</option>
+                                            <option value="FTTH New Installation">FTTH New Installation</option>
+                                            <option value="FTTH Maintenance">FTTH Maintenance</option>
+                                            <option value="FTTH Dismantle">FTTH Dismantle</option>
                                         </select>
                                     </div>
                                 </div>
@@ -79,7 +82,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="w-100 text-center">
-                                        <p class="text-secondary mb-1" style="font-size: 0.82rem;">Total Data</p>
+                                        <p class="text-secondary mb-1" style="font-size: 0.82rem;">Total Konfirmasi</p>
                                         <h5 class="mb-2 font-weight-bold" id="totTotal"></h5>
                                     </div>
                                 </div>
@@ -93,7 +96,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="w-100 text-center">
-                                        <p class="text-secondary mb-1" style="font-size: 0.82rem;">Total Tidak Respon</p>
+                                        <p class="text-secondary mb-1" style="font-size: 0.82rem;">Total Respon</p>
                                         <h4 class="mb-2 font-weight-bold" id="totDone"></h4>
                                     </div>
                                 </div>
@@ -196,6 +199,7 @@
                                             <th class="text-center text-xs font-weight-semibold">Type WO</th>
                                             <th class="text-center text-xs font-weight-semibold">Branch</th>
                                             <th class="text-center text-xs font-weight-semibold">Slot Time</th>
+                                            <th class="text-center text-xs font-weight-semibold">Status Pesan</th>
                                         </tr>
                                     </thead>
                                     <tbody id="bodyTool">
@@ -295,11 +299,6 @@
 
         function data_assignTim() {
             $('#tabelAssignTim').DataTable({
-                layout: {
-                    topStart: {
-                        buttons: ['excel']
-                    },
-                },
                 paging: true,
                 orderClasses: false,
                 fixedColumns: {
@@ -309,7 +308,8 @@
                 scrollCollapse: true,
                 scrollX: true,
                 pageLength: 10,
-                lengthChange: false,
+                lengthChange: true,
+                lengthMenu: [10, 25, 50, 100],
                 bFilter: true,
                 destroy: true,
                 processing: true,
@@ -344,6 +344,16 @@
                     { data: 'wo_type_apk' },
                     { data: 'branch' },
                     { data: 'slot_time' },
+                    {
+                        data: 'is_broadcast_sent',
+                        render: function(data, type, row) {
+                            if (data == 1 || data == true) {
+                                return '<span class="badge badge-success">Pesan Terkirim</span>';
+                            } else {
+                                return '<span class="badge badge-secondary">Belum Terkirim</span>';
+                            }
+                        }
+                    },
 
                 ],
                 drawCallback: function (settings) {
